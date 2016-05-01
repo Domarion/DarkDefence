@@ -15,13 +15,13 @@
 class Sprite : public CTexture
 {
 public:
-	Sprite(SDL_Texture* texture = nullptr, SDL_Rect *sRect = nullptr);
+    Sprite(SDL_Texture* texture = nullptr);
 	virtual ~Sprite();
 
 	void setZOrder(int value);
 	int getZOrder() const;
-	void setPos(SDL_Point* position);
-	void setPos(int x, int y);
+
+
 	//const Sprite& operator=(const Sprite& right);
 	//Sprite(const Sprite& right);
 private:

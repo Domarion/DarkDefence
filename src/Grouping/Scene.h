@@ -23,19 +23,19 @@ class Scene
 public:
 	Scene();
 	virtual ~Scene();
-	virtual void initScene(SDL_Renderer* renderer, SceneManager* sceneManagerPtr);
+    virtual void initScene(SceneManager* sceneManagerPtr);
 	virtual void finalizeScene();
 	virtual void loadScene();
 	virtual void unloadScene();
-	virtual void copyToRender(SDL_Renderer* renderer) const;
+    virtual void copyToRender() const;
 	virtual void startUpdate(double timestep);
     virtual void spawnObject(int x, int y, SceneObject* obj);
+    virtual void destroyObject(SceneObject* obj);
     SceneObject* findObjectByTag(std::string tag);
     list<SceneObject*>* findObjectsByTag(std::string tag);
 protected:
 	list<CTexture*> listGUI;
 	list<SceneObject*> sceneObjects;
-	SDL_Renderer* rendererptr;
 	SceneManager* parentSceneManager;
 	bool wasInited;
 

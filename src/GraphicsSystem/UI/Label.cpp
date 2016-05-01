@@ -11,8 +11,8 @@ using std::cout;
 using std::endl;
 
 
-Label::Label(SDL_Renderer *rptr, const string& lText)
-:CTexture(rptr, nullptr, nullptr),lFont(nullptr)
+Label::Label(const string& lText)
+:CTexture(),lFont(nullptr)
 {
 	// TODO Auto-generated constructor stub
 	setText(lText);
@@ -27,11 +27,10 @@ Label::Label()
 Label::~Label()
 {
 
-
-
 	if (lFont != nullptr)
-		TTF_CloseFont(lFont);
-
+    {
+        TTF_CloseFont(lFont);
+    }
 
 	// TODO Auto-generated destructor stub
 }
@@ -57,29 +56,44 @@ void Label::setTTFFont(TTF_Font* value)
 {
 	//if (lFont == nullptr)
 	//	lFont = new TTF_Font();
-	lFont = value;
+    lFont = value;
 }
 
-void Label::loadFont(string path, int size)
+void Label::setFont(TTF_Font *value, int r, int g, int b)
 {
-	lFont = TTF_OpenFont(path.c_str(), size);
-	if(lFont == nullptr)
-	{
-		cout << "Can't load Font: " << SDL_GetError() << endl;
-	}
+    setTTFFont(value);
+    setFontColor(r, g, b);
 }
+void Label::setFont(TTF_Font *value, SDL_Color& color)
+{
+    setTTFFont(value);
+    setFontColor(color);
+}
+
+void Label::setFontColor(int r, int g, int b)
+{
+    fontColor = {r, g, b};
+}
+
+void Label::setFontColor(SDL_Color& color)
+{
+    fontColor = color;
+}
+
+
+SDL_Color &Label::getFontColor()
+{
+    return fontColor;
+}
+
+
 
 
 void Label::convertTextToTexture()
 {
-	if (lFont != nullptr && hasRenderer())
+    if (lFont != nullptr)
 	{
-        SDL_Color color = {255, 255, 255};
 
-		SDL_Surface* tempSurface = TTF_RenderUTF8_Solid(lFont, text.c_str(), color);
-
-		setTextureFromSurface(tempSurface);
-
-		SDL_FreeSurface(tempSurface);
+        setTexture(Renderer::getInstance()->stringToTexture(lFont, text, fontColor.r, fontColor.g, fontColor.b));
 	}
 }

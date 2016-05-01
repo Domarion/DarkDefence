@@ -40,77 +40,45 @@ void MainScene::unloadScene()
 }
 
 
-void MainScene::initScene(SDL_Renderer* renderer, SceneManager* sceneManagerPtr)
+void MainScene::initScene(SceneManager* sceneManagerPtr)
 {
 
 	std::cout << "WhereAreYou" << std::endl;
 	if (wasInited == false)
 	{
-	Scene::initScene(renderer, sceneManagerPtr);
-    /*labelText.loadFont("/home/kostya_hm/Projects/DarkDefence/Fonts/arial.ttf", 24);
-	labelText.setRenderer(renderer);
-	SDL_Rect* lrect = new SDL_Rect({0, 0, 200, 50});
-	labelText.setRect(lrect);
-	labelText.setText("Hello, Scene!!!");
-	listGUI.push_back(&labelText);*/
+        Scene::initScene(sceneManagerPtr);
+        TTF_Font* arialFont = Renderer::getInstance()->loadFontFromFile("/home/kostya_hm/Projects/DarkDefence/Fonts/arial.ttf", 24);
+        SDL_Color arialFontColor = {255, 255, 255};
+        button.setFont(arialFont, arialFontColor);
+
+        button.setRect(0, 50, 200, 50);
+        button.setText("Начать игру");
+        string s1 = "GameScene";
+        button.ConnectMethod(std::bind(&MainScene::LoadSceneByName, this, s1));
 
 
-    button.loadFont("/home/kostya_hm/Projects/DarkDefence/Fonts/arial.ttf", 24);
-	button.setRenderer(renderer);
-	SDL_Rect* lrect2 = new SDL_Rect({0, 50, 200, 50});
-	button.setRect(lrect2);
-	button.setText("Начать игру");
-	string s1 = "GameScene";
-	button.ConnectMethod(std::bind(&MainScene::LoadSceneByName, this, s1));
+        listGUI.push_back(&button);
+
+        button2.setFont(arialFont, arialFontColor);
 
 
-	listGUI.push_back(&button);
-
-    button2.loadFont("/home/kostya_hm/Projects/DarkDefence/Fonts/arial.ttf", 24);
-	button2.setRenderer(renderer);
-	SDL_Rect* lrect3 = new SDL_Rect({0, 100, 200, 50});
-	button2.setRect(lrect3);
-	button2.setText("Лавка");
-	string s2 = "ShopScene";
-	button2.ConnectMethod(std::bind(&MainScene::LoadSceneByName,  this, s2));
+        button2.setRect(0, 100, 200, 50);
+        button2.setText("Лавка");
+        string s2 = "ShopScene";
+        button2.ConnectMethod(std::bind(&MainScene::LoadSceneByName,  this, s2));
 
 
-	listGUI.push_back(&button2);
+        listGUI.push_back(&button2);
 
-    button3.loadFont("/home/kostya_hm/Projects/DarkDefence/Fonts/arial.ttf", 24);
-	button3.setRenderer(renderer);
-	SDL_Rect* lrect4 = new SDL_Rect({0, 150, 200, 50});
-	button3.setRect(lrect4);
-	button3.setText("Инвентарь");
-	string s3 = "InventoryScene";
-	button3.ConnectMethod(std::bind(&MainScene::LoadSceneByName,  this, s3));
+        button3.setFont(arialFont, arialFontColor);
+        button3.setRect(0, 150, 200, 50);
+        button3.setText("Инвентарь");
+        string s3 = "InventoryScene";
+        button3.ConnectMethod(std::bind(&MainScene::LoadSceneByName,  this, s3));
 
 
-	listGUI.push_back(&button3);
-	/*bar.setRenderer(renderer);
-	bar.setRect(new SDL_Rect({0, 100, 200, 50}));
-	SDL_Surface *surface1 = SDL_CreateRGBSurface(0,bar.getRect()->w, bar.getRect()->h, 16, 0, 0, 0, 0);
-	//if (surface1 == nullptr)
-		//std::cout << "fuck" << std::endl;
-	SDL_Surface *surface2 = SDL_CreateRGBSurface(0,bar.getRect()->w, bar.getRect()->h, 16, 0, 0, 0, 0);
-	//SDL_Texture *backTexture = SDL_CreateTextureFromSurface(bar.getRenderer(), surface1);
-	//SDL_Texture *frontTexture = SDL_CreateTextureFromSurface(bar.getRenderer(), surface2);
+        listGUI.push_back(&button3);
 
-	SDL_FillRect(surface1, nullptr, SDL_MapRGB(surface1->format, 150,100, 0));
-	SDL_FillRect(surface2, nullptr, SDL_MapRGB(surface2->format, 200,100, 0));
-
-	SDL_Texture  *backTexture = bar.getTextureFromSurface(surface1);
-	SDL_Texture  *frontTexture = bar.getTextureFromSurface(surface2);
-	SDL_FreeSurface(surface1);
-	SDL_FreeSurface(surface2);
-	bar.setTexture(backTexture);
-	bar.setFrontTexture(frontTexture);
-	backTexture = nullptr;
-	frontTexture = nullptr;
-	bar.calculateFront(100, 100);
-	listGUI.push_back(&bar);
-*/
-	//parentSceneManager->setCurrentSceneByName("fff");
 	}
 	else
 	{
@@ -123,16 +91,8 @@ void MainScene::initScene(SDL_Renderer* renderer, SceneManager* sceneManagerPtr)
 
 void MainScene::startUpdate(double timestep)
 {
-	Scene::startUpdate(timestep);
-	/*static int temp = 100;
-	static double currentval = 1000;
-	currentval -= timestep;
-	if (currentval <= 0 && temp > 0)
-	{
-		bar.calculateFront(temp, 100);
-		currentval = 1000;
-		--temp;
-	}*/
+    Scene::startUpdate(timestep);
+
 }
 
 

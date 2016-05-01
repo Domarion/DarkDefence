@@ -47,11 +47,11 @@ void ShopController::initView()
 	for(int i = 0; i != count; ++i)
 	{
 		TextButton* btn = new TextButton();
-		btn->setRenderer(view->getRenderer());
 
 		std::cout << ( "/home/kostya_hm/workspace/DarkDefenceCppPort/GameData/textures/items/" + model->getItemFromIndex(i)->getCaption()  + ".png") << std::endl;
 
-		btn->loadTextureFromFile("/home/kostya_hm/workspace/DarkDefenceCppPort/GameData/textures/items/" + model->getItemFromIndex(i)->getCaption() + ".png");
+        btn->setTexture( Renderer::getInstance()->loadTextureFromFile("/home/kostya_hm/workspace/DarkDefenceCppPort/GameData/textures/items/" +
+                                                                      model->getItemFromIndex(i)->getCaption() + ".png") );
 
 		if (btn->getTexture() == nullptr)
 			std::cout << "index = " << i << " texture is nullptr" << std::endl;

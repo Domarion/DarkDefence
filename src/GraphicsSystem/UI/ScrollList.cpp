@@ -7,8 +7,8 @@
 
 #include "ScrollList.h"
 #include <iostream>
-ScrollList::ScrollList( SDL_Renderer *aRenderer , SDL_Texture* aTexture, SDL_Rect* aRect, int itemsToShow, int aItemWidth, int aItemHeight )
-:CTexture( aRenderer, aTexture, aRect ), InputHandler(),
+ScrollList::ScrollList( SDL_Texture* aTexture, SDL_Rect* aRect, int itemsToShow, int aItemWidth, int aItemHeight )
+:CTexture(aTexture), InputHandler(),
  itemCountToShow( itemsToShow ), firstToShow( -1 ), lastToShow( -1),
  itemWidth( aItemWidth ), itemHeight( aItemHeight)
 {
@@ -17,17 +17,17 @@ ScrollList::ScrollList( SDL_Renderer *aRenderer , SDL_Texture* aTexture, SDL_Rec
 }
 
 ScrollList::ScrollList()
-:CTexture( nullptr, nullptr, nullptr ), InputHandler(),
+:CTexture(), InputHandler(),
  itemCountToShow( 0 ), firstToShow( -1 ), lastToShow( -1),
  itemWidth( 0 ), itemHeight( 0)
 {
 }
 
-void ScrollList::initScrollList(SDL_Renderer* aRenderer, int itemsToShow,
+void ScrollList::initScrollList( int itemsToShow,
 		int aItemWidth, int aItemHeight)
 {
-	setRenderer(aRenderer);
-	setRect( new SDL_Rect( {0, 0, aItemWidth, aItemHeight * itemsToShow} ) );
+
+    setRect(*( new SDL_Rect( {0, 0, aItemWidth, aItemHeight * itemsToShow} ) ));
 	itemCountToShow = itemsToShow;
 	itemWidth = aItemWidth;
 	itemHeight = aItemHeight;
@@ -55,7 +55,8 @@ void ScrollList::addItem(CTexture* item)
 				++lastToShow;
 			}
 
-		item->setRect(new SDL_Rect({0, 0, itemWidth, itemHeight}));
+        SDL_Rect*r = new SDL_Rect({0, 0, itemWidth, itemHeight});
+        item->setRect(*r);
 	}
 
 }
@@ -92,7 +93,8 @@ void ScrollList::calculateVisibleItemsPositions()
 {
 	if (!itemList.empty())
 	for(int index = firstToShow; index <= lastToShow; ++index)
-		itemList[index]->getRect()->y = (index - firstToShow) * itemHeight;
+        itemList[index]->setPosY((index - firstToShow) * itemHeight);
+
 }
 
 
@@ -115,14 +117,18 @@ void ScrollList::draw()
 {
 	if (!itemList.empty())
 	for(int i = firstToShow; i <= lastToShow; ++i)
-		CTexture::CopyTextureToRenderer( itemList[i]->getTexture(), nullptr, itemList[i]->getRect() );
+    {
+
+        Renderer::getInstance()->renderTexture(itemList[i]->getTexture(), &itemList[i]->getRect());
+    }
+//		CTexture::CopyTextureToRenderer( itemList[i]->getTexture(), nullptr, itemList[i]->getRect() );
 }
 
 bool ScrollList::onClick(SDL_Point* point)
 {
 	int n = itemList.size();
 	for(int i = 0; i != n; ++i)
-		if (SDL_PointInRect(point, itemList[i]->getRect()))
+        if (SDL_PointInRect(point, &itemList[i]->getRect()))
 		{
 			if (connectedMethod != nullptr)
 			{
@@ -154,7 +160,7 @@ bool ScrollList::onDrag(int direction)
 bool ScrollList::containsPoint(int x, int y) const
 {
 	SDL_Point point = { x, y };
-	return SDL_PointInRect(&point, getRect());
+    return SDL_PointInRect(&point, &getRect());
 }
 
 void ScrollList::scrollUtil(int& index, int shift)//TODO:: Wrong Logic

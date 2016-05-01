@@ -7,58 +7,44 @@
 
 #include "CTexture.h"
 #include <SDL2/SDL_image.h>
+
 CTexture::~CTexture()
 {
     if (getTexture() != nullptr)
 		SDL_DestroyTexture(getTexture());
 
-   // if (rect != nullptr)
-     //   delete rect;
 }
 
-SDL_Renderer* CTexture::getRenderer() const
+
+
+CTexture::CTexture(SDL_Texture* aTexture, const SDL_Rect& newRect)
+: texture(nullptr)
 {
-	return renderptr;
+    setTexture(aTexture);
+    setRect(newRect);
 }
 
-void CTexture::setRenderer(SDL_Renderer* value)
-{
-	renderptr = value;
-}
 
-SDL_Rect* CTexture::getRect() const
+CTexture::CTexture(SDL_Texture* aTexture)
+: texture(nullptr)
 {
-	return rect;
-}
-
-void CTexture::setRect(SDL_Rect* value)
-{
-	rect = value;
+    setTexture(aTexture);
+    setRect(0, 0, 0 , 0);
 }
 
 void CTexture::draw()
 {
-    CopyTextureToRenderer(getTexture(), nullptr, getRect());
-	//SDL_RenderCopy(getRenderer(), getTexture(), getRect(), getRect());
+    Renderer::getInstance()->renderTexture(getTexture(), &rect);
+
 }
 
-bool CTexture::hasRenderer() const
-{
-	return renderptr != nullptr;
-}
 
-SDL_Texture*  CTexture::getTexture() const
+SDL_Texture* const  CTexture::getTexture() const
 {
 	return texture;
 }
 
-CTexture::CTexture(SDL_Renderer *aRenderer , SDL_Texture* aTexture, SDL_Rect* aRect)
-:texture(nullptr)
-{
-	setRenderer(aRenderer);
-	setTexture(aTexture);
-	setRect(aRect);
-}
+
 
 void CTexture::setTextureFromSurface(SDL_Surface* surface)
 {
@@ -68,41 +54,48 @@ void CTexture::setTextureFromSurface(SDL_Surface* surface)
 	{
 		if (getTexture() != nullptr)
 			SDL_DestroyTexture(getTexture());
-		setTexture(SDL_CreateTextureFromSurface(getRenderer(), surface));
+        setTexture(Renderer::getInstance()->getTextureFromSurface(surface));
 	}
 }
-SDL_Texture* CTexture::getTextureFromSurface(SDL_Surface* surface)
-{
-	SDL_Texture* texture = nullptr;
 
-	if (surface != nullptr)
-	{
-		texture = SDL_CreateTextureFromSurface(getRenderer(), surface);
-	}
-	return texture;
-}
 
-void  CTexture::setTexture(SDL_Texture* value)
+void  CTexture::setTexture(SDL_Texture* const value)
 {
 	if (getTexture() != nullptr)
 		SDL_DestroyTexture(getTexture());
 
-	texture = value;
+    texture = value;
 }
 
-void CTexture::loadTextureFromFile(std::string filename)
+void CTexture::setRect(int x, int y, int w, int h)
 {
-	if (getTexture() != nullptr)
-		SDL_DestroyTexture(getTexture());
-
-	texture = IMG_LoadTexture(getRenderer(), filename.c_str());
+    rect = {x, y, w, h};
 }
 
-void CTexture::CopyTextureToRenderer(SDL_Texture* aTexture,
-		SDL_Rect* sourceRect, SDL_Rect* destRect)
+void CTexture::setRect(const SDL_Rect &value)
 {
-	if (aTexture != nullptr)
-        SDL_RenderCopy(getRenderer(), aTexture, sourceRect, destRect);
+    rect = value;
+}
+
+const SDL_Rect &CTexture::getRect() const
+{
+    return rect;
+}
+
+void CTexture::setPosX(int x)
+{
+    rect.x = x;
+}
+
+void CTexture::setPosY(int y)
+{
+    rect.y = y;
+}
+
+void CTexture::setPos(int x, int y)
+{
+    setPosX(x);
+    setPosY(y);
 }
 
 

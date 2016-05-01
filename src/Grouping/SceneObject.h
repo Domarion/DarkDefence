@@ -21,7 +21,7 @@ class SceneObject
 public:
     virtual void init();
     virtual void setPos(int x, int y);
-	virtual void update(double timestep);
+    virtual bool update(double timestep);
 	virtual void finalize();
 	virtual Sprite * const getSprite() const;
 	virtual void setSprite(Sprite* value);
@@ -33,7 +33,8 @@ public:
 
     virtual string getTag() const;
     virtual void setTag(const string &value);
-    void setParentScene(Scene* const scene);
+    virtual void setParentScene(Scene* const scene);
+    virtual Scene* getParentScene();
     virtual DestructibleObject* getDestructibleObject();
 protected:
     SceneObject();

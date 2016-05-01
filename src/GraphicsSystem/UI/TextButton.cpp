@@ -25,7 +25,7 @@ bool TextButton::onClick(SDL_Point* point)
 {
 
 
-	bool result = SDL_PointInRect(point, getRect());
+    bool result = SDL_PointInRect(point, &getRect());
 
 	if (result)
 	{

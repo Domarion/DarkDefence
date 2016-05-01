@@ -92,7 +92,7 @@ bool MobModel::checkDistance(int distanceSqr)
 {
 	int x = static_cast<int>(attackDistance.first + attackDistance.second);
 
-    std::cout << "distance X = " << (x*x) << std::endl;
+   // std::cout << "distance X = " << (x*x) << std::endl;
 	return  (x*x) >= distanceSqr;
 }
 

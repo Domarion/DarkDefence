@@ -26,12 +26,12 @@ public:
 	void addScene(Scene* scene, const string name);
 	void addSceneByName(string name);
 	void removeScene(string name);
-	void connectRenderer(SDL_Renderer* renderptr);
+
 	void setCurrentSceneByName(string name);
 private:
 	SDL_Renderer* renderer;
 	Scene* currentScene;
-	//vector<Scene*> scenes;
+
 	map<string, Scene*> scenes;
 	void InitScene();
 };

@@ -73,7 +73,7 @@ void AIComponent::Search()
         }
         delete lst;
 
-       // avaliableTargets.insert(avaliableTargets.end(), )
+
     }
 
     if (MobPtr->getTag() == "Monster")
@@ -117,7 +117,7 @@ void AIComponent::Move(double timestep)
 	else
 	{
 		int distanceSqr = computeDistanceSqr(currentTarget, MobPtr);
-        std::cout << distanceSqr << std::endl;
+       // std::cout << distanceSqr << std::endl;
         if (MobPtr->checkDistance(distanceSqr))
             aiMobState = AIMobStates::aiATTACK;
         else
@@ -134,6 +134,7 @@ void AIComponent::Attack()
 	{
         int* damage = MobPtr->getAttackDamage();
         currentTarget->receiveDamage(damage); //TODO:: add argument
+        delete[] damage;
 
 		MobPtr->reload();
 		aiMobState = AIMobStates::aiRELOAD;
@@ -144,7 +145,7 @@ void AIComponent::Attack()
 void AIComponent::Reload(double timestep)
 {
 	if (MobPtr->getReloadTime() > 0)
-		MobPtr->setReloadTime(MobPtr->getReloadTime() - timestep);
+        MobPtr->setReloadTime(MobPtr->getReloadTime() - timestep);
 	else
 	{
 		if (currentTarget == nullptr || !currentTarget->IsAlive())
@@ -161,12 +162,12 @@ void AIComponent::MoveIt(double timestep)
 {
  //   MobPtr->setWorldX(MobPtr->getMoveSpeed().first);
   //  MobPtr->setWorldY();
-    if (MobPtr->getTag() != "Tower")
-        std::cout << (MobPtr->getName()) << '\t' << (MobPtr->getMoveSpeed().first) << std::endl;
+    //if (MobPtr->getTag() != "Tower")
+      //  std::cout << (MobPtr->getName()) << '\t' << (MobPtr->getMoveSpeed().first) << std::endl;
     if (MobPtr->getMoveSpeed().first > 0.01)
     {
         double spd = MobPtr->getMoveSpeed().first * timestep*0.0006;
-         std::cout << (MobPtr->getName()) << '\t' << (currentTarget->getWorldX() - MobPtr->getWorldX()) << std::endl;
+        // std::cout << (MobPtr->getName()) << '\t' << (currentTarget->getWorldX() - MobPtr->getWorldX()) << std::endl;
         int diffX =  MobPtr->getWorldX() +static_cast<int>((currentTarget->getWorldX() - MobPtr->getWorldX())*spd);
         int diffY = MobPtr->getWorldY()+ static_cast<int>((currentTarget->getWorldY()  - MobPtr->getWorldY())*spd);
         MobPtr->setWorldX(diffX );

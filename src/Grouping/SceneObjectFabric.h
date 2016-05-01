@@ -15,6 +15,6 @@ public:
 	SceneObjectFabric();
     ~SceneObjectFabric();
 
-    SceneObject* const produce(string name, string tag, SDL_Renderer* renderer, string spritePath, int width, int height);
+    SceneObject* const produce(string name, string tag, string spritePath, int width, int height);
 };
 

@@ -33,10 +33,7 @@ Scene* SceneManager::getCurrentScene() const
 	return currentScene;
 }
 
-void SceneManager::connectRenderer(SDL_Renderer* renderptr)
-{
-	renderer = renderptr;
-}
+
 
 void SceneManager::InitScene()
 {
@@ -63,14 +60,11 @@ void SceneManager::setCurrentScene(Scene* value, bool cleanFlag)
 		currentScene->finalizeScene();
 	}
 	currentScene = value;
-	currentScene->initScene(renderer, this);
+    currentScene->initScene(this);
 }
 
 void SceneManager::setCurrentSceneByName(std::string name)
 {
-	if (name == "fff")
-		cout << "BLABLA" << endl;
-	else
 
 	if (currentScene != scenes[name])
 		setCurrentScene(scenes[name]);

@@ -15,7 +15,7 @@ class InventoryScene: public Scene
 public:
 	InventoryScene();
 	virtual ~InventoryScene();
-	virtual void initScene(SDL_Renderer* renderer, SceneManager* sceneManagerPtr) override;
+    virtual void initScene(SceneManager* sceneManagerPtr) override;
 	virtual void finalizeScene() override;
 	virtual void loadScene() override;
 	virtual void unloadScene() override;

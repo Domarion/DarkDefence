@@ -48,11 +48,11 @@ void HeroInventoryController::initView()
 	for(int i = 0; i != count; ++i)
 	{
 		TextButton* btn = new TextButton();
-		btn->setRenderer(view->getRenderer());
+
 
 		std::cout << ( "/home/kostya_hm/workspace/DarkDefenceCppPort/GameData/textures/items/" + model->getItemFromIndex(i)->getCaption()  + ".png") << std::endl;
-
-		btn->loadTextureFromFile("/home/kostya_hm/workspace/DarkDefenceCppPort/GameData/textures/items/" + model->getItemFromIndex(i)->getCaption() + ".png");
+        btn->setTexture( Renderer::getInstance()->loadTextureFromFile("/home/kostya_hm/workspace/DarkDefenceCppPort/GameData/textures/items/"
+                                                                      + model->getItemFromIndex(i)->getCaption() + ".png") );
 
 		if (btn->getTexture() == nullptr)
 			std::cout << "index = " << i << " texture is nullptr" << std::endl;
@@ -61,7 +61,7 @@ void HeroInventoryController::initView()
 	}
 	int itemWidth = 50;
 	int itemHeight = 50;
-	SDL_Rect* r0 = new SDL_Rect({0,0, itemWidth, itemHeight});
+    /*SDL_Rect* r0 = new SDL_Rect({0,0, itemWidth, itemHeight});
 	view->setItemRect(0, r0);
 	SDL_Rect* r1 = new SDL_Rect({0,0, itemWidth, itemHeight});
 	view->setItemRect(1, r1);
@@ -88,6 +88,6 @@ void HeroInventoryController::initView()
 	view->setItemRect(8, r8);
 	SDL_Rect* r9 = new SDL_Rect(
 	{ 0, 0, itemWidth, itemHeight });
-	view->setItemRect(9, r9);
+    view->setItemRect(9, r9);*/
 
 }

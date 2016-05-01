@@ -6,11 +6,12 @@
  */
 
 #pragma once
-#include "../CTexture.h"
+
 #include <vector>
 #include "../../Input/InputHandler.h"
 #include <functional>
 using std::vector;
+#include "../CTexture.h"
 class SlotContainer: public CTexture, public InputHandler
 {
 public:

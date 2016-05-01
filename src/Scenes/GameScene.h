@@ -22,12 +22,12 @@ class GameScene: public Scene
 public:
 	GameScene();
 	virtual ~GameScene();
-	virtual void initScene(SDL_Renderer* renderer, SceneManager* sceneManagerPtr) override;
+    virtual void initScene(SceneManager* sceneManagerPtr) override;
 	virtual void finalizeScene() override;
 	virtual void loadScene() override;
 	virtual void unloadScene() override;
 	virtual void startUpdate(double timestep) override;
-    virtual void copyToRender(SDL_Renderer* renderer) const override;
+    virtual void copyToRender() const override;
 
 private:
     SceneObjectFabric objectFabric;

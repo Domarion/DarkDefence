@@ -14,11 +14,11 @@ using std::vector;
 class ScrollList: public CTexture, public InputHandler
 {
 public:
-	ScrollList( SDL_Renderer *aRenderer , SDL_Texture* aTexture, SDL_Rect* aRect, int itemsToShow, int aItemWidth, int aItemHeigth );
+    ScrollList(SDL_Texture* aTexture, SDL_Rect* aRect, int itemsToShow, int aItemWidth, int aItemHeigth );
 	ScrollList();
 	virtual ~ScrollList();
 
-	void initScrollList(SDL_Renderer *aRenderer, int itemsToShow, int aItemWidth, int aItemHeigth);
+    void initScrollList(int itemsToShow, int aItemWidth, int aItemHeigth);
 	void addItem(CTexture* item);
 	void removeItem(int index);
 	void scrollWithDirection(int direction);

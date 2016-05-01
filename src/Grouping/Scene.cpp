@@ -11,18 +11,18 @@
 using std::list;
 
 Scene::Scene()
-:listGUI(), sceneObjects(), rendererptr(nullptr), parentSceneManager(nullptr), wasInited(false)
+:listGUI(), sceneObjects(), parentSceneManager(nullptr), wasInited(false)
 {
 
 	// TODO Auto-generated constructor stub
 
 }
 
-void Scene::initScene(SDL_Renderer* renderer, SceneManager* sceneManagerPtr)
+void Scene::initScene(SceneManager* sceneManagerPtr)
 {
 
 	parentSceneManager = sceneManagerPtr;
-	rendererptr = renderer;
+
 	list<SceneObject*>::const_iterator  const_iter = sceneObjects.begin();
 	list<SceneObject*>::const_iterator end = sceneObjects.end();
 	for(;const_iter != end; ++const_iter)
@@ -41,14 +41,14 @@ void Scene::finalizeScene()
 
 Scene::~Scene()
 {
-    finalizeScene();
+  //  finalizeScene();
   //  listGUI.clear();
    // sceneObjects.clear();
 	// TODO Auto-generated destructor stub
 }
 
 
-void Scene::copyToRender(SDL_Renderer* renderer) const
+void Scene::copyToRender() const
 {
 	list<CTexture*>::const_iterator  const_iter = listGUI.begin();
 	list<CTexture*>::const_iterator end = listGUI.end();
@@ -58,15 +58,30 @@ void Scene::copyToRender(SDL_Renderer* renderer) const
 
 void Scene::startUpdate(double timestep)
 {
-	list<SceneObject*>::const_iterator  const_iter = sceneObjects.begin();
-	list<SceneObject*>::const_iterator end = sceneObjects.end();
-	for(;const_iter != end; ++const_iter)
-        (*const_iter)->update(timestep);
+
+
+    for(auto iter = sceneObjects.begin(); iter != sceneObjects.end(); )
+    {
+
+        if ((*iter)->update(timestep) == false)
+        {
+            sceneObjects.erase(iter++);
+        }
+        else
+            ++iter;
+        //if (*iter == nullptr)
+          //  --iter;
+    }
 }
 
 void Scene::spawnObject(int x, int y, SceneObject *obj)
 {
     obj->setParentScene(this);
+
+    if (obj->getParentScene() == nullptr)
+        std::cout << "WTF WHY NULL" << std::endl;
+    else
+        std::cout << obj->getName() <<" is NOT NULL"<< std::endl;
     obj->init();
     obj->setPos(x,y);
     if (obj->getSprite() != nullptr)
@@ -77,6 +92,11 @@ void Scene::spawnObject(int x, int y, SceneObject *obj)
         obj->getDestructibleObject()->setWorldY(y);
     }
     sceneObjects.push_back(obj);
+}
+
+void Scene::destroyObject(SceneObject *obj)
+{
+ //   sceneObjects.remove(obj);
 }
 
 void Scene::loadScene()

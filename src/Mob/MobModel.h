@@ -30,7 +30,10 @@ class MobModel: public DestructibleObject
 		ar & BOOST_SERIALIZATION_NVP(attackDamage);
 		ar & BOOST_SERIALIZATION_NVP(attackDistance);
 		ar & BOOST_SERIALIZATION_NVP(moveSpeed);
+        ar & BOOST_SERIALIZATION_NVP(reloadTimeMaximum);
 		ar & BOOST_SERIALIZATION_NVP(enemyTags);
+
+        reloadTime = reloadTimeMaximum.first + reloadTimeMaximum.second;
 	}
 
 

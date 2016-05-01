@@ -8,7 +8,7 @@
 #include "SlotContainer.h"
 
 SlotContainer::SlotContainer(int slotsCount)
-:CTexture( nullptr, nullptr, nullptr ), InputHandler(), itemWidth ( 0 ), itemHeight( 0 )
+:CTexture(), InputHandler(), itemWidth ( 0 ), itemHeight( 0 )
 {
 	// TODO Auto-generated constructor stub
 	slots.resize(slotsCount);
@@ -23,14 +23,15 @@ void SlotContainer::draw()
 {
 	if (!slots.empty())
 	for(int i = 0; i < slots.size(); ++i)
-		CTexture::CopyTextureToRenderer( slots[i]->getTexture(), nullptr, slots[i]->getRect() );
+        //CTexture::CopyTextureToRenderer( slots[i]->getTexture(), nullptr,  );
+        Renderer::getInstance()->renderTexture( slots[i]->getTexture(), &slots[i]->getRect());
 }
 
 bool SlotContainer::onClick(SDL_Point* point)
 {
 	int n = slots.size();
 	for(int i = 0; i != n; ++i)
-		if (SDL_PointInRect(point, slots[i]->getRect()))
+        if (SDL_PointInRect(point, &slots[i]->getRect()))
 		{
 			if (connectedMethod != nullptr)
 			{
@@ -51,7 +52,7 @@ void SlotContainer::ConnectMethod(std::function<bool(int)> method)
 bool SlotContainer::containsPoint(int x, int y) const
 {
 	SDL_Point point = { x, y };
-	return SDL_PointInRect(&point, getRect());
+    return SDL_PointInRect(&point, &getRect());
 }
 
 void SlotContainer::addItem(CTexture* item, int index)
@@ -67,5 +68,5 @@ void SlotContainer::removeItem(int index)
 
 void SlotContainer::setItemRect(int index, SDL_Rect* rect)
 {
-	slots[index]->setRect(rect);
+    slots[index]->setRect(*rect);
 }

@@ -31,7 +31,7 @@ class DestructibleObject
 			ar & BOOST_SERIALIZATION_NVP(maximumHealth);
 			//for (int i = 0; i < DestructibleObject::damageTypesCount; ++i)
 
-			ar& boost::serialization::make_nvp("attack", attackProtection);//BOOST_SERIALIZATION_NVP(attackProtection[i]);
+            ar& boost::serialization::make_nvp("attack", attackProtection);
 			//ar & attackProtection;
 		}
 public:

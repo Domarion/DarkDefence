@@ -31,12 +31,18 @@ void Mob::init()
 
 }
 
-void Mob::update(double timestep)
+bool Mob::update(double timestep)
 {
 	SceneObject::update(timestep);
+    if (!mobModel->IsAlive())
+    {
+        finalize();
+        //parentScenePtr->destroyObject(this);
+        return false;
+    }
 	mobAI->MakeDecision(timestep);
     setPos(mobModel->getWorldX(),mobModel->getWorldY());
-
+    return true;
 }
 
 void Mob::finalize()

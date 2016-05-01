@@ -16,7 +16,7 @@ class MainScene: public Scene
 public:
 	MainScene();
 	virtual ~MainScene();
-	virtual void initScene(SDL_Renderer* renderer, SceneManager* sceneManagerPtr) override;
+    virtual void initScene(SceneManager* sceneManagerPtr) override;
 	virtual void finalizeScene() override;
 	virtual void loadScene() override;
 	virtual void unloadScene() override;

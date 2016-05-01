@@ -10,8 +10,8 @@
 //#include <SDL2/SDL_image.h>
 
 
-Sprite::Sprite(SDL_Texture* texture, SDL_Rect *sRect)
-:CTexture(nullptr, texture, sRect), zOrder(0)
+Sprite::Sprite(SDL_Texture* texture)
+:CTexture(texture), zOrder(0)
 {
 }
 
@@ -33,27 +33,3 @@ int Sprite::getZOrder() const
 
 }
 
-void Sprite::setPos(SDL_Point* position)
-{
-	getRect()->x = position->x;
-	getRect()->y = position->y;
-}
-
-void Sprite::setPos(int x, int y)
-{
-	getRect()->x = x;
-	getRect()->y = y;
-}
-/*const Sprite& Sprite::operator =(const Sprite& right)
-{
-	if (&right != this)
-	{
-
-	}
-	return *this;
-}
-
-Sprite::Sprite(const Sprite& right)
-{
-
-}*/

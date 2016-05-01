@@ -35,6 +35,11 @@ void SceneObject::setParentScene(Scene* const scene)
     parentScenePtr = scene;
 }
 
+Scene *SceneObject::getParentScene()
+{
+    return parentScenePtr;
+}
+
 DestructibleObject *SceneObject::getDestructibleObject()
 {
     return nullptr;
@@ -56,15 +61,16 @@ void SceneObject::setPos(int x, int y)
     this->y = y;
     if (spriteModel != nullptr)
     {
-        spriteModel->getRect()->x = x;
-         spriteModel->getRect()->y = y;
+        spriteModel->setPos(x, y);
     }
 
 }
 
-void SceneObject::update(double timestep)
+bool SceneObject::update(double timestep)
 {
+    return true;
 }
+
 
 void SceneObject::init()
 {

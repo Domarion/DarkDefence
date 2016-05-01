@@ -27,7 +27,7 @@ class Mob: public SceneObject
 public:
 	virtual void init() override;
 
-	virtual void update(double timestep) override;
+    virtual bool update(double timestep) override;
 	virtual void finalize() override;
     virtual string getName() const;
     virtual void setName(const string &value);

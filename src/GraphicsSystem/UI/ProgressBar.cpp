@@ -8,10 +8,10 @@
 #include "ProgressBar.h"
 
 ProgressBar::ProgressBar()
-:CTexture(),frontRect(nullptr), frontTexture(nullptr), currentValue(1), maximumValue(1)
+:CTexture(), currentValue(1), maximumValue(1)
 {
 	// TODO Auto-generated constructor stub
-
+    setFrontRect(0, 0, 0 , 0);
 }
 
 ProgressBar::~ProgressBar()
@@ -20,37 +20,41 @@ ProgressBar::~ProgressBar()
     if (getFrontTexture() != nullptr)
         SDL_DestroyTexture(getFrontTexture());
 
-    if (frontRect != nullptr)
-        delete frontRect;
 	// TODO Auto-generated destructor stub
 }
 
-SDL_Rect* ProgressBar::getFrontRect() const
+const SDL_Rect& ProgressBar::getFrontRect() const
 {
-	return frontRect;
+    return frontRect;
 }
 
 void ProgressBar::calculateFront(int current, int max)
 {
-    if (frontRect != nullptr && getRect() != nullptr && max != 0)
-        frontRect->w = getRect()->w * current/max;
+    if (max != 0)
+        frontRect.w = getRect().w * current/max;
 }
 
-void ProgressBar::setRect(SDL_Rect* value)
+void ProgressBar::setRect(const SDL_Rect& value)
 {
-	CTexture::setRect(value);
-
-
-	/*temp->x = value->x;
-	temp->y =value->y;
-	temp->h = value->h;*/
+    CTexture::setRect(value);
 
     setFrontRect(value);
 }
 
-void ProgressBar::setFrontRect(SDL_Rect* frontRect)
+void ProgressBar::setRect(int x, int y, int w, int h)
 {
-	this->frontRect = frontRect;
+     CTexture::setRect(x, y, w, h);
+     setFrontRect(x, y, w, h);
+}
+
+void ProgressBar::setFrontRect(const SDL_Rect& value)
+{
+    frontRect = value;
+}
+
+void ProgressBar::setFrontRect(int x, int y, int w, int h)
+{
+    frontRect = {x, y, w, h};
 }
 
 SDL_Texture* ProgressBar::getFrontTexture() const
@@ -66,6 +70,7 @@ void ProgressBar::setFrontTexture(SDL_Texture* frontTexture)
 void ProgressBar::draw()
 {
 	CTexture::draw();
-    CopyTextureToRenderer(getFrontTexture(), nullptr, getFrontRect());
+    Renderer::getInstance()->renderTexture(getFrontTexture(), &getFrontRect());
+  //  CopyTextureToRenderer( nullptr, );
 
 }

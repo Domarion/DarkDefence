@@ -53,7 +53,10 @@ SOURCES += \
     src/GameApp.cpp \
     src/main.cpp \
     src/Utility/NTree.cpp \
-    src/Mob/TowerFabric.cpp
+    src/Mob/TowerFabric.cpp \
+    src/GlobalScripts/Renderer.cpp \
+    src/Scenes/ScoreScene.cpp \
+    src/Scenes/MapMenuScene.cpp
 
 HEADERS += \
     src/AI/AIComponent.h \
@@ -107,7 +110,10 @@ HEADERS += \
     src/Enums.h \
     src/GameApp.h \
     src/Utility/NTree.h \
-    src/Mob/TowerFabric.hpp
+    src/Mob/TowerFabric.hpp \
+    src/GlobalScripts/Renderer.h \
+    src/Scenes/ScoreScene.h \
+    src/Scenes/MapMenuScene.h
 
 unix:!macx: LIBS += -L$$PWD/../../../../usr/lib64/ -lboost_serialization
 

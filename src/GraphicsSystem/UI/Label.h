@@ -15,20 +15,24 @@ using std::string;
 class Label: public CTexture
 {
 public:
-	Label(SDL_Renderer *rptr, const string& lText);
+    Label(const string& lText);
 	Label();
 	~Label();
-	void loadFont(string path, int size);
+    //void loadFont(string path, int size);
 	string getText() const;
 	void setText(const string& value);
 	const TTF_Font& getTTFFont() const;
 	void setTTFFont(TTF_Font* value);
-
+    void setFont(TTF_Font* value, int r, int g, int b);
+    void setFontColor(int r, int g, int b);
+    void setFont(TTF_Font *value, SDL_Color& color);
+    void setFontColor(SDL_Color& color);
+    SDL_Color& getFontColor();
 
 private:
 	void convertTextToTexture();
 	string text;
 	TTF_Font* lFont;
+    SDL_Color fontColor;
 
 };
-

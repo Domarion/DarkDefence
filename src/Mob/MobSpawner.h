@@ -19,7 +19,7 @@ public:
 	virtual ~MobSpawner();
     void loadWavesInfo(string filename);
 	bool canSpawn(double timestep);
-    list<SceneObject*> * doSpawn(SDL_Renderer* renderer);
+    list<SceneObject*> * doSpawn();
 private:
 	double period;
 	double currentTime;

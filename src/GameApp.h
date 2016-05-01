@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include <SDL2/SDL.h>
+#include "GlobalScripts/Renderer.h"
 #include "Grouping/SceneManager.h"
 class GameApp
 {
@@ -18,9 +18,9 @@ public:
 	int renderScene(const Scene* scene);
 	void updateScene(Scene* scene, double timestep);
 	bool processInput();
-	SDL_Renderer* getRenderer();
+    //SDL_Renderer* getRenderer();
 private:
-	SDL_Renderer* renderer;
+    Renderer* renderer;
 	SDL_Window* window;
 	SDL_Event event;
 	SceneManager* sceneManager;

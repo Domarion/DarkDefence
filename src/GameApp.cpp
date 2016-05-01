@@ -25,25 +25,14 @@ GameApp::GameApp(SceneManager* scmanager, int w, int h)
 	}
 	else
 	{
-		window = SDL_CreateWindow("GameApp", 0, 0, w, h, SDL_WINDOW_SHOWN);
-
-		if (window == nullptr)
-			cout << "SDL_CreateWindow Error: " << SDL_GetError() << endl;
-		else
-		{
-			renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-
-			if (renderer == nullptr)
-				cout << "SDL_CreateRenderer Error: " << SDL_GetError() << endl;
-
-
-		}
+        renderer = Renderer::getInstance();
+        renderer->initRenderer(w, h);
 		int imgFlags = IMG_INIT_PNG;
 		IMG_Init(imgFlags);
 		TTF_Init();
 	}
 
-	sceneManager->connectRenderer(getRenderer());
+
 }
 
 GameApp::~GameApp()
@@ -52,11 +41,7 @@ GameApp::~GameApp()
 		delete sceneManager;
 
 
-	if (renderer != nullptr)
-		SDL_DestroyRenderer(renderer);
-
-	if (window != nullptr)
-		SDL_DestroyWindow(window);
+    renderer->destroyRenderer();
 
 	IMG_Quit();
 	TTF_Quit();
@@ -86,7 +71,7 @@ int GameApp::GameLoop()
 					quit = true;
 				else
 					InputDispatcher::getInstance()->sendEvent(&event);
-					//inputDispatcher->sendEvent(&event);
+
 			}
 			double elapsed = currenttime - lasttime;
 			lasttime = currenttime;
@@ -112,15 +97,17 @@ int GameApp::GameLoop()
 int GameApp::renderScene(const Scene* scene)
 {
 	//if (scene != nullptr)
-	//{
-		SDL_RenderClear(renderer);
+    //{
+        renderer->renderClear();
+
 		if (scene != nullptr)
 		{
-			scene->copyToRender(renderer);
+            scene->copyToRender();
 		}
 		else
 			cout << "Scene is null!" << endl;
-		SDL_RenderPresent(renderer);
+        renderer->renderPresent();
+
 	//}
 
 	return 0;
@@ -148,7 +135,7 @@ bool GameApp::processInput()
 	return true;
 }
 
-SDL_Renderer* GameApp::getRenderer()
+/*SDL_Renderer* GameApp::getRenderer()
 {
 	return renderer;
-}
+}*/

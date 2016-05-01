@@ -35,3 +35,15 @@ DestructibleObject* Gates::getDestructibleObject()
 {
     return model;
 }
+
+bool Gates::update(double timestep)
+{
+    SceneObject::update(timestep);
+    if (!model->IsAlive())
+    {
+      // if (parentScenePtr != nullptr)
+        //parentScenePtr->destroyObject(this);
+       return false;
+    }
+    return true;
+}

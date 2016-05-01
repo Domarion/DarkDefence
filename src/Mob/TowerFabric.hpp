@@ -6,5 +6,5 @@ class TowerFabric
 {
 public:
     TowerFabric();
-    Mob* const produceTower(string towerName, SDL_Renderer* renderer);
+    Mob* const produceTower(string towerName);
 };

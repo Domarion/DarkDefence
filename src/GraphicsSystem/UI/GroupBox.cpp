@@ -22,13 +22,13 @@ GroupBox::~GroupBox()
 
 bool GroupBox::addChild(CTexture * const child)
 {
+
     if (children.size() == 0)
-        child->getRect()->x = getRect()->x;
+        child->setPosX(getRect().x);
     else
-        child->getRect()->x = children[children.size() - 1]->getRect()->x + children[children.size() - 1]->getRect()->w + 5;
-    child->getRect()->y = getRect()->y;
-    if (child->getRect()->h > getRect()->h)
-        child->getRect()->h = getRect()->h;
+         child->setPosX(children[children.size() - 1]->getRect().x + children[children.size() - 1]->getRect().w + 5);
+
+    child->setPosY(getRect().y);
 
     children.push_back(child);
 }

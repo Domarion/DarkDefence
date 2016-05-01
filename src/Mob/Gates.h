@@ -17,7 +17,7 @@ public:
 	virtual ~Gates();
 	DestructibleObject* const getModel();
     virtual DestructibleObject* getDestructibleObject() override;
-
+    virtual bool update(double timestep) override;
 	void setModel(DestructibleObject* newModel);
 private:
 	DestructibleObject* model;
