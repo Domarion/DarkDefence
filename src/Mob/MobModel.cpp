@@ -93,8 +93,39 @@ bool MobModel::checkDistance(int distanceSqr)
 	int x = static_cast<int>(attackDistance.first + attackDistance.second);
 
    // std::cout << "distance X = " << (x*x) << std::endl;
-	return  (x*x) >= distanceSqr;
+    return  (x*x) >= distanceSqr;
 }
+
+void MobModel::setAttackDamageModifier(int index, int modifier)
+{
+    attackDamage[index].second = modifier;
+}
+
+int MobModel::getAttackDamageModifier(int index)
+{
+    return attackDamage[index].second;
+}
+
+void MobModel::setMoveSpeedModifier(double modifier)
+{
+    moveSpeed.second = modifier;
+}
+
+double MobModel::getMoveSpeedModifier() const
+{
+    return moveSpeed.second;
+}
+
+void MobModel::setAttackDistanceModifier(double modifier)
+{
+    attackDistance.second = modifier;
+}
+
+double MobModel::getAttackDistanceModifier() const
+{
+    return attackDistance.second;
+}
+
 
 void MobModel::reload()
 {
@@ -108,5 +139,15 @@ double MobModel::getReloadTime() const
 
 void MobModel::setReloadTime(double reloadTime)
 {
-	this->reloadTime = reloadTime;
+    this->reloadTime = reloadTime;
+}
+
+double MobModel::getReloadTimeModifier() const
+{
+    return reloadTimeMaximum.second;
+}
+
+void MobModel::setReloadTimeModifier(double modifier)
+{
+    reloadTimeMaximum.second = modifier;
 }

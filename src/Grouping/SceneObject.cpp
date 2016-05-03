@@ -45,6 +45,11 @@ DestructibleObject *SceneObject::getDestructibleObject()
     return nullptr;
 }
 
+EffectReceiver *SceneObject::getEffectReceiver() const
+{
+    return nullptr;
+}
+
 string SceneObject::getName() const
 {
     return name;

@@ -7,6 +7,7 @@
 
 #include "Scene.h"
 #include "SceneObject.h"
+#include "SceneObjectFabric.h"
 #include <list>
 using std::list;
 
@@ -66,6 +67,9 @@ void Scene::startUpdate(double timestep)
         if ((*iter)->update(timestep) == false)
         {
             sceneObjects.erase(iter++);
+           // auto iter2 = sceneObjects.erase(iter++);
+           // SceneObjectFabric::destroy(*iter2);
+          //  delete *iter2;
         }
         else
             ++iter;

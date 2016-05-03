@@ -20,6 +20,7 @@ public:
     void loadWavesInfo(string filename);
 	bool canSpawn(double timestep);
     list<SceneObject*> * doSpawn();
+    bool noMoreWaves() const;
 private:
 	double period;
 	double currentTime;

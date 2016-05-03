@@ -153,12 +153,12 @@ void AIComponent::Reload(double timestep)
         MobPtr->setReloadTime(MobPtr->getReloadTime() - timestep);
 	else
 	{
-                if (currentTarget == nullptr)
+        if (currentTarget == nullptr)
 		{
-                    aiMobState = AIMobStates::aiSELECT;
+            aiMobState = AIMobStates::aiSELECT;
 		}
 		else
-                    aiMobState = AIMobStates::aiATTACK;
+            aiMobState = AIMobStates::aiATTACK;
 	}
 }
 

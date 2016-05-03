@@ -11,6 +11,7 @@ namespace Enums
 	enum ItemTypes {DEFAULT = 0, HELM, CUIRASS, WEAPON, SHIELD, BOOTS, RING, AMULET, CONSUMABLE};
 	enum GameStatuses {gsINPROGRESS = 0, gsWON, gsLOST};
 	enum ResourceTypes {GOLD = 0, WOOD, STONE, WHEAT};
+    enum AbilityStates {asNotAvaliable = -1, asReady = 0, asWorking, asOnCooldown};
 }
 
 

@@ -21,6 +21,9 @@
 #include "../MissionSystem/Mission.h"
 #include <vector>
 using std::vector;
+#include "../AbilitySystem/AbilityMagicStones.h"
+#include "../AbilitySystem/AbilitySnowStorm.h"
+#include "../AbilitySystem/AbilityShrink.h"
 
 class GameScene: public Scene
 {
@@ -49,4 +52,8 @@ private:
     Mission currentMission;
     TTF_Font* arialFont;
 
+    map<string, AbilityModel* > abilityModelsMap;
+  //  AbilityMagicStones magicStones;
+   // AbilitySnowStorm snowStorm;
+    void setActiveMstones(string s);
 };

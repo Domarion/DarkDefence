@@ -9,6 +9,7 @@
 #include "DestructibleObject.h"
 #include "../GraphicsSystem/Sprite.h"
 #include "../Grouping/SceneObject.h"
+#include "../AbilitySystem/DestructibleObjectEffectReceiver.h"
 
 class Gates: public SceneObject
 {
@@ -19,9 +20,10 @@ public:
     virtual DestructibleObject* getDestructibleObject() override;
     virtual bool update(double timestep) override;
 	void setModel(DestructibleObject* newModel);
+    EffectReceiver* getEffectReceiver() const;
 private:
 	DestructibleObject* model;
-
+    DestructibleObjectEffectReceiver* effectReceiver;
 
 };
 

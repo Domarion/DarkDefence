@@ -10,7 +10,7 @@
 #include <fstream>
 
 MobSpawner::MobSpawner()
-    : period(200), currentTime(period), waveNumber(0), waveCount(0)
+    : period(5000), currentTime(period), waveNumber(0), waveCount(0)
 
 {
 	// TODO Auto-generated constructor stub
@@ -45,7 +45,7 @@ void MobSpawner::loadWavesInfo(string filename)
 
 bool MobSpawner::canSpawn(double timestep)
 {
-   // std::cout << "Monster Count = " << (GameModel::getInstance()->getMonsterCount()) << std::endl;
+    std::cout << "Monster Count = " << (GameModel::getInstance()->getMonsterCount()) << std::endl;
     if (GameModel::getInstance()->canSpawn())
     {
 
@@ -62,6 +62,8 @@ bool MobSpawner::canSpawn(double timestep)
     }
 	return false;
 }
+
+
 
 list<SceneObject*>* MobSpawner::doSpawn()
 {
@@ -84,7 +86,7 @@ list<SceneObject*>* MobSpawner::doSpawn()
             someSprite->setTexture(Renderer::getInstance()->loadTextureFromFile("/home/kostya_hm/Projects/DarkDefence/GameData/textures/Monsters/" + monsterName + ".png"));
 
             someMob->setSprite(someSprite);
-            someMob->init();
+            //someMob->init();
             some->push_back(someMob);
         }
     }
@@ -93,6 +95,11 @@ list<SceneObject*>* MobSpawner::doSpawn()
 
 	return some;
 
+}
+
+bool MobSpawner::noMoreWaves() const
+{
+    return waveNumber > waveCount;
 }
 
 

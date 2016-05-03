@@ -69,5 +69,6 @@ bool BasicGoal::checkCondition()
         return false;
     }
 
+
     return true;
 }

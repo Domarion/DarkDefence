@@ -16,5 +16,6 @@ public:
     ~SceneObjectFabric();
 
     SceneObject* const produce(string name, string tag, string spritePath, int width, int height);
+    static void destroy (SceneObject* toDestroy);
 };
 

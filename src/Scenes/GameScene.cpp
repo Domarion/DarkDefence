@@ -13,6 +13,8 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include "../Input/InputDispatcher.h"
+
 GameScene::GameScene()
 :Scene(), gates(), arialFont(nullptr)
 {
@@ -27,9 +29,9 @@ GameScene::~GameScene()
     for(int i = 0; i != ResourcesModel::resourceTypeCount; ++i)
     {
 
-        delete resourceLabels[i];
+      //  delete resourceLabels[i];
     }
-    TTF_CloseFont(arialFont);
+    //TTF_CloseFont(arialFont);
 }
 
 void GameScene::initScene(SceneManager* sceneManagerPtr)
@@ -37,8 +39,6 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
 
 	if (!wasInited)
 	{
-
-
 
         Scene::initScene(sceneManagerPtr);
 
@@ -93,14 +93,11 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
            // resourceLabels[i]->setRect(0, 0, 120, 24);
             resourceLabels[i]->setText(s);
 
-
-
             topPanel.addChild(resourceLabels[i]);
         }
 
 
         listGUI.push_back(&topPanel);
-
 
 
         GameModel::getInstance()->loadMonsterList("/home/kostya_hm/Projects/DarkDefence/GameData/MonsterList.xml");
@@ -132,7 +129,33 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
         int y1 = 550;
         int w = 50;
         int h = 50;
-          GameModel::getInstance()->loadAbilitiesNames("/home/kostya_hm/Projects/DarkDefence/GameData/abilities.txt");
+        GameModel::getInstance()->loadAbilitiesNames("/home/kostya_hm/Projects/DarkDefence/GameData/abilities.txt");
+
+        AbilityMagicStones* magicStones = new AbilityMagicStones();
+
+        magicStones->init(this);
+        magicStones->setCooldownTime(10000);
+        magicStones->setWorkTime(10000);
+
+
+        AbilitySnowStorm* snowStorm = new AbilitySnowStorm();
+        snowStorm->init(this);
+        snowStorm->setCooldownTime(10000);
+        snowStorm->setWorkTime(10000);
+        snowStorm->setDamagePerSecond(30);
+
+
+        AbilityShrink* shrink = new AbilityShrink();
+        shrink->init(this);
+        shrink->setCooldownTime(20000);
+        shrink->setWorkTime(11000);
+        shrink->setDamagePerSecond(0.2);
+
+
+        abilityModelsMap["MagicStones"] = magicStones;
+        abilityModelsMap["SnowStorm"] = snowStorm;
+        abilityModelsMap["Shrink"] = shrink;
+
         abilityButtons.resize( GameModel::getInstance()->getAbilityCount());
         for(int i = 0; i < abilityButtons.size(); x1 += w, ++i)
         {
@@ -142,12 +165,14 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
             abilityButtons[i].setRect( x1, y1, w, h);
             abilityButtons[i].setTexture(Renderer::getInstance()->loadTextureFromFile(imgPath));
             listGUI.push_back(&abilityButtons[i]);
-
-
+            if (i < 3)
+                abilityButtons[i].ConnectMethod(std::bind(&GameScene::setActiveMstones, this, GameModel::getInstance()->getAbilityNameFromIndex(i)));
         }
 
-	}
 
+	}
+    for(int i = 0; i < 3; ++i)
+        InputDispatcher::getInstance()->addHandler(&abilityButtons[i]);
 }
 
 void GameScene::finalizeScene()
@@ -207,10 +232,23 @@ void GameScene::startUpdate(double timestep)
         }
         delete some;
     }
+    else
+        if(monsterSpawner.noMoreWaves())
+        {
+            GameModel::getInstance()->setGameStatus(Enums::GameStatuses::gsWON);
+            std::string s2 = "ScoreScene";
+            parentSceneManager->setCurrentSceneByName(s2);
+        }
     if (gates.getDestructibleObject() != nullptr)
         gatesHealthBar.calculateFront(gates.getDestructibleObject()->getCurrentHealth(),gates.getDestructibleObject()->getMaximumHealth());
     if (gates.getDestructibleObject()->getCurrentHealth() <= 0)
         GameModel::getInstance()->setGameStatus(Enums::GameStatuses::gsLOST);
+
+
+    for(auto ptr0 = abilityModelsMap.begin(); ptr0 != abilityModelsMap.end(); ++ptr0)
+        ptr0->second->update(timestep);
+
+
 }
 
 void GameScene::copyToRender() const
@@ -222,9 +260,10 @@ void GameScene::copyToRender() const
 	{
         if (*const_iter == nullptr)
             continue;
+
 		if ( (*const_iter)->getSprite() != nullptr )
 		{
-            SDL_Rect some =  (*const_iter)->getSprite()->getRect() ;
+            SDL_Rect some =  (*const_iter)->getSprite()->getRect();
 
 
             Renderer::getInstance()->renderTexture((*const_iter)->getSprite()->getTexture(), &some);
@@ -234,6 +273,12 @@ void GameScene::copyToRender() const
 
 
     Scene::copyToRender();
+}
+
+void GameScene::setActiveMstones(string s)
+{
+
+    abilityModelsMap[s]->setAsReady();
 }
 
 

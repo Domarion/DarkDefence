@@ -60,7 +60,18 @@ SOURCES += \
     src/MissionSystem/ResourceGoal.cpp \
     src/GraphicsSystem/UI/MapIndicator.cpp \
     src/GraphicsSystem/UI/MissionView.cpp \
-    src/GraphicsSystem/UI/ImageButton.cpp
+    src/GraphicsSystem/UI/ImageButton.cpp \
+    src/AbilitySystem/EffectModel.cpp \
+    src/AbilitySystem/AbilityModel.cpp \
+    src/AbilitySystem/AbilityPrick.cpp \
+    src/AbilitySystem/AbilityShrink.cpp \
+    src/AbilitySystem/AbilityEarthquake.cpp \
+    src/AbilitySystem/AbilitySnowStorm.cpp \
+    src/AbilitySystem/AbilityMagicStones.cpp \
+    src/AbilitySystem/EffectReceiver.cpp \
+    src/AbilitySystem/MobEffectReceiver.cpp \
+    src/AbilitySystem/DestructibleObjectEffectReceiver.cpp \
+    src/GraphicsSystem/UI/CompositeLabel.cpp
 
 HEADERS += \
     src/AI/AIComponent.h \
@@ -121,7 +132,18 @@ HEADERS += \
     src/MissionSystem/ResourceGoal.h \
     src/GraphicsSystem/UI/MapIndicator.h \
     src/GraphicsSystem/UI/MissionView.h \
-    src/GraphicsSystem/UI/ImageButton.h
+    src/GraphicsSystem/UI/ImageButton.h \
+    src/AbilitySystem/EffectModel.h \
+    src/AbilitySystem/AbilityModel.h \
+    src/AbilitySystem/AbilityPrick.h \
+    src/AbilitySystem/AbilityShrink.h \
+    src/AbilitySystem/AbilityEarthquake.h \
+    src/AbilitySystem/AbilitySnowStorm.h \
+    src/AbilitySystem/AbilityMagicStones.h \
+    src/AbilitySystem/EffectReceiver.h \
+    src/AbilitySystem/MobEffectReceiver.h \
+    src/AbilitySystem/DestructibleObjectEffectReceiver.h \
+    src/GraphicsSystem/UI/CompositeLabel.h
 
 unix:!macx: LIBS += -L$$PWD/../../../../usr/lib64/ -lboost_serialization
 

@@ -11,7 +11,7 @@ using std::string;
 #include "../GraphicsSystem/Sprite.h"
 #include "Scene.h"
 #include "../Mob/DestructibleObject.h"
-
+#include "../AbilitySystem/EffectReceiver.h"
 class Scene;
 class SceneObjectFabric;
 
@@ -36,6 +36,7 @@ public:
     virtual void setParentScene(Scene* const scene);
     virtual Scene* getParentScene();
     virtual DestructibleObject* getDestructibleObject();
+    virtual EffectReceiver* getEffectReceiver() const;
 protected:
     SceneObject();
     virtual ~SceneObject();

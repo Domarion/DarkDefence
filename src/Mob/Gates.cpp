@@ -8,15 +8,15 @@
 #include "Gates.h"
 
 Gates::Gates()
-:SceneObject(),model(new DestructibleObject())
+:SceneObject(),model(new DestructibleObject()), effectReceiver(new DestructibleObjectEffectReceiver())
 {
 	// TODO Auto-generated constructor stub
-
+    effectReceiver->init(model);
 }
 
 Gates::~Gates()
 {
-
+    delete effectReceiver;
 	delete model;
 	// TODO Auto-generated destructor stub
 }
@@ -28,7 +28,14 @@ DestructibleObject* const Gates::getModel()
 
 void Gates::setModel(DestructibleObject* newModel)
 {
-	model = newModel;
+    model = newModel;
+    effectReceiver->init(model);
+
+}
+
+EffectReceiver* Gates::getEffectReceiver() const
+{
+    return effectReceiver;
 }
 
 DestructibleObject* Gates::getDestructibleObject()

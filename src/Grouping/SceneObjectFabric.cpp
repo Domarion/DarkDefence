@@ -36,3 +36,8 @@ SceneObject* const SceneObjectFabric::produce(string name, string tag, string sp
     return someObject;
 }
 
+void SceneObjectFabric::destroy(SceneObject *toDestroy)
+{
+    delete toDestroy;
+}
+

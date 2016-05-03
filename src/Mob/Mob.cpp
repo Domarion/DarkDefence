@@ -11,11 +11,11 @@
 
 
 Mob::Mob(MobModel* model)
-:mobModel(model), mobAI(new AIComponent(mobModel))
+:mobModel(model), mobAI(new AIComponent(mobModel)), mobEffectReceiver(new MobEffectReceiver())
 {
 	// TODO Auto-generated constructor stub
 
-
+    mobEffectReceiver->init(mobModel);
 }
 
 void Mob::init()
@@ -79,5 +79,10 @@ void Mob::setTag(const string &value)
 DestructibleObject *Mob::getDestructibleObject()
 {
     return mobModel;
+}
+
+EffectReceiver* Mob::getEffectReceiver() const
+{
+    return mobEffectReceiver;
 }
 

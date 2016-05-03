@@ -133,5 +133,33 @@ bool DestructibleObject::receiveDamage(int damage[])
 		setIsAlive(result);
 		return !result;
 	}
-	return false;
+    return false;
+}
+
+bool DestructibleObject::receiveDamageOneType(int damage_type, int damage)
+{
+
+    int summaryDamage = attackProtection[damage_type].first + attackProtection[damage_type].second - damage;
+
+    if (summaryDamage < 0)
+    {
+        currentHealth += summaryDamage;
+        bool result = (currentHealth > 0);
+        setIsAlive(result);
+        return !result;
+    }
+    return false;
+}
+
+void DestructibleObject::setProtectionModifier(int modifier)
+{
+    for(int i = 0; i < DestructibleObject::damageTypesCount; ++i)
+    {
+        attackProtection[i].second = modifier;
+    }
+}
+
+int DestructibleObject::getProtectionModifier() const
+{
+    return attackProtection[0].second;
 }

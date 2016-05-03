@@ -17,6 +17,9 @@ using std::map;
 #include "../MissionSystem/Mission.h"
 #include <vector>
 using std::vector;
+
+
+
 class GameModel
 {
 
@@ -67,6 +70,7 @@ private:
 	TreeNode<MobModel> towerUpgradesRootNode;
     Reward missionReward;
     vector<string> abilitiesNames;
+
 	static GameModel* instance_;
 };
 

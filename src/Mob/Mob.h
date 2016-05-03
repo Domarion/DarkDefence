@@ -13,6 +13,7 @@
 #include "MobModel.h"
 #include "MobSpawner.h"
 #include "TowerFabric.hpp"
+#include "../AbilitySystem/MobEffectReceiver.h"
 //#include "../Grouping/SceneObjectFabric.h"
 
 class MobSpawner;
@@ -35,12 +36,15 @@ public:
     virtual string getTag() const;
     virtual void setTag(const string &value);
     virtual DestructibleObject* getDestructibleObject() override;
+    EffectReceiver* getEffectReceiver() const;
 private:
     Mob(MobModel* model);
 	~Mob();
 
     MobModel* mobModel;
+
 	AIComponent* mobAI;
+    MobEffectReceiver* mobEffectReceiver;
 	//Sprite mobSprite;
 };
 

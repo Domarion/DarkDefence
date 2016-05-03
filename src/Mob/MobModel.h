@@ -53,13 +53,23 @@ public:
 	void setMoveSpeed(const pair<double, double>& moveSpeed);
 	const list<string>& getEnemyTags() const;
 	bool checkDistance(int distanceSqr);
-	/*int getX() const;
-	void setX(int x);
-	int getY() const;
-	void setY(int y);*/
+
+    void setAttackDamageModifier(int index, int modifier);
+    int getAttackDamageModifier(int index);
+
+    void setMoveSpeedModifier(double modifier);
+    double getMoveSpeedModifier() const;
+
+
+    void setAttackDistanceModifier(double modifier);
+    double getAttackDistanceModifier() const;
+
 	void reload();
 	double getReloadTime() const;
 	void setReloadTime(double reloadTime);
+
+    double getReloadTimeModifier() const;
+    void setReloadTimeModifier(double modifier);
 
 private:
 
