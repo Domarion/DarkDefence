@@ -7,14 +7,17 @@
 
 #pragma once
 
-#include "BasicGoal.h"
-#include "Reward.h"
+#include <boost/serialization/list.hpp>
 #include <list>
-#include <string>
 
+#include "Reward.h"
+
+#include <string>
+#include "BasicGoal.h"
+//#include <boost/serialization/export.hpp>
 enum MissionStatuses
 {
-	mNOT_STARTED,
+    mNOT_STARTED = 0,
 	mIN_PROGRESS,
 	mCOMPLETED,
 	mFAILED
@@ -22,6 +25,17 @@ enum MissionStatuses
 
 class Mission
 {
+    friend class boost::serialization::access;
+    template <typename Archive>
+      void serialize(Archive &ar, const unsigned int version)
+    {
+        ar & BOOST_SERIALIZATION_NVP(caption);
+        ar & BOOST_SERIALIZATION_NVP(description);
+        ar & BOOST_SERIALIZATION_NVP(goals);
+        ar & BOOST_SERIALIZATION_NVP(reward);
+        ar & boost::serialization::make_nvp("status", missionStatus);
+
+    }
 public:
 	Mission();
 	~Mission();
@@ -30,13 +44,19 @@ public:
 	std::string getDescription() const;
 	void setDescription(std::string value);
 	MissionStatuses getStatus() const;
-	void setStatus(MissionStatuses value);
 
+    MissionStatuses checkStatus();
+	void setStatus(MissionStatuses value);
+    void addGoal(BasicGoal* goal);
+    void setReward(const Reward& someReward);
+    std::list<std::string> getGoalsFullDesc();
+    Reward& getReward();
 private:
 	std::string caption;
 	std::string description;
-	std::list<BasicGoal> goals;
-	MissionStatuses status;
+    std::list<BasicGoal*> goals;
+    Reward reward;
+    MissionStatuses missionStatus;
 
 };
 

@@ -21,7 +21,7 @@ public:
 	virtual void unloadScene() override;
 
 	virtual void startUpdate(double timestep) override;
-	void LoadSceneByName(string sceneName);
+
 private:
 	ScrollList scroll;
 	InventoryController inventoryController;

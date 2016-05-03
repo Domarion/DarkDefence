@@ -128,12 +128,17 @@ void AIComponent::Move(double timestep)
 
 void AIComponent::Attack()
 {
-	if (currentTarget == nullptr || !currentTarget->IsAlive())
+        if (currentTarget == nullptr)
 		aiMobState = AIMobStates::aiSELECT;
 	else
 	{
         int* damage = MobPtr->getAttackDamage();
-        currentTarget->receiveDamage(damage); //TODO:: add argument
+        if (currentTarget->receiveDamage(damage))
+        {
+            avaliableTargets.remove(currentTarget);
+            currentTarget = nullptr;
+
+        }
         delete[] damage;
 
 		MobPtr->reload();
@@ -148,13 +153,12 @@ void AIComponent::Reload(double timestep)
         MobPtr->setReloadTime(MobPtr->getReloadTime() - timestep);
 	else
 	{
-		if (currentTarget == nullptr || !currentTarget->IsAlive())
+                if (currentTarget == nullptr)
 		{
-			currentTarget = nullptr;
-			aiMobState = AIMobStates::aiSELECT;
+                    aiMobState = AIMobStates::aiSELECT;
 		}
 		else
-			aiMobState = AIMobStates::aiATTACK;
+                    aiMobState = AIMobStates::aiATTACK;
 	}
 }
 
@@ -178,6 +182,8 @@ void AIComponent::MoveIt(double timestep)
 int AIComponent::computeDistanceSqr(DestructibleObject* first,
 	DestructibleObject* second)
 {
+    if (first == nullptr || second == nullptr)
+       return 0;
 	int xdist = first->getWorldX() - second->getWorldX();
 	int ydist = first->getWorldY() - second->getWorldY();
 	return (xdist*xdist + ydist*ydist);

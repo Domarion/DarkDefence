@@ -55,7 +55,7 @@ void Mob::finalize()
 
 Mob::~Mob()
 {
-    finalize();
+    //finalize();
 	// TODO Auto-generated destructor stub
 }
 string Mob::getName() const

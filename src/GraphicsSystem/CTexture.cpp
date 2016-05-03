@@ -34,6 +34,7 @@ CTexture::CTexture(SDL_Texture* aTexture)
 
 void CTexture::draw()
 {
+
     Renderer::getInstance()->renderTexture(getTexture(), &rect);
 
 }

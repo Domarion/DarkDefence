@@ -12,11 +12,16 @@
 #include "../GraphicsSystem/Sprite.h"
 #include "../GraphicsSystem/UI/GroupBox.h"
 #include "../GraphicsSystem/UI/Label.h"
-#include "../GraphicsSystem/UI/TextButton.h"
+//#include "../GraphicsSystem/UI/TextButton.h"
+#include "../GraphicsSystem/UI/ImageButton.h"
 #include "../GraphicsSystem/UI/ProgressBar.h"
 #include "../GraphicsSystem/Camera.h"
 #include "../Mob/Gates.h"
 #include "../Mob/TowerFabric.hpp"
+#include "../MissionSystem/Mission.h"
+#include <vector>
+using std::vector;
+
 class GameScene: public Scene
 {
 public:
@@ -32,7 +37,7 @@ public:
 private:
     SceneObjectFabric objectFabric;
     SceneObject* Terrain;
-	//TextButton* AbilityButtons;
+    vector<ImageButton> abilityButtons;
     GroupBox topPanel;
     vector<Label*> resourceLabels;
     ProgressBar gatesHealthBar;
@@ -41,5 +46,7 @@ private:
 	Gates gates;
 	SDL_Rect* worldRect;
 	Camera* mainCamera;
+    Mission currentMission;
+    TTF_Font* arialFont;
 
 };

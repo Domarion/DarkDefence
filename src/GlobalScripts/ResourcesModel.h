@@ -20,7 +20,7 @@ public:
 	bool canBuy(int costarray[]);
 	void addResources(int costarray[]);
 	void removeResources(int costarray[]);
-
+    int getResourceAmountFromIndex(int resourceType);
 	bool haveEnoughResource(int resourceType, int amount);
 	bool addResource(int resourceType, int amount);
 	bool removeResource(int resourceType, int amount);

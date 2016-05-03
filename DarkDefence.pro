@@ -56,7 +56,11 @@ SOURCES += \
     src/Mob/TowerFabric.cpp \
     src/GlobalScripts/Renderer.cpp \
     src/Scenes/ScoreScene.cpp \
-    src/Scenes/MapMenuScene.cpp
+    src/Scenes/MapMenuScene.cpp \
+    src/MissionSystem/ResourceGoal.cpp \
+    src/GraphicsSystem/UI/MapIndicator.cpp \
+    src/GraphicsSystem/UI/MissionView.cpp \
+    src/GraphicsSystem/UI/ImageButton.cpp
 
 HEADERS += \
     src/AI/AIComponent.h \
@@ -113,7 +117,11 @@ HEADERS += \
     src/Mob/TowerFabric.hpp \
     src/GlobalScripts/Renderer.h \
     src/Scenes/ScoreScene.h \
-    src/Scenes/MapMenuScene.h
+    src/Scenes/MapMenuScene.h \
+    src/MissionSystem/ResourceGoal.h \
+    src/GraphicsSystem/UI/MapIndicator.h \
+    src/GraphicsSystem/UI/MissionView.h \
+    src/GraphicsSystem/UI/ImageButton.h
 
 unix:!macx: LIBS += -L$$PWD/../../../../usr/lib64/ -lboost_serialization
 

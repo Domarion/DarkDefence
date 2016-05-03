@@ -17,9 +17,9 @@ public:
     virtual void setRect(int x, int y, int w, int h);
     virtual void setRect(const SDL_Rect& value);
     const SDL_Rect& getRect() const;
-    void setPosX(int x);
-    void setPosY(int y);
-    void setPos(int x, int y);
+    virtual void setPosX(int x);
+    virtual void setPosY(int y);
+    virtual void setPos(int x, int y);
 protected:
 
 private:

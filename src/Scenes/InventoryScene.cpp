@@ -50,7 +50,7 @@ void InventoryScene::initScene( SceneManager* sceneManagerPtr)
         button.setRect(200, 50, 150, 50);
         button.setText("Назад");
         string s1 = "MainScene";
-        button.ConnectMethod(std::bind(&InventoryScene::LoadSceneByName, this, s1));
+        button.ConnectMethod(std::bind(&SceneManager::setCurrentSceneByName, sceneManagerPtr, s1));
         listGUI.push_back(&button);
     }
 
@@ -76,8 +76,3 @@ void InventoryScene::startUpdate(double timestep)
     Scene::startUpdate(timestep);
 }
 
-void InventoryScene::LoadSceneByName(string sceneName)
-{
-	parentSceneManager->setCurrentSceneByName(sceneName);
-
-}

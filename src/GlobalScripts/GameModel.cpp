@@ -16,7 +16,8 @@ using std::ifstream;
 GameModel* GameModel::instance_ = nullptr;
 #include <functional>
 #include <boost/mpl/placeholders.hpp>
-
+#include "../MissionSystem/ResourceGoal.h"
+#include <iostream>
 MobModel* const GameModel::getMonsterByName(string name)
 {
     return new MobModel(monstersModelsMap[name]);
@@ -58,13 +59,13 @@ void GameModel::loadMonsterList(string filename)
 
 
 
-void GameModel::deserialize(MobModel& obj, string filename)
+/*void GameModel::deserialize(MobModel& obj, string filename)
 {
 
     //
 
 
-}
+}*/
 
 void GameModel::loadTowerUpgrades(string filename)
 {
@@ -85,6 +86,23 @@ void GameModel::loadTowerUpgrades(string filename)
 
 }
 
+void GameModel::deserialize(Mission &obj, string filename)
+{
+
+    ifstream missionStream(filename);
+
+    if (missionStream.good())
+    {
+
+        boost::archive::xml_iarchive xmlinp(missionStream);
+        xmlinp.register_type<ResourceGoal>();
+        xmlinp >> boost::serialization::make_nvp("Mission", obj);
+
+    }
+
+    missionStream.close();
+}
+
 TreeNode<MobModel>* GameModel::getRootTower()
 {
 	return &towerUpgradesRootNode;
@@ -102,7 +120,22 @@ void GameModel::incMonsterCount()
 
 void GameModel::decMonsterCount()
 {
-	--MonsterCountOnMap;
+    --MonsterCountOnMap;
+}
+
+void GameModel::setCurrentMissionIndex(int newValue)
+{
+    currentMissionIndex = newValue;
+}
+
+int GameModel::getCurrentMissionIndex() const
+{
+    return currentMissionIndex;
+}
+
+Enums::GameStatuses GameModel::getGameStatus() const
+{
+    return gameStatus;
 }
 
 GameModel::~GameModel()
@@ -110,10 +143,61 @@ GameModel::~GameModel()
 	// TODO Auto-generated destructor stub
 }
 
+Reward GameModel::getMissionReward() const
+{
+    return missionReward;
+}
+
+void GameModel::setMissionReward(const Reward &value)
+{
+    missionReward = value;
+}
+
+void GameModel::loadAbilitiesNames(string filename)
+{
+    ifstream abilityStream(filename);
+    if (abilityStream.good())
+    {
+        int n;
+        abilityStream >> n;
+        if (n > 0)
+        {
+            abilitiesNames.resize(n);
+            for(int i = 0; i < n; ++i)
+            {
+                abilityStream >> abilitiesNames[ i ];
+             //   std::cout << abilitiesNames[i] << std::endl;
+            }
+        }
+    }
+
+    abilityStream.close();
+}
+
+string GameModel::getAbilityNameFromIndex(int index)
+{
+    return abilitiesNames[ index ];
+}
+
+int GameModel::getAbilityCount() const
+{
+    return abilitiesNames.size();
+}
+
+void GameModel::setGameStatus(const Enums::GameStatuses &value)
+{
+    gameStatus = value;
+}
+
+int GameModel::getMonsterCount() const
+{
+    return MonsterCountOnMap;
+}
+
 GameModel* const GameModel::getInstance()
 {
-	if (instance_ == nullptr)
-		instance_ = new GameModel();
+    if (instance_ == nullptr)
+        instance_ = new GameModel();
 
 	return instance_;
 }
@@ -126,7 +210,7 @@ ResourcesModel* const GameModel::getResourcesModel()
 
 GameModel::GameModel()
 :waveNumber(0), waveCount(0), pointsPerWave(0), pointsPerMap(0),
- pointsRefundModifier(0), MonsterCountOnMap( 0 ), gameStatus(Enums::GameStatuses::gsINPROGRESS), heroFigure(10),
+ pointsRefundModifier(0), MonsterCountOnMap( 0 ), gameStatus(Enums::GameStatuses::gsINPROGRESS), currentMissionIndex(0), heroFigure(10),
  resourcesModelPtr(new ResourcesModel()), towerUpgradesRootNode()
 {
 

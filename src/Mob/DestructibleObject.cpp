@@ -8,7 +8,7 @@
 #include "DestructibleObject.h"
 
 DestructibleObject::DestructibleObject()
-:Alive( true )
+:Alive( true ), currentHealth(0)
 {
 	// TODO Auto-generated constructor stub
 
@@ -117,6 +117,8 @@ void DestructibleObject::setWorldY(int worldY)
 
 bool DestructibleObject::receiveDamage(int damage[])
 {
+    if (damage == nullptr)
+        return false;
 	int summaryDamage = 0;
 	for(int i = 0; i < DestructibleObject::damageTypesCount; ++i)
 	{

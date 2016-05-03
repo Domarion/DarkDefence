@@ -6,12 +6,12 @@
  */
 
 #include "MainScene.h"
-#include "../Grouping/Scene.h"
 #include "../GraphicsSystem/UI/Label.h"
 #include <iostream>
 #include "../Input/InputDispatcher.h"
 
 MainScene::MainScene()
+    :arialFont(nullptr)
 
 {
 	// TODO Auto-generated constructor stub
@@ -21,6 +21,7 @@ MainScene::~MainScene()
 {
 	// TODO Auto-generated destructor stub
 	//listGUI.clear();
+    TTF_CloseFont(arialFont);
 }
 
 
@@ -47,14 +48,14 @@ void MainScene::initScene(SceneManager* sceneManagerPtr)
 	if (wasInited == false)
 	{
         Scene::initScene(sceneManagerPtr);
-        TTF_Font* arialFont = Renderer::getInstance()->loadFontFromFile("/home/kostya_hm/Projects/DarkDefence/Fonts/arial.ttf", 24);
+        arialFont = Renderer::getInstance()->loadFontFromFile("/home/kostya_hm/Projects/DarkDefence/Fonts/arial.ttf", 24);
         SDL_Color arialFontColor = {255, 255, 255};
         button.setFont(arialFont, arialFontColor);
 
         button.setRect(0, 50, 200, 50);
         button.setText("Начать игру");
-        string s1 = "GameScene";
-        button.ConnectMethod(std::bind(&MainScene::LoadSceneByName, this, s1));
+        string s1 = "MapMenuScene";
+        button.ConnectMethod(std::bind(&SceneManager::setCurrentSceneByName, sceneManagerPtr, s1));
 
 
         listGUI.push_back(&button);
@@ -65,7 +66,7 @@ void MainScene::initScene(SceneManager* sceneManagerPtr)
         button2.setRect(0, 100, 200, 50);
         button2.setText("Лавка");
         string s2 = "ShopScene";
-        button2.ConnectMethod(std::bind(&MainScene::LoadSceneByName,  this, s2));
+        button2.ConnectMethod(std::bind(&SceneManager::setCurrentSceneByName, sceneManagerPtr, s2));
 
 
         listGUI.push_back(&button2);
@@ -74,7 +75,7 @@ void MainScene::initScene(SceneManager* sceneManagerPtr)
         button3.setRect(0, 150, 200, 50);
         button3.setText("Инвентарь");
         string s3 = "InventoryScene";
-        button3.ConnectMethod(std::bind(&MainScene::LoadSceneByName,  this, s3));
+        button3.ConnectMethod(std::bind(&SceneManager::setCurrentSceneByName, sceneManagerPtr, s3));
 
 
         listGUI.push_back(&button3);
@@ -96,8 +97,4 @@ void MainScene::startUpdate(double timestep)
 }
 
 
-void MainScene::LoadSceneByName(string sceneName)
-{
-	parentSceneManager->setCurrentSceneByName(sceneName);
 
-}

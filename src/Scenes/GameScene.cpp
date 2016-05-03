@@ -14,7 +14,7 @@
 #include <cstdlib>
 #include <ctime>
 GameScene::GameScene()
-:Scene(), gates()
+:Scene(), gates(), arialFont(nullptr)
 {
 	// TODO Auto-generated constructor stub
 
@@ -29,7 +29,7 @@ GameScene::~GameScene()
 
         delete resourceLabels[i];
     }
-
+    TTF_CloseFont(arialFont);
 }
 
 void GameScene::initScene(SceneManager* sceneManagerPtr)
@@ -41,6 +41,13 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
 
 
         Scene::initScene(sceneManagerPtr);
+
+        int curIndex =  GameModel::getInstance()->getCurrentMissionIndex();
+
+        string s ="/home/kostya_hm/Projects/DarkDefence/GameData/Missions/" + std::to_string(curIndex) +"/Mission.xml";
+        GameModel::getInstance()->deserialize(currentMission, s);
+
+
 
         topPanel.setRect(0,0, 800, 40);
         topPanel.setTexture(Renderer::getInstance()->loadTextureFromFile("/home/kostya_hm/Projects/DarkDefence/GameData/textures/topPanel.png"));
@@ -68,7 +75,7 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
         gatesHealthBar.calculateFront(5000, 5000);
         topPanel.addChild(&gatesHealthBar);
 
-        TTF_Font* arialFont = Renderer::getInstance()->loadFontFromFile("/home/kostya_hm/Projects/DarkDefence/Fonts/arial.ttf", 24);
+        arialFont = Renderer::getInstance()->loadFontFromFile("/home/kostya_hm/Projects/DarkDefence/Fonts/arial.ttf", 20);
         SDL_Color arialFontColor = {255, 255, 255};
 
 
@@ -81,9 +88,12 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
             resourceLabels[i] = new Label();
 
             resourceLabels[i]->setFont(arialFont, arialFontColor);
+            resourceLabels[i]->setPos(0, 0);
+
+           // resourceLabels[i]->setRect(0, 0, 120, 24);
             resourceLabels[i]->setText(s);
 
-            resourceLabels[i]->setRect(0, 0, 120, 24);
+
 
             topPanel.addChild(resourceLabels[i]);
         }
@@ -118,6 +128,23 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
         gates.getDestructibleObject()->setMaximumHealth(5000);
         spawnObject(40,100, &gates);
 
+        int x1 = 0;
+        int y1 = 550;
+        int w = 50;
+        int h = 50;
+          GameModel::getInstance()->loadAbilitiesNames("/home/kostya_hm/Projects/DarkDefence/GameData/abilities.txt");
+        abilityButtons.resize( GameModel::getInstance()->getAbilityCount());
+        for(int i = 0; i < abilityButtons.size(); x1 += w, ++i)
+        {
+           // std::cout << i << std::endl;
+            string imgPath = "/home/kostya_hm/Projects/DarkDefence/GameData/textures/Abilities/Ability" + GameModel::getInstance()->getAbilityNameFromIndex(i) + ".png";
+            std::cout << imgPath << std::endl;
+            abilityButtons[i].setRect( x1, y1, w, h);
+            abilityButtons[i].setTexture(Renderer::getInstance()->loadTextureFromFile(imgPath));
+            listGUI.push_back(&abilityButtons[i]);
+
+
+        }
 
 	}
 
@@ -139,6 +166,34 @@ void GameScene::unloadScene()
 void GameScene::startUpdate(double timestep)
 {
     Scene::startUpdate(timestep);
+
+    if (gates.getDestructibleObject() != nullptr)
+    switch(currentMission.checkStatus())
+    {
+    case MissionStatuses::mIN_PROGRESS:
+    {
+        break;
+    }
+    case MissionStatuses::mCOMPLETED:
+    {
+        GameModel::getInstance()->setGameStatus(Enums::GameStatuses::gsWON);
+        std::string s1 = "ScoreScene";
+        //std::cout << "fuckThemAll" << std::endl;
+
+        GameModel::getInstance()->setMissionReward(currentMission.getReward());
+        parentSceneManager->setCurrentSceneByName(s1);
+        break;
+    }
+    case MissionStatuses::mFAILED:
+    {
+        GameModel::getInstance()->setGameStatus(Enums::GameStatuses::gsLOST);
+        std::string s2 = "ScoreScene";
+        // std::cout << "idiot" << std::endl;
+        parentSceneManager->setCurrentSceneByName(s2);
+        break;
+    }
+    }
+
     if (monsterSpawner.canSpawn(timestep))
 	{
         list<SceneObject*> *some = monsterSpawner.doSpawn();
@@ -153,7 +208,9 @@ void GameScene::startUpdate(double timestep)
         delete some;
     }
     if (gates.getDestructibleObject() != nullptr)
-    gatesHealthBar.calculateFront(gates.getDestructibleObject()->getCurrentHealth(),gates.getDestructibleObject()->getMaximumHealth());
+        gatesHealthBar.calculateFront(gates.getDestructibleObject()->getCurrentHealth(),gates.getDestructibleObject()->getMaximumHealth());
+    if (gates.getDestructibleObject()->getCurrentHealth() <= 0)
+        GameModel::getInstance()->setGameStatus(Enums::GameStatuses::gsLOST);
 }
 
 void GameScene::copyToRender() const

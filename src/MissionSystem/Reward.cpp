@@ -15,6 +15,25 @@ Reward::Reward()
 
 Reward::~Reward()
 {
-	// TODO Auto-generated destructor stub
+    // TODO Auto-generated destructor stub
+}
+
+void Reward::addItemName(string itemName)
+{
+    itemNames.push_back(itemName);
+}
+
+void Reward::setGoldCoins(int amount)
+{
+    goldCoins = amount;
+}
+
+list<string> Reward::getFullDescription()
+{
+    list<string> someList;
+    someList.insert(someList.end(), itemNames.begin(), itemNames.end());
+    string s = "GoldCoins " + std::to_string(goldCoins);
+    someList.push_back(s);
+    return someList;
 }
 

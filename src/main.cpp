@@ -7,9 +7,11 @@
 #include "GameApp.h"
 #include "Grouping/SceneManager.h"
 #include "Scenes/MainScene.h"
+#include "Scenes/MapMenuScene.h"
 #include "Scenes/GameScene.h"
 #include "Scenes/InventoryScene.h"
 #include "Scenes/ShopScene.h"
+#include "Scenes/ScoreScene.h"
 
 #include "GlobalScripts/GameModel.h"
 
@@ -17,6 +19,8 @@
 //for test only{
 #include <boost/archive/xml_oarchive.hpp>
 #include "Mob/MobModel.h"
+#include "MissionSystem/ResourceGoal.h"
+#include "MissionSystem/Mission.h"
 #include <boost/serialization/list.hpp>
 
 #include "Utility/TreeNode.hpp"
@@ -90,6 +94,40 @@ void saveTowerTree()
 }
 
 
+
+void saveMission()
+{
+
+    Mission some;
+    some.setCaption("First Mission");
+    some.setDescription("Very simple mission");
+
+
+    ResourceGoal someGoal;
+    someGoal.setNeeded(100);
+    someGoal.setDescription("yet another resource mission");
+
+    some.addGoal(&someGoal);
+
+    Reward someReward;
+    someReward.addItemName("VampsRod");
+    someReward.setGoldCoins(15);
+    some.setReward(someReward);
+
+    std::string filename = "/home/kostya_hm/Mission.xml";
+    std::ofstream ofs(filename);
+    if (ofs.good())
+    {
+        boost::archive::xml_oarchive xmloa (ofs);
+        xmloa.register_type<ResourceGoal>();
+
+        xmloa << boost::serialization::make_nvp("Mission",some);
+
+
+    }
+    ofs.close();
+}
+
 void saveItems(const ShopInventory& mob)
 {
 	std::string filename = "/home/kostya_hm/Items.xml";
@@ -107,7 +145,10 @@ void saveItems(const ShopInventory& mob)
 //for test only}
 int main()
 {
-    saveTowerTree();
+
+  //  saveMission();
+
+    //saveTowerTree();
    // saveMobModels();
 	//GameModel::getInstance()->loadMonsterList("/home/kostya_hm/Mob.txt");
 
@@ -148,16 +189,24 @@ int main()
 	saveItems(shopSome);
 	return 0;*/
 	MainScene *mainScene = new MainScene();
+    MapMenuScene *mapMenuScene = new MapMenuScene();
 	GameScene *gameScene = new GameScene();
 	InventoryScene *inventoryScene = new InventoryScene();
 	ShopScene *shopScene = new ShopScene();
+    ScoreScene* scoreScene = new ScoreScene();
+
 	SceneManager *sceneManager = new SceneManager();
 	GameApp* app = new GameApp(sceneManager);
+
 	sceneManager->addScene(mainScene, "MainScene");
+    sceneManager->addScene(mapMenuScene, "MapMenuScene");
 	sceneManager->addScene(gameScene, "GameScene");
 	sceneManager->addScene(inventoryScene, "InventoryScene");
 	sceneManager->addScene(shopScene, "ShopScene");
+    sceneManager->addScene(scoreScene, "ScoreScene");
+
 	bool result = app->GameLoop();
+
 	delete app;
 
 	return result;

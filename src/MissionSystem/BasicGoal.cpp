@@ -7,8 +7,10 @@
 
 #include "BasicGoal.h"
 #include <string>
+#include "../GlobalScripts/GameModel.h"
 
 BasicGoal::BasicGoal()
+    :current(0), needed(0), description(""), goalStatus(gIN_PROGRESS)
 {
 	// TODO Auto-generated constructor stub
 
@@ -56,5 +58,16 @@ GoalStatuses BasicGoal::getGoalStatus() const
 
 void BasicGoal::setGoalStatus(GoalStatuses value)
 {
-	goalStatus = value;
+    goalStatus = value;
+}
+
+bool BasicGoal::checkCondition()
+{
+    if (GameModel::getInstance()->getGameStatus() == Enums::GameStatuses::gsLOST)
+    {
+        goalStatus = GoalStatuses::gFAILED;
+        return false;
+    }
+
+    return true;
 }

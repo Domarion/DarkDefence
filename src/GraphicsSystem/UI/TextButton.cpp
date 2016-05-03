@@ -6,7 +6,7 @@
  */
 
 #include "TextButton.h"
-#include <iostream>
+//#include <iostream>
 TextButton::TextButton()
 :Label()
 {
@@ -29,7 +29,7 @@ bool TextButton::onClick(SDL_Point* point)
 
 	if (result)
 	{
-		std::cout << "Clicked" << std::endl;
+        //std::cout << "Clicked" << std::endl;
 		connectedMethod("zero");
 		//TODO: something similar to delegate
 	}

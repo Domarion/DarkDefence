@@ -29,11 +29,13 @@ Label::~Label()
 
 	if (lFont != nullptr)
     {
-        TTF_CloseFont(lFont);
+       // TTF_CloseFont(lFont);
     }
 
-	// TODO Auto-generated destructor stub
+    // TODO Auto-generated destructor stub
 }
+
+
 
 string Label::getText() const
 {
@@ -80,6 +82,15 @@ void Label::setFontColor(SDL_Color& color)
     fontColor = color;
 }
 
+void Label::autoScale()
+{
+    int w, h;
+    SDL_QueryTexture(getTexture(), nullptr, nullptr, &w, &h);
+    int x = getRect().x;
+    int y = getRect().y;
+    setRect(x, y, w, h);
+}
+
 
 SDL_Color &Label::getFontColor()
 {
@@ -95,5 +106,6 @@ void Label::convertTextToTexture()
 	{
 
         setTexture(Renderer::getInstance()->stringToTexture(lFont, text, fontColor.r, fontColor.g, fontColor.b));
+        autoScale();
 	}
 }

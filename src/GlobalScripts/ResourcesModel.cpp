@@ -45,7 +45,12 @@ void ResourcesModel::addResources(int costarray[])
 void ResourcesModel::removeResources(int costarray[])
 {
 	for (int i = 0; i < ResourcesModel::resourceTypeCount; ++i)
-			resourceTypes[i].removeResource(costarray[i]);
+        resourceTypes[i].removeResource(costarray[i]);
+}
+
+int ResourcesModel::getResourceAmountFromIndex(int resourceType)
+{
+    return resourceTypes[resourceType].getCurrentAmount();
 }
 
 bool ResourcesModel::haveEnoughResource(int resourceType, int amount)

@@ -22,12 +22,12 @@ public:
 	virtual void unloadScene() override;
 
 	virtual void startUpdate(double timestep) override;
-	void LoadSceneByName(std::string sceneName);
+
 
 private:
 	//Label labelText;
 	TextButton button, button2, button3;
-
+    TTF_Font* arialFont;
 	//ProgressBar bar;
 };
 

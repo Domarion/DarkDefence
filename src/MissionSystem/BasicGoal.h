@@ -7,6 +7,14 @@
 
 #pragma once
 
+
+
+#include <boost/serialization/access.hpp>
+#include <boost/serialization/string.hpp>
+#include <boost/serialization/utility.hpp>
+#include <boost/serialization/version.hpp>
+
+
 #include <string>
 
 enum GoalStatuses
@@ -18,6 +26,15 @@ enum GoalStatuses
 
 class BasicGoal
 {
+    friend class boost::serialization::access;
+    template <typename Archive>
+      void serialize(Archive &ar, const unsigned int version)
+    {
+        ar & BOOST_SERIALIZATION_NVP(description);
+        ar & BOOST_SERIALIZATION_NVP(goalStatus);
+        ar & BOOST_SERIALIZATION_NVP(needed);
+
+    }
 public:
 	BasicGoal();
 	virtual ~BasicGoal();
@@ -29,8 +46,8 @@ public:
 	void setDescription(std::string value);
 	GoalStatuses getGoalStatus() const;
 	void setGoalStatus(GoalStatuses value);
-
-private:
+    virtual bool checkCondition();
+protected:
 	int current;
 	int needed;
 	std::string description;

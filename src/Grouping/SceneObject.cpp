@@ -78,7 +78,7 @@ void SceneObject::init()
 
 void SceneObject::finalize()
 {
-     //delete spriteModel;
+     delete spriteModel;
 }
 
 Sprite* const SceneObject::getSprite() const

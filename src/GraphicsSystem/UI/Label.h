@@ -18,6 +18,7 @@ public:
     Label(const string& lText);
 	Label();
 	~Label();
+
     //void loadFont(string path, int size);
 	string getText() const;
 	void setText(const string& value);
@@ -27,6 +28,7 @@ public:
     void setFontColor(int r, int g, int b);
     void setFont(TTF_Font *value, SDL_Color& color);
     void setFontColor(SDL_Color& color);
+    void autoScale();
     SDL_Color& getFontColor();
 
 private:

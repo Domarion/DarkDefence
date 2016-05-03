@@ -14,6 +14,9 @@
 #include <map>
 using std::map;
 #include "../Utility/TreeNode.hpp"
+#include "../MissionSystem/Mission.h"
+#include <vector>
+using std::vector;
 class GameModel
 {
 
@@ -26,7 +29,9 @@ public:
 	void loadMonsterList(string filename);
 
 	void loadTowerUpgrades(string filename);
-	void deserialize(MobModel& obj, string filename);
+    //void deserialize(MobModel& obj, string filename);
+
+    void deserialize(Mission& obj, string filename);
 	void loadShopItems(string filename);
 	ShopInventory* getShopInventory();
 	Inventory* getInventory();
@@ -34,20 +39,34 @@ public:
 	bool canSpawn() const;
 	void incMonsterCount();
 	void decMonsterCount();
-private:
-	GameModel();
-	~GameModel();
+    void setCurrentMissionIndex( int newValue);
+    int getCurrentMissionIndex() const;
+    Enums::GameStatuses getGameStatus() const;
+    void setGameStatus(const Enums::GameStatuses &value);
+    int getMonsterCount() const;
 
-	int waveNumber, waveCount;
-	int pointsPerWave, pointsPerMap, pointsRefundModifier;
+    Reward getMissionReward() const;
+    void setMissionReward(const Reward &value);
+    void loadAbilitiesNames(string filename);
+    string getAbilityNameFromIndex(int index);
+    int getAbilityCount() const;
+private:
+    GameModel();
+    ~GameModel();
+
+    int waveNumber, waveCount;
+    int pointsPerWave, pointsPerMap, pointsRefundModifier;
 	int MonsterCountOnMap;
 	Enums::GameStatuses gameStatus;
+    int currentMissionIndex;
 	ShopInventory shop;
 	HeroInventory heroFigure;
 	Inventory inventory;
 	ResourcesModel* resourcesModelPtr;
 	map<string, MobModel> monstersModelsMap;
 	TreeNode<MobModel> towerUpgradesRootNode;
+    Reward missionReward;
+    vector<string> abilitiesNames;
 	static GameModel* instance_;
 };
 
