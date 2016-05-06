@@ -28,12 +28,17 @@ void Reward::setGoldCoins(int amount)
     goldCoins = amount;
 }
 
+int Reward::getGoldCoins() const
+{
+    return goldCoins;
+}
+
 list<string> Reward::getFullDescription()
 {
     list<string> someList;
     someList.insert(someList.end(), itemNames.begin(), itemNames.end());
-    string s = "GoldCoins " + std::to_string(goldCoins);
-    someList.push_back(s);
+   // string s = "GoldCoins " + std::to_string(goldCoins);
+    //someList.push_back(s);
     return someList;
 }
 

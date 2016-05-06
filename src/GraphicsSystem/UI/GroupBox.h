@@ -14,7 +14,7 @@ class GroupBox: public CTexture
 public:
 	GroupBox();
 	~GroupBox();
-    bool addChild(CTexture* const child);
+    bool addChild(CTexture* const child, bool vertical = false);
     bool removeChild(CTexture* const child);
     virtual void draw() override;
 private:

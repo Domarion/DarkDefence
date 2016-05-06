@@ -20,8 +20,10 @@ GroupBox::~GroupBox()
      //   delete children[i];
 }
 
-bool GroupBox::addChild(CTexture * const child)
+bool GroupBox::addChild(CTexture * const child, bool vertical)
 {
+    if (!vertical)
+    {
 
     if (children.size() == 0)
         child->setPosX(getRect().x);
@@ -29,7 +31,19 @@ bool GroupBox::addChild(CTexture * const child)
          child->setPosX(children[children.size() - 1]->getRect().x + children[children.size() - 1]->getRect().w + 5);
 
     child->setPosY(getRect().y);
+    }
+    else
+    {
+        if (children.size() == 0)
+            child->setPosX(getRect().x);
+        else
+        {
+             child->setPosX(children[children.size() - 1]->getRect().x);
 
+            child->setPosY(children[children.size() - 1]->getRect().y +  children[children.size() - 1]->getRect().h + 5);
+        }
+
+    }
     children.push_back(child);
 }
 

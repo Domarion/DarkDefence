@@ -11,7 +11,7 @@
 #include "../Grouping/SceneObjectFabric.h"
 #include "../GraphicsSystem/Sprite.h"
 #include "../GraphicsSystem/UI/GroupBox.h"
-#include "../GraphicsSystem/UI/Label.h"
+#include "../GraphicsSystem/UI/CompositeLabel.h"
 //#include "../GraphicsSystem/UI/TextButton.h"
 #include "../GraphicsSystem/UI/ImageButton.h"
 #include "../GraphicsSystem/UI/ProgressBar.h"
@@ -24,6 +24,7 @@ using std::vector;
 #include "../AbilitySystem/AbilityMagicStones.h"
 #include "../AbilitySystem/AbilitySnowStorm.h"
 #include "../AbilitySystem/AbilityShrink.h"
+#include "../Mob/ResourcePlace.h"
 
 class GameScene: public Scene
 {
@@ -42,8 +43,9 @@ private:
     SceneObject* Terrain;
     vector<ImageButton> abilityButtons;
     GroupBox topPanel;
-    vector<Label*> resourceLabels;
+    vector<CompositeLabel*> resourceLabels;
     ProgressBar gatesHealthBar;
+     ProgressBar manaBar;
     TowerFabric towerFabric;
 	MobSpawner monsterSpawner;
 	Gates gates;
@@ -51,8 +53,10 @@ private:
 	Camera* mainCamera;
     Mission currentMission;
     TTF_Font* arialFont;
-
+    Label pointsLabel;
     map<string, AbilityModel* > abilityModelsMap;
+
+    ResourcePlace *resPlace;
   //  AbilityMagicStones magicStones;
    // AbilitySnowStorm snowStorm;
     void setActiveMstones(string s);

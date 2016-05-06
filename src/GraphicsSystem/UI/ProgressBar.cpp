@@ -57,6 +57,25 @@ void ProgressBar::setFrontRect(int x, int y, int w, int h)
     frontRect = {x, y, w, h};
 }
 
+void ProgressBar::setPosX(int x)
+{
+    CTexture::setPosX(x);
+    frontRect.x = x;
+}
+
+void ProgressBar::setPosY(int y)
+{
+    CTexture::setPosY(y);
+    frontRect.y = y;
+
+}
+
+void ProgressBar::setPos(int x, int y)
+{
+    setPosX(x);
+    setPosY(y);
+}
+
 SDL_Texture* ProgressBar::getFrontTexture() const
 {
 	return frontTexture;

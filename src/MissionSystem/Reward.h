@@ -30,6 +30,7 @@ public:
 	~Reward();
     void addItemName(string itemName);
     void setGoldCoins(int amount);
+    int getGoldCoins() const;
     list<string> getFullDescription();
 private:
     list<string> itemNames;

@@ -6,26 +6,49 @@
  */
 
 #pragma once
-#include <string>
+
 #include "DestructibleObject.h"
-using std::pair;
+#include <boost/serialization/export.hpp>
+#include <boost/serialization/base_object.hpp>
 #include "../Enums.h"
+using std::pair;
 
 class MineModel: public DestructibleObject
 {
+    friend class boost::serialization::access;
+    template <typename Archive>
+      void serialize(Archive &ar, const unsigned int version)
+    {
+
+        //ar.template register_type<MobModel>();
+        ar & boost::serialization::make_nvp("DestructibleObject", (boost::serialization::base_object<DestructibleObject>(*this)));
+        //ar & attackDamage;
+        ar & BOOST_SERIALIZATION_NVP(productionType);
+        ar & BOOST_SERIALIZATION_NVP(production);
+        ar & BOOST_SERIALIZATION_NVP(productionPeriod);
+
+        currentTime = productionPeriod.first;
+    }
+
+
+
 public:
 	MineModel();
+    MineModel(string aName, string aTag,
+              int aMaxHealth, int aProtection[], Enums::ResourceTypes resType, int aProduction, double aPeriod);
 	~MineModel();
-
-	pair<int, int> getLimit() const;
-	void setLimit(pair<int, int> limit);
-	pair<int, int> getProduction() const;
-	void setProduction(pair<int, int> production);
-	const pair<double, double>& getProductionPeriod() const;
-	void setProductionPeriod(const pair<double, double>& productionPeriod);
+    MineModel(const MineModel& right);
+    int getLimit() const;
+    void setLimit(int limit);
+    int getProduction() const;
+    void setProduction(int production);
+    double getProductionPeriod() const;
+    void setProductionPeriod(double productionPeriod);
 	double getCurrentTime() const;
 	void setCurrentTime(double currentTime);
+    Enums::ResourceTypes getProductionType() const;
 
+    void produce(double timestep);
 private:
 	pair<int, int> limit;
 	pair<int, int> production;

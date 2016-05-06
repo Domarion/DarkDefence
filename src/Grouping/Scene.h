@@ -33,6 +33,9 @@ public:
     virtual void destroyObject(SceneObject* obj);
     SceneObject* findObjectByTag(std::string tag);
     list<SceneObject*>* findObjectsByTag(std::string tag);
+    SceneObject* findObjectWithPos(int x, int y);
+    list<SceneObject*>* findObjectsWithPos(int x, int y);
+
 protected:
 	list<CTexture*> listGUI;
 	list<SceneObject*> sceneObjects;

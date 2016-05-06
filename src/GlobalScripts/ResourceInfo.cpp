@@ -21,6 +21,7 @@ ResourceInfo::~ResourceInfo()
 bool ResourceInfo::addResource(int amount)
 {
 	if (currentAmount == limit || amount > limit)
+        return false;
 
 	currentAmount += amount;
 
@@ -91,6 +92,6 @@ void ResourceInfo::setLimit(int value)
 std::string ResourceInfo::printToString() const
 {
 	std::ostringstream outStringStream;
-	outStringStream << getCaption() << ": " << getCurrentAmount() << '/' << getLimit();
+    outStringStream << getCurrentAmount() << '/' << getLimit();
 	return outStringStream.str();
 }

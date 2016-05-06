@@ -71,7 +71,10 @@ SOURCES += \
     src/AbilitySystem/EffectReceiver.cpp \
     src/AbilitySystem/MobEffectReceiver.cpp \
     src/AbilitySystem/DestructibleObjectEffectReceiver.cpp \
-    src/GraphicsSystem/UI/CompositeLabel.cpp
+    src/GraphicsSystem/UI/CompositeLabel.cpp \
+    src/Input/SceneInputHandler.cpp \
+    src/Mob/ResourcePlace.cpp \
+    src/Mob/Mine.cpp
 
 HEADERS += \
     src/AI/AIComponent.h \
@@ -143,7 +146,10 @@ HEADERS += \
     src/AbilitySystem/EffectReceiver.h \
     src/AbilitySystem/MobEffectReceiver.h \
     src/AbilitySystem/DestructibleObjectEffectReceiver.h \
-    src/GraphicsSystem/UI/CompositeLabel.h
+    src/GraphicsSystem/UI/CompositeLabel.h \
+    src/Input/SceneInputHandler.h \
+    src/Mob/ResourcePlace.h \
+    src/Mob/Mine.h
 
 unix:!macx: LIBS += -L$$PWD/../../../../usr/lib64/ -lboost_serialization
 

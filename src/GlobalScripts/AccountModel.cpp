@@ -10,6 +10,7 @@ AccountModel* AccountModel::instance_ = nullptr;
 
 
 AccountModel::AccountModel()
+    :goldAmount(0)
 {
 	// TODO Auto-generated constructor stub
 
@@ -56,5 +57,10 @@ bool AccountModel::PayGold(int amount)
 		return true;
 	}
 
-	return false;
+    return false;
+}
+
+void AccountModel::addGold(int amount)
+{
+    goldAmount += amount;
 }

@@ -21,11 +21,18 @@ public:
     virtual void setRect(const SDL_Rect& value) override;
     virtual void setRect(int x, int y, int w, int h) override;
 	void calculateFront(int current, int max);
+
 private:
     void setFrontRect(const SDL_Rect& value);
     void setFrontRect(int x, int y, int w, int h);
     SDL_Rect frontRect;
 	SDL_Texture* frontTexture;
 	double currentValue, maximumValue;
+
+    // CTexture interface
+public:
+    virtual void setPosX(int x);
+    virtual void setPosY(int y);
+    virtual void setPos(int x, int y);
 };
 

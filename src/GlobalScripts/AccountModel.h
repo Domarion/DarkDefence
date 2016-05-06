@@ -19,7 +19,7 @@ public:
 	int getGoldAmount() const;
 	void setGoldAmount(int goldAmount);
 	bool PayGold(int amount);
-
+    void addGold(int amount);
 private:
 	AccountModel();
 	~AccountModel();

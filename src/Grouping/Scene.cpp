@@ -100,7 +100,7 @@ void Scene::spawnObject(int x, int y, SceneObject *obj)
 
 void Scene::destroyObject(SceneObject *obj)
 {
- //   sceneObjects.remove(obj);
+    sceneObjects.remove(obj);
 }
 
 void Scene::loadScene()
@@ -131,6 +131,47 @@ list<SceneObject *> *Scene::findObjectsByTag(string tag)
     {
       if ((*ptr)->getTag() == tag)
         filteredList->push_back(*ptr);
+    }
+
+    if (filteredList->empty())
+    {
+        delete filteredList;
+        return nullptr;
+    }
+    return filteredList;
+
+}
+
+SceneObject *Scene::findObjectWithPos(int x, int y)
+{
+
+    SDL_Point point = {x, y};
+    for(auto ptr = sceneObjects.begin(); ptr != sceneObjects.end(); ++ptr)
+    {
+      if ((*ptr) != nullptr)
+      {
+          const SDL_Rect some = (*ptr)->getSprite()->getRect();
+         if (SDL_PointInRect(&point, &some))
+            return *ptr;
+       }
+    }
+    return nullptr;
+}
+
+list<SceneObject *> *Scene::findObjectsWithPos(int x, int y)
+{
+    SDL_Point point = {x, y};
+    list<SceneObject*>* filteredList =  new list<SceneObject*>();
+
+    for(auto ptr = sceneObjects.begin(); ptr != sceneObjects.end(); ++ptr)
+    {
+        if ((*ptr) != nullptr)
+        {
+           const SDL_Rect some = (*ptr)->getSprite()->getRect();
+
+           if (SDL_PointInRect(&point, &some))
+                filteredList->push_back(*ptr);
+        }
     }
 
     if (filteredList->empty())

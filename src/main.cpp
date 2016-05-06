@@ -19,6 +19,8 @@
 //for test only{
 #include <boost/archive/xml_oarchive.hpp>
 #include "Mob/MobModel.h"
+#include "Mob/MineModel.h"
+
 #include "MissionSystem/ResourceGoal.h"
 #include "MissionSystem/Mission.h"
 #include <boost/serialization/list.hpp>
@@ -61,6 +63,43 @@ void saveMobModels()
 	ofs.close();
 }
 
+
+void saveMineModels()
+{
+    std::string filename = "/home/kostya_hm/MineModels.xml";
+
+
+    int prot[]={10,5,0,0};
+    string name1 = "GoldMine";
+    string name2 = "StoneMine";
+    string name3 = "SawMill";
+    string name4 = "WindMill";
+     string tag = "Mine";
+
+
+
+    MineModel mine1(name1, tag, 100, prot, Enums::ResourceTypes::GOLD, 20, 5000);
+    MineModel mine2(name2, tag, 100, prot, Enums::ResourceTypes::STONE, 20, 5000);
+    MineModel mine3(name3, tag, 100, prot, Enums::ResourceTypes::WOOD, 20, 5000);
+    MineModel mine4(name4, tag, 100, prot, Enums::ResourceTypes::WHEAT, 20, 5000);
+
+
+    list<MineModel> lst;
+    lst.push_back(mine1);
+    lst.push_back(mine2);
+    lst.push_back(mine3);
+    lst.push_back(mine4);
+
+    std::ofstream ofs(filename);
+    if (ofs.good())
+    {
+        boost::archive::xml_oarchive xmloa (ofs);
+        xmloa.register_type<MineModel>();
+        xmloa << boost::serialization::make_nvp("Mines", lst);
+
+    }
+    ofs.close();
+}
 
 void saveTowerTree()
 {
@@ -145,7 +184,7 @@ void saveItems(const ShopInventory& mob)
 //for test only}
 int main()
 {
-
+//saveMineModels();
   //  saveMission();
 
     //saveTowerTree();

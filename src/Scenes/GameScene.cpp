@@ -42,12 +42,19 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
 
         Scene::initScene(sceneManagerPtr);
 
+
+
         int curIndex =  GameModel::getInstance()->getCurrentMissionIndex();
 
         string s ="/home/kostya_hm/Projects/DarkDefence/GameData/Missions/" + std::to_string(curIndex) +"/Mission.xml";
         GameModel::getInstance()->deserialize(currentMission, s);
 
+        string s00 = "/home/kostya_hm/Projects/DarkDefence/GameData/Missions/" + std::to_string(curIndex) + "/points.txt";
+        GameModel::getInstance()->loadMonsterPointsList(s00);
 
+
+        string s01 = "/home/kostya_hm/Projects/DarkDefence/GameData/MineModels.xml";
+        GameModel::getInstance()->loadMinesList(s01);
 
         topPanel.setRect(0,0, 800, 40);
         topPanel.setTexture(Renderer::getInstance()->loadTextureFromFile("/home/kostya_hm/Projects/DarkDefence/GameData/textures/topPanel.png"));
@@ -56,7 +63,7 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
         GameModel::getInstance()->getResourcesModel()->loadFromFile("/home/kostya_hm/Projects/DarkDefence/GameData/resources.txt");
 
 
-        gatesHealthBar.setRect(0, 0, 150, 20);
+        gatesHealthBar.setRect(0, 0, 90, 15);
 
         SDL_Surface *surface1 = SDL_CreateRGBSurface(0, gatesHealthBar.getRect().w, gatesHealthBar.getRect().h, 16, 0, 0, 0, 0);
         SDL_Surface *surface2 = SDL_CreateRGBSurface(0, gatesHealthBar.getRect().w, gatesHealthBar.getRect().h, 16, 0, 0, 0, 0);
@@ -75,6 +82,32 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
         gatesHealthBar.calculateFront(5000, 5000);
         topPanel.addChild(&gatesHealthBar);
 
+
+
+        GameModel::getInstance()->getManaModel()->setLimit(100);
+
+        manaBar.setRect(0, 0, 90, 15);
+
+        SDL_Surface *surface3 = SDL_CreateRGBSurface(0, manaBar.getRect().w, manaBar.getRect().h, 16, 0, 0, 0, 0);
+        SDL_Surface *surface4 = SDL_CreateRGBSurface(0, manaBar.getRect().w, manaBar.getRect().h, 16, 0, 0, 0, 0);
+
+        SDL_FillRect(surface3, nullptr, SDL_MapRGB(surface3->format, 50,0, 200));
+        SDL_FillRect(surface4, nullptr, SDL_MapRGB(surface4->format, 0,0, 255));
+
+        SDL_Texture  *backTexture1 = Renderer::getInstance()->getTextureFromSurface(surface3);
+        SDL_Texture  *frontTexture1 = Renderer::getInstance()->getTextureFromSurface(surface4);
+        SDL_FreeSurface(surface3);
+        SDL_FreeSurface(surface4);
+        manaBar.setTexture(backTexture1);
+        manaBar.setFrontTexture(frontTexture1);
+        backTexture1 = nullptr;
+        frontTexture1 = nullptr;
+        manaBar.calculateFront(100, 100);
+        topPanel.addChild(&manaBar, true);
+
+
+
+
         arialFont = Renderer::getInstance()->loadFontFromFile("/home/kostya_hm/Projects/DarkDefence/Fonts/arial.ttf", 20);
         SDL_Color arialFontColor = {255, 255, 255};
 
@@ -85,9 +118,13 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
         for(int i = 0; i != ResourcesModel::resourceTypeCount; ++i)
         {
             string s = GameModel::getInstance()->getResourcesModel()->printResourceFromIndex(i);
-            resourceLabels[i] = new Label();
+            resourceLabels[i] = new CompositeLabel();
 
             resourceLabels[i]->setFont(arialFont, arialFontColor);
+            string iconPath = "/home/kostya_hm/Projects/DarkDefence/GameData/textures/Resources/"
+                    + GameModel::getInstance()->getResourcesModel()->getResourceNameFromIndex(i) + ".png";
+            resourceLabels[i]->setIcon(Renderer::getInstance()->loadTextureFromFile( iconPath ));
+            resourceLabels[i]->setIconRect(0,0, 30 , 30);
             resourceLabels[i]->setPos(0, 0);
 
            // resourceLabels[i]->setRect(0, 0, 120, 24);
@@ -95,7 +132,9 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
 
             topPanel.addChild(resourceLabels[i]);
         }
-
+        pointsLabel.setFont(arialFont, arialFontColor);
+        pointsLabel.setPos(0,0);
+        topPanel.addChild(&pointsLabel);
 
         listGUI.push_back(&topPanel);
 
@@ -111,6 +150,17 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
 
         Mob* tower = towerFabric.produceTower("BasicTower");
         spawnObject(0,0, tower);
+
+        resPlace = new ResourcePlace();
+        Sprite* resSprite = new Sprite();
+        resSprite->setRect(0, 0, 300, 300);
+        resSprite->setTexture(Renderer::getInstance()->loadTextureFromFile("/home/kostya_hm/Projects/DarkDefence/GameData/textures/Resources/WheatResource.png"));
+        resPlace->setSprite(resSprite);
+        resPlace->setName("ResourcePlace");
+        resPlace->setTag("ResourcePlace");
+        spawnObject(200, 200, resPlace);
+
+
 
 
         srand (time(NULL));
@@ -170,9 +220,13 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
         }
 
 
+
+
 	}
     for(int i = 0; i < 3; ++i)
         InputDispatcher::getInstance()->addHandler(&abilityButtons[i]);
+
+    InputDispatcher::getInstance()->addHandler(resPlace);
 }
 
 void GameScene::finalizeScene()
@@ -239,8 +293,15 @@ void GameScene::startUpdate(double timestep)
             std::string s2 = "ScoreScene";
             parentSceneManager->setCurrentSceneByName(s2);
         }
+
+    pointsLabel.setText(std::to_string(GameModel::getInstance()->getPointsPerWave()));
+
+    manaBar.calculateFront(GameModel::getInstance()->getManaModel()->getCurrent(),GameModel::getInstance()->getManaModel()->getLimit());
+
     if (gates.getDestructibleObject() != nullptr)
         gatesHealthBar.calculateFront(gates.getDestructibleObject()->getCurrentHealth(),gates.getDestructibleObject()->getMaximumHealth());
+
+
     if (gates.getDestructibleObject()->getCurrentHealth() <= 0)
         GameModel::getInstance()->setGameStatus(Enums::GameStatuses::gsLOST);
 
@@ -248,7 +309,14 @@ void GameScene::startUpdate(double timestep)
     for(auto ptr0 = abilityModelsMap.begin(); ptr0 != abilityModelsMap.end(); ++ptr0)
         ptr0->second->update(timestep);
 
+    for(int i = 0; i != ResourcesModel::resourceTypeCount; ++i)
+    {
+        string s = GameModel::getInstance()->getResourcesModel()->printResourceFromIndex(i);
 
+        resourceLabels[i]->setText(s);
+    }
+
+    std::cout << "resfromindex = " << GameModel::getInstance()->getResourcesModel()->printResourceFromIndex(3) <<std::endl;
 }
 
 void GameScene::copyToRender() const

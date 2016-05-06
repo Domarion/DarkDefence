@@ -5,6 +5,7 @@
 using std::list;
 #include <string>
 using std::string;
+#include "../GlobalScripts/AccountModel.h"
 
 ScoreScene::ScoreScene()
     :arialFont(nullptr)
@@ -15,6 +16,7 @@ ScoreScene::ScoreScene()
 ScoreScene::~ScoreScene()
 {
     TTF_CloseFont(arialFont);
+    rewardViews.clear();
 }
 
 void ScoreScene::initScene(SceneManager *sceneManagerPtr)
@@ -32,17 +34,51 @@ void ScoreScene::initScene(SceneManager *sceneManagerPtr)
         listGUI.push_back(&button);
 
         ScoreLabel.setFont(arialFont, color);
-        ScoreLabel.setRect(0, 0, 300, 400);
+        ScoreLabel.setRect(0, 0, 200, 50);
 
 
         string ScoreText;
         if (GameModel::getInstance()->getGameStatus() == Enums::GameStatuses::gsWON)
         {
-            ScoreText = "Получена награда:";
-            list<string> missionRewardItems = GameModel::getInstance()->getMissionReward().getFullDescription();
-            for(auto mri = missionRewardItems.begin(); mri != missionRewardItems.end(); ++mri)
-                ScoreText+= "\n" + *mri;
+           ScoreText = "Получена награда:";
 
+
+           list<string> missionRewardItems = GameModel::getInstance()->getMissionReward().getFullDescription();
+
+           int y0 = 50;
+           rewardViews.reserve(missionRewardItems.size());
+           for(auto mri = missionRewardItems.begin(); mri != missionRewardItems.end(); ++mri)
+           {
+
+               CompositeLabel* tempComposite = new CompositeLabel();
+               tempComposite->setFont(arialFont, color);
+               string iconPath = "/home/kostya_hm/Projects/DarkDefence/GameData/textures/items/" + *mri + ".png";
+              // std::cout << (*mri) << std::endl;
+               tempComposite->setIcon(Renderer::getInstance()->loadTextureFromFile( iconPath ));
+               tempComposite->setIconRect(0, 0, 30, 30);
+               tempComposite->setPos(0, y0);
+               tempComposite->setText(*mri);
+               y0 += 50;
+               rewardViews.push_back(tempComposite);
+               listGUI.push_back(tempComposite);
+           }
+
+           int goldCoins = GameModel::getInstance()->getMissionReward().getGoldCoins();
+          // std::cout << "goldCoins =" << goldCoins << std::endl;
+           if (goldCoins > 0)
+           {
+           AccountModel::getInstance()->addGold(goldCoins);
+           CompositeLabel* tempComposite = new CompositeLabel();
+           tempComposite->setFont(arialFont, color);
+           string iconPath2 = "/home/kostya_hm/Projects/DarkDefence/GameData/textures/Resources/"
+                   + GameModel::getInstance()->getResourcesModel()->getResourceNameFromIndex(0) + ".png";
+           tempComposite->setIcon(Renderer::getInstance()->loadTextureFromFile( iconPath2 ));
+           tempComposite->setIconRect(0, 0, 30, 30);
+           tempComposite->setPos(0, y0);
+           tempComposite->setText(std::to_string(goldCoins));
+            rewardViews.push_back(tempComposite);
+               listGUI.push_back(tempComposite);
+           }
         }
         else
             ScoreText = "Миссия провалена";

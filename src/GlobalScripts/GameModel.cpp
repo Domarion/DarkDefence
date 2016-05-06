@@ -57,6 +57,26 @@ void GameModel::loadMonsterList(string filename)
     }
 }
 
+void GameModel::loadMonsterPointsList(string filename)
+{
+    ifstream pointStream( filename);
+
+    if (pointStream.good())
+    {
+         int n;
+         pointStream >> n;
+         for(int i = 0; i < n; ++i)
+         {
+             string str;
+             int val;
+             pointStream >> str >> val;
+             monsterPointsMap[str] =  val;
+
+         }
+    }
+    pointStream.close();
+}
+
 
 
 /*void GameModel::deserialize(MobModel& obj, string filename)
@@ -84,6 +104,41 @@ void GameModel::loadTowerUpgrades(string filename)
 	towerStream.close();
 
 
+}
+
+void GameModel::loadMinesList(string filename)
+{
+    list<MineModel> mineCollection;
+
+    ifstream somestream(filename);
+    std::cout << "fuck0" << std::endl;
+    if (somestream.good())
+    {
+        boost::archive::xml_iarchive xmlinp(somestream);
+        // xmlinp.register_type<MineModel>();
+        xmlinp >> boost::serialization::make_nvp("Mines", mineCollection);
+
+        mineResMapping.resize(mineCollection.size());
+    std::cout << "fuck01" << std::endl;
+    }
+
+std::cout << "fuck1" << std::endl;
+    somestream.close();
+
+
+    for(auto i = mineCollection.begin(); i != mineCollection.end(); ++i)
+    {
+        minesModelsMap.insert(std::make_pair(i->getName(), *i));
+    std::cout << "fuck" << std::endl;
+        std:: cout << "prodType = " << (i->getProductionType()) << " mineName = " << (i->getName()) << std::endl;
+        mineResMapping[i->getProductionType()] = i->getName();
+    }
+
+    for(auto i = minesModelsMap.begin(); i != minesModelsMap.end(); ++i)
+    {
+
+        std::cout << minesModelsMap[i->first].getName() << std::endl;
+    }
 }
 
 void GameModel::deserialize(Mission &obj, string filename)
@@ -115,13 +170,17 @@ bool GameModel::canSpawn() const
 
 void GameModel::incMonsterCount()
 {
-	++MonsterCountOnMap;
+    ++MonsterCountOnMap;
 }
 
-void GameModel::decMonsterCount()
+void GameModel::decMonsterCount(string monsterName)
 {
+    pointsPerWave += monsterPointsMap[monsterName];
+    std::cout << "pointsPerWave = " << pointsPerWave << std::endl;
     --MonsterCountOnMap;
 }
+
+
 
 void GameModel::setCurrentMissionIndex(int newValue)
 {
@@ -184,14 +243,53 @@ int GameModel::getAbilityCount() const
     return abilitiesNames.size();
 }
 
+void GameModel::calculatePointsPerWave()
+{
+    pointsPerMap += pointsPerWave * pointsRefundModifier;
+    pointsPerWave = 0;
+}
+
+int GameModel::getPointsPerWave() const
+{
+    return pointsPerMap;
+}
+
+void GameModel::resetGameValues()
+{
+    pointsPerMap = 0;
+
+}
+
+ManaGlobal *GameModel::getManaModel()
+{
+    return &manaModel;
+
+}
+
 void GameModel::setGameStatus(const Enums::GameStatuses &value)
 {
     gameStatus = value;
+
+    if (gameStatus == Enums::GameStatuses::gsLOST)
+        pointsPerMap = 0;
 }
 
 int GameModel::getMonsterCount() const
 {
     return MonsterCountOnMap;
+}
+
+MineModel *GameModel::getMineModel(string name)
+{
+    return new MineModel(minesModelsMap[name]);
+}
+
+MineModel *GameModel::getMineModelByRes(Enums::ResourceTypes resType)
+{
+
+    //std::cout << "Minename=" << mineResMapping[resType] << std::endl;
+    return getMineModel(mineResMapping[resType]);
+   // return nullptr;
 }
 
 GameModel* const GameModel::getInstance()
@@ -210,7 +308,7 @@ ResourcesModel* const GameModel::getResourcesModel()
 
 GameModel::GameModel()
 :waveNumber(0), waveCount(0), pointsPerWave(0), pointsPerMap(0),
- pointsRefundModifier(0), MonsterCountOnMap( 0 ), gameStatus(Enums::GameStatuses::gsINPROGRESS), currentMissionIndex(0), heroFigure(10),
+ pointsRefundModifier(1), MonsterCountOnMap( 0 ), gameStatus(Enums::GameStatuses::gsINPROGRESS), currentMissionIndex(0), heroFigure(10),
  resourcesModelPtr(new ResourcesModel()), towerUpgradesRootNode()
 {
 

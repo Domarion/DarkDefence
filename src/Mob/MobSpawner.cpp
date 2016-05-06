@@ -45,7 +45,7 @@ void MobSpawner::loadWavesInfo(string filename)
 
 bool MobSpawner::canSpawn(double timestep)
 {
-    std::cout << "Monster Count = " << (GameModel::getInstance()->getMonsterCount()) << std::endl;
+   // std::cout << "Monster Count = " << (GameModel::getInstance()->getMonsterCount()) << std::endl;
     if (GameModel::getInstance()->canSpawn())
     {
 
@@ -57,6 +57,7 @@ bool MobSpawner::canSpawn(double timestep)
             if (waveNumber > waveCount)
                 return false;
 			currentTime = period;
+            GameModel::getInstance()->calculatePointsPerWave();
 			return true;
 		}
     }
