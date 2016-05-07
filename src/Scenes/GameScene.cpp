@@ -100,8 +100,8 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
         SDL_FreeSurface(surface4);
         manaBar.setTexture(backTexture1);
         manaBar.setFrontTexture(frontTexture1);
-        backTexture1 = nullptr;
-        frontTexture1 = nullptr;
+        //backTexture1 = nullptr;
+        //frontTexture1 = nullptr;
         manaBar.calculateFront(100, 100);
         topPanel.addChild(&manaBar, true);
 
@@ -296,7 +296,7 @@ void GameScene::startUpdate(double timestep)
 
     pointsLabel.setText(std::to_string(GameModel::getInstance()->getPointsPerWave()));
 
-    manaBar.calculateFront(GameModel::getInstance()->getManaModel()->getCurrent(),GameModel::getInstance()->getManaModel()->getLimit());
+   // manaBar.calculateFront(GameModel::getInstance()->getManaModel()->getCurrent(),GameModel::getInstance()->getManaModel()->getLimit());
 
     if (gates.getDestructibleObject() != nullptr)
         gatesHealthBar.calculateFront(gates.getDestructibleObject()->getCurrentHealth(),gates.getDestructibleObject()->getMaximumHealth());
@@ -341,6 +341,16 @@ void GameScene::copyToRender() const
 
 
     Scene::copyToRender();
+}
+
+AbilityModel * const GameScene::getAbilityModelWithName(string name)
+{
+    return abilityModelsMap[name];
+}
+
+map<std::__cxx11::string, AbilityModel *> &GameScene::getAbilityModelList()
+{
+    return abilityModelsMap;
 }
 
 void GameScene::setActiveMstones(string s)

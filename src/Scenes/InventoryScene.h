@@ -8,8 +8,9 @@
 #pragma once
 #include "../Grouping/Scene.h"
 #include "../GraphicsSystem/UI/TextButton.h"
-#include "../ItemSystem/InventoryController.h"
 
+#include "../ItemSystem/InventoryController.h"
+#include "../ItemSystem/HeroInventoryController.h"
 class InventoryScene: public Scene
 {
 public:
@@ -24,8 +25,11 @@ public:
 
 private:
 	ScrollList scroll;
+    SlotContainer heroFigure;
 	InventoryController inventoryController;
+    HeroInventoryController heroController;
 	TextButton button;
+    TTF_Font* arialFont;
 
 };
 

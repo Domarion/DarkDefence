@@ -106,6 +106,16 @@ int MobModel::getAttackDamageModifier(int index)
     return attackDamage[index].second;
 }
 
+void MobModel::setAttackDamageWithIndex(int index, int value)
+{
+    attackDamage[index].first = value;
+}
+
+int MobModel::getAttackDamageWithIndex(int index)
+{
+    return attackDamage[index].first;
+}
+
 void MobModel::setMoveSpeedModifier(double modifier)
 {
     moveSpeed.second = modifier;

@@ -123,7 +123,7 @@ SceneObject* Scene::findObjectByTag(std::string tag)
     return nullptr;
 }
 
-list<SceneObject *> *Scene::findObjectsByTag(string tag)
+list<SceneObject *> &Scene::findObjectsByTag(string tag)
 {
     list<SceneObject*>* filteredList =  new list<SceneObject*>();
 
@@ -133,12 +133,12 @@ list<SceneObject *> *Scene::findObjectsByTag(string tag)
         filteredList->push_back(*ptr);
     }
 
-    if (filteredList->empty())
+   /* if (filteredList->empty())
     {
         delete filteredList;
         return nullptr;
-    }
-    return filteredList;
+    }*/
+    return *filteredList;
 
 }
 

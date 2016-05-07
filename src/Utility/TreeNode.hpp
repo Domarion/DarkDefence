@@ -65,8 +65,8 @@ public:
     bool addChildData(string itemname, T& nodeData);
 	bool addChildtoParent(string parentname, string itemname, TreeNode<T>& item);
 	bool removeChild(TreeNode<T>& item);
-    const TreeNode<T>* recursiveSearch(string itemname);
-    const T& getData() const;
+    TreeNode<T>* recursiveSearch(string itemname);
+    T& getData();
     void setData(const T& value);
 	const string& getNodeName() const;
 

@@ -20,16 +20,16 @@ Inventory::~Inventory()
 
 void Inventory::ConnectMethod(std::function<void(ItemModel)> method)
 {
-	connectedMethod = method;
+    connectedMethod0 = method;
 }
 
 bool Inventory::sendItem(int index)
 {
 
 	std::cout << items[index].getCaption() << std::endl;
-	if (connectedMethod != nullptr && !items[index].getCaption().empty())
+    if (connectedMethod0 != nullptr && !items[index].getCaption().empty())
 	{
-		connectedMethod(items[index]);
+        connectedMethod0(items[index]);
 
 		int i1 = items.size() - 1;
 
@@ -44,8 +44,13 @@ bool Inventory::sendItem(int index)
 
 void Inventory::receiveItem(ItemModel item)
 {
+    std::cout << " Inventory itemReceived" << std::endl;
 	if (!item.getCaption().empty())
+    {
 		items.push_back(item);
+        if (connectedMethod != nullptr)
+            connectedMethod(item.getCaption(), item.getItemType());
+    }
 }
 
 void Inventory::addItem(ItemModel item)
@@ -63,5 +68,11 @@ const ItemModel* const Inventory::getItemFromIndex(int index)
     if (index < 0 || index >= items.size())
 		return nullptr;
 
-	return &items[index];
+    return &items[index];
+}
+
+void Inventory::ConnectReceiver(std::function<void (string, int)> handler)
+{
+    connectedMethod = handler;
+
 }

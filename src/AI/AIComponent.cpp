@@ -60,10 +60,10 @@ void AIComponent::Search()
     list<string> enemyTags = MobPtr->getEnemyTags();
     for(auto t = enemyTags.begin(); t != enemyTags.end(); ++t)
     {
-        list<SceneObject*> *lst = scenePtr->findObjectsByTag(*t);
-        if (lst == nullptr)
+        list<SceneObject*> lst = scenePtr->findObjectsByTag(*t);
+        if (lst.size() == 0)
             continue;
-        for (auto ptr = lst->begin(); ptr != lst->end(); ++ptr)
+        for (auto ptr = lst.begin(); ptr != lst.end(); ++ptr)
         {
            DestructibleObject *obj = (*ptr)->getDestructibleObject();
            if (obj != nullptr)
@@ -71,7 +71,7 @@ void AIComponent::Search()
                 avaliableTargets.push_back(obj);
            }
         }
-        delete lst;
+
 
 
     }

@@ -12,6 +12,7 @@ public:
     virtual bool onWorking(double timestep);
     virtual bool onCooldown(double timestep);
     void setDamagePerSecond(double value);
+    double getDamagePerSecond() const;
 private:
     double damagePerSecond;
     list<SceneObject*> affectedMobs;

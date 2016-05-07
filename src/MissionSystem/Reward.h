@@ -31,7 +31,7 @@ public:
     void addItemName(string itemName);
     void setGoldCoins(int amount);
     int getGoldCoins() const;
-    list<string> getFullDescription();
+    list<string> getFullDescription() const;
 private:
     list<string> itemNames;
     int goldCoins;

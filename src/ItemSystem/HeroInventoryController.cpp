@@ -49,45 +49,66 @@ void HeroInventoryController::initView()
 	{
 		TextButton* btn = new TextButton();
 
-
-		std::cout << ( "/home/kostya_hm/workspace/DarkDefenceCppPort/GameData/textures/items/" + model->getItemFromIndex(i)->getCaption()  + ".png") << std::endl;
-        btn->setTexture( Renderer::getInstance()->loadTextureFromFile("/home/kostya_hm/workspace/DarkDefenceCppPort/GameData/textures/items/"
-                                                                      + model->getItemFromIndex(i)->getCaption() + ".png") );
-
+        if (model->getItemFromIndex(i)->getDescription() == "none")
+        {
+            btn->setTexture( Renderer::getInstance()->loadTextureFromFile("/home/kostya_hm/Projects/DarkDefence/GameData/textures/EmptySlot.png" ) );
+        }
+        else
+        {
+            std::cout << ( "/home/kostya_hm/workspace/DarkDefenceCppPort/GameData/textures/items/" + model->getItemFromIndex(i)->getCaption()  + ".png") << std::endl;
+            btn->setTexture( Renderer::getInstance()->loadTextureFromFile("/home/kostya_hm/workspace/DarkDefenceCppPort/GameData/textures/items/"
+                                                                            + model->getItemFromIndex(i)->getCaption() + ".png") );
+        }
 		if (btn->getTexture() == nullptr)
-			std::cout << "index = " << i << " texture is nullptr" << std::endl;
+            std::cout << "index = " << i << " herotexture is nullptr" << std::endl;
 
 		view->addItem(btn, i);
 	}
 	int itemWidth = 50;
 	int itemHeight = 50;
-    /*SDL_Rect* r0 = new SDL_Rect({0,0, itemWidth, itemHeight});
-	view->setItemRect(0, r0);
-	SDL_Rect* r1 = new SDL_Rect({0,0, itemWidth, itemHeight});
-	view->setItemRect(1, r1);
-	SDL_Rect* r2 = new SDL_Rect(
-	{ 0, 0, itemWidth, itemHeight });
-	view->setItemRect(2, r2);
-	SDL_Rect* r3 = new SDL_Rect(
-	{ 0, 0, itemWidth, itemHeight });
-	view->setItemRect(3, r3);
-	SDL_Rect* r4 = new SDL_Rect(
-	{ 0, 0, itemWidth, itemHeight });
-	view->setItemRect(4, r4);
-	SDL_Rect* r5 = new SDL_Rect(
-	{ 0, 0, itemWidth, itemHeight });
-	view->setItemRect(5, r5);
-	SDL_Rect* r6 = new SDL_Rect(
-	{ 0, 0, itemWidth, itemHeight });
-	view->setItemRect(6, r6);
-	SDL_Rect* r7 = new SDL_Rect(
-	{ 0, 0, itemWidth, itemHeight });
-	view->setItemRect(7, r7);
-	SDL_Rect* r8 = new SDL_Rect(
-	{ 0, 0, itemWidth, itemHeight });
-	view->setItemRect(8, r8);
-	SDL_Rect* r9 = new SDL_Rect(
-	{ 0, 0, itemWidth, itemHeight });
-    view->setItemRect(9, r9);*/
+
+    int centerX = view->getRect().x + static_cast<int>(view->getRect().w * 0.5);
+    int y = 0;
+    view->setItemRect(0, centerX + itemWidth, y, itemWidth, itemHeight);
+    y += itemHeight;
+
+    view->setItemRect(1, centerX + itemWidth, y, itemWidth, itemHeight);
+     y += itemHeight;
+
+    view->setItemRect(2, centerX, y, itemWidth, itemHeight);
+    view->setItemRect(3, centerX - itemWidth + itemWidth, y, itemWidth, itemHeight);
+    view->setItemRect(4, centerX + itemWidth, y, itemWidth, itemHeight);
+
+    view->setItemRect(5, centerX + 2*itemWidth, y, itemWidth, itemHeight);
+
+     y += itemHeight;
+
+    view->setItemRect(6, centerX + itemWidth, y, itemWidth, itemHeight);
+
+    view->setItemRect(7, centerX + 3*itemWidth, y, itemWidth, itemHeight);
+    view->setItemRect(8, centerX + 4*itemWidth, y, itemWidth, itemHeight);
+    view->ConnectMethod(std::bind( &HeroInventory::sendItem, model, std::placeholders::_1) );
+    model->ConnectReceiver(std::bind( &HeroInventoryController::receiveItemFromModel, this, std::placeholders::_1, std::placeholders::_2) );
+}
+
+
+void HeroInventoryController::receiveItemFromModel(string caption, int itemType)
+{
+
+    if (caption.empty())
+        return;
+
+    TextButton* btn = new TextButton();
+
+
+    std::cout << ( "/home/kostya_hm/workspace/DarkDefenceCppPort/GameData/textures/items/" + caption  + ".png") << std::endl;
+    btn->setTexture( Renderer::getInstance()->loadTextureFromFile("/home/kostya_hm/workspace/DarkDefenceCppPort/GameData/textures/items/" +
+                                                                  caption + ".png") );
+
+    if (btn->getTexture() == nullptr)
+        std::cout << " texture is nullptr" << std::endl;
+
+    view->receiveItem(btn, itemType - 1);
+
 
 }

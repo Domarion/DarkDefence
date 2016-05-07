@@ -12,7 +12,7 @@
 class HeroInventory: public Inventory
 {
 public:
-	HeroInventory(int slots);
+    HeroInventory(int slots1 = 9);
 	virtual ~HeroInventory();
 	virtual bool sendItem(int index) override;
 	virtual void receiveItem(ItemModel item) override;

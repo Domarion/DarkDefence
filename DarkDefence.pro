@@ -74,7 +74,21 @@ SOURCES += \
     src/GraphicsSystem/UI/CompositeLabel.cpp \
     src/Input/SceneInputHandler.cpp \
     src/Mob/ResourcePlace.cpp \
-    src/Mob/Mine.cpp
+    src/Mob/Mine.cpp \
+    src/AbilitySystem/ItemAbilities/ItemAbility.cpp \
+    src/AbilitySystem/ItemAbilities/UberionsCloak.cpp \
+    src/AbilitySystem/ItemAbilities/IceTalisman.cpp \
+    src/AbilitySystem/ItemAbilities/HelmOfGold.cpp \
+    src/AbilitySystem/ItemAbilities/CaftanOfGold.cpp \
+    src/AbilitySystem/ItemAbilities/BurningStick.cpp \
+    src/AbilitySystem/ItemAbilities/TitanChock.cpp \
+    src/AbilitySystem/ItemAbilities/HelmOfLigofglass.cpp \
+    src/AbilitySystem/ItemAbilities/ChoppersHat.cpp \
+    src/AbilitySystem/ItemAbilities/GoldPick.cpp \
+    src/AbilitySystem/ItemAbilities/IceBoots.cpp \
+    src/AbilitySystem/ItemAbilities/RockSpike.cpp \
+    src/AbilitySystem/ItemAbilities/SteelShield.cpp \
+    src/AbilitySystem/ItemAbilities/VampsRod.cpp
 
 HEADERS += \
     src/AI/AIComponent.h \
@@ -149,7 +163,21 @@ HEADERS += \
     src/GraphicsSystem/UI/CompositeLabel.h \
     src/Input/SceneInputHandler.h \
     src/Mob/ResourcePlace.h \
-    src/Mob/Mine.h
+    src/Mob/Mine.h \
+    src/AbilitySystem/ItemAbilities/ItemAbility.h \
+    src/AbilitySystem/ItemAbilities/UberionsCloak.h \
+    src/AbilitySystem/ItemAbilities/IceTalisman.h \
+    src/AbilitySystem/ItemAbilities/HelmOfGold.h \
+    src/AbilitySystem/ItemAbilities/CaftanOfGold.h \
+    src/AbilitySystem/ItemAbilities/BurningStick.h \
+    src/AbilitySystem/ItemAbilities/TitanChock.h \
+    src/AbilitySystem/ItemAbilities/HelmOfLigofglass.h \
+    src/AbilitySystem/ItemAbilities/ChoppersHat.h \
+    src/AbilitySystem/ItemAbilities/GoldPick.h \
+    src/AbilitySystem/ItemAbilities/IceBoots.h \
+    src/AbilitySystem/ItemAbilities/RockSpike.h \
+    src/AbilitySystem/ItemAbilities/SteelShield.h \
+    src/AbilitySystem/ItemAbilities/VampsRod.h
 
 unix:!macx: LIBS += -L$$PWD/../../../../usr/lib64/ -lboost_serialization
 

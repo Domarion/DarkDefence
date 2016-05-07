@@ -8,7 +8,7 @@
 #include "SceneObject.h"
 
 SceneObject::SceneObject()
-:spriteModel(new Sprite())
+:spriteModel(nullptr)
 {
 	// TODO Auto-generated constructor stub
 
@@ -79,6 +79,7 @@ bool SceneObject::update(double timestep)
 
 void SceneObject::init()
 {
+   // spriteModel = new Sprite();
 }
 
 void SceneObject::finalize()

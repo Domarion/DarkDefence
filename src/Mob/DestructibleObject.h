@@ -49,7 +49,7 @@ public:
 	void setWorldX(int worldX);
 	int getWorldY() const;
 	void setWorldY(int worldY);
-	bool receiveDamage(int damage[]);
+    bool receiveDamage(int* damage);
     bool receiveDamageOneType(int damage_type, int damage);
     void setProtectionModifier(int modifier);
     int getProtectionModifier() const;

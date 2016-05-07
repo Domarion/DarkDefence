@@ -41,14 +41,19 @@ public:
 
     void deserialize(Mission& obj, string filename);
 	void loadShopItems(string filename);
+
 	ShopInventory* getShopInventory();
 	Inventory* getInventory();
+    HeroInventory* getHeroInventory();
 	TreeNode<MobModel> * getRootTower();
+
 	bool canSpawn() const;
 	void incMonsterCount();
     void decMonsterCount(string monsterName);
+
     void setCurrentMissionIndex( int newValue);
     int getCurrentMissionIndex() const;
+
     Enums::GameStatuses getGameStatus() const;
     void setGameStatus(const Enums::GameStatuses &value);
     int getMonsterCount() const;
@@ -56,8 +61,17 @@ public:
 
     MineModel *getMineModel(string name);
     MineModel *getMineModelByRes(Enums::ResourceTypes resType);
-    Reward getMissionReward() const;
+
+
+    MineModel *getMineModelFromList(string name);
+    MineModel *getMineModelFromListByRes(Enums::ResourceTypes resType);
+
+    MobModel* const getMonsterFromListWithName(string name);
+    map<string, MobModel>& getMonsterList();
+
+    const Reward& getMissionReward() const;
     void setMissionReward(const Reward &value);
+
     void loadAbilitiesNames(string filename);
     string getAbilityNameFromIndex(int index);
     int getAbilityCount() const;
@@ -67,12 +81,16 @@ public:
 
     void resetGameValues();
     ManaGlobal* getManaModel();
+    double getPointsRefundModifier() const;
+    void setPointsRefundModifier(double value);
+
 private:
     GameModel();
     ~GameModel();
 
     int waveNumber, waveCount;
-    int pointsPerWave, pointsPerMap, pointsRefundModifier;
+    int pointsPerWave, pointsPerMap;
+    double pointsRefundModifier;
 	int MonsterCountOnMap;
 	Enums::GameStatuses gameStatus;
     int currentMissionIndex;

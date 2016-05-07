@@ -1,5 +1,5 @@
 #include "AbilitySnowStorm.h"
-
+#include "../GlobalScripts/GameModel.h"
 AbilitySnowStorm::AbilitySnowStorm()
 {
 
@@ -24,8 +24,8 @@ void AbilitySnowStorm::init(Scene * const scenePtr)
 
 bool AbilitySnowStorm::onReady(double timestep)
 {
-    if (affectedMobs.size() == 0 && parentScenePtr != nullptr)
-        affectedMobs = *(parentScenePtr->findObjectsByTag("Monster"));
+    if (affectedMobs.size() == 0 && parentScenePtr != nullptr && GameModel::getInstance()->getMonsterCount() > 0)
+        affectedMobs = (parentScenePtr->findObjectsByTag("Monster"));
 
     if (affectedMobs.size() > 0)
     {

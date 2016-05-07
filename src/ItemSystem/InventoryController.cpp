@@ -60,5 +60,28 @@ void InventoryController::initView()
 
 		view->addItem(btn);
 	}
-	view->calculateVisibleItemsPositions();
+    view->ConnectMethod(std::bind( &Inventory::sendItem, model, std::placeholders::_1) );
+    model->ConnectReceiver(std::bind( &InventoryController::receiveItemFromModel, this, std::placeholders::_1, std::placeholders::_2) );
+    view->calculateVisibleItemsPositions();
+}
+
+void InventoryController::receiveItemFromModel(string caption, int itemType)
+{
+
+    if (caption.empty())
+        return;
+
+    TextButton* btn = new TextButton();
+
+
+    std::cout << ( "/home/kostya_hm/workspace/DarkDefenceCppPort/GameData/textures/items/" + caption  + ".png") << std::endl;
+    btn->setTexture( Renderer::getInstance()->loadTextureFromFile("/home/kostya_hm/workspace/DarkDefenceCppPort/GameData/textures/items/" +
+                                                                  caption + ".png") );
+
+    if (btn->getTexture() == nullptr)
+        std::cout  << " texture is nullptr" << std::endl;
+
+    view->addItem(btn);
+    view->calculateVisibleItemsPositions();
+
 }

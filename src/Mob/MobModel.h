@@ -57,6 +57,10 @@ public:
     void setAttackDamageModifier(int index, int modifier);
     int getAttackDamageModifier(int index);
 
+    void setAttackDamageWithIndex(int index, int value);
+    int getAttackDamageWithIndex(int index);
+
+
     void setMoveSpeedModifier(double modifier);
     double getMoveSpeedModifier() const;
 

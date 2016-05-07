@@ -71,23 +71,23 @@ void AbilityModel::setManaCost(int value)
     manaCost = value;
 }
 
-int AbilityModel::getWorkTime() const
+double AbilityModel::getWorkTime() const
 {
     return workTime;
 }
 
-void AbilityModel::setWorkTime(int value)
+void AbilityModel::setWorkTime(double value)
 {
     workTime = value;
     currentWorkTime = workTime;
 }
 
-int AbilityModel::getCooldownTime() const
+double AbilityModel::getCooldownTime() const
 {
     return cooldownTime;
 }
 
-void AbilityModel::setCooldownTime(int value)
+void AbilityModel::setCooldownTime(double value)
 {
     cooldownTime = value;
     currentCooldownTime = cooldownTime;

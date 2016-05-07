@@ -18,7 +18,7 @@ public:
 	void setModel(HeroInventory* newModel);
 	HeroInventory* const getModel() const;
 	void initView();
-
+    void receiveItemFromModel(string caption, int itemType);
 private:
 	HeroInventory* model;
 	SlotContainer* view;

@@ -7,15 +7,19 @@
 
 #include "HeroInventory.h"
 
-HeroInventory::HeroInventory(int slots)
+HeroInventory::HeroInventory(int slots1)
 :Inventory()
 {
-	items.resize(slots);
+    items.resize(slots1);
 
-	for(int i = 0; i != slots - 1; ++i)
+    for(int i = 0; i != slots1 - 1; ++i)
+    {
 		items[i].setItemType(static_cast<Enums::ItemTypes>(i + 1));
+        items[i].setDescription("none");
+    }
 
-	items[slots - 1].setItemType(static_cast<Enums::ItemTypes>(slots - 1));
+    items[slots1 - 1].setItemType(static_cast<Enums::ItemTypes>(slots1 - 1));
+    items[slots1 - 1].setDescription("none");
 	// TODO Auto-generated constructor stub
 
 }
@@ -27,9 +31,9 @@ HeroInventory::~HeroInventory()
 
 bool HeroInventory::sendItem(int index)
 {
-	if (connectedMethod != nullptr && !items[index].getCaption().empty())
+    if (connectedMethod0 != nullptr && !items[index].getCaption().empty())
 	{
-		connectedMethod(items[index]);
+        connectedMethod0(items[index]);
 		items[index].safeClean();
 		return true;
 	}
@@ -38,21 +42,32 @@ bool HeroInventory::sendItem(int index)
 
 void HeroInventory::receiveItem(ItemModel item)
 {
+
+    std::cout << " HeroInventory itemReceived" << std::endl;
 	if (!item.getCaption().empty())
 	{
 		int itemIndex = static_cast<int>(item.getItemType()) - 1;
+        std::cout << " ItemReceived index = " << itemIndex << std::endl;
 		if (itemIndex >= 0)
 		{
 
-			if (!items[itemIndex].getCaption().empty() && connectedMethod != nullptr)
+
+            if (!items[itemIndex].getCaption().empty() && connectedMethod0 != nullptr)
 			{
+
 				if (item.getItemType() != Enums::ItemTypes::CONSUMABLE || !items[++itemIndex].getCaption().empty())
 					sendItem(itemIndex);
 			}
 
+
+              std::cout << " ItemReceived index = " << item.getCaption() << std::endl;
 			items[itemIndex] = item;
+            if (connectedMethod != nullptr)
+                connectedMethod(item.getCaption(), item.getItemType());
 		}
 	}
+    else
+        std::cout << " ItemReceived == 0" << std::endl;
 }
 
 void HeroInventory::addItem(ItemModel item)

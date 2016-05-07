@@ -27,7 +27,7 @@ private:
     void setFrontRect(int x, int y, int w, int h);
     SDL_Rect frontRect;
 	SDL_Texture* frontTexture;
-	double currentValue, maximumValue;
+
 
     // CTexture interface
 public:

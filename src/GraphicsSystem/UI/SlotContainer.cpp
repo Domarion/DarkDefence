@@ -60,13 +60,23 @@ void SlotContainer::addItem(CTexture* item, int index)
 	if (item != nullptr && index >= 0 && index < slots.size())
 		slots[index] = item;
 }
+void SlotContainer::receiveItem(CTexture* item, int index)
+{
+    if (item != nullptr && index >= 0 && index < slots.size())
+        slots[index]->setTexture(item->getTexture());
+}
 void SlotContainer::removeItem(int index)
 {
 	if (index >= 0 && index < slots.size())//TODO: delete Texture?
-		slots[index] = nullptr;
+        slots[index]->setTexture(nullptr);
 }
 
 void SlotContainer::setItemRect(int index, SDL_Rect* rect)
 {
     slots[index]->setRect(*rect);
+}
+
+void SlotContainer::setItemRect(int index, int x, int y, int w, int h)
+{
+    slots[index]->setRect(x, y, w, h);
 }

@@ -18,11 +18,11 @@ public:
     int getManaCost() const;
     void setManaCost(int value);
 
-    int getWorkTime() const;
-    void setWorkTime(int value);
+    double getWorkTime() const;
+    void setWorkTime(double value);
 
-    int getCooldownTime() const;
-    void setCooldownTime(int value);
+    double getCooldownTime() const;
+    void setCooldownTime(double value);
 
     string getAbilityName() const;
     void setAbilityName(const string &value);
@@ -31,10 +31,10 @@ protected:
     Enums::AbilityStates abilityState;
     string abilityName;
     int manaCost;
-    int workTime;
-    int currentWorkTime;
-    int cooldownTime;
-    int currentCooldownTime;
+    double workTime;
+    double currentWorkTime;
+    double cooldownTime;
+    double currentCooldownTime;
     Scene* parentScenePtr;
 };
 

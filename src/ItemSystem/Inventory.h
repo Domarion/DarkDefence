@@ -11,7 +11,8 @@
 #include <vector>
 using std::vector;
 #include <functional>
-
+#include <string>
+using std::string;
 
 class Inventory
 {
@@ -27,13 +28,15 @@ public:
 	virtual bool sendItem(int index);
 	virtual void receiveItem(ItemModel item);
 	virtual void addItem(ItemModel item);
-	void ConnectMethod(std::function<void(ItemModel)> method);
+
 	int getItemCount() const;
 	const ItemModel*const getItemFromIndex(int index);
+    virtual void ConnectReceiver( std::function<void(string, int)> handler);
+    virtual void ConnectMethod( std::function<void(ItemModel)> handler);
 protected:
 	vector<ItemModel> items;
-	std::function<void(ItemModel)> connectedMethod;
-
+    std::function<void(string, int)> connectedMethod;
+    std::function<void(ItemModel)> connectedMethod0;
 
 
 

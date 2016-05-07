@@ -82,7 +82,7 @@ void Renderer::renderTexture(SDL_Texture* const aTexture, int x, int y, int w, i
 
 void Renderer::renderTexture(SDL_Texture * const aTexture, const SDL_Rect * const dest, SDL_Rect * const clip)
 {
-    if (aTexture != nullptr)
+    if (aTexture != nullptr && dest!= nullptr)
     {
         SDL_RenderCopy(rendererPtr, aTexture, clip, dest);
     }

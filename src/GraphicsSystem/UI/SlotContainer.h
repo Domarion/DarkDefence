@@ -15,15 +15,17 @@ using std::vector;
 class SlotContainer: public CTexture, public InputHandler
 {
 public:
-	SlotContainer(int slotsCount);
+    SlotContainer(int slotsCount = 9);
 	virtual ~SlotContainer();
 	void addItem(CTexture* item, int index);
+    void receiveItem(CTexture* item, int index);
 	void removeItem(int index);
 	virtual void draw() override;
 	virtual bool onClick(SDL_Point* point) override;
 	virtual void ConnectMethod(std::function<bool(int)> method);
 	virtual bool containsPoint(int x, int y) const override;
 	void setItemRect(int index, SDL_Rect* rect);
+    void setItemRect(int index, int x, int y, int w, int h);
 private:
 	vector<CTexture*> slots;
 	int itemWidth, itemHeight;

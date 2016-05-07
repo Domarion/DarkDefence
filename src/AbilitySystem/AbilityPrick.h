@@ -1,11 +1,21 @@
-#ifndef ABILITYPRICK_H
-#define ABILITYPRICK_H
+#pragma once
+#include "AbilityModel.h"
 
-
-class AbilityPrick
+class AbilityPrick: public AbilityModel
 {
 public:
     AbilityPrick();
+
+    // AbilityModel interface
+public:
+    virtual void init(Scene * const scenePtr) override;
+    virtual bool onReady(double timestep) override;
+    virtual bool onWorking(double timestep) override;
+    virtual bool onCooldown(double timestep) override;
+    int getDamage() const;
+    void setDamage(int value);
+
+private:
+    int damage;
 };
 
-#endif // ABILITYPRICK_H

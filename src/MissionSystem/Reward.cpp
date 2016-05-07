@@ -8,6 +8,7 @@
 #include "Reward.h"
 
 Reward::Reward()
+    :goldCoins(0)
 {
 	// TODO Auto-generated constructor stub
 
@@ -33,7 +34,7 @@ int Reward::getGoldCoins() const
     return goldCoins;
 }
 
-list<string> Reward::getFullDescription()
+list<string> Reward::getFullDescription() const
 {
     list<string> someList;
     someList.insert(someList.end(), itemNames.begin(), itemNames.end());

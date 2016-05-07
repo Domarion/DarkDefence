@@ -91,14 +91,14 @@ inline const string& TreeNode<T>::getNodeName() const
 }
 
 template<typename T>
-inline const TreeNode<T>* TreeNode<T>::recursiveSearch(string itemname)
+inline TreeNode<T>* TreeNode<T>::recursiveSearch(string itemname)
 {
 	if (nodeName == itemname)
 		return this;
 
 	for(auto ptr =  children.begin(); ptr != children.end(); ++ptr)
 	{
-		const TreeNode<T>* someNode = ptr->second.recursiveSearch(itemname);
+        TreeNode<T>* someNode = ptr->second.recursiveSearch(itemname);
 		if (someNode != nullptr)
 			return someNode;
 	}
@@ -106,7 +106,7 @@ inline const TreeNode<T>* TreeNode<T>::recursiveSearch(string itemname)
 }
 
 template<typename T>
-inline const T& TreeNode<T>::getData() const
+inline T& TreeNode<T>::getData()
 {
 	return data;
 }

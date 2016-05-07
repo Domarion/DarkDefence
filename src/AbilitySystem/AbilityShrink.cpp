@@ -1,5 +1,5 @@
 #include "AbilityShrink.h"
-
+#include "../GlobalScripts/GameModel.h"
 AbilityShrink::AbilityShrink()
 {
 
@@ -17,8 +17,8 @@ void AbilityShrink::init(Scene * const scenePtr)
 
 bool AbilityShrink::onReady(double timestep)
 {
-    if (affectedMobs.size() == 0 && parentScenePtr != nullptr)
-        affectedMobs = *(parentScenePtr->findObjectsByTag("Monster"));
+    if (affectedMobs.size() == 0 && parentScenePtr != nullptr && GameModel::getInstance()->getMonsterCount() > 0)
+        affectedMobs = (parentScenePtr->findObjectsByTag("Monster"));
 
     if (affectedMobs.size() > 0)
     {
@@ -40,7 +40,7 @@ bool AbilityShrink::onWorking(double timestep)
         if (affectedMobs.size() > 0)
             for(auto affectedMob = affectedMobs.begin(); affectedMob != affectedMobs.end(); ++affectedMob)
             {
-                if (*affectedMob != nullptr)
+                if (*affectedMob != nullptr && (*affectedMob)->getDestructibleObject() != nullptr)
                 {
                     int damage = static_cast<int>((*affectedMob)->getDestructibleObject()->getMaximumHealth()*damagePerSecond);
                     (*affectedMob)->getDestructibleObject()->receiveDamageOneType(3, damage);
@@ -80,6 +80,11 @@ bool AbilityShrink::onCooldown(double timestep)
 void AbilityShrink::setDamagePerSecond(double value)
 {
     damagePerSecond = value;
+}
+
+double AbilityShrink::getDamagePerSecond() const
+{
+    return damagePerSecond;
 }
 
 

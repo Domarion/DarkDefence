@@ -18,6 +18,7 @@ GameModel* GameModel::instance_ = nullptr;
 #include <boost/mpl/placeholders.hpp>
 #include "../MissionSystem/ResourceGoal.h"
 #include <iostream>
+
 MobModel* const GameModel::getMonsterByName(string name)
 {
     return new MobModel(monstersModelsMap[name]);
@@ -202,7 +203,17 @@ GameModel::~GameModel()
 	// TODO Auto-generated destructor stub
 }
 
-Reward GameModel::getMissionReward() const
+double GameModel::getPointsRefundModifier() const
+{
+    return pointsRefundModifier;
+}
+
+void GameModel::setPointsRefundModifier(double value)
+{
+    pointsRefundModifier = value;
+}
+
+const Reward& GameModel::getMissionReward() const
 {
     return missionReward;
 }
@@ -245,7 +256,7 @@ int GameModel::getAbilityCount() const
 
 void GameModel::calculatePointsPerWave()
 {
-    pointsPerMap += pointsPerWave * pointsRefundModifier;
+    pointsPerMap += static_cast<int> (pointsPerWave * pointsRefundModifier);
     pointsPerWave = 0;
 }
 
@@ -289,7 +300,27 @@ MineModel *GameModel::getMineModelByRes(Enums::ResourceTypes resType)
 
     //std::cout << "Minename=" << mineResMapping[resType] << std::endl;
     return getMineModel(mineResMapping[resType]);
-   // return nullptr;
+    // return nullptr;
+}
+
+MineModel *GameModel::getMineModelFromList(string name)
+{
+    return &minesModelsMap[name];
+}
+
+MineModel *GameModel::getMineModelFromListByRes(Enums::ResourceTypes resType)
+{
+    return getMineModelFromList(mineResMapping[resType]);
+}
+
+MobModel * const GameModel::getMonsterFromListWithName(string name)
+{
+    return &monstersModelsMap[name];
+}
+
+map<std::__cxx11::string, MobModel> &GameModel::getMonsterList()
+{
+    return monstersModelsMap;
 }
 
 GameModel* const GameModel::getInstance()
@@ -308,8 +339,8 @@ ResourcesModel* const GameModel::getResourcesModel()
 
 GameModel::GameModel()
 :waveNumber(0), waveCount(0), pointsPerWave(0), pointsPerMap(0),
- pointsRefundModifier(1), MonsterCountOnMap( 0 ), gameStatus(Enums::GameStatuses::gsINPROGRESS), currentMissionIndex(0), heroFigure(10),
- resourcesModelPtr(new ResourcesModel()), towerUpgradesRootNode()
+ pointsRefundModifier(1), MonsterCountOnMap( 0 ), gameStatus(Enums::GameStatuses::gsINPROGRESS), currentMissionIndex(0), heroFigure(9),
+ resourcesModelPtr(new ResourcesModel()), towerUpgradesRootNode(), missionReward()
 {
 
 }
@@ -327,6 +358,8 @@ void GameModel::loadShopItems(string filename)
 	somestream.close();
 	//ItemModel empty;
 	shop.ConnectMethod(std::bind(&Inventory::receiveItem, &inventory, std::placeholders::_1));
+    inventory.ConnectMethod(std::bind(&HeroInventory::receiveItem, &heroFigure, std::placeholders::_1));
+    heroFigure.ConnectMethod(std::bind(&Inventory::receiveItem, &inventory, std::placeholders::_1));
 }
 
 ShopInventory* GameModel::getShopInventory()
@@ -336,5 +369,11 @@ ShopInventory* GameModel::getShopInventory()
 
 Inventory* GameModel::getInventory()
 {
-	return &inventory;
+    return &inventory;
+}
+
+HeroInventory *GameModel::getHeroInventory()
+{
+    return &heroFigure;
+
 }

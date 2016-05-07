@@ -115,10 +115,11 @@ void DestructibleObject::setWorldY(int worldY)
 	this->worldY = worldY;
 }
 
-bool DestructibleObject::receiveDamage(int damage[])
+bool DestructibleObject::receiveDamage(int* damage)
 {
     if (damage == nullptr)
         return false;
+
 	int summaryDamage = 0;
 	for(int i = 0; i < DestructibleObject::damageTypesCount; ++i)
 	{
@@ -138,6 +139,8 @@ bool DestructibleObject::receiveDamage(int damage[])
 
 bool DestructibleObject::receiveDamageOneType(int damage_type, int damage)
 {
+    if (damage_type < 0 || damage_type >= DestructibleObject::damageTypesCount)
+        return false;
 
     int summaryDamage = attackProtection[damage_type].first + attackProtection[damage_type].second - damage;
 

@@ -8,7 +8,7 @@
 #include "ProgressBar.h"
 
 ProgressBar::ProgressBar()
-:CTexture(), currentValue(1), maximumValue(1)
+:CTexture(), frontTexture(nullptr)
 {
 	// TODO Auto-generated constructor stub
     setFrontRect(0, 0, 0 , 0);
@@ -31,7 +31,7 @@ const SDL_Rect& ProgressBar::getFrontRect() const
 void ProgressBar::calculateFront(int current, int max)
 {
     if (max != 0)
-        frontRect.w = getRect().w * current/max;
+        frontRect.w = static_cast<int>(getRect().w * (current+0.0)/max);
 }
 
 void ProgressBar::setRect(const SDL_Rect& value)
@@ -89,7 +89,10 @@ void ProgressBar::setFrontTexture(SDL_Texture* frontTexture)
 void ProgressBar::draw()
 {
 	CTexture::draw();
-    Renderer::getInstance()->renderTexture(getFrontTexture(), &getFrontRect());
+        if (frontTexture != nullptr)
+        {
+            Renderer::getInstance()->renderTexture(frontTexture, &frontRect);
+        }
   //  CopyTextureToRenderer( nullptr, );
 
 }

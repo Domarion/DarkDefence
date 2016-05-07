@@ -20,7 +20,7 @@ ShopInventory::~ShopInventory()
 
 bool ShopInventory::sendItem(int index)
 {
-	if (connectedMethod == nullptr)
+    if (connectedMethod0 == nullptr)
 		return false;
 
 	//if (AccountModel::getInstance()->PayGold(itemPrices[index]))

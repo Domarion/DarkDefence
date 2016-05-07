@@ -27,10 +27,10 @@ void ScrollList::initScrollList( int itemsToShow,
 		int aItemWidth, int aItemHeight)
 {
 
-    setRect(*( new SDL_Rect( {0, 0, aItemWidth, aItemHeight * itemsToShow} ) ));
-	itemCountToShow = itemsToShow;
-	itemWidth = aItemWidth;
-	itemHeight = aItemHeight;
+    setRect(0, 0, aItemWidth, aItemHeight * itemsToShow);
+    itemCountToShow = itemsToShow;
+    itemWidth = aItemWidth;
+    itemHeight = aItemHeight;
 }
 
 ScrollList::~ScrollList()
@@ -55,8 +55,8 @@ void ScrollList::addItem(CTexture* item)
 				++lastToShow;
 			}
 
-        SDL_Rect*r = new SDL_Rect({0, 0, itemWidth, itemHeight});
-        item->setRect(*r);
+
+        item->setRect(0, 0, itemWidth, itemHeight);
 	}
 
 }

@@ -63,7 +63,9 @@ void ScoreScene::initScene(SceneManager *sceneManagerPtr)
                listGUI.push_back(tempComposite);
            }
 
-           int goldCoins = GameModel::getInstance()->getMissionReward().getGoldCoins();
+           int goldCoins = 0;
+           if (GameModel::getInstance() != nullptr)
+                goldCoins =GameModel::getInstance()->getMissionReward().getGoldCoins();
           // std::cout << "goldCoins =" << goldCoins << std::endl;
            if (goldCoins > 0)
            {
@@ -89,56 +91,7 @@ void ScoreScene::initScene(SceneManager *sceneManagerPtr)
     InputDispatcher::getInstance()->addHandler(&button);
 }
 
-/*
- * 	try
-        {
-        if (GlobalGameVariables.GameStatus == "Won")
-        {
-            ScoreText.Text = "Получена награда:";
-            int goldCoins = 0;
-            float x = 0;
 
-            if (GlobalGameVariables.globReward != null)
-            {
-                List<string> lst = GlobalGameVariables.globReward.ItemNames;
-
-                if (lst != null)
-                {
-                    Logger.addLine("Score: RewardList not null");
-
-                    ItemListClass.FillInventoryItemList(lst.ToArray());
-                    someoneList = new Label[lst.Count];
-                    for(int i = 0; i < lst.Count; ++i)
-                    {
-                            Texture2D itemtexture = ItemListClass.getItemByName(lst[i]).ItemIcon;
-                            someoneList[i] = new Label(RelativeScreen.RelativeRect(x, 200, 300, 50), new GUIContent(lst[i], itemtexture));
-                            x += RelativeScreen.getNativeX(someoneList[i].ControlRect.xMax);
-                            panel.AddGUIControl(someoneList[i]);
-
-                    }
-                }
-                goldCoins += GlobalGameVariables.globReward.Gems;
-                MapMenu.CurrentMapIndex++;
-            }
-
-            string ResourceCaption = ResourcesClass.GetResourceNameFromIndex((byte)ResourcesTypes.Gold);
-            Texture2D goldtexture = Resources.Load("textures/Resources/" +  ResourceCaption, typeof(Texture2D)) as Texture2D;
-
-            int points = GlobalGameVariables.PointsPerMap;
-            goldCoins += Mathf.FloorToInt(points/100.0f);
-            AccountInformation.GoldCoins += goldCoins;
-
-            Label someone2 = new Label(RelativeScreen.RelativeRect(x, 0.5f*RelativeScreen.NativeScreenHeight, 300, 50), new GUIContent(goldCoins.ToString(),goldtexture));
-            panel.AddGUIControl(someone2);
-        }
-        else
-            ScoreText.Text = "Миссия провалена";
-
-        }catch (System.Exception ex)
-        {
-            Logger.addExceptionLine("Something wrong with Score", ex);
-        }
-*/
 void ScoreScene::finalizeScene()
 {
     TTF_CloseFont(arialFont);

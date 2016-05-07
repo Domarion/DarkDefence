@@ -10,6 +10,7 @@
 #include "../Input/InputDispatcher.h"
 
 InventoryScene::InventoryScene()
+    :arialFont(nullptr)
 {
 	// TODO Auto-generated constructor stub
 
@@ -43,7 +44,9 @@ void InventoryScene::initScene( SceneManager* sceneManagerPtr)
 
         listGUI.push_back(&scroll);
 
-        TTF_Font* arialFont = Renderer::getInstance()->loadFontFromFile("/home/kostya_hm/Projects/DarkDefence/Fonts/arial.ttf", 24);
+
+
+        arialFont = Renderer::getInstance()->loadFontFromFile("/home/kostya_hm/Projects/DarkDefence/Fonts/arial.ttf", 24);
         SDL_Color arialFontColor = {255, 255, 255};
 
         button.setFont(arialFont, arialFontColor);
@@ -52,10 +55,20 @@ void InventoryScene::initScene( SceneManager* sceneManagerPtr)
         string s1 = "MainScene";
         button.ConnectMethod(std::bind(&SceneManager::setCurrentSceneByName, sceneManagerPtr, s1));
         listGUI.push_back(&button);
+
+        heroFigure.setRect(300,0, 300, 400);
+        heroController.setModel(GameModel::getInstance()->getHeroInventory());
+        heroController.setView(&heroFigure);
+        heroController.initView();
+
+        listGUI.push_back(&heroFigure);
     }
 
     InputDispatcher::getInstance()->addHandler(&scroll);
+    InputDispatcher::getInstance()->addHandler(&heroFigure);
     InputDispatcher::getInstance()->addHandler(&button);
+
+
 }
 
 void InventoryScene::finalizeScene()

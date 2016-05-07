@@ -6,6 +6,7 @@
  */
 
 #pragma once
+
 #include "Inventory.h"
 #include "../GraphicsSystem/UI/ScrollList.h"
 
@@ -19,8 +20,10 @@ public:
 	void setModel(Inventory* newModel);
 	Inventory* const getModel() const;
 	void initView();
+    void receiveItemFromModel(string caption, int itemType);
 private:
 	Inventory* model;
 	ScrollList* view;
+
 };
 

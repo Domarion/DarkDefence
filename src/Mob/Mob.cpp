@@ -47,14 +47,17 @@ bool Mob::update(double timestep)
 
 void Mob::finalize()
 {
+
     if (mobModel->getTag() == "Monster")
         GameModel::getInstance()->decMonsterCount(mobModel->getName());
-    delete mobAI;
-    delete mobModel;
+
 }
 
 Mob::~Mob()
 {
+
+     delete mobAI;
+    delete mobModel;
     //finalize();
 	// TODO Auto-generated destructor stub
 }
