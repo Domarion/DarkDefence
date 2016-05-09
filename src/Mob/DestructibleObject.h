@@ -51,6 +51,7 @@ public:
 	void setWorldY(int worldY);
     bool receiveDamage(int* damage);
     bool receiveDamageOneType(int damage_type, int damage);
+    bool addHealth(int amount);
     void setProtectionModifier(int modifier);
     int getProtectionModifier() const;
 

@@ -8,6 +8,7 @@
 #include "MobSpawner.h"
 #include "../GlobalScripts/GameModel.h"
 #include <fstream>
+#include "../GraphicsSystem/UI/AnimatedSprite.h"
 
 MobSpawner::MobSpawner()
     : period(5000), currentTime(period), waveNumber(0), waveCount(0)
@@ -81,11 +82,31 @@ list<SceneObject*>* MobSpawner::doSpawn()
         {
             Mob* someMob = new Mob(GameModel::getInstance()->getMonsterByName(monsterName));
 
-            Sprite* someSprite = new Sprite();
+           AnimatedSprite* someSprite = new AnimatedSprite();
 
             someSprite->setRect(0,0, 50, 80);
-            someSprite->setTexture(Renderer::getInstance()->loadTextureFromFile("/home/kostya_hm/Projects/DarkDefence/GameData/textures/Monsters/" + monsterName + ".png"));
+          //  someSprite->setTexture(Renderer::getInstance()->loadTextureFromFile("/home/kostya_hm/Projects/DarkDefence/GameData/textures/Monsters/" + monsterName + ".png"));
+            someSprite->setTexture(Renderer::getInstance()->loadTextureFromFile("/home/kostya_hm/Projects/DarkDefence/GameData/textures/Monsters/" + monsterName + "Sheet.png"));
 
+            vector<SDL_Rect> walkRects;
+            SDL_Rect rect0 = {13, 7, 42, 73};
+            SDL_Rect rect1 = {102, 12, 43, 67};
+            SDL_Rect rect2 = {181, 17, 49, 64};
+            SDL_Rect rect3 = {267, 13, 47, 67};
+            SDL_Rect rect4 = {360, 11, 42, 68};
+            SDL_Rect rect5 = {463, 14, 47, 68};
+            SDL_Rect rect6 = {568, 18, 49, 65};
+            SDL_Rect rect7 = {652, 15, 55, 68};
+            walkRects.push_back(rect0);
+            walkRects.push_back(rect1);
+            walkRects.push_back(rect2);
+            walkRects.push_back(rect3);
+            walkRects.push_back(rect4);
+            walkRects.push_back(rect5);
+            walkRects.push_back(rect6);
+            walkRects.push_back(rect7);
+
+            someSprite->setAnimRects("Walk", walkRects);
             someMob->setSprite(someSprite);
             //someMob->init();
             some->push_back(someMob);

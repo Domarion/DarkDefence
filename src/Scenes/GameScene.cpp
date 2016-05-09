@@ -41,7 +41,7 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
 	{
 
         Scene::initScene(sceneManagerPtr);
-        GameModel::getInstance()->loadMobAbilities();
+       // GameModel::getInstance()->loadMobAbilities();
 
 
         int curIndex =  GameModel::getInstance()->getCurrentMissionIndex();
@@ -152,7 +152,7 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
         spawnObject(0,0, tower);
 
         resPlace = new ResourcePlace();
-        Sprite* resSprite = new Sprite();
+       Sprite* resSprite = new Sprite();
         resSprite->setRect(0, 0, 300, 300);
         resSprite->setTexture(Renderer::getInstance()->loadTextureFromFile("/home/kostya_hm/Projects/DarkDefence/GameData/textures/Resources/WheatResource.png"));
         resPlace->setSprite(resSprite);
@@ -166,7 +166,7 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
         srand (time(NULL));
 
 
-        Sprite* newView = new Sprite();
+       Sprite* newView = new Sprite();
         newView->setRect(0, 0, 100, 100);
         newView->setTexture(Renderer::getInstance()->loadTextureFromFile("/home/kostya_hm/Projects/DarkDefence/GameData/textures/Gates.png"));
 
@@ -353,10 +353,13 @@ void GameScene::copyToRender() const
 
 		if ( (*const_iter)->getSprite() != nullptr )
 		{
-            SDL_Rect some =  (*const_iter)->getSprite()->getRect();
+            (*const_iter)->getSprite()->draw();
+
+            //SDL_Rect some =  (*const_iter)->getSprite()->getRect();
 
 
-            Renderer::getInstance()->renderTexture((*const_iter)->getSprite()->getTexture(), &some);
+
+            //Renderer::getInstance()->renderTexture((*const_iter)->getSprite()->getTexture(), &some);
 
 		}
 	}

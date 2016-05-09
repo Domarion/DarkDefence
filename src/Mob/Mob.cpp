@@ -24,12 +24,13 @@ void Mob::init()
     {
 		mobAI->setSprite(spriteModel);
         mobAI->setScene(parentScenePtr);
+
     }
 
     if (mobModel->getTag() == "Monster")
 		GameModel::getInstance()->incMonsterCount();
 
-    mobModel->initMobAbilities(this);
+    mobAI->initMobAbilities();
 
 
 }

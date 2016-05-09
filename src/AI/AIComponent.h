@@ -13,7 +13,7 @@ using std::list;
 #include "../Mob/DestructibleObject.h"
 
 #include "../Grouping/Scene.h"
-class MobModel;
+#include "../AbilitySystem/MobAbilities/MobAbility.h"
 
 class AIComponent
 {
@@ -24,6 +24,7 @@ public:
 	virtual ~AIComponent();
 	virtual void MakeDecision(double timestep);
     DestructibleObject* getCurrentTarget();
+    void initMobAbilities();
 protected:
 	MobModel* MobPtr;
 	Sprite* SpritePtr;
@@ -31,14 +32,18 @@ protected:
 	DestructibleObject* currentTarget;
 	list<DestructibleObject*> avaliableTargets;
     Scene* scenePtr;
+    list<MobAbility*> mobAbilities;
 private:
 	void Search();
 	void Select();
     void Move(double timestep);
-	void Attack();
+    void Attack();
 	void Reload(double timestep);
     void MoveIt(double timestep);
 	int computeDistanceSqr(DestructibleObject* first, DestructibleObject* second);
+    bool Cast();
+
+
 };
 
 

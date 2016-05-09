@@ -88,7 +88,7 @@ public:
     double getPointsRefundModifier() const;
     void setPointsRefundModifier(double value);
     void loadItemAbilities();
-    void loadMobAbilities();
+   // void loadMobAbilities();
     ItemAbility* getItemAbilityByName(string name);
     MobAbility* getMobAbilityByName(string name);
 

@@ -60,13 +60,19 @@ void SceneManager::setCurrentScene(Scene* value, bool cleanFlag)
 		currentScene->finalizeScene();
 	}
 	currentScene = value;
-    currentScene->initScene(this);
+    if (currentScene == nullptr)
+        std::cout << "currentScene is NULL" << std::endl;
+    else
+        currentScene->initScene(this);
 }
 
 void SceneManager::setCurrentSceneByName(std::string name)
 {
 
 	if (currentScene != scenes[name])
+    {
+        std::cout << "Scene name = " << name << std::endl;
 		setCurrentScene(scenes[name]);
+    }
 	//setCurrentScene(scenes[1]);
 }

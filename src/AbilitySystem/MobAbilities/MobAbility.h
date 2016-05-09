@@ -1,8 +1,8 @@
 #pragma once
-#include "../../Mob/Mob.h"
+#include "../../Mob/DestructibleObject.h"
 #include "../AbilityModel.h"
 
-class Mob;
+
 
 class MobAbility: public AbilityModel
 {
@@ -11,10 +11,13 @@ public:
     virtual ~MobAbility();
 
 
-    virtual void setCaster(Mob* caster);
+    virtual void setTarget(DestructibleObject* targ);
+    virtual bool isInProcess();
+    virtual bool isTargetable();
+
 
 protected:
 
-    Mob* casterPtr;
+    DestructibleObject* target;
 };
 

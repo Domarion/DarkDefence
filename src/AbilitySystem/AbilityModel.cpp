@@ -1,5 +1,5 @@
 #include "AbilityModel.h"
-
+#include <iostream>
 AbilityModel::AbilityModel()
     :abilityState(Enums::AbilityStates::asNotAvaliable)
 {
@@ -20,17 +20,18 @@ void AbilityModel::init(Scene * const scenePtr)
 
 bool AbilityModel::onReady(double timestep)
 {
-
+    std::cout << "WHAT??????" << std::endl;
+    return true;
 }
 
 bool AbilityModel::onWorking(double timestep)
 {
-
+     return true;
 }
 
 bool AbilityModel::onCooldown(double timestep)
 {
-
+    return true;
 }
 
 bool AbilityModel::update(double timestep)
@@ -54,6 +55,7 @@ bool AbilityModel::update(double timestep)
             break;
         }
     }
+     return true;
 }
 
 void AbilityModel::setAsReady()

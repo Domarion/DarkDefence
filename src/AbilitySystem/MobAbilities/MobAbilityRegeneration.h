@@ -1,24 +1,15 @@
 #pragma once
 #include "MobAbility.h"
 
-class MobAbilityArson: public MobAbility
+class MobAbilityRegeneration: public MobAbility
 {
 public:
-    MobAbilityArson();
-    virtual ~MobAbilityArson();
+    MobAbilityRegeneration();
+    virtual ~MobAbilityRegeneration();
 
     // AbilityModel interface
 public:
-
     virtual bool onReady(double timestep) override;
     virtual bool onWorking(double timestep) override;
     virtual bool onCooldown(double timestep) override;
-
-
-
-    // MobAbility interface
-public:
-    virtual bool isTargetable() override;
 };
-
-

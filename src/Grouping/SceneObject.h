@@ -8,7 +8,7 @@
 #pragma once
 #include <string>
 using std::string;
-#include "../GraphicsSystem/Sprite.h"
+#include "../GraphicsSystem/UI/AnimatedSprite.h"
 #include "Scene.h"
 #include "../Mob/DestructibleObject.h"
 #include "../AbilitySystem/EffectReceiver.h"
@@ -24,8 +24,8 @@ public:
     virtual void setPos(int x, int y);
     virtual bool update(double timestep);
 	virtual void finalize();
-	virtual Sprite * const getSprite() const;
-	virtual void setSprite(Sprite* value);
+    virtual Sprite * const getSprite() const;
+    virtual void setSprite(Sprite* value);
     int getX() const;
     int getY() const;
 	//virtual void drawWithCamera(Camera);
@@ -41,7 +41,7 @@ public:
 protected:
     SceneObject();
     virtual ~SceneObject();
-    Sprite* spriteModel;
+   Sprite* spriteModel;
     int x, y;
     string name;
     string tag;

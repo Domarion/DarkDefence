@@ -154,6 +154,18 @@ bool DestructibleObject::receiveDamageOneType(int damage_type, int damage)
     return false;
 }
 
+bool DestructibleObject::addHealth(int amount)
+{
+    currentHealth += amount;
+    if (currentHealth > getMaximumHealth())
+    {
+        currentHealth = getMaximumHealth();
+        return true;
+    }
+
+    return false;
+}
+
 void DestructibleObject::setProtectionModifier(int modifier)
 {
     for(int i = 0; i < DestructibleObject::damageTypesCount; ++i)

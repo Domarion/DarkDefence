@@ -9,7 +9,7 @@
 #include "../Grouping/Scene.h"
 #include "../Mob/MobSpawner.h"
 #include "../Grouping/SceneObjectFabric.h"
-#include "../GraphicsSystem/Sprite.h"
+#include "../GraphicsSystem/UI/AnimatedSprite.h"
 #include "../GraphicsSystem/UI/GroupBox.h"
 #include "../GraphicsSystem/UI/CompositeLabel.h"
 //#include "../GraphicsSystem/UI/TextButton.h"

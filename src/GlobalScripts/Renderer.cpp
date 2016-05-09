@@ -76,15 +76,21 @@ void Renderer::renderTexture(SDL_Texture* const aTexture, int x, int y, int w, i
     if (aTexture != nullptr)
     {
         SDL_Rect destRect = {x, y, w, h};
-       renderTexture(aTexture, clip, &destRect);
+       renderTexture(aTexture,  &destRect, clip);
     }
 }
 
 void Renderer::renderTexture(SDL_Texture * const aTexture, const SDL_Rect * const dest, SDL_Rect * const clip)
 {
-    if (aTexture != nullptr && dest!= nullptr)
+    if (aTexture != nullptr && dest != nullptr)
     {
-        SDL_RenderCopy(rendererPtr, aTexture, clip, dest);
+        SDL_Rect destRect = *dest;
+        if (clip != nullptr)
+        {
+            destRect.w = clip->w;
+            destRect.h = clip->h;
+        }
+        SDL_RenderCopy(rendererPtr, aTexture, clip, &destRect);
     }
 }
 

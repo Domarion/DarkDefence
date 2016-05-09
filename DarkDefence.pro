@@ -91,7 +91,10 @@ SOURCES += \
     src/AbilitySystem/ItemAbilities/VampsRod.cpp \
     src/AbilitySystem/PrickObject.cpp \
     src/AbilitySystem/MobAbilities/MobAbility.cpp \
-    src/AbilitySystem/MobAbilities/MobAbilityArson.cpp
+    src/AbilitySystem/MobAbilities/MobAbilityArson.cpp \
+    src/AbilitySystem/MobAbilities/MobAbilityRegeneration.cpp \
+    src/AbilitySystem/MobAbilities/MobAbilitySprint.cpp \
+    src/GraphicsSystem/UI/AnimatedSprite.cpp
 
 HEADERS += \
     src/AI/AIComponent.h \
@@ -183,7 +186,10 @@ HEADERS += \
     src/AbilitySystem/ItemAbilities/VampsRod.h \
     src/AbilitySystem/PrickObject.h \
     src/AbilitySystem/MobAbilities/MobAbility.h \
-    src/AbilitySystem/MobAbilities/MobAbilityArson.h
+    src/AbilitySystem/MobAbilities/MobAbilityArson.h \
+    src/AbilitySystem/MobAbilities/MobAbilityRegeneration.h \
+    src/AbilitySystem/MobAbilities/MobAbilitySprint.h \
+    src/GraphicsSystem/UI/AnimatedSprite.h
 
 unix:!macx: LIBS += -L$$PWD/../../../../usr/lib64/ -lboost_serialization
 

@@ -1,7 +1,7 @@
 #include "MobAbilityArson.h"
 
 MobAbilityArson::MobAbilityArson()
-    :target(nullptr)
+
 {
 
 }
@@ -11,27 +11,21 @@ MobAbilityArson::~MobAbilityArson()
 
 }
 
-void MobAbilityArson::init(Scene * const scenePtr)
-{
-    if (casterPtr != nullptr)
-    {
 
-    }
-}
 
 bool MobAbilityArson::onReady(double timestep)
 {
-   if (casterPtr != nullptr)
-   {
-       target = casterPtr->getCurrentTarget();
+    //std::cout << "WTFArson000" << std::endl;
+
+
        if (target != nullptr)
        {
+         std::cout << "WTFArson" << std::endl;
+
            abilityState = Enums::AbilityStates::asWorking;
        }
-   }
-
-
-
+       else
+             abilityState = Enums::AbilityStates::asNotAvaliable;
 
 
    return true;
@@ -53,6 +47,8 @@ bool MobAbilityArson::onWorking(double timestep)
 
         int damage = 30;
         target->receiveDamageOneType(Enums::DamageTypes::dtFIRE, damage);
+
+        std::cout << "AbilityArson Working" << std::endl;
         counter = 0;
     }
 
@@ -83,3 +79,11 @@ bool MobAbilityArson::onCooldown(double timestep)
 
     return true;
 }
+
+bool MobAbilityArson::isTargetable()
+{
+    std::cout << "TARGETABLE BLYAT" << std::endl;
+    return true;
+}
+
+

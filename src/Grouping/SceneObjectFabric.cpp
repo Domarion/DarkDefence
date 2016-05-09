@@ -24,7 +24,7 @@ SceneObject* const SceneObjectFabric::produce(string name, string tag, string sp
     SceneObject* someObject = new SceneObject();
     someObject->setName(name);
     someObject->setTag(tag);
-    Sprite* someSprite = new Sprite();
+   Sprite* someSprite = new Sprite();
     someSprite->setRect(0, 0, width, height);
 
     someSprite->setTexture(Renderer::getInstance()->loadTextureFromFile(spritePath));

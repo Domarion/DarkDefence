@@ -25,6 +25,8 @@ GameModel* GameModel::instance_ = nullptr;
 #include "../AbilitySystem/ItemAbilities/TitanChock.h"
 
 #include "../AbilitySystem/MobAbilities/MobAbilityArson.h"
+#include "../AbilitySystem/MobAbilities/MobAbilityRegeneration.h"
+#include "../AbilitySystem/MobAbilities/MobAbilitySprint.h"
 
 MobModel* const GameModel::getMonsterByName(string name)
 {
@@ -228,10 +230,12 @@ void GameModel::loadItemAbilities()
     itemAbilitiesMap["TitanChock"] = new TitanChock();
 }
 
-void GameModel::loadMobAbilities()
+/*void GameModel::loadMobAbilities()
 {
     mobAbilitiesMap["MobAbilityArson"]= new MobAbilityArson();
-}
+    mobAbilitiesMap["MobAbilityRegeneration"]= new MobAbilityRegeneration();
+    mobAbilitiesMap["MobAbilitySprint"] = new MobAbilitySprint();
+}*/
 
 ItemAbility *GameModel::getItemAbilityByName(std::__cxx11::string name)
 {
@@ -240,7 +244,14 @@ ItemAbility *GameModel::getItemAbilityByName(std::__cxx11::string name)
 
 MobAbility *GameModel::getMobAbilityByName(std::__cxx11::string name)
 {
-    return mobAbilitiesMap["MobAbilityArson"];
+    if (name == "MobAbilityArson")
+        return new MobAbilityArson();
+    if (name == "MobAbilityRegeneration")
+        return new MobAbilityRegeneration();
+    if (name == "MobAbilitySprint")
+        return new MobAbilitySprint();
+
+    return nullptr;
 }
 
 const Reward& GameModel::getMissionReward() const

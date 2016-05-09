@@ -93,7 +93,7 @@ const list<string>& MobModel::getEnemyTags() const
 
 bool MobModel::checkDistance(int distanceSqr)
 {
-	int x = static_cast<int>(attackDistance.first + attackDistance.second);
+    int x = static_cast<int>(attackDistance.first); //+ attackDistance.second);
 
    // std::cout << "distance X = " << (x*x) << std::endl;
     return  (x*x) >= distanceSqr;
@@ -170,22 +170,15 @@ void MobModel::setReloadTimeModifier(double modifier)
     reloadTimeMaximum.second = modifier;
 }
 
-void MobModel::initMobAbilities(Mob* caster)
-{
 
-    std::cout << "MobName = " << getName() << " INITMOBABS size = " << mobAbilitiesNames.size() << std::endl;
-
-    for(auto ptr = mobAbilitiesNames.begin(); ptr != mobAbilitiesNames.end(); ++ptr)
-    {
-
-        mobAbilities.push_back(GameModel::getInstance()->getMobAbilityByName(*ptr));
-        mobAbilities.back()->setCaster(caster);
-        std::cout << (*ptr) << std::endl;
-    }
-}
 
 void MobModel::setAbilitiesNames(list<string> abNames)
 {
     mobAbilitiesNames = abNames;
+}
+
+list<string> &MobModel::getAbilitiesNames()
+{
+    return mobAbilitiesNames;
 }
 

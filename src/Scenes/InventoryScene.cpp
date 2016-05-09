@@ -31,18 +31,7 @@ void InventoryScene::initScene( SceneManager* sceneManagerPtr)
 
         GameModel::getInstance()->loadShopItems("/home/kostya_hm/Projects/DarkDefence/GameData/textures/items/Items.xml");
 
-        const int showItems = 5;
-        const int itemWidth = 72;
-        const int itemHeight = 72;
-        scroll.initScrollList(showItems, itemWidth, itemHeight);
 
-        inventoryController.setModel(GameModel::getInstance()->getInventory());
-
-
-        inventoryController.setView(&scroll);
-        inventoryController.initView();
-
-        listGUI.push_back(&scroll);
 
 
 
@@ -63,6 +52,25 @@ void InventoryScene::initScene( SceneManager* sceneManagerPtr)
 
         listGUI.push_back(&heroFigure);
     }
+
+    if (GameModel::getInstance()->getInventory()->getItemCount() > 0)
+    {
+        const int showItems = 5;
+        const int itemWidth = 72;
+        const int itemHeight = 72;
+
+        scroll.initScrollList(showItems, itemWidth, itemHeight);
+
+        inventoryController.setModel(GameModel::getInstance()->getInventory());
+
+
+        inventoryController.setView(&scroll);
+        inventoryController.initView();
+
+        listGUI.push_back(&scroll);
+    }
+
+
 
     InputDispatcher::getInstance()->addHandler(&scroll);
     InputDispatcher::getInstance()->addHandler(&heroFigure);
