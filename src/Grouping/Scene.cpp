@@ -86,8 +86,9 @@ void Scene::spawnObject(int x, int y, SceneObject *obj)
         std::cout << "WTF WHY NULL" << std::endl;
     else
         std::cout << obj->getName() <<" is NOT NULL"<< std::endl;
-    obj->init();
+
     obj->setPos(x,y);
+    obj->init();
     if (obj->getSprite() != nullptr)
         obj->getSprite()->setPos(x, y);
     if (obj->getDestructibleObject() != nullptr)

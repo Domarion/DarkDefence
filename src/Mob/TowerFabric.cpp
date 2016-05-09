@@ -1,5 +1,6 @@
 #include "TowerFabric.hpp"
 #include "../GraphicsSystem/Sprite.h"
+#include "../GlobalScripts/GameModel.h"
 TowerFabric::TowerFabric()
 {
 

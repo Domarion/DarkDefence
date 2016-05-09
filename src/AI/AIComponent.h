@@ -23,6 +23,7 @@ public:
     void setScene(Scene* const sceneptr);
 	virtual ~AIComponent();
 	virtual void MakeDecision(double timestep);
+    DestructibleObject* getCurrentTarget();
 protected:
 	MobModel* MobPtr;
 	Sprite* SpritePtr;

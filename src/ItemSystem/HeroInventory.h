@@ -8,6 +8,10 @@
 #pragma once
 
 #include "Inventory.h"
+#include <list>
+using std::list;
+#include <string>
+using std::string;
 
 class HeroInventory: public Inventory
 {
@@ -17,5 +21,6 @@ public:
 	virtual bool sendItem(int index) override;
 	virtual void receiveItem(ItemModel item) override;
 	virtual void addItem(ItemModel item) override;
+    list<string> getItemNames();
 };
 

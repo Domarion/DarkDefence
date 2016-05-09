@@ -19,6 +19,13 @@ GameModel* GameModel::instance_ = nullptr;
 #include "../MissionSystem/ResourceGoal.h"
 #include <iostream>
 
+#include "../AbilitySystem/ItemAbilities/CaftanOfGold.h"
+#include "../AbilitySystem/ItemAbilities/ChoppersHat.h"
+#include "../AbilitySystem/ItemAbilities/HelmOfLigofglass.h"
+#include "../AbilitySystem/ItemAbilities/TitanChock.h"
+
+#include "../AbilitySystem/MobAbilities/MobAbilityArson.h"
+
 MobModel* const GameModel::getMonsterByName(string name)
 {
     return new MobModel(monstersModelsMap[name]);
@@ -211,6 +218,29 @@ double GameModel::getPointsRefundModifier() const
 void GameModel::setPointsRefundModifier(double value)
 {
     pointsRefundModifier = value;
+}
+
+void GameModel::loadItemAbilities()
+{
+    itemAbilitiesMap["CaftanOfGold"] = new CaftanOfGold();
+    itemAbilitiesMap["ChoppersHat"] = new ChoppersHat();
+    itemAbilitiesMap["HelmOfLigofglass"] = new HelmOfLigofglass();
+    itemAbilitiesMap["TitanChock"] = new TitanChock();
+}
+
+void GameModel::loadMobAbilities()
+{
+    mobAbilitiesMap["MobAbilityArson"]= new MobAbilityArson();
+}
+
+ItemAbility *GameModel::getItemAbilityByName(std::__cxx11::string name)
+{
+    return itemAbilitiesMap[name];
+}
+
+MobAbility *GameModel::getMobAbilityByName(std::__cxx11::string name)
+{
+    return mobAbilitiesMap["MobAbilityArson"];
 }
 
 const Reward& GameModel::getMissionReward() const

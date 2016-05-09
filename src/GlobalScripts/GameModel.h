@@ -20,6 +20,10 @@ using std::map;
 using std::vector;
 
 #include "ManaGlobal.h"
+#include "../AbilitySystem/ItemAbilities/ItemAbility.h"
+#include "../AbilitySystem/MobAbilities/MobAbility.h"
+class ItemAbility;
+class MobAbility;
 
 class GameModel
 {
@@ -83,6 +87,10 @@ public:
     ManaGlobal* getManaModel();
     double getPointsRefundModifier() const;
     void setPointsRefundModifier(double value);
+    void loadItemAbilities();
+    void loadMobAbilities();
+    ItemAbility* getItemAbilityByName(string name);
+    MobAbility* getMobAbilityByName(string name);
 
 private:
     GameModel();
@@ -109,5 +117,8 @@ private:
     vector<string> mineResMapping;
 
     ManaGlobal manaModel;
+
+    map<string, ItemAbility*> itemAbilitiesMap;
+    map<string, MobAbility*> mobAbilitiesMap;
 };
 

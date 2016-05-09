@@ -16,9 +16,13 @@
 #include "../AbilitySystem/MobEffectReceiver.h"
 //#include "../Grouping/SceneObjectFabric.h"
 
+#include "../AbilitySystem/MobAbilities/MobAbility.h"
 class MobSpawner;
 class TowerFabric;
 class AIComponent;
+class MobAbility;
+class MobEffectReceiver;
+class MobModel;
 
 class Mob: public SceneObject
 {
@@ -37,6 +41,7 @@ public:
     virtual void setTag(const string &value);
     virtual DestructibleObject* getDestructibleObject() override;
     EffectReceiver* getEffectReceiver() const;
+    DestructibleObject* getCurrentTarget();
 private:
     Mob(MobModel* model);
 	~Mob();

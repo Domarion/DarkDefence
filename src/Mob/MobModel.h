@@ -14,8 +14,11 @@
 using std::pair;
 #include <list>
 using std::list;
+#include "../AbilitySystem/MobAbilities/MobAbility.h"
 
-
+#include "Mob.h"
+class MobAbility;
+class Mob;
 class MobModel: public DestructibleObject
 {
 	friend class boost::serialization::access;
@@ -32,7 +35,7 @@ class MobModel: public DestructibleObject
 		ar & BOOST_SERIALIZATION_NVP(moveSpeed);
         ar & BOOST_SERIALIZATION_NVP(reloadTimeMaximum);
 		ar & BOOST_SERIALIZATION_NVP(enemyTags);
-
+        ar & boost::serialization::make_nvp("Abilities", mobAbilitiesNames);
         reloadTime = reloadTimeMaximum.first + reloadTimeMaximum.second;
 	}
 
@@ -72,8 +75,15 @@ public:
 	double getReloadTime() const;
 	void setReloadTime(double reloadTime);
 
+
+    void setReloadTimeMaximum(double reloadTimeMax);
+
     double getReloadTimeModifier() const;
     void setReloadTimeModifier(double modifier);
+
+
+    void initMobAbilities(Mob* caster);
+    void setAbilitiesNames(list<string> abNames);
 
 private:
 
@@ -85,6 +95,8 @@ private:
 	double reloadTime;
 	//int x, y;
 
+    list<string> mobAbilitiesNames;
+    list<MobAbility*> mobAbilities;
 
 };
 

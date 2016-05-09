@@ -63,7 +63,7 @@ void HeroInventory::receiveItem(ItemModel item)
               std::cout << " ItemReceived index = " << item.getCaption() << std::endl;
 			items[itemIndex] = item;
             if (connectedMethod != nullptr)
-                connectedMethod(item.getCaption(), item.getItemType());
+                connectedMethod(item.getCaption(), itemIndex);
 		}
 	}
     else
@@ -86,5 +86,16 @@ void HeroInventory::addItem(ItemModel item)
 
 			items[itemIndex] = item;
 		}
-	}
+    }
+}
+
+list<std::__cxx11::string> HeroInventory::getItemNames()
+{
+    list<string> itemNames;
+    for(auto ptr = items.begin(); ptr != items.end(); ++ptr)
+    {
+        if (!ptr->getCaption().empty())
+            itemNames.push_back(ptr->getCaption());
+    }
+    return itemNames;
 }

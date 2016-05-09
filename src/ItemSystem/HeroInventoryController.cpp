@@ -108,7 +108,7 @@ void HeroInventoryController::receiveItemFromModel(string caption, int itemType)
     if (btn->getTexture() == nullptr)
         std::cout << " texture is nullptr" << std::endl;
 
-    view->receiveItem(btn, itemType - 1);
+    view->receiveItem(btn, itemType);
 
 
 }

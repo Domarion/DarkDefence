@@ -52,7 +52,12 @@ void AIComponent::MakeDecision(double timestep)
 
 		default:
 			break;
-	}
+    }
+}
+
+DestructibleObject *AIComponent::getCurrentTarget()
+{
+    return currentTarget;
 }
 
 void AIComponent::Search()
@@ -133,6 +138,7 @@ void AIComponent::Attack()
 	else
 	{
         int* damage = MobPtr->getAttackDamage();
+
         if (currentTarget->receiveDamage(damage))
         {
             avaliableTargets.remove(currentTarget);

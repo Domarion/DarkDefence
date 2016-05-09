@@ -15,6 +15,7 @@ using std::string;
 class Scene;
 class SceneObjectFabric;
 
+
 class SceneObject
 {
 	friend class SceneObjectFabric;

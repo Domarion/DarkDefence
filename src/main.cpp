@@ -44,9 +44,12 @@ void saveMobModels()
         list<string> enemyTags;
         enemyTags.push_back("Gates");
         enemyTags.push_back("Mine");
-    MobModel monster(name, tag, 100,prot,attack, 2,0.5,enemyTags);
+    MobModel monster(name, tag, 100,prot,attack, 100, 0.5,enemyTags);
+    monster.setReloadTimeMaximum(3000.0);
 
-
+    list<string>* abnames = new list<string>();
+    abnames->push_back("MobAbilityArson");
+    monster.setAbilitiesNames(*abnames);
 
     list<MobModel> lst;
     lst.push_back(monster);
@@ -184,6 +187,8 @@ void saveItems(const ShopInventory& mob)
 //for test only}
 int main()
 {
+
+    //saveMobModels();
 //saveMineModels();
   //  saveMission();
 

@@ -1,5 +1,5 @@
 #include "ItemAbility.h"
-
+#include "../../GlobalScripts/GameModel.h"
 ItemAbility::ItemAbility()
 {
 

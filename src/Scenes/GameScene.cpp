@@ -41,7 +41,7 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
 	{
 
         Scene::initScene(sceneManagerPtr);
-
+        GameModel::getInstance()->loadMobAbilities();
 
 
         int curIndex =  GameModel::getInstance()->getCurrentMissionIndex();
@@ -201,10 +201,30 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
         shrink->setWorkTime(11000);
         shrink->setDamagePerSecond(0.2);
 
+        AbilityPrick* prick = new AbilityPrick();
+        prick->init(this);
+        prick->setCooldownTime(10000);
+        prick->setWorkTime(0);
+        prick->setDamage(120);
 
         abilityModelsMap["MagicStones"] = magicStones;
         abilityModelsMap["SnowStorm"] = snowStorm;
         abilityModelsMap["Shrink"] = shrink;
+        abilityModelsMap["Prick"] = prick;
+        std::cout << "productionOfMine beforeItemApply is = " << (GameModel::getInstance()->getMineModelFromListByRes(Enums::ResourceTypes::WOOD)->getProduction()) << std::endl;
+
+        list<string> itemNames = GameModel::getInstance()->getHeroInventory()->getItemNames();
+        GameModel::getInstance()->loadItemAbilities();
+        for(auto itemNamePtr = itemNames.begin(); itemNamePtr != itemNames.end(); ++itemNamePtr)
+        {
+            ItemAbility* temp = GameModel::getInstance()->getItemAbilityByName(*itemNamePtr);
+            if (temp != nullptr)
+                temp->init(this);
+
+
+        }
+
+          std::cout << "productionOfMine AfterItemApplyis = " << (GameModel::getInstance()->getMineModelFromListByRes(Enums::ResourceTypes::WOOD)->getProduction()) << std::endl;
 
         abilityButtons.resize( GameModel::getInstance()->getAbilityCount());
         for(int i = 0; i < abilityButtons.size(); x1 += w, ++i)
@@ -215,7 +235,7 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
             abilityButtons[i].setRect( x1, y1, w, h);
             abilityButtons[i].setTexture(Renderer::getInstance()->loadTextureFromFile(imgPath));
             listGUI.push_back(&abilityButtons[i]);
-            if (i < 3)
+            if (i < 4)
                 abilityButtons[i].ConnectMethod(std::bind(&GameScene::setActiveMstones, this, GameModel::getInstance()->getAbilityNameFromIndex(i)));
         }
 
@@ -223,9 +243,11 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
 
 
 	}
-    for(int i = 0; i < 3; ++i)
+
+    for(int i = 0; i < 4; ++i)
         InputDispatcher::getInstance()->addHandler(&abilityButtons[i]);
 
+    InputDispatcher::getInstance()->addHandler(dynamic_cast<InputHandler*>(abilityModelsMap["Prick"]));
     InputDispatcher::getInstance()->addHandler(resPlace);
 }
 
@@ -316,7 +338,7 @@ void GameScene::startUpdate(double timestep)
         resourceLabels[i]->setText(s);
     }
 
-    std::cout << "resfromindex = " << GameModel::getInstance()->getResourcesModel()->printResourceFromIndex(3) <<std::endl;
+  //  std::cout << "resfromindex = " << GameModel::getInstance()->getResourcesModel()->printResourceFromIndex(3) <<std::endl;
 }
 
 void GameScene::copyToRender() const

@@ -29,6 +29,9 @@ void Mob::init()
     if (mobModel->getTag() == "Monster")
 		GameModel::getInstance()->incMonsterCount();
 
+    mobModel->initMobAbilities(this);
+
+
 }
 
 bool Mob::update(double timestep)
@@ -87,5 +90,12 @@ DestructibleObject *Mob::getDestructibleObject()
 EffectReceiver* Mob::getEffectReceiver() const
 {
     return mobEffectReceiver;
+}
+
+DestructibleObject *Mob::getCurrentTarget()
+{
+    if (mobAI == nullptr)
+        return nullptr;
+    return mobAI->getCurrentTarget();
 }
 

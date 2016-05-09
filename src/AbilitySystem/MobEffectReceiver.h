@@ -2,6 +2,7 @@
 #include "EffectReceiver.h"
 #include "../Mob/MobModel.h"
 
+class MobModel;
 class MobEffectReceiver: public EffectReceiver
 {
 public:

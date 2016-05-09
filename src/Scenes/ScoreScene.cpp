@@ -21,13 +21,15 @@ ScoreScene::~ScoreScene()
 
 void ScoreScene::initScene(SceneManager *sceneManagerPtr)
 {
+    Scene::initScene(sceneManagerPtr);
     if (!wasInited)
     {
-        Scene::initScene(sceneManagerPtr);
+
         arialFont = Renderer::getInstance()->loadFontFromFile("/home/kostya_hm/Projects/DarkDefence/Fonts/arial.ttf", 18);
         SDL_Color color = {255, 255, 255};
         button.setFont(arialFont, color);
-        button.setRect(700, 550, 100, 50);
+        button.setRect(0, 0, 100, 50);
+        button.setPos(500, 550);
         button.setText("Главное меню");
         string s = "MainMenu";
         button.ConnectMethod(std::bind(&SceneManager::setCurrentSceneByName, sceneManagerPtr, s));
@@ -94,5 +96,5 @@ void ScoreScene::initScene(SceneManager *sceneManagerPtr)
 
 void ScoreScene::finalizeScene()
 {
-    TTF_CloseFont(arialFont);
+  //  TTF_CloseFont(arialFont);
 }

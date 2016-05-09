@@ -2,6 +2,9 @@
 
 #include "../../GlobalScripts/GameModel.h"
 #include "../../Scenes/GameScene.h"
+
+class GameModel;
+
 class ItemAbility
 {
 public:

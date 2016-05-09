@@ -1,6 +1,6 @@
 #pragma once
 #include "Mob.h"
-#include "../GlobalScripts/GameModel.h"
+
 class Mob;
 class TowerFabric
 {

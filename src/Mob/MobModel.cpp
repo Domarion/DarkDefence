@@ -6,6 +6,7 @@
  */
 
 #include "MobModel.h"
+#include "../GlobalScripts/GameModel.h"
 
 MobModel::MobModel()
 :DestructibleObject()
@@ -81,6 +82,8 @@ MobModel::MobModel(const MobModel& right)
 	attackDistance = right.attackDistance;
 	moveSpeed = right.moveSpeed;
 	enemyTags = right.enemyTags;
+    reloadTimeMaximum = right.reloadTimeMaximum;
+    mobAbilitiesNames = right.mobAbilitiesNames;
 }
 
 const list<string>& MobModel::getEnemyTags() const
@@ -152,6 +155,11 @@ void MobModel::setReloadTime(double reloadTime)
     this->reloadTime = reloadTime;
 }
 
+void MobModel::setReloadTimeMaximum(double reloadTimeMax)
+{
+    reloadTimeMaximum.first = reloadTimeMax;
+}
+
 double MobModel::getReloadTimeModifier() const
 {
     return reloadTimeMaximum.second;
@@ -161,3 +169,23 @@ void MobModel::setReloadTimeModifier(double modifier)
 {
     reloadTimeMaximum.second = modifier;
 }
+
+void MobModel::initMobAbilities(Mob* caster)
+{
+
+    std::cout << "MobName = " << getName() << " INITMOBABS size = " << mobAbilitiesNames.size() << std::endl;
+
+    for(auto ptr = mobAbilitiesNames.begin(); ptr != mobAbilitiesNames.end(); ++ptr)
+    {
+
+        mobAbilities.push_back(GameModel::getInstance()->getMobAbilityByName(*ptr));
+        mobAbilities.back()->setCaster(caster);
+        std::cout << (*ptr) << std::endl;
+    }
+}
+
+void MobModel::setAbilitiesNames(list<string> abNames)
+{
+    mobAbilitiesNames = abNames;
+}
+

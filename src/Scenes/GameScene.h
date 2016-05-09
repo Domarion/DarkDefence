@@ -16,15 +16,18 @@
 #include "../GraphicsSystem/UI/ImageButton.h"
 #include "../GraphicsSystem/UI/ProgressBar.h"
 #include "../GraphicsSystem/Camera.h"
+
 #include "../Mob/Gates.h"
-#include "../Mob/TowerFabric.hpp"
+
 #include "../MissionSystem/Mission.h"
 #include <vector>
 using std::vector;
 #include "../AbilitySystem/AbilityMagicStones.h"
 #include "../AbilitySystem/AbilitySnowStorm.h"
 #include "../AbilitySystem/AbilityShrink.h"
+#include "../AbilitySystem/AbilityPrick.h"
 #include "../Mob/ResourcePlace.h"
+#include "../Mob/TowerFabric.hpp"
 
 class GameScene: public Scene
 {

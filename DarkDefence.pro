@@ -88,7 +88,10 @@ SOURCES += \
     src/AbilitySystem/ItemAbilities/IceBoots.cpp \
     src/AbilitySystem/ItemAbilities/RockSpike.cpp \
     src/AbilitySystem/ItemAbilities/SteelShield.cpp \
-    src/AbilitySystem/ItemAbilities/VampsRod.cpp
+    src/AbilitySystem/ItemAbilities/VampsRod.cpp \
+    src/AbilitySystem/PrickObject.cpp \
+    src/AbilitySystem/MobAbilities/MobAbility.cpp \
+    src/AbilitySystem/MobAbilities/MobAbilityArson.cpp
 
 HEADERS += \
     src/AI/AIComponent.h \
@@ -177,7 +180,10 @@ HEADERS += \
     src/AbilitySystem/ItemAbilities/IceBoots.h \
     src/AbilitySystem/ItemAbilities/RockSpike.h \
     src/AbilitySystem/ItemAbilities/SteelShield.h \
-    src/AbilitySystem/ItemAbilities/VampsRod.h
+    src/AbilitySystem/ItemAbilities/VampsRod.h \
+    src/AbilitySystem/PrickObject.h \
+    src/AbilitySystem/MobAbilities/MobAbility.h \
+    src/AbilitySystem/MobAbilities/MobAbilityArson.h
 
 unix:!macx: LIBS += -L$$PWD/../../../../usr/lib64/ -lboost_serialization
 
