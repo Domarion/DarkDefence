@@ -50,13 +50,15 @@ bool MobSpawner::canSpawn(double timestep)
     if (GameModel::getInstance()->canSpawn())
     {
 
+        if (waveNumber == waveCount)
+            return false;
+
 		if (currentTime > 0.0)
 			currentTime -= timestep;
 		else
 		{
             ++waveNumber;
-            if (waveNumber > waveCount)
-                return false;
+
 			currentTime = period;
             GameModel::getInstance()->calculatePointsPerWave();
 			return true;
@@ -121,7 +123,50 @@ list<SceneObject*>* MobSpawner::doSpawn()
 
 bool MobSpawner::noMoreWaves() const
 {
-    return waveNumber > waveCount;
+    return (waveNumber == waveCount) && GameModel::getInstance()->canSpawn();
+}
+
+double MobSpawner::getCurrentTime() const
+{
+    return currentTime;
+}
+
+
+
+int MobSpawner::getWaveNumber() const
+{
+    return waveNumber;
+}
+
+int MobSpawner::getWaveCount() const
+{
+    return waveCount;
+}
+
+string MobSpawner::getWaveStringInfo()
+{
+    string s = "none";
+
+    if (noMoreWaves())
+        s = "No More Waves";
+    else
+    {
+        if (!GameModel::getInstance()->canSpawn())
+        {
+            s = std::to_string(waveNumber) + " / " + std::to_string(waveCount);
+
+        }
+        else
+        if (currentTime > 0.0)
+        {
+            int i = static_cast<int>(currentTime)/1000;
+            s = "Wave in: " + std::to_string(i);
+
+        }
+    }
+
+   return s;
+
 }
 
 

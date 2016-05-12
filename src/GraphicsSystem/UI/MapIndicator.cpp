@@ -1,6 +1,7 @@
 ﻿#include "MapIndicator.h"
 
 MapIndicator::MapIndicator()
+    :mapCount(0), currentMapIndex(0), indicatorWidth(0), indicatorHeight(0)
 {
 
 }
@@ -52,11 +53,14 @@ SDL_Texture* const MapIndicator::getLockedTexture() const
 
 void MapIndicator::draw()
 {
-    int x = 0;
-    int y = 0;
+    int x = getRect().x;
+    int y = getRect().y;
 
     for(int i = 0; i < mapCount; x += indicatorWidth, ++i)
+    {
         Renderer::getInstance()->renderTexture(textureChoice(i), x, y, indicatorWidth, indicatorHeight);
+        x += indicatorWidth + 5;
+    }
 }
 
 int MapIndicator::getIndicatorWidth() const

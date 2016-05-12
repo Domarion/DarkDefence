@@ -9,7 +9,8 @@
 #include "../GlobalScripts/GameModel.h"
 
 MobModel::MobModel()
-:DestructibleObject()
+:DestructibleObject(), attackDistance(0.0, 0.0),
+  moveSpeed(0.0, 0.0), isVisible(true)
 {
 
 	// TODO Auto-generated constructor stub
@@ -57,7 +58,7 @@ void MobModel::setMoveSpeed(const pair<double, double>& moveSpeed)
 MobModel::MobModel(string aName, string aTag, int aMaxHealth,
 		int aProtection[], int damage[], double distance, double speed, list<string> enemiesTags)
 :DestructibleObject(aName, aTag, aMaxHealth, aProtection), attackDistance(distance, 0.0),
- moveSpeed(speed, 0.0), enemyTags(enemiesTags)
+ moveSpeed(speed, 0.0), enemyTags(enemiesTags), isVisible(true)
 {
 	for(int i = 0; i < DestructibleObject::damageTypesCount; ++i)
 	{
@@ -168,6 +169,16 @@ double MobModel::getReloadTimeModifier() const
 void MobModel::setReloadTimeModifier(double modifier)
 {
     reloadTimeMaximum.second = modifier;
+}
+
+bool MobModel::isMobVisible() const
+{
+    return isVisible;
+}
+
+void MobModel::setMobVisiblity(bool flag)
+{
+    isVisible = flag;
 }
 
 

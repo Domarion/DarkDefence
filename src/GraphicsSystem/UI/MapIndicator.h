@@ -1,7 +1,7 @@
 #pragma once
 #include "../CTexture.h"
 
-class MapIndicator: CTexture
+class MapIndicator: public CTexture
 {
 public:
     MapIndicator();

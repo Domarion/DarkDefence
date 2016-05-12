@@ -94,7 +94,8 @@ SOURCES += \
     src/AbilitySystem/MobAbilities/MobAbilityArson.cpp \
     src/AbilitySystem/MobAbilities/MobAbilityRegeneration.cpp \
     src/AbilitySystem/MobAbilities/MobAbilitySprint.cpp \
-    src/GraphicsSystem/UI/AnimatedSprite.cpp
+    src/GraphicsSystem/UI/AnimatedSprite.cpp \
+    src/AbilitySystem/MobAbilities/MobAbilityInvisiblity.cpp
 
 HEADERS += \
     src/AI/AIComponent.h \
@@ -189,7 +190,8 @@ HEADERS += \
     src/AbilitySystem/MobAbilities/MobAbilityArson.h \
     src/AbilitySystem/MobAbilities/MobAbilityRegeneration.h \
     src/AbilitySystem/MobAbilities/MobAbilitySprint.h \
-    src/GraphicsSystem/UI/AnimatedSprite.h
+    src/GraphicsSystem/UI/AnimatedSprite.h \
+    src/AbilitySystem/MobAbilities/MobAbilityInvisiblity.h
 
 unix:!macx: LIBS += -L$$PWD/../../../../usr/lib64/ -lboost_serialization
 

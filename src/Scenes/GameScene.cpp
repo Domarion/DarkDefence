@@ -16,7 +16,7 @@
 #include "../Input/InputDispatcher.h"
 
 GameScene::GameScene()
-:Scene(), gates(), arialFont(nullptr)
+:Scene(), gates(), arialFont(nullptr), waveLabel()
 {
 	// TODO Auto-generated constructor stub
 
@@ -132,9 +132,17 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
 
             topPanel.addChild(resourceLabels[i]);
         }
+
         pointsLabel.setFont(arialFont, arialFontColor);
+        pointsLabel.setRect(0,0, 30, 20);
         pointsLabel.setPos(0,0);
         topPanel.addChild(&pointsLabel);
+
+
+
+        waveLabel.setFont(arialFont, arialFontColor);
+        waveLabel.setPos(0,0);
+        topPanel.addChild(&waveLabel);
 
         listGUI.push_back(&topPanel);
 
@@ -294,7 +302,7 @@ void GameScene::startUpdate(double timestep)
         break;
     }
     }
-
+    waveLabel.setText(monsterSpawner.getWaveStringInfo());
     if (monsterSpawner.canSpawn(timestep))
 	{
         list<SceneObject*> *some = monsterSpawner.doSpawn();
@@ -311,6 +319,7 @@ void GameScene::startUpdate(double timestep)
     else
         if(monsterSpawner.noMoreWaves())
         {
+             waveLabel.setText(monsterSpawner.getWaveStringInfo());
             GameModel::getInstance()->setGameStatus(Enums::GameStatuses::gsWON);
             std::string s2 = "ScoreScene";
             parentSceneManager->setCurrentSceneByName(s2);

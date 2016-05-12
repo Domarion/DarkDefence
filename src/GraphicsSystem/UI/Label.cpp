@@ -12,16 +12,16 @@ using std::endl;
 
 
 Label::Label(const string& lText)
-:CTexture(),lFont(nullptr)
+:CTexture(),lFont(nullptr), text("none")
 {
 	// TODO Auto-generated constructor stub
 	setText(lText);
 
 }
 Label::Label()
-:lFont(nullptr)
+    :CTexture(), lFont(nullptr), text("none")
 {
-	setText("");
+        //setText("");
 }
 
 Label::~Label()
@@ -44,8 +44,11 @@ string Label::getText() const
 
 void Label::setText(const string& value)
 {
+    if (text != value)
+    {
 	text = value;
 	convertTextToTexture();
+    }
 }
 
 

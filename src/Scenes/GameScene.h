@@ -59,6 +59,7 @@ private:
     Mission currentMission;
     TTF_Font* arialFont;
     Label pointsLabel;
+    Label waveLabel;
     map<string, AbilityModel* > abilityModelsMap;
 
     ResourcePlace *resPlace;

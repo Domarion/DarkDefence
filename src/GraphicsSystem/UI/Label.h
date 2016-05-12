@@ -21,7 +21,7 @@ public:
 
     //void loadFont(string path, int size);
 	string getText() const;
-	void setText(const string& value);
+    void setText(const string& value);
 	const TTF_Font& getTTFFont() const;
 	void setTTFFont(TTF_Font* value);
     void setFont(TTF_Font* value, int r, int g, int b);

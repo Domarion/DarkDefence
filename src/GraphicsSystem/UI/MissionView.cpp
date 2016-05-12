@@ -28,26 +28,28 @@ void MissionView::init(Mission& missionRef)
 
     int x = 0;
     list<string> goalsStrings = missionRef.getGoalsFullDesc();
-    for(auto str = goalsStrings.begin(); str != goalsStrings.end(); x+= 150 ,++str)
+    for(auto str = goalsStrings.begin(); str != goalsStrings.end(); ++str)
     {
         Label* temp = new Label();
         temp->setFont(arialFont, arialFontColor);
         temp->setRect(x, y, 200, 50);
         temp->setText(*str);
         missionGoals.push_back(temp);
+        y += 60;
     }
 
-    y += 60;
+
     x = 0;
 
     list<string> rewardStrings = missionRef.getReward().getFullDescription();
-    for(auto str = rewardStrings.begin(); str != rewardStrings.end(); x+= 150 ,++str)
+    for(auto str = rewardStrings.begin(); str != rewardStrings.end(); ++str)
     {
         Label* temp = new Label(*str);
         temp->setFont(arialFont, arialFontColor);
         temp->setRect(x, y, 150, 50);
         temp->setText(*str);
         rewardList.push_back(temp);
+        y += 60;
     }
 
 

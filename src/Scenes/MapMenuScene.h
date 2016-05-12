@@ -3,6 +3,7 @@
 #include "../MissionSystem/Mission.h"
 #include "../GraphicsSystem/UI/MissionView.h"
 #include "../GraphicsSystem/UI/TextButton.h"
+#include "../GraphicsSystem/UI/MapIndicator.h"
 #include "../GraphicsSystem/CTexture.h"
 
 class MapMenuScene: public Scene
@@ -19,4 +20,5 @@ private:
     CTexture mapPicture;
     MissionView currentMissionView;
     TextButton loadButton;
+    MapIndicator mapIndicator;
 };

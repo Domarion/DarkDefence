@@ -24,6 +24,17 @@ void MapMenuScene::initScene(SceneManager *sceneManagerPtr)
 
         currentMissionView.init(currentMission);
         listGUI.push_back(&currentMissionView);
+
+        mapIndicator.setRect(200, 0, 150, 48);
+        mapIndicator.setIndicatorWidth(48);
+        mapIndicator.setIndicatorHeight(48);
+        mapIndicator.setCurrentMapIndex(curIndex);
+        mapIndicator.setMapCount(1);//TODO missionCount
+        mapIndicator.setCompletedTexture(Renderer::getInstance()->loadTextureFromFile("/home/kostya_hm/Projects/DarkDefence/GameData/textures/MapIndicator/completed.png"));
+        mapIndicator.setLockedTexture(Renderer::getInstance()->loadTextureFromFile("/home/kostya_hm/Projects/DarkDefence/GameData/textures/MapIndicator/locked.png"));
+        mapIndicator.setNormalTexture(Renderer::getInstance()->loadTextureFromFile("/home/kostya_hm/Projects/DarkDefence/GameData/textures/MapIndicator/normal.png"));
+        listGUI.push_back(&mapIndicator);
+
         TTF_Font* font = currentMissionView.getFont();
         SDL_Color color = {255, 255, 255};
         loadButton.setFont(font, color);

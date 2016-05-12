@@ -21,10 +21,15 @@ public:
 	bool canSpawn(double timestep);
     list<SceneObject*> * doSpawn();
     bool noMoreWaves() const;
+    double getCurrentTime() const;
+
+    int getWaveNumber() const;
+    int getWaveCount() const;
+    string getWaveStringInfo();
 private:
-	double period;
-	double currentTime;
+    double period;
+    double currentTime;
     int waveNumber, waveCount;
-    std::vector<std::vector<std::pair<string, int> > >wavesInfo;
-    //SceneObjectFabric* fabric;
+    std::vector<std::vector<std::pair<string, int> > > wavesInfo;
+
 };

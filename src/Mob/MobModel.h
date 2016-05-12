@@ -79,8 +79,8 @@ public:
     double getReloadTimeModifier() const;
     void setReloadTimeModifier(double modifier);
 
-
-
+    bool isMobVisible() const;
+    void setMobVisiblity(bool flag);
     void setAbilitiesNames(list<string> abNames);
     list<string>& getAbilitiesNames();
 
@@ -92,6 +92,7 @@ private:
 	list<string> enemyTags;
 	pair<double, double> reloadTimeMaximum;
 	double reloadTime;
+    bool isVisible;
 	//int x, y;
 
     list<string> mobAbilitiesNames;
