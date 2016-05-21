@@ -18,6 +18,6 @@ private:
     Label missionDescription;
     list<CompositeLabel*> missionGoals;
     list<CompositeLabel*> rewardList;
-    TTF_Font* arialFont;
+    CFont arialFont;
 };
 

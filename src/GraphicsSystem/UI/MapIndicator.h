@@ -13,14 +13,14 @@ public:
     void setMapCount(int value);
 
     SDL_Texture*  getNormalTexture() const;
-    void setNormalTexture( SDL_Texture* const value);
+    void setNormalTexture( const string& filename);
 
     SDL_Texture*  getCompletedTexture() const;
-    void setCompletedTexture( SDL_Texture* const value);
+    void setCompletedTexture( const string& filename);
 
     SDL_Texture*  getLockedTexture() const;
-    void setLockedTexture( SDL_Texture* const value);
-    SDL_Texture*  textureChoice(int index);
+    void setLockedTexture( const string& filename);
+
     virtual void draw() override;
     int getIndicatorWidth() const;
     void setIndicatorWidth(int value);
@@ -29,6 +29,7 @@ public:
     void setIndicatorHeight(int value);
 
 private:
+    CTexture&  textureChoice(int index);
     CTexture normalTexture, completedTexture, lockedTexture;
     int mapCount;
     int currentMapIndex;

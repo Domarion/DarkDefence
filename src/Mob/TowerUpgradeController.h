@@ -23,7 +23,7 @@ private:
 
     Scene* parentGameScene;
 
-    TTF_Font* arialFont1;
+    CFont arialFont1;
     Tower *cachedTower;
     vector<string> currentTowerChildren;
     ScrollList towerMenu;

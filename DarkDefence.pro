@@ -35,7 +35,6 @@ SOURCES += \
     src/ItemSystem/ItemModel.cpp \
     src/ItemSystem/ShopController.cpp \
     src/ItemSystem/ShopInventory.cpp \
-    src/ItemSystem/ShopInventoryController.cpp \
     src/MissionSystem/BasicGoal.cpp \
     src/MissionSystem/Mission.cpp \
     src/MissionSystem/Reward.cpp \
@@ -100,7 +99,8 @@ SOURCES += \
     src/Mob/TowerUpgradeController.cpp \
     src/AbilitySystem/ItemAbilities/FeatherOfChap.cpp \
     src/GraphicsSystem/ShopItemUI.cpp \
-    src/Utility/textfilefunctions.cpp
+    src/Utility/textfilefunctions.cpp \
+    src/GraphicsSystem/CFont.cpp
 
 HEADERS += \
     src/AI/AIComponent.h \
@@ -134,7 +134,6 @@ HEADERS += \
     src/ItemSystem/ItemModel.h \
     src/ItemSystem/ShopController.h \
     src/ItemSystem/ShopInventory.h \
-    src/ItemSystem/ShopInventoryController.h \
     src/MissionSystem/BasicGoal.h \
     src/MissionSystem/Mission.h \
     src/MissionSystem/Reward.h \
@@ -201,7 +200,9 @@ HEADERS += \
     src/Mob/TowerUpgradeController.h \
     src/AbilitySystem/ItemAbilities/FeatherOfChap.h \
     src/GraphicsSystem/ShopItemUI.h \
-    src/Utility/textfilefunctions.h
+    src/Utility/textfilefunctions.h \
+    src/GraphicsSystem/IDrawable.h \
+    src/GraphicsSystem/CFont.h
 
 unix:!macx: LIBS += -L$$PWD/../../../../usr/lib64/ -lboost_serialization
 

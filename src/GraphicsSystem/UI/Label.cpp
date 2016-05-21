@@ -6,34 +6,71 @@
  */
 
 #include "Label.h"
-#include <iostream>
-using std::cout;
-using std::endl;
 
+
+
+Label::Label(const string &lText, const CFont &lFont)
+ : text(lText),font(lFont), texture()
+{
+
+}
 
 Label::Label(const string& lText)
-:CTexture(),lFont(nullptr), text("none")
+: text(lText),font(), texture()
 {
-	// TODO Auto-generated constructor stub
-	setText(lText);
 
 }
 Label::Label()
-    :CTexture(), lFont(nullptr), text("none")
+: Label("none")
 {
-        //setText("");
+
 }
 
 Label::~Label()
 {
 
-	if (lFont != nullptr)
-    {
-       // TTF_CloseFont(lFont);
-    }
-
-    // TODO Auto-generated destructor stub
 }
+
+void Label::draw()
+{
+    texture.draw();
+}
+
+const SDL_Rect &Label::getRect() const
+{
+    return texture.getRect();
+}
+
+void Label::setRect(const SDL_Rect &rect)
+{
+    texture.setRect(rect);
+}
+
+void Label::setRect(int x, int y, int w, int h)
+{
+    texture.setRect(x, y, w, h);
+}
+
+void Label::setPos(int x, int y)
+{
+    texture.setPos(x, y);
+}
+
+void Label::setTexture(SDL_Texture *value)
+{
+    texture.setTexture(value);
+}
+
+SDL_Texture *Label::getTexture() const
+{
+    return texture.getTexture();
+}
+
+void Label::loadTexture(const string& filename)
+{
+    texture.loadTexture(filename);
+}
+
 
 
 
@@ -46,69 +83,23 @@ void Label::setText(const string& value)
 {
     if (text != value)
     {
-	text = value;
-	convertTextToTexture();
+        text = value;
+        texture.setTextureFromText(text, font);
     }
 }
 
-
-const TTF_Font& Label::getTTFFont() const
+void Label::setFont(const CFont &value)
 {
-	return *lFont;//TODO:: nullptr dereference possible...
+    font = value;
 }
 
-void Label::setTTFFont(TTF_Font* value)
+void Label::setPosX(int x)
 {
-	//if (lFont == nullptr)
-	//	lFont = new TTF_Font();
-    lFont = value;
+    texture.setPosX(x);
 }
 
-void Label::setFont(TTF_Font *value, int r, int g, int b)
+void Label::setPosY(int y)
 {
-    setTTFFont(value);
-    setFontColor(r, g, b);
-}
-void Label::setFont(TTF_Font *value, SDL_Color& color)
-{
-    setTTFFont(value);
-    setFontColor(color);
+    texture.setPosY(y);
 }
 
-void Label::setFontColor(int r, int g, int b)
-{
-    fontColor = {r, g, b};
-}
-
-void Label::setFontColor(SDL_Color& color)
-{
-    fontColor = color;
-}
-
-void Label::autoScale()
-{
-    int w, h;
-    SDL_QueryTexture(getTexture(), nullptr, nullptr, &w, &h);
-    int x = getRect().x;
-    int y = getRect().y;
-    setRect(x, y, w, h);
-}
-
-
-SDL_Color &Label::getFontColor()
-{
-    return fontColor;
-}
-
-
-
-
-void Label::convertTextToTexture()
-{
-    if (lFont != nullptr)
-	{
-
-        setTexture(Renderer::getInstance()->stringToTexture(lFont, text, fontColor.r, fontColor.g, fontColor.b));
-        autoScale();
-	}
-}

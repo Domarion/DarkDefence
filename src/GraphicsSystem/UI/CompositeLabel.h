@@ -11,11 +11,12 @@ public:
 
     SDL_Texture* getIcon() const;
     void setIcon(SDL_Texture* const value);
+    void loadIcon(const string& filename);
     virtual void draw() override;
 
     virtual void setPos(int x, int y) override;
-    virtual void setPosX(int x) override;
-    virtual void setPosY(int y) override;
+    virtual void setPosX(int x);
+    virtual void setPosY(int y);
     SDL_Rect getIconRect() const;
     virtual const SDL_Rect& getRect() const override;
     void setIconRect(const SDL_Rect &value);

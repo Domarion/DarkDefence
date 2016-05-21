@@ -1,5 +1,5 @@
 #include "AnimatedSprite.h"
-
+#include "../../GlobalScripts/Renderer.h"
 AnimatedSprite::AnimatedSprite()
     :frameNumber(0), oldFrameTime(0), msCount(64)
 {

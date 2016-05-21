@@ -23,7 +23,7 @@ public:
 private:
 	ShopInventory* model;
 	ScrollList* view;
-     TTF_Font* arial;
+    CFont arial;
     SDL_Color color;
 
 };

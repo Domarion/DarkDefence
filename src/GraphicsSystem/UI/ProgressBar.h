@@ -25,8 +25,8 @@ public:
 private:
     void setFrontRect(const SDL_Rect& value);
     void setFrontRect(int x, int y, int w, int h);
-    SDL_Rect frontRect;
-	SDL_Texture* frontTexture;
+    //SDL_Rect frontRect;
+    CTexture frontTexture;
 
 
     // CTexture interface

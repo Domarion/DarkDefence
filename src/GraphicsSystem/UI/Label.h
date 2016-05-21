@@ -7,34 +7,42 @@
 
 #pragma once
 #include "../CTexture.h"
-#include <SDL.h>
-#include <SDL_ttf.h>
-#include <string>
-using std::string;
 
-class Label: public CTexture
+
+class Label: public IDrawable
 {
 public:
+    Label(const string& lText, const CFont& lFont);
     Label(const string& lText);
 	Label();
 	~Label();
 
-    //void loadFont(string path, int size);
+    // IDrawable interface
+public:
+    virtual void draw() override;
+    virtual const SDL_Rect &getRect() const override;
+    virtual void setRect(const SDL_Rect &rect) override;
+    virtual void setRect(int x, int y, int w, int h) override;
+    virtual void setPos(int x, int y) override;
+    virtual void setTexture(SDL_Texture *value) override;
+
+    virtual SDL_Texture* getTexture() const override;
+
+public:
+    virtual void loadTexture(const string& filename);
 	string getText() const;
     void setText(const string& value);
-	const TTF_Font& getTTFFont() const;
-	void setTTFFont(TTF_Font* value);
-    void setFont(TTF_Font* value, int r, int g, int b);
-    void setFontColor(int r, int g, int b);
-    void setFont(TTF_Font *value, SDL_Color& color);
-    void setFontColor(SDL_Color& color);
-    void autoScale();
-    SDL_Color& getFontColor();
+    void setFont(const CFont& value);
+
 
 private:
-	void convertTextToTexture();
-	string text;
-	TTF_Font* lFont;
-    SDL_Color fontColor;
+    string text;
+    CFont font;
+    CTexture texture;
 
+
+    // IDrawable interface
+public:
+    virtual void setPosX(int x) override;
+    virtual void setPosY(int y) override;
 };

@@ -7,12 +7,22 @@
 
 #include "CTexture.h"
 #include <SDL_image.h>
+#include "../GlobalScripts/Renderer.h"
+#include "../Utility/textfilefunctions.h"
 
 CTexture::~CTexture()
 {
-    if (getTexture() != nullptr)
-		SDL_DestroyTexture(getTexture());
+    free();
 
+}
+
+void CTexture::free()
+{
+    if (texture != nullptr)
+    {
+        SDL_DestroyTexture(texture);
+        texture = nullptr;
+    }
 }
 
 
@@ -32,6 +42,13 @@ CTexture::CTexture(SDL_Texture* aTexture)
     setRect(0, 0, 0 , 0);
 }
 
+CTexture::CTexture(const string& filename)
+{
+    loadTexture(filename);
+
+}
+
+
 void CTexture::draw()
 {
 
@@ -49,23 +66,29 @@ SDL_Texture* CTexture::getTexture() const
 
 void CTexture::setTextureFromSurface(SDL_Surface* surface)
 {
-
-
 	if (surface != nullptr)
-	{
-		if (getTexture() != nullptr)
-			SDL_DestroyTexture(getTexture());
         setTexture(Renderer::getInstance()->getTextureFromSurface(surface));
-	}
 }
 
 
 void  CTexture::setTexture(SDL_Texture* value)
 {
-	if (getTexture() != nullptr)
-		SDL_DestroyTexture(getTexture());
+    free();
 
     texture = value;
+}
+
+void CTexture::setTextureFromText(const string &text, const CFont& font)
+{
+    setTexture(Renderer::getInstance()->stringToTexture(text, font));
+    autoScale();
+}
+
+void CTexture::loadTexture(const string& filename)
+{
+    string filename1 = filename;
+    androidText::setRelativePath(filename1);
+     setTexture(Renderer::getInstance()->loadTextureFromFile(filename1));
 }
 
 void CTexture::setRect(int x, int y, int w, int h)
@@ -97,6 +120,11 @@ void CTexture::setPos(int x, int y)
 {
     setPosX(x);
     setPosY(y);
+}
+
+void CTexture::autoScale()
+{
+    SDL_QueryTexture(getTexture(), nullptr, nullptr, &rect.w, &rect.h);
 }
 
 

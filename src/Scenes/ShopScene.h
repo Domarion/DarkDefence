@@ -22,6 +22,7 @@ public:
 	virtual void startUpdate(double timestep) override;
 
 private:
+    CFont arialFont;
 	ScrollList scroll;
 	ShopController shopController;
 	TextButton button;

@@ -16,28 +16,28 @@ ShopItemUI::~ShopItemUI()
 
 }
 
-void ShopItemUI::init(TTF_Font* font, SDL_Color& color, string iconPath, string aCaption, string aDescription, string aPrice)
+void ShopItemUI::init(CFont& font, string iconPath, string aCaption, string aDescription, string aPrice)
 {
 
-    icon.setTexture(Renderer::getInstance()->loadTextureFromFile(iconPath));
+    icon.loadTexture(iconPath);
     int x = getRect().x;
     int y = getRect().y;
     icon.setRect(x, y, 48, 48);
 
-    caption.setFont(font, color);
+    caption.setFont(font);
     caption.setText(aCaption);
     caption.setPos(x + icon.getRect().w, y);
 
-    description.setFont(font, color);
+    description.setFont(font);
     description.setText(aDescription);
     description.setPos(x + icon.getRect().w, y + caption.getRect().h);
 
-    price.setFont(font, color);
+    price.setFont(font);
     price.setText(aPrice);
     price.setPos(x + icon.getRect().w, description.getRect().y + description.getRect().h);
     string buyString = "Купить";
 
-    buyButton.setFont(font, color);
+    buyButton.setFont(font);
     buyButton.setText(buyString);
     buyButton.setPos(price.getRect().x + price.getRect().w, description.getRect().y + description.getRect().h);
 

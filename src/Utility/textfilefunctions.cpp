@@ -6,7 +6,14 @@ namespace androidText
 
 void loadTextFileToString(string filename, string& destString)
    {
-       SDL_RWops* ooops =SDL_RWFromFile(filename.c_str(),"rt");
+
+        string filename1 = filename;
+
+        setRelativePath(filename1);
+
+       SDL_RWops* ooops =SDL_RWFromFile(filename1.c_str(),"rt");
+
+
 
 
        if (ooops != nullptr)
@@ -23,5 +30,13 @@ void loadTextFileToString(string filename, string& destString)
            delete[] destination;
        }
        SDL_RWclose(ooops);
-   }
+}
+
+void setRelativePath(string &filename)
+{
+   #ifndef __ANDROID__
+   filename = "/home/kostya_hm/Projects/DarkDefence/"+ filename;
+   #endif
+}
+
 }

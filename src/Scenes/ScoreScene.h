@@ -13,7 +13,7 @@ public:
     virtual void initScene(SceneManager* sceneManagerPtr) override;
     virtual void finalizeScene() override;
 private:
-    TTF_Font* arialFont;
+    CFont arialFont;
     TextButton button;
     Label ScoreLabel;
     vector< CompositeLabel* > rewardViews;

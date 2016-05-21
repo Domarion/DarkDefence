@@ -14,6 +14,7 @@ using std::list;
 #include "../GraphicsSystem/CTexture.h"
 #include "SceneObject.h"
 #include "SceneManager.h"
+#include "../GlobalScripts/Renderer.h"
 
 class SceneObject;
 class SceneManager;
@@ -32,15 +33,15 @@ public:
     virtual void spawnObject(int x, int y, SceneObject* obj);
     virtual void destroyObject(SceneObject* obj);
 
-    virtual void addToUIList(CTexture* item);
-    virtual void removeFromUIList(CTexture* item);
+    virtual void addToUIList(IDrawable* item);
+    virtual void removeFromUIList(IDrawable* item);
     SceneObject* findObjectByTag(std::string tag);
     list<SceneObject*> &findObjectsByTag(std::string tag);
     SceneObject* findObjectWithPos(int x, int y);
     list<SceneObject*>* findObjectsWithPos(int x, int y);
 
 protected:
-	list<CTexture*> listGUI;
+    list<IDrawable*> listGUI;
 	list<SceneObject*> sceneObjects;
 	SceneManager* parentSceneManager;
 	bool wasInited;

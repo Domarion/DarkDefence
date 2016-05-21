@@ -17,8 +17,8 @@ class SlotContainer: public CTexture, public InputHandler
 public:
     SlotContainer(int slotsCount = 9);
 	virtual ~SlotContainer();
-	void addItem(CTexture* item, int index);
-    void receiveItem(CTexture* item, int index);
+    void addItem(IDrawable* item, int index);
+    void receiveItem(IDrawable* item, int index);
 	void removeItem(int index);
 	virtual void draw() override;
 	virtual bool onClick(SDL_Point* point) override;
@@ -27,7 +27,7 @@ public:
 	void setItemRect(int index, SDL_Rect* rect);
     void setItemRect(int index, int x, int y, int w, int h);
 private:
-	vector<CTexture*> slots;
+    vector<IDrawable*> slots;
 	int itemWidth, itemHeight;
 protected:
 	std::function<bool(int)> connectedMethod;

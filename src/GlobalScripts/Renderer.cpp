@@ -103,6 +103,11 @@ SDL_Texture * Renderer::stringToTexture(TTF_Font * font, string text, Uint8 r, U
 {
     SDL_Color color = {r, g, b};
 
+    return stringToTexture(font, text, color);
+}
+
+SDL_Texture * Renderer::stringToTexture(TTF_Font * font, string text, SDL_Color color)
+{
     SDL_Surface* tempSurface = TTF_RenderUTF8_Solid(font, text.c_str(), color);
 
     SDL_Texture* resultingTexture = getTextureFromSurface(tempSurface);
@@ -110,6 +115,12 @@ SDL_Texture * Renderer::stringToTexture(TTF_Font * font, string text, Uint8 r, U
     SDL_FreeSurface(tempSurface);
 
     return resultingTexture;
+}
+
+
+SDL_Texture *Renderer::stringToTexture(string text, const CFont &font)
+{
+    return stringToTexture(font.getFont(),text, font.getFontColor());
 }
 
 SDL_Texture * Renderer::stringToTexture(string fontFilename, int size, string text, Uint8 r, Uint8 g, Uint8 b)

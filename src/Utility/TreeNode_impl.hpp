@@ -120,13 +120,13 @@ void TreeNode<T>::setData(const T &value)
 }
 
 template<typename T>
-map<std::__cxx11::string, TreeNode<T> > &TreeNode<T>::getChildren()
+map<string, TreeNode<T> > &TreeNode<T>::getChildren()
 {
     return children;
 }
 
 template<typename T>
-vector<std::__cxx11::string> TreeNode<T>::getChildrenNames()
+vector<string> TreeNode<T>::getChildrenNames()
 {
     vector<string> keys;
 

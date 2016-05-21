@@ -89,7 +89,7 @@ void HeroInventory::addItem(ItemModel item)
     }
 }
 
-list<std::__cxx11::string> HeroInventory::getItemNames()
+list<string> HeroInventory::getItemNames()
 {
     list<string> itemNames;
     for(auto ptr = items.begin(); ptr != items.end(); ++ptr)

@@ -51,8 +51,8 @@ Scene::~Scene()
 
 void Scene::copyToRender() const
 {
-	list<CTexture*>::const_iterator  const_iter = listGUI.begin();
-	list<CTexture*>::const_iterator end = listGUI.end();
+    list<IDrawable*>::const_iterator  const_iter = listGUI.begin();
+    list<IDrawable*>::const_iterator end = listGUI.end();
 	for(;const_iter != end; ++const_iter)
 		(*const_iter)->draw();
 }
@@ -109,7 +109,7 @@ void Scene::destroyObject(SceneObject *obj)
     sceneObjects.remove(obj);
 }
 
-void Scene::addToUIList(CTexture *item)
+void Scene::addToUIList(IDrawable *item)
 {
     if (item == nullptr)
         return;
@@ -117,7 +117,7 @@ void Scene::addToUIList(CTexture *item)
     listGUI.push_back(item);
 }
 
-void Scene::removeFromUIList(CTexture *item)
+void Scene::removeFromUIList(IDrawable *item)
 {
     if (item == nullptr)
         return;

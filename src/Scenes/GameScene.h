@@ -58,7 +58,7 @@ private:
 	SDL_Rect* worldRect;
 	Camera* mainCamera;
     Mission currentMission;
-    TTF_Font* arialFont;
+    CFont arialFont;
     Label pointsLabel;
     Label waveLabel;
     map<string, AbilityModel* > abilityModelsMap;

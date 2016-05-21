@@ -49,20 +49,22 @@ void HeroInventoryController::initView()
 	{
 		TextButton* btn = new TextButton();
 
+
         if (model->getItemFromIndex(i)->getDescription() == "none")
         {
-            btn->setTexture( Renderer::getInstance()->loadTextureFromFile("/home/kostya_hm/Projects/DarkDefence/GameData/textures/EmptySlot.png" ) );
+            btn->loadTexture("GameData/textures/EmptySlot.png" );
         }
         else
         {
-            std::cout << ( "/home/kostya_hm/workspace/DarkDefenceCppPort/GameData/textures/items/" + model->getItemFromIndex(i)->getCaption()  + ".png") << std::endl;
-            btn->setTexture( Renderer::getInstance()->loadTextureFromFile("/home/kostya_hm/workspace/DarkDefenceCppPort/GameData/textures/items/"
-                                                                            + model->getItemFromIndex(i)->getCaption() + ".png") );
+            std::cout << ( "GameData/textures/items/" + model->getItemFromIndex(i)->getCaption()  + ".png") << std::endl;
+            btn->loadTexture("GameData/textures/items/"
+                                                                            + model->getItemFromIndex(i)->getCaption() + ".png");
         }
-		if (btn->getTexture() == nullptr)
+
+        if (btn->getTexture() == nullptr)
             std::cout << "index = " << i << " herotexture is nullptr" << std::endl;
 
-		view->addItem(btn, i);
+        view->addItem(btn, i);
 	}
 	int itemWidth = 50;
 	int itemHeight = 50;
@@ -101,12 +103,12 @@ void HeroInventoryController::receiveItemFromModel(string caption, int itemType)
     TextButton* btn = new TextButton();
 
 
-    std::cout << ( "/home/kostya_hm/workspace/DarkDefenceCppPort/GameData/textures/items/" + caption  + ".png") << std::endl;
-    btn->setTexture( Renderer::getInstance()->loadTextureFromFile("/home/kostya_hm/workspace/DarkDefenceCppPort/GameData/textures/items/" +
-                                                                  caption + ".png") );
+    std::cout << ( "GameData/textures/items/" + caption  + ".png") << std::endl;
+    btn->loadTexture("GameData/textures/items/" +
+                                                                  caption + ".png");
 
-    if (btn->getTexture() == nullptr)
-        std::cout << " texture is nullptr" << std::endl;
+  //  if (btn->getTexture() == nullptr)
+    //   std::cout << " texture is nullptr" << std::endl;
 
     view->receiveItem(btn, itemType);
 

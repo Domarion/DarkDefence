@@ -32,9 +32,9 @@ bool ResourcePlace::onClick(SDL_Point *point)
 
        Sprite* sprt = new Sprite();
         sprt->setRect(0,0, 90, 120);
-        string s1 = "/home/kostya_hm/Projects/DarkDefence/GameData/textures/Buildings/" +tempMineModel->getName() + ".png";
+        string s1 = "GameData/textures/Buildings/" +tempMineModel->getName() + ".png";
         std::cout << s1 << std::endl;
-        sprt->setTexture(Renderer::getInstance()->loadTextureFromFile(s1));
+        sprt->loadTexture(s1);
 
 
         if (sprt->getTexture() == nullptr)

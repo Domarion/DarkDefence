@@ -19,7 +19,7 @@ public:
 	virtual ~ScrollList();
 
     void initScrollList(int itemsToShow, int aItemWidth, int aItemHeigth);
-	void addItem(CTexture* item);
+    void addItem(IDrawable* item);
 	void removeItem(int index);
 	void scrollWithDirection(int direction);
 
@@ -38,7 +38,7 @@ public:
     void setItemHeight(int value);
 
 private:
-    vector<CTexture*> itemList;
+    vector<IDrawable*> itemList;
 	int itemCountToShow;
 	int firstToShow, lastToShow;
 	int itemWidth, itemHeight;

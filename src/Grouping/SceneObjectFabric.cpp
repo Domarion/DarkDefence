@@ -27,7 +27,7 @@ SceneObject* SceneObjectFabric::produce(string name, string tag, string spritePa
    Sprite* someSprite = new Sprite();
     someSprite->setRect(0, 0, width, height);
 
-    someSprite->setTexture(Renderer::getInstance()->loadTextureFromFile(spritePath));
+    someSprite->loadTexture(spritePath);
 
 
     someObject->setSprite(someSprite);

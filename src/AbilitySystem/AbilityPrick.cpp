@@ -30,7 +30,7 @@ bool AbilityPrick::onReady(double timestep)
         somePrick = new PrickObject(damage);
        Sprite* sptr = new Sprite();
         sptr->setRect(0,0, 200, 200);
-        sptr->setTexture(Renderer::getInstance()->loadTextureFromFile("/home/kostya_hm/Projects/DarkDefence/GameData/textures/EmptySlot.png"));
+        sptr->loadTexture("GameData/textures/EmptySlot.png");
         somePrick->setSprite(sptr);
 
         parentScenePtr->spawnObject(coordX,coordY, somePrick);

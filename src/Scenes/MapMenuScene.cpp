@@ -21,7 +21,7 @@ void MapMenuScene::initScene(SceneManager *sceneManagerPtr)
         Scene::initScene(sceneManagerPtr);
         int curIndex =  GameModel::getInstance()->getCurrentMissionIndex();
 
-        string s ="/home/kostya_hm/Projects/DarkDefence/GameData/Missions/" + std::to_string(curIndex) +"/Mission.xml";
+        string s ="GameData/Missions/" + std::to_string(curIndex) +"/Mission.xml";
         GameModel::getInstance()->deserialize(currentMission, s);
 
         currentMissionView.init(currentMission);
@@ -32,14 +32,14 @@ void MapMenuScene::initScene(SceneManager *sceneManagerPtr)
         mapIndicator.setIndicatorHeight(48);
         mapIndicator.setCurrentMapIndex(curIndex);
         mapIndicator.setMapCount(3);//TODO missionCount
-        mapIndicator.setCompletedTexture(Renderer::getInstance()->loadTextureFromFile("/home/kostya_hm/Projects/DarkDefence/GameData/textures/MapIndicator/completed.png"));
-        mapIndicator.setLockedTexture(Renderer::getInstance()->loadTextureFromFile("/home/kostya_hm/Projects/DarkDefence/GameData/textures/MapIndicator/locked.png"));
-        mapIndicator.setNormalTexture(Renderer::getInstance()->loadTextureFromFile("/home/kostya_hm/Projects/DarkDefence/GameData/textures/MapIndicator/normal.png"));
+        mapIndicator.setCompletedTexture("GameData/textures/MapIndicator/completed.png");
+        mapIndicator.setLockedTexture("GameData/textures/MapIndicator/locked.png");
+        mapIndicator.setNormalTexture("GameData/textures/MapIndicator/normal.png");
         listGUI.push_back(&mapIndicator);
 
-        TTF_Font* font = currentMissionView.getFont();
-        SDL_Color color = {0, 0, 0};
-        loadButton.setFont(font, color);
+        arialFont.setFont(currentMissionView.getFont());
+
+        loadButton.setFont(arialFont);
         loadButton.setRect(700, 550, 100, 50);
         loadButton.setText("Начать");
         string s0 = "GameScene";
@@ -48,8 +48,8 @@ void MapMenuScene::initScene(SceneManager *sceneManagerPtr)
 
 
         mapPicture.setRect(400, 60, 400, 440);
-        string mapImagePath = "/home/kostya_hm/Projects/DarkDefence/GameData/Missions/" + std::to_string(curIndex) +"/mission.jpg";
-        mapPicture.setTexture(Renderer::getInstance()->loadTextureFromFile(mapImagePath));
+        string mapImagePath = "GameData/Missions/" + std::to_string(curIndex) +"/mission.jpg";
+        mapPicture.loadTexture(mapImagePath);
         listGUI.push_back(&mapPicture);
     }
     InputDispatcher::getInstance()->addHandler(&loadButton);

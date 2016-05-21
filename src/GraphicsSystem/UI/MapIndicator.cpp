@@ -1,5 +1,5 @@
 ﻿#include "MapIndicator.h"
-
+#include "../../GlobalScripts/Renderer.h"
 MapIndicator::MapIndicator()
     :mapCount(0), currentMapIndex(0), indicatorWidth(0), indicatorHeight(0)
 {
@@ -26,27 +26,27 @@ void MapIndicator::setMapCount(int value)
     mapCount = value;
 }
 
-SDL_Texture* const MapIndicator::getNormalTexture() const
+SDL_Texture*  MapIndicator::getNormalTexture() const
 {
     return normalTexture.getTexture();
 }
 
-void MapIndicator::setNormalTexture(SDL_Texture* const value)
+void MapIndicator::setNormalTexture(const string& filename)
 {
-    normalTexture.setTexture(value);
+    normalTexture.loadTexture(filename);
 }
 
-SDL_Texture* const MapIndicator::getCompletedTexture() const
+SDL_Texture*  MapIndicator::getCompletedTexture() const
 {
     return completedTexture.getTexture();
 }
 
-void MapIndicator::setCompletedTexture(SDL_Texture* const value)
+void MapIndicator::setCompletedTexture(const string& filename)
 {
-    completedTexture.setTexture(value);
+    completedTexture.loadTexture(filename);
 }
 
-SDL_Texture* const MapIndicator::getLockedTexture() const
+SDL_Texture*  MapIndicator::getLockedTexture() const
 {
     return lockedTexture.getTexture();
 }
@@ -58,7 +58,8 @@ void MapIndicator::draw()
 
     for(int i = 0; i < mapCount; x += indicatorWidth, ++i)
     {
-        Renderer::getInstance()->renderTexture(textureChoice(i), x, y, indicatorWidth, indicatorHeight);
+
+        Renderer::getInstance()->renderTexture(textureChoice(i).getTexture(), x, y, indicatorWidth, indicatorHeight);
         x += indicatorWidth + 5;
     }
 }
@@ -83,20 +84,20 @@ void MapIndicator::setIndicatorHeight(int value)
     indicatorHeight = value;
 }
 
-void MapIndicator::setLockedTexture(SDL_Texture* const value)
+void MapIndicator::setLockedTexture(const string& filename)
 {
-    lockedTexture.setTexture(value);
+    lockedTexture.loadTexture(filename);
 }
 
-SDL_Texture* const MapIndicator::textureChoice(int index)
+CTexture& MapIndicator::textureChoice(int index)
 {
     if (index > currentMapIndex)
-        return lockedTexture.getTexture();
+        return lockedTexture;
 
     if (index < currentMapIndex)
-        return completedTexture.getTexture();
+        return completedTexture;
 
-    return normalTexture.getTexture();
+    return normalTexture;
 }
 
 

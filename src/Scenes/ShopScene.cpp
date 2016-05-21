@@ -10,6 +10,7 @@
 #include "../Input/InputDispatcher.h"
 #include "../GlobalScripts/AccountModel.h"
 ShopScene::ShopScene()
+    :arialFont()
 {
 	// TODO Auto-generated constructor stub
 
@@ -27,18 +28,18 @@ void ShopScene::initScene(SceneManager* sceneManagerPtr)
 	{
         Scene::initScene(sceneManagerPtr);
         std::cout << "ShopScene" << std::endl;
-        backGround.setTexture(Renderer::getInstance()->loadTextureFromFile("/home/kostya_hm/Projects/DarkDefence/GameData/textures/shopBackground.jpg"));
+        backGround.loadTexture("GameData/textures/shopBackground.jpg");
         backGround.setRect(0, 0, Renderer::getInstance()->getScreenWidth()*0.6, Renderer::getInstance()->getScreenHeight() - 50);
         listGUI.push_back(&backGround);
 
-        GameModel::getInstance()->loadShopItems("/home/kostya_hm/Projects/DarkDefence/GameData/Items.xml");
+        GameModel::getInstance()->loadShopItems("GameData/Items.xml");
 
         const int showItems = 5;
         const int itemWidth = 72;
         const int itemHeight = 72;
         scroll.initScrollList(showItems, itemWidth, itemHeight);
         scroll.setRect(Renderer::getInstance()->getScreenWidth()*0.6, 0, Renderer::getInstance()->getScreenWidth()*0.4, Renderer::getInstance()->getScreenHeight() - 50);
-        scroll.setTexture(Renderer::getInstance()->loadTextureFromFile("/home/kostya_hm/Projects/DarkDefence/GameData/textures/topPanel.png"));
+        scroll.loadTexture("GameData/textures/topPanel.png");
         shopController.setModel(GameModel::getInstance()->getShopInventory());
 
 
@@ -48,10 +49,10 @@ void ShopScene::initScene(SceneManager* sceneManagerPtr)
         listGUI.push_back(&scroll);
 
 
-        TTF_Font* arialFont = Renderer::getInstance()->loadFontFromFile("/home/kostya_hm/Projects/DarkDefence/Fonts/arial.ttf", 24);
-        SDL_Color arialFontColor = {0, 0, 0};
+        arialFont.loadFromFile("Fonts/arial.ttf", 24);
 
-        button.setFont(arialFont, arialFontColor);
+
+        button.setFont(arialFont);
         button.setRect(Renderer::getInstance()->getScreenWidth() - 100, Renderer::getInstance()->getScreenHeight() - 50, 100, 50);
         button.setText("Назад");
         string s1 = "MainScene";
@@ -59,14 +60,14 @@ void ShopScene::initScene(SceneManager* sceneManagerPtr)
 
         listGUI.push_back(&button);
 
-        goldCoins.setFont(arialFont, arialFontColor);
+        goldCoins.setFont(arialFont);
         string sss1 = std::to_string(AccountModel::getInstance()->getGoldAmount());
         goldCoins.setText(sss1);
         goldCoins.setPos(button.getRect().x - goldCoins.getRect().w - 10, button.getRect().y);
 
         listGUI.push_back(&goldCoins);
 
-        sceneName.setFont(arialFont, arialFontColor);
+        sceneName.setFont(arialFont);
         string sss2 = "Мистическая лавка";
         sceneName.setText(sss2);
         sceneName.setPos(goldCoins.getRect().x - sceneName.getRect().w -100, goldCoins.getRect().y);

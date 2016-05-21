@@ -11,7 +11,7 @@
 #include "../Input/InputDispatcher.h"
 
 MainScene::MainScene()
-    :arialFont(nullptr)
+    :arialFont()
 
 {
 	// TODO Auto-generated constructor stub
@@ -21,7 +21,7 @@ MainScene::~MainScene()
 {
 	// TODO Auto-generated destructor stub
 	//listGUI.clear();
-    TTF_CloseFont(arialFont);
+
 }
 
 
@@ -48,17 +48,19 @@ void MainScene::initScene(SceneManager* sceneManagerPtr)
     Renderer::getInstance()->setRendererDrawColor(255, 255, 255);
 	std::cout << "WhereAreYou" << std::endl;
 
+
+
 	if (wasInited == false)
 	{
         Scene::initScene(sceneManagerPtr);
 
-        backGround.setTexture(Renderer::getInstance()->loadTextureFromFile("/home/kostya_hm/Projects/DarkDefence/GameData/textures/castle.jpg"));
+        backGround.loadTexture("GameData/textures/castle.jpg");
         backGround.setRect(0, 0, Renderer::getInstance()->getScreenWidth(), Renderer::getInstance()->getScreenHeight());
         listGUI.push_back(&backGround);
 
-        arialFont = Renderer::getInstance()->loadFontFromFile("/home/kostya_hm/Projects/DarkDefence/Fonts/arial.ttf", 48);
-        SDL_Color arialFontColor = {0, 0, 0};
-        button.setFont(arialFont, arialFontColor);
+        arialFont.loadFromFile("Fonts/arial.ttf", 48);
+
+        button.setFont(arialFont);
         int x = Renderer::getInstance()->getScreenWidth()/4;
         int y = Renderer::getInstance()->getScreenHeight()/4;
 
@@ -70,7 +72,7 @@ void MainScene::initScene(SceneManager* sceneManagerPtr)
 
         listGUI.push_back(&button);
 
-        button2.setFont(arialFont, arialFontColor);
+        button2.setFont(arialFont);
 
 
         button2.setRect(x, y, 200, 50);
@@ -81,7 +83,7 @@ void MainScene::initScene(SceneManager* sceneManagerPtr)
 
         listGUI.push_back(&button2);
 
-        button3.setFont(arialFont, arialFontColor);
+        button3.setFont(arialFont);
         button3.setRect(x, y, 200, 50);
         button3.setText("Инвентарь");
         string s3 = "InventoryScene";

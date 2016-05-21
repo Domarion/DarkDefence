@@ -29,7 +29,7 @@ private:
 	InventoryController inventoryController;
     HeroInventoryController heroController;
 	TextButton button;
-    TTF_Font* arialFont;
+    CFont arialFont;
 
 };
 

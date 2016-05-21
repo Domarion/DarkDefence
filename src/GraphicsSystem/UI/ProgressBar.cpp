@@ -25,13 +25,17 @@ ProgressBar::~ProgressBar()
 
 const SDL_Rect& ProgressBar::getFrontRect() const
 {
-    return frontRect;
+    return frontTexture.getRect();
 }
 
 void ProgressBar::calculateFront(int current, int max)
 {
     if (max != 0)
-        frontRect.w = static_cast<int>(getRect().w * (current+0.0)/max);
+    {
+        SDL_Rect rect = frontTexture.getRect();
+        rect.w = static_cast<int>(getRect().w * (current+0.0)/max);
+        frontTexture.setRect(rect);
+    }
 }
 
 void ProgressBar::setRect(const SDL_Rect& value)
@@ -49,24 +53,27 @@ void ProgressBar::setRect(int x, int y, int w, int h)
 
 void ProgressBar::setFrontRect(const SDL_Rect& value)
 {
-    frontRect = value;
+    frontTexture.setRect(value);
+
 }
 
 void ProgressBar::setFrontRect(int x, int y, int w, int h)
 {
-    frontRect = {x, y, w, h};
+    frontTexture.setRect(x, y, w, h);
 }
 
 void ProgressBar::setPosX(int x)
 {
     CTexture::setPosX(x);
-    frontRect.x = x;
+    frontTexture.setPosX(x);
+
 }
 
 void ProgressBar::setPosY(int y)
 {
     CTexture::setPosY(y);
-    frontRect.y = y;
+    frontTexture.setPosY(y);
+
 
 }
 
@@ -78,21 +85,23 @@ void ProgressBar::setPos(int x, int y)
 
 SDL_Texture* ProgressBar::getFrontTexture() const
 {
-	return frontTexture;
+    return frontTexture.getTexture();
 }
 
 void ProgressBar::setFrontTexture(SDL_Texture* frontTexture)
 {
-	this->frontTexture = frontTexture;
+    this->frontTexture.setTexture( frontTexture);
 }
 
 void ProgressBar::draw()
 {
 	CTexture::draw();
-        if (frontTexture != nullptr)
-        {
-            Renderer::getInstance()->renderTexture(frontTexture, &frontRect);
-        }
+    frontTexture.draw();
+
+       // if (frontTexture != nullptr)
+        //{
+           // Renderer::getInstance()->renderTexture(frontTexture, &frontRect);
+       // }
   //  CopyTextureToRenderer( nullptr, );
 
 }

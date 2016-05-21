@@ -10,6 +10,11 @@ CompositeLabel::~CompositeLabel()
 
 }
 
+void CompositeLabel::loadIcon(const string &filename)
+{
+    icon.loadTexture(filename);
+}
+
 SDL_Texture * CompositeLabel::getIcon() const
 {
     return icon.getTexture();
@@ -25,7 +30,7 @@ void CompositeLabel::setIcon(SDL_Texture * const value)
 void CompositeLabel::draw()
 {
     icon.draw();
-    CTexture::draw();
+    Label::draw();
 }
 
 void CompositeLabel::setPos(int x, int y)
@@ -33,6 +38,9 @@ void CompositeLabel::setPos(int x, int y)
     setPosX(x);
     setPosY(y);
 }
+
+
+
 
 void CompositeLabel::setPosX(int x)
 {

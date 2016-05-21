@@ -9,7 +9,7 @@ public:
     // CTexture interface
 public:
 
-    void init(TTF_Font* font, SDL_Color& color,
+    void init(CFont& font,
               string iconPath, string aCaption,
               string aDescription, string aPrice = "none");
     virtual void draw() override;

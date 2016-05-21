@@ -39,7 +39,7 @@ ScrollList::~ScrollList()
 }
 
 
-void ScrollList::addItem(CTexture* item)
+void ScrollList::addItem(IDrawable* item)
 {
 	if (item != nullptr)
 	{

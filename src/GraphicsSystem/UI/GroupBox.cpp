@@ -20,7 +20,7 @@ GroupBox::~GroupBox()
      //   delete children[i];
 }
 
-bool GroupBox::addChild(CTexture * const child, bool vertical)
+bool GroupBox::addChild(IDrawable * const child, bool vertical)
 {
     if (!vertical)
     {
@@ -47,7 +47,7 @@ bool GroupBox::addChild(CTexture * const child, bool vertical)
     children.push_back(child);
 }
 
-bool GroupBox::removeChild(CTexture * const child)
+bool GroupBox::removeChild(IDrawable * const child)
 {
     //TODO:stub
 }

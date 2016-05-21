@@ -8,14 +8,14 @@ using std::string;
 #include "../GlobalScripts/AccountModel.h"
 
 ScoreScene::ScoreScene()
-    :arialFont(nullptr)
+    :arialFont()
 {
 
 }
 
 ScoreScene::~ScoreScene()
 {
-    TTF_CloseFont(arialFont);
+
    // rewardViews.clear();
 }
 
@@ -25,9 +25,9 @@ void ScoreScene::initScene(SceneManager *sceneManagerPtr)
     if (!wasInited)
     {
         Scene::initScene(sceneManagerPtr);
-        arialFont = Renderer::getInstance()->loadFontFromFile("/home/kostya_hm/Projects/DarkDefence/Fonts/arial.ttf", 18);
-        SDL_Color color = {0, 0, 0};
-        button.setFont(arialFont, color);
+        arialFont.loadFromFile("Fonts/arial.ttf", 18);
+
+        button.setFont(arialFont);
         button.setRect(0, 0, 100, 50);
         button.setPos(500, 550);
         button.setText("Главное меню");
@@ -35,7 +35,7 @@ void ScoreScene::initScene(SceneManager *sceneManagerPtr)
         button.ConnectMethod(std::bind(&SceneManager::setCurrentSceneByName, sceneManagerPtr, s));
         listGUI.push_back(&button);
 
-        ScoreLabel.setFont(arialFont, color);
+        ScoreLabel.setFont(arialFont);
         ScoreLabel.setRect(0, 0, 200, 50);
 
 
@@ -53,10 +53,10 @@ void ScoreScene::initScene(SceneManager *sceneManagerPtr)
            {
 
                CompositeLabel* tempComposite = new CompositeLabel();
-               tempComposite->setFont(arialFont, color);
-               string iconPath = "/home/kostya_hm/Projects/DarkDefence/GameData/textures/items/" + *mri + ".png";
+               tempComposite->setFont(arialFont);
+               string iconPath = "GameData/textures/items/" + *mri + ".png";
               // std::cout << (*mri) << std::endl;
-               tempComposite->setIcon(Renderer::getInstance()->loadTextureFromFile( iconPath ));
+               tempComposite->loadIcon( iconPath );
                tempComposite->setIconRect(0, 0, 30, 30);
                tempComposite->setPos(0, y0);
                tempComposite->setText(*mri);
@@ -73,10 +73,10 @@ void ScoreScene::initScene(SceneManager *sceneManagerPtr)
            {
            AccountModel::getInstance()->addGold(goldCoins);
            CompositeLabel* tempComposite = new CompositeLabel();
-           tempComposite->setFont(arialFont, color);
-           string iconPath2 = "/home/kostya_hm/Projects/DarkDefence/GameData/textures/Resources/"
+           tempComposite->setFont(arialFont);
+           string iconPath2 = "GameData/textures/Resources/"
                    + GameModel::getInstance()->getResourcesModel()->getResourceNameFromIndex(0) + ".png";
-           tempComposite->setIcon(Renderer::getInstance()->loadTextureFromFile( iconPath2 ));
+           tempComposite->loadIcon(iconPath2);
            tempComposite->setIconRect(0, 0, 30, 30);
            tempComposite->setPos(0, y0);
            tempComposite->setText(std::to_string(goldCoins));

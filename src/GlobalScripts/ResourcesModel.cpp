@@ -85,6 +85,8 @@ void ResourcesModel::decreaseLimit(int resourceType, int amount)
 void ResourcesModel::loadFromFile(std::string filename)
 {
 
+
+
     string textString;
     androidText::loadTextFileToString(filename, textString);
 

@@ -21,10 +21,11 @@ SlotContainer::~SlotContainer()
 
 void SlotContainer::draw()
 {
-	if (!slots.empty())
-	for(int i = 0; i < slots.size(); ++i)
-        //CTexture::CopyTextureToRenderer( slots[i]->getTexture(), nullptr,  );
-        Renderer::getInstance()->renderTexture( slots[i]->getTexture(), &slots[i]->getRect());
+    if (!slots.empty())
+    for(int i = 0; i < slots.size(); ++i)
+        slots[i]->draw();
+       //CTexture::CopyTextureToRenderer( slots[i]->getTexture(), nullptr,  );
+        //Renderer::getInstance()->renderTexture( slots[i]->getTexture(), &slots[i]->getRect());
 }
 
 bool SlotContainer::onClick(SDL_Point* point)
@@ -55,12 +56,12 @@ bool SlotContainer::containsPoint(int x, int y) const
     return SDL_PointInRect(&point, &getRect());
 }
 
-void SlotContainer::addItem(CTexture* item, int index)
+void SlotContainer::addItem(IDrawable* item, int index)
 {
 	if (item != nullptr && index >= 0 && index < slots.size())
 		slots[index] = item;
 }
-void SlotContainer::receiveItem(CTexture* item, int index)
+void SlotContainer::receiveItem(IDrawable* item, int index)
 {
     if (item != nullptr && index >= 0 && index < slots.size())
         slots[index]->setTexture(item->getTexture());

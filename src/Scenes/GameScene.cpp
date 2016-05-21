@@ -14,7 +14,7 @@
 #include <cstdlib>
 #include <ctime>
 #include "../Input/InputDispatcher.h"
-
+#include "../GlobalScripts/Renderer.h"
 GameScene::GameScene()
 :Scene(), gates(), arialFont(nullptr), waveLabel()
 {
@@ -46,21 +46,21 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
 
         int curIndex =  GameModel::getInstance()->getCurrentMissionIndex();
 
-        string s ="/home/kostya_hm/Projects/DarkDefence/GameData/Missions/" + std::to_string(curIndex) +"/Mission.xml";
+        string s ="GameData/Missions/" + std::to_string(curIndex) +"/Mission.xml";
         GameModel::getInstance()->deserialize(currentMission, s);
 
-        string s00 = "/home/kostya_hm/Projects/DarkDefence/GameData/Missions/" + std::to_string(curIndex) + "/points.txt";
+        string s00 = "GameData/Missions/" + std::to_string(curIndex) + "/points.txt";
         GameModel::getInstance()->loadMonsterPointsList(s00);
 
 
-        string s01 = "/home/kostya_hm/Projects/DarkDefence/GameData/MineModels.xml";
+        string s01 = "GameData/MineModels.xml";
         GameModel::getInstance()->loadMinesList(s01);
 
         topPanel.setRect(0,0, 800, 40);
-       // topPanel.setTexture(Renderer::getInstance()->loadTextureFromFile("/home/kostya_hm/Projects/DarkDefence/GameData/textures/topPanel.png"));
+       // topPanel.loadTexture("GameData/textures/topPanel.png");
 
 
-       // GameModel::getInstance()->getResourcesModel()->loadFromFile("/home/kostya_hm/Projects/DarkDefence/GameData/resources.txt");
+        GameModel::getInstance()->getResourcesModel()->loadFromFile("GameData/resources.txt");
 
 
         gatesHealthBar.setRect(0, 0, 90, 15);
@@ -70,6 +70,8 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
 
         SDL_FillRect(surface1, nullptr, SDL_MapRGB(surface1->format, 150,100, 0));
         SDL_FillRect(surface2, nullptr, SDL_MapRGB(surface2->format, 200,100, 0));
+
+
 
         SDL_Texture  *backTexture = Renderer::getInstance()->getTextureFromSurface(surface1);
         SDL_Texture  *frontTexture = Renderer::getInstance()->getTextureFromSurface(surface2);
@@ -95,7 +97,7 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
         SDL_FillRect(surface4, nullptr, SDL_MapRGB(surface4->format, 0,0, 255));
 
         SDL_Texture  *backTexture1 = Renderer::getInstance()->getTextureFromSurface(surface3);
-        SDL_Texture  *frontTexture1 = Renderer::getInstance()->getTextureFromSurface(surface4);
+        SDL_Texture  *frontTexture1 =Renderer::getInstance()->getTextureFromSurface(surface4);
         SDL_FreeSurface(surface3);
         SDL_FreeSurface(surface4);
         manaBar.setTexture(backTexture1);
@@ -108,8 +110,8 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
 
 
 
-        arialFont = Renderer::getInstance()->loadFontFromFile("/home/kostya_hm/Projects/DarkDefence/Fonts/arial.ttf", 20);
-        SDL_Color arialFontColor = {255, 255, 255};
+        arialFont.loadFromFile("Fonts/arial.ttf", 20);
+        arialFont.setFontColor(255, 255, 255);
 
 
 
@@ -120,10 +122,10 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
             string s = GameModel::getInstance()->getResourcesModel()->printResourceFromIndex(i);
             resourceLabels[i] = new CompositeLabel();
 
-            resourceLabels[i]->setFont(arialFont, arialFontColor);
-            string iconPath = "/home/kostya_hm/Projects/DarkDefence/GameData/textures/Resources/"
+            resourceLabels[i]->setFont(arialFont);
+            string iconPath = "GameData/textures/Resources/"
                     + GameModel::getInstance()->getResourcesModel()->getResourceNameFromIndex(i) + ".png";
-            resourceLabels[i]->setIcon(Renderer::getInstance()->loadTextureFromFile( iconPath ));
+            resourceLabels[i]->loadIcon( iconPath );
             resourceLabels[i]->setIconRect(0,0, 30 , 30);
             resourceLabels[i]->setPos(0, 0);
 
@@ -133,36 +135,36 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
             topPanel.addChild(resourceLabels[i]);
         }
 
-        pointsLabel.setFont(arialFont, arialFontColor);
+        pointsLabel.setFont(arialFont);
         pointsLabel.setRect(0,0, 30, 20);
         pointsLabel.setPos(0,0);
         topPanel.addChild(&pointsLabel);
 
 
 
-        waveLabel.setFont(arialFont, arialFontColor);
+        waveLabel.setFont(arialFont);
         waveLabel.setPos(0,0);
         topPanel.addChild(&waveLabel);
 
         listGUI.push_back(&topPanel);
 
 
-        GameModel::getInstance()->loadMonsterList("/home/kostya_hm/Projects/DarkDefence/GameData/MonsterList.xml");
+        GameModel::getInstance()->loadMonsterList("GameData/MonsterList.xml");
 
-        GameModel::getInstance()->loadTowerUpgrades("/home/kostya_hm/Projects/DarkDefence/GameData/TowerTree.xml");
-        monsterSpawner.loadWavesInfo("/home/kostya_hm/Projects/DarkDefence/GameData/wavesInfo.txt");
+        GameModel::getInstance()->loadTowerUpgrades("GameData/TowerTree.xml");
+        monsterSpawner.loadWavesInfo("GameData/wavesInfo.txt");
 
 
-        Terrain = objectFabric.produce("Terrain", "none", "/home/kostya_hm/Projects/DarkDefence/GameData/textures/terrain.JPG", 800, 600);
+        Terrain = objectFabric.produce("Terrain", "none", "GameData/textures/terrain.JPG", 800, 600);
         spawnObject(0,0, Terrain);
         towerUpgradeController.init(this);
         Tower* tower = towerFabric.produceTower("BasicTower", &towerUpgradeController);
         spawnObject(0, 400, tower);
 
         resPlace = new ResourcePlace();
-       Sprite* resSprite = new Sprite();
+        Sprite* resSprite = new Sprite();
         resSprite->setRect(0, 0, 200, 200);
-        resSprite->setTexture(Renderer::getInstance()->loadTextureFromFile("/home/kostya_hm/Projects/DarkDefence/GameData/textures/Resources/WheatResource.png"));
+        resSprite->loadTexture("GameData/textures/Resources/WheatResource.png");
         resPlace->setSprite(resSprite);
         resPlace->setName("ResourcePlace");
         resPlace->setTag("ResourcePlace");
@@ -176,7 +178,7 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
 
        Sprite* newView = new Sprite();
         newView->setRect(0, 0, 100, 100);
-        newView->setTexture(Renderer::getInstance()->loadTextureFromFile("/home/kostya_hm/Projects/DarkDefence/GameData/textures/Gates.png"));
+        newView->loadTexture("GameData/textures/Gates.png");
 
 		gates.setSprite(newView);
         gates.setTag("Gates");
@@ -187,7 +189,7 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
         int y1 = Renderer::getInstance()->getScreenHeight() - 50;
         int w = 50;
         int h = 50;
-        GameModel::getInstance()->loadAbilitiesNames("/home/kostya_hm/Projects/DarkDefence/GameData/abilities.txt");
+        GameModel::getInstance()->loadAbilitiesNames("GameData/abilities.txt");
 
         AbilityMagicStones* magicStones = new AbilityMagicStones();
 
@@ -242,10 +244,10 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
         for(int i = 0; i < abilityButtons.size(); x1 += w, ++i)
         {
            // std::cout << i << std::endl;
-            string imgPath = "/home/kostya_hm/Projects/DarkDefence/GameData/textures/Abilities/Ability" + GameModel::getInstance()->getAbilityNameFromIndex(i) + ".png";
+            string imgPath = "GameData/textures/Abilities/Ability" + GameModel::getInstance()->getAbilityNameFromIndex(i) + ".png";
             std::cout << imgPath << std::endl;
             abilityButtons[i].setRect( x1, y1, w, h);
-            abilityButtons[i].setTexture(Renderer::getInstance()->loadTextureFromFile(imgPath));
+            abilityButtons[i].loadTexture(imgPath);
             listGUI.push_back(&abilityButtons[i]);
             if (i < 4)
                 abilityButtons[i].ConnectMethod(std::bind(&GameScene::setActiveMstones, this, GameModel::getInstance()->getAbilityNameFromIndex(i)));

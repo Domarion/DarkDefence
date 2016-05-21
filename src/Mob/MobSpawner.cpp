@@ -31,6 +31,7 @@ void MobSpawner::loadWavesInfo(string filename)
 {
 
 
+
     string textString;
     androidText::loadTextFileToString(filename, textString);
 
@@ -112,8 +113,7 @@ list<SceneObject*>* MobSpawner::doSpawn()
            AnimatedSprite* someSprite = new AnimatedSprite();
 
             someSprite->setRect(0,0, 50, 80);
-          //  someSprite->setTexture(Renderer::getInstance()->loadTextureFromFile("/home/kostya_hm/Projects/DarkDefence/GameData/textures/Monsters/" + monsterName + ".png"));
-            someSprite->setTexture(Renderer::getInstance()->loadTextureFromFile("/home/kostya_hm/Projects/DarkDefence/GameData/textures/Monsters/" + monsterName + "Sheet.png"));
+            someSprite->loadTexture("GameData/textures/Monsters/" + monsterName + "Sheet.png");
 
             vector<SDL_Rect> walkRects;
             SDL_Rect rect0 = {13, 7, 42, 73};

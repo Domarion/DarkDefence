@@ -10,7 +10,7 @@
 #include "../Input/InputDispatcher.h"
 
 InventoryScene::InventoryScene()
-    :arialFont(nullptr)
+    :arialFont()
 {
 	// TODO Auto-generated constructor stub
 
@@ -31,16 +31,16 @@ void InventoryScene::initScene( SceneManager* sceneManagerPtr)
         std::cout << "ShopScene" << std::endl;
 
 
-        GameModel::getInstance()->loadShopItems("/home/kostya_hm/Projects/DarkDefence/GameData/Items.xml");
+        //GameModel::getInstance()->loadShopItems("GameData/Items.xml");
 
 
 
 
 
-        arialFont = Renderer::getInstance()->loadFontFromFile("/home/kostya_hm/Projects/DarkDefence/Fonts/arial.ttf", 24);
-        SDL_Color arialFontColor = {0, 0, 0};
+        arialFont.loadFromFile("Fonts/arial.ttf", 24);
 
-        button.setFont(arialFont, arialFontColor);
+
+        button.setFont(arialFont);
         button.setRect(Renderer::getInstance()->getScreenWidth() - 100, Renderer::getInstance()->getScreenHeight() - 50, 100, 50);
         button.setText("Назад");
         string s1 = "MainScene";
@@ -63,7 +63,7 @@ void InventoryScene::initScene( SceneManager* sceneManagerPtr)
 
         scroll.initScrollList(showItems, itemWidth, itemHeight);
         scroll.setRect(0, 0, Renderer::getInstance()->getScreenWidth()*0.4, Renderer::getInstance()->getScreenHeight() - 50);
-        scroll.setTexture(Renderer::getInstance()->loadTextureFromFile("/home/kostya_hm/Projects/DarkDefence/GameData/textures/topPanel.png"));
+        scroll.loadTexture("GameData/textures/topPanel.png");
 
         inventoryController.setModel(GameModel::getInstance()->getInventory());
 
