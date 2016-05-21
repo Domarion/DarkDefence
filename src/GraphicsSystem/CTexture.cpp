@@ -40,7 +40,7 @@ void CTexture::draw()
 }
 
 
-SDL_Texture* const  CTexture::getTexture() const
+SDL_Texture* CTexture::getTexture() const
 {
 	return texture;
 }
@@ -60,7 +60,7 @@ void CTexture::setTextureFromSurface(SDL_Surface* surface)
 }
 
 
-void  CTexture::setTexture(SDL_Texture* const value)
+void  CTexture::setTexture(SDL_Texture* value)
 {
 	if (getTexture() != nullptr)
 		SDL_DestroyTexture(getTexture());

@@ -19,7 +19,7 @@ SceneObjectFabric::~SceneObjectFabric()
 	// TODO Auto-generated destructor stub
 }
 
-SceneObject* const SceneObjectFabric::produce(string name, string tag, string spritePath, int width, int height)
+SceneObject* SceneObjectFabric::produce(string name, string tag, string spritePath, int width, int height)
 {
     SceneObject* someObject = new SceneObject();
     someObject->setName(name);

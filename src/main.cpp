@@ -203,7 +203,7 @@ int main( int argc, char* args[])
 	string tag = "BasicTower";
 	//MobModel(string aName, string aTag, int aMaxHealth, double aProtection[], double damage[], double distance, double speed);
 	MobModel mob(name, tag, 200, prot, attack, 5.0, 0.0);
-	/*saveMobModel(mob);*/
+saveMobModel(mob);*/
 
 
 /*	TreeNode<MobModel> somenode("integerNode", "none", mob);

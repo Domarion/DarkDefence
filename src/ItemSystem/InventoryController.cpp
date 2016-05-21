@@ -26,7 +26,7 @@ void InventoryController::setView(ScrollList* newView)
 	view = newView;
 }
 
-ScrollList* const InventoryController::getView() const
+ScrollList*  InventoryController::getView() const
 {
 	return view;
 }
@@ -36,7 +36,7 @@ void InventoryController::setModel(Inventory* newModel)
 	model = newModel;
 }
 
-Inventory* const InventoryController::getModel() const
+Inventory*  InventoryController::getModel() const
 {
 	return model;
 }

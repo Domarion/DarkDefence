@@ -16,7 +16,7 @@ AccountModel::AccountModel()
 
 }
 
-AccountModel* const AccountModel::getInstance()
+AccountModel* AccountModel::getInstance()
 {
 	if (instance_ == nullptr)
 		instance_ = new AccountModel();

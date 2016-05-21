@@ -21,7 +21,7 @@ Gates::~Gates()
 	// TODO Auto-generated destructor stub
 }
 
-DestructibleObject* const Gates::getModel()
+DestructibleObject* Gates::getModel()
 {
 	return model;
 }

@@ -7,7 +7,7 @@ TowerFabric::TowerFabric()
 
 }
 
-Tower * const TowerFabric::produceTower(std::string towerName, TowerUpgradeController* upgrader)
+Tower * TowerFabric::produceTower(std::string towerName, TowerUpgradeController* upgrader)
 {
     MobModel* model = GameModel::getInstance()->getTowerByName(towerName);
     if (model == nullptr)

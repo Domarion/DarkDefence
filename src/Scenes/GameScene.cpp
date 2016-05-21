@@ -283,7 +283,7 @@ void GameScene::startUpdate(double timestep)
     if (gates.getDestructibleObject() != nullptr)
     switch(currentMission.checkStatus())
     {
-    case MissionStatuses::mIN_PROGRESS:
+    case MissionStatuses::mIN_PROGRESS:case MissionStatuses::mNOT_STARTED:
     {
         break;
     }
@@ -383,12 +383,12 @@ void GameScene::copyToRender() const
     Scene::copyToRender();
 }
 
-AbilityModel * const GameScene::getAbilityModelWithName(string name)
+AbilityModel * GameScene::getAbilityModelWithName(string name)
 {
     return abilityModelsMap[name];
 }
 
-map<std::__cxx11::string, AbilityModel *> &GameScene::getAbilityModelList()
+map<string, AbilityModel *> &GameScene::getAbilityModelList()
 {
     return abilityModelsMap;
 }

@@ -74,7 +74,7 @@ int Inventory::getItemCount() const
 	return items.size();
 }
 
-const ItemModel* const Inventory::getItemFromIndex(int index)
+const ItemModel*  Inventory::getItemFromIndex(int index)
 {
     if (index < 0 || index >= items.size())
 		return nullptr;

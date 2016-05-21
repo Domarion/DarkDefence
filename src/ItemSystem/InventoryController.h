@@ -16,9 +16,9 @@ public:
 	InventoryController();
 	virtual ~InventoryController();
 	void setView(ScrollList* newView);
-	ScrollList* const getView() const;
+    ScrollList* getView() const;
 	void setModel(Inventory* newModel);
-	Inventory* const getModel() const;
+    Inventory* getModel() const;
 	void initView();
     void receiveItemFromModel(string caption, int itemType);
 private:

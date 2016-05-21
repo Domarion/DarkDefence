@@ -105,7 +105,7 @@ void MissionView::draw()
 
 }
 
-TTF_Font * const MissionView::getFont()
+TTF_Font * MissionView::getFont()
 {
     return arialFont;
 

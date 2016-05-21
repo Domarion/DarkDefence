@@ -16,9 +16,9 @@ public:
 	ShopController();
 	virtual ~ShopController();
 	void setView(ScrollList* newView);
-	ScrollList* const getView() const;
+    ScrollList*  getView() const;
 	void setModel(ShopInventory* newModel);
-	ShopInventory* const getModel() const;
+    ShopInventory*  getModel() const;
 	void initView();
 private:
 	ShopInventory* model;

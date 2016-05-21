@@ -10,7 +10,7 @@ CompositeLabel::~CompositeLabel()
 
 }
 
-SDL_Texture * const CompositeLabel::getIcon() const
+SDL_Texture * CompositeLabel::getIcon() const
 {
     return icon.getTexture();
 }

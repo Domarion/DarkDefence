@@ -24,7 +24,7 @@ public:
     virtual void setPos(int x, int y);
     virtual bool update(double timestep);
 	virtual void finalize();
-    virtual Sprite * const getSprite() const;
+    virtual Sprite * getSprite() const;
     virtual void setSprite(Sprite* value);
     int getX() const;
     int getY() const;
@@ -34,7 +34,7 @@ public:
 
     virtual string getTag() const;
     virtual void setTag(const string &value);
-    virtual void setParentScene(Scene* const scene);
+    virtual void setParentScene(Scene* scene);
     virtual Scene* getParentScene();
     virtual DestructibleObject* getDestructibleObject();
     virtual EffectReceiver* getEffectReceiver() const;

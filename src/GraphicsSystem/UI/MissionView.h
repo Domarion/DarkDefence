@@ -12,7 +12,7 @@ public:
     virtual ~MissionView();
     void init(Mission& missionRef);
     virtual void draw() override;
-    TTF_Font* const getFont();
+    TTF_Font*  getFont();
 private:
     Label missionName;
     Label missionDescription;

@@ -6,7 +6,7 @@ using std::endl;
 
 Renderer* Renderer::instance_ = nullptr;
 
-Renderer * const Renderer::getInstance()
+Renderer * Renderer::getInstance()
 {
     if (instance_ == nullptr)
         instance_ = new Renderer();
@@ -54,12 +54,12 @@ Renderer::~Renderer()
 }
 
 
-SDL_Texture* const Renderer::loadTextureFromFile(std::string filename)
+SDL_Texture*  Renderer::loadTextureFromFile(std::string filename)
 {
     return IMG_LoadTexture(rendererPtr, filename.c_str());
 }
 
-SDL_Texture * const Renderer::getTextureFromSurface(SDL_Surface *surface)
+SDL_Texture *  Renderer::getTextureFromSurface(SDL_Surface *surface)
 {
     SDL_Texture* texture = nullptr;
 
@@ -71,7 +71,7 @@ SDL_Texture * const Renderer::getTextureFromSurface(SDL_Surface *surface)
     return texture;
 }
 
-void Renderer::renderTexture(SDL_Texture* const aTexture, int x, int y, int w, int h, SDL_Rect* const clip)
+void Renderer::renderTexture(SDL_Texture*  aTexture, int x, int y, int w, int h, SDL_Rect*  clip)
 {
     if (aTexture != nullptr)
     {
@@ -80,7 +80,7 @@ void Renderer::renderTexture(SDL_Texture* const aTexture, int x, int y, int w, i
     }
 }
 
-void Renderer::renderTexture(SDL_Texture * const aTexture, const SDL_Rect * const dest, SDL_Rect * const clip)
+void Renderer::renderTexture(SDL_Texture *  aTexture, const SDL_Rect *  dest, SDL_Rect *  clip)
 {
     if (aTexture != nullptr && dest != nullptr)
     {
@@ -94,12 +94,12 @@ void Renderer::renderTexture(SDL_Texture * const aTexture, const SDL_Rect * cons
     }
 }
 
-TTF_Font * const Renderer::loadFontFromFile(string filename, int size)
+TTF_Font * Renderer::loadFontFromFile(string filename, int size)
 {
     return TTF_OpenFont(filename.c_str(), size);
 }
 
-SDL_Texture * const Renderer::stringToTexture(TTF_Font * const font, string text, int r, int g, int b)
+SDL_Texture * Renderer::stringToTexture(TTF_Font * font, string text, Uint8 r, Uint8 g, Uint8 b)
 {
     SDL_Color color = {r, g, b};
 
@@ -112,15 +112,15 @@ SDL_Texture * const Renderer::stringToTexture(TTF_Font * const font, string text
     return resultingTexture;
 }
 
-SDL_Texture * const Renderer::stringToTexture(string fontFilename, int size, string text, int r, int g, int b)
+SDL_Texture * Renderer::stringToTexture(string fontFilename, int size, string text, Uint8 r, Uint8 g, Uint8 b)
 {
     TTF_Font* font = loadFontFromFile(fontFilename, size);
     return stringToTexture(font, text, r, g, b);
 }
 
-void Renderer::setRendererDrawColor(int r, int g, int b)
+void Renderer::setRendererDrawColor(Uint8 r, Uint8 g, Uint8 b)
 {
-    SDL_SetRenderDrawColor(rendererPtr, 255, 255, 255, 255);
+    SDL_SetRenderDrawColor(rendererPtr, r, g, b, 255);
 
 }
 

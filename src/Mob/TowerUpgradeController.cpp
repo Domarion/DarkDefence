@@ -41,7 +41,7 @@ void TowerUpgradeController::receiveTowerUpgrade(Tower *tower, int x, int y)
     towerMenu.setRect(tower->getSprite()->getRect().x + 150, tower->getSprite()->getRect().y, 300, 400);
       std::cout << "TOWER_MENU_POS x = " << (towerMenu.getRect().x) << " y = " << (towerMenu.getRect().y) << std::endl;
 
-      for(int i = 0; i < currentTowerChildren.size(); ++i)
+      for(size_t i = 0; i < currentTowerChildren.size(); ++i)
     {
         CompositeLabel* label = new CompositeLabel();
         label->setFont(arialFont1, 255, 255, 255);

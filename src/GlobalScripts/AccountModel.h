@@ -13,7 +13,7 @@ using std::string;
 class AccountModel
 {
 public:
-	static AccountModel* const getInstance();
+    static AccountModel* getInstance();
 	const string& getAccountName() const;
 	void setAccountName(const string& accountName);
 	int getGoldAmount() const;

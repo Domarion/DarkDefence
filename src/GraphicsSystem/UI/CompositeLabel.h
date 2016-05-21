@@ -9,7 +9,7 @@ public:
     virtual ~CompositeLabel();
 
 
-    SDL_Texture* const getIcon() const;
+    SDL_Texture* getIcon() const;
     void setIcon(SDL_Texture* const value);
     virtual void draw() override;
 

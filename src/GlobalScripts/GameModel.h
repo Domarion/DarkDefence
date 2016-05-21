@@ -30,10 +30,10 @@ class GameModel
 
 public:
 
-	static GameModel* const getInstance();
-	ResourcesModel* const getResourcesModel();
-	MobModel* const getMonsterByName(string name);
-    MobModel* const getTowerByName(string name);
+    static GameModel* getInstance();
+    ResourcesModel* getResourcesModel();
+    MobModel* getMonsterByName(string name);
+    MobModel* getTowerByName(string name);
 
 	void loadMonsterList(string filename);
     void loadMonsterPointsList(string filename);
@@ -70,7 +70,7 @@ public:
     MineModel *getMineModelFromList(string name);
     MineModel *getMineModelFromListByRes(Enums::ResourceTypes resType);
 
-    MobModel* const getMonsterFromListWithName(string name);
+    MobModel* getMonsterFromListWithName(string name);
     map<string, MobModel>& getMonsterList();
 
     const Reward& getMissionReward() const;

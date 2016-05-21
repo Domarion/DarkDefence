@@ -14,9 +14,9 @@ public:
 	HeroInventoryController();
 	virtual ~HeroInventoryController();
 	void setView(SlotContainer* newView);
-	SlotContainer* const getView() const;
+    SlotContainer* getView() const;
 	void setModel(HeroInventory* newModel);
-	HeroInventory* const getModel() const;
+    HeroInventory* getModel() const;
 	void initView();
     void receiveItemFromModel(string caption, int itemType);
 private:

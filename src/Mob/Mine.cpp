@@ -32,15 +32,15 @@ DestructibleObject *Mine::getDestructibleObject()
 
 EffectReceiver *Mine::getEffectReceiver() const
 {
-
+    return nullptr;
 }
 
-MineModel * const Mine::getMineModel()
+MineModel *  Mine::getMineModel()
 {
     return model;
 }
 
-void Mine::setMineModel(MineModel * const newModel)
+void Mine::setMineModel(MineModel *  newModel)
 {
    model = newModel;
 }

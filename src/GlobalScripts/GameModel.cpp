@@ -34,12 +34,12 @@ using std::stringstream;
 
 GameModel* GameModel::instance_ = nullptr;
 
-MobModel* const GameModel::getMonsterByName(string name)
+MobModel* GameModel::getMonsterByName(string name)
 {
     return new MobModel(monstersModelsMap[name]);
 }
 
-MobModel* const GameModel::getTowerByName(string name)
+MobModel* GameModel::getTowerByName(string name)
 {
 
     TreeNode<MobModel>* temp = towerUpgradesRootNode.recursiveSearch(name);
@@ -475,7 +475,7 @@ MineModel *GameModel::getMineModelFromListByRes(Enums::ResourceTypes resType)
     return getMineModelFromList(mineResMapping[resType]);
 }
 
-MobModel * const GameModel::getMonsterFromListWithName(string name)
+MobModel *  GameModel::getMonsterFromListWithName(string name)
 {
     return &monstersModelsMap[name];
 }
@@ -485,7 +485,7 @@ map<string, MobModel> &GameModel::getMonsterList()
     return monstersModelsMap;
 }
 
-GameModel* const GameModel::getInstance()
+GameModel*  GameModel::getInstance()
 {
     if (instance_ == nullptr)
         instance_ = new GameModel();
@@ -493,7 +493,7 @@ GameModel* const GameModel::getInstance()
 	return instance_;
 }
 
-ResourcesModel* const GameModel::getResourcesModel()
+ResourcesModel* GameModel::getResourcesModel()
 {
 	return resourcesModelPtr;
 }

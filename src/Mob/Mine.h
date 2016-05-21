@@ -14,8 +14,8 @@ public:
     virtual void finalize();
     virtual DestructibleObject *getDestructibleObject();
     virtual EffectReceiver *getEffectReceiver() const;
-    MineModel*const getMineModel();
-    void setMineModel(MineModel * const newModel);
+    MineModel* getMineModel();
+    void setMineModel(MineModel * newModel);
 private:
     MineModel* model;
 };

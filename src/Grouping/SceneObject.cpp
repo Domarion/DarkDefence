@@ -30,7 +30,7 @@ void SceneObject::setTag(const string &value)
     tag = value;
 }
 
-void SceneObject::setParentScene(Scene* const scene)
+void SceneObject::setParentScene(Scene* scene)
 {
     parentScenePtr = scene;
 }
@@ -87,7 +87,7 @@ void SceneObject::finalize()
      delete spriteModel;
 }
 
-Sprite* const SceneObject::getSprite() const
+Sprite* SceneObject::getSprite() const
 {
 	return spriteModel;
 }

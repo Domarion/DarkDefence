@@ -16,7 +16,7 @@ class Gates: public SceneObject
 public:
 	Gates();
 	virtual ~Gates();
-	DestructibleObject* const getModel();
+    DestructibleObject* getModel();
     virtual DestructibleObject* getDestructibleObject() override;
     virtual bool update(double timestep) override;
 	void setModel(DestructibleObject* newModel);

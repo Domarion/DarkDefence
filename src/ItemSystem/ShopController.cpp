@@ -26,7 +26,7 @@ void ShopController::setView(ScrollList* newView)
 	view = newView;
 }
 
-ScrollList* const ShopController::getView() const
+ScrollList*  ShopController::getView() const
 {
 	return view;
 }
@@ -36,7 +36,7 @@ void ShopController::setModel(ShopInventory* newModel)
 	model = newModel;
 }
 
-ShopInventory* const ShopController::getModel() const
+ShopInventory*  ShopController::getModel() const
 {
 	return model;
 }

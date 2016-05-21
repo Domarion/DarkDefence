@@ -24,7 +24,7 @@ void HeroInventoryController::setView(SlotContainer* newView)
 	view = newView;
 }
 
-SlotContainer* const HeroInventoryController::getView() const
+SlotContainer*  HeroInventoryController::getView() const
 {
 	return view;
 }
@@ -34,7 +34,7 @@ void HeroInventoryController::setModel(HeroInventory* newModel)
 	model = newModel;
 }
 
-HeroInventory* const HeroInventoryController::getModel() const
+HeroInventory*  HeroInventoryController::getModel() const
 {
 	return model;
 }

@@ -12,15 +12,15 @@ public:
     int getMapCount() const;
     void setMapCount(int value);
 
-    SDL_Texture* const getNormalTexture() const;
+    SDL_Texture*  getNormalTexture() const;
     void setNormalTexture( SDL_Texture* const value);
 
-    SDL_Texture* const getCompletedTexture() const;
+    SDL_Texture*  getCompletedTexture() const;
     void setCompletedTexture( SDL_Texture* const value);
 
-    SDL_Texture* const getLockedTexture() const;
+    SDL_Texture*  getLockedTexture() const;
     void setLockedTexture( SDL_Texture* const value);
-    SDL_Texture* const textureChoice(int index);
+    SDL_Texture*  textureChoice(int index);
     virtual void draw() override;
     int getIndicatorWidth() const;
     void setIndicatorWidth(int value);

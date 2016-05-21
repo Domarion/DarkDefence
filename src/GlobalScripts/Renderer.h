@@ -7,18 +7,18 @@ using std::string;
 class Renderer
 {
 public:
-    static Renderer* const getInstance();
+    static Renderer* getInstance();
     void initRenderer(int w, int h);
     void destroyRenderer();
-    SDL_Texture* const loadTextureFromFile(string filename);
-    SDL_Texture* const getTextureFromSurface(SDL_Surface* surface);
-    void renderTexture(SDL_Texture* const aTexture, int x, int y, int w, int h, SDL_Rect* const clip = nullptr);
-    void renderTexture(SDL_Texture* const aTexture, const SDL_Rect* const dest = nullptr, SDL_Rect* const clip = nullptr);
+    SDL_Texture*  loadTextureFromFile(string filename);
+    SDL_Texture*  getTextureFromSurface(SDL_Surface* surface);
+    void renderTexture(SDL_Texture*  aTexture, int x, int y, int w, int h, SDL_Rect*  clip = nullptr);
+    void renderTexture(SDL_Texture*  aTexture, const SDL_Rect*  dest = nullptr, SDL_Rect*  clip = nullptr);
 
-    TTF_Font* const loadFontFromFile(string filename, int size);
-    SDL_Texture* const stringToTexture(TTF_Font* const font, string text, int r, int g, int b);
-    SDL_Texture* const stringToTexture(string fontFilename, int size, string text, int r, int g, int b);
-    void setRendererDrawColor(int r, int g, int b);
+    TTF_Font*  loadFontFromFile(string filename, int size);
+    SDL_Texture*  stringToTexture(TTF_Font* font, string text, Uint8 r, Uint8 g, Uint8 b);
+    SDL_Texture* stringToTexture(string fontFilename, int size, string text, Uint8 r, Uint8 g, Uint8 b);
+    void setRendererDrawColor(Uint8 r, Uint8 g, Uint8 b);
     void renderClear();
     void renderPresent();
 

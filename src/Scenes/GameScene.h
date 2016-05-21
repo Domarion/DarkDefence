@@ -41,7 +41,7 @@ public:
 	virtual void unloadScene() override;
 	virtual void startUpdate(double timestep) override;
     virtual void copyToRender() const override;
-    AbilityModel* const getAbilityModelWithName(string name);
+    AbilityModel* getAbilityModelWithName(string name);
     map<string, AbilityModel* >& getAbilityModelList();
 private:
     SceneObjectFabric objectFabric;

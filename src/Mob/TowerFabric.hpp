@@ -10,5 +10,5 @@ class TowerFabric
 {
 public:
     TowerFabric();
-    Tower* const produceTower(string towerName, TowerUpgradeController* upgrader = nullptr);
+    Tower* produceTower(string towerName, TowerUpgradeController* upgrader = nullptr);
 };
