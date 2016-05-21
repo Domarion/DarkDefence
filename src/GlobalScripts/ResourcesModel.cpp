@@ -7,6 +7,10 @@
 
 #include "ResourcesModel.h"
 #include <fstream>
+#include "../Utility/textfilefunctions.h"
+#include <sstream>
+using std::stringstream;
+
 ResourcesModel::ResourcesModel()
 {
 	// TODO Auto-generated constructor stub
@@ -80,7 +84,30 @@ void ResourcesModel::decreaseLimit(int resourceType, int amount)
 
 void ResourcesModel::loadFromFile(std::string filename)
 {
-    std::ifstream somestream(filename);
+
+    string textString;
+    androidText::loadTextFileToString(filename, textString);
+
+
+    if (!textString.empty())
+    {
+        stringstream somestream(textString);
+
+        for(int i = 0; i != ResourcesModel::resourceTypeCount; ++i)
+        {
+            std::string s;
+            int amount;
+            int limit;
+            somestream >> s >> amount >> limit;
+            resourceTypes[i].setCaption(s);
+            resourceTypes[i].setLimit(limit);
+            resourceTypes[i].setCurrentAmount(amount);
+        }
+    }
+
+
+
+    /*std::ifstream somestream(filename);
     if (somestream.good())
     {
 
@@ -98,4 +125,4 @@ void ResourcesModel::loadFromFile(std::string filename)
 
 
     somestream.close();
-}
+*/}

@@ -6,9 +6,13 @@
  */
 
 #include "MobSpawner.h"
+#include "../Utility/textfilefunctions.h"
 #include "../GlobalScripts/GameModel.h"
 #include <fstream>
 #include "../GraphicsSystem/UI/AnimatedSprite.h"
+
+#include <sstream>
+using std::stringstream;
 
 MobSpawner::MobSpawner()
     : period(5000), currentTime(period), waveNumber(0), waveCount(0)
@@ -26,6 +30,27 @@ MobSpawner::~MobSpawner()
 void MobSpawner::loadWavesInfo(string filename)
 {
 
+
+    string textString;
+    androidText::loadTextFileToString(filename, textString);
+
+
+    if (!textString.empty())
+    {
+        stringstream file0(textString);
+
+        file0 >> waveCount;
+        wavesInfo.resize(waveCount);
+        while(!file0.eof())
+        {
+            int waveNum;
+            string mobName;
+            int mobCount;
+            file0 >> waveNum >> mobName >> mobCount;
+            wavesInfo[waveNum - 1].push_back(std::make_pair(mobName, mobCount));
+        }
+    }
+/*
     std::ifstream file0(filename);
     if (file0.good())
     {
@@ -41,7 +66,7 @@ void MobSpawner::loadWavesInfo(string filename)
             wavesInfo[waveNum - 1].push_back(std::make_pair(mobName, mobCount));
         }
     }
-    file0.close();
+    file0.close();*/
 }
 
 bool MobSpawner::canSpawn(double timestep)

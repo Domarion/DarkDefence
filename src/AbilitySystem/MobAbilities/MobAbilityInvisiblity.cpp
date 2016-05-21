@@ -1,5 +1,5 @@
 #include "MobAbilityInvisiblity.h"
-
+#include "../../Mob/MobModel.h"
 MobAbilityInvisiblity::MobAbilityInvisiblity()
 {
 

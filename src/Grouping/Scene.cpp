@@ -10,7 +10,7 @@
 #include "SceneObjectFabric.h"
 #include <list>
 using std::list;
-
+#include "../Input/InputDispatcher.h"
 Scene::Scene()
 :listGUI(), sceneObjects(), parentSceneManager(nullptr), wasInited(false)
 {
@@ -97,12 +97,31 @@ void Scene::spawnObject(int x, int y, SceneObject *obj)
         obj->getDestructibleObject()->setWorldX(x);
         obj->getDestructibleObject()->setWorldY(y);
     }
+
+    InputHandler* handler = dynamic_cast<InputHandler*>(obj);
+    if (handler != nullptr)
+            InputDispatcher::getInstance()->addHandler(handler);
     sceneObjects.push_back(obj);
 }
 
 void Scene::destroyObject(SceneObject *obj)
 {
     sceneObjects.remove(obj);
+}
+
+void Scene::addToUIList(CTexture *item)
+{
+    if (item == nullptr)
+        return;
+
+    listGUI.push_back(item);
+}
+
+void Scene::removeFromUIList(CTexture *item)
+{
+    if (item == nullptr)
+        return;
+    listGUI.remove(item);
 }
 
 void Scene::loadScene()

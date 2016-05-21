@@ -2,8 +2,8 @@
 #include "../Enums.h"
 #include <iostream>
 
-PrickObject::PrickObject()
-    :notDid(true)
+PrickObject::PrickObject(int aDamage)
+    :notDid(true), damage(aDamage)
 {
 
 }
@@ -33,7 +33,7 @@ void PrickObject::init()
            if (temp != nullptr)
            {
                std::cout << "Damage to" << temp->getName() << std::endl;
-               temp->receiveDamageOneType(Enums::DamageTypes::dtPHYSICAL, 200);
+               temp->receiveDamageOneType(Enums::DamageTypes::dtPHYSICAL, damage);
            }
         }
         notDid = false;

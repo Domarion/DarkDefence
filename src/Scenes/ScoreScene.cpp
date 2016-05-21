@@ -21,12 +21,12 @@ ScoreScene::~ScoreScene()
 
 void ScoreScene::initScene(SceneManager *sceneManagerPtr)
 {
-
+ Renderer::getInstance()->setRendererDrawColor(255, 255, 255);
     if (!wasInited)
     {
         Scene::initScene(sceneManagerPtr);
         arialFont = Renderer::getInstance()->loadFontFromFile("/home/kostya_hm/Projects/DarkDefence/Fonts/arial.ttf", 18);
-        SDL_Color color = {255, 255, 255};
+        SDL_Color color = {0, 0, 0};
         button.setFont(arialFont, color);
         button.setRect(0, 0, 100, 50);
         button.setPos(500, 550);

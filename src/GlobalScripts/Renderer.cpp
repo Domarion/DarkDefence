@@ -1,5 +1,5 @@
 #include "Renderer.h"
-#include <SDL2/SDL_image.h>
+#include <SDL_image.h>
 #include <iostream>
 using std::cout;
 using std::endl;
@@ -118,6 +118,12 @@ SDL_Texture * const Renderer::stringToTexture(string fontFilename, int size, str
     return stringToTexture(font, text, r, g, b);
 }
 
+void Renderer::setRendererDrawColor(int r, int g, int b)
+{
+    SDL_SetRenderDrawColor(rendererPtr, 255, 255, 255, 255);
+
+}
+
 void Renderer::renderClear()
 {
     SDL_RenderClear(rendererPtr);
@@ -126,5 +132,21 @@ void Renderer::renderClear()
 void Renderer::renderPresent()
 {
     SDL_RenderPresent(rendererPtr);
+}
+
+int Renderer::getScreenWidth()
+{
+    int w, h;
+    SDL_GetWindowSize(windowPtr, &w, &h);
+
+    return w;
+}
+
+int Renderer::getScreenHeight()
+{
+    int w, h;
+    SDL_GetWindowSize(windowPtr, &w, &h);
+
+    return h;
 }
 

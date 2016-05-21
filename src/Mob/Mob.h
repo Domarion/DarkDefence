@@ -12,13 +12,13 @@
 #include "../Grouping/SceneObject.h"
 #include "MobModel.h"
 #include "MobSpawner.h"
-#include "TowerFabric.hpp"
+
 #include "../AbilitySystem/MobEffectReceiver.h"
 //#include "../Grouping/SceneObjectFabric.h"
 
 #include "../AbilitySystem/MobAbilities/MobAbility.h"
 class MobSpawner;
-class TowerFabric;
+
 class AIComponent;
 class MobAbility;
 class MobEffectReceiver;
@@ -42,9 +42,9 @@ public:
     virtual DestructibleObject* getDestructibleObject() override;
     EffectReceiver* getEffectReceiver() const;
     DestructibleObject* getCurrentTarget();
-private:
+protected:
     Mob(MobModel* model);
-	~Mob();
+    virtual ~Mob();
 
     MobModel* mobModel;
 

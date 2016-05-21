@@ -18,6 +18,8 @@
 using std::string;
 #include <map>
 using std::map;
+#include <vector>
+using std::vector;
 
 template<typename T>
 class TreeNode
@@ -69,6 +71,8 @@ public:
     T& getData();
     void setData(const T& value);
 	const string& getNodeName() const;
+    map<string, TreeNode<T> > & getChildren();
+    vector<string> getChildrenNames();
 
 private:
 	string nodeName;
@@ -78,8 +82,6 @@ private:
 };
 
 #include "../Utility/TreeNode_impl.hpp"
-
-
 
 
 

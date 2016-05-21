@@ -4,7 +4,7 @@
 class PrickObject: public SceneObject
 {
 public:
-    PrickObject();
+    PrickObject(int aDamage);
     virtual ~PrickObject();
 
     // SceneObject interface
@@ -15,4 +15,5 @@ public:
 
 private:
     bool notDid;
+    int damage;
 };

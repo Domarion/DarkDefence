@@ -6,10 +6,11 @@
  */
 
 #include "ShopController.h"
-#include "../GraphicsSystem/UI/TextButton.h"
+//#include "../GraphicsSystem/UI/TextButton.h"
+#include "../GraphicsSystem/ShopItemUI.h"
 
 ShopController::ShopController()
-: model(nullptr), view(nullptr)
+: model(nullptr), view(nullptr), arial(nullptr)
 {
 	// TODO Auto-generated constructor stub
 
@@ -42,19 +43,33 @@ ShopInventory* const ShopController::getModel() const
 
 void ShopController::initView()
 {
+
+     arial = Renderer::getInstance()->loadFontFromFile("/home/kostya_hm/Projects/DarkDefence/Fonts/arial.ttf", 20);
+    color = {0, 0, 0};
+
+
 	int count = model->getItemCount();
 	std::cout << "ItemCount = " << count << std::endl;
 	for(int i = 0; i != count; ++i)
 	{
-		TextButton* btn = new TextButton();
+        //TextButton* btn = new TextButton();
+        ShopItemUI *btn =  new ShopItemUI();
 
-		std::cout << ( "/home/kostya_hm/workspace/DarkDefenceCppPort/GameData/textures/items/" + model->getItemFromIndex(i)->getCaption()  + ".png") << std::endl;
+        string ipath = "/home/kostya_hm/workspace/DarkDefenceCppPort/GameData/textures/items/" +
+                model->getItemFromIndex(i)->getCaption() + ".png";
+        string iprice = std::to_string(model->getItemFromIndex(i)->getPrice());
+        btn->init(arial,color,ipath,model->getItemFromIndex(i)->getCaption(), model->getItemFromIndex(i)->getDescription(), iprice );
 
-        btn->setTexture( Renderer::getInstance()->loadTextureFromFile("/home/kostya_hm/workspace/DarkDefenceCppPort/GameData/textures/items/" +
-                                                                      model->getItemFromIndex(i)->getCaption() + ".png") );
 
-		if (btn->getTexture() == nullptr)
-			std::cout << "index = " << i << " texture is nullptr" << std::endl;
+        view->setItemWidth(btn->getRect().w);
+        view->setItemHeight(btn->getRect().h);
+        //std::cout << ( "/home/kostya_hm/workspace/DarkDefenceCppPort/GameData/textures/items/" + model->getItemFromIndex(i)->getCaption()  + ".png") << std::endl;
+
+        //btn->setTexture( Renderer::getInstance()->loadTextureFromFile("/home/kostya_hm/workspace/DarkDefenceCppPort/GameData/textures/items/" +
+                                                                      //model->getItemFromIndex(i)->getCaption() + ".png") );
+
+        //if (btn->getTexture() == nullptr)
+            //std::cout << "index = " << i << " texture is nullptr" << std::endl;
 
 		view->addItem(btn);
 	}

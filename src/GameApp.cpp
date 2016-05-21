@@ -9,7 +9,7 @@
 #include <iostream>
 using std::cout;
 using std::endl;
-#include <SDL2/SDL_ttf.h>
+#include <SDL_ttf.h>
 #include <exception>
 #include "Input/InputDispatcher.h"
 

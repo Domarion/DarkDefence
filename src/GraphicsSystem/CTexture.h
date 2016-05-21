@@ -1,6 +1,6 @@
 
 #pragma once
-#include <SDL2/SDL.h>
+#include <SDL.h>
 //#include <string>
 #include "../GlobalScripts/Renderer.h"
 class CTexture
@@ -16,7 +16,7 @@ public:
     void setTexture(SDL_Texture* const value);
     virtual void setRect(int x, int y, int w, int h);
     virtual void setRect(const SDL_Rect& value);
-    const SDL_Rect& getRect() const;
+    virtual const SDL_Rect& getRect() const;
     virtual void setPosX(int x);
     virtual void setPosY(int y);
     virtual void setPos(int x, int y);

@@ -14,6 +14,8 @@ MobModel::MobModel()
 {
 
 	// TODO Auto-generated constructor stub
+    for(int i = 0; i < DestructibleObject::damageTypesCount; ++i)
+        price[i] = 0;
 
 }
 
@@ -85,6 +87,9 @@ MobModel::MobModel(const MobModel& right)
 	enemyTags = right.enemyTags;
     reloadTimeMaximum = right.reloadTimeMaximum;
     mobAbilitiesNames = right.mobAbilitiesNames;
+    for(int i = 0; i < DestructibleObject::damageTypesCount; ++i)
+        price[i] = right.price[i];
+
 }
 
 const list<string>& MobModel::getEnemyTags() const
@@ -191,5 +196,10 @@ void MobModel::setAbilitiesNames(list<string> abNames)
 list<string> &MobModel::getAbilitiesNames()
 {
     return mobAbilitiesNames;
+}
+
+int *MobModel::getPrice()
+{
+    return price;
 }
 

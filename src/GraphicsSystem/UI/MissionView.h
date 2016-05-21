@@ -1,8 +1,8 @@
 #pragma once
-#include "Label.h"
+#include "CompositeLabel.h"
 #include "../../MissionSystem/Mission.h"
 #include <list>
-#include <SDL2/SDL_ttf.h>
+#include <SDL_ttf.h>
 using std::list;
 
 class MissionView: public CTexture
@@ -16,8 +16,8 @@ public:
 private:
     Label missionName;
     Label missionDescription;
-    list<Label*> missionGoals;
-    list<Label*> rewardList;
+    list<CompositeLabel*> missionGoals;
+    list<CompositeLabel*> rewardList;
     TTF_Font* arialFont;
 };
 

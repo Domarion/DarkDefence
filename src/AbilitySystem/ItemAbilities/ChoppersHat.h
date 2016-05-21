@@ -4,7 +4,7 @@
 class ChoppersHat: public ItemAbility
 {
 public:
-    ChoppersHat();
+    ChoppersHat(Enums::ResourceTypes rType);
     virtual ~ChoppersHat();
 
     // ItemAbility interface

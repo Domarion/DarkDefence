@@ -1,10 +1,14 @@
 #pragma once
-#include "Mob.h"
+#include "Tower.h"
+#include "TowerUpgradeController.h"
 
-class Mob;
+class TowerUpgradeController;
+
+class Tower;
+
 class TowerFabric
 {
 public:
     TowerFabric();
-    Mob* const produceTower(string towerName);
+    Tower* const produceTower(string towerName, TowerUpgradeController* upgrader = nullptr);
 };

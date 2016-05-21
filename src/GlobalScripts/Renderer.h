@@ -1,6 +1,6 @@
 #pragma once
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
+#include <SDL.h>
+#include <SDL_ttf.h>
 #include <string>
 using std::string;
 
@@ -18,9 +18,12 @@ public:
     TTF_Font* const loadFontFromFile(string filename, int size);
     SDL_Texture* const stringToTexture(TTF_Font* const font, string text, int r, int g, int b);
     SDL_Texture* const stringToTexture(string fontFilename, int size, string text, int r, int g, int b);
-
+    void setRendererDrawColor(int r, int g, int b);
     void renderClear();
     void renderPresent();
+
+    int getScreenWidth();
+    int getScreenHeight();
 private:
     Renderer();
     ~Renderer();

@@ -23,29 +23,31 @@ InventoryScene::~InventoryScene()
 
 void InventoryScene::initScene( SceneManager* sceneManagerPtr)
 {
+
+     Renderer::getInstance()->setRendererDrawColor(255, 255, 255);
 	if (wasInited == false)
     {
         Scene::initScene(sceneManagerPtr);
         std::cout << "ShopScene" << std::endl;
 
 
-        GameModel::getInstance()->loadShopItems("/home/kostya_hm/Projects/DarkDefence/GameData/textures/items/Items.xml");
+        GameModel::getInstance()->loadShopItems("/home/kostya_hm/Projects/DarkDefence/GameData/Items.xml");
 
 
 
 
 
         arialFont = Renderer::getInstance()->loadFontFromFile("/home/kostya_hm/Projects/DarkDefence/Fonts/arial.ttf", 24);
-        SDL_Color arialFontColor = {255, 255, 255};
+        SDL_Color arialFontColor = {0, 0, 0};
 
         button.setFont(arialFont, arialFontColor);
-        button.setRect(200, 50, 150, 50);
+        button.setRect(Renderer::getInstance()->getScreenWidth() - 100, Renderer::getInstance()->getScreenHeight() - 50, 100, 50);
         button.setText("Назад");
         string s1 = "MainScene";
         button.ConnectMethod(std::bind(&SceneManager::setCurrentSceneByName, sceneManagerPtr, s1));
         listGUI.push_back(&button);
 
-        heroFigure.setRect(300,0, 300, 400);
+        heroFigure.setRect(300,0, 300, 500);
         heroController.setModel(GameModel::getInstance()->getHeroInventory());
         heroController.setView(&heroFigure);
         heroController.initView();
@@ -60,6 +62,8 @@ void InventoryScene::initScene( SceneManager* sceneManagerPtr)
         const int itemHeight = 72;
 
         scroll.initScrollList(showItems, itemWidth, itemHeight);
+        scroll.setRect(0, 0, Renderer::getInstance()->getScreenWidth()*0.4, Renderer::getInstance()->getScreenHeight() - 50);
+        scroll.setTexture(Renderer::getInstance()->loadTextureFromFile("/home/kostya_hm/Projects/DarkDefence/GameData/textures/topPanel.png"));
 
         inventoryController.setModel(GameModel::getInstance()->getInventory());
 

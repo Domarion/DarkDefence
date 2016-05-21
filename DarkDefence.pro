@@ -95,7 +95,12 @@ SOURCES += \
     src/AbilitySystem/MobAbilities/MobAbilityRegeneration.cpp \
     src/AbilitySystem/MobAbilities/MobAbilitySprint.cpp \
     src/GraphicsSystem/UI/AnimatedSprite.cpp \
-    src/AbilitySystem/MobAbilities/MobAbilityInvisiblity.cpp
+    src/AbilitySystem/MobAbilities/MobAbilityInvisiblity.cpp \
+    src/Mob/Tower.cpp \
+    src/Mob/TowerUpgradeController.cpp \
+    src/AbilitySystem/ItemAbilities/FeatherOfChap.cpp \
+    src/GraphicsSystem/ShopItemUI.cpp \
+    src/Utility/textfilefunctions.cpp
 
 HEADERS += \
     src/AI/AIComponent.h \
@@ -191,7 +196,12 @@ HEADERS += \
     src/AbilitySystem/MobAbilities/MobAbilityRegeneration.h \
     src/AbilitySystem/MobAbilities/MobAbilitySprint.h \
     src/GraphicsSystem/UI/AnimatedSprite.h \
-    src/AbilitySystem/MobAbilities/MobAbilityInvisiblity.h
+    src/AbilitySystem/MobAbilities/MobAbilityInvisiblity.h \
+    src/Mob/Tower.h \
+    src/Mob/TowerUpgradeController.h \
+    src/AbilitySystem/ItemAbilities/FeatherOfChap.h \
+    src/GraphicsSystem/ShopItemUI.h \
+    src/Utility/textfilefunctions.h
 
 unix:!macx: LIBS += -L$$PWD/../../../../usr/lib64/ -lboost_serialization
 

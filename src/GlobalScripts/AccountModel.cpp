@@ -10,7 +10,7 @@ AccountModel* AccountModel::instance_ = nullptr;
 
 
 AccountModel::AccountModel()
-    :goldAmount(0)
+    :goldAmount(10000)
 {
 	// TODO Auto-generated constructor stub
 

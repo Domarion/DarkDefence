@@ -67,26 +67,26 @@ void HeroInventoryController::initView()
 	int itemWidth = 50;
 	int itemHeight = 50;
 
-    int centerX = view->getRect().x + static_cast<int>(view->getRect().w * 0.5);
+    int centerX = view->getRect().x + static_cast<int>(view->getRect().w * 0.5) +itemWidth;
     int y = 0;
-    view->setItemRect(0, centerX + itemWidth, y, itemWidth, itemHeight);
+    view->setItemRect(0, centerX, y, itemWidth, itemHeight);
     y += itemHeight;
 
-    view->setItemRect(1, centerX + itemWidth, y, itemWidth, itemHeight);
+    view->setItemRect(1, centerX, y, itemWidth, itemHeight);
      y += itemHeight;
 
-    view->setItemRect(2, centerX, y, itemWidth, itemHeight);
-    view->setItemRect(3, centerX - itemWidth + itemWidth, y, itemWidth, itemHeight);
+    view->setItemRect(2, centerX - itemWidth, y, itemWidth, itemHeight);
+    view->setItemRect(3, centerX, y, itemWidth, itemHeight);
     view->setItemRect(4, centerX + itemWidth, y, itemWidth, itemHeight);
 
-    view->setItemRect(5, centerX + 2*itemWidth, y, itemWidth, itemHeight);
+    view->setItemRect(5, centerX - 2*itemWidth, y - itemHeight, itemWidth, itemHeight);
 
-     y += itemHeight;
+    y += itemHeight;
 
-    view->setItemRect(6, centerX + itemWidth, y, itemWidth, itemHeight);
-
-    view->setItemRect(7, centerX + 3*itemWidth, y, itemWidth, itemHeight);
-    view->setItemRect(8, centerX + 4*itemWidth, y, itemWidth, itemHeight);
+    view->setItemRect(6, centerX, y, itemWidth, itemHeight);
+   // y += itemHeight;
+    view->setItemRect(7, centerX + 2*itemWidth, y, itemWidth, itemHeight);
+    view->setItemRect(8, centerX + 3*itemWidth, y, itemWidth, itemHeight);
     view->ConnectMethod(std::bind( &HeroInventory::sendItem, model, std::placeholders::_1) );
     model->ConnectReceiver(std::bind( &HeroInventoryController::receiveItemFromModel, this, std::placeholders::_1, std::placeholders::_2) );
 }

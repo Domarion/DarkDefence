@@ -185,7 +185,7 @@ void saveItems(const ShopInventory& mob)
 }
 
 //for test only}
-int main()
+int main( int argc, char* args[])
 {
 
     //saveMobModels();

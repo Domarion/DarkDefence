@@ -20,9 +20,11 @@ public:
 	int getRegenValue() const;
 	void setRegenPeriod(double value);
 	double getRegenPeriod() const;
+    bool payMana(int amount);
+    void regenerate(double timestep);
 
 private:
-	int current, limit;
+    int limit, current ;
 	int regenerationValue;
 	double regenerationPeriod;
 

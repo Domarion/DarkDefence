@@ -92,6 +92,6 @@ void ResourceInfo::setLimit(int value)
 std::string ResourceInfo::printToString() const
 {
 	std::ostringstream outStringStream;
-    outStringStream << getCurrentAmount() << '/' << getLimit();
+    outStringStream << getCurrentAmount() ;//<< '/' << getLimit();
 	return outStringStream.str();
 }

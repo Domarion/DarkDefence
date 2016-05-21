@@ -24,6 +24,8 @@ public:
 private:
 	Inventory* model;
 	ScrollList* view;
+    TTF_Font* arial;
+   SDL_Color color;
 
 };
 

@@ -98,6 +98,9 @@ inline TreeNode<T>* TreeNode<T>::recursiveSearch(string itemname)
 
 	for(auto ptr =  children.begin(); ptr != children.end(); ++ptr)
 	{
+
+        if (ptr->second.nodeName == itemname)
+            return &(ptr->second);
         TreeNode<T>* someNode = ptr->second.recursiveSearch(itemname);
 		if (someNode != nullptr)
 			return someNode;
@@ -114,4 +117,22 @@ template<typename T>
 void TreeNode<T>::setData(const T &value)
 {
     data = value;
+}
+
+template<typename T>
+map<std::__cxx11::string, TreeNode<T> > &TreeNode<T>::getChildren()
+{
+    return children;
+}
+
+template<typename T>
+vector<std::__cxx11::string> TreeNode<T>::getChildrenNames()
+{
+    vector<string> keys;
+
+    for(auto t = children.begin(); t!=children.end(); ++t)
+    {
+        keys.push_back(t->first);
+    }
+    return keys;
 }

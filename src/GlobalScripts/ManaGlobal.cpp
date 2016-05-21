@@ -8,6 +8,7 @@
 #include "ManaGlobal.h"
 
 ManaGlobal::ManaGlobal()
+    :limit(100), current(limit), regenerationValue(5), regenerationPeriod(2000)
 {
 	// TODO Auto-generated constructor stub
 
@@ -60,5 +61,31 @@ void ManaGlobal::setRegenPeriod(double value)//TODO: EPSILON
 
 double ManaGlobal::getRegenPeriod() const
 {
-	return regenerationPeriod;
+    return regenerationPeriod;
+}
+
+bool ManaGlobal::payMana(int amount)
+{
+    if (amount == 0)
+        return false;
+    if (current < amount)
+        return false;
+
+    current -= amount;
+
+    return true;
+}
+
+void ManaGlobal::regenerate(double timestep)
+{
+    static double counter = 0;
+
+    if (counter >= regenerationPeriod)
+    {
+        setCurrent(current + regenerationValue);
+        counter = 0;
+    }
+
+    counter += timestep;
+
 }

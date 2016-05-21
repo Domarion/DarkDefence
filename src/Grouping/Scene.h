@@ -6,8 +6,8 @@
  */
 
 #pragma once
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
+#include <SDL.h>
+#include <SDL_image.h>
 #include <list>
 using std::list;
 
@@ -31,6 +31,9 @@ public:
 	virtual void startUpdate(double timestep);
     virtual void spawnObject(int x, int y, SceneObject* obj);
     virtual void destroyObject(SceneObject* obj);
+
+    virtual void addToUIList(CTexture* item);
+    virtual void removeFromUIList(CTexture* item);
     SceneObject* findObjectByTag(std::string tag);
     list<SceneObject*> &findObjectsByTag(std::string tag);
     SceneObject* findObjectWithPos(int x, int y);

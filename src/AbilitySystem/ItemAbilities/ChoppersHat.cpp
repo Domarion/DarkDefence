@@ -1,6 +1,7 @@
 #include "ChoppersHat.h"
 
-ChoppersHat::ChoppersHat()
+ChoppersHat::ChoppersHat(Enums::ResourceTypes rType)
+    :resType(rType)
 {
 
 }
@@ -12,7 +13,7 @@ ChoppersHat::~ChoppersHat()
 
 void ChoppersHat::init(GameScene * const scenePtr)
 {
-    resType = Enums::ResourceTypes::WOOD;
+   // resType = Enums::ResourceTypes::WOOD;
     amount = 2;
     currentTime = period = 3000;
     MineModel* mmodel = GameModel::getInstance()->getMineModelFromListByRes(resType);

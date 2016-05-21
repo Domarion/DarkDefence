@@ -31,9 +31,14 @@ public:
 	virtual bool onDrag(int direction) override;
 	virtual void ConnectMethod(std::function<bool(int)> method);
 	virtual bool containsPoint(int x, int y) const override;
+    void scrollUp();
+    void scrollDown();
+    void setItemWidth(int value);
+
+    void setItemHeight(int value);
 
 private:
-	vector<CTexture*> itemList;
+    vector<CTexture*> itemList;
 	int itemCountToShow;
 	int firstToShow, lastToShow;
 	int itemWidth, itemHeight;

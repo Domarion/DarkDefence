@@ -17,6 +17,7 @@ public:
     virtual void setPosX(int x) override;
     virtual void setPosY(int y) override;
     SDL_Rect getIconRect() const;
+    virtual const SDL_Rect& getRect() const override;
     void setIconRect(const SDL_Rect &value);
     void setIconRect(int x, int y, int w, int h);
 

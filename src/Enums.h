@@ -8,7 +8,7 @@
 #pragma once
 namespace Enums
 {
-    enum ItemTypes {DEFAULT = 0, HELM, AMULET, CUIRASS, WEAPON, SHIELD, RING, BOOTS,CONSUMABLE};
+    enum ItemTypes {DEFAULT = 0, HELM, AMULET, WEAPON, CUIRASS, SHIELD, RING, BOOTS,CONSUMABLE};
 	enum GameStatuses {gsINPROGRESS = 0, gsWON, gsLOST};
 	enum ResourceTypes {GOLD = 0, WOOD, STONE, WHEAT};
     enum AbilityStates {asNotAvaliable = -1, asReady = 0, asWorking, asOnCooldown};

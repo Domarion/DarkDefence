@@ -17,6 +17,14 @@ void AbilityShrink::init(Scene * const scenePtr)
 
 bool AbilityShrink::onReady(double timestep)
 {
+    if (AbilityModel::onReady(timestep) == false)
+    {
+        abilityState = Enums::AbilityStates::asNotAvaliable;
+
+        return false;
+    }
+
+
     if (affectedMobs.size() == 0 && parentScenePtr != nullptr && GameModel::getInstance()->getMonsterCount() > 0)
         affectedMobs = (parentScenePtr->findObjectsByTag("Monster"));
 

@@ -50,6 +50,8 @@ public:
     void addGoal(BasicGoal* goal);
     void setReward(const Reward& someReward);
     std::list<std::string> getGoalsFullDesc();
+    std::list<std::string> getGoalsNeeded();
+    std::list<BasicGoal*>& getGoals();
     Reward& getReward();
 private:
 	std::string caption;

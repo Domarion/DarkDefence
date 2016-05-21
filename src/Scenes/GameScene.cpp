@@ -6,8 +6,8 @@
  */
 
 #include "GameScene.h"
-#include <SDL2/SDL.h>
-#include "../Mob/Mob.h"
+#include <SDL.h>
+#include "../Mob/Tower.h"
 #include <cmath>
 #include "../GlobalScripts/GameModel.h"
 #include <iostream>
@@ -57,10 +57,10 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
         GameModel::getInstance()->loadMinesList(s01);
 
         topPanel.setRect(0,0, 800, 40);
-        topPanel.setTexture(Renderer::getInstance()->loadTextureFromFile("/home/kostya_hm/Projects/DarkDefence/GameData/textures/topPanel.png"));
+       // topPanel.setTexture(Renderer::getInstance()->loadTextureFromFile("/home/kostya_hm/Projects/DarkDefence/GameData/textures/topPanel.png"));
 
 
-        GameModel::getInstance()->getResourcesModel()->loadFromFile("/home/kostya_hm/Projects/DarkDefence/GameData/resources.txt");
+       // GameModel::getInstance()->getResourcesModel()->loadFromFile("/home/kostya_hm/Projects/DarkDefence/GameData/resources.txt");
 
 
         gatesHealthBar.setRect(0, 0, 90, 15);
@@ -155,18 +155,18 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
 
         Terrain = objectFabric.produce("Terrain", "none", "/home/kostya_hm/Projects/DarkDefence/GameData/textures/terrain.JPG", 800, 600);
         spawnObject(0,0, Terrain);
-
-        Mob* tower = towerFabric.produceTower("BasicTower");
-        spawnObject(0,0, tower);
+        towerUpgradeController.init(this);
+        Tower* tower = towerFabric.produceTower("BasicTower", &towerUpgradeController);
+        spawnObject(0, 400, tower);
 
         resPlace = new ResourcePlace();
        Sprite* resSprite = new Sprite();
-        resSprite->setRect(0, 0, 300, 300);
+        resSprite->setRect(0, 0, 200, 200);
         resSprite->setTexture(Renderer::getInstance()->loadTextureFromFile("/home/kostya_hm/Projects/DarkDefence/GameData/textures/Resources/WheatResource.png"));
         resPlace->setSprite(resSprite);
         resPlace->setName("ResourcePlace");
         resPlace->setTag("ResourcePlace");
-        spawnObject(200, 200, resPlace);
+        spawnObject(300, 200, resPlace);
 
 
 
@@ -184,7 +184,7 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
         spawnObject(40,100, &gates);
 
         int x1 = 0;
-        int y1 = 550;
+        int y1 = Renderer::getInstance()->getScreenHeight() - 50;
         int w = 50;
         int h = 50;
         GameModel::getInstance()->loadAbilitiesNames("/home/kostya_hm/Projects/DarkDefence/GameData/abilities.txt");
@@ -192,12 +192,14 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
         AbilityMagicStones* magicStones = new AbilityMagicStones();
 
         magicStones->init(this);
+        magicStones->setManaCost(100);
         magicStones->setCooldownTime(10000);
         magicStones->setWorkTime(10000);
 
 
         AbilitySnowStorm* snowStorm = new AbilitySnowStorm();
         snowStorm->init(this);
+        snowStorm->setManaCost(100);
         snowStorm->setCooldownTime(10000);
         snowStorm->setWorkTime(10000);
         snowStorm->setDamagePerSecond(30);
@@ -205,12 +207,14 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
 
         AbilityShrink* shrink = new AbilityShrink();
         shrink->init(this);
+        shrink->setManaCost(100);
         shrink->setCooldownTime(20000);
         shrink->setWorkTime(11000);
         shrink->setDamagePerSecond(0.2);
 
         AbilityPrick* prick = new AbilityPrick();
         prick->init(this);
+        prick->setManaCost(100);
         prick->setCooldownTime(10000);
         prick->setWorkTime(0);
         prick->setDamage(120);
@@ -327,7 +331,9 @@ void GameScene::startUpdate(double timestep)
 
     pointsLabel.setText(std::to_string(GameModel::getInstance()->getPointsPerWave()));
 
-   // manaBar.calculateFront(GameModel::getInstance()->getManaModel()->getCurrent(),GameModel::getInstance()->getManaModel()->getLimit());
+    GameModel::getInstance()->getManaModel()->regenerate(timestep);
+    manaBar.calculateFront(GameModel::getInstance()->getManaModel()->getCurrent(),GameModel::getInstance()->getManaModel()->getLimit());
+
 
     if (gates.getDestructibleObject() != nullptr)
         gatesHealthBar.calculateFront(gates.getDestructibleObject()->getCurrentHealth(),gates.getDestructibleObject()->getMaximumHealth());
@@ -386,6 +392,12 @@ map<std::__cxx11::string, AbilityModel *> &GameScene::getAbilityModelList()
 {
     return abilityModelsMap;
 }
+
+/*void GameScene::receiveTowerUpgrade(Tower *tower, int x, int y)
+{
+
+    //currentGrade.
+}*/
 
 void GameScene::setActiveMstones(string s)
 {

@@ -28,6 +28,7 @@ using std::vector;
 #include "../AbilitySystem/AbilityPrick.h"
 #include "../Mob/ResourcePlace.h"
 #include "../Mob/TowerFabric.hpp"
+#include "../Mob/TowerUpgradeController.h"
 
 class GameScene: public Scene
 {
@@ -50,7 +51,7 @@ private:
     vector<CompositeLabel*> resourceLabels;
     ProgressBar gatesHealthBar;
 
-     ProgressBar manaBar;
+    ProgressBar manaBar;
     TowerFabric towerFabric;
 	MobSpawner monsterSpawner;
 	Gates gates;
@@ -62,7 +63,9 @@ private:
     Label waveLabel;
     map<string, AbilityModel* > abilityModelsMap;
 
+
     ResourcePlace *resPlace;
+    TowerUpgradeController towerUpgradeController;
   //  AbilityMagicStones magicStones;
    // AbilitySnowStorm snowStorm;
     void setActiveMstones(string s);

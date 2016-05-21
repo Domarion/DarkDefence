@@ -34,7 +34,10 @@ class MobModel: public DestructibleObject
         ar & BOOST_SERIALIZATION_NVP(reloadTimeMaximum);
 		ar & BOOST_SERIALIZATION_NVP(enemyTags);
         ar & boost::serialization::make_nvp("Abilities", mobAbilitiesNames);
+        ar & boost::serialization::make_nvp("price", price);
+
         reloadTime = reloadTimeMaximum.first + reloadTimeMaximum.second;
+
 	}
 
 
@@ -84,6 +87,7 @@ public:
     void setAbilitiesNames(list<string> abNames);
     list<string>& getAbilitiesNames();
 
+    int* getPrice();
 private:
 
 	pair<int, int> attackDamage[DestructibleObject::damageTypesCount];
@@ -96,7 +100,7 @@ private:
 	//int x, y;
 
     list<string> mobAbilitiesNames;
-
+    int price [DestructibleObject::damageTypesCount];
 
 };
 

@@ -9,6 +9,7 @@
 #include "ShopInventory.h"
 #include "../GraphicsSystem/UI/ScrollList.h"
 
+
 class ShopController
 {
 public:
@@ -22,4 +23,7 @@ public:
 private:
 	ShopInventory* model;
 	ScrollList* view;
+     TTF_Font* arial;
+    SDL_Color color;
+
 };

@@ -93,6 +93,23 @@ std::list<std::string> Mission::getGoalsFullDesc()
     return someList;
 }
 
+std::list<string> Mission::getGoalsNeeded()
+{
+    list<std::string> someList;
+    for(auto goalPtr = goals.begin(); goalPtr != goals.end(); ++goalPtr)
+    {
+        std::string s = std::to_string((*goalPtr)->getNeeded());
+        someList.push_back(s);
+    }
+
+    return someList;
+}
+
+std::list<BasicGoal *> &Mission::getGoals()
+{
+    return goals;
+}
+
 Reward &Mission::getReward()
 {
     return reward;

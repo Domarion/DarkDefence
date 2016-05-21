@@ -28,6 +28,7 @@ private:
 	//Label labelText;
 	TextButton button, button2, button3;
     TTF_Font* arialFont;
+    CTexture backGround;
 	//ProgressBar bar;
 };
 

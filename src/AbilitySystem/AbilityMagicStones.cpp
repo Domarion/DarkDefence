@@ -20,6 +20,13 @@ void AbilityMagicStones::init(Scene* const scenePtr)
 
 bool AbilityMagicStones::onReady(double timestep)
 {
+    if (AbilityModel::onReady(timestep) == false)
+    {
+        abilityState = Enums::AbilityStates::asNotAvaliable;
+
+        return false;
+    }
+
     if (gatesSceneObject == nullptr && parentScenePtr != nullptr)
         gatesSceneObject = parentScenePtr->findObjectByTag("Gates");
 

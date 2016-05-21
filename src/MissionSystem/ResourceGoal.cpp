@@ -25,3 +25,8 @@ bool ResourceGoal::checkCondition()
 
     return true;
 }
+
+Enums::ResourceTypes ResourceGoal::getResourceType()
+{
+    return resourceType;
+}

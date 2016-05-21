@@ -56,44 +56,64 @@ void ScrollList::addItem(CTexture* item)
 			}
 
 
-        item->setRect(0, 0, itemWidth, itemHeight);
+        item->setRect(getRect().x, getRect().y, itemWidth, itemHeight);
+         item->setPos(getRect().x, getRect().y);
 	}
 
 }
 void ScrollList::removeItem(int index)
 {
-	if (!itemList.empty())
-	{
-		if (itemList.size() == 1)
-		{
-			firstToShow = lastToShow = -1;
-		}
-		else
-		{
-			if (lastToShow == itemList.size() - 1)
-				--lastToShow;
+    if (itemList.empty())
+        return;
+    if (itemList.size() == 1)
+    {
+        firstToShow = lastToShow = -1;
+           itemList.pop_back();
+           return;
 
+    }
+
+    if (index == itemList.size() - 1)
+    {
+        --lastToShow;
+        itemList.pop_back();
+
+        return;
+    }
+
+    for(int i = index; i < itemList.size() - 1; ++i)
+        itemList[i] = itemList[i + 1];
+
+    itemList[itemList.size() - 1] = nullptr;
+    itemList.pop_back();
+
+
+    if (lastToShow >= itemList.size())
+        lastToShow = itemList.size() - 1;
+  //  if (lastToShow <= itemCountToShow - 1 && itemList.size() <= itemCountToShow)
+    //   --lastToShow;
+    /*
 			if (lastToShow != firstToShow && lastToShow != itemList.size() - 1)
 			{
 				std::swap(itemList[index], itemList[itemList.size() - 1]);
 				//calculateVisibleItemsPositions();
-			}
+            }*/
 
+    calculateVisibleItemsPositions();
 
-		}
-
-
-		itemList.pop_back();
-		calculateVisibleItemsPositions();
-
-	}
 }
 
 void ScrollList::calculateVisibleItemsPositions()
 {
 	if (!itemList.empty())
 	for(int index = firstToShow; index <= lastToShow; ++index)
-        itemList[index]->setPosY((index - firstToShow) * itemHeight);
+    {
+
+        std::cout << "ItemPos y = " << (getRect().y + (index - firstToShow) * itemHeight) << std::endl;
+        itemList[index]->setPosY(getRect().y + (index - firstToShow) * itemHeight);
+    }
+
+
 
 }
 
@@ -115,29 +135,46 @@ void ScrollList::scrollWithDirection(int direction)//TODO:: Wrong Logic
 
 void ScrollList::draw()
 {
+
+    if (getTexture() != nullptr)
+        CTexture::draw();
+
 	if (!itemList.empty())
 	for(int i = firstToShow; i <= lastToShow; ++i)
     {
-
-        Renderer::getInstance()->renderTexture(itemList[i]->getTexture(), &itemList[i]->getRect());
+       // std::cout << "Item " << "drawn" << std::endl;
+        //if (itemList[i]->getTexture() == nullptr)
+          //  std::cout << "TEXTURE NULLPTR " << std::endl;
+         itemList[i]->draw();
+        //Renderer::getInstance()->renderTexture(itemList[i]->getTexture(), &itemList[i]->getRect());
     }
 //		CTexture::CopyTextureToRenderer( itemList[i]->getTexture(), nullptr, itemList[i]->getRect() );
+
 }
 
 bool ScrollList::onClick(SDL_Point* point)
 {
 	int n = itemList.size();
+    std::cout << "TouchedAtLeast != nullptr size =" << n << std::endl;
+
+
 	for(int i = 0; i != n; ++i)
+    {
+        std::cout << "ScrollItemRect = " << (itemList[i]->getRect().x)<< '\t' << (itemList[i]->getRect().y) << '\t' << (itemList[i]->getRect().w) << '\t' << (itemList[i]->getRect().h)<< std::endl;
+         std::cout << "ClickPos = "  << (point->x) << '\t' << (point->y)<< std::endl;
         if (SDL_PointInRect(point, &itemList[i]->getRect()))
 		{
 			if (connectedMethod != nullptr)
 			{
+              std::cout << "ScrollConnected != nullptr" << std::endl;
+
 				if (connectedMethod(i))
 					removeItem(i);
 				//calculateVisibleItemsPositions();
 			}
 			return true;
 		}
+      }
 
 	return false;
 }
@@ -154,13 +191,55 @@ bool ScrollList::canDrag() const
 
 bool ScrollList::onDrag(int direction)
 {
-	scrollWithDirection(direction);
+    //scrollWithDirection(direction);
+
+    if (direction == 0 || itemList.empty())
+        return false;
+
+
+
+    if (direction > 0)
+        scrollUp();
+    else
+        scrollDown();
+
+    calculateVisibleItemsPositions();
+
+    return true;
 }
 
 bool ScrollList::containsPoint(int x, int y) const
 {
 	SDL_Point point = { x, y };
     return SDL_PointInRect(&point, &getRect());
+}
+
+void ScrollList::scrollUp()
+{
+    if (lastToShow == itemList.size() - 1)
+        return;
+    ++firstToShow;
+    ++lastToShow;
+
+}
+
+void ScrollList::scrollDown()
+{
+    if (lastToShow < itemCountToShow)
+        return;
+
+    --firstToShow;
+    --lastToShow;
+}
+
+void ScrollList::setItemWidth(int value)
+{
+    itemWidth = value;
+}
+
+void ScrollList::setItemHeight(int value)
+{
+    itemHeight = value;
 }
 
 void ScrollList::scrollUtil(int& index, int shift)//TODO:: Wrong Logic

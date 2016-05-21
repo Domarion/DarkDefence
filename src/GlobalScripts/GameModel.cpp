@@ -13,7 +13,7 @@ using std::ifstream;
 #include <boost/serialization/list.hpp>
 #include <boost/archive/xml_iarchive.hpp>
 #include <iostream>
-GameModel* GameModel::instance_ = nullptr;
+
 #include <functional>
 #include <boost/mpl/placeholders.hpp>
 #include "../MissionSystem/ResourceGoal.h"
@@ -23,10 +23,16 @@ GameModel* GameModel::instance_ = nullptr;
 #include "../AbilitySystem/ItemAbilities/ChoppersHat.h"
 #include "../AbilitySystem/ItemAbilities/HelmOfLigofglass.h"
 #include "../AbilitySystem/ItemAbilities/TitanChock.h"
+#include "../AbilitySystem/ItemAbilities/FeatherOfChap.h"
 
 #include "../AbilitySystem/MobAbilities/MobAbilityArson.h"
 #include "../AbilitySystem/MobAbilities/MobAbilityRegeneration.h"
 #include "../AbilitySystem/MobAbilities/MobAbilitySprint.h"
+#include "../Utility/textfilefunctions.h"
+#include <sstream>
+using std::stringstream;
+
+GameModel* GameModel::instance_ = nullptr;
 
 MobModel* const GameModel::getMonsterByName(string name)
 {
@@ -35,7 +41,11 @@ MobModel* const GameModel::getMonsterByName(string name)
 
 MobModel* const GameModel::getTowerByName(string name)
 {
-     return new MobModel(towerUpgradesRootNode.recursiveSearch(name)->getData());
+
+    TreeNode<MobModel>* temp = towerUpgradesRootNode.recursiveSearch(name);
+    if (temp == nullptr)
+        return nullptr;
+    return new MobModel(temp->getData());
 }
 
 void GameModel::loadMonsterList(string filename)
@@ -44,6 +54,21 @@ void GameModel::loadMonsterList(string filename)
 
     list<MobModel> monsterCollection;
 
+
+
+    string textString;
+    androidText::loadTextFileToString(filename, textString);
+
+
+    if (!textString.empty())
+    {
+        stringstream str(textString);
+
+
+        boost::archive::xml_iarchive xmlinp(str);
+        xmlinp >> boost::serialization::make_nvp("Monsters",monsterCollection);
+    }
+/*
     ifstream somestream(filename);
     if (somestream.good())
     {
@@ -52,7 +77,7 @@ void GameModel::loadMonsterList(string filename)
     }
 
 
-    somestream.close();
+    somestream.close();*/
 
 
 	for(auto i = monsterCollection.begin(); i != monsterCollection.end(); ++i)
@@ -69,7 +94,30 @@ void GameModel::loadMonsterList(string filename)
 
 void GameModel::loadMonsterPointsList(string filename)
 {
-    ifstream pointStream( filename);
+
+    string textString;
+    androidText::loadTextFileToString(filename, textString);
+
+
+    if (!textString.empty())
+    {
+        stringstream pointStream(textString);
+
+
+        int n;
+        pointStream >> n;
+        for(int i = 0; i < n; ++i)
+        {
+            string str;
+            int val;
+            pointStream >> str >> val;
+            monsterPointsMap[str] =  val;
+
+        }
+    }
+
+
+   /* ifstream pointStream( filename);
 
     if (pointStream.good())
     {
@@ -84,7 +132,7 @@ void GameModel::loadMonsterPointsList(string filename)
 
          }
     }
-    pointStream.close();
+    pointStream.close();*/
 }
 
 
@@ -100,6 +148,22 @@ void GameModel::loadMonsterPointsList(string filename)
 void GameModel::loadTowerUpgrades(string filename)
 {
 
+    string textString;
+    androidText::loadTextFileToString(filename, textString);
+
+
+    if (!textString.empty())
+    {
+        stringstream str(textString);
+
+
+        boost::archive::xml_iarchive xmlinp(str);
+        xmlinp >> boost::serialization::make_nvp("TowerTree", towerUpgradesRootNode);
+    }
+
+
+
+    /*
 	ifstream towerStream(filename);
 
 	std::cout << "ALL GOOD" << std::endl;
@@ -112,7 +176,7 @@ void GameModel::loadTowerUpgrades(string filename)
 	}
 	std::cout << "ALL GOOD2" << std::endl;
 	towerStream.close();
-
+*/
 
 }
 
@@ -120,7 +184,24 @@ void GameModel::loadMinesList(string filename)
 {
     list<MineModel> mineCollection;
 
-    ifstream somestream(filename);
+    string textString;
+    androidText::loadTextFileToString(filename, textString);
+
+
+    if (!textString.empty())
+    {
+        stringstream str(textString);
+
+
+        boost::archive::xml_iarchive xmlinp(str);
+        // xmlinp.register_type<MineModel>();
+        xmlinp >> boost::serialization::make_nvp("Mines", mineCollection);
+
+        mineResMapping.resize(mineCollection.size());
+    }
+
+
+  /*  ifstream somestream(filename);
     std::cout << "fuck0" << std::endl;
     if (somestream.good())
     {
@@ -135,7 +216,7 @@ void GameModel::loadMinesList(string filename)
 std::cout << "fuck1" << std::endl;
     somestream.close();
 
-
+*/
     for(auto i = mineCollection.begin(); i != mineCollection.end(); ++i)
     {
         minesModelsMap.insert(std::make_pair(i->getName(), *i));
@@ -153,8 +234,22 @@ std::cout << "fuck1" << std::endl;
 
 void GameModel::deserialize(Mission &obj, string filename)
 {
+    string textString;
+    androidText::loadTextFileToString(filename, textString);
 
-    ifstream missionStream(filename);
+
+    if (!textString.empty())
+    {
+        stringstream missionStream(textString);
+
+
+        boost::archive::xml_iarchive xmlinp(missionStream);
+        xmlinp.register_type<ResourceGoal>();
+        xmlinp >> boost::serialization::make_nvp("Mission", obj);
+    }
+
+
+  /*  ifstream missionStream(filename);
 
     if (missionStream.good())
     {
@@ -165,7 +260,7 @@ void GameModel::deserialize(Mission &obj, string filename)
 
     }
 
-    missionStream.close();
+    missionStream.close();*/
 }
 
 TreeNode<MobModel>* GameModel::getRootTower()
@@ -225,9 +320,11 @@ void GameModel::setPointsRefundModifier(double value)
 void GameModel::loadItemAbilities()
 {
     itemAbilitiesMap["CaftanOfGold"] = new CaftanOfGold();
-    itemAbilitiesMap["ChoppersHat"] = new ChoppersHat();
+    itemAbilitiesMap["ChoppersHat"] = new ChoppersHat(Enums::ResourceTypes::WOOD);
+    itemAbilitiesMap["ScabblerHat"] = new ChoppersHat(Enums::ResourceTypes::STONE);
     itemAbilitiesMap["HelmOfLigofglass"] = new HelmOfLigofglass();
     itemAbilitiesMap["TitanChock"] = new TitanChock();
+    itemAbilitiesMap["FeatherOfChap"] = new FeatherOfChap();
 }
 
 /*void GameModel::loadMobAbilities()
@@ -237,12 +334,12 @@ void GameModel::loadItemAbilities()
     mobAbilitiesMap["MobAbilitySprint"] = new MobAbilitySprint();
 }*/
 
-ItemAbility *GameModel::getItemAbilityByName(std::__cxx11::string name)
+ItemAbility *GameModel::getItemAbilityByName(string name)
 {
     return itemAbilitiesMap[name];
 }
 
-MobAbility *GameModel::getMobAbilityByName(std::__cxx11::string name)
+MobAbility *GameModel::getMobAbilityByName(string name)
 {
     if (name == "MobAbilityArson")
         return new MobAbilityArson();
@@ -266,6 +363,30 @@ void GameModel::setMissionReward(const Reward &value)
 
 void GameModel::loadAbilitiesNames(string filename)
 {
+
+    string textString;
+    androidText::loadTextFileToString(filename, textString);
+
+
+    if (!textString.empty())
+    {
+        stringstream abilityStream(textString);
+
+
+        int n;
+        abilityStream >> n;
+        if (n > 0)
+        {
+            abilitiesNames.resize(n);
+            for(int i = 0; i < n; ++i)
+            {
+                abilityStream >> abilitiesNames[ i ];
+                std::cout << abilitiesNames[i] << std::endl;
+            }
+        }
+    }
+
+    /*
     ifstream abilityStream(filename);
     if (abilityStream.good())
     {
@@ -282,7 +403,7 @@ void GameModel::loadAbilitiesNames(string filename)
         }
     }
 
-    abilityStream.close();
+    abilityStream.close();*/
 }
 
 string GameModel::getAbilityNameFromIndex(int index)
@@ -359,7 +480,7 @@ MobModel * const GameModel::getMonsterFromListWithName(string name)
     return &monstersModelsMap[name];
 }
 
-map<std::__cxx11::string, MobModel> &GameModel::getMonsterList()
+map<string, MobModel> &GameModel::getMonsterList()
 {
     return monstersModelsMap;
 }
@@ -389,14 +510,26 @@ GameModel::GameModel()
 void GameModel::loadShopItems(string filename)
 {
 
-	ifstream somestream(filename);
+    string textString;
+    androidText::loadTextFileToString(filename, textString);
+
+
+    if (!textString.empty())
+    {
+        stringstream str(textString);
+
+
+        boost::archive::xml_iarchive xmlinp(str);
+        xmlinp >> BOOST_SERIALIZATION_NVP(shop);
+    }
+    /*ifstream somestream(filename);
 	if (somestream.good())
 	{
-		boost::archive::xml_iarchive xmlinp(somestream);
-		xmlinp >> BOOST_SERIALIZATION_NVP(shop);
+        boost::archive::xml_iarchive xmlinp(somestream);
+        xmlinp >> BOOST_SERIALIZATION_NVP(shop);
 	}
 
-	somestream.close();
+    somestream.close();*/
 	//ItemModel empty;
 	shop.ConnectMethod(std::bind(&Inventory::receiveItem, &inventory, std::placeholders::_1));
     inventory.ConnectMethod(std::bind(&HeroInventory::receiveItem, &heroFigure, std::placeholders::_1));

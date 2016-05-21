@@ -31,12 +31,23 @@ bool Inventory::sendItem(int index)
 	{
         connectedMethod0(items[index]);
 
-		int i1 = items.size() - 1;
+    //	int i1 = items.size() - 1;
 
-		if (index != i1)
-			std::swap(items[index], items[i1]);
+    //	if (index != i1)
+        //	std::swap(items[index], items[i1]);
 
-		items.pop_back();
+//		items.pop_back();
+
+        if (items.size() != 1 && index != items.size() - 1)
+        {
+
+            for(int i = index; i < items.size() - 1; ++i)
+                items[i] = items[i + 1];
+
+        }
+
+        items.pop_back();
+
 		return true;
 	}
 	return false;

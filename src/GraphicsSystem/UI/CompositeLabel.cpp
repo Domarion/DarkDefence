@@ -51,6 +51,12 @@ SDL_Rect CompositeLabel::getIconRect() const
     return icon.getRect();
 }
 
+const SDL_Rect &CompositeLabel::getRect() const
+{
+
+    return Label::getRect();//TODO::fix rect
+}
+
 void CompositeLabel::setIconRect(const SDL_Rect &value)
 {
     icon.setRect(value);

@@ -21,4 +21,5 @@ private:
     MissionView currentMissionView;
     TextButton loadButton;
     MapIndicator mapIndicator;
+
 };

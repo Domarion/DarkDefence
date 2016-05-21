@@ -1,4 +1,6 @@
 #include "AbilityModel.h"
+#include "../GlobalScripts/GameModel.h"
+
 #include <iostream>
 AbilityModel::AbilityModel()
     :abilityState(Enums::AbilityStates::asNotAvaliable)
@@ -20,8 +22,10 @@ void AbilityModel::init(Scene * const scenePtr)
 
 bool AbilityModel::onReady(double timestep)
 {
-    std::cout << "WHAT??????" << std::endl;
-    return true;
+  //  std::cout << "WHAT??????" << std::endl;
+
+  return ( GameModel::getInstance()->getManaModel()->payMana(getManaCost()));
+
 }
 
 bool AbilityModel::onWorking(double timestep)
@@ -60,7 +64,8 @@ bool AbilityModel::update(double timestep)
 
 void AbilityModel::setAsReady()
 {
-    abilityState = Enums::AbilityStates::asReady;
+    if (abilityState == Enums::AbilityStates::asNotAvaliable)
+        abilityState = Enums::AbilityStates::asReady;
 }
 
 int AbilityModel::getManaCost() const

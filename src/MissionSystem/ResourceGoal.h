@@ -22,6 +22,7 @@ public:
     ResourceGoal();
     void setResourceType(Enums::ResourceTypes resType);
     virtual bool checkCondition() override;
+    Enums::ResourceTypes getResourceType();
 private:
     Enums::ResourceTypes resourceType;
 };

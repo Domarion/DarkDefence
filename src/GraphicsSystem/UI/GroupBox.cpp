@@ -54,6 +54,7 @@ bool GroupBox::removeChild(CTexture * const child)
 
 void GroupBox::draw()
 {
+    if (getTexture()!=nullptr)
     CTexture::draw();
     for(int i = 0; i < children.size(); ++i)
         children[i]->draw();

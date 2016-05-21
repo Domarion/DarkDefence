@@ -18,9 +18,16 @@ void AbilityPrick::init(Scene * const scenePtr)
 
 bool AbilityPrick::onReady(double timestep)
 {
+    if (AbilityModel::onReady(timestep) == false)
+    {
+        abilityState = Enums::AbilityStates::asNotAvaliable;
+
+        return false;
+    }
+
     if (parentScenePtr != nullptr && coordX > 0 && coordY > 0)
     {
-        somePrick = new PrickObject();
+        somePrick = new PrickObject(damage);
        Sprite* sptr = new Sprite();
         sptr->setRect(0,0, 200, 200);
         sptr->setTexture(Renderer::getInstance()->loadTextureFromFile("/home/kostya_hm/Projects/DarkDefence/GameData/textures/EmptySlot.png"));
@@ -32,6 +39,9 @@ bool AbilityPrick::onReady(double timestep)
 
         abilityState = Enums::AbilityStates::asOnCooldown;
     }
+    else
+        abilityState = Enums::AbilityStates::asNotAvaliable;
+
     return true;
 }
 
@@ -67,8 +77,11 @@ void AbilityPrick::setDamage(int value)
 bool AbilityPrick::onClick(SDL_Point *point)
 {
 
-    coordX = point->x;
-    coordY = point->y;
-
-    return true;
+    if (abilityState == Enums::AbilityStates::asReady)
+    {
+        coordX = point->x;
+        coordY = point->y;
+        return true;
+    }
+    return false;
 }

@@ -1,5 +1,7 @@
 #include "MissionView.h"
 #include "../../GlobalScripts/Renderer.h"
+#include "../../MissionSystem/ResourceGoal.h"
+
 MissionView::MissionView()
     :arialFont( nullptr)
 {
@@ -15,6 +17,12 @@ MissionView::~MissionView()
 void MissionView::init(Mission& missionRef)
 {
     arialFont = Renderer::getInstance()->loadFontFromFile("/home/kostya_hm/Projects/DarkDefence/Fonts/arial.ttf", 22);
+
+    setRect(0,0, 400, 500);
+    setTexture(Renderer::getInstance()->loadTextureFromFile("/home/kostya_hm/Projects/DarkDefence/GameData/textures/mosaic.png"));
+
+
+
     SDL_Color arialFontColor = {255, 255, 255};
     int y = 0;
     missionName.setFont(arialFont, arialFontColor);
@@ -26,38 +34,68 @@ void MissionView::init(Mission& missionRef)
     missionDescription.setText(missionRef.getDescription());
     y += 60;
 
+    GameModel::getInstance()->getResourcesModel()->loadFromFile("/home/kostya_hm/Projects/DarkDefence/GameData/resources.txt");
+
     int x = 0;
-    list<string> goalsStrings = missionRef.getGoalsFullDesc();
-    for(auto str = goalsStrings.begin(); str != goalsStrings.end(); ++str)
+    //list<string> goalsStrings = missionRef.getGoalsNeeded();
+    list<BasicGoal*> goals = missionRef.getGoals();
+    for(auto goal = goals.begin(); goal != goals.end(); ++goal)
     {
-        Label* temp = new Label();
+        CompositeLabel* temp = new CompositeLabel();
         temp->setFont(arialFont, arialFontColor);
-        temp->setRect(x, y, 200, 50);
-        temp->setText(*str);
+        string str = "none";
+        if (*goal != nullptr)
+        {
+            ResourceGoal* resGoal = dynamic_cast<ResourceGoal*>(*goal);
+            if (resGoal != nullptr)
+            {
+                str = "/home/kostya_hm/Projects/DarkDefence/GameData/textures/Resources/"
+                        + GameModel::getInstance()->getResourcesModel()->getResourceNameFromIndex(resGoal->getResourceType()) + ".png";
+            }
+
+        }
+
+        string needed = std::to_string((*goal)->getNeeded());
+        temp->setIcon(Renderer::getInstance()->loadTextureFromFile(str));
+        temp->setIconRect(0, 0, 30, 30);
+        temp->setPos(x, y);
+        temp->setText(needed);
         missionGoals.push_back(temp);
         y += 60;
     }
-
 
     x = 0;
 
     list<string> rewardStrings = missionRef.getReward().getFullDescription();
     for(auto str = rewardStrings.begin(); str != rewardStrings.end(); ++str)
     {
-        Label* temp = new Label(*str);
+        CompositeLabel* temp = new CompositeLabel();
         temp->setFont(arialFont, arialFontColor);
-        temp->setRect(x, y, 150, 50);
+        string iconPath = "/home/kostya_hm/Projects/DarkDefence/GameData/textures/items/" + *str + ".png";
+        temp->setIcon(Renderer::getInstance()->loadTextureFromFile(iconPath));
+        temp->setIconRect(0, 0, 30, 30);
+        temp->setPos(x, y);
         temp->setText(*str);
         rewardList.push_back(temp);
         y += 60;
     }
 
+    CompositeLabel* temp2 = new CompositeLabel();
+    temp2->setFont(arialFont, arialFontColor);
+    string iconPath2 = "/home/kostya_hm/Projects/DarkDefence/GameData/textures/Resources/Gold.png";
+    temp2->setIcon(Renderer::getInstance()->loadTextureFromFile(iconPath2));
+    temp2->setIconRect(0, 0, 30, 30);
+    temp2->setPos(x, y);
+    string rewardCoins = std::to_string(missionRef.getReward().getGoldCoins());
+    temp2->setText(rewardCoins);
+    rewardList.push_back(temp2);
 
 
 }
 
 void MissionView::draw()
 {
+    CTexture::draw();
     missionName.draw();
     missionDescription.draw();
     for(auto lst = missionGoals.begin(); lst != missionGoals.end(); ++lst)

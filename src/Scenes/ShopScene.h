@@ -25,4 +25,7 @@ private:
 	ScrollList scroll;
 	ShopController shopController;
 	TextButton button;
+    CTexture backGround;
+    Label goldCoins;
+    Label sceneName;
 };
