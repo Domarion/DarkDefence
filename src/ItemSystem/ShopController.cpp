@@ -9,6 +9,7 @@
 //#include "../GraphicsSystem/UI/TextButton.h"
 #include "../GraphicsSystem/ShopItemUI.h"
 
+
 ShopController::ShopController()
 : model(nullptr), view(nullptr), arial()
 {
@@ -53,7 +54,10 @@ void ShopController::initView()
 	for(int i = 0; i != count; ++i)
 	{
         //TextButton* btn = new TextButton();
-        ShopItemUI *btn =  new ShopItemUI();
+
+
+
+        ShopItemUI* btn = new ShopItemUI();
 
         string ipath = "GameData/textures/items/" +
                 model->getItemFromIndex(i)->getCaption() + ".png";
@@ -70,7 +74,7 @@ void ShopController::initView()
         //if (btn->getTexture() == nullptr)
             //std::cout << "index = " << i << " texture is nullptr" << std::endl;
 
-		view->addItem(btn);
+        view->addItem(btn);
 	}
 	view->calculateVisibleItemsPositions();
 	view->ConnectMethod(std::bind( &ShopInventory::sendItem, model, std::placeholders::_1) );

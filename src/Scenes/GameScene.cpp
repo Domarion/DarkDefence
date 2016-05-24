@@ -56,7 +56,7 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
         string s01 = "GameData/MineModels.xml";
         GameModel::getInstance()->loadMinesList(s01);
 
-        topPanel.setRect(0,0, 800, 40);
+        topPanel.setRect(0,0, Renderer::getInstance()->getScreenWidth(), 40);
        // topPanel.loadTexture("GameData/textures/topPanel.png");
 
 
@@ -155,11 +155,11 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
         monsterSpawner.loadWavesInfo("GameData/wavesInfo.txt");
 
 
-        Terrain = objectFabric.produce("Terrain", "none", "GameData/textures/terrain.JPG", 800, 600);
+        Terrain = objectFabric.produce("Terrain", "none", "GameData/textures/terrain.JPG", Renderer::getInstance()->getScreenWidth() , Renderer::getInstance()->getScreenHeight() );
         spawnObject(0,0, Terrain);
         towerUpgradeController.init(this);
         Tower* tower = towerFabric.produceTower("BasicTower", &towerUpgradeController);
-        spawnObject(0, 400, tower);
+        spawnObject(10, 300, tower);
 
         resPlace = new ResourcePlace();
         Sprite* resSprite = new Sprite();
@@ -318,7 +318,7 @@ void GameScene::startUpdate(double timestep)
             int x = rand() % 5 +3;
             int y = rand() % 5 +3;
 
-            spawnObject(x*60,y*70,*ptr);
+            spawnObject(x*70,y*50,*ptr);
         }
         delete some;
     }

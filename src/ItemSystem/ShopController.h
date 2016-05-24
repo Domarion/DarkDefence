@@ -8,7 +8,7 @@
 #pragma once
 #include "ShopInventory.h"
 #include "../GraphicsSystem/UI/ScrollList.h"
-
+//#include <memory>
 
 class ShopController
 {
@@ -21,6 +21,7 @@ public:
     ShopInventory*  getModel() const;
 	void initView();
 private:
+  //  vector<std::shared_ptr<ShopItemUI> > shopItems;
 	ShopInventory* model;
 	ScrollList* view;
     CFont arial;

@@ -100,7 +100,9 @@ SOURCES += \
     src/AbilitySystem/ItemAbilities/FeatherOfChap.cpp \
     src/GraphicsSystem/ShopItemUI.cpp \
     src/Utility/textfilefunctions.cpp \
-    src/GraphicsSystem/CFont.cpp
+    src/GraphicsSystem/CFont.cpp \
+    src/Utility/Observer.cpp \
+    src/Utility/Subject.cpp
 
 HEADERS += \
     src/AI/AIComponent.h \
@@ -202,7 +204,9 @@ HEADERS += \
     src/GraphicsSystem/ShopItemUI.h \
     src/Utility/textfilefunctions.h \
     src/GraphicsSystem/IDrawable.h \
-    src/GraphicsSystem/CFont.h
+    src/GraphicsSystem/CFont.h \
+    src/Utility/Observer.h \
+    src/Utility/Subject.h
 
 unix:!macx: LIBS += -L$$PWD/../../../../usr/lib64/ -lboost_serialization
 

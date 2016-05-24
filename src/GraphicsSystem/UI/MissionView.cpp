@@ -16,7 +16,7 @@ void MissionView::init(Mission& missionRef)
 {
     arialFont.loadFromFile("Fonts/arial.ttf", 22);
 
-    setRect(0,0, 400, 500);
+    setRect(0,0, 400, Renderer::getInstance()->getScreenHeight()- 50 );
     loadTexture("GameData/textures/mosaic.png");
 
 

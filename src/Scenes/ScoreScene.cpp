@@ -29,7 +29,7 @@ void ScoreScene::initScene(SceneManager *sceneManagerPtr)
 
         button.setFont(arialFont);
         button.setRect(0, 0, 100, 50);
-        button.setPos(500, 550);
+        button.setPos(Renderer::getInstance()->getScreenWidth() - 100, Renderer::getInstance()->getScreenHeight() - 50);
         button.setText("Главное меню");
         string s = "MainScene";
         button.ConnectMethod(std::bind(&SceneManager::setCurrentSceneByName, sceneManagerPtr, s));

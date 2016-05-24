@@ -21,6 +21,7 @@ private:
     CTexture mapPicture;
     MissionView currentMissionView;
     TextButton loadButton;
+    TextButton backButton;
     MapIndicator mapIndicator;
 
 };

@@ -39,20 +39,32 @@ void MapMenuScene::initScene(SceneManager *sceneManagerPtr)
 
         arialFont.setFont(currentMissionView.getFont());
 
+
+
+
+        mapPicture.setRect(400, 60, 400, Renderer::getInstance()->getScreenHeight() - 100);
+        string mapImagePath = "GameData/Missions/" + std::to_string(curIndex) +"/mission.jpg";
+        mapPicture.loadTexture(mapImagePath);
+        listGUI.push_back(&mapPicture);
+
+
         loadButton.setFont(arialFont);
-        loadButton.setRect(700, 550, 100, 50);
+        loadButton.setRect(Renderer::getInstance()->getScreenWidth() - 150, Renderer::getInstance()->getScreenHeight() - 30, 100, 30);
         loadButton.setText("Начать");
         string s0 = "GameScene";
         loadButton.ConnectMethod(std::bind(&SceneManager::setCurrentSceneByName, sceneManagerPtr, s0));
         listGUI.push_back(&loadButton);
 
 
-        mapPicture.setRect(400, 60, 400, 440);
-        string mapImagePath = "GameData/Missions/" + std::to_string(curIndex) +"/mission.jpg";
-        mapPicture.loadTexture(mapImagePath);
-        listGUI.push_back(&mapPicture);
+        backButton.setFont(arialFont);
+        backButton.setRect(0, Renderer::getInstance()->getScreenHeight() - 30, 100, 30);
+        backButton.setText("Назад");
+        string s000 = "MainScene";
+        backButton.ConnectMethod(std::bind(&SceneManager::setCurrentSceneByName, sceneManagerPtr, s000));
+        listGUI.push_back(&backButton);
     }
     InputDispatcher::getInstance()->addHandler(&loadButton);
+    InputDispatcher::getInstance()->addHandler(&backButton);
 }
 
 void MapMenuScene::finalizeScene()

@@ -58,6 +58,8 @@ void ScrollList::addItem(IDrawable* item)
 
         item->setRect(getRect().x, getRect().y, itemWidth, itemHeight);
          item->setPos(getRect().x, getRect().y);
+
+         calculateVisibleItemsPositions();
 	}
 
 }
@@ -84,8 +86,9 @@ void ScrollList::removeItem(int index)
     for(int i = index; i < itemList.size() - 1; ++i)
         itemList[i] = itemList[i + 1];
 
-    itemList[itemList.size() - 1] = nullptr;
     itemList.pop_back();
+   // itemList[itemList.size() - 1] = nullptr;
+
 
 
     if (lastToShow >= itemList.size())
@@ -132,6 +135,13 @@ void ScrollList::scrollWithDirection(int direction)//TODO:: Wrong Logic
 
 }
 
+void ScrollList::clear()
+{
+    firstToShow = lastToShow = -1;
+    itemCountToShow = 0;
+    itemList.clear();
+}
+
 
 void ScrollList::draw()
 {
@@ -162,10 +172,16 @@ bool ScrollList::onClick(SDL_Point* point)
     {
         std::cout << "ScrollItemRect = " << (itemList[i]->getRect().x)<< '\t' << (itemList[i]->getRect().y) << '\t' << (itemList[i]->getRect().w) << '\t' << (itemList[i]->getRect().h)<< std::endl;
          std::cout << "ClickPos = "  << (point->x) << '\t' << (point->y)<< std::endl;
+
+         std::cout << "ItenRect = " << (itemList[i]->getRect().x)
+                   << "\t" << (itemList[i]->getRect().y)
+                   << "\t" << (itemList[i]->getRect().w)
+                   << "\t" << (itemList[i]->getRect().h) << std::endl;
         if (SDL_PointInRect(point, &itemList[i]->getRect()))
 		{
 			if (connectedMethod != nullptr)
 			{
+
               std::cout << "ScrollConnected != nullptr" << std::endl;
 
 				if (connectedMethod(i))

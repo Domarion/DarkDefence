@@ -73,7 +73,6 @@ void Label::loadTexture(const string& filename)
 
 
 
-
 string Label::getText() const
 {
 	return text;

@@ -13,7 +13,7 @@ TowerUpgradeController::TowerUpgradeController()
 
 TowerUpgradeController::~TowerUpgradeController()
 {
-
+    delete fabric;
 }
 
 void TowerUpgradeController::init(Scene *parent)

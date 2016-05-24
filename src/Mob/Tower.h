@@ -9,6 +9,7 @@ class TowerFabric;
 class Tower: public Mob, public InputHandler
 {
     friend class TowerFabric;
+    friend class std::vector<Tower*>;
 public:
     void connectMethod(std::function<void(Tower*, int x, int y)> method);
 

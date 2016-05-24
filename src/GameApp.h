@@ -12,7 +12,7 @@
 class GameApp
 {
 public:
-	GameApp(SceneManager* scmanager, int w = 800, int h = 600);
+    GameApp(SceneManager* scmanager, int w = 800, int h = 480);
 	~GameApp();
 	int GameLoop();
 	int renderScene(const Scene* scene);

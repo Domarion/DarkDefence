@@ -60,7 +60,7 @@ void InventoryScene::initScene( SceneManager* sceneManagerPtr)
         const int showItems = 5;
         const int itemWidth = 72;
         const int itemHeight = 72;
-
+        scroll.clear();
         scroll.initScrollList(showItems, itemWidth, itemHeight);
         scroll.setRect(0, 0, Renderer::getInstance()->getScreenWidth()*0.4, Renderer::getInstance()->getScreenHeight() - 50);
         scroll.loadTexture("GameData/textures/topPanel.png");

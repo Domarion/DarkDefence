@@ -7,6 +7,12 @@ TowerFabric::TowerFabric()
 
 }
 
+TowerFabric::~TowerFabric()
+{
+    for(int i = 0; i < producedTowers.size(); ++i)
+        delete producedTowers[i];
+}
+
 Tower * TowerFabric::produceTower(std::string towerName, TowerUpgradeController* upgrader)
 {
     MobModel* model = GameModel::getInstance()->getTowerByName(towerName);
@@ -24,5 +30,8 @@ Tower * TowerFabric::produceTower(std::string towerName, TowerUpgradeController*
     if (upgrader != nullptr)
         someMob->connectMethod(std::bind(&TowerUpgradeController::receiveTowerUpgrade, upgrader, std::placeholders::_1, 0 ,0 ));
     someMob->init();
+
+    producedTowers.push_back(someMob);
+
     return someMob;
 }

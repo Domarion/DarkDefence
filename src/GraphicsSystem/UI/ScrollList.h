@@ -22,7 +22,7 @@ public:
     void addItem(IDrawable* item);
 	void removeItem(int index);
 	void scrollWithDirection(int direction);
-
+    void clear();
 	void calculateVisibleItemsPositions();
 
 	virtual void draw() override;

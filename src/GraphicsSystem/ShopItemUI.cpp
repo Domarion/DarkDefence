@@ -57,7 +57,7 @@ void ShopItemUI::init(CFont& font, string iconPath, string aCaption, string aDes
 
 void ShopItemUI::draw()
 {
-    if (getTexture() != nullptr)
+
     CTexture::draw();
 
     icon.draw();
@@ -88,6 +88,7 @@ void ShopItemUI::setRect(int x, int y, int w, int h)
 
 void ShopItemUI::setPosX(int x)
 {
+    CTexture::setPosX(x);
     icon.setPosX(x);
     caption.setPosX(x + icon.getRect().w);
     description.setPosX(x + icon.getRect().w);
@@ -101,6 +102,7 @@ void ShopItemUI::setPosX(int x)
 
 void ShopItemUI::setPosY(int y)
 {
+    CTexture::setPosY(y);
     icon.setPosY(y);
     caption.setPosY( y);
     description.setPosY(y + caption.getRect().h);
