@@ -19,8 +19,9 @@ using std::pair;
 #include <string>
 using std::string;
 
-
-class DestructibleObject
+//#include "../Utility/Subject.h"
+#include <functional>
+class DestructibleObject//: public Subject
 {
 	friend class boost::serialization::access;
 		template <typename Archive>
@@ -31,7 +32,7 @@ class DestructibleObject
 			ar & BOOST_SERIALIZATION_NVP(maximumHealth);
 			//for (int i = 0; i < DestructibleObject::damageTypesCount; ++i)
 
-            ar& boost::serialization::make_nvp("attack", attackProtection);
+            ar & boost::serialization::make_nvp("attack", attackProtection);
 			//ar & attackProtection;
 		}
 public:
@@ -57,8 +58,12 @@ public:
 
 	int getMaximumHealth() const;
 	void setMaximumHealth(int hp);
-	int getCurrentHealth() const;
+    int getCurrentHealth() const;
+
+    void connectMethod(std::function<void(int, int)> handler);
+
 protected:
+    bool changeHealth(int amount);
 	void setCurrentHealth(int hp);
 	void setIsAlive(bool isAlive);
 	string name;
@@ -68,5 +73,7 @@ protected:
 	int currentHealth;
 	pair<int, int> attackProtection[damageTypesCount];
 	int worldX, worldY;
+
+    std::function<void(int, int)> connectedMethod;
 };
 

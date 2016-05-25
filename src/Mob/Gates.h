@@ -11,6 +11,7 @@
 #include "../Grouping/SceneObject.h"
 #include "../AbilitySystem/DestructibleObjectEffectReceiver.h"
 
+
 class Gates: public SceneObject
 {
 public:

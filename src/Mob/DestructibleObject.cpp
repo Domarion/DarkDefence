@@ -79,7 +79,34 @@ void DestructibleObject::setMaximumHealth(int hp)
 int DestructibleObject::getCurrentHealth() const
 {
 
-	return currentHealth;
+    return currentHealth;
+}
+
+void DestructibleObject::connectMethod(std::function<void (int, int)> handler)
+{
+    connectedMethod = handler;
+}
+
+bool DestructibleObject::changeHealth(int amount)
+{
+
+    if (currentHealth + amount > getMaximumHealth())
+    {
+        currentHealth =  getMaximumHealth();
+
+    }
+    else
+    if (currentHealth + amount  <= 0)
+    {
+        currentHealth = 0;
+        setIsAlive(false);
+    }
+    else
+        currentHealth += amount;
+
+    if (connectedMethod != nullptr)
+        connectedMethod(currentHealth,  getMaximumHealth());
+    return (currentHealth > 0);
 }
 
 void DestructibleObject::setCurrentHealth(int hp)
@@ -88,6 +115,8 @@ void DestructibleObject::setCurrentHealth(int hp)
 		return;
 
 	currentHealth = hp;
+
+
 }
 
 void DestructibleObject::setIsAlive(bool alive)
@@ -128,12 +157,8 @@ bool DestructibleObject::receiveDamage(int* damage)
 			summaryDamage += temp;
 	}
 	if (summaryDamage < 0)
-	{
-		currentHealth += summaryDamage;
-		bool result = (currentHealth > 0);
-		setIsAlive(result);
-		return !result;
-	}
+        return changeHealth(summaryDamage);
+
     return false;
 }
 
@@ -145,25 +170,26 @@ bool DestructibleObject::receiveDamageOneType(int damage_type, int damage)
     int summaryDamage = attackProtection[damage_type].first + attackProtection[damage_type].second - damage;
 
     if (summaryDamage < 0)
-    {
-        currentHealth += summaryDamage;
-        bool result = (currentHealth > 0);
-        setIsAlive(result);
-        return !result;
-    }
+       return changeHealth(summaryDamage);
+
     return false;
 }
 
 bool DestructibleObject::addHealth(int amount)
 {
+    bool result = false;
+
     currentHealth += amount;
     if (currentHealth > getMaximumHealth())
     {
         currentHealth = getMaximumHealth();
-        return true;
+        result = true;
     }
 
-    return false;
+    if (connectedMethod != nullptr)
+        connectedMethod(currentHealth, getMaximumHealth());
+
+    return result;
 }
 
 void DestructibleObject::setProtectionModifier(int modifier)

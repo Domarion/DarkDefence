@@ -182,7 +182,10 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
 
 		gates.setSprite(newView);
         gates.setTag("Gates");
+        gates.getDestructibleObject()->connectMethod(std::bind(&ProgressBar::calculateFront, &gatesHealthBar, std::placeholders::_1, std::placeholders::_2));
         gates.getDestructibleObject()->setMaximumHealth(5000);
+
+
         spawnObject(40,100, &gates);
 
         int x1 = 0;
@@ -337,8 +340,8 @@ void GameScene::startUpdate(double timestep)
     manaBar.calculateFront(GameModel::getInstance()->getManaModel()->getCurrent(),GameModel::getInstance()->getManaModel()->getLimit());
 
 
-    if (gates.getDestructibleObject() != nullptr)
-        gatesHealthBar.calculateFront(gates.getDestructibleObject()->getCurrentHealth(),gates.getDestructibleObject()->getMaximumHealth());
+   // if (gates.getDestructibleObject() != nullptr)
+     //   gatesHealthBar.calculateFront(gates.getDestructibleObject()->getCurrentHealth(),gates.getDestructibleObject()->getMaximumHealth());
 
 
     if (gates.getDestructibleObject()->getCurrentHealth() <= 0)

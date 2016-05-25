@@ -1,9 +1,9 @@
 class Observer
 {
 public:
-    Observer();
-    virtual ~Observer();
-    virtual bool onNotify();
+    //Observer();
+    //virtual ~Observer();
+    //virtual bool onNotify();
 
 };
 
