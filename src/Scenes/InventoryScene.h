@@ -18,8 +18,6 @@ public:
 	virtual ~InventoryScene();
     virtual void initScene(SceneManager* sceneManagerPtr) override;
 	virtual void finalizeScene() override;
-	virtual void loadScene() override;
-	virtual void unloadScene() override;
 
 	virtual void startUpdate(double timestep) override;
 
@@ -29,7 +27,7 @@ private:
 	InventoryController inventoryController;
     HeroInventoryController heroController;
 	TextButton button;
-    CFont arialFont;
+    std::shared_ptr<CFont> arialFont;
 
 };
 

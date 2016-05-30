@@ -7,7 +7,7 @@
 
 #pragma once
 #include "../Mob/MobModel.h"
-#include "../GraphicsSystem/Sprite.h"
+#include "../GraphicsSystem/CTexture.h"
 #include <list>
 using std::list;
 #include "../Mob/DestructibleObject.h"
@@ -18,8 +18,8 @@ using std::list;
 class AIComponent
 {
 public:
-    AIComponent(MobModel* aMob = nullptr, Sprite* aView = nullptr, Scene* const sceneptr = nullptr);
-	void setSprite(Sprite* aView);
+    AIComponent(MobModel* aMob = nullptr, CTexture* aView = nullptr, Scene* const sceneptr = nullptr);
+    void setSprite(CTexture* aView);
     void setScene(Scene* const sceneptr);
 	virtual ~AIComponent();
 	virtual void MakeDecision(double timestep);
@@ -27,7 +27,7 @@ public:
     void initMobAbilities();
 protected:
 	MobModel* MobPtr;
-	Sprite* SpritePtr;
+    CTexture* SpritePtr;
 	enum AIMobStates{aiSEARCH = 0, aiSELECT, aiMOVE, aiATTACK, aiRELOAD} aiMobState;
 	DestructibleObject* currentTarget;
 	list<DestructibleObject*> avaliableTargets;

@@ -12,12 +12,12 @@ public:
     virtual ~MissionView();
     void init(Mission& missionRef);
     virtual void draw() override;
-    TTF_Font*  getFont();
+
 private:
     Label missionName;
     Label missionDescription;
     list<CompositeLabel*> missionGoals;
     list<CompositeLabel*> rewardList;
-    CFont arialFont;
+    std::shared_ptr<CFont> arialFont;
 };
 

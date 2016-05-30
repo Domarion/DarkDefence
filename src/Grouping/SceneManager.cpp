@@ -21,10 +21,11 @@ SceneManager::SceneManager()
 SceneManager::~SceneManager()
 {
 	// TODO Auto-generated destructor stub
-	currentScene = nullptr;
+
 	for(auto i = scenes.begin(); i != scenes.end(); ++i)
 		delete scenes[i->first];
 
+    currentScene = nullptr;
         //renderer = nullptr;
 }
 
@@ -57,7 +58,7 @@ void SceneManager::setCurrentScene(Scene* value, bool cleanFlag)
 	InputDispatcher::getInstance()->clearHandlers();
 	if (currentScene != nullptr )//&& cleanFlag)
 	{
-		currentScene->finalizeScene();
+    //	currentScene->finalizeScene();
 	}
 	currentScene = value;
     if (currentScene == nullptr)

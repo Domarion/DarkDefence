@@ -265,7 +265,16 @@ void GameModel::deserialize(Mission &obj, string filename)
 
 TreeNode<MobModel>* GameModel::getRootTower()
 {
-	return &towerUpgradesRootNode;
+    return &towerUpgradesRootNode;
+}
+
+void GameModel::addItemToInventoryByName(string name)
+{
+
+    std::cout << "rewItemName = " << name << std::endl;
+    ItemModel* item =shop.getItemByName(name);
+    if (item != nullptr)
+    inventory.addItem(*item);
 }
 
 bool GameModel::canSpawn() const
@@ -304,6 +313,7 @@ Enums::GameStatuses GameModel::getGameStatus() const
 
 GameModel::~GameModel()
 {
+    delete resourcesModelPtr;
 	// TODO Auto-generated destructor stub
 }
 

@@ -25,6 +25,7 @@ public:
 	virtual bool sendItem(int index) override;
 	virtual void addItem(ItemModel item) override;
 	void addItemWithPrice(ItemModel item, int price);
+
 private:
 	vector<int> itemPrices;
 };

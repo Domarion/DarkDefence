@@ -14,4 +14,6 @@ public:
     virtual void setPos(int x, int y) = 0;
     virtual void setPosX(int x)= 0;
     virtual void setPosY(int y)= 0;
+    virtual void setSize(int w, int h) = 0;
+    virtual ~IDrawable(){}
 };

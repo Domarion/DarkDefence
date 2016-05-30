@@ -42,7 +42,7 @@ GameApp::~GameApp()
 
 
     renderer->destroyRenderer();
-
+    renderer = nullptr;
 	IMG_Quit();
 	TTF_Quit();
 	SDL_Quit();
@@ -96,8 +96,10 @@ int GameApp::GameLoop()
 
 int GameApp::renderScene(const Scene* scene)
 {
-	//if (scene != nullptr)
-    //{
+    if (renderer != nullptr)
+    {
+
+
         renderer->renderClear();
 
 		if (scene != nullptr)
@@ -108,7 +110,7 @@ int GameApp::renderScene(const Scene* scene)
 			cout << "Scene is null!" << endl;
         renderer->renderPresent();
 
-	//}
+    }
 
 	return 0;
 }
@@ -134,8 +136,3 @@ bool GameApp::processInput()
 	}
 	return true;
 }
-
-/*SDL_Renderer* GameApp::getRenderer()
-{
-	return renderer;
-}*/

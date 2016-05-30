@@ -1,5 +1,5 @@
 #include "TowerFabric.hpp"
-#include "../GraphicsSystem/Sprite.h"
+#include "../GraphicsSystem/CTexture.h"
 #include "../GlobalScripts/GameModel.h"
 
 TowerFabric::TowerFabric()
@@ -19,7 +19,7 @@ Tower * TowerFabric::produceTower(std::string towerName, TowerUpgradeController*
     if (model == nullptr)
         return nullptr;
     Tower* someMob = new Tower(model);
-    Sprite* someSprite = new Sprite();
+    CTexture* someSprite = new CTexture();
 
     someSprite->setRect(0,0, 50, 80);
     someSprite->loadTexture("GameData/textures/Towers/" + towerName + ".png");

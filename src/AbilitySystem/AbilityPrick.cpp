@@ -1,7 +1,7 @@
 #include "AbilityPrick.h"
 
 AbilityPrick::AbilityPrick()
-    :somePrick(nullptr), coordX(0), coordY(0)
+    :damage(0), somePrick(nullptr), coordX(0), coordY(0)
 {
 
 }
@@ -28,7 +28,7 @@ bool AbilityPrick::onReady(double timestep)
     if (parentScenePtr != nullptr && coordX > 0 && coordY > 0)
     {
         somePrick = new PrickObject(damage);
-       Sprite* sptr = new Sprite();
+       CTexture* sptr = new CTexture();
         sptr->setRect(0,0, 200, 200);
         sptr->loadTexture("GameData/textures/EmptySlot.png");
         somePrick->setSprite(sptr);

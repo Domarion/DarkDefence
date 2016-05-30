@@ -23,6 +23,14 @@ void Inventory::ConnectMethod(std::function<void(ItemModel)> method)
     connectedMethod0 = method;
 }
 
+ItemModel* Inventory::getItemByName(string name)
+{
+    for(int i = 0; i < items.size(); ++i)
+        if (items[i].getCaption() == name)
+            return &items[i];
+    return nullptr;
+}
+
 bool Inventory::sendItem(int index)
 {
 

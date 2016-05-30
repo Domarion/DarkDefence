@@ -3,6 +3,7 @@
 #include "../GlobalScripts/GameModel.h"
 
 MapMenuScene::MapMenuScene()
+    :arialFont(new CFont())
 {
 
 }
@@ -37,9 +38,9 @@ void MapMenuScene::initScene(SceneManager *sceneManagerPtr)
         mapIndicator.setNormalTexture("GameData/textures/MapIndicator/normal.png");
         listGUI.push_back(&mapIndicator);
 
-        arialFont.setFont(currentMissionView.getFont());
+        //arialFont.setFont(currentMissionView.getFont());
 
-
+        arialFont.get()->loadFromFile("Fonts/arial.ttf", 24);
 
 
         mapPicture.setRect(400, 60, 400, Renderer::getInstance()->getScreenHeight() - 100);
@@ -62,6 +63,7 @@ void MapMenuScene::initScene(SceneManager *sceneManagerPtr)
         string s000 = "MainScene";
         backButton.ConnectMethod(std::bind(&SceneManager::setCurrentSceneByName, sceneManagerPtr, s000));
         listGUI.push_back(&backButton);
+        wasInited = true;
     }
     InputDispatcher::getInstance()->addHandler(&loadButton);
     InputDispatcher::getInstance()->addHandler(&backButton);

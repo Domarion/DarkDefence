@@ -51,6 +51,9 @@ public:
     HeroInventory* getHeroInventory();
 	TreeNode<MobModel> * getRootTower();
 
+
+    void addItemToInventoryByName(string name);
+
 	bool canSpawn() const;
 	void incMonsterCount();
     void decMonsterCount(string monsterName);

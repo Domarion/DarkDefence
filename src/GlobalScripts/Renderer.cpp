@@ -118,10 +118,10 @@ SDL_Texture * Renderer::stringToTexture(TTF_Font * font, string text, SDL_Color 
 }
 
 
-SDL_Texture *Renderer::stringToTexture(string text, const CFont &font)
+/*SDL_Texture *Renderer::stringToTexture(string text, const CFont &font)
 {
     return stringToTexture(font.getFont(),text, font.getFontColor());
-}
+}*/
 
 SDL_Texture * Renderer::stringToTexture(string fontFilename, int size, string text, Uint8 r, Uint8 g, Uint8 b)
 {
@@ -147,7 +147,7 @@ void Renderer::renderPresent()
 
 int Renderer::getScreenWidth()
 {
-    int w, h;
+    int w = 0, h = 0;
     SDL_GetWindowSize(windowPtr, &w, &h);
 
     return w;
@@ -155,7 +155,7 @@ int Renderer::getScreenWidth()
 
 int Renderer::getScreenHeight()
 {
-    int w, h;
+    int w = 0, h = 0;
     SDL_GetWindowSize(windowPtr, &w, &h);
 
     return h;

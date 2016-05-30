@@ -4,6 +4,7 @@
 #include <SDL.h>
 #include "IDrawable.h"
 #include "CFont.h"
+#include <memory>
 
 class CTexture: public IDrawable
 
@@ -21,10 +22,15 @@ public:
 
     void setTextureFromSurface(SDL_Surface* surface);
 
-    void setTextureFromText(const string& text, const CFont& font);
+    void setTextureFromText(string& text, std::shared_ptr<CFont> font);
     void loadTexture(const string& filename);
 
+    int getZOrder() const;
+    void setZOrder(int value);
 
+    // IDrawable interface
+public:
+    virtual void setSize(int w, int h) override;
     virtual SDL_Texture* getTexture() const override;
     virtual void setTexture(SDL_Texture*  value) override;
 
@@ -38,6 +44,9 @@ public:
 
 private:
     void autoScale();
-	SDL_Texture* texture;
+    SDL_Texture* texture;
     SDL_Rect rect;
+    int zOrder;
+
+
 };

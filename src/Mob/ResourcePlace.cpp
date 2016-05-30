@@ -30,7 +30,7 @@ bool ResourcePlace::onClick(SDL_Point *point)
 
 
 
-       Sprite* sprt = new Sprite();
+       CTexture* sprt = new CTexture();
         sprt->setRect(0,0, 90, 120);
         string s1 = "GameData/textures/Buildings/" +tempMineModel->getName() + ".png";
         std::cout << s1 << std::endl;

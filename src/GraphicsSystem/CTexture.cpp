@@ -28,7 +28,7 @@ void CTexture::free()
 
 
 CTexture::CTexture(SDL_Texture* aTexture, const SDL_Rect& newRect)
-: texture(nullptr)
+: texture(nullptr), zOrder(0)
 {
     setTexture(aTexture);
     setRect(newRect);
@@ -36,10 +36,10 @@ CTexture::CTexture(SDL_Texture* aTexture, const SDL_Rect& newRect)
 
 
 CTexture::CTexture(SDL_Texture* aTexture)
-: texture(nullptr)
+: texture(nullptr), zOrder(0)
 {
     setTexture(aTexture);
-    setRect(0, 0, 0 , 0);
+    setRect(0, 0, 0, 0);
 }
 
 CTexture::CTexture(const string& filename)
@@ -73,14 +73,16 @@ void CTexture::setTextureFromSurface(SDL_Surface* surface)
 
 void  CTexture::setTexture(SDL_Texture* value)
 {
+    if (value == nullptr)
+        return;
     free();
 
     texture = value;
 }
 
-void CTexture::setTextureFromText(const string &text, const CFont& font)
+void CTexture::setTextureFromText(string &text, std::shared_ptr<CFont> font)
 {
-    setTexture(Renderer::getInstance()->stringToTexture(text, font));
+    setTexture(Renderer::getInstance()->stringToTexture(font.get()->getFont(),text, font.get()->getFontColor()));
     autoScale();
 }
 
@@ -125,6 +127,22 @@ void CTexture::setPos(int x, int y)
 void CTexture::autoScale()
 {
     SDL_QueryTexture(getTexture(), nullptr, nullptr, &rect.w, &rect.h);
+}
+
+int CTexture::getZOrder() const
+{
+    return zOrder;
+}
+
+void CTexture::setZOrder(int value)
+{
+    zOrder = value;
+}
+
+void CTexture::setSize(int w, int h)
+{
+    rect.w = w;
+    rect.h = h;
 }
 
 

@@ -10,6 +10,7 @@
 #include "../GraphicsSystem/UI/Label.h"
 #include "../GraphicsSystem/UI/TextButton.h"
 #include "../GraphicsSystem/UI/ProgressBar.h"
+#include <memory>
 
 class MainScene: public Scene
 {
@@ -18,8 +19,7 @@ public:
 	virtual ~MainScene();
     virtual void initScene(SceneManager* sceneManagerPtr) override;
 	virtual void finalizeScene() override;
-	virtual void loadScene() override;
-	virtual void unloadScene() override;
+
 
 	virtual void startUpdate(double timestep) override;
 
@@ -27,7 +27,7 @@ public:
 private:
 	//Label labelText;
 	TextButton button, button2, button3;
-    CFont arialFont;
+    std::shared_ptr<CFont> arialFont;
     CTexture backGround;
 	//ProgressBar bar;
 };

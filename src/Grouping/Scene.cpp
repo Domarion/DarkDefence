@@ -33,16 +33,42 @@ void Scene::initScene(SceneManager* sceneManagerPtr)
 
 void Scene::finalizeScene()
 {
-	list<SceneObject*>::const_iterator  const_iter = sceneObjects.begin();
-	list<SceneObject*>::const_iterator end = sceneObjects.end();
-	for(;const_iter != end; ++const_iter)
-		(*const_iter)->finalize();
+
+    list<SceneObject*>::iterator  iter1 = sceneObjects.begin();
+    list<SceneObject*>::iterator end = sceneObjects.end();
+    for(;iter1 != end; ++iter1)
+        delete (*iter1);
+
+
+    list<IDrawable*>::iterator  iter2 = listGUI.begin();
+    list<IDrawable*>::iterator end2 = listGUI.end();
+    for(;iter2 != end2; ++iter2)
+        delete (*iter2);
+
 	wasInited = true;
+
+    parentSceneManager = nullptr;
 }
 
 Scene::~Scene()
 {
-  //  finalizeScene();
+
+
+    list<SceneObject*>::iterator  iter1 = sceneObjects.begin();
+    list<SceneObject*>::iterator end = sceneObjects.end();
+    for(;iter1 != end; ++iter1)
+        delete (*iter1);
+
+
+    list<IDrawable*>::iterator  iter2 = listGUI.begin();
+    list<IDrawable*>::iterator end2 = listGUI.end();
+    for(;iter2 != end2; ++iter2)
+        delete (*iter2);
+
+    wasInited = true;
+
+    parentSceneManager = nullptr;
+ //   finalizeScene();
   //  listGUI.clear();
    // sceneObjects.clear();
 	// TODO Auto-generated destructor stub
@@ -66,7 +92,9 @@ void Scene::startUpdate(double timestep)
 
         if ((*iter)->update(timestep) == false)
         {
+           // delete *iter;
             sceneObjects.erase(iter++);
+
            // auto iter2 = sceneObjects.erase(iter++);
            // SceneObjectFabric::destroy(*iter2);
           //  delete *iter2;
@@ -106,6 +134,8 @@ void Scene::spawnObject(int x, int y, SceneObject *obj)
 
 void Scene::destroyObject(SceneObject *obj)
 {
+
+
     sceneObjects.remove(obj);
 }
 
@@ -124,16 +154,7 @@ void Scene::removeFromUIList(IDrawable *item)
     listGUI.remove(item);
 }
 
-void Scene::loadScene()
-{
 
-}
-
-void Scene::unloadScene()
-{
-
-
-}
 SceneObject* Scene::findObjectByTag(std::string tag)
 {
     for(auto ptr = sceneObjects.begin(); ptr != sceneObjects.end(); ++ptr)

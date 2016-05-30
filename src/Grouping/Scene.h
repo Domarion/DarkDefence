@@ -26,8 +26,6 @@ public:
 	virtual ~Scene();
     virtual void initScene(SceneManager* sceneManagerPtr);
 	virtual void finalizeScene();
-	virtual void loadScene();
-	virtual void unloadScene();
     virtual void copyToRender() const;
 	virtual void startUpdate(double timestep);
     virtual void spawnObject(int x, int y, SceneObject* obj);

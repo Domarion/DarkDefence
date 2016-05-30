@@ -7,8 +7,8 @@ class CFont
 {
 public:
 
-    CFont(TTF_Font* ttfFont = nullptr);
-    CFont(const CFont& right);
+    explicit CFont(TTF_Font* ttfFont = nullptr);
+    //CFont(const CFont& right);
     ~CFont();
 
     void loadFromFile(string filename, int size);

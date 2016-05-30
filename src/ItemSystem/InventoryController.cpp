@@ -10,7 +10,7 @@
 #include "../GraphicsSystem/ShopItemUI.h"
 
 InventoryController::InventoryController()
-: model(nullptr), view(nullptr), arial()
+: model(nullptr), view(nullptr), arial(new CFont())
 {
 	// TODO Auto-generated constructor stub
 
@@ -18,6 +18,9 @@ InventoryController::InventoryController()
 
 InventoryController::~InventoryController()
 {
+
+   // for(size_t i = 0; i < buttons.size(); ++i)
+     //   delete buttons[i];
 	// TODO Auto-generated destructor stub
 }
 
@@ -43,7 +46,7 @@ Inventory*  InventoryController::getModel() const
 
 void InventoryController::initView()
 {
-    arial.loadFromFile("Fonts/arial.ttf", 20);
+    arial.get()->loadFromFile("Fonts/arial.ttf", 20);
 
 
 	int count = model->getItemCount();
@@ -57,6 +60,7 @@ void InventoryController::initView()
 
         ShopItemUI *btn =  new ShopItemUI();
 
+       // buttons.push_back(btn);
         string ipath = "GameData/textures/items/" +
                 model->getItemFromIndex(i)->getCaption() + ".png";
 

@@ -33,6 +33,8 @@ public:
     const ItemModel* getItemFromIndex(int index);
     virtual void ConnectReceiver( std::function<void(string, int)> handler);
     virtual void ConnectMethod( std::function<void(ItemModel)> handler);
+    virtual ItemModel* getItemByName(string name);
+
 protected:
 	vector<ItemModel> items;
     std::function<void(string, int)> connectedMethod;

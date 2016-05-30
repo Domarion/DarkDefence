@@ -8,7 +8,6 @@
 #pragma once
 
 #include "../AI/AIComponent.h"
-#include "../GraphicsSystem/Sprite.h"
 #include "../Grouping/SceneObject.h"
 #include "MobModel.h"
 #include "MobSpawner.h"
@@ -50,7 +49,7 @@ protected:
 
 	AIComponent* mobAI;
     MobEffectReceiver* mobEffectReceiver;
-	//Sprite mobSprite;
+
 };
 
 

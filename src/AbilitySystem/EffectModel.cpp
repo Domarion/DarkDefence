@@ -1,6 +1,7 @@
 #include "EffectModel.h"
 
 EffectModel::EffectModel()
+    :runningTime(0.0)
 {
 
 }

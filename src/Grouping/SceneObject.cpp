@@ -8,7 +8,7 @@
 #include "SceneObject.h"
 
 SceneObject::SceneObject()
-:spriteModel(nullptr)
+:spriteModel(nullptr), parentScenePtr(nullptr)
 {
 	// TODO Auto-generated constructor stub
 
@@ -79,20 +79,21 @@ bool SceneObject::update(double timestep)
 
 void SceneObject::init()
 {
-   // spriteModel = new Sprite();
+   // spriteModel = new CTexture();
 }
 
 void SceneObject::finalize()
 {
-     delete spriteModel;
+    parentScenePtr = nullptr;
+    delete spriteModel;
 }
 
-Sprite* SceneObject::getSprite() const
+CTexture* SceneObject::getSprite() const
 {
 	return spriteModel;
 }
 
-void SceneObject::setSprite(Sprite* value)
+void SceneObject::setSprite(CTexture* value)
 {
     spriteModel = value;
 }

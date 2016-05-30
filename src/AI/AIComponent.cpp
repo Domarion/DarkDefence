@@ -8,7 +8,7 @@
 #include "AIComponent.h"
 #include "../GlobalScripts/GameModel.h"
 
-AIComponent::AIComponent(MobModel* aMob, Sprite* aView, Scene* const sceneptr)
+AIComponent::AIComponent(MobModel* aMob, CTexture* aView, Scene* const sceneptr)
 :MobPtr(aMob), SpritePtr(aView), aiMobState(AIMobStates::aiSEARCH), currentTarget(nullptr), scenePtr(sceneptr)
 {
 	// TODO Auto-generated constructor stub
@@ -20,7 +20,7 @@ AIComponent::~AIComponent()
 	// TODO Auto-generated destructor stub
 }
 
-void AIComponent::setSprite(Sprite* aView)
+void AIComponent::setSprite(CTexture* aView)
 {
 	SpritePtr = aView;
 

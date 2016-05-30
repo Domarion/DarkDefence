@@ -16,6 +16,8 @@ HeroInventoryController::HeroInventoryController()
 
 HeroInventoryController::~HeroInventoryController()
 {
+    for(size_t i = 0; i < buttons.size(); ++i)
+        delete buttons[i];
 	// TODO Auto-generated destructor stub
 }
 
@@ -102,7 +104,7 @@ void HeroInventoryController::receiveItemFromModel(string caption, int itemType)
 
     TextButton* btn = new TextButton();
 
-
+    buttons.push_back(btn);
     std::cout << ( "GameData/textures/items/" + caption  + ".png") << std::endl;
     btn->loadTexture("GameData/textures/items/" +
                                                                   caption + ".png");

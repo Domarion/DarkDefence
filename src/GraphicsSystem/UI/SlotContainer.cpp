@@ -16,6 +16,9 @@ SlotContainer::SlotContainer(int slotsCount)
 
 SlotContainer::~SlotContainer()
 {
+
+    for(int i = 0; i < slots.size(); ++i)
+        delete slots[i];
 	// TODO Auto-generated destructor stub
 }
 

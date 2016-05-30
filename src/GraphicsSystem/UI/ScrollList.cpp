@@ -35,6 +35,8 @@ void ScrollList::initScrollList( int itemsToShow,
 
 ScrollList::~ScrollList()
 {
+    for(size_t i = 0; i < itemList.size(); ++i)
+        delete itemList[i];
 	// TODO Auto-generated destructor stub
 }
 

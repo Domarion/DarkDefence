@@ -5,7 +5,7 @@
 #include "../Input/InputDispatcher.h"
 
 TowerUpgradeController::TowerUpgradeController()
-    :parentGameScene(nullptr), arialFont1(), cachedTower(nullptr), fabric(new TowerFabric())
+    :parentGameScene(nullptr), arialFont1(new CFont()), cachedTower(nullptr), fabric(new TowerFabric())
 {
 
 
@@ -19,7 +19,7 @@ TowerUpgradeController::~TowerUpgradeController()
 void TowerUpgradeController::init(Scene *parent)
 {
     parentGameScene = parent;
-     arialFont1.loadFromFile("Fonts/arial.ttf", 20);
+     arialFont1.get()->loadFromFile("Fonts/arial.ttf", 20);
 
 }
 
@@ -31,12 +31,21 @@ void TowerUpgradeController::receiveTowerUpgrade(Tower *tower, int x, int y)
 
     std::cout << "TOWER" << std::endl;
     cachedTower = tower;
+
+
     string towerName = tower->getName();
     TreeNode<MobModel>* currentGrade = GameModel::getInstance()->getRootTower()->recursiveSearch(towerName);
-    if (currentGrade == nullptr)
+    if (currentGrade == nullptr || currentGrade->hasChildren() == false)
         return;
+
+    towerMenu.clear();
       std::cout << "TOWER2" << std::endl;
+
+
     currentTowerChildren = currentGrade->getChildrenNames();
+
+
+    std::cout << "TOWERupCHILDREN SIZE = " << (currentTowerChildren.size()) << std::endl;
     towerMenu.initScrollList(currentTowerChildren.size(), 150, 48);
     towerMenu.setRect(tower->getSprite()->getRect().x + 150, tower->getSprite()->getRect().y, 300, 400);
       std::cout << "TOWER_MENU_POS x = " << (towerMenu.getRect().x) << " y = " << (towerMenu.getRect().y) << std::endl;
@@ -86,14 +95,18 @@ bool TowerUpgradeController::menuClickHandler(int itemIndex)
 
         int x = cachedTower->getSprite()->getRect().x;
         int y = cachedTower->getSprite()->getRect().y;
+           InputDispatcher::getInstance()->removeHandler(cachedTower);
         parentGameScene->destroyObject(cachedTower);
+
+        parentGameScene->removeFromUIList(&towerMenu);
+        InputDispatcher::getInstance()->removeHandler(&towerMenu);
 
         cachedTower = fabric->produceTower(towerName, this);
         if (cachedTower == nullptr)
             return false;
         parentGameScene->spawnObject(x, y, cachedTower);
-        parentGameScene->removeFromUIList(&towerMenu);
-        InputDispatcher::getInstance()->removeHandler(&towerMenu);
+
+        cachedTower = nullptr;
         // cachedTower = nullptr;
 
     return true;

@@ -7,7 +7,7 @@
 
 #include "InputDispatcher.h"
 #include <iostream>
-
+#include <algorithm>
 InputDispatcher* InputDispatcher::instance_ = nullptr;
 
 InputDispatcher::InputDispatcher()
@@ -72,6 +72,18 @@ void InputDispatcher::addHandler(InputHandler* handler)
 
 void InputDispatcher::removeHandler(InputHandler* handler)
 {
+
+     std::vector<InputHandler*>::iterator it = std::find(handlers.begin(), handlers.end(), handler);
+
+
+    if (it != handlers.end())
+        for(; it != handlers.end(); ++it)
+        {
+                *it = *(it + 1);
+        }
+          //  handlers[i] = handlers[i + 1];
+
+    handlers.pop_back();
 	//TODO:stub
 }
 

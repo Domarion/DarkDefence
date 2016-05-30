@@ -24,6 +24,11 @@ public:
 
 private:
     CTexture icon;
+//    SDL_Rect fullRect;
 
+    // IDrawable interface
+public:
+   // virtual void setRect(const SDL_Rect &rect) override;
+    //virtual void setRect(int x, int y, int w, int h) override;
 };
 

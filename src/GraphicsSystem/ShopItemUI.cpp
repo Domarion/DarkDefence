@@ -13,10 +13,14 @@ ShopItemUI::ShopItemUI()
 
 ShopItemUI::~ShopItemUI()
 {
-
+    icon.free();
+    caption.free();
+    description.free();
+    price.free();
+    buyButton.free();
 }
 
-void ShopItemUI::init(CFont& font, string iconPath, string aCaption, string aDescription, string aPrice)
+void ShopItemUI::init(std::shared_ptr<CFont> font, string iconPath, string aCaption, string aDescription, string aPrice)
 {
 
     icon.loadTexture(iconPath);

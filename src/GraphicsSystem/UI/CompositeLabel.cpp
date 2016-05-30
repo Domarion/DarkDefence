@@ -1,6 +1,7 @@
 #include "CompositeLabel.h"
 
 CompositeLabel::CompositeLabel()
+   // :fullRect({0,0,0,0})
 {
 
 }
@@ -44,12 +45,15 @@ void CompositeLabel::setPos(int x, int y)
 
 void CompositeLabel::setPosX(int x)
 {
+
+    //fullRect.x = x;
      icon.setPosX(x);
      Label::setPosX(x + icon.getRect().w);
 }
 
 void CompositeLabel::setPosY(int y)
 {
+    //fullRect.y = y;
     icon.setPosY(y);
     Label::setPosY(y);
 }
@@ -65,8 +69,15 @@ const SDL_Rect &CompositeLabel::getRect() const
     return Label::getRect();//TODO::fix rect
 }
 
+
+
+
 void CompositeLabel::setIconRect(const SDL_Rect &value)
 {
+   // fullRect.x = value.x;
+    //fullRect.y = value.y;
+    //fullRect.w = Label::getRect().w + value.w;
+    //fullRect.h = value.h;
     icon.setRect(value);
 }
 
@@ -74,3 +85,18 @@ void CompositeLabel::setIconRect(int x, int y, int w, int h)
 {
     icon.setRect(x, y, w, h);
 }
+
+/*void CompositeLabel::setRect(const SDL_Rect &rect)
+{
+    fullRect = rect;
+    icon.setPosX(fullRect.x);
+    icon.setPosY(fullRect.y);
+    Label::setPosX(fullRect.x + icon.getRect().w);
+    Label::setPosY(fullRect.y);
+}*/
+
+/*void CompositeLabel::setRect(int x, int y, int w, int h)
+{
+    SDL_Rect tmp = {x,y,w,h};
+    setRect(tmp);
+}*/

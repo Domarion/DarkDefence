@@ -21,7 +21,7 @@ public:
     //SDL_Renderer* getRenderer();
 private:
     Renderer* renderer;
-	SDL_Window* window;
+    SDL_Window* window;
 	SDL_Event event;
 	SceneManager* sceneManager;
 };

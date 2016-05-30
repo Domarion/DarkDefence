@@ -3,24 +3,21 @@
 #include "../Utility/textfilefunctions.h"
 
 CFont::CFont(TTF_Font *ttfFont)
-    :font( ttfFont ), fontColor({0, 0, 0}), fontSize(0)
+    :font( ttfFont ), fontColor({0, 0, 0, 255}), fontSize(0)
 {
 }
 
-CFont::CFont(const CFont &right)
+/*CFont::CFont(const CFont &right)
 {
     font = right.font;
     fontColor = right.fontColor;
     fontSize = right.fontSize;
-}
+}*/
 
 CFont::~CFont()
 {
-    if (font != nullptr)
-    {
-        TTF_CloseFont(font);
-        font = nullptr;
-    }
+   TTF_CloseFont(font);
+   font = nullptr;
 }
 
 void CFont::loadFromFile(string filename, int size)
@@ -43,7 +40,7 @@ void CFont::setFontColor(const SDL_Color &value)
 
 void CFont::setFontColor(Uint8 r, Uint8 g, Uint8 b)
 {
-    fontColor = {r, g, b};
+    fontColor = {r, g, b, 255};
 }
 
 int CFont::getFontSize() const

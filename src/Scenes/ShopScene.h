@@ -16,13 +16,12 @@ public:
 	virtual ~ShopScene();
     virtual void initScene(SceneManager* sceneManagerPtr) override;
 	virtual void finalizeScene() override;
-	virtual void loadScene() override;
-	virtual void unloadScene() override;
+
 
 	virtual void startUpdate(double timestep) override;
 
 private:
-    CFont arialFont;
+    std::shared_ptr<CFont> arialFont;
 	ScrollList scroll;
 	ShopController shopController;
 	TextButton button;

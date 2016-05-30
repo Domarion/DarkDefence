@@ -7,16 +7,16 @@
 
 #pragma once
 #include "../CTexture.h"
-
+#include <memory>
 
 class Label: public IDrawable
 {
 public:
-    Label(const string& lText, const CFont& lFont);
+    Label(const string& lText, std::shared_ptr<CFont> lFont);
     Label(const string& lText);
 	Label();
 	~Label();
-
+    void free();
     // IDrawable interface
 public:
     virtual void draw() override;
@@ -32,12 +32,12 @@ public:
     virtual void loadTexture(const string& filename);
 	string getText() const;
     void setText(const string& value);
-    void setFont(const CFont& value);
+    void setFont(std::shared_ptr<CFont> value);
 
 
 private:
     string text;
-    CFont font;
+    std::shared_ptr<CFont> font;
     CTexture texture;
 
 
@@ -45,4 +45,5 @@ private:
 public:
     virtual void setPosX(int x) override;
     virtual void setPosY(int y) override;
+    virtual void setSize(int w, int h) override;
 };

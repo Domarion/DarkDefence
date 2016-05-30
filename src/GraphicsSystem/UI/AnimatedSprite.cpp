@@ -19,7 +19,7 @@ void AnimatedSprite::draw()
         Renderer::getInstance()->renderTexture(getTexture(),getRect().x, getRect().y, 0, 0, &animationStates.at(currentState).at(frameNumber));
     }
     else
-       Sprite::draw();
+       CTexture::draw();
 }
 
 void AnimatedSprite::calculateFrameNumber()

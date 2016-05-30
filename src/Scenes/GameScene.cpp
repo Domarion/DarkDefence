@@ -16,7 +16,7 @@
 #include "../Input/InputDispatcher.h"
 #include "../GlobalScripts/Renderer.h"
 GameScene::GameScene()
-:Scene(), gates(), arialFont(nullptr), waveLabel()
+:Scene(), Terrain(nullptr), gates(), arialFont(new CFont()), waveLabel(), resPlace(nullptr)
 {
 	// TODO Auto-generated constructor stub
 
@@ -24,13 +24,16 @@ GameScene::GameScene()
 
 GameScene::~GameScene()
 {
+
+
+    finalizeScene();
 	// TODO Auto-generated destructor stub
 
-    for(int i = 0; i != ResourcesModel::resourceTypeCount; ++i)
+  /*  for(int i = 0; i != ResourcesModel::resourceTypeCount; ++i)
     {
 
       //  delete resourceLabels[i];
-    }
+    }*/
     //TTF_CloseFont(arialFont);
 }
 
@@ -110,8 +113,8 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
 
 
 
-        arialFont.loadFromFile("Fonts/arial.ttf", 20);
-        arialFont.setFontColor(255, 255, 255);
+        arialFont.get()->loadFromFile("Fonts/arial.ttf", 20);
+        arialFont.get()->setFontColor(255, 255, 255);
 
 
 
@@ -162,7 +165,7 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
         spawnObject(10, 300, tower);
 
         resPlace = new ResourcePlace();
-        Sprite* resSprite = new Sprite();
+        CTexture* resSprite = new CTexture();
         resSprite->setRect(0, 0, 200, 200);
         resSprite->loadTexture("GameData/textures/Resources/WheatResource.png");
         resPlace->setSprite(resSprite);
@@ -176,7 +179,7 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
         srand (time(NULL));
 
 
-       Sprite* newView = new Sprite();
+       CTexture* newView = new CTexture();
         newView->setRect(0, 0, 100, 100);
         newView->loadTexture("GameData/textures/Gates.png");
 
@@ -270,16 +273,13 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
 
 void GameScene::finalizeScene()
 {
-	Scene::finalizeScene();
+    //Scene::finalizeScene();
+
+    for(auto t: abilityModelsMap)
+        delete (t.second);
+
 }
 
-void GameScene::loadScene()
-{
-}
-
-void GameScene::unloadScene()
-{
-}
 
 void GameScene::startUpdate(double timestep)
 {

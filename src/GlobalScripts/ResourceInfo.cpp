@@ -8,6 +8,7 @@
 #include "ResourceInfo.h"
 #include <sstream>
 ResourceInfo::ResourceInfo()
+    :currentAmount(0), limit(0)
 {
 	// TODO Auto-generated constructor stub
 

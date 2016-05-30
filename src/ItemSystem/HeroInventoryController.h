@@ -22,6 +22,7 @@ public:
 private:
 	HeroInventory* model;
 	SlotContainer* view;
+    vector<IDrawable*> buttons;
 };
 
 

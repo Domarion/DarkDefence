@@ -24,8 +24,8 @@ public:
     virtual void setPos(int x, int y);
     virtual bool update(double timestep);
 	virtual void finalize();
-    virtual Sprite * getSprite() const;
-    virtual void setSprite(Sprite* value);
+    virtual CTexture * getSprite() const;
+    virtual void setSprite(CTexture* value);
     int getX() const;
     int getY() const;
 	//virtual void drawWithCamera(Camera);
@@ -38,10 +38,11 @@ public:
     virtual Scene* getParentScene();
     virtual DestructibleObject* getDestructibleObject();
     virtual EffectReceiver* getEffectReceiver() const;
+    virtual ~SceneObject();
 protected:
     SceneObject();
-    virtual ~SceneObject();
-   Sprite* spriteModel;
+
+   CTexture* spriteModel;
     int x, y;
     string name;
     string tag;

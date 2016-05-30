@@ -10,7 +10,7 @@
 #include "../Input/InputDispatcher.h"
 #include "../GlobalScripts/AccountModel.h"
 ShopScene::ShopScene()
-    :arialFont()
+    :arialFont(new CFont())
 {
 	// TODO Auto-generated constructor stub
 
@@ -49,7 +49,7 @@ void ShopScene::initScene(SceneManager* sceneManagerPtr)
         listGUI.push_back(&scroll);
 
 
-        arialFont.loadFromFile("Fonts/arial.ttf", 24);
+        arialFont.get()->loadFromFile("Fonts/arial.ttf", 24);
 
 
         button.setFont(arialFont);
@@ -83,13 +83,7 @@ void ShopScene::finalizeScene()
 	Scene::finalizeScene();
 }
 
-void ShopScene::loadScene()
-{
-}
 
-void ShopScene::unloadScene()
-{
-}
 
 void ShopScene::startUpdate(double timestep)
 {

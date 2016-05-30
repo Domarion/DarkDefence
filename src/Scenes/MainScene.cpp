@@ -11,7 +11,7 @@
 #include "../Input/InputDispatcher.h"
 
 MainScene::MainScene()
-    :arialFont()
+    :arialFont(new CFont())
 
 {
 	// TODO Auto-generated constructor stub
@@ -27,18 +27,12 @@ MainScene::~MainScene()
 
 void MainScene::finalizeScene()
 {
-	Scene::finalizeScene();
+    //Scene::finalizeScene();
 	//listGUI.clear();
-
+//arialFont.~CFont();
 }
 
-void MainScene::loadScene()
-{
-}
 
-void MainScene::unloadScene()
-{
-}
 
 
 void MainScene::initScene(SceneManager* sceneManagerPtr)
@@ -58,7 +52,7 @@ void MainScene::initScene(SceneManager* sceneManagerPtr)
         backGround.setRect(0, 0, Renderer::getInstance()->getScreenWidth(), Renderer::getInstance()->getScreenHeight());
         listGUI.push_back(&backGround);
 
-        arialFont.loadFromFile("Fonts/arial.ttf", 48);
+        arialFont.get()->loadFromFile("Fonts/arial.ttf", 48);
 
         button.setFont(arialFont);
         int x = Renderer::getInstance()->getScreenWidth()/4;
@@ -92,6 +86,7 @@ void MainScene::initScene(SceneManager* sceneManagerPtr)
 
         listGUI.push_back(&button3);
 
+        wasInited = true;
 	}
 	else
 	{

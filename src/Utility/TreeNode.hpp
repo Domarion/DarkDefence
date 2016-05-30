@@ -73,6 +73,7 @@ public:
 	const string& getNodeName() const;
     map<string, TreeNode<T> > & getChildren();
     vector<string> getChildrenNames();
+    bool hasChildren() const;
 
 private:
 	string nodeName;
@@ -82,6 +83,8 @@ private:
 };
 
 #include "../Utility/TreeNode_impl.hpp"
+
+
 
 
 

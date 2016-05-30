@@ -7,16 +7,13 @@
 
 #include "ManaGlobal.h"
 
-ManaGlobal::ManaGlobal()
-    :limit(100), current(limit), regenerationValue(5), regenerationPeriod(2000)
+ManaGlobal::ManaGlobal(int maxMana, int regenValue, double regenPeriod)
+    :limit(maxMana), current(limit), regenerationValue(regenValue), regenerationPeriod(regenPeriod)
 {
-	// TODO Auto-generated constructor stub
-
 }
 
 ManaGlobal::~ManaGlobal()
 {
-	// TODO Auto-generated destructor stub
 }
 
 void ManaGlobal::setCurrent(int value)
@@ -68,6 +65,7 @@ bool ManaGlobal::payMana(int amount)
 {
     if (amount == 0)
         return false;
+
     if (current < amount)
         return false;
 
@@ -83,6 +81,7 @@ void ManaGlobal::regenerate(double timestep)
     if (counter >= regenerationPeriod)
     {
         setCurrent(current + regenerationValue);
+
         counter = 0;
     }
 

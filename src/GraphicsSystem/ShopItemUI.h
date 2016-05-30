@@ -9,7 +9,7 @@ public:
     // CTexture interface
 public:
 
-    void init(CFont& font,
+    void init(std::shared_ptr<CFont> font,
               string iconPath, string aCaption,
               string aDescription, string aPrice = "none");
     virtual void draw() override;

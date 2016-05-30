@@ -1,6 +1,7 @@
 #include "AbilityShrink.h"
 #include "../GlobalScripts/GameModel.h"
 AbilityShrink::AbilityShrink()
+    :damagePerSecond(0.0)
 {
 
 }

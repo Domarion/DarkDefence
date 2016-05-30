@@ -24,8 +24,9 @@ public:
 private:
 	Inventory* model;
 	ScrollList* view;
-    CFont arial;
-   SDL_Color color;
+    std::shared_ptr<CFont> arial;
+    SDL_Color color;
+    vector<IDrawable*> buttons;
 
 };
 

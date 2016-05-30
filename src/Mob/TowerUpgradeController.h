@@ -23,7 +23,7 @@ private:
 
     Scene* parentGameScene;
 
-    CFont arialFont1;
+    std::shared_ptr<CFont> arialFont1;
     Tower *cachedTower;
     vector<string> currentTowerChildren;
     ScrollList towerMenu;

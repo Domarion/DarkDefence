@@ -136,3 +136,10 @@ vector<string> TreeNode<T>::getChildrenNames()
     }
     return keys;
 }
+
+
+template<typename T>
+bool TreeNode<T>::hasChildren() const
+{
+    return (!children.empty());
+}

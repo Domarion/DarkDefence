@@ -2,6 +2,7 @@
 #include <iostream>
 
 DestructibleObjectEffectReceiver::DestructibleObjectEffectReceiver()
+    :doModelPtr(nullptr)
 {
 
 }

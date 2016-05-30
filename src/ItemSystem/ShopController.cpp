@@ -11,7 +11,7 @@
 
 
 ShopController::ShopController()
-: model(nullptr), view(nullptr), arial()
+: model(nullptr), view(nullptr), arial(new CFont())
 {
 	// TODO Auto-generated constructor stub
 
@@ -19,6 +19,8 @@ ShopController::ShopController()
 
 ShopController::~ShopController()
 {
+    for(size_t i = 0; i < buttons.size(); ++i)
+        delete buttons[i];
 	// TODO Auto-generated destructor stub
 }
 
@@ -45,7 +47,7 @@ ShopInventory*  ShopController::getModel() const
 void ShopController::initView()
 {
 
-    arial.loadFromFile("Fonts/arial.ttf", 20);
+    arial.get()->loadFromFile("Fonts/arial.ttf", 20);
 
 
 
@@ -58,6 +60,7 @@ void ShopController::initView()
 
 
         ShopItemUI* btn = new ShopItemUI();
+         buttons.push_back(btn);
 
         string ipath = "GameData/textures/items/" +
                 model->getItemFromIndex(i)->getCaption() + ".png";

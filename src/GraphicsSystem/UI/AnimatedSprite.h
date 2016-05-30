@@ -1,12 +1,12 @@
 #pragma once
-#include "../Sprite.h"
+#include "../CTexture.h"
 #include <map>
 using std::map;
 #include <string>
 using std::string;
 #include <vector>
 using std::vector;
-class AnimatedSprite : public Sprite
+class AnimatedSprite : public CTexture
 {
 public:
     AnimatedSprite();

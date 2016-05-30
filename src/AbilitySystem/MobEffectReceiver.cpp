@@ -1,6 +1,7 @@
 #include "MobEffectReceiver.h"
 #include <map>
 MobEffectReceiver::MobEffectReceiver()
+    :mobModelPtr(nullptr)
 {
 
 }

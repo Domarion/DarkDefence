@@ -1,6 +1,7 @@
 #include "AbilitySnowStorm.h"
 #include "../GlobalScripts/GameModel.h"
 AbilitySnowStorm::AbilitySnowStorm()
+    :damagePerSecond(0)
 {
 
 }

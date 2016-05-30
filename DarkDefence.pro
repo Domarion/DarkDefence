@@ -16,11 +16,7 @@ SOURCES += \
     src/GraphicsSystem/UI/ScrollList.cpp \
     src/GraphicsSystem/UI/SlotContainer.cpp \
     src/GraphicsSystem/UI/TextButton.cpp \
-    src/GraphicsSystem/Camera.cpp \
     src/GraphicsSystem/CTexture.cpp \
-    src/GraphicsSystem/Sprite.cpp \
-    src/GraphicsSystem/Terrain.cpp \
-    src/GraphicsSystem/Tile.cpp \
     src/Grouping/Scene.cpp \
     src/Grouping/SceneManager.cpp \
     src/Grouping/SceneObject.cpp \
@@ -31,7 +27,6 @@ SOURCES += \
     src/ItemSystem/HeroInventoryController.cpp \
     src/ItemSystem/Inventory.cpp \
     src/ItemSystem/InventoryController.cpp \
-    src/ItemSystem/ItemCell.cpp \
     src/ItemSystem/ItemModel.cpp \
     src/ItemSystem/ShopController.cpp \
     src/ItemSystem/ShopInventory.cpp \
@@ -44,14 +39,12 @@ SOURCES += \
     src/Mob/Mob.cpp \
     src/Mob/MobModel.cpp \
     src/Mob/MobSpawner.cpp \
-    src/Mob/StorageModel.cpp \
     src/Scenes/GameScene.cpp \
     src/Scenes/InventoryScene.cpp \
     src/Scenes/MainScene.cpp \
     src/Scenes/ShopScene.cpp \
     src/GameApp.cpp \
     src/main.cpp \
-    src/Utility/NTree.cpp \
     src/Mob/TowerFabric.cpp \
     src/GlobalScripts/Renderer.cpp \
     src/Scenes/ScoreScene.cpp \
@@ -100,9 +93,7 @@ SOURCES += \
     src/AbilitySystem/ItemAbilities/FeatherOfChap.cpp \
     src/GraphicsSystem/ShopItemUI.cpp \
     src/Utility/textfilefunctions.cpp \
-    src/GraphicsSystem/CFont.cpp \
-    src/Utility/Observer.cpp \
-    src/Utility/Subject.cpp
+    src/GraphicsSystem/CFont.cpp
 
 HEADERS += \
     src/AI/AIComponent.h \
@@ -117,11 +108,7 @@ HEADERS += \
     src/GraphicsSystem/UI/ScrollList.h \
     src/GraphicsSystem/UI/SlotContainer.h \
     src/GraphicsSystem/UI/TextButton.h \
-    src/GraphicsSystem/Camera.h \
     src/GraphicsSystem/CTexture.h \
-    src/GraphicsSystem/Sprite.h \
-    src/GraphicsSystem/Terrain.h \
-    src/GraphicsSystem/Tile.h \
     src/Grouping/Scene.h \
     src/Grouping/SceneManager.h \
     src/Grouping/SceneObject.h \
@@ -145,7 +132,6 @@ HEADERS += \
     src/Mob/Mob.h \
     src/Mob/MobModel.h \
     src/Mob/MobSpawner.h \
-    src/Mob/StorageModel.h \
     src/Scenes/GameScene.h \
     src/Scenes/InventoryScene.h \
     src/Scenes/MainScene.h \
@@ -154,7 +140,6 @@ HEADERS += \
     src/Utility/TreeNode_impl.hpp \
     src/Enums.h \
     src/GameApp.h \
-    src/Utility/NTree.h \
     src/Mob/TowerFabric.hpp \
     src/GlobalScripts/Renderer.h \
     src/Scenes/ScoreScene.h \
@@ -204,9 +189,7 @@ HEADERS += \
     src/GraphicsSystem/ShopItemUI.h \
     src/Utility/textfilefunctions.h \
     src/GraphicsSystem/IDrawable.h \
-    src/GraphicsSystem/CFont.h \
-    src/Utility/Observer.h \
-    src/Utility/Subject.h
+    src/GraphicsSystem/CFont.h
 
 unix:!macx: LIBS += -L$$PWD/../../../../usr/lib64/ -lboost_serialization
 

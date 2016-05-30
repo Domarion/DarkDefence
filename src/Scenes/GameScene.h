@@ -15,7 +15,7 @@
 //#include "../GraphicsSystem/UI/TextButton.h"
 #include "../GraphicsSystem/UI/ImageButton.h"
 #include "../GraphicsSystem/UI/ProgressBar.h"
-#include "../GraphicsSystem/Camera.h"
+
 
 #include "../Mob/Gates.h"
 
@@ -37,8 +37,6 @@ public:
 	virtual ~GameScene();
     virtual void initScene(SceneManager* sceneManagerPtr) override;
 	virtual void finalizeScene() override;
-	virtual void loadScene() override;
-	virtual void unloadScene() override;
 	virtual void startUpdate(double timestep) override;
     virtual void copyToRender() const override;
     AbilityModel* getAbilityModelWithName(string name);
@@ -55,10 +53,10 @@ private:
     TowerFabric towerFabric;
 	MobSpawner monsterSpawner;
 	Gates gates;
-	SDL_Rect* worldRect;
-	Camera* mainCamera;
+    //SDL_Rect* worldRect;
+
     Mission currentMission;
-    CFont arialFont;
+    std::shared_ptr<CFont> arialFont;
     Label pointsLabel;
     Label waveLabel;
     map<string, AbilityModel* > abilityModelsMap;

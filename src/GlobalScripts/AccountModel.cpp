@@ -9,8 +9,8 @@
 AccountModel* AccountModel::instance_ = nullptr;
 
 
-AccountModel::AccountModel()
-    :goldAmount(10000)
+AccountModel::AccountModel(int goldValue, int goldMax)
+    :goldAmount(goldValue), goldLimit(goldMax)
 {
 	// TODO Auto-generated constructor stub
 
@@ -44,9 +44,12 @@ int AccountModel::getGoldAmount() const
 	return goldAmount;
 }
 
-void AccountModel::setGoldAmount(int goldAmount)
+void AccountModel::setGoldAmount(int amount)
 {
-	this->goldAmount = goldAmount;
+    if (amount < 0 || amount > goldLimit)
+        return;
+
+    goldAmount = amount;
 }
 
 bool AccountModel::PayGold(int amount)
@@ -62,5 +65,5 @@ bool AccountModel::PayGold(int amount)
 
 void AccountModel::addGold(int amount)
 {
-    goldAmount += amount;
+   setGoldAmount(goldAmount + amount);
 }

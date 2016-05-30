@@ -9,14 +9,14 @@
 
 
 
-Label::Label(const string &lText, const CFont &lFont)
+Label::Label(const string &lText, std::shared_ptr<CFont> lFont)
  : text(lText),font(lFont), texture()
 {
 
 }
 
 Label::Label(const string& lText)
-: text(lText),font(), texture()
+: text(lText),font(nullptr), texture()
 {
 
 }
@@ -29,6 +29,12 @@ Label::Label()
 Label::~Label()
 {
 
+}
+
+void Label::free()
+{
+    font = nullptr;
+    texture.free();
 }
 
 void Label::draw()
@@ -87,7 +93,7 @@ void Label::setText(const string& value)
     }
 }
 
-void Label::setFont(const CFont &value)
+void Label::setFont(std::shared_ptr<CFont> value)
 {
     font = value;
 }
@@ -100,5 +106,10 @@ void Label::setPosX(int x)
 void Label::setPosY(int y)
 {
     texture.setPosY(y);
+}
+
+void Label::setSize(int w, int h)
+{
+    texture.setSize(w, h);
 }
 

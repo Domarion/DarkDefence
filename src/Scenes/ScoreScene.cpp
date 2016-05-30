@@ -8,7 +8,7 @@ using std::string;
 #include "../GlobalScripts/AccountModel.h"
 
 ScoreScene::ScoreScene()
-    :arialFont()
+    :arialFont(new CFont())
 {
 
 }
@@ -25,7 +25,7 @@ void ScoreScene::initScene(SceneManager *sceneManagerPtr)
     if (!wasInited)
     {
         Scene::initScene(sceneManagerPtr);
-        arialFont.loadFromFile("Fonts/arial.ttf", 18);
+        arialFont.get()->loadFromFile("Fonts/arial.ttf", 18);
 
         button.setFont(arialFont);
         button.setRect(0, 0, 100, 50);
@@ -63,6 +63,8 @@ void ScoreScene::initScene(SceneManager *sceneManagerPtr)
                y0 += 50;
                rewardViews.push_back(tempComposite);
                listGUI.push_back(tempComposite);
+
+              GameModel::getInstance()->addItemToInventoryByName(*mri);//TODO::implement method
            }
 
            int goldCoins = 0;
@@ -71,16 +73,17 @@ void ScoreScene::initScene(SceneManager *sceneManagerPtr)
           // std::cout << "goldCoins =" << goldCoins << std::endl;
            if (goldCoins > 0)
            {
-           AccountModel::getInstance()->addGold(goldCoins);
-           CompositeLabel* tempComposite = new CompositeLabel();
-           tempComposite->setFont(arialFont);
-           string iconPath2 = "GameData/textures/Resources/"
-                   + GameModel::getInstance()->getResourcesModel()->getResourceNameFromIndex(0) + ".png";
-           tempComposite->loadIcon(iconPath2);
-           tempComposite->setIconRect(0, 0, 30, 30);
-           tempComposite->setPos(0, y0);
-           tempComposite->setText(std::to_string(goldCoins));
-            rewardViews.push_back(tempComposite);
+               AccountModel::getInstance()->addGold(goldCoins);
+               CompositeLabel* tempComposite = new CompositeLabel();
+               tempComposite->setFont(arialFont);
+               string iconPath2 = "GameData/textures/Resources/"
+                       + GameModel::getInstance()->getResourcesModel()->getResourceNameFromIndex(0) + ".png";
+               tempComposite->loadIcon(iconPath2);
+               tempComposite->setIconRect(0, 0, 30, 30);
+               tempComposite->setPos(0, y0);
+               tempComposite->setText(std::to_string(goldCoins));
+
+               rewardViews.push_back(tempComposite);
                listGUI.push_back(tempComposite);
            }
         }

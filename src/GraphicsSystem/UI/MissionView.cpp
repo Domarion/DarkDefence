@@ -3,7 +3,7 @@
 #include "../../MissionSystem/ResourceGoal.h"
 
 MissionView::MissionView()
-    :arialFont( )
+    :arialFont(new CFont() )
 {
 
 }
@@ -14,7 +14,7 @@ MissionView::~MissionView()
 
 void MissionView::init(Mission& missionRef)
 {
-    arialFont.loadFromFile("Fonts/arial.ttf", 22);
+    arialFont.get()->loadFromFile("Fonts/arial.ttf", 22);
 
     setRect(0,0, 400, Renderer::getInstance()->getScreenHeight()- 50 );
     loadTexture("GameData/textures/mosaic.png");
@@ -103,8 +103,3 @@ void MissionView::draw()
 
 }
 
-TTF_Font * MissionView::getFont()
-{
-    return arialFont.getFont();
-
-}
