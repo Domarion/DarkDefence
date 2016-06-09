@@ -27,7 +27,7 @@ private:
 	InventoryController inventoryController;
     HeroInventoryController heroController;
 	TextButton button;
-    std::shared_ptr<CFont> arialFont;
+   // std::shared_ptr<CFont> arialFont;
 
 };
 

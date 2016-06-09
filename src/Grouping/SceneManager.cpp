@@ -12,21 +12,18 @@ using std::cout;
 using std::endl;
 
 SceneManager::SceneManager()
-:renderer(nullptr), currentScene(nullptr)
+:currentScene(nullptr)
 {
-	// TODO Auto-generated constructor stub
 
 }
 
 SceneManager::~SceneManager()
 {
-	// TODO Auto-generated destructor stub
 
 	for(auto i = scenes.begin(); i != scenes.end(); ++i)
 		delete scenes[i->first];
 
     currentScene = nullptr;
-        //renderer = nullptr;
 }
 
 Scene* SceneManager::getCurrentScene() const
@@ -35,14 +32,7 @@ Scene* SceneManager::getCurrentScene() const
 }
 
 
-
-void SceneManager::InitScene()
-{
-
-
-}
-
-void SceneManager::addScene(Scene* scene, const std::string name)
+void SceneManager::addScene(Scene* scene, const string name)
 {
 	scenes[name] = scene;
 	if (scenes.size() == 1)
@@ -75,5 +65,4 @@ void SceneManager::setCurrentSceneByName(std::string name)
         std::cout << "Scene name = " << name << std::endl;
 		setCurrentScene(scenes[name]);
     }
-	//setCurrentScene(scenes[1]);
 }

@@ -11,6 +11,9 @@
 #include <list>
 using std::list;
 #include "../Input/InputDispatcher.h"
+
+
+
 Scene::Scene()
 :listGUI(), sceneObjects(), parentSceneManager(nullptr), wasInited(false)
 {
@@ -24,11 +27,11 @@ void Scene::initScene(SceneManager* sceneManagerPtr)
 
 	parentSceneManager = sceneManagerPtr;
 
-	list<SceneObject*>::const_iterator  const_iter = sceneObjects.begin();
+    /*list<SceneObject*>::const_iterator  const_iter = sceneObjects.begin();
 	list<SceneObject*>::const_iterator end = sceneObjects.end();
 	for(;const_iter != end; ++const_iter)
         (*const_iter)->init();
-
+*/
 }
 
 void Scene::finalizeScene()
@@ -52,26 +55,7 @@ void Scene::finalizeScene()
 
 Scene::~Scene()
 {
-
-
-    list<SceneObject*>::iterator  iter1 = sceneObjects.begin();
-    list<SceneObject*>::iterator end = sceneObjects.end();
-    for(;iter1 != end; ++iter1)
-        delete (*iter1);
-
-
-    list<IDrawable*>::iterator  iter2 = listGUI.begin();
-    list<IDrawable*>::iterator end2 = listGUI.end();
-    for(;iter2 != end2; ++iter2)
-        delete (*iter2);
-
-    wasInited = true;
-
-    parentSceneManager = nullptr;
- //   finalizeScene();
-  //  listGUI.clear();
-   // sceneObjects.clear();
-	// TODO Auto-generated destructor stub
+    finalizeScene();
 }
 
 
@@ -85,24 +69,13 @@ void Scene::copyToRender() const
 
 void Scene::startUpdate(double timestep)
 {
-
-
     for(auto iter = sceneObjects.begin(); iter != sceneObjects.end(); )
     {
 
         if ((*iter)->update(timestep) == false)
-        {
-           // delete *iter;
             sceneObjects.erase(iter++);
-
-           // auto iter2 = sceneObjects.erase(iter++);
-           // SceneObjectFabric::destroy(*iter2);
-          //  delete *iter2;
-        }
         else
             ++iter;
-        //if (*iter == nullptr)
-          //  --iter;
     }
 }
 
@@ -110,33 +83,39 @@ void Scene::spawnObject(int x, int y, SceneObject *obj)
 {
     obj->setParentScene(this);
 
-    if (obj->getParentScene() == nullptr)
-        std::cout << "WTF WHY NULL" << std::endl;
-    else
-        std::cout << obj->getName() <<" is NOT NULL"<< std::endl;
+
+    obj->init(x, y);
+   // obj->setPos(x,y);
+
+   // if (obj->getSprite() != nullptr)
+    //    obj->getSprite()->setPos(x, y);
 
 
-    obj->init();
-     obj->setPos(x,y);
-    if (obj->getSprite() != nullptr)
-        obj->getSprite()->setPos(x, y);
-    if (obj->getDestructibleObject() != nullptr)
+
+    /*if (obj->getDestructibleObject() != nullptr)
     {
         obj->getDestructibleObject()->setWorldX(x);
         obj->getDestructibleObject()->setWorldY(y);
-    }
+    }*/
 
     InputHandler* handler = dynamic_cast<InputHandler*>(obj);
+
     if (handler != nullptr)
             InputDispatcher::getInstance()->addHandler(handler);
+
     sceneObjects.push_back(obj);
 }
 
 void Scene::destroyObject(SceneObject *obj)
 {
+    InputHandler* handler = dynamic_cast<InputHandler*>(obj);
 
+    if (handler != nullptr)
+            InputDispatcher::getInstance()->removeHandler(handler);
 
     sceneObjects.remove(obj);
+
+    obj->finalize();
 }
 
 void Scene::addToUIList(IDrawable *item)
@@ -151,6 +130,7 @@ void Scene::removeFromUIList(IDrawable *item)
 {
     if (item == nullptr)
         return;
+
     listGUI.remove(item);
 }
 

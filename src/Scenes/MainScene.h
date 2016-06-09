@@ -27,7 +27,7 @@ public:
 private:
 	//Label labelText;
 	TextButton button, button2, button3;
-    std::shared_ptr<CFont> arialFont;
+    //std::shared_ptr<CFont> arialFont;
     CTexture backGround;
 	//ProgressBar bar;
 };

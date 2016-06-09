@@ -15,6 +15,7 @@ using std::list;
 #include "SceneObject.h"
 #include "SceneManager.h"
 #include "../GlobalScripts/Renderer.h"
+#include "FontManager.h"
 
 class SceneObject;
 class SceneManager;

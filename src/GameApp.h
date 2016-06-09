@@ -9,6 +9,7 @@
 
 #include "GlobalScripts/Renderer.h"
 #include "Grouping/SceneManager.h"
+
 class GameApp
 {
 public:
@@ -18,10 +19,14 @@ public:
 	int renderScene(const Scene* scene);
 	void updateScene(Scene* scene, double timestep);
 	bool processInput();
-    //SDL_Renderer* getRenderer();
+    void pause();
+    void unpause();
+    void receiveMessage(string msg);
+
 private:
     Renderer* renderer;
     SDL_Window* window;
 	SDL_Event event;
 	SceneManager* sceneManager;
+    bool paused;
 };

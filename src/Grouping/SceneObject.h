@@ -20,7 +20,7 @@ class SceneObject
 {
 	friend class SceneObjectFabric;
 public:
-    virtual void init();
+    virtual void init(int x, int y);
     virtual void setPos(int x, int y);
     virtual bool update(double timestep);
 	virtual void finalize();
@@ -28,7 +28,7 @@ public:
     virtual void setSprite(CTexture* value);
     int getX() const;
     int getY() const;
-	//virtual void drawWithCamera(Camera);
+
     virtual string getName() const;
     virtual void setName(const string &value);
 
@@ -38,11 +38,20 @@ public:
     virtual Scene* getParentScene();
     virtual DestructibleObject* getDestructibleObject();
     virtual EffectReceiver* getEffectReceiver() const;
+
+    int computeDistanceSqr(int x0, int y0, int x1, int y1);
+    int computeDistanceSqr(SceneObject* second);
     virtual ~SceneObject();
+
+    void setX(int value);
+
+    void setY(int value);
+
 protected:
+
     SceneObject();
 
-   CTexture* spriteModel;
+    CTexture* spriteModel;
     int x, y;
     string name;
     string tag;

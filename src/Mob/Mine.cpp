@@ -6,10 +6,6 @@ Mine::Mine()
 
 }
 
-void Mine::init()
-{
-
-}
 
 bool Mine::update(double timestep)
 {

@@ -14,10 +14,24 @@ SceneObject::SceneObject()
 
 }
 
+void SceneObject::setY(int value)
+{
+    y = value;
+    if (spriteModel != nullptr)
+        spriteModel->setPosY(y);
+}
+
+void SceneObject::setX(int value)
+{
+    x = value;
+    if (spriteModel != nullptr)
+        spriteModel->setPosX(x);
+}
+
 SceneObject::~SceneObject()
 {
-finalize();
-	// TODO Auto-generated destructor stub
+    finalize();
+    // TODO Auto-generated destructor stub
 }
 
 string SceneObject::getTag() const
@@ -50,6 +64,22 @@ EffectReceiver *SceneObject::getEffectReceiver() const
     return nullptr;
 }
 
+int SceneObject::computeDistanceSqr(int x0, int y0, int x1, int y1)
+{
+    int xdist = x0 - x1;
+    int ydist = y0 - y1;
+
+    return (xdist*xdist + ydist*ydist);
+}
+
+int SceneObject::computeDistanceSqr(SceneObject *second)
+{
+    if (second  == nullptr)
+        return -1;
+
+    return computeDistanceSqr(getX(), getY(), second->getX(), second->getY());
+}
+
 string SceneObject::getName() const
 {
     return name;
@@ -58,6 +88,11 @@ string SceneObject::getName() const
 void SceneObject::setName(const string &value)
 {
     name = value;
+}
+
+void SceneObject::init(int x, int y)
+{
+    setPos(x, y);
 }
 
 void SceneObject::setPos(int x, int y)
@@ -77,10 +112,7 @@ bool SceneObject::update(double timestep)
 }
 
 
-void SceneObject::init()
-{
-   // spriteModel = new CTexture();
-}
+
 
 void SceneObject::finalize()
 {

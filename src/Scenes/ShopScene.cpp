@@ -10,7 +10,7 @@
 #include "../Input/InputDispatcher.h"
 #include "../GlobalScripts/AccountModel.h"
 ShopScene::ShopScene()
-    :arialFont(new CFont())
+   // :arialFont(new CFont())
 {
 	// TODO Auto-generated constructor stub
 
@@ -49,10 +49,10 @@ void ShopScene::initScene(SceneManager* sceneManagerPtr)
         listGUI.push_back(&scroll);
 
 
-        arialFont.get()->loadFromFile("Fonts/arial.ttf", 24);
+        //arialFont.get()->loadFromFile("Fonts/arial.ttf", 24);
 
 
-        button.setFont(arialFont);
+        button.setFont(FontManager::getInstance()->getFontByKind("ButtonFont"));
         button.setRect(Renderer::getInstance()->getScreenWidth() - 100, Renderer::getInstance()->getScreenHeight() - 50, 100, 50);
         button.setText("Назад");
         string s1 = "MainScene";
@@ -60,14 +60,14 @@ void ShopScene::initScene(SceneManager* sceneManagerPtr)
 
         listGUI.push_back(&button);
 
-        goldCoins.setFont(arialFont);
+        goldCoins.setFont(FontManager::getInstance()->getFontByKind("TextFont"));
         string sss1 = std::to_string(AccountModel::getInstance()->getGoldAmount());
         goldCoins.setText(sss1);
         goldCoins.setPos(button.getRect().x - goldCoins.getRect().w - 10, button.getRect().y);
 
         listGUI.push_back(&goldCoins);
 
-        sceneName.setFont(arialFont);
+        sceneName.setFont(FontManager::getInstance()->getFontByKind("TextFont"));
         string sss2 = "Мистическая лавка";
         sceneName.setText(sss2);
         sceneName.setPos(goldCoins.getRect().x - sceneName.getRect().w -100, goldCoins.getRect().y);

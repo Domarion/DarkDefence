@@ -13,8 +13,10 @@ PrickObject::~PrickObject()
 
 }
 
-void PrickObject::init()
+void PrickObject::init(int x, int y)
 {
+    SceneObject::init(x, y);
+
     if (parentScenePtr != nullptr)
     {
         std::cout << "prickObject init" << std::endl;

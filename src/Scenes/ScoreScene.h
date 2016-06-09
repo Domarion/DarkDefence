@@ -13,7 +13,7 @@ public:
     virtual void initScene(SceneManager* sceneManagerPtr) override;
     virtual void finalizeScene() override;
 private:
-    std::shared_ptr<CFont> arialFont;
+  //  std::shared_ptr<CFont> arialFont;
     TextButton button;
     Label ScoreLabel;
     vector< CompositeLabel* > rewardViews;

@@ -15,8 +15,15 @@
 #include <ctime>
 #include "../Input/InputDispatcher.h"
 #include "../GlobalScripts/Renderer.h"
+
+
+#include "../AbilitySystem/AbilityMagicStones.h"
+#include "../AbilitySystem/AbilitySnowStorm.h"
+#include "../AbilitySystem/AbilityShrink.h"
+#include "../AbilitySystem/AbilityPrick.h"
+
 GameScene::GameScene()
-:Scene(), Terrain(nullptr), gates(), arialFont(new CFont()), waveLabel(), resPlace(nullptr)
+:Scene(), Terrain(nullptr), gates(), waveLabel(), resPlace(nullptr)
 {
 	// TODO Auto-generated constructor stub
 
@@ -113,8 +120,8 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
 
 
 
-        arialFont.get()->loadFromFile("Fonts/arial.ttf", 20);
-        arialFont.get()->setFontColor(255, 255, 255);
+       // arialFont.get()->loadFromFile("Fonts/arial.ttf", 20);
+       // arialFont.get()->setFontColor(255, 255, 255);
 
 
 
@@ -125,7 +132,7 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
             string s = GameModel::getInstance()->getResourcesModel()->printResourceFromIndex(i);
             resourceLabels[i] = new CompositeLabel();
 
-            resourceLabels[i]->setFont(arialFont);
+            resourceLabels[i]->setFont(FontManager::getInstance()->getFontByKind("TextFont"));
             string iconPath = "GameData/textures/Resources/"
                     + GameModel::getInstance()->getResourcesModel()->getResourceNameFromIndex(i) + ".png";
             resourceLabels[i]->loadIcon( iconPath );
@@ -138,14 +145,14 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
             topPanel.addChild(resourceLabels[i]);
         }
 
-        pointsLabel.setFont(arialFont);
+        pointsLabel.setFont(FontManager::getInstance()->getFontByKind("TextFont"));
         pointsLabel.setRect(0,0, 30, 20);
         pointsLabel.setPos(0,0);
         topPanel.addChild(&pointsLabel);
 
 
 
-        waveLabel.setFont(arialFont);
+        waveLabel.setFont(FontManager::getInstance()->getFontByKind("TextFont"));
         waveLabel.setPos(0,0);
         topPanel.addChild(&waveLabel);
 
@@ -240,8 +247,6 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
             ItemAbility* temp = GameModel::getInstance()->getItemAbilityByName(*itemNamePtr);
             if (temp != nullptr)
                 temp->init(this);
-
-
         }
 
           std::cout << "productionOfMine AfterItemApplyis = " << (GameModel::getInstance()->getMineModelFromListByRes(Enums::ResourceTypes::WOOD)->getProduction()) << std::endl;
@@ -260,8 +265,10 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
         }
 
 
-
-
+        pauseBtn.setRect(750, 430, 50, 50);
+        pauseBtn.loadTexture("GameData/textures/pause-button.png");
+        pauseBtn.ConnectMethod(std::bind(&GameScene::sendMSG, this, std::placeholders::_1));
+        listGUI.push_back(&pauseBtn);
 	}
 
     for(int i = 0; i < 4; ++i)
@@ -269,6 +276,7 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
 
     InputDispatcher::getInstance()->addHandler(dynamic_cast<InputHandler*>(abilityModelsMap["Prick"]));
     InputDispatcher::getInstance()->addHandler(resPlace);
+    InputDispatcher::getInstance()->addHandler(&pauseBtn);
 }
 
 void GameScene::finalizeScene()
@@ -396,6 +404,17 @@ AbilityModel * GameScene::getAbilityModelWithName(string name)
 map<string, AbilityModel *> &GameScene::getAbilityModelList()
 {
     return abilityModelsMap;
+}
+
+void GameScene::ConnectMethod(std::function<void (string)> handler)
+{
+    method = handler;
+}
+
+void GameScene::sendMSG(string s)
+{
+    if (method != nullptr)
+        method("pause");
 }
 
 /*void GameScene::receiveTowerUpgrade(Tower *tower, int x, int y)

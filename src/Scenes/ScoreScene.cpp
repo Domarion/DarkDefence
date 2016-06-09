@@ -8,7 +8,7 @@ using std::string;
 #include "../GlobalScripts/AccountModel.h"
 
 ScoreScene::ScoreScene()
-    :arialFont(new CFont())
+    //:arialFont(new CFont())
 {
 
 }
@@ -25,9 +25,9 @@ void ScoreScene::initScene(SceneManager *sceneManagerPtr)
     if (!wasInited)
     {
         Scene::initScene(sceneManagerPtr);
-        arialFont.get()->loadFromFile("Fonts/arial.ttf", 18);
+       // arialFont.get()->loadFromFile("Fonts/arial.ttf", 18);
 
-        button.setFont(arialFont);
+        button.setFont(FontManager::getInstance()->getFontByKind("ButtonFont"));
         button.setRect(0, 0, 100, 50);
         button.setPos(Renderer::getInstance()->getScreenWidth() - 100, Renderer::getInstance()->getScreenHeight() - 50);
         button.setText("Главное меню");
@@ -35,7 +35,7 @@ void ScoreScene::initScene(SceneManager *sceneManagerPtr)
         button.ConnectMethod(std::bind(&SceneManager::setCurrentSceneByName, sceneManagerPtr, s));
         listGUI.push_back(&button);
 
-        ScoreLabel.setFont(arialFont);
+        ScoreLabel.setFont(FontManager::getInstance()->getFontByKind("ButtonFont"));
         ScoreLabel.setRect(0, 0, 200, 50);
 
 
@@ -53,7 +53,7 @@ void ScoreScene::initScene(SceneManager *sceneManagerPtr)
            {
 
                CompositeLabel* tempComposite = new CompositeLabel();
-               tempComposite->setFont(arialFont);
+               tempComposite->setFont(FontManager::getInstance()->getFontByKind("ButtonFont"));
                string iconPath = "GameData/textures/items/" + *mri + ".png";
               // std::cout << (*mri) << std::endl;
                tempComposite->loadIcon( iconPath );
@@ -75,7 +75,7 @@ void ScoreScene::initScene(SceneManager *sceneManagerPtr)
            {
                AccountModel::getInstance()->addGold(goldCoins);
                CompositeLabel* tempComposite = new CompositeLabel();
-               tempComposite->setFont(arialFont);
+               tempComposite->setFont(FontManager::getInstance()->getFontByKind("ButtonFont"));
                string iconPath2 = "GameData/textures/Resources/"
                        + GameModel::getInstance()->getResourcesModel()->getResourceNameFromIndex(0) + ".png";
                tempComposite->loadIcon(iconPath2);

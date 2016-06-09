@@ -7,6 +7,12 @@ CFont::CFont(TTF_Font *ttfFont)
 {
 }
 
+CFont::CFont(string fontPath, int size, Uint8 r, Uint8 g, Uint8 b)
+    :fontColor({r, g, b, 255})
+{
+    loadFromFile(fontPath, size);
+}
+
 /*CFont::CFont(const CFont &right)
 {
     font = right.font;

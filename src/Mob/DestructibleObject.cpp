@@ -52,7 +52,7 @@ bool DestructibleObject::IsAlive() const
 
 DestructibleObject::DestructibleObject(string aName, string aTag,
 		int aMaxHealth, int aProtection[])
-:name(aName), tag(aTag), Alive(true), maximumHealth(aMaxHealth, 0), currentHealth(aMaxHealth), worldX ( 0 ), worldY ( 0 )
+:name(aName), tag(aTag), Alive(true), maximumHealth(aMaxHealth, 0), currentHealth(aMaxHealth)//, worldX ( 0 ), worldY ( 0 )
 {
 	for(int i = 0; i < DestructibleObject::damageTypesCount; ++i)
 	{
@@ -123,7 +123,7 @@ void DestructibleObject::setIsAlive(bool alive)
 {
 	Alive = alive;
 }
-
+/*
 int DestructibleObject::getWorldX() const
 {
 	return worldX;
@@ -142,7 +142,7 @@ int DestructibleObject::getWorldY() const
 void DestructibleObject::setWorldY(int worldY)
 {
 	this->worldY = worldY;
-}
+}*/
 
 bool DestructibleObject::receiveDamage(int* damage)
 {

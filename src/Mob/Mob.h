@@ -23,13 +23,14 @@ class MobAbility;
 class MobEffectReceiver;
 class MobModel;
 
+
 class Mob: public SceneObject
 {
     //friend class SceneObjectFabric;
     friend class MobSpawner;
     friend class TowerFabric;
 public:
-	virtual void init() override;
+    virtual void init(int x, int y) override;
 
     virtual bool update(double timestep) override;
 	virtual void finalize() override;
@@ -39,8 +40,10 @@ public:
     virtual string getTag() const;
     virtual void setTag(const string &value);
     virtual DestructibleObject* getDestructibleObject() override;
-    EffectReceiver* getEffectReceiver() const;
-    DestructibleObject* getCurrentTarget();
+    virtual EffectReceiver* getEffectReceiver() const override;
+    virtual MobModel* getModel() const;
+    int calculateDistanceSqr(Mob* other);
+    //DestructibleObject* getCurrentTarget();
 protected:
     Mob(MobModel* model);
     virtual ~Mob();

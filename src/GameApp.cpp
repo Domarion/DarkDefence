@@ -12,9 +12,10 @@ using std::endl;
 #include <SDL_ttf.h>
 #include <exception>
 #include "Input/InputDispatcher.h"
+#include "Grouping/FontManager.h"
 
 GameApp::GameApp(SceneManager* scmanager, int w, int h)
-:renderer(nullptr), window(nullptr), sceneManager(scmanager)
+:renderer(nullptr), window(nullptr), sceneManager(scmanager), paused(false)
 {
 
 
@@ -30,6 +31,8 @@ GameApp::GameApp(SceneManager* scmanager, int w, int h)
 		int imgFlags = IMG_INIT_PNG;
 		IMG_Init(imgFlags);
 		TTF_Init();
+
+        FontManager::getInstance()->loadFontList("GameData/fontconfig.txt");
 	}
 
 
@@ -43,20 +46,20 @@ GameApp::~GameApp()
 
     renderer->destroyRenderer();
     renderer = nullptr;
+
+    TTF_Quit();
 	IMG_Quit();
-	TTF_Quit();
 	SDL_Quit();
 }
 
 int GameApp::GameLoop()
 {
 
-
-
 	double lasttime = SDL_GetTicks();
 	const double MS_PER_UPDATE = 16.0;//1000ms/60FPS
 	double lag = 0.0;
 	bool quit = false;
+
 	try
 	{
 		while(!quit)
@@ -73,15 +76,20 @@ int GameApp::GameLoop()
 					InputDispatcher::getInstance()->sendEvent(&event);
 
 			}
-			double elapsed = currenttime - lasttime;
-			lasttime = currenttime;
-			lag += elapsed;
 
-			while (lag >= MS_PER_UPDATE)
-			{
-				updateScene(sceneManager->getCurrentScene(), MS_PER_UPDATE);
-				lag -= MS_PER_UPDATE;
-			}
+            if (paused == false)
+            {
+                double elapsed = currenttime - lasttime;
+                lasttime = currenttime;
+                lag += elapsed;
+
+                while (lag >= MS_PER_UPDATE)
+                {
+                    updateScene(sceneManager->getCurrentScene(), MS_PER_UPDATE);
+                    lag -= MS_PER_UPDATE;
+                }
+            }
+
 			renderScene(const_cast<const Scene*>(sceneManager->getCurrentScene()));
 		}
 	}
@@ -99,7 +107,6 @@ int GameApp::renderScene(const Scene* scene)
     if (renderer != nullptr)
     {
 
-
         renderer->renderClear();
 
 		if (scene != nullptr)
@@ -108,6 +115,7 @@ int GameApp::renderScene(const Scene* scene)
 		}
 		else
 			cout << "Scene is null!" << endl;
+
         renderer->renderPresent();
 
     }
@@ -131,8 +139,26 @@ bool GameApp::processInput()
 			return false;
 		else
 			if (event.type == SDL_MOUSEBUTTONUP || event.type == SDL_MOUSEBUTTONDOWN)
-			InputDispatcher::getInstance()->sendEvent(&event);
-			//inputDispatcher->sendEvent(&event);
+                InputDispatcher::getInstance()->sendEvent(&event);
 	}
-	return true;
+    return true;
+}
+
+void GameApp::pause()
+{
+    paused = true;
+}
+
+void GameApp::unpause()
+{
+    paused = false;
+}
+
+void GameApp::receiveMessage(string msg)
+{
+    if (msg == "pause")
+        pause();
+    else
+        if (msg == "unpause")
+            unpause();
 }

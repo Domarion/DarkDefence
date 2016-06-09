@@ -22,10 +22,7 @@
 #include "../MissionSystem/Mission.h"
 #include <vector>
 using std::vector;
-#include "../AbilitySystem/AbilityMagicStones.h"
-#include "../AbilitySystem/AbilitySnowStorm.h"
-#include "../AbilitySystem/AbilityShrink.h"
-#include "../AbilitySystem/AbilityPrick.h"
+#include "../AbilitySystem/AbilityModel.h"
 #include "../Mob/ResourcePlace.h"
 #include "../Mob/TowerFabric.hpp"
 #include "../Mob/TowerUpgradeController.h"
@@ -41,7 +38,12 @@ public:
     virtual void copyToRender() const override;
     AbilityModel* getAbilityModelWithName(string name);
     map<string, AbilityModel* >& getAbilityModelList();
+    void ConnectMethod(std::function<void(string)> handler);
+
+    void sendMSG(string s);
 private:
+
+
     SceneObjectFabric objectFabric;
     SceneObject* Terrain;
     vector<ImageButton> abilityButtons;
@@ -53,10 +55,9 @@ private:
     TowerFabric towerFabric;
 	MobSpawner monsterSpawner;
 	Gates gates;
-    //SDL_Rect* worldRect;
 
     Mission currentMission;
-    std::shared_ptr<CFont> arialFont;
+    //std::shared_ptr<CFont> arialFont;
     Label pointsLabel;
     Label waveLabel;
     map<string, AbilityModel* > abilityModelsMap;
@@ -64,7 +65,8 @@ private:
 
     ResourcePlace *resPlace;
     TowerUpgradeController towerUpgradeController;
-  //  AbilityMagicStones magicStones;
-   // AbilitySnowStorm snowStorm;
+
+    ImageButton pauseBtn;
     void setActiveMstones(string s);
+    std::function<void(string)> method;
 };

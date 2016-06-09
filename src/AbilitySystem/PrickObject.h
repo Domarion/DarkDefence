@@ -9,7 +9,7 @@ public:
 
     // SceneObject interface
 public:
-    virtual void init() override;
+    virtual void init(int x, int y) override;
     virtual bool update(double timestep) override;
     virtual void finalize() override;
 

@@ -2,15 +2,17 @@
 #include "CompositeLabel.h"
 #include "../../MissionSystem/Mission.h"
 #include <list>
-#include <SDL_ttf.h>
 using std::list;
+
+#include "../CFont.h"
+
 
 class MissionView: public CTexture
 {
 public:
     MissionView();
     virtual ~MissionView();
-    void init(Mission& missionRef);
+    void init(Mission& missionRef, std::shared_ptr<CFont> arialFont);
     virtual void draw() override;
 
 private:
@@ -18,6 +20,5 @@ private:
     Label missionDescription;
     list<CompositeLabel*> missionGoals;
     list<CompositeLabel*> rewardList;
-    std::shared_ptr<CFont> arialFont;
 };
 

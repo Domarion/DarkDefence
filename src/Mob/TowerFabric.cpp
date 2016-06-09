@@ -9,7 +9,7 @@ TowerFabric::TowerFabric()
 
 TowerFabric::~TowerFabric()
 {
-    for(int i = 0; i < producedTowers.size(); ++i)
+    for(size_t i = 0; i < producedTowers.size(); ++i)
         delete producedTowers[i];
 }
 
@@ -29,7 +29,7 @@ Tower * TowerFabric::produceTower(std::string towerName, TowerUpgradeController*
 
     if (upgrader != nullptr)
         someMob->connectMethod(std::bind(&TowerUpgradeController::receiveTowerUpgrade, upgrader, std::placeholders::_1, 0 ,0 ));
-    someMob->init();
+    someMob->init(0, 0);
 
     producedTowers.push_back(someMob);
 

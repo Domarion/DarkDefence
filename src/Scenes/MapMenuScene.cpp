@@ -3,7 +3,7 @@
 #include "../GlobalScripts/GameModel.h"
 
 MapMenuScene::MapMenuScene()
-    :arialFont(new CFont())
+   // :arialFont(new CFont())
 {
 
 }
@@ -25,7 +25,7 @@ void MapMenuScene::initScene(SceneManager *sceneManagerPtr)
         string s ="GameData/Missions/" + std::to_string(curIndex) +"/Mission.xml";
         GameModel::getInstance()->deserialize(currentMission, s);
 
-        currentMissionView.init(currentMission);
+        currentMissionView.init(currentMission, FontManager::getInstance()->getFontByKind("ButtonFont"));
         listGUI.push_back(&currentMissionView);
 
         mapIndicator.setRect(420, 0, 150, 48);
@@ -40,7 +40,7 @@ void MapMenuScene::initScene(SceneManager *sceneManagerPtr)
 
         //arialFont.setFont(currentMissionView.getFont());
 
-        arialFont.get()->loadFromFile("Fonts/arial.ttf", 24);
+        //arialFont.get()->loadFromFile("Fonts/arial.ttf", 24);
 
 
         mapPicture.setRect(400, 60, 400, Renderer::getInstance()->getScreenHeight() - 100);
@@ -49,7 +49,7 @@ void MapMenuScene::initScene(SceneManager *sceneManagerPtr)
         listGUI.push_back(&mapPicture);
 
 
-        loadButton.setFont(arialFont);
+        loadButton.setFont(FontManager::getInstance()->getFontByKind("ButtonFont"));
         loadButton.setRect(Renderer::getInstance()->getScreenWidth() - 150, Renderer::getInstance()->getScreenHeight() - 30, 100, 30);
         loadButton.setText("Начать");
         string s0 = "GameScene";
@@ -57,7 +57,7 @@ void MapMenuScene::initScene(SceneManager *sceneManagerPtr)
         listGUI.push_back(&loadButton);
 
 
-        backButton.setFont(arialFont);
+        backButton.setFont(FontManager::getInstance()->getFontByKind("ButtonFont"));
         backButton.setRect(0, Renderer::getInstance()->getScreenHeight() - 30, 100, 30);
         backButton.setText("Назад");
         string s000 = "MainScene";

@@ -16,7 +16,7 @@ public:
     virtual void startUpdate(double timestep) override;
     void LoadSceneByName(std::string sceneName);
 private:
-    std::shared_ptr<CFont> arialFont;
+   // std::shared_ptr<CFont> arialFont;
     Mission currentMission;
     CTexture mapPicture;
     MissionView currentMissionView;

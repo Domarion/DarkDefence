@@ -6,33 +6,29 @@
  */
 
 #pragma once
-#include "../Mob/MobModel.h"
-#include "../GraphicsSystem/CTexture.h"
+
+#include "../Mob/Mob.h"
 #include <list>
 using std::list;
-#include "../Mob/DestructibleObject.h"
 
-#include "../Grouping/Scene.h"
-#include "../AbilitySystem/MobAbilities/MobAbility.h"
-
+//#include "../AbilitySystem/MobAbilities/MobAbility.h"
+class Mob;
+class SceneObject;
 class AIComponent
 {
 public:
-    AIComponent(MobModel* aMob = nullptr, CTexture* aView = nullptr, Scene* const sceneptr = nullptr);
-    void setSprite(CTexture* aView);
-    void setScene(Scene* const sceneptr);
-	virtual ~AIComponent();
+    AIComponent(Mob* aMob = nullptr);
+    virtual ~AIComponent();
 	virtual void MakeDecision(double timestep);
-    DestructibleObject* getCurrentTarget();
-    void initMobAbilities();
+    SceneObject* getCurrentTarget();
+   // void initMobAbilities();
 protected:
-	MobModel* MobPtr;
-    CTexture* SpritePtr;
+    Mob* MobPtr;
+
 	enum AIMobStates{aiSEARCH = 0, aiSELECT, aiMOVE, aiATTACK, aiRELOAD} aiMobState;
-	DestructibleObject* currentTarget;
-	list<DestructibleObject*> avaliableTargets;
-    Scene* scenePtr;
-    list<MobAbility*> mobAbilities;
+    SceneObject* currentTarget;
+    list<SceneObject*> avaliableTargets;
+    //list<MobAbility*> mobAbilities;
 private:
 	void Search();
 	void Select();
@@ -40,8 +36,7 @@ private:
     void Attack();
 	void Reload(double timestep);
     void MoveIt(double timestep);
-	int computeDistanceSqr(DestructibleObject* first, DestructibleObject* second);
-    bool Cast();
+    //bool Cast();
 
 
 };

@@ -9,7 +9,7 @@ public:
 
     // SceneObject interface
 public:
-    virtual void init();
+
     virtual bool update(double timestep);
     virtual void finalize();
     virtual DestructibleObject *getDestructibleObject();

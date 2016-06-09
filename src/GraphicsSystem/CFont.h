@@ -9,6 +9,8 @@ public:
 
     explicit CFont(TTF_Font* ttfFont = nullptr);
     //CFont(const CFont& right);
+
+    CFont(string fontPath, int size, Uint8 r, Uint8 g, Uint8 b);
     ~CFont();
 
     void loadFromFile(string filename, int size);

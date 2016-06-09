@@ -7,29 +7,28 @@
 
 #include "AIComponent.h"
 #include "../GlobalScripts/GameModel.h"
-
-AIComponent::AIComponent(MobModel* aMob, CTexture* aView, Scene* const sceneptr)
-:MobPtr(aMob), SpritePtr(aView), aiMobState(AIMobStates::aiSEARCH), currentTarget(nullptr), scenePtr(sceneptr)
+/*
+AIComponent::AIComponent(Mob* aMob, CTexture* aView);
+:MobPtr(aMob), SpritePtr(aView), aiMobState(AIMobStates::aiSEARCH), currentTarget(nullptr)
 {
 	// TODO Auto-generated constructor stub
 
-}
+}*/
 
 AIComponent::~AIComponent()
 {
 	// TODO Auto-generated destructor stub
 }
 
-void AIComponent::setSprite(CTexture* aView)
+AIComponent::AIComponent(Mob *aMob)
+:MobPtr(aMob), aiMobState(AIMobStates::aiSEARCH), currentTarget(nullptr)
+
 {
-	SpritePtr = aView;
 
 }
 
-void AIComponent::setScene(Scene * const sceneptr)
-{
-    scenePtr = sceneptr;
-}
+
+
 
 void AIComponent::MakeDecision(double timestep)
 {
@@ -54,47 +53,37 @@ void AIComponent::MakeDecision(double timestep)
 		default:
 			break;
     }
-    for(auto abilityPtr = mobAbilities.begin(); abilityPtr != mobAbilities.end(); ++abilityPtr)
+    /*for(auto abilityPtr = mobAbilities.begin(); abilityPtr != mobAbilities.end(); ++abilityPtr)
     {
         if ((*abilityPtr) != nullptr)
         {
              (*abilityPtr)->update(timestep);
         }
-    }
+    }*/
 }
 
-DestructibleObject *AIComponent::getCurrentTarget()
+SceneObject *AIComponent::getCurrentTarget()
 {
     return currentTarget;
 }
 
 void AIComponent::Search()
 {
-    list<string> enemyTags = MobPtr->getEnemyTags();
+    list<string> enemyTags = MobPtr->getModel()->getEnemyTags();
     for(auto t = enemyTags.begin(); t != enemyTags.end(); ++t)
     {
-        list<SceneObject*> lst = scenePtr->findObjectsByTag(*t);
+        list<SceneObject*> lst = MobPtr->getParentScene()->findObjectsByTag(*t);
         if (lst.size() == 0)
             continue;
-        for (auto ptr = lst.begin(); ptr != lst.end(); ++ptr)
-        {
-           DestructibleObject *obj = (*ptr)->getDestructibleObject();
-           if (obj != nullptr)
-           {
-                avaliableTargets.push_back(obj);
-           }
-        }
-
-
-
+        avaliableTargets.insert(avaliableTargets.end(), lst.begin(), lst.end());
     }
 
-    if (MobPtr->getTag() == "Monster")
+   /* if (MobPtr->getTag() == "Monster")
     {
         std::cout << "Targets Count = " << avaliableTargets.size() << std::endl;
-    }
+    }*/
     if (!avaliableTargets.empty())
-     aiMobState = AIMobStates::aiSELECT;
+        aiMobState = AIMobStates::aiSELECT;
 
 }
 
@@ -107,7 +96,9 @@ void AIComponent::Select()
 
 		for(auto t = avaliableTargets.begin(); t != avaliableTargets.end(); ++t)
 		{
-			int distanceSqr = computeDistanceSqr(*t, MobPtr);
+
+
+            int distanceSqr = MobPtr->computeDistanceSqr(*t);
 
 			if (closestDistanceSqr == 0 || distanceSqr < closestDistanceSqr)
 			{
@@ -129,9 +120,9 @@ void AIComponent::Move(double timestep)
 		aiMobState = AIMobStates::aiSELECT;
 	else
 	{
-		int distanceSqr = computeDistanceSqr(currentTarget, MobPtr);
-     //   std::cout << distanceSqr << std::endl;
-        if (MobPtr->checkDistance(distanceSqr))
+        int distanceSqr = MobPtr->computeDistanceSqr(currentTarget);
+        std::cout << distanceSqr << std::endl;
+        if (MobPtr->getModel()->checkDistance(distanceSqr))
             aiMobState = AIMobStates::aiATTACK;
         else
             MoveIt(timestep);
@@ -141,20 +132,17 @@ void AIComponent::Move(double timestep)
 
 void AIComponent::Attack()
 {
-     std::cout << (MobPtr->getName()) << std::endl;
+     std::cout << (MobPtr->getModel()->getName()) << std::endl;
     if (currentTarget == nullptr)
 		aiMobState = AIMobStates::aiSELECT;
 	else
 	{
 
-        Cast();
+       // Cast();
 
+        int* damage = MobPtr->getModel()->getAttackDamage();
 
-
-
-        int* damage = MobPtr->getAttackDamage();
-
-        if (currentTarget->receiveDamage(damage))
+        if (currentTarget->getDestructibleObject()->receiveDamage(damage))
         {
             avaliableTargets.remove(currentTarget);
             currentTarget = nullptr;
@@ -162,7 +150,7 @@ void AIComponent::Attack()
         }
         delete[] damage;
 
-		MobPtr->reload();
+        MobPtr->getModel()->reload();
 		aiMobState = AIMobStates::aiRELOAD;
 
 	}
@@ -170,8 +158,8 @@ void AIComponent::Attack()
 
 void AIComponent::Reload(double timestep)
 {
-	if (MobPtr->getReloadTime() > 0)
-        MobPtr->setReloadTime(MobPtr->getReloadTime() - timestep);
+    if (MobPtr->getModel()->getReloadTime() > 0)
+        MobPtr->getModel()->setReloadTime(MobPtr->getModel()->getReloadTime() - timestep);
 	else
 	{
         if (currentTarget == nullptr)
@@ -185,34 +173,31 @@ void AIComponent::Reload(double timestep)
 
 void AIComponent::MoveIt(double timestep)
 {
+
+
  //   MobPtr->setWorldX(MobPtr->getMoveSpeed().first);
   //  MobPtr->setWorldY();
-    //if (MobPtr->getTag() != "Tower")
-      //  std::cout << (MobPtr->getName()) << '\t' << (MobPtr->getMoveSpeed().first) << std::endl;
-    if (MobPtr->getMoveSpeed().first > 0.01)
+    if (MobPtr->getTag() != "Tower")
+        std::cout << (MobPtr->getModel()->getName()) << '\t' << (MobPtr->getModel()->getMoveSpeed().first) << std::endl;
+   double mspd = MobPtr->getModel()->getMoveSpeed().first;
+    if (mspd > 0.01)
     {
-        double spd = MobPtr->getMoveSpeed().first * timestep*0.0006;
+        double spd = mspd * timestep*0.002;
         // std::cout << (MobPtr->getName()) << '\t' << (currentTarget->getWorldX() - MobPtr->getWorldX()) << std::endl;
-        int diffX =  MobPtr->getWorldX() +static_cast<int>((currentTarget->getWorldX() - MobPtr->getWorldX())*spd);
-        int diffY = MobPtr->getWorldY()+ static_cast<int>((currentTarget->getWorldY()  - MobPtr->getWorldY())*spd);
-        MobPtr->setWorldX(diffX );
-        MobPtr->setWorldY( diffY);
-         int dist = computeDistanceSqr(currentTarget, MobPtr);
-        std::cout << (MobPtr->getName()) << " distance = " << dist << " attackDistance = " << (MobPtr->getAttackDistance().first) << " canAttack = " << (MobPtr->checkDistance(dist)) <<std::endl ;
+        int diffX =  MobPtr->getX() +static_cast<int>((currentTarget->getX() - MobPtr->getX())*spd);
+        int diffY = MobPtr->getY()+ static_cast<int>((currentTarget->getY()  - MobPtr->getY())*spd);
+        MobPtr->setX(diffX );
+        MobPtr->setY( diffY);
+         int dist = MobPtr->computeDistanceSqr(currentTarget);
+        std::cout << (MobPtr->getModel()->getName())
+                  << " distance = " << dist
+                  << " attackDistance = " << (MobPtr->getModel()->getAttackDistance().first)
+                  << " canAttack = " << (MobPtr->getModel()->checkDistance(dist)) << std::endl;
     }
 }
 
-int AIComponent::computeDistanceSqr(DestructibleObject* first,
-	DestructibleObject* second)
-{
-    if (first == nullptr || second == nullptr)
-       return 0;
-	int xdist = first->getWorldX() - second->getWorldX();
-	int ydist = first->getWorldY() - second->getWorldY();
-    return (xdist*xdist + ydist*ydist);
-}
 
-bool AIComponent::Cast()
+/*bool AIComponent::Cast()
 {
       std::cout << (MobPtr->getName()) << " mobAbilities size = "<< mobAbilities.size() << std::endl;
     for(auto abilityPtr = mobAbilities.begin(); abilityPtr != mobAbilities.end(); ++abilityPtr)
@@ -262,3 +247,4 @@ void AIComponent::initMobAbilities()
         std::cout << (*ptr) << std::endl;
     }
 }
+*/

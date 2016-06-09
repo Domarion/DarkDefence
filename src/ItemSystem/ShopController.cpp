@@ -8,10 +8,10 @@
 #include "ShopController.h"
 //#include "../GraphicsSystem/UI/TextButton.h"
 #include "../GraphicsSystem/ShopItemUI.h"
-
+#include "../Grouping/FontManager.h"
 
 ShopController::ShopController()
-: model(nullptr), view(nullptr), arial(new CFont())
+: model(nullptr), view(nullptr)//, arial(new CFont())
 {
 	// TODO Auto-generated constructor stub
 
@@ -47,7 +47,8 @@ ShopInventory*  ShopController::getModel() const
 void ShopController::initView()
 {
 
-    arial.get()->loadFromFile("Fonts/arial.ttf", 20);
+    //arial =
+   // arial.get()->loadFromFile("Fonts/arial.ttf", 20);
 
 
 
@@ -65,7 +66,7 @@ void ShopController::initView()
         string ipath = "GameData/textures/items/" +
                 model->getItemFromIndex(i)->getCaption() + ".png";
         string iprice = std::to_string(model->getItemFromIndex(i)->getPrice());
-        btn->init(arial,ipath,model->getItemFromIndex(i)->getCaption(), model->getItemFromIndex(i)->getDescription(), iprice );
+        btn->init(FontManager::getInstance()->getFontByKind("TextFont"),ipath,model->getItemFromIndex(i)->getCaption(), model->getItemFromIndex(i)->getDescription(), iprice );
 
 
         view->setItemWidth(btn->getRect().w);

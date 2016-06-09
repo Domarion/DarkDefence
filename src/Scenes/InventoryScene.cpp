@@ -10,7 +10,7 @@
 #include "../Input/InputDispatcher.h"
 
 InventoryScene::InventoryScene()
-    :arialFont(new CFont())
+   // :arialFont(new CFont())
 {
 	// TODO Auto-generated constructor stub
 
@@ -33,10 +33,10 @@ void InventoryScene::initScene( SceneManager* sceneManagerPtr)
 
         //GameModel::getInstance()->loadShopItems("GameData/Items.xml");
 
-        arialFont.get()->loadFromFile("Fonts/arial.ttf", 24);
+        //arialFont.get()->loadFromFile("Fonts/arial.ttf", 24);
 
 
-        button.setFont(arialFont);
+        button.setFont(FontManager::getInstance()->getFontByKind("ButtonFont"));
         button.setRect(Renderer::getInstance()->getScreenWidth() - 100, Renderer::getInstance()->getScreenHeight() - 50, 100, 50);
         button.setText("Назад");
         string s1 = "MainScene";

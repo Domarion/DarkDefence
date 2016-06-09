@@ -11,7 +11,7 @@
 #include "../Input/InputDispatcher.h"
 
 MainScene::MainScene()
-    :arialFont(new CFont())
+    //:arialFont(new CFont())
 
 {
 	// TODO Auto-generated constructor stub
@@ -52,9 +52,10 @@ void MainScene::initScene(SceneManager* sceneManagerPtr)
         backGround.setRect(0, 0, Renderer::getInstance()->getScreenWidth(), Renderer::getInstance()->getScreenHeight());
         listGUI.push_back(&backGround);
 
-        arialFont.get()->loadFromFile("Fonts/arial.ttf", 48);
+       // arialFont.get()->loadFromFile("Fonts/arial.ttf", 48);
 
-        button.setFont(arialFont);
+       // button.setFont(arialFont);
+        button.setFont(FontManager::getInstance()->getFontByKind("MenuFont"));
         int x = Renderer::getInstance()->getScreenWidth()/4;
         int y = Renderer::getInstance()->getScreenHeight()/4;
 
@@ -66,8 +67,8 @@ void MainScene::initScene(SceneManager* sceneManagerPtr)
 
         listGUI.push_back(&button);
 
-        button2.setFont(arialFont);
-
+       // button2.setFont(arialFont);
+        button2.setFont(FontManager::getInstance()->getFontByKind("MenuFont"));
 
         button2.setRect(x, y, 200, 50);
         button2.setText("Магазин");
@@ -77,7 +78,9 @@ void MainScene::initScene(SceneManager* sceneManagerPtr)
 
         listGUI.push_back(&button2);
 
-        button3.setFont(arialFont);
+       // button3.setFont(arialFont);
+
+        button3.setFont(FontManager::getInstance()->getFontByKind("MenuFont"));
         button3.setRect(x, y, 200, 50);
         button3.setText("Инвентарь");
         string s3 = "InventoryScene";

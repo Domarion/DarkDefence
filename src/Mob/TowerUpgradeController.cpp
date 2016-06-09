@@ -19,7 +19,7 @@ TowerUpgradeController::~TowerUpgradeController()
 void TowerUpgradeController::init(Scene *parent)
 {
     parentGameScene = parent;
-     arialFont1.get()->loadFromFile("Fonts/arial.ttf", 20);
+    arialFont1.get()->loadFromFile("Fonts/arial.ttf", 20);
 
 }
 
@@ -82,6 +82,7 @@ bool TowerUpgradeController::menuClickHandler(int itemIndex)
 
     if (parentGameScene == nullptr || cachedTower == nullptr)
         return false;
+
     string towerName = currentTowerChildren[itemIndex];
     MobModel model = GameModel::getInstance()->getRootTower()->recursiveSearch(towerName)->getData();
 
@@ -107,14 +108,12 @@ bool TowerUpgradeController::menuClickHandler(int itemIndex)
         parentGameScene->spawnObject(x, y, cachedTower);
 
         cachedTower = nullptr;
-        // cachedTower = nullptr;
 
-    return true;
+        return true;
 
     }
     else
         std::cout << "CantBuy" << std::endl;
+
     return false;
-
-
 }

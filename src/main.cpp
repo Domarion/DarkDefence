@@ -241,7 +241,7 @@ saveMobModel(mob);*/
 
 	SceneManager *sceneManager = new SceneManager();
 	GameApp* app = new GameApp(sceneManager);
-
+    gameScene->ConnectMethod(std::bind(&GameApp::receiveMessage, app, std::placeholders::_1));
 	sceneManager->addScene(mainScene, "MainScene");
     sceneManager->addScene(mapMenuScene, "MapMenuScene");
 	sceneManager->addScene(gameScene, "GameScene");

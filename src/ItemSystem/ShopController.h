@@ -24,7 +24,7 @@ private:
   //  vector<std::shared_ptr<ShopItemUI> > shopItems;
 	ShopInventory* model;
 	ScrollList* view;
-    std::shared_ptr<CFont> arial;
+    //std::shared_ptr<CFont> arial;
     SDL_Color color;
     vector<IDrawable*> buttons;
 };

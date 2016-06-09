@@ -11,26 +11,28 @@
 
 
 Mob::Mob(MobModel* model)
-:mobModel(model), mobAI(new AIComponent(mobModel)), mobEffectReceiver(new MobEffectReceiver())
+:mobModel(model), mobAI(new AIComponent(this)), mobEffectReceiver(new MobEffectReceiver())
 {
 	// TODO Auto-generated constructor stub
 
     mobEffectReceiver->init(mobModel);
 }
 
-void Mob::init()
+void Mob::init(int x, int y)
 {
+    SceneObject::init(x, y);
+
 	if (mobAI != nullptr)
     {
-		mobAI->setSprite(spriteModel);
-        mobAI->setScene(parentScenePtr);
+        //mobAI->setSprite(spriteModel);
+        //mobAI->setScene(parentScenePtr);
 
     }
 
     if (mobModel->getTag() == "Monster")
 		GameModel::getInstance()->incMonsterCount();
 
-    mobAI->initMobAbilities();
+    //mobAI->initMobAbilities();
 
 
 }
@@ -45,7 +47,7 @@ bool Mob::update(double timestep)
         return false;
     }
 	mobAI->MakeDecision(timestep);
-    setPos(mobModel->getWorldX(),mobModel->getWorldY());
+   // setPos(mobModel->getWorldX(),mobModel->getWorldY());
     return true;
 }
 
@@ -60,10 +62,10 @@ void Mob::finalize()
 Mob::~Mob()
 {
 
-     delete mobAI;
+    delete mobAI;
     delete mobModel;
     //finalize();
-	// TODO Auto-generated destructor stub
+
 }
 string Mob::getName() const
 {
@@ -93,10 +95,20 @@ EffectReceiver* Mob::getEffectReceiver() const
     return mobEffectReceiver;
 }
 
-DestructibleObject *Mob::getCurrentTarget()
+MobModel *Mob::getModel() const
 {
-    if (mobAI == nullptr)
-        return nullptr;
-    return mobAI->getCurrentTarget();
+    return mobModel;
 }
+
+int Mob::calculateDistanceSqr(Mob *other)
+{
+    if (other == nullptr)
+        return -1;
+
+    int diffX = this->getX() - other->getX();
+    int diffY = this->getY() - other->getY();
+
+    return diffX*diffX + diffY*diffY;
+}
+
 

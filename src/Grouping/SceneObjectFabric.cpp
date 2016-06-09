@@ -31,7 +31,7 @@ SceneObject* SceneObjectFabric::produce(string name, string tag, string spritePa
 
 
     someObject->setSprite(someSprite);
-    someObject->init();
+    someObject->init(0,0);
 
     return someObject;
 }

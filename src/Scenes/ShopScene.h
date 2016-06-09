@@ -21,7 +21,7 @@ public:
 	virtual void startUpdate(double timestep) override;
 
 private:
-    std::shared_ptr<CFont> arialFont;
+    //std::shared_ptr<CFont> arialFont;
 	ScrollList scroll;
 	ShopController shopController;
 	TextButton button;

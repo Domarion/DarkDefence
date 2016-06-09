@@ -46,11 +46,11 @@ public:
 	const string& getTag() const;
 	void setTag(const string& tag);
 	bool IsAlive() const;
-	int getWorldX() const;
+    /*int getWorldX() const;
 	void setWorldX(int worldX);
 	int getWorldY() const;
 	void setWorldY(int worldY);
-    bool receiveDamage(int* damage);
+    */bool receiveDamage(int* damage);
     bool receiveDamageOneType(int damage_type, int damage);
     bool addHealth(int amount);
     void setProtectionModifier(int modifier);
@@ -72,7 +72,7 @@ protected:
 	pair<int, int> maximumHealth;
 	int currentHealth;
 	pair<int, int> attackProtection[damageTypesCount];
-	int worldX, worldY;
+    //int worldX, worldY;
 
     std::function<void(int, int)> connectedMethod;
 };
