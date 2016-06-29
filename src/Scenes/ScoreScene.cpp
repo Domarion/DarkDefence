@@ -69,7 +69,7 @@ void ScoreScene::initScene(SceneManager *sceneManagerPtr)
 
            int goldCoins = 0;
            if (GameModel::getInstance() != nullptr)
-                goldCoins =GameModel::getInstance()->getMissionReward().getGoldCoins();
+                goldCoins = GameModel::getInstance()->getMissionReward().getGoldCoins();
           // std::cout << "goldCoins =" << goldCoins << std::endl;
            if (goldCoins > 0)
            {
@@ -92,6 +92,8 @@ void ScoreScene::initScene(SceneManager *sceneManagerPtr)
 
         ScoreLabel.setText(ScoreText);
         listGUI.push_back(&ScoreLabel);
+
+        GameModel::getInstance()->resetGameValues();
     }
     InputDispatcher::getInstance()->addHandler(&button);
 }

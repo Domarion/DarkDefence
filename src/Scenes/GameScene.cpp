@@ -51,26 +51,14 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
 	{
 
         Scene::initScene(sceneManagerPtr);
-       // GameModel::getInstance()->loadMobAbilities();
+        loadData();
 
-
-        int curIndex =  GameModel::getInstance()->getCurrentMissionIndex();
-
-        string s ="GameData/Missions/" + std::to_string(curIndex) +"/Mission.xml";
-        GameModel::getInstance()->deserialize(currentMission, s);
-
-        string s00 = "GameData/Missions/" + std::to_string(curIndex) + "/points.txt";
-        GameModel::getInstance()->loadMonsterPointsList(s00);
-
-
-        string s01 = "GameData/MineModels.xml";
-        GameModel::getInstance()->loadMinesList(s01);
 
         topPanel.setRect(0,0, Renderer::getInstance()->getScreenWidth(), 40);
        // topPanel.loadTexture("GameData/textures/topPanel.png");
 
 
-        GameModel::getInstance()->getResourcesModel()->loadFromFile("GameData/resources.txt");
+
 
 
         gatesHealthBar.setRect(0, 0, 90, 15);
@@ -119,13 +107,6 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
 
 
 
-
-       // arialFont.get()->loadFromFile("Fonts/arial.ttf", 20);
-       // arialFont.get()->setFontColor(255, 255, 255);
-
-
-
-
         resourceLabels.resize(ResourcesModel::resourceTypeCount);
         for(int i = 0; i != ResourcesModel::resourceTypeCount; ++i)
         {
@@ -159,10 +140,6 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
         listGUI.push_back(&topPanel);
 
 
-        GameModel::getInstance()->loadMonsterList("GameData/MonsterList.xml");
-
-        GameModel::getInstance()->loadTowerUpgrades("GameData/TowerTree.xml");
-        monsterSpawner.loadWavesInfo("GameData/wavesInfo.txt");
 
 
         Terrain = objectFabric.produce("Terrain", "none", "GameData/textures/terrain.JPG", Renderer::getInstance()->getScreenWidth() , Renderer::getInstance()->getScreenHeight() );
@@ -202,7 +179,7 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
         int y1 = Renderer::getInstance()->getScreenHeight() - 50;
         int w = 50;
         int h = 50;
-        GameModel::getInstance()->loadAbilitiesNames("GameData/abilities.txt");
+
 
         AbilityMagicStones* magicStones = new AbilityMagicStones();
 
@@ -415,6 +392,31 @@ void GameScene::sendMSG(string s)
 {
     if (method != nullptr)
         method("pause");
+}
+
+void GameScene::loadData()
+{
+    int curIndex =  GameModel::getInstance()->getCurrentMissionIndex();
+
+    string s ="GameData/Missions/" + std::to_string(curIndex) +"/Mission.xml";
+    GameModel::getInstance()->deserialize(currentMission, s);
+
+    string s00 = "GameData/Missions/" + std::to_string(curIndex) + "/points.txt";
+    GameModel::getInstance()->loadMonsterPointsList(s00);
+
+
+    string s01 = "GameData/MineModels.xml";
+    GameModel::getInstance()->loadMinesList(s01);
+
+    GameModel::getInstance()->getResourcesModel()->loadFromFile("GameData/resources.txt");
+
+
+    GameModel::getInstance()->loadMonsterList("GameData/MonsterList.xml");
+
+    GameModel::getInstance()->loadTowerUpgrades("GameData/TowerTree.xml");
+    monsterSpawner.loadWavesInfo("GameData/wavesInfo.txt");
+
+    GameModel::getInstance()->loadAbilitiesNames("GameData/abilities.txt");
 }
 
 /*void GameScene::receiveTowerUpgrade(Tower *tower, int x, int y)

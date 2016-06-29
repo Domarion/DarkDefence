@@ -50,7 +50,7 @@ void MapMenuScene::initScene(SceneManager *sceneManagerPtr)
 
 
         loadButton.setFont(FontManager::getInstance()->getFontByKind("ButtonFont"));
-        loadButton.setRect(Renderer::getInstance()->getScreenWidth() - 150, Renderer::getInstance()->getScreenHeight() - 30, 100, 30);
+        loadButton.setPos(Renderer::getInstance()->getScreenWidth() - 150, Renderer::getInstance()->getScreenHeight() - 30);
         loadButton.setText("Начать");
         string s0 = "GameScene";
         loadButton.ConnectMethod(std::bind(&SceneManager::setCurrentSceneByName, sceneManagerPtr, s0));
@@ -58,7 +58,7 @@ void MapMenuScene::initScene(SceneManager *sceneManagerPtr)
 
 
         backButton.setFont(FontManager::getInstance()->getFontByKind("ButtonFont"));
-        backButton.setRect(0, Renderer::getInstance()->getScreenHeight() - 30, 100, 30);
+        backButton.setPos(0, Renderer::getInstance()->getScreenHeight() - 30);
         backButton.setText("Назад");
         string s000 = "MainScene";
         backButton.ConnectMethod(std::bind(&SceneManager::setCurrentSceneByName, sceneManagerPtr, s000));

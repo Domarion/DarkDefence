@@ -439,8 +439,10 @@ int GameModel::getPointsPerWave() const
 
 void GameModel::resetGameValues()
 {
-    pointsPerMap = 0;
-
+    pointsRefundModifier = pointsPerMap = pointsPerWave = 0;
+    gameStatus = Enums::GameStatuses::gsINPROGRESS;
+    MonsterCountOnMap = 0;
+    waveNumber = waveCount = 0;
 }
 
 ManaGlobal *GameModel::getManaModel()

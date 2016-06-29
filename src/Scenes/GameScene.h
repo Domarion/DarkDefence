@@ -43,7 +43,7 @@ public:
     void sendMSG(string s);
 private:
 
-
+    void loadData();
     SceneObjectFabric objectFabric;
     SceneObject* Terrain;
     vector<ImageButton> abilityButtons;

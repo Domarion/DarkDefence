@@ -53,7 +53,7 @@ void ShopScene::initScene(SceneManager* sceneManagerPtr)
 
 
         button.setFont(FontManager::getInstance()->getFontByKind("ButtonFont"));
-        button.setRect(Renderer::getInstance()->getScreenWidth() - 100, Renderer::getInstance()->getScreenHeight() - 50, 100, 50);
+        button.setPos(Renderer::getInstance()->getScreenWidth() - 100, Renderer::getInstance()->getScreenHeight() - 50);
         button.setText("Назад");
         string s1 = "MainScene";
         button.ConnectMethod(std::bind(&SceneManager::setCurrentSceneByName, sceneManagerPtr, s1));

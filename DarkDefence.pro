@@ -94,7 +94,8 @@ SOURCES += \
     src/GraphicsSystem/ShopItemUI.cpp \
     src/Utility/textfilefunctions.cpp \
     src/GraphicsSystem/CFont.cpp \
-    src/Grouping/FontManager.cpp
+    src/Grouping/FontManager.cpp \
+    src/GraphicsSystem/UI/StateButton.cpp
 
 HEADERS += \
     src/AI/AIComponent.h \
@@ -191,7 +192,8 @@ HEADERS += \
     src/Utility/textfilefunctions.h \
     src/GraphicsSystem/IDrawable.h \
     src/GraphicsSystem/CFont.h \
-    src/Grouping/FontManager.h
+    src/Grouping/FontManager.h \
+    src/GraphicsSystem/UI/StateButton.h
 
 unix:!macx: LIBS += -L$$PWD/../../../../usr/lib64/ -lboost_serialization
 

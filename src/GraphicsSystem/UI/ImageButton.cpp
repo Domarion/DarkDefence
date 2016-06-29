@@ -15,7 +15,7 @@ bool ImageButton::onClick(SDL_Point *point)
 {
     bool result = SDL_PointInRect(point, &getRect());
 
-    if (result)
+    if (result && connectedMethod != nullptr)
     {
       //  std::cout << "Clicked" << std::endl;
         connectedMethod("zero");
