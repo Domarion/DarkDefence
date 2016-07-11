@@ -14,7 +14,8 @@ public:
     void setDamagePerSecond(int value);
 private:
     EffectModel snowEffect;
-    list<SceneObject*> affectedMobs;
     int damagePerSecond;
+    list<SceneObject*>* affectedMobs;
+
 };
 

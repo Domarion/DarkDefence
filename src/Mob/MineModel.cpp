@@ -30,14 +30,15 @@ MineModel::~MineModel()
 }
 
 MineModel::MineModel(const MineModel &right)
+    :DestructibleObject(right)
 {
-    name = right.name;
+  /*  name = right.name;
     tag = right.tag;
     maximumHealth = right.maximumHealth;
     currentHealth = right.currentHealth;
     for(int i = 0; i < DestructibleObject::damageTypesCount; ++i)
         attackProtection[i] = right.attackProtection[i];
-
+*/
     productionType = right.productionType;
     production = right.production;
     limit = right.limit;

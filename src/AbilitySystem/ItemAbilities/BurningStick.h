@@ -14,7 +14,7 @@ private:
 
     // ItemAbility interface
 public:
-    virtual void init(GameScene* const scenePtr) override;
+    virtual void init(Scene* const scenePtr) override;
     virtual void update(double timestep) override;
 };
 

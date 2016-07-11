@@ -14,6 +14,11 @@ ResourcePlace::~ResourcePlace()
 
 }
 
+void ResourcePlace::setLimit(int amount)
+{
+    limit = amount;
+}
+
 bool ResourcePlace::onClick(SDL_Point *point)
 {
     if (getSprite() == nullptr)
@@ -30,7 +35,7 @@ bool ResourcePlace::onClick(SDL_Point *point)
 
 
 
-       CTexture* sprt = new CTexture();
+       AnimatedSprite* sprt = new AnimatedSprite();
         sprt->setRect(0,0, 90, 120);
         string s1 = "GameData/textures/Buildings/" +tempMineModel->getName() + ".png";
         std::cout << s1 << std::endl;
@@ -44,7 +49,7 @@ bool ResourcePlace::onClick(SDL_Point *point)
         tempMine->setSprite(sprt);
          std::cout << "x = " << (this->getX()) << " y = " << (this->getY()) << std::endl;
         parentScenePtr->spawnObject(this->getX(), this->getY(), tempMine);
-        InputDispatcher::getInstance()->removeHandler(this);
+
         parentScenePtr->destroyObject(this);
         return true;
     }

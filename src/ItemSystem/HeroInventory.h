@@ -18,7 +18,7 @@ class HeroInventory: public Inventory
 public:
     HeroInventory(int slots1 = 9);
 	virtual ~HeroInventory();
-	virtual bool sendItem(int index) override;
+    virtual bool sendItem(size_t index) override;
 	virtual void receiveItem(ItemModel item) override;
 	virtual void addItem(ItemModel item) override;
     list<string> getItemNames();

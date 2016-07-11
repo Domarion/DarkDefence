@@ -27,6 +27,7 @@ class Reward
      }
 public:
 	Reward();
+    explicit Reward(int coinsAmount);
 	~Reward();
     void addItemName(string itemName);
     void setGoldCoins(int amount);

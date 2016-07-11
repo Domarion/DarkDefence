@@ -29,7 +29,7 @@ HeroInventory::~HeroInventory()
 	// TODO Auto-generated destructor stub
 }
 
-bool HeroInventory::sendItem(int index)
+bool HeroInventory::sendItem(size_t index)
 {
     if (connectedMethod0 != nullptr && !items[index].getCaption().empty())
 	{

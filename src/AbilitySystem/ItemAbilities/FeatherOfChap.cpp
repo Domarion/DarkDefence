@@ -11,7 +11,7 @@ FeatherOfChap::~FeatherOfChap()
 
 }
 
-void FeatherOfChap::init(GameScene * const scenePtr)
+void FeatherOfChap::init(Scene * const scenePtr)
 {
     for(int i = 0; i < ResourcesModel::resourceTypeCount; ++i)
         GameModel::getInstance()->getResourcesModel()->increaseLimit(i, amount);

@@ -1,4 +1,5 @@
 #include "IceBoots.h"
+#include "../../Scenes/GameScene.h"
 
 IceBoots::IceBoots()
 {
@@ -10,9 +11,13 @@ IceBoots::~IceBoots()
 
 }
 
-void IceBoots::init(GameScene * const scenePtr)
+void IceBoots::init(Scene * const scenePtr)
 {
-    AbilityModel* magicStone = scenePtr->getAbilityModelWithName("SnowStorm");
+
+    GameScene* gameScenePtr = dynamic_cast<GameScene*>(scenePtr);
+    if (gameScenePtr == nullptr)
+        return;
+    AbilityModel* magicStone = gameScenePtr->getAbilityModelWithName("SnowStorm");
     if (magicStone != nullptr)
     {
         int manaCost = static_cast<int>( 0.5 * magicStone->getManaCost());

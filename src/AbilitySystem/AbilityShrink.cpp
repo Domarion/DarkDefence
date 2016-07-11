@@ -1,7 +1,7 @@
 #include "AbilityShrink.h"
 #include "../GlobalScripts/GameModel.h"
 AbilityShrink::AbilityShrink()
-    :damagePerSecond(0.0)
+    :damagePerSecond(0.0), affectedMobs( nullptr )
 {
 
 }
@@ -26,10 +26,10 @@ bool AbilityShrink::onReady(double timestep)
     }
 
 
-    if (affectedMobs.size() == 0 && parentScenePtr != nullptr && GameModel::getInstance()->getMonsterCount() > 0)
-        affectedMobs = (parentScenePtr->findObjectsByTag("Monster"));
+    if (affectedMobs == nullptr && parentScenePtr != nullptr && GameModel::getInstance()->getMonsterCount() > 0)
+        affectedMobs = parentScenePtr->findObjectsByTag("Monster");
 
-    if (affectedMobs.size() > 0)
+    if (affectedMobs != nullptr)
     {
         abilityState = Enums::AbilityStates::asWorking;
         std::cout << "worked" << std::endl;
@@ -46,8 +46,8 @@ bool AbilityShrink::onWorking(double timestep)
 
     if (counter >= 1000)
     {
-        if (affectedMobs.size() > 0)
-            for(auto affectedMob = affectedMobs.begin(); affectedMob != affectedMobs.end(); ++affectedMob)
+        if (affectedMobs != nullptr && affectedMobs->size() > 0)
+            for(auto affectedMob = affectedMobs->begin(); affectedMob != affectedMobs->end(); ++affectedMob)
             {
                 if (*affectedMob != nullptr && (*affectedMob)->getDestructibleObject() != nullptr)
                 {
@@ -76,7 +76,10 @@ bool AbilityShrink::onCooldown(double timestep)
 {
     if (currentCooldownTime <= 0)
     {
-        affectedMobs.clear();
+        affectedMobs->clear();
+        delete affectedMobs;
+        affectedMobs = nullptr;
+
         currentCooldownTime = cooldownTime;
         abilityState = Enums::AbilityStates::asNotAvaliable;
     }

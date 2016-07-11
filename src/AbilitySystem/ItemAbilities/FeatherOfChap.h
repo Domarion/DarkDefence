@@ -8,7 +8,7 @@ public:
     virtual ~FeatherOfChap();
     // ItemAbility interface
 public:
-    virtual void init(GameScene * const scenePtr) override;
+    virtual void init(Scene * const scenePtr) override;
 
 private:
     int amount;

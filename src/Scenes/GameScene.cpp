@@ -17,13 +17,12 @@
 #include "../GlobalScripts/Renderer.h"
 
 
-#include "../AbilitySystem/AbilityMagicStones.h"
-#include "../AbilitySystem/AbilitySnowStorm.h"
-#include "../AbilitySystem/AbilityShrink.h"
-#include "../AbilitySystem/AbilityPrick.h"
+
+
+#include "../GlobalConstants.h"
 
 GameScene::GameScene()
-:Scene(), Terrain(nullptr), gates(), waveLabel(), resPlace(nullptr)
+:Scene(), Terrain(nullptr), gates(nullptr), waveLabel(), itemAbilitiesStorage(), resPlace(nullptr)
 {
 	// TODO Auto-generated constructor stub
 
@@ -31,9 +30,17 @@ GameScene::GameScene()
 
 GameScene::~GameScene()
 {
+    for(size_t i = 0; i != resourceLabels.size(); ++i)
+        delete resourceLabels[i];
+    resourceLabels.clear();
+
+    if (Terrain != nullptr)
+        delete Terrain;
+    if (gates != nullptr)
+        delete gates;
+    //spellStorage.free();
 
 
-    finalizeScene();
 	// TODO Auto-generated destructor stub
 
   /*  for(int i = 0; i != ResourcesModel::resourceTypeCount; ++i)
@@ -56,9 +63,6 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
 
         topPanel.setRect(0,0, Renderer::getInstance()->getScreenWidth(), 40);
        // topPanel.loadTexture("GameData/textures/topPanel.png");
-
-
-
 
 
         gatesHealthBar.setRect(0, 0, 90, 15);
@@ -149,7 +153,7 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
         spawnObject(10, 300, tower);
 
         resPlace = new ResourcePlace();
-        CTexture* resSprite = new CTexture();
+        AnimatedSprite* resSprite = new AnimatedSprite();
         resSprite->setRect(0, 0, 200, 200);
         resSprite->loadTexture("GameData/textures/Resources/WheatResource.png");
         resPlace->setSprite(resSprite);
@@ -163,17 +167,17 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
         srand (time(NULL));
 
 
-       CTexture* newView = new CTexture();
+       AnimatedSprite* newView = new AnimatedSprite();
         newView->setRect(0, 0, 100, 100);
         newView->loadTexture("GameData/textures/Gates.png");
+        gates = new Gates();
+        gates->setSprite(newView);
+        gates->setTag("Gates");
+        gates->getDestructibleObject()->connectMethod(std::bind(&ProgressBar::calculateFront, &gatesHealthBar, std::placeholders::_1, std::placeholders::_2));
+        gates->getDestructibleObject()->setMaximumHealth(5000);
 
-		gates.setSprite(newView);
-        gates.setTag("Gates");
-        gates.getDestructibleObject()->connectMethod(std::bind(&ProgressBar::calculateFront, &gatesHealthBar, std::placeholders::_1, std::placeholders::_2));
-        gates.getDestructibleObject()->setMaximumHealth(5000);
 
-
-        spawnObject(40,100, &gates);
+        spawnObject(40,100, gates);
 
         int x1 = 0;
         int y1 = Renderer::getInstance()->getScreenHeight() - 50;
@@ -181,47 +185,14 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
         int h = 50;
 
 
-        AbilityMagicStones* magicStones = new AbilityMagicStones();
-
-        magicStones->init(this);
-        magicStones->setManaCost(100);
-        magicStones->setCooldownTime(10000);
-        magicStones->setWorkTime(10000);
-
-
-        AbilitySnowStorm* snowStorm = new AbilitySnowStorm();
-        snowStorm->init(this);
-        snowStorm->setManaCost(100);
-        snowStorm->setCooldownTime(10000);
-        snowStorm->setWorkTime(10000);
-        snowStorm->setDamagePerSecond(30);
-
-
-        AbilityShrink* shrink = new AbilityShrink();
-        shrink->init(this);
-        shrink->setManaCost(100);
-        shrink->setCooldownTime(20000);
-        shrink->setWorkTime(11000);
-        shrink->setDamagePerSecond(0.2);
-
-        AbilityPrick* prick = new AbilityPrick();
-        prick->init(this);
-        prick->setManaCost(100);
-        prick->setCooldownTime(10000);
-        prick->setWorkTime(0);
-        prick->setDamage(120);
-
-        abilityModelsMap["MagicStones"] = magicStones;
-        abilityModelsMap["SnowStorm"] = snowStorm;
-        abilityModelsMap["Shrink"] = shrink;
-        abilityModelsMap["Prick"] = prick;
+        spellStorage.loadWithScene(this);
         std::cout << "productionOfMine beforeItemApply is = " << (GameModel::getInstance()->getMineModelFromListByRes(Enums::ResourceTypes::WOOD)->getProduction()) << std::endl;
 
         list<string> itemNames = GameModel::getInstance()->getHeroInventory()->getItemNames();
-        GameModel::getInstance()->loadItemAbilities();
+        itemAbilitiesStorage.loadItemAbilities();
         for(auto itemNamePtr = itemNames.begin(); itemNamePtr != itemNames.end(); ++itemNamePtr)
         {
-            ItemAbility* temp = GameModel::getInstance()->getItemAbilityByName(*itemNamePtr);
+            ItemAbility* temp = itemAbilitiesStorage.getItemAbilityByName(*itemNamePtr);
             if (temp != nullptr)
                 temp->init(this);
         }
@@ -229,7 +200,7 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
           std::cout << "productionOfMine AfterItemApplyis = " << (GameModel::getInstance()->getMineModelFromListByRes(Enums::ResourceTypes::WOOD)->getProduction()) << std::endl;
 
         abilityButtons.resize( GameModel::getInstance()->getAbilityCount());
-        for(int i = 0; i < abilityButtons.size(); x1 += w, ++i)
+        for(size_t i = 0; i < abilityButtons.size(); x1 += w, ++i)
         {
            // std::cout << i << std::endl;
             string imgPath = "GameData/textures/Abilities/Ability" + GameModel::getInstance()->getAbilityNameFromIndex(i) + ".png";
@@ -238,31 +209,28 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
             abilityButtons[i].loadTexture(imgPath);
             listGUI.push_back(&abilityButtons[i]);
             if (i < 4)
-                abilityButtons[i].ConnectMethod(std::bind(&GameScene::setActiveMstones, this, GameModel::getInstance()->getAbilityNameFromIndex(i)));
+                abilityButtons[i].ConnectMethod(std::bind(&SpellStorage::setAbilityReady, &spellStorage, GameModel::getInstance()->getAbilityNameFromIndex(i)));
         }
 
 
         pauseBtn.setRect(750, 430, 50, 50);
         pauseBtn.loadTexture("GameData/textures/pause-button.png");
-        pauseBtn.ConnectMethod(std::bind(&GameScene::sendMSG, this, std::placeholders::_1));
+        pauseBtn.ConnectMethod(std::bind(&GameScene::sendMessage, this, GlobalConstants::Paused));
         listGUI.push_back(&pauseBtn);
+
+        resumeBtn.setRect(700, 430, 50, 50);
+        resumeBtn.loadTexture("GameData/textures/resume-button.png");
+        resumeBtn.ConnectMethod(std::bind(&GameScene::sendMessage, this, GlobalConstants::Resumed));
+        listGUI.push_back(&resumeBtn);
 	}
 
     for(int i = 0; i < 4; ++i)
         InputDispatcher::getInstance()->addHandler(&abilityButtons[i]);
 
-    InputDispatcher::getInstance()->addHandler(dynamic_cast<InputHandler*>(abilityModelsMap["Prick"]));
+    InputDispatcher::getInstance()->addHandler(dynamic_cast<InputHandler*>(spellStorage.getAbilityModelWithName("Prick")));
     InputDispatcher::getInstance()->addHandler(resPlace);
     InputDispatcher::getInstance()->addHandler(&pauseBtn);
-}
-
-void GameScene::finalizeScene()
-{
-    //Scene::finalizeScene();
-
-    for(auto t: abilityModelsMap)
-        delete (t.second);
-
+    InputDispatcher::getInstance()->addHandler(&resumeBtn);
 }
 
 
@@ -270,7 +238,7 @@ void GameScene::startUpdate(double timestep)
 {
     Scene::startUpdate(timestep);
 
-    if (gates.getDestructibleObject() != nullptr)
+    if (gates->getDestructibleObject() != nullptr)
     switch(currentMission.checkStatus())
     {
     case MissionStatuses::mIN_PROGRESS:case MissionStatuses::mNOT_STARTED:
@@ -329,12 +297,11 @@ void GameScene::startUpdate(double timestep)
      //   gatesHealthBar.calculateFront(gates.getDestructibleObject()->getCurrentHealth(),gates.getDestructibleObject()->getMaximumHealth());
 
 
-    if (gates.getDestructibleObject()->getCurrentHealth() <= 0)
+    if (gates->getDestructibleObject()->getCurrentHealth() <= 0)
         GameModel::getInstance()->setGameStatus(Enums::GameStatuses::gsLOST);
 
+    spellStorage.updateAbilities(timestep);
 
-    for(auto ptr0 = abilityModelsMap.begin(); ptr0 != abilityModelsMap.end(); ++ptr0)
-        ptr0->second->update(timestep);
 
     for(int i = 0; i != ResourcesModel::resourceTypeCount; ++i)
     {
@@ -373,14 +340,11 @@ void GameScene::copyToRender() const
     Scene::copyToRender();
 }
 
-AbilityModel * GameScene::getAbilityModelWithName(string name)
-{
-    return abilityModelsMap[name];
-}
+
 
 map<string, AbilityModel *> &GameScene::getAbilityModelList()
 {
-    return abilityModelsMap;
+   return spellStorage.getAbilityModelList();
 }
 
 void GameScene::ConnectMethod(std::function<void (string)> handler)
@@ -388,10 +352,15 @@ void GameScene::ConnectMethod(std::function<void (string)> handler)
     method = handler;
 }
 
-void GameScene::sendMSG(string s)
+AbilityModel *GameScene::getAbilityModelWithName(string name)
+{
+    return spellStorage.getAbilityModelWithName(name);
+}
+
+void GameScene::sendMessage(string msgText)
 {
     if (method != nullptr)
-        method("pause");
+        method(msgText);
 }
 
 void GameScene::loadData()
@@ -419,16 +388,5 @@ void GameScene::loadData()
     GameModel::getInstance()->loadAbilitiesNames("GameData/abilities.txt");
 }
 
-/*void GameScene::receiveTowerUpgrade(Tower *tower, int x, int y)
-{
-
-    //currentGrade.
-}*/
-
-void GameScene::setActiveMstones(string s)
-{
-
-    abilityModelsMap[s]->setAsReady();
-}
 
 

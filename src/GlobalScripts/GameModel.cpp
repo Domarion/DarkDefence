@@ -19,11 +19,7 @@ using std::ifstream;
 #include "../MissionSystem/ResourceGoal.h"
 #include <iostream>
 
-#include "../AbilitySystem/ItemAbilities/CaftanOfGold.h"
-#include "../AbilitySystem/ItemAbilities/ChoppersHat.h"
-#include "../AbilitySystem/ItemAbilities/HelmOfLigofglass.h"
-#include "../AbilitySystem/ItemAbilities/TitanChock.h"
-#include "../AbilitySystem/ItemAbilities/FeatherOfChap.h"
+
 
 #include "../AbilitySystem/MobAbilities/MobAbilityArson.h"
 #include "../AbilitySystem/MobAbilities/MobAbilityRegeneration.h"
@@ -227,7 +223,6 @@ std::cout << "fuck1" << std::endl;
 
     for(auto i = minesModelsMap.begin(); i != minesModelsMap.end(); ++i)
     {
-
         std::cout << minesModelsMap[i->first].getName() << std::endl;
     }
 }
@@ -327,15 +322,7 @@ void GameModel::setPointsRefundModifier(double value)
     pointsRefundModifier = value;
 }
 
-void GameModel::loadItemAbilities()
-{
-    itemAbilitiesMap["CaftanOfGold"] = new CaftanOfGold();
-    itemAbilitiesMap["ChoppersHat"] = new ChoppersHat(Enums::ResourceTypes::WOOD);
-    itemAbilitiesMap["ScabblerHat"] = new ChoppersHat(Enums::ResourceTypes::STONE);
-    itemAbilitiesMap["HelmOfLigofglass"] = new HelmOfLigofglass();
-    itemAbilitiesMap["TitanChock"] = new TitanChock();
-    itemAbilitiesMap["FeatherOfChap"] = new FeatherOfChap();
-}
+
 
 /*void GameModel::loadMobAbilities()
 {
@@ -344,10 +331,7 @@ void GameModel::loadItemAbilities()
     mobAbilitiesMap["MobAbilitySprint"] = new MobAbilitySprint();
 }*/
 
-ItemAbility *GameModel::getItemAbilityByName(string name)
-{
-    return itemAbilitiesMap[name];
-}
+
 
 MobAbility *GameModel::getMobAbilityByName(string name)
 {

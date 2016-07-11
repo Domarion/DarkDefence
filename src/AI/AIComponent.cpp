@@ -72,10 +72,11 @@ void AIComponent::Search()
     list<string> enemyTags = MobPtr->getModel()->getEnemyTags();
     for(auto t = enemyTags.begin(); t != enemyTags.end(); ++t)
     {
-        list<SceneObject*> lst = MobPtr->getParentScene()->findObjectsByTag(*t);
-        if (lst.size() == 0)
+        list<SceneObject*>* lst = MobPtr->getParentScene()->findObjectsByTag(*t);
+        if (lst == nullptr || lst->size() == 0)
             continue;
-        avaliableTargets.insert(avaliableTargets.end(), lst.begin(), lst.end());
+        avaliableTargets.insert(avaliableTargets.end(), lst->begin(), lst->end());
+        delete lst;
     }
 
    /* if (MobPtr->getTag() == "Monster")

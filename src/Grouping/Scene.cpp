@@ -26,12 +26,6 @@ void Scene::initScene(SceneManager* sceneManagerPtr)
 {
 
 	parentSceneManager = sceneManagerPtr;
-
-    /*list<SceneObject*>::const_iterator  const_iter = sceneObjects.begin();
-	list<SceneObject*>::const_iterator end = sceneObjects.end();
-	for(;const_iter != end; ++const_iter)
-        (*const_iter)->init();
-*/
 }
 
 void Scene::finalizeScene()
@@ -40,7 +34,8 @@ void Scene::finalizeScene()
     list<SceneObject*>::iterator  iter1 = sceneObjects.begin();
     list<SceneObject*>::iterator end = sceneObjects.end();
     for(;iter1 != end; ++iter1)
-        delete (*iter1);
+        if (*iter1 != nullptr)
+            delete (*iter1);
 
 
     list<IDrawable*>::iterator  iter2 = listGUI.begin();
@@ -55,7 +50,7 @@ void Scene::finalizeScene()
 
 Scene::~Scene()
 {
-    finalizeScene();
+    //finalizeScene();
 }
 
 
@@ -85,18 +80,7 @@ void Scene::spawnObject(int x, int y, SceneObject *obj)
 
 
     obj->init(x, y);
-   // obj->setPos(x,y);
 
-   // if (obj->getSprite() != nullptr)
-    //    obj->getSprite()->setPos(x, y);
-
-
-
-    /*if (obj->getDestructibleObject() != nullptr)
-    {
-        obj->getDestructibleObject()->setWorldX(x);
-        obj->getDestructibleObject()->setWorldY(y);
-    }*/
 
     InputHandler* handler = dynamic_cast<InputHandler*>(obj);
 
@@ -145,7 +129,7 @@ SceneObject* Scene::findObjectByTag(std::string tag)
     return nullptr;
 }
 
-list<SceneObject *> &Scene::findObjectsByTag(string tag)
+list<SceneObject *> *Scene::findObjectsByTag(string tag)
 {
     list<SceneObject*>* filteredList =  new list<SceneObject*>();
 
@@ -155,12 +139,13 @@ list<SceneObject *> &Scene::findObjectsByTag(string tag)
         filteredList->push_back(*ptr);
     }
 
-   /* if (filteredList->empty())
+    if (filteredList->empty())
     {
         delete filteredList;
         return nullptr;
-    }*/
-    return *filteredList;
+    }
+
+    return filteredList;
 
 }
 

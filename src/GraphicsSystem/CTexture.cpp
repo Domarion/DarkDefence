@@ -56,6 +56,11 @@ void CTexture::draw()
 
 }
 
+void CTexture::drawPart(SDL_Rect *clip)
+{
+    Renderer::getInstance()->renderTexture(getTexture(),getRect().x, getRect().y, 0, 0, clip);
+}
+
 
 SDL_Texture* CTexture::getTexture() const
 {
@@ -82,7 +87,7 @@ void  CTexture::setTexture(SDL_Texture* value)
 
 void CTexture::setTextureFromText(string &text, std::shared_ptr<CFont> font)
 {
-    setTexture(Renderer::getInstance()->stringToTexture(font.get()->getFont(),text, font.get()->getFontColor()));
+    setTexture(Renderer::getInstance()->textToTexture(font.get()->getFont(),text, font.get()->getFontColor()));
     autoScale();
 }
 
@@ -90,7 +95,7 @@ void CTexture::loadTexture(const string& filename)
 {
     string filename1 = filename;
     androidText::setRelativePath(filename1);
-     setTexture(Renderer::getInstance()->loadTextureFromFile(filename1));
+    setTexture(Renderer::getInstance()->loadTextureFromFile(filename1));
 }
 
 void CTexture::setRect(int x, int y, int w, int h)

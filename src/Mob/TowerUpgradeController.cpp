@@ -23,7 +23,7 @@ void TowerUpgradeController::init(Scene *parent)
 
 }
 
-void TowerUpgradeController::receiveTowerUpgrade(Tower *tower, int x, int y)
+void TowerUpgradeController::receiveTowerUpgrade(Tower *tower)
 {
     if (tower == nullptr || parentGameScene == nullptr)
         return;
@@ -46,11 +46,11 @@ void TowerUpgradeController::receiveTowerUpgrade(Tower *tower, int x, int y)
 
 
     std::cout << "TOWERupCHILDREN SIZE = " << (currentTowerChildren.size()) << std::endl;
-    towerMenu.initScrollList(currentTowerChildren.size(), 150, 48);
+    towerMenu.initScrollList(currentTowerChildren.size() + 1, 150, 48);
     towerMenu.setRect(tower->getSprite()->getRect().x + 150, tower->getSprite()->getRect().y, 300, 400);
       std::cout << "TOWER_MENU_POS x = " << (towerMenu.getRect().x) << " y = " << (towerMenu.getRect().y) << std::endl;
 
-      for(size_t i = 0; i < currentTowerChildren.size(); ++i)
+    for(size_t i = 0; i < currentTowerChildren.size(); ++i)
     {
         CompositeLabel* label = new CompositeLabel();
         label->setFont(arialFont1);
@@ -64,6 +64,20 @@ void TowerUpgradeController::receiveTowerUpgrade(Tower *tower, int x, int y)
         std::cout << "LabelText= " << (label->getText()) << std::endl;
         towerMenu.addItem(label);
     }
+
+    CompositeLabel* closeLabel = new CompositeLabel();
+    closeLabel->setFont(arialFont1);
+    string iconPath = "GameData/textures/Towers/UpgradeIcons/CloseLabel.png";
+    std::cout << iconPath << std::endl;
+    closeLabel->loadIcon(iconPath);
+    closeLabel->setIconRect(0,0, 48, 48);
+    //label->setPos(0,0);
+    closeLabel->setText("Close");
+    towerMenu.addItem(closeLabel);
+
+
+
+
     if (parentGameScene != nullptr)
     {
           std::cout << "TOWER != nullptr" << std::endl;
@@ -76,13 +90,21 @@ void TowerUpgradeController::receiveTowerUpgrade(Tower *tower, int x, int y)
     }
 }
 
-bool TowerUpgradeController::menuClickHandler(int itemIndex)
+bool TowerUpgradeController::menuClickHandler(size_t itemIndex)
 {
 
 
     if (parentGameScene == nullptr || cachedTower == nullptr)
         return false;
 
+    if (itemIndex == currentTowerChildren.size())
+    {
+        parentGameScene->removeFromUIList(&towerMenu);
+        InputDispatcher::getInstance()->removeHandler(&towerMenu);
+        return false;
+    }
+
+    std::cout << "itemIndex = " << itemIndex << std::endl;
     string towerName = currentTowerChildren[itemIndex];
     MobModel model = GameModel::getInstance()->getRootTower()->recursiveSearch(towerName)->getData();
 

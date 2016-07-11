@@ -24,8 +24,8 @@ public:
     virtual void setPos(int x, int y);
     virtual bool update(double timestep);
 	virtual void finalize();
-    virtual CTexture * getSprite() const;
-    virtual void setSprite(CTexture* value);
+    virtual AnimatedSprite * getSprite() const;
+    virtual void setSprite(AnimatedSprite* value);
     int getX() const;
     int getY() const;
 
@@ -51,7 +51,7 @@ protected:
 
     SceneObject();
 
-    CTexture* spriteModel;
+    AnimatedSprite* spriteModel;
     int x, y;
     string name;
     string tag;

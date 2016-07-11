@@ -96,7 +96,7 @@ void HeroInventoryController::initView()
 }
 
 
-void HeroInventoryController::receiveItemFromModel(string caption, int itemType)
+void HeroInventoryController::receiveItemFromModel(string caption, size_t itemType)
 {
 
     if (caption.empty())

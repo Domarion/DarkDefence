@@ -9,32 +9,16 @@
 #include <iostream>
 using std::cout;
 using std::endl;
+#include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <exception>
 #include "Input/InputDispatcher.h"
 #include "Grouping/FontManager.h"
+#include "GlobalConstants.h"
 
-GameApp::GameApp(SceneManager* scmanager, int w, int h)
-:renderer(nullptr), window(nullptr), sceneManager(scmanager), paused(false)
+GameApp::GameApp(SceneManager* aSceneManager)
+:renderer(nullptr), window(nullptr), sceneManager(aSceneManager), paused(false)
 {
-
-
-	if (SDL_Init(SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_EVENTS) != 0)
-	{
-		cout << "SDL_Init Error: " << SDL_GetError() << endl;
-
-	}
-	else
-	{
-        renderer = Renderer::getInstance();
-        renderer->initRenderer(w, h);
-		int imgFlags = IMG_INIT_PNG;
-		IMG_Init(imgFlags);
-		TTF_Init();
-
-        FontManager::getInstance()->loadFontList("GameData/fontconfig.txt");
-	}
-
 
 }
 
@@ -49,37 +33,46 @@ GameApp::~GameApp()
 
     TTF_Quit();
 	IMG_Quit();
-	SDL_Quit();
+    SDL_Quit();
 }
 
-int GameApp::GameLoop()
+void GameApp::initLibrary(int windowWidth, int windowHeight)
+{
+    if (SDL_Init(SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_EVENTS) == 0)
+    {
+        renderer = Renderer::getInstance();
+        renderer->initRenderer(windowWidth, windowHeight);
+
+        int imgFlags = IMG_INIT_PNG;
+        IMG_Init(imgFlags);
+        TTF_Init();
+
+        FontManager::getInstance()->loadFontList("GameData/fontconfig.txt");
+    }
+    else
+    {
+       cout << "SDL_Init Error: " << SDL_GetError() << endl;
+    }
+}
+
+int GameApp::gameLoop()
 {
 
-	double lasttime = SDL_GetTicks();
-	const double MS_PER_UPDATE = 16.0;//1000ms/60FPS
-	double lag = 0.0;
+    int lasttime = SDL_GetTicks();
+    const int MS_PER_UPDATE = 16;//1000ms/60FPS
+    int lag = 0;
 	bool quit = false;
 
 	try
 	{
 		while(!quit)
 		{
+            int currenttime = SDL_GetTicks();
+            quit = processInput();
 
-
-			double currenttime = SDL_GetTicks();
-			while (SDL_PollEvent(&event) != false)
-			{
-
-				if (event.type == SDL_QUIT)
-					quit = true;
-				else
-					InputDispatcher::getInstance()->sendEvent(&event);
-
-			}
-
-            if (paused == false)
+            if (!isPaused())
             {
-                double elapsed = currenttime - lasttime;
+                int elapsed = currenttime - lasttime;
                 lasttime = currenttime;
                 lag += elapsed;
 
@@ -89,6 +82,8 @@ int GameApp::GameLoop()
                     lag -= MS_PER_UPDATE;
                 }
             }
+            else
+                lasttime = currenttime;
 
 			renderScene(const_cast<const Scene*>(sceneManager->getCurrentScene()));
 		}
@@ -120,28 +115,33 @@ int GameApp::renderScene(const Scene* scene)
 
     }
 
-	return 0;
+    return 0;
+}
+
+bool GameApp::isPaused()
+{
+    return paused;
 }
 
 void GameApp::updateScene(Scene* scene, double timestep)
 {
-
 	if (scene != nullptr)
 		scene->startUpdate(timestep);
 }
 
 bool GameApp::processInput()
 {
-	if (SDL_PollEvent(&event) != false)
-	{
+    bool needQuit = false;
 
-		if (event.type == SDL_QUIT)
-			return false;
-		else
-			if (event.type == SDL_MOUSEBUTTONUP || event.type == SDL_MOUSEBUTTONDOWN)
-                InputDispatcher::getInstance()->sendEvent(&event);
-	}
-    return true;
+    while (SDL_PollEvent(&event) != 0)
+    {
+        if (event.type == SDL_QUIT)
+            needQuit = true;
+        else
+            InputDispatcher::getInstance()->sendEvent(&event);
+    }
+
+    return needQuit;
 }
 
 void GameApp::pause()
@@ -156,9 +156,11 @@ void GameApp::unpause()
 
 void GameApp::receiveMessage(string msg)
 {
-    if (msg == "pause")
+    if (msg == GlobalConstants::Paused)
         pause();
     else
-        if (msg == "unpause")
+        if (msg == GlobalConstants::Resumed)
             unpause();
+    else
+        std::cout << "Wrong message to GameApp" << std::endl;
 }

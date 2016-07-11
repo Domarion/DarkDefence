@@ -8,7 +8,7 @@
 #include "SceneObject.h"
 
 SceneObject::SceneObject()
-:spriteModel(nullptr), parentScenePtr(nullptr)
+:spriteModel(nullptr), x(0), y(0), parentScenePtr(nullptr)
 {
 	// TODO Auto-generated constructor stub
 
@@ -108,6 +108,8 @@ void SceneObject::setPos(int x, int y)
 
 bool SceneObject::update(double timestep)
 {
+    if (spriteModel != nullptr)
+        spriteModel->calculateFrameNumber();
     return true;
 }
 
@@ -117,15 +119,16 @@ bool SceneObject::update(double timestep)
 void SceneObject::finalize()
 {
     parentScenePtr = nullptr;
-    delete spriteModel;
+    if (spriteModel != nullptr)
+        delete spriteModel;
 }
 
-CTexture* SceneObject::getSprite() const
+AnimatedSprite* SceneObject::getSprite() const
 {
 	return spriteModel;
 }
 
-void SceneObject::setSprite(CTexture* value)
+void SceneObject::setSprite(AnimatedSprite* value)
 {
     spriteModel = value;
 }

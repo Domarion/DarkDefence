@@ -13,6 +13,12 @@ ItemModel::ItemModel()
 
 }
 
+ItemModel::ItemModel(std::string aCaption, std::string aDescription, Enums::ItemTypes aItemType, int aPrice)
+    :caption(aCaption), description(aDescription), itemType(aItemType), price(aPrice)
+{
+
+}
+
 ItemModel::~ItemModel()
 {
 	// TODO Auto-generated destructor stub

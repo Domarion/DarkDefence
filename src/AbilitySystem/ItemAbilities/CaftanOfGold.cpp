@@ -10,7 +10,7 @@ CaftanOfGold::~CaftanOfGold()
 
 }
 
-void CaftanOfGold::init(GameScene* const scenePtr)
+void CaftanOfGold::init(Scene* const scenePtr)
 {
     goldAmount = 2;
     currentTime = period = 3000;

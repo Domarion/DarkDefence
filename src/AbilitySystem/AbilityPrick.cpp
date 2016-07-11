@@ -28,7 +28,7 @@ bool AbilityPrick::onReady(double timestep)
     if (parentScenePtr != nullptr && coordX > 0 && coordY > 0)
     {
         somePrick = new PrickObject(damage);
-       CTexture* sptr = new CTexture();
+       AnimatedSprite* sptr = new AnimatedSprite();
         sptr->setRect(0,0, 200, 200);
         sptr->loadTexture("GameData/textures/EmptySlot.png");
         somePrick->setSprite(sptr);

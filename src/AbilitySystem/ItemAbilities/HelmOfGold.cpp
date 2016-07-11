@@ -10,7 +10,7 @@ HelmOfGold::~HelmOfGold()
 
 }
 
-void HelmOfGold::init(GameScene* const scenePtr)
+void HelmOfGold::init(Scene* const scenePtr)
 {
     goldAmount = 1;
     currentTime = period = 3000;

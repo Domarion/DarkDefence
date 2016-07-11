@@ -10,7 +10,7 @@ HelmOfLigofglass::~HelmOfLigofglass()
 
 }
 
-void HelmOfLigofglass::init(GameScene* const scenePtr)
+void HelmOfLigofglass::init(Scene* const scenePtr)
 {
     string towerName = "BallistaTower";
     TreeNode<MobModel>* tower = GameModel::getInstance()->getRootTower()->recursiveSearch(towerName);

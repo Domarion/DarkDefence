@@ -6,8 +6,7 @@
  */
 
 #pragma once
-#include <SDL.h>
-#include <SDL_image.h>
+
 #include <list>
 using std::list;
 
@@ -35,13 +34,13 @@ public:
     virtual void addToUIList(IDrawable* item);
     virtual void removeFromUIList(IDrawable* item);
     SceneObject* findObjectByTag(std::string tag);
-    list<SceneObject*> &findObjectsByTag(std::string tag);
+    list<SceneObject*> *findObjectsByTag(std::string tag);
     SceneObject* findObjectWithPos(int x, int y);
     list<SceneObject*>* findObjectsWithPos(int x, int y);
 
 protected:
     list<IDrawable*> listGUI;
-	list<SceneObject*> sceneObjects;
+    list<SceneObject*> sceneObjects;
 	SceneManager* parentSceneManager;
 	bool wasInited;
 

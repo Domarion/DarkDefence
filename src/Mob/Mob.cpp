@@ -64,6 +64,7 @@ Mob::~Mob()
 
     delete mobAI;
     delete mobModel;
+    delete mobEffectReceiver;
     //finalize();
 
 }

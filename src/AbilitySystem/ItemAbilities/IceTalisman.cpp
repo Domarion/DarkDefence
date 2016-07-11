@@ -10,7 +10,7 @@ IceTalisman::~IceTalisman()
 
 }
 
-void IceTalisman::init(GameScene* const scenePtr)
+void IceTalisman::init(Scene* const scenePtr)
 {
     ManaGlobal* manaModelPtr = GameModel::getInstance()->getManaModel();
 

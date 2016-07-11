@@ -37,6 +37,7 @@ class BasicGoal
     }
 public:
 	BasicGoal();
+    BasicGoal(std::string aDescription, int controlNumber);
 	virtual ~BasicGoal();
 	int getCurrent() const;
 	void setCurrent(int value);

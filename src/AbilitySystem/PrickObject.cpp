@@ -20,18 +20,25 @@ void PrickObject::init(int x, int y)
     if (parentScenePtr != nullptr)
     {
         std::cout << "prickObject init" << std::endl;
-        list<SceneObject*> lst = parentScenePtr->findObjectsByTag("Monster");
-        list<SceneObject*> lstResult;
-        for(auto ptr = lst.begin(); ptr != lst.end(); ++ptr)
+        list<SceneObject*>* mobListWithTag = parentScenePtr->findObjectsByTag("Monster");
+
+        if (mobListWithTag == nullptr)
+            return;
+
+        list<SceneObject*> affectedMobs;
+        for(auto mobWithTag = mobListWithTag->begin(); mobWithTag != mobListWithTag->end(); ++mobWithTag)
         {
-            if (SDL_HasIntersection(&getSprite()->getRect(), &(*ptr)->getSprite()->getRect()))
-                lstResult.insert(lstResult.end(), *ptr);
+            if (SDL_HasIntersection(&getSprite()->getRect(), &(*mobWithTag)->getSprite()->getRect()))
+                affectedMobs.insert(affectedMobs.end(), *mobWithTag);
         }
 
+        mobListWithTag->clear();
+        delete mobListWithTag;
+        mobListWithTag = nullptr;
 
-        for(auto ptr2 = lstResult.begin(); ptr2 != lstResult.end(); ++ptr2)
+        for(auto affectedMob = affectedMobs.begin(); affectedMob != affectedMobs.end(); ++affectedMob)
         {
-           DestructibleObject* temp = (*ptr2)->getDestructibleObject();
+           DestructibleObject* temp = (*affectedMob)->getDestructibleObject();
            if (temp != nullptr)
            {
                std::cout << "Damage to" << temp->getName() << std::endl;

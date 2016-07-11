@@ -14,6 +14,12 @@ Reward::Reward()
 
 }
 
+Reward::Reward(int coinsAmount)
+    :goldCoins(coinsAmount)
+{
+
+}
+
 Reward::~Reward()
 {
     // TODO Auto-generated destructor stub

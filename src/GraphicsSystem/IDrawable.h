@@ -2,7 +2,7 @@
 #include <SDL_rect.h>
 #include <SDL_render.h>
 
-class IDrawable
+class IDrawable//TODO: Переработать интерфейс
 {
 public:
     virtual void draw() = 0;
@@ -16,4 +16,5 @@ public:
     virtual void setPosY(int y)= 0;
     virtual void setSize(int w, int h) = 0;
     virtual ~IDrawable(){}
+    virtual int getDrawOrder(){return 0;}// реализовать во всех классах, поддерживающих интерфейс
 };

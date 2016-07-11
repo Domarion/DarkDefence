@@ -25,13 +25,13 @@ void Inventory::ConnectMethod(std::function<void(ItemModel)> method)
 
 ItemModel* Inventory::getItemByName(string name)
 {
-    for(int i = 0; i < items.size(); ++i)
+    for(size_t i = 0; i < items.size(); ++i)
         if (items[i].getCaption() == name)
             return &items[i];
     return nullptr;
 }
 
-bool Inventory::sendItem(int index)
+bool Inventory::sendItem(size_t index)
 {
 
 	std::cout << items[index].getCaption() << std::endl;
@@ -39,17 +39,10 @@ bool Inventory::sendItem(int index)
 	{
         connectedMethod0(items[index]);
 
-    //	int i1 = items.size() - 1;
-
-    //	if (index != i1)
-        //	std::swap(items[index], items[i1]);
-
-//		items.pop_back();
-
         if (items.size() != 1 && index != items.size() - 1)
         {
 
-            for(int i = index; i < items.size() - 1; ++i)
+            for(size_t i = index; i < items.size() - 1; ++i)
                 items[i] = items[i + 1];
 
         }
@@ -82,15 +75,15 @@ int Inventory::getItemCount() const
 	return items.size();
 }
 
-const ItemModel*  Inventory::getItemFromIndex(int index)
+const ItemModel*  Inventory::getItemFromIndex(size_t index)
 {
-    if (index < 0 || index >= items.size())
+    if (index >= items.size())
 		return nullptr;
 
     return &items[index];
 }
 
-void Inventory::ConnectReceiver(std::function<void (string, int)> handler)
+void Inventory::ConnectReceiver(std::function<void (string, size_t)> handler)
 {
     connectedMethod = handler;
 

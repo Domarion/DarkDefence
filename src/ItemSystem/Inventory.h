@@ -20,24 +20,24 @@ class Inventory
 	template <typename Archive>
 		 void serialize(Archive &ar, const unsigned int version)
 		{
-			ar & BOOST_SERIALIZATION_NVP(items);
+            ar & boost::serialization::make_nvp("ArtifactList", items);
 		}
 public:
 	Inventory();
 	virtual ~Inventory();
-    virtual bool sendItem(int index);
+    virtual bool sendItem(size_t index);
 	virtual void receiveItem(ItemModel item);
 	virtual void addItem(ItemModel item);
 
 	int getItemCount() const;
-    const ItemModel* getItemFromIndex(int index);
-    virtual void ConnectReceiver( std::function<void(string, int)> handler);
+    const ItemModel* getItemFromIndex(size_t index);
+    virtual void ConnectReceiver( std::function<void(string, size_t)> handler);
     virtual void ConnectMethod( std::function<void(ItemModel)> handler);
     virtual ItemModel* getItemByName(string name);
 
 protected:
 	vector<ItemModel> items;
-    std::function<void(string, int)> connectedMethod;
+    std::function<void(string, size_t)> connectedMethod;
     std::function<void(ItemModel)> connectedMethod0;
 
 

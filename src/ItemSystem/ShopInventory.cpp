@@ -18,24 +18,16 @@ ShopInventory::~ShopInventory()
 	// TODO Auto-generated destructor stub
 }
 
-bool ShopInventory::sendItem(int index)
+bool ShopInventory::sendItem(size_t index)
 {
     if (connectedMethod0 == nullptr)
 		return false;
 
-    if (AccountModel::getInstance()->PayGold(itemPrices[index]))
+    int itemPrice = items[index].getPrice();
+
+    if (AccountModel::getInstance()->PayGold(itemPrice))
 		return Inventory::sendItem(index);
 
     return false;
 }
 
-void ShopInventory::addItem(ItemModel item)
-{
-	addItemWithPrice(item, 0);
-}
-
-void ShopInventory::addItemWithPrice(ItemModel item, int price)
-{
-	Inventory::addItem(item);
-	itemPrices.push_back(price);
-}

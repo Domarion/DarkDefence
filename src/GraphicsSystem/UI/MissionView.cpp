@@ -10,6 +10,13 @@ MissionView::MissionView()
 
 MissionView::~MissionView()
 {
+    for( auto rewardLabel = rewardList.begin(); rewardLabel != rewardList.end(); ++rewardLabel)
+        if (*rewardLabel != nullptr)
+            delete *rewardLabel;
+    for( auto missionGoalLabel = missionGoals.begin(); missionGoalLabel != missionGoals.end(); ++missionGoalLabel)
+        if (*missionGoalLabel != nullptr)
+            delete *missionGoalLabel;
+
 }
 
 void MissionView::init(Mission& missionRef, std::shared_ptr<CFont> arialFont)
@@ -61,7 +68,7 @@ void MissionView::init(Mission& missionRef, std::shared_ptr<CFont> arialFont)
         missionGoals.push_back(temp);
         y += 60;
     }
-
+    goals.clear();
     x = 0;
 
     list<string> rewardStrings = missionRef.getReward().getFullDescription();
@@ -77,6 +84,7 @@ void MissionView::init(Mission& missionRef, std::shared_ptr<CFont> arialFont)
         rewardList.push_back(temp);
         y += 60;
     }
+    rewardStrings.clear();
 
     CompositeLabel* temp2 = new CompositeLabel();
     temp2->setFont(arialFont);

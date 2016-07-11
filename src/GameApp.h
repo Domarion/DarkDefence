@@ -13,17 +13,21 @@
 class GameApp
 {
 public:
-    GameApp(SceneManager* scmanager, int w = 800, int h = 480);
+    GameApp(SceneManager* aSceneManager);
 	~GameApp();
-	int GameLoop();
-	int renderScene(const Scene* scene);
-	void updateScene(Scene* scene, double timestep);
-	bool processInput();
-    void pause();
-    void unpause();
+    void initLibrary(int windowWidth, int windowHeight);
+    int gameLoop();
+
     void receiveMessage(string msg);
 
+
 private:
+    void pause();
+    void unpause();
+    bool processInput();
+    void updateScene(Scene* scene, double timestep);
+    int renderScene(const Scene* scene);
+    bool isPaused();
     Renderer* renderer;
     SDL_Window* window;
 	SDL_Event event;

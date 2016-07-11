@@ -99,14 +99,14 @@ TTF_Font * Renderer::loadFontFromFile(string filename, int size)
     return TTF_OpenFont(filename.c_str(), size);
 }
 
-SDL_Texture * Renderer::stringToTexture(TTF_Font * font, string text, Uint8 r, Uint8 g, Uint8 b)
+SDL_Texture * Renderer::textToTexture(TTF_Font * font, string text, Uint8 r, Uint8 g, Uint8 b)
 {
     SDL_Color color = {r, g, b};
 
-    return stringToTexture(font, text, color);
+    return textToTexture(font, text, color);
 }
 
-SDL_Texture * Renderer::stringToTexture(TTF_Font * font, string text, SDL_Color color)
+SDL_Texture * Renderer::textToTexture(TTF_Font * font, string text, SDL_Color color)
 {
     SDL_Surface* tempSurface = TTF_RenderUTF8_Solid(font, text.c_str(), color);
 
@@ -123,15 +123,16 @@ SDL_Texture * Renderer::stringToTexture(TTF_Font * font, string text, SDL_Color 
     return stringToTexture(font.getFont(),text, font.getFontColor());
 }*/
 
-SDL_Texture * Renderer::stringToTexture(string fontFilename, int size, string text, Uint8 r, Uint8 g, Uint8 b)
+SDL_Texture * Renderer::textToTexture(string fontFilename, int size, string text, Uint8 r, Uint8 g, Uint8 b)
 {
     TTF_Font* font = loadFontFromFile(fontFilename, size);
-    return stringToTexture(font, text, r, g, b);
+    return textToTexture(font, text, r, g, b);
 }
 
 void Renderer::setRendererDrawColor(Uint8 r, Uint8 g, Uint8 b)
 {
-    SDL_SetRenderDrawColor(rendererPtr, r, g, b, 255);
+    const Uint8 alpha = 255;
+    SDL_SetRenderDrawColor(rendererPtr, r, g, b, alpha);
 
 }
 

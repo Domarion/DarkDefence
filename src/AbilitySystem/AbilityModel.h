@@ -11,8 +11,8 @@ public:
     virtual ~AbilityModel();
     virtual void init(Scene* const scenePtr);
     virtual bool onReady(double timestep);
-    virtual bool onWorking(double timestep);
-    virtual bool onCooldown(double timestep);
+    virtual bool onWorking(double timestep) = 0;
+    virtual bool onCooldown(double timestep) = 0;
     virtual bool update(double timestep);
     void setAsReady();
     int getManaCost() const;

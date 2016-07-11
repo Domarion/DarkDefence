@@ -1,5 +1,5 @@
 #include "GoldPick.h"
-
+#include "../../Scenes/GameScene.h"
 GoldPick::GoldPick()
 {
 
@@ -10,7 +10,7 @@ GoldPick::~GoldPick()
 
 }
 
-void GoldPick::init(GameScene * const scenePtr)
+void GoldPick::init(Scene * const scenePtr)
 {
     amount = 3;
     currentTime = period = 3000;
@@ -23,7 +23,10 @@ void GoldPick::init(GameScene * const scenePtr)
         mptr->second.setMaximumHealth(newMaxHp);
     }
 
-    AbilityModel* magicStone = scenePtr->getAbilityModelWithName("MagicStones");
+    GameScene* gameScenePtr = dynamic_cast<GameScene*>(scenePtr);
+    if (gameScenePtr == nullptr)
+        return;
+    AbilityModel* magicStone = gameScenePtr->getAbilityModelWithName("MagicStones");
     if (magicStone != nullptr)
     {
         int manaCost = static_cast<int>( 0.15 * magicStone->getManaCost());

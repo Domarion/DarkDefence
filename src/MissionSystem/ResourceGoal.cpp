@@ -6,6 +6,12 @@ ResourceGoal::ResourceGoal()
 
 }
 
+ResourceGoal::ResourceGoal(std::string aDescription, int controlNumber, Enums::ResourceTypes aResourceType)
+    :BasicGoal(aDescription, controlNumber), resourceType(aResourceType)
+{
+
+}
+
 void ResourceGoal::setResourceType(Enums::ResourceTypes resType)
 {
     resourceType = resType;

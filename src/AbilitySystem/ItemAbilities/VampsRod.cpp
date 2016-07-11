@@ -1,5 +1,7 @@
 #include "VampsRod.h"
 #include "../AbilityShrink.h"
+#include "../../Scenes/GameScene.h"
+
 VampsRod::VampsRod()
 {
 
@@ -10,14 +12,17 @@ VampsRod::~VampsRod()
 
 }
 
-void VampsRod::init(GameScene * const scenePtr)
+void VampsRod::init(Scene * const scenePtr)
 {
     ManaGlobal* manamodel = GameModel::getInstance()->getManaModel();
 
     int manaMax = manamodel->getLimit() + 50;
      manamodel->setLimit(manaMax);
 
-    map<string, AbilityModel*> models = scenePtr->getAbilityModelList();
+     GameScene* gameScenePtr = dynamic_cast<GameScene*>(scenePtr);
+     if (gameScenePtr == nullptr)
+         return;
+    map<string, AbilityModel*> models = gameScenePtr->getAbilityModelList();
 
     for(auto ptr = models.begin(); ptr!= models.end(); ++ptr)
     {

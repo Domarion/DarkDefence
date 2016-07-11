@@ -22,17 +22,14 @@ SceneObjectFabric::~SceneObjectFabric()
 SceneObject* SceneObjectFabric::produce(string name, string tag, string spritePath, int width, int height)
 {
     SceneObject* someObject = new SceneObject();
-    someObject->setName(name);
-    someObject->setTag(tag);
-    CTexture* someSprite = new CTexture();
+
+    AnimatedSprite* someSprite = new AnimatedSprite();
     someSprite->setRect(0, 0, width, height);
 
     someSprite->loadTexture(spritePath);
-
-
     someObject->setSprite(someSprite);
-    someObject->init(0,0);
-
+    someObject->setName(name);
+    someObject->setTag(tag);
     return someObject;
 }
 

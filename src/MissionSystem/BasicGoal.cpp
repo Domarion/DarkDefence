@@ -10,9 +10,15 @@
 #include "../GlobalScripts/GameModel.h"
 
 BasicGoal::BasicGoal()
-    :current(0), needed(0), description(""), goalStatus(gIN_PROGRESS)
+    :current(0), needed(0), description(), goalStatus(gIN_PROGRESS)
 {
 	// TODO Auto-generated constructor stub
+
+}
+
+BasicGoal::BasicGoal(std::string aDescription, int controlNumber)
+:current(0), needed(controlNumber), description(aDescription), goalStatus(gIN_PROGRESS)
+{
 
 }
 

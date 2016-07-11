@@ -11,7 +11,7 @@ ChoppersHat::~ChoppersHat()
 
 }
 
-void ChoppersHat::init(GameScene * const scenePtr)
+void ChoppersHat::init(Scene * const scenePtr)
 {
    // resType = Enums::ResourceTypes::WOOD;
     amount = 2;

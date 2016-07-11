@@ -17,8 +17,8 @@ ProgressBar::ProgressBar()
 ProgressBar::~ProgressBar()
 {
 
-    if (getFrontTexture() != nullptr)
-        SDL_DestroyTexture(getFrontTexture());
+   // if (getFrontTexture() != nullptr)
+     //   SDL_DestroyTexture(getFrontTexture());
 
 	// TODO Auto-generated destructor stub
 }

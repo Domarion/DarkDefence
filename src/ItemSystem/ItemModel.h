@@ -28,6 +28,7 @@ class ItemModel
 	}
 public:
 	ItemModel();
+    ItemModel(std::string aCaption, std::string aDescription, Enums::ItemTypes aItemType, int aPrice);
 	~ItemModel();
 	const std::string& getDescription() const;
 	void setDescription(const std::string& description);

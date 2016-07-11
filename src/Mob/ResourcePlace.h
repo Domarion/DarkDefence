@@ -8,7 +8,7 @@ class ResourcePlace: public SceneObject, public InputHandler
 public:
     ResourcePlace();
     virtual ~ResourcePlace();
-
+    void setLimit(int amount);
     // InputHandler interface
 public:
     virtual bool onClick(SDL_Point *point) override;

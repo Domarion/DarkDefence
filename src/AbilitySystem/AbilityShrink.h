@@ -15,6 +15,6 @@ public:
     double getDamagePerSecond() const;
 private:
     double damagePerSecond;
-    list<SceneObject*> affectedMobs;
+    list<SceneObject*>* affectedMobs;
 };
 

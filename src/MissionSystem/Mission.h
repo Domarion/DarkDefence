@@ -38,6 +38,7 @@ class Mission
     }
 public:
 	Mission();
+    Mission(std::string aCaption, std::string aDescription, const Reward& aReward);
 	~Mission();
 	std::string getCaption() const;
 	void setCaption(std::string value);

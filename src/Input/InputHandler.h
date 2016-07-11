@@ -17,5 +17,6 @@ public:
 	virtual bool canDrag() const;
 	virtual bool onDrag(int direction);
 	virtual bool containsPoint(int x, int y) const;
+    //virtual bool canWorkWithGamePause() const;
 };
 

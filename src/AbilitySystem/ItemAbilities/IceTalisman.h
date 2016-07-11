@@ -6,6 +6,6 @@ class IceTalisman: public ItemAbility
 public:
     IceTalisman();
     virtual ~IceTalisman();
-    virtual void init(GameScene* const scenePtr) override;
+    virtual void init(Scene* const scenePtr) override;
 };
 

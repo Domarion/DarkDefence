@@ -20,7 +20,7 @@ public:
 	void setModel(Inventory* newModel);
     Inventory* getModel() const;
 	void initView();
-    void receiveItemFromModel(string caption, int itemType);
+    void receiveItemFromModel(string caption, size_t itemType);
 private:
 	Inventory* model;
 	ScrollList* view;

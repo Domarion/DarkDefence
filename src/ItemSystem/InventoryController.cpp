@@ -84,7 +84,7 @@ void InventoryController::initView()
     view->calculateVisibleItemsPositions();
 }
 
-void InventoryController::receiveItemFromModel(string caption, int itemType)
+void InventoryController::receiveItemFromModel(string caption, size_t itemType)
 {
 
     if (caption.empty())
@@ -99,7 +99,7 @@ void InventoryController::receiveItemFromModel(string caption, int itemType)
 
 
 
-    btn->init(arial,ipath,caption, "descr stub");
+    btn->init(arial, ipath, caption, "descr stub");
 
 
 

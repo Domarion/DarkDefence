@@ -95,7 +95,11 @@ SOURCES += \
     src/Utility/textfilefunctions.cpp \
     src/GraphicsSystem/CFont.cpp \
     src/Grouping/FontManager.cpp \
-    src/GraphicsSystem/UI/StateButton.cpp
+    src/GraphicsSystem/UI/StateButton.cpp \
+    src/GraphicsSystem/GraphicsManager.cpp \
+    src/AbilitySystem/ItemAbilities/ItemAbilitiesStorage.cpp \
+    src/AbilitySystem/SpellStorage.cpp \
+    src/SaveData/DataGenerator.cpp
 
 HEADERS += \
     src/AI/AIComponent.h \
@@ -193,7 +197,12 @@ HEADERS += \
     src/GraphicsSystem/IDrawable.h \
     src/GraphicsSystem/CFont.h \
     src/Grouping/FontManager.h \
-    src/GraphicsSystem/UI/StateButton.h
+    src/GraphicsSystem/UI/StateButton.h \
+    src/GraphicsSystem/GraphicsManager.h \
+    src/GlobalConstants.h \
+    src/AbilitySystem/ItemAbilities/ItemAbilitiesStorage.h \
+    src/AbilitySystem/SpellStorage.h \
+    src/SaveData/DataGenerator.h
 
 unix:!macx: LIBS += -L$$PWD/../../../../usr/lib64/ -lboost_serialization
 

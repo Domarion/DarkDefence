@@ -10,7 +10,7 @@ UberionsCloak::~UberionsCloak()
 
 }
 
-void UberionsCloak::init(GameScene* const scenePtr)
+void UberionsCloak::init(Scene* const scenePtr)
 {
     ManaGlobal* manaModelPtr = GameModel::getInstance()->getManaModel();
     int newRegenValue = manaModelPtr->getRegenValue() + 10;

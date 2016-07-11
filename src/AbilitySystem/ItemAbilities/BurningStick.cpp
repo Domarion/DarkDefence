@@ -11,7 +11,7 @@ BurningStick::~BurningStick()
 }
 
 
-void BurningStick::init(GameScene* const scenePtr)
+void BurningStick::init(Scene* const scenePtr)
 {
     amount = 2;
     currentTime = period = 3000;

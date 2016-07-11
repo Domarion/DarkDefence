@@ -14,6 +14,12 @@ Mission::Mission()
 
 }
 
+Mission::Mission(std::string aCaption, std::string aDescription, const Reward& aReward)
+:caption(aCaption), description(aDescription), reward(aReward), missionStatus(mNOT_STARTED)
+{
+
+}
+
 Mission::~Mission()
 {
 	// TODO Auto-generated destructor stub
@@ -41,7 +47,7 @@ void Mission::setDescription(std::string value)
 
 MissionStatuses Mission::checkStatus()
 {
-    int goalCompleted = 0;
+    size_t goalCompleted = 0;
     for(auto goal = goals.begin(); goal != goals.end(); ++goal)
     {
         (*goal)->checkCondition();

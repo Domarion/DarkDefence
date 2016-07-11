@@ -25,21 +25,9 @@ void AbilityModel::init(Scene * const scenePtr)
 
 bool AbilityModel::onReady(double timestep)
 {
-  //  std::cout << "WHAT??????" << std::endl;
-
-  return ( GameModel::getInstance()->getManaModel()->payMana(getManaCost()));
-
+    return ( GameModel::getInstance()->getManaModel()->payMana(getManaCost()));
 }
 
-bool AbilityModel::onWorking(double timestep)
-{
-     return true;
-}
-
-bool AbilityModel::onCooldown(double timestep)
-{
-    return true;
-}
 
 bool AbilityModel::update(double timestep)
 {
@@ -59,6 +47,10 @@ bool AbilityModel::update(double timestep)
         case Enums::AbilityStates::asOnCooldown:
         {
             onCooldown(timestep);
+            break;
+        }
+        case Enums::AbilityStates::asNotAvaliable:
+        {
             break;
         }
     }

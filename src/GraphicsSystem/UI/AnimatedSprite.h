@@ -6,6 +6,7 @@ using std::map;
 using std::string;
 #include <vector>
 using std::vector;
+
 class AnimatedSprite : public CTexture
 {
 public:
@@ -14,12 +15,13 @@ public:
     // CTexture interface
 public:
     virtual void draw() override;
+    void calculateFrameNumber();
     string getCurrentState() const;
     void setCurrentState(const string &value);
     void setAnimRects(string state, vector<SDL_Rect> rects);
 private:
-    void calculateFrameNumber();
-    int frameNumber;
+
+    size_t frameNumber;
     long oldFrameTime;
     int  msCount;
     map<string, vector<SDL_Rect> > animationStates;

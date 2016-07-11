@@ -22,10 +22,12 @@
 #include "../MissionSystem/Mission.h"
 #include <vector>
 using std::vector;
-#include "../AbilitySystem/AbilityModel.h"
+#include "../AbilitySystem/SpellStorage.h"
+
 #include "../Mob/ResourcePlace.h"
 #include "../Mob/TowerFabric.hpp"
 #include "../Mob/TowerUpgradeController.h"
+#include "../AbilitySystem/ItemAbilities/ItemAbilitiesStorage.h"
 
 class GameScene: public Scene
 {
@@ -33,14 +35,14 @@ public:
 	GameScene();
 	virtual ~GameScene();
     virtual void initScene(SceneManager* sceneManagerPtr) override;
-	virtual void finalizeScene() override;
+
 	virtual void startUpdate(double timestep) override;
     virtual void copyToRender() const override;
-    AbilityModel* getAbilityModelWithName(string name);
+
     map<string, AbilityModel* >& getAbilityModelList();
     void ConnectMethod(std::function<void(string)> handler);
-
-    void sendMSG(string s);
+    AbilityModel*getAbilityModelWithName(string name);
+    void sendMessage(string msgText);
 private:
 
     void loadData();
@@ -54,19 +56,21 @@ private:
     ProgressBar manaBar;
     TowerFabric towerFabric;
 	MobSpawner monsterSpawner;
-	Gates gates;
+    Gates* gates;
 
     Mission currentMission;
     //std::shared_ptr<CFont> arialFont;
     Label pointsLabel;
     Label waveLabel;
-    map<string, AbilityModel* > abilityModelsMap;
 
 
+    SpellStorage spellStorage;
+    ItemAbilitiesStorage itemAbilitiesStorage;
     ResourcePlace *resPlace;
     TowerUpgradeController towerUpgradeController;
 
     ImageButton pauseBtn;
+    ImageButton resumeBtn;
     void setActiveMstones(string s);
     std::function<void(string)> method;
 };

@@ -1,14 +1,19 @@
 #include "AbilitySnowStorm.h"
 #include "../GlobalScripts/GameModel.h"
 AbilitySnowStorm::AbilitySnowStorm()
-    :damagePerSecond(0)
+    :damagePerSecond(0), affectedMobs( nullptr )
 {
 
 }
 
 AbilitySnowStorm::~AbilitySnowStorm()
 {
-
+    if (affectedMobs != nullptr)
+    {
+        affectedMobs->clear();
+        delete affectedMobs;
+        affectedMobs = nullptr;
+    }
 }
 
 void AbilitySnowStorm::init(Scene * const scenePtr)
@@ -34,12 +39,12 @@ bool AbilitySnowStorm::onReady(double timestep)
         return false;
     }
 
-    if (affectedMobs.size() == 0 && parentScenePtr != nullptr && GameModel::getInstance()->getMonsterCount() > 0)
-        affectedMobs = (parentScenePtr->findObjectsByTag("Monster"));
+    if (affectedMobs == nullptr && parentScenePtr != nullptr && GameModel::getInstance()->getMonsterCount() > 0)
+        affectedMobs = parentScenePtr->findObjectsByTag("Monster");
 
-    if (affectedMobs.size() > 0)
+    if (affectedMobs != nullptr)
     {
-        for(auto affectedMob = affectedMobs.begin(); affectedMob != affectedMobs.end(); ++affectedMob)
+        for(auto affectedMob = affectedMobs->begin(); affectedMob != affectedMobs->end(); ++affectedMob)
         {
             if (*affectedMob != nullptr)
                 (*affectedMob)->getEffectReceiver()->applyEffect(&snowEffect);
@@ -60,8 +65,8 @@ bool AbilitySnowStorm::onWorking(double timestep)
 
     if (counter >= 1000)
     {
-        if (affectedMobs.size() > 0)
-            for(auto affectedMob = affectedMobs.begin(); affectedMob != affectedMobs.end(); ++affectedMob)
+        if (affectedMobs!= nullptr && affectedMobs->size() > 0)
+            for(auto affectedMob = affectedMobs->begin(); affectedMob != affectedMobs->end(); ++affectedMob)
             {
                 if (*affectedMob != nullptr)
                     (*affectedMob)->getDestructibleObject()->receiveDamageOneType(2, damagePerSecond);
@@ -71,8 +76,8 @@ bool AbilitySnowStorm::onWorking(double timestep)
 
     if (currentWorkTime <= 0)
     {
-        if (affectedMobs.size() > 0)
-            for(auto affectedMob = affectedMobs.begin(); affectedMob != affectedMobs.end(); ++affectedMob)
+        if (affectedMobs!= nullptr && affectedMobs->size() > 0)
+            for(auto affectedMob = affectedMobs->begin(); affectedMob != affectedMobs->end(); ++affectedMob)
             {
                 if (*affectedMob != nullptr)
                     (*affectedMob)->getEffectReceiver()->cancelEffect(&snowEffect);
@@ -96,7 +101,10 @@ bool AbilitySnowStorm::onCooldown(double timestep)
 {
     if (currentCooldownTime <= 0)
     {
-        affectedMobs.clear();
+        affectedMobs->clear();
+        delete affectedMobs;
+        affectedMobs = nullptr;
+
         currentCooldownTime = cooldownTime;
         abilityState = Enums::AbilityStates::asNotAvaliable;
     }

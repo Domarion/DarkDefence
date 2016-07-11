@@ -10,7 +10,7 @@ TitanChock::~TitanChock()
 
 }
 
-void TitanChock::init(GameScene* const scenePtr)
+void TitanChock::init(Scene* const scenePtr)
 {
     string towerName = "CloudTower";
     TreeNode<MobModel>* tower = GameModel::getInstance()->getRootTower()->recursiveSearch(towerName);

@@ -24,7 +24,7 @@ public:
     void regenerate(double timestep);
 
 private:
-    int limit, current ;
+    int limit, current;
 	int regenerationValue;
 	double regenerationPeriod;
 

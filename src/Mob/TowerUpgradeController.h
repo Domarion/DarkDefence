@@ -16,8 +16,8 @@ public:
     TowerUpgradeController();
     ~TowerUpgradeController();
     void init(Scene* parent);
-    void receiveTowerUpgrade(Tower* tower, int x = 0, int y = 0);
-    bool menuClickHandler(int itemIndex);
+    void receiveTowerUpgrade(Tower* tower);
+    bool menuClickHandler(size_t itemIndex);
 
 private:
 

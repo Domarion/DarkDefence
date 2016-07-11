@@ -10,7 +10,7 @@
 
 MobModel::MobModel()
 :DestructibleObject(), attackDistance(0.0, 0.0),
-  moveSpeed(0.0, 0.0), isVisible(true)
+  moveSpeed(0.0, 0.0), reloadTimeMaximum(0.0, 0.0), reloadTime(0.0), isVisible(true)
 {
 
 	// TODO Auto-generated constructor stub
@@ -58,9 +58,9 @@ void MobModel::setMoveSpeed(const pair<double, double>& moveSpeed)
 
 
 MobModel::MobModel(string aName, string aTag, int aMaxHealth,
-		int aProtection[], int damage[], double distance, double speed, list<string> enemiesTags)
+        int aProtection[], int damage[], double distance, double speed, double aReloadTime, int aDamageArea, list<string> enemiesTags)
 :DestructibleObject(aName, aTag, aMaxHealth, aProtection), attackDistance(distance, 0.0),
- moveSpeed(speed, 0.0), enemyTags(enemiesTags), isVisible(true)
+ moveSpeed(speed, 0.0), reloadTimeMaximum(aReloadTime, 0.0), reloadTime(aReloadTime), damageArea(aDamageArea), enemyTags(enemiesTags), isVisible(true)
 {
 	for(int i = 0; i < DestructibleObject::damageTypesCount; ++i)
 	{
@@ -72,14 +72,15 @@ MobModel::MobModel(string aName, string aTag, int aMaxHealth,
 }
 
 MobModel::MobModel(const MobModel& right)
+    :DestructibleObject(right)
 {
-	name = right.name;
-	tag = right.tag;
+    /*name = right.name;
+    tag = right.tag;
 	maximumHealth = right.maximumHealth;
 	currentHealth = right.currentHealth;
 	for(int i = 0; i < DestructibleObject::damageTypesCount; ++i)
 		attackProtection[i] = right.attackProtection[i];
-
+    */
 	for(int i = 0; i < DestructibleObject::damageTypesCount; ++i)
 		attackDamage[i] = right.attackDamage[i];
 	attackDistance = right.attackDistance;
@@ -201,5 +202,15 @@ list<string> &MobModel::getAbilitiesNames()
 int *MobModel::getPrice()
 {
     return price;
+}
+
+int MobModel::getDamageArea() const
+{
+    return damageArea;
+}
+
+void MobModel::setDamageArea(int value)
+{
+    damageArea = value;
 }
 

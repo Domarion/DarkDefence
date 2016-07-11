@@ -30,6 +30,7 @@ class DestructibleObject//: public Subject
 			ar & BOOST_SERIALIZATION_NVP(name);
 			ar & BOOST_SERIALIZATION_NVP(tag);
 			ar & BOOST_SERIALIZATION_NVP(maximumHealth);
+            currentHealth = maximumHealth.first;
 			//for (int i = 0; i < DestructibleObject::damageTypesCount; ++i)
 
             ar & boost::serialization::make_nvp("attack", attackProtection);
@@ -39,18 +40,17 @@ public:
 	const static int damageTypesCount = 4;
 	DestructibleObject();
 	DestructibleObject(string aName, string aTag, int aMaxHealth, int aProtection[]);
-	virtual ~DestructibleObject();
+    DestructibleObject(const DestructibleObject& right);
+
+    virtual ~DestructibleObject();
 	const pair<int, int>& getAttackProtection() const;
 	const string& getName() const;
 	void setName(const string& name);
 	const string& getTag() const;
 	void setTag(const string& tag);
 	bool IsAlive() const;
-    /*int getWorldX() const;
-	void setWorldX(int worldX);
-	int getWorldY() const;
-	void setWorldY(int worldY);
-    */bool receiveDamage(int* damage);
+
+    bool receiveDamage(int* damage);
     bool receiveDamageOneType(int damage_type, int damage);
     bool addHealth(int amount);
     void setProtectionModifier(int modifier);
@@ -72,7 +72,7 @@ protected:
 	pair<int, int> maximumHealth;
 	int currentHealth;
 	pair<int, int> attackProtection[damageTypesCount];
-    //int worldX, worldY;
+
 
     std::function<void(int, int)> connectedMethod;
 };

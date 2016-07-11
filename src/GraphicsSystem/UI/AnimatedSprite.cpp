@@ -1,22 +1,21 @@
 #include "AnimatedSprite.h"
-#include "../../GlobalScripts/Renderer.h"
+
 AnimatedSprite::AnimatedSprite()
-    :frameNumber(0), oldFrameTime(0), msCount(64)
+    :CTexture(), frameNumber(0), oldFrameTime(0), msCount(64)
 {
 
 }
 
 AnimatedSprite::~AnimatedSprite()
 {
-
+    animationStates.clear();
 }
 
 void AnimatedSprite::draw()
 {
     if (animationStates.size() > 0)
     {
-        calculateFrameNumber();
-        Renderer::getInstance()->renderTexture(getTexture(),getRect().x, getRect().y, 0, 0, &animationStates.at(currentState).at(frameNumber));
+        CTexture::drawPart(&animationStates.at(currentState).at(frameNumber));
     }
     else
        CTexture::draw();
@@ -24,8 +23,9 @@ void AnimatedSprite::draw()
 
 void AnimatedSprite::calculateFrameNumber()
 {
-    if (oldFrameTime + msCount >= SDL_GetTicks())
+    if (oldFrameTime + msCount >= SDL_GetTicks() || animationStates.empty())
         return;
+
     oldFrameTime = SDL_GetTicks();
 
     ++frameNumber;

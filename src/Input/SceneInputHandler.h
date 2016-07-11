@@ -1,4 +1,4 @@
-#pragma on
+#pragma once
 #include "../Grouping/Scene.h"
 #include "InputHandler.h"
 

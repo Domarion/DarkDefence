@@ -11,8 +11,6 @@ class ResourceGoal: public BasicGoal
     template <typename Archive>
       void serialize(Archive &ar, const unsigned int version)
     {
-
-        //ar.template register_type<MobModel>();
         ar & boost::serialization::make_nvp("BasicGoal", (boost::serialization::base_object<BasicGoal>(*this)));
         ar & BOOST_SERIALIZATION_NVP(resourceType);
 
@@ -20,6 +18,7 @@ class ResourceGoal: public BasicGoal
 
 public:
     ResourceGoal();
+    ResourceGoal(std::string aDescription, int controlNumber, Enums::ResourceTypes aResourceType);
     void setResourceType(Enums::ResourceTypes resType);
     virtual bool checkCondition() override;
     Enums::ResourceTypes getResourceType();

@@ -32,6 +32,7 @@ class MobModel: public DestructibleObject
 		ar & BOOST_SERIALIZATION_NVP(attackDistance);
 		ar & BOOST_SERIALIZATION_NVP(moveSpeed);
         ar & BOOST_SERIALIZATION_NVP(reloadTimeMaximum);
+        ar & BOOST_SERIALIZATION_NVP(damageArea);
 		ar & BOOST_SERIALIZATION_NVP(enemyTags);
         ar & boost::serialization::make_nvp("Abilities", mobAbilitiesNames);
         ar & boost::serialization::make_nvp("price", price);
@@ -44,7 +45,7 @@ class MobModel: public DestructibleObject
 public:
 	MobModel();
 	MobModel(string aName, string aTag,
-			int aMaxHealth, int aProtection[], int damage[], double distance, double speed, list<string> enemiesTags);
+            int aMaxHealth, int aProtection[], int damage[], double distance, double speed, double aReloadTime, int aDamageArea, list<string> enemiesTags);
 	virtual ~MobModel();
 
 	MobModel(const MobModel& right);
@@ -88,14 +89,19 @@ public:
     list<string>& getAbilitiesNames();
 
     int* getPrice();
+    int getDamageArea() const;
+    void setDamageArea(int value);
+
 private:
 
-	pair<int, int> attackDamage[DestructibleObject::damageTypesCount];
+    pair<int, int> attackDamage[DestructibleObject::damageTypesCount];
 	pair<double, double> attackDistance;
 	pair<double, double> moveSpeed;
-	list<string> enemyTags;
+
 	pair<double, double> reloadTimeMaximum;
-	double reloadTime;
+    double reloadTime;
+    int damageArea;
+    list<string> enemyTags;
     bool isVisible;
 	//int x, y;
 

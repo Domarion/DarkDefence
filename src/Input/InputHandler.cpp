@@ -30,5 +30,6 @@ bool InputHandler::canDrag() const
 
 bool InputHandler::containsPoint(int x, int y) const
 {
-	return false;
+    return false;
 }
+

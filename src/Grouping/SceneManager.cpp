@@ -12,7 +12,7 @@ using std::cout;
 using std::endl;
 
 SceneManager::SceneManager()
-:currentScene(nullptr)
+: currentScene(nullptr)
 {
 
 }
@@ -21,7 +21,9 @@ SceneManager::~SceneManager()
 {
 
 	for(auto i = scenes.begin(); i != scenes.end(); ++i)
-		delete scenes[i->first];
+        delete scenes.at(i->first);
+
+    scenes.clear();
 
     currentScene = nullptr;
 }
@@ -35,34 +37,30 @@ Scene* SceneManager::getCurrentScene() const
 void SceneManager::addScene(Scene* scene, const string name)
 {
 	scenes[name] = scene;
-	if (scenes.size() == 1)
-	{
-
-		setCurrentScene(scenes.begin()->second);
-
-	}
 }
 
-void SceneManager::setCurrentScene(Scene* value, bool cleanFlag)
+void SceneManager::setCurrentScene(Scene* value, bool cleanFlag)//TODO:: cleanFlag?
 {
 	InputDispatcher::getInstance()->clearHandlers();
 	if (currentScene != nullptr )//&& cleanFlag)
 	{
     //	currentScene->finalizeScene();
 	}
+
 	currentScene = value;
-    if (currentScene == nullptr)
-        std::cout << "currentScene is NULL" << std::endl;
-    else
+
+    if (currentScene != nullptr)
         currentScene->initScene(this);
+    else
+        std::cout << "currentScene is NULL" << std::endl;
 }
 
 void SceneManager::setCurrentSceneByName(std::string name)
 {
 
-	if (currentScene != scenes[name])
+    if (currentScene != scenes.at(name))
     {
         std::cout << "Scene name = " << name << std::endl;
-		setCurrentScene(scenes[name]);
+        setCurrentScene(scenes.at(name));
     }
 }

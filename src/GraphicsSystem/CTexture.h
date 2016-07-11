@@ -7,18 +7,17 @@
 #include <memory>
 
 class CTexture: public IDrawable
-
 {
 public:
 
     CTexture(SDL_Texture* aTexture, const SDL_Rect& newRect);
-    CTexture(SDL_Texture* aTexture = nullptr);
-    CTexture(const string& filename);
+    explicit CTexture(SDL_Texture* aTexture = nullptr);
+    explicit CTexture(const string& filename);
 
     virtual ~CTexture();
     void free();
     virtual void draw() override;
-
+    virtual void drawPart(SDL_Rect*  clip);
 
     void setTextureFromSurface(SDL_Surface* surface);
 
