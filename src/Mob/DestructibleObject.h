@@ -34,6 +34,8 @@ class DestructibleObject//: public Subject
 			//for (int i = 0; i < DestructibleObject::damageTypesCount; ++i)
 
             ar & boost::serialization::make_nvp("attack", attackProtection);
+
+            Alive = true;
 			//ar & attackProtection;
 		}
 public:

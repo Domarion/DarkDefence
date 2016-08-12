@@ -108,6 +108,9 @@ SDL_Texture * Renderer::textToTexture(TTF_Font * font, string text, Uint8 r, Uin
 
 SDL_Texture * Renderer::textToTexture(TTF_Font * font, string text, SDL_Color color)
 {
+    if (font == nullptr)
+        return nullptr;
+
     SDL_Surface* tempSurface = TTF_RenderUTF8_Solid(font, text.c_str(), color);
 
     SDL_Texture* resultingTexture = getTextureFromSurface(tempSurface);

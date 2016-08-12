@@ -79,7 +79,7 @@ void InventoryController::initView()
 
 		view->addItem(btn);
 	}
-    view->ConnectMethod(std::bind( &Inventory::sendItem, model, std::placeholders::_1) );
+    view->ConnectMethod(std::bind( &InventoryController::sendItemToModel, this, std::placeholders::_1) );
     model->ConnectReceiver(std::bind( &InventoryController::receiveItemFromModel, this, std::placeholders::_1, std::placeholders::_2) );
     view->calculateVisibleItemsPositions();
 }
@@ -114,5 +114,17 @@ void InventoryController::receiveItemFromModel(string caption, size_t itemType)
 
     view->addItem(btn);
     view->calculateVisibleItemsPositions();
+
+}
+
+bool InventoryController::sendItemToModel(int index)
+{
+   if (model->sendItem(index))
+   {
+       view->removeItem(index);
+       return true;
+   }
+
+   return false;
 
 }

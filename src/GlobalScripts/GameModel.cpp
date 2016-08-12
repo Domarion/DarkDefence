@@ -64,16 +64,7 @@ void GameModel::loadMonsterList(string filename)
         boost::archive::xml_iarchive xmlinp(str);
         xmlinp >> boost::serialization::make_nvp("Monsters",monsterCollection);
     }
-/*
-    ifstream somestream(filename);
-    if (somestream.good())
-    {
-        boost::archive::xml_iarchive xmlinp(somestream);
-        xmlinp >> boost::serialization::make_nvp("Monsters",monsterCollection);
-    }
 
-
-    somestream.close();*/
 
 
 	for(auto i = monsterCollection.begin(); i != monsterCollection.end(); ++i)
@@ -111,35 +102,9 @@ void GameModel::loadMonsterPointsList(string filename)
 
         }
     }
-
-
-   /* ifstream pointStream( filename);
-
-    if (pointStream.good())
-    {
-         int n;
-         pointStream >> n;
-         for(int i = 0; i < n; ++i)
-         {
-             string str;
-             int val;
-             pointStream >> str >> val;
-             monsterPointsMap[str] =  val;
-
-         }
-    }
-    pointStream.close();*/
 }
 
 
-
-/*void GameModel::deserialize(MobModel& obj, string filename)
-{
-
-    //
-
-
-}*/
 
 void GameModel::loadTowerUpgrades(string filename)
 {
@@ -154,25 +119,10 @@ void GameModel::loadTowerUpgrades(string filename)
 
 
         boost::archive::xml_iarchive xmlinp(str);
+
         xmlinp >> boost::serialization::make_nvp("TowerTree", towerUpgradesRootNode);
     }
 
-
-
-    /*
-	ifstream towerStream(filename);
-
-	std::cout << "ALL GOOD" << std::endl;
-	if (towerStream.good())
-	{
-
-		boost::archive::xml_iarchive xmlinp(towerStream);
-        xmlinp >> boost::serialization::make_nvp("TowerTree", towerUpgradesRootNode);
-
-	}
-	std::cout << "ALL GOOD2" << std::endl;
-	towerStream.close();
-*/
 
 }
 
@@ -269,7 +219,7 @@ void GameModel::addItemToInventoryByName(string name)
     std::cout << "rewItemName = " << name << std::endl;
     ItemModel* item =shop.getItemByName(name);
     if (item != nullptr)
-    inventory.addItem(*item);
+        inventory.addItem(*item);
 }
 
 bool GameModel::canSpawn() const

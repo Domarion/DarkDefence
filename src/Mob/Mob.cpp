@@ -10,12 +10,17 @@
 
 
 
-Mob::Mob(MobModel* model)
-:mobModel(model), mobAI(new AIComponent(this)), mobEffectReceiver(new MobEffectReceiver())
+Mob::Mob(MobModel* model, TileMapManager* aTileMapPtr)
+:mobModel(model),
+  mobEffectReceiver(new MobEffectReceiver()), tileMapPtr(aTileMapPtr), mobAI(new AIComponent(this))
 {
 	// TODO Auto-generated constructor stub
 
     mobEffectReceiver->init(mobModel);
+   if ( tileMapPtr == nullptr)
+   {
+       std::cout << "Mob_tileNullptr" << std::endl;
+   }
 }
 
 void Mob::init(int x, int y)
@@ -26,7 +31,7 @@ void Mob::init(int x, int y)
     {
         //mobAI->setSprite(spriteModel);
         //mobAI->setScene(parentScenePtr);
-
+       //this->setTileMapManager( getParentScene()->getTileMap());
     }
 
     if (mobModel->getTag() == "Monster")
@@ -65,6 +70,7 @@ Mob::~Mob()
     delete mobAI;
     delete mobModel;
     delete mobEffectReceiver;
+    tileMapPtr = nullptr;
     //finalize();
 
 }
@@ -110,6 +116,20 @@ int Mob::calculateDistanceSqr(Mob *other)
     int diffY = this->getY() - other->getY();
 
     return diffX*diffX + diffY*diffY;
+}
+
+TileMapManager *Mob::getTileMapManager() const
+{
+    if (tileMapPtr == nullptr)
+    {
+        std::cout << "getTileMapManager nullptr " << this->getTag() << std::endl;
+    }
+    return tileMapPtr;
+}
+
+void Mob::setTileMapManager(TileMapManager *aTileMapPtr)
+{
+    tileMapPtr = aTileMapPtr;
 }
 
 

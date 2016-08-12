@@ -10,7 +10,7 @@
 
 MobModel::MobModel()
 :DestructibleObject(), attackDistance(0.0, 0.0),
-  moveSpeed(0.0, 0.0), reloadTimeMaximum(0.0, 0.0), reloadTime(0.0), isVisible(true)
+  moveSpeed(0.0, 0.0), reloadTimeMaximum(0.0, 0.0), reloadTime(0.0), damageArea(0), isVisible(true)
 {
 
 	// TODO Auto-generated constructor stub
@@ -68,6 +68,9 @@ MobModel::MobModel(string aName, string aTag, int aMaxHealth,
 		attackDamage[i].second = 0;
 	}
 
+    for(int i = 0; i < DestructibleObject::damageTypesCount; ++i)
+        price[i] = 0;
+
 
 }
 
@@ -81,6 +84,8 @@ MobModel::MobModel(const MobModel& right)
 	for(int i = 0; i < DestructibleObject::damageTypesCount; ++i)
 		attackProtection[i] = right.attackProtection[i];
     */
+    if (this != &right)
+    {
 	for(int i = 0; i < DestructibleObject::damageTypesCount; ++i)
 		attackDamage[i] = right.attackDamage[i];
 	attackDistance = right.attackDistance;
@@ -90,6 +95,10 @@ MobModel::MobModel(const MobModel& right)
     mobAbilitiesNames = right.mobAbilitiesNames;
     for(int i = 0; i < DestructibleObject::damageTypesCount; ++i)
         price[i] = right.price[i];
+
+    isVisible = right.isVisible;
+
+    }
 
 }
 

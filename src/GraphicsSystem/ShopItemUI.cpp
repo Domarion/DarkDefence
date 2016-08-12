@@ -3,12 +3,6 @@
 ShopItemUI::ShopItemUI()
     :CTexture()
 {
-   /*CTexture icon;
-    Label caption;
-    Label description;
-    Label buyButton;
-    */
-
 }
 
 ShopItemUI::~ShopItemUI()

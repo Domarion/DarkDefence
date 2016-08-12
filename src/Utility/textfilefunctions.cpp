@@ -1,5 +1,6 @@
 #include "textfilefunctions.h"
 #include <SDL_rwops.h>
+#include <iostream>
 namespace androidText
 {
 
@@ -28,6 +29,8 @@ void loadTextFileToString(string filename, string& destString)
 
         delete[] destination;
     }
+    else
+        std::cout << "Nothing on path: " << filename1 << std::endl;
     SDL_RWclose(ooops);
 }
 

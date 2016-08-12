@@ -10,7 +10,7 @@
 ProgressBar::ProgressBar()
 :CTexture(), frontTexture(nullptr)
 {
-	// TODO Auto-generated constructor stub
+    // TODO Auto-generated constructor stub
     setFrontRect(0, 0, 0 , 0);
 }
 
@@ -20,7 +20,7 @@ ProgressBar::~ProgressBar()
    // if (getFrontTexture() != nullptr)
      //   SDL_DestroyTexture(getFrontTexture());
 
-	// TODO Auto-generated destructor stub
+    // TODO Auto-generated destructor stub
 }
 
 const SDL_Rect& ProgressBar::getFrontRect() const
@@ -95,13 +95,7 @@ void ProgressBar::setFrontTexture(SDL_Texture* frontTexture)
 
 void ProgressBar::draw()
 {
-	CTexture::draw();
+    CTexture::draw();
     frontTexture.draw();
-
-       // if (frontTexture != nullptr)
-        //{
-           // Renderer::getInstance()->renderTexture(frontTexture, &frontRect);
-       // }
-  //  CopyTextureToRenderer( nullptr, );
 
 }

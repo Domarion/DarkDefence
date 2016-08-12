@@ -8,10 +8,10 @@
 #include "MainScene.h"
 #include "../GraphicsSystem/UI/Label.h"
 #include <iostream>
-#include "../Input/InputDispatcher.h"
+#include "../Utility/textfilefunctions.h"
+#include <sstream>
 
 MainScene::MainScene()
-    //:arialFont(new CFont())
 
 {
 	// TODO Auto-generated constructor stub
@@ -19,17 +19,13 @@ MainScene::MainScene()
 
 MainScene::~MainScene()
 {
-	// TODO Auto-generated destructor stub
-	//listGUI.clear();
+
 
 }
 
 
 void MainScene::finalizeScene()
 {
-    //Scene::finalizeScene();
-	//listGUI.clear();
-//arialFont.~CFont();
 }
 
 
@@ -37,73 +33,77 @@ void MainScene::finalizeScene()
 
 void MainScene::initScene(SceneManager* sceneManagerPtr)
 {
-
-
     Renderer::getInstance()->setRendererDrawColor(255, 255, 255);
-	std::cout << "WhereAreYou" << std::endl;
-
-
 
 	if (wasInited == false)
 	{
         Scene::initScene(sceneManagerPtr);
-
         backGround.loadTexture("GameData/textures/castle.jpg");
         backGround.setRect(0, 0, Renderer::getInstance()->getScreenWidth(), Renderer::getInstance()->getScreenHeight());
-        listGUI.push_back(&backGround);
+        Scene::addToUIList(&backGround);
+        wasInited = true;
+    }
+        shared_ptr<CFont> FontManagerFont = FontManager::getInstance()->getFontByKind("MenuFont");
+        if (FontManagerFont.get() == nullptr)
+            std::cout << "FontManagerFont is null MenuFont" << std::endl;
 
-       // arialFont.get()->loadFromFile("Fonts/arial.ttf", 48);
-
-       // button.setFont(arialFont);
-        button.setFont(FontManager::getInstance()->getFontByKind("MenuFont"));
         int x = Renderer::getInstance()->getScreenWidth()/4;
         int y = Renderer::getInstance()->getScreenHeight()/4;
 
-        button.setRect(x, y, 200, 50);
-        button.setText("Начать игру");
-        string s1 = "MapMenuScene";
-        button.ConnectMethod(std::bind(&SceneManager::setCurrentSceneByName, sceneManagerPtr, s1));
-        y += 96;
+        loadMenuItems("GameData/MainMenu.txt");
+        menuItems.resize(itemNamesSceneNamesMapping.size());
+        for(size_t menuIndex = 0; menuIndex < menuItems.size(); ++menuIndex)
+        {
+            menuItems[menuIndex].setFont(FontManagerFont);
+            menuItems[menuIndex].setRect(x, y, 200, 50);
+            menuItems[menuIndex].setText(itemNamesSceneNamesMapping[menuIndex].first);
+            menuItems[menuIndex].ConnectMethod(std::bind(&SceneManager::setCurrentSceneByName, sceneManagerPtr, itemNamesSceneNamesMapping[menuIndex].second));
+            y += 96;
+            Scene::addToUIList(&menuItems[menuIndex]);
+        }
 
-        listGUI.push_back(&button);
-
-       // button2.setFont(arialFont);
-        button2.setFont(FontManager::getInstance()->getFontByKind("MenuFont"));
-
-        button2.setRect(x, y, 200, 50);
-        button2.setText("Магазин");
-        string s2 = "ShopScene";
-        button2.ConnectMethod(std::bind(&SceneManager::setCurrentSceneByName, sceneManagerPtr, s2));
-         y += 96;
-
-        listGUI.push_back(&button2);
-
-       // button3.setFont(arialFont);
-
-        button3.setFont(FontManager::getInstance()->getFontByKind("MenuFont"));
-        button3.setRect(x, y, 200, 50);
-        button3.setText("Инвентарь");
-        string s3 = "InventoryScene";
-        button3.ConnectMethod(std::bind(&SceneManager::setCurrentSceneByName, sceneManagerPtr, s3));
-
-
-        listGUI.push_back(&button3);
-
-        wasInited = true;
-	}
-	else
-	{
-		std::cout << listGUI.size() << std::endl;
-	}
-	InputDispatcher::getInstance()->addHandler(&button);
-	InputDispatcher::getInstance()->addHandler(&button2);
-	InputDispatcher::getInstance()->addHandler(&button3);
 }
 
 void MainScene::startUpdate(double timestep)
 {
     Scene::startUpdate(timestep);
 
+}
+
+void MainScene::loadMenuItems(string filename)
+{
+   string destString;
+   androidText::loadTextFileToString(filename, destString);
+
+   if (!destString.empty())
+   {
+        std::istringstream str(destString);
+
+        size_t n  = 0;
+
+        str >> n;
+        string str2;
+        std::getline(str, str2);
+        if (n > 0)
+        {
+            itemNamesSceneNamesMapping.resize(n);
+
+            for(size_t i = 0; i < n; ++i)
+            {
+                string item;
+               // str >> item;
+
+                std::getline(str, item);
+                std::cout << std::noskipws << item << std::endl;
+                size_t firstEnd = item.find('=');
+                string itemName = item.substr(0, firstEnd);
+                string sceneName = item.substr(firstEnd + 1, item.size() - firstEnd);
+                itemNamesSceneNamesMapping[i] = std::make_pair(itemName, sceneName);
+
+            }
+        }
+
+   }
 }
 
 

@@ -110,7 +110,7 @@ private:
 	Inventory inventory;
 	ResourcesModel* resourcesModelPtr;
 	map<string, MobModel> monstersModelsMap;
-	TreeNode<MobModel> towerUpgradesRootNode;
+    TreeNode<MobModel> towerUpgradesRootNode;
     Reward missionReward;
     vector<string> abilitiesNames;
     map<string, int> monsterPointsMap;

@@ -22,7 +22,7 @@ template<typename T>
 inline bool TreeNode<T>::addChild(string itemname, TreeNode<T>& item)
 {
 
-	children.insert(std::make_pair(itemname, item));
+    children.insert(std::make_pair(itemname, item));
 
 
 	return true;//TODO: ??
@@ -38,7 +38,7 @@ inline bool TreeNode<T>::addChildData(string itemname, T& nodeData)
 
 
 template<typename T>
-inline bool TreeNode<T>::removeChild(TreeNode<T>& item)//TODO:implement
+inline bool TreeNode<T>::removeChild(TreeNode<T> &item)//TODO:implement
 {
 	return false;
 
@@ -47,7 +47,7 @@ inline bool TreeNode<T>::removeChild(TreeNode<T>& item)//TODO:implement
 
 template<typename T>
 inline bool TreeNode<T>::addChildtoParent(string parentname, string itemname,
-		 TreeNode<T>& item)
+         TreeNode<T> &item)
 {
 	if (parentname == itemname)
 		return false;

@@ -54,6 +54,7 @@ public:
     std::list<std::string> getGoalsNeeded();
     std::list<BasicGoal*>& getGoals();
     Reward& getReward();
+
 private:
 	std::string caption;
 	std::string description;

@@ -14,7 +14,7 @@ class TowerFabric
 public:
     TowerFabric();
     ~TowerFabric();
-    Tower* produceTower(string towerName, TowerUpgradeController* upgrader = nullptr);
+    Tower* produceTower(string towerName, TowerUpgradeController* upgrader = nullptr, TileMapManager *aTileMap = nullptr);
 private:
     vector< Tower* > producedTowers;
 };

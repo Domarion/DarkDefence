@@ -17,5 +17,9 @@ private:
     TextButton button;
     Label ScoreLabel;
     vector< CompositeLabel* > rewardViews;
+
+    // Scene interface
+public:
+    virtual void resetState() override;
 };
 

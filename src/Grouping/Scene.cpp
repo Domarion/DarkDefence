@@ -17,9 +17,6 @@ using std::list;
 Scene::Scene()
 :listGUI(), sceneObjects(), parentSceneManager(nullptr), wasInited(false)
 {
-
-	// TODO Auto-generated constructor stub
-
 }
 
 void Scene::initScene(SceneManager* sceneManagerPtr)
@@ -37,13 +34,15 @@ void Scene::finalizeScene()
         if (*iter1 != nullptr)
             delete (*iter1);
 
+    sceneObjects.clear();
 
     list<IDrawable*>::iterator  iter2 = listGUI.begin();
     list<IDrawable*>::iterator end2 = listGUI.end();
     for(;iter2 != end2; ++iter2)
         delete (*iter2);
 
-	wasInited = true;
+    listGUI.clear();
+    wasInited = false;
 
     parentSceneManager = nullptr;
 }
@@ -56,10 +55,13 @@ Scene::~Scene()
 
 void Scene::copyToRender() const
 {
-    list<IDrawable*>::const_iterator  const_iter = listGUI.begin();
-    list<IDrawable*>::const_iterator end = listGUI.end();
-	for(;const_iter != end; ++const_iter)
-		(*const_iter)->draw();
+    for(auto sceneObject : sceneObjects)
+        if (sceneObject != nullptr && sceneObject->getSprite() != nullptr )
+            sceneObject->getSprite()->draw();
+
+    for(auto guiItem : listGUI)
+        if (guiItem != nullptr)
+            guiItem->draw();
 }
 
 void Scene::startUpdate(double timestep)
@@ -108,6 +110,11 @@ void Scene::addToUIList(IDrawable *item)
         return;
 
     listGUI.push_back(item);
+
+    InputHandler* handler = dynamic_cast<InputHandler*>(item);
+
+    if (handler != nullptr)
+            InputDispatcher::getInstance()->addHandler(handler);
 }
 
 void Scene::removeFromUIList(IDrawable *item)
@@ -116,6 +123,16 @@ void Scene::removeFromUIList(IDrawable *item)
         return;
 
     listGUI.remove(item);
+
+    InputHandler* handler = dynamic_cast<InputHandler*>(item);
+
+    if (handler != nullptr)
+        InputDispatcher::getInstance()->removeHandler(handler);
+}
+
+void Scene::clearUIList()
+{
+    listGUI.clear();
 }
 
 
@@ -186,6 +203,12 @@ list<SceneObject *> *Scene::findObjectsWithPos(int x, int y)
         delete filteredList;
         return nullptr;
     }
+
     return filteredList;
 
+}
+
+void Scene::resetState()
+{
+    finalizeScene();
 }

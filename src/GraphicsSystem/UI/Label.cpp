@@ -6,7 +6,9 @@
  */
 
 #include "Label.h"
-
+#include <iostream>
+using std::cout;
+using std::endl;
 
 
 Label::Label(const string &lText, std::shared_ptr<CFont> lFont)
@@ -81,7 +83,7 @@ void Label::loadTexture(const string& filename)
 
 string Label::getText() const
 {
-	return text;
+    return text;
 }
 
 void Label::setText(const string& value)
@@ -89,12 +91,20 @@ void Label::setText(const string& value)
     if (text != value)
     {
         text = value;
-        texture.setTextureFromText(text, font);
+
+
+        if (font.get() == nullptr || font.get()->getFont() == nullptr)
+            cout << "font is null" << endl;
+        else
+            texture.setTextureFromText(text, font);
     }
 }
 
-void Label::setFont(std::shared_ptr<CFont> value)
+void Label::setFont(std::shared_ptr<CFont>& value)
 {
+    std::cout << "Entering setFont" << std::endl;
+    if (value.get() == nullptr)
+        std::cout << "In setFont font is null" << std::endl;
     font = value;
 }
 

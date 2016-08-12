@@ -21,7 +21,7 @@ public:
 
 
 private:
-    Tower(MobModel* model);
+    Tower(MobModel* model, TileMapManager* aTileMapPtr = nullptr);
     virtual ~Tower();
     std::function<void(Tower*, int x, int y)> connectedMethod;
 };

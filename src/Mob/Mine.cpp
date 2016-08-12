@@ -45,7 +45,7 @@ bool Mine::update(double timestep)
 
 void Mine::finalize()
 {
-
+    delete model;
 }
 
 DestructibleObject *Mine::getDestructibleObject()

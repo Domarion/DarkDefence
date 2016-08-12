@@ -12,15 +12,15 @@
 class ProgressBar: public CTexture
 {
 public:
-	ProgressBar();
-	virtual ~ProgressBar();
+    ProgressBar();
+    virtual ~ProgressBar();
     const SDL_Rect& getFrontRect() const;
-	SDL_Texture* getFrontTexture() const;
-	void setFrontTexture(SDL_Texture* frontTexture);
-	virtual void draw() override;
+    SDL_Texture* getFrontTexture() const;
+    void setFrontTexture(SDL_Texture* frontTexture);
+    virtual void draw() override;
     virtual void setRect(const SDL_Rect& value) override;
     virtual void setRect(int x, int y, int w, int h) override;
-	void calculateFront(int current, int max);
+    void calculateFront(int current, int max);
 
 private:
     void setFrontRect(const SDL_Rect& value);

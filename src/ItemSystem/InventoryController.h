@@ -21,6 +21,7 @@ public:
     Inventory* getModel() const;
 	void initView();
     void receiveItemFromModel(string caption, size_t itemType);
+    bool sendItemToModel(int index);
 private:
 	Inventory* model;
 	ScrollList* view;

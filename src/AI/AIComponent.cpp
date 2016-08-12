@@ -41,7 +41,7 @@ void AIComponent::MakeDecision(double timestep)
 			Select();
 			break;
 		case aiMOVE:
-            Move(timestep);
+            MovetoTile(timestep);
 			break;
 		case aiATTACK:
 			Attack();
@@ -115,21 +115,94 @@ void AIComponent::Select()
 		aiMobState = AIMobStates::aiMOVE;
 }
 
-void AIComponent::Move(double timestep)
+/*void AIComponent::Move(double timestep)
 {
+    static pair<int, int> nextCell = std::make_pair<int, int>(-1, -1);
 	if (currentTarget == nullptr)
+    {
 		aiMobState = AIMobStates::aiSELECT;
+        nextCell.first = -1;
+        nextCell.second = -1;
+    }
 	else
 	{
+
+
         int distanceSqr = MobPtr->computeDistanceSqr(currentTarget);
         std::cout << distanceSqr << std::endl;
         if (MobPtr->getModel()->checkDistance(distanceSqr))
             aiMobState = AIMobStates::aiATTACK;
         else
             MoveIt(timestep);
+        if (MobPtr->getModel()->getMoveSpeed().first < 1e-3)
+            return;
+
+        TileMapManager* tilemapPtr = MobPtr->getTileMapManager();
+        if (tilemapPtr == nullptr)
+        {
+           std::cout << "tilemap is null, baby" << std::endl;
+           return;
+        }
+        SDL_Point mobPos = tilemapPtr->getPosFromGlobalCoords(MobPtr->getX(), MobPtr->getY());
+         std::cout << "MobPosGX = " << (MobPtr->getX()) << " MobPosGY = " << (MobPtr->getY()) << std::endl;
+        std::cout << "MobPosX = " << mobPos.x << " MobPosY = " << mobPos.y << std::endl;
+        SDL_Point targetPos = tilemapPtr->getPosFromGlobalCoords(currentTarget->getX(), currentTarget->getY());
+        std::cout << "TGPosX = " << (currentTarget->getX()) << " TGPosY = " << (currentTarget->getY()) << std::endl;
+           std::cout << "TPosX = " << targetPos.x << " TPosY = " << targetPos.y << std::endl;
+        if (abs(mobPos.x - targetPos.x) <= 1 && abs(mobPos.y - targetPos.y) <= 1)
+              aiMobState = AIMobStates::aiATTACK;
+        else
+        {
+            const double EPSem3 = 1e-3;
+            if (MobPtr->getModel()->getMoveSpeed().first > EPSem3 &&
+                    (nextCell.first == -1 || (nextCell.first == mobPos.x && nextCell.second == mobPos.y)))
+            {
+
+                //std::cout << "can move!" << std::endl;
+                pair<int, int> endVertex =  {targetPos.x, targetPos.y};
+                bool canBuildPath = tilemapPtr->waveAlgo(std::make_pair(mobPos.x, mobPos.y),
+                                     endVertex);
+
+                if (canBuildPath)
+                {
+                    std::cout << "can move!" << std::endl;
+                    list<pair<int, int> > *path = tilemapPtr->getPath(endVertex);
+                    nextCell = path->back();
+
+                    delete path;
+
+                }
+                else
+                {
+                    nextCell.first = -1;
+                    nextCell.second = -1;
+                   aiMobState = AIMobStates::aiSELECT;
+                }
+            }
+            else
+                if (nextCell.first >= 0 && nextCell.second >= 0)
+                {
+                    std::cout << "i'm herer nextCell >0" << std::endl;
+
+                    SDL_Point nextCellGlobalPos = tilemapPtr->getGlobalPosFromLocalCoords(nextCell.first, nextCell.second);
+
+
+
+                    double spd = MobPtr->getModel()->getMoveSpeed().first * timestep*0.002;
+                    // std::cout << (MobPtr->getName()) << '\t' << (currentTarget->getWorldX() - MobPtr->getWorldX()) << std::endl;
+                    int diffX =  MobPtr->getX() +static_cast<int>((nextCellGlobalPos.x - MobPtr->getX())*spd);
+                    int diffY = MobPtr->getY()+ static_cast<int>((nextCellGlobalPos.y  - MobPtr->getY())*spd);
+                    MobPtr->setX(diffX );
+                    MobPtr->setY( diffY);
+                    // int dist = MobPtr->computeDistanceSqr(currentTarget);
+
+
+
+                }
+        }
 
 	}
-}
+}*/
 
 void AIComponent::Attack()
 {
@@ -172,7 +245,7 @@ void AIComponent::Reload(double timestep)
 	}
 }
 
-void AIComponent::MoveIt(double timestep)
+/*void AIComponent::MoveIt(double timestep)
 {
 
 
@@ -195,6 +268,85 @@ void AIComponent::MoveIt(double timestep)
                   << " attackDistance = " << (MobPtr->getModel()->getAttackDistance().first)
                   << " canAttack = " << (MobPtr->getModel()->checkDistance(dist)) << std::endl;
     }
+}
+*/
+
+void AIComponent::MovetoTile(double timestep)
+{
+
+   const static pair<int, int> emptyCell = std::make_pair<int, int>(-1, -1);
+    static pair<int, int> nextCell = emptyCell;
+    if (currentTarget == nullptr)
+    {
+        aiMobState = AIMobStates::aiSELECT;
+        nextCell = emptyCell;
+        return;
+
+    }
+
+    TileMapManager* tilemapPtr = MobPtr->getTileMapManager();
+
+    if (tilemapPtr == nullptr)
+    {
+        std::cout << "tilemap is null, baby" << std::endl;
+        return;
+    }
+
+    pair<int, int> mobPos = tilemapPtr->getPosFromGlobalCoords(MobPtr->getPos());
+    pair<int, int> targetPos = tilemapPtr->getPosFromGlobalCoords(currentTarget->getPos());
+
+    if (distanceInRange(mobPos, targetPos))
+    {
+        aiMobState = AIMobStates::aiATTACK;
+        nextCell = emptyCell;
+
+        return;
+    }
+
+    if ((MobPtr->getTag() == "Tower"))
+        return;
+
+    if ((nextCell == emptyCell)|| (nextCell == mobPos))
+    {
+        bool canBuildPath = tilemapPtr->waveAlgo(mobPos, targetPos);
+
+        if (canBuildPath)
+        {
+            list<pair<int, int> > *path = tilemapPtr->getPath(targetPos);
+            nextCell = path->back();
+
+            delete path;
+        }
+        else
+        {
+            nextCell = emptyCell;
+            aiMobState = AIMobStates::aiSELECT;
+        }
+    }
+    else
+        MoveToPos(timestep, tilemapPtr->getGlobalPosFromLocalCoords(nextCell));
+
+}
+
+void AIComponent::MoveToPos(double timestep, SDL_Point targetPoint)
+{
+    double spd = MobPtr->getModel()->getMoveSpeed().first * timestep*0.002;
+
+    int diffX =  MobPtr->getX() +static_cast<int>((targetPoint.x - MobPtr->getX())*spd);
+    int diffY = MobPtr->getY()+ static_cast<int>((targetPoint.y  - MobPtr->getY())*spd);
+
+    MobPtr->setPos(diffX, diffY);
+}
+
+
+bool AIComponent::distanceInRange(const pair<int, int> &firstPoint, const pair<int, int> &secondPoint)
+{
+    int diffX = secondPoint.first - firstPoint.first;
+    int diffY = secondPoint.second - firstPoint.second;
+    int current_distance = diffX*diffX + diffY*diffY;
+    int attackDistance = MobPtr->getModel()->getAttackDistance().first;
+
+    return current_distance <= attackDistance;
 }
 
 

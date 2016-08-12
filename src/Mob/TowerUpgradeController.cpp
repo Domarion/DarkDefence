@@ -86,7 +86,6 @@ void TowerUpgradeController::receiveTowerUpgrade(Tower *tower)
         towerMenu.ConnectMethod(std::bind(&TowerUpgradeController::menuClickHandler, this, std::placeholders::_1));
 
         parentGameScene->addToUIList(&towerMenu);
-        InputDispatcher::getInstance()->addHandler(&towerMenu);
     }
 }
 
@@ -106,7 +105,22 @@ bool TowerUpgradeController::menuClickHandler(size_t itemIndex)
 
     std::cout << "itemIndex = " << itemIndex << std::endl;
     string towerName = currentTowerChildren[itemIndex];
-    MobModel model = GameModel::getInstance()->getRootTower()->recursiveSearch(towerName)->getData();
+    std::cout << "towername = " << towerName << std::endl;
+
+    TreeNode<MobModel>* rootTower = GameModel::getInstance()->getRootTower();
+    if (rootTower == nullptr)
+    {
+        std::cout << "rootTower is nullptr" << std::endl;
+        return false;
+
+    }
+    TreeNode<MobModel>* searchresult = rootTower->recursiveSearch(towerName);
+    if (searchresult == nullptr)
+    {
+        std::cout << "searchresult is nullptr" << std::endl;
+        return false;
+    }
+    MobModel model(searchresult->getData());
 
 
 
@@ -124,7 +138,7 @@ bool TowerUpgradeController::menuClickHandler(size_t itemIndex)
         parentGameScene->removeFromUIList(&towerMenu);
         InputDispatcher::getInstance()->removeHandler(&towerMenu);
 
-        cachedTower = fabric->produceTower(towerName, this);
+        cachedTower = fabric->produceTower(towerName, this, cachedTower->getTileMapManager());
         if (cachedTower == nullptr)
             return false;
         parentGameScene->spawnObject(x, y, cachedTower);

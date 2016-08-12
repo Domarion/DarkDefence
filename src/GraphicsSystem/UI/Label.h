@@ -14,8 +14,8 @@ class Label: public IDrawable
 public:
     Label(const string& lText, std::shared_ptr<CFont> lFont);
     Label(const string& lText);
-	Label();
-	~Label();
+    Label();
+    ~Label();
     void free();
     // IDrawable interface
 public:
@@ -30,9 +30,9 @@ public:
 
 public:
     virtual void loadTexture(const string& filename);
-	string getText() const;
+    string getText() const;
     void setText(const string& value);
-    void setFont(std::shared_ptr<CFont> value);
+    void setFont(std::shared_ptr<CFont>& value);
 
 
 private:

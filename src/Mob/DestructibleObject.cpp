@@ -63,14 +63,17 @@ DestructibleObject::DestructibleObject(string aName, string aTag,
 
 DestructibleObject::DestructibleObject(const DestructibleObject &right)
 {
-    name = right.name;
-    tag = right.tag;
-    maximumHealth = right.maximumHealth;
-    currentHealth = right.currentHealth;
+    if (this != &right)
+    {
+        name = right.name;
+        tag = right.tag;
+        maximumHealth = right.maximumHealth;
+        currentHealth = right.currentHealth;
 
-    for(int i = 0; i < DestructibleObject::damageTypesCount; ++i)
-        attackProtection[i] = right.attackProtection[i];
-    Alive = right.Alive;
+        for(int i = 0; i < DestructibleObject::damageTypesCount; ++i)
+            attackProtection[i] = right.attackProtection[i];
+        Alive = right.Alive;
+    }
 }
 
 int DestructibleObject::getMaximumHealth() const

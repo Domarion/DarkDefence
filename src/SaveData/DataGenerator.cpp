@@ -143,6 +143,7 @@ void DataGenerator::saveMonsterCollection()
     const int health = 100;
     int protection[] = {10, 5, 0, 0};
     int damage[] = {20, 0, 0, 5};
+
     int attackDistance = 100;//TODO:единицы измерения?
     int moveSpeed = 0.5;//TODO::единицы измерения?
     int reloadTime = 3000; //миллисекунд

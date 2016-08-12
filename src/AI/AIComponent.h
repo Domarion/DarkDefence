@@ -10,10 +10,14 @@
 #include "../Mob/Mob.h"
 #include <list>
 using std::list;
+#include <SDL_rect.h>
+#include <utility>
+using std::pair;
 
 //#include "../AbilitySystem/MobAbilities/MobAbility.h"
 class Mob;
 class SceneObject;
+
 class AIComponent
 {
 public:
@@ -21,6 +25,7 @@ public:
     virtual ~AIComponent();
 	virtual void MakeDecision(double timestep);
     SceneObject* getCurrentTarget();
+
    // void initMobAbilities();
 protected:
     Mob* MobPtr;
@@ -32,11 +37,16 @@ protected:
 private:
 	void Search();
 	void Select();
-    void Move(double timestep);
+    //void Move(double timestep);
     void Attack();
 	void Reload(double timestep);
-    void MoveIt(double timestep);
+    //void MoveIt(double timestep);
+    void MovetoTile(double timestep);
+
+    void MoveToPos(double timestep, SDL_Point targetPoint);
     //bool Cast();
+
+    bool distanceInRange(const pair<int, int>& firstPoint, const pair<int, int>& secondPoint);
 
 
 };

@@ -34,6 +34,8 @@ void MissionView::init(Mission& missionRef, std::shared_ptr<CFont> arialFont)
     missionName.setRect(0, y, 100, 50);
     missionName.setText(missionRef.getCaption());
     y += 60;
+
+
     missionDescription.setFont(arialFont);
     missionDescription.setRect(0, y, 200, 50);
     missionDescription.setText(missionRef.getDescription());
@@ -109,5 +111,17 @@ void MissionView::draw()
     for(auto lst2 = rewardList.begin(); lst2 != rewardList.end(); ++lst2)
         (*lst2)->draw();
 
+}
+
+void MissionView::finalize()
+{
+    missionName.free();
+    missionDescription.free();
+    for(auto lst = missionGoals.begin(); lst != missionGoals.end(); ++lst)
+        delete (*lst);
+    missionGoals.clear();
+    for(auto lst2 = rewardList.begin(); lst2 != rewardList.end(); ++lst2)
+         delete (*lst2);
+    rewardList.clear();
 }
 

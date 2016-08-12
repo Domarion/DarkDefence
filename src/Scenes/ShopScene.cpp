@@ -7,7 +7,6 @@
 
 #include "ShopScene.h"
 #include "../GlobalScripts/GameModel.h"
-#include "../Input/InputDispatcher.h"
 #include "../GlobalScripts/AccountModel.h"
 ShopScene::ShopScene()
    // :arialFont(new CFont())
@@ -30,7 +29,7 @@ void ShopScene::initScene(SceneManager* sceneManagerPtr)
         std::cout << "ShopScene" << std::endl;
         backGround.loadTexture("GameData/textures/shopBackground.jpg");
         backGround.setRect(0, 0, Renderer::getInstance()->getScreenWidth()*0.6, Renderer::getInstance()->getScreenHeight() - 50);
-        listGUI.push_back(&backGround);
+        Scene::addToUIList(&backGround);
 
         GameModel::getInstance()->loadShopItems("GameData/Items.xml");
 
@@ -46,7 +45,7 @@ void ShopScene::initScene(SceneManager* sceneManagerPtr)
         shopController.setView(&scroll);
         shopController.initView();
 
-        listGUI.push_back(&scroll);
+        Scene::addToUIList(&scroll);
 
 
         //arialFont.get()->loadFromFile("Fonts/arial.ttf", 24);
@@ -58,24 +57,23 @@ void ShopScene::initScene(SceneManager* sceneManagerPtr)
         string s1 = "MainScene";
         button.ConnectMethod(std::bind(&SceneManager::setCurrentSceneByName, sceneManagerPtr, s1));
 
-        listGUI.push_back(&button);
+        Scene::addToUIList(&button);
 
         goldCoins.setFont(FontManager::getInstance()->getFontByKind("TextFont"));
         string sss1 = std::to_string(AccountModel::getInstance()->getGoldAmount());
         goldCoins.setText(sss1);
         goldCoins.setPos(button.getRect().x - goldCoins.getRect().w - 10, button.getRect().y);
 
-        listGUI.push_back(&goldCoins);
+        Scene::addToUIList(&goldCoins);
 
         sceneName.setFont(FontManager::getInstance()->getFontByKind("TextFont"));
         string sss2 = "Мистическая лавка";
         sceneName.setText(sss2);
         sceneName.setPos(goldCoins.getRect().x - sceneName.getRect().w -100, goldCoins.getRect().y);
-        listGUI.push_back(&sceneName);
+        Scene::addToUIList(&sceneName);
 
 	}
-	InputDispatcher::getInstance()->addHandler(&scroll);
-	InputDispatcher::getInstance()->addHandler(&button);
+
 }
 
 void ShopScene::finalizeScene()

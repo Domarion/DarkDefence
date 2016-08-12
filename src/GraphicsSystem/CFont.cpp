@@ -1,6 +1,7 @@
 #include "CFont.h"
 #include "../GlobalScripts/Renderer.h"
 #include "../Utility/textfilefunctions.h"
+#include <iostream>
 
 CFont::CFont(TTF_Font *ttfFont)
     :font( ttfFont ), fontColor({0, 0, 0, 255}), fontSize(0)
@@ -8,7 +9,7 @@ CFont::CFont(TTF_Font *ttfFont)
 }
 
 CFont::CFont(string fontPath, int size, Uint8 r, Uint8 g, Uint8 b)
-    :fontColor({r, g, b, 255})
+    :font(nullptr), fontColor({r, g, b, 255}), fontSize(size)
 {
     loadFromFile(fontPath, size);
 }
@@ -63,4 +64,6 @@ TTF_Font *CFont::getFont() const
 void CFont::setFont(TTF_Font *value)
 {
     font = value;
+    if (font == nullptr)
+        std::cout << "setFont nullfont" << std::endl;
 }

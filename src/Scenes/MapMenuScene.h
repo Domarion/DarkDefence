@@ -24,4 +24,8 @@ private:
     TextButton backButton;
     MapIndicator mapIndicator;
 
+
+    // Scene interface
+public:
+    virtual void resetState() override;
 };

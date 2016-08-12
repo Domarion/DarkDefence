@@ -16,14 +16,14 @@
 class TextButton: public Label, public InputHandler
 {
 public:
-	TextButton();
-	virtual ~TextButton();
-	virtual bool onClick(SDL_Point* point) override;
+    TextButton();
+    virtual ~TextButton();
+    virtual bool onClick(SDL_Point* point) override;
 
-	virtual void ConnectMethod(std::function<void(std::string)> method);
+    virtual void ConnectMethod(std::function<void(std::string)> method);
 
 protected:
-	std::function<void(std::string)> connectedMethod;
+    std::function<void(std::string)> connectedMethod;
 
 };
 

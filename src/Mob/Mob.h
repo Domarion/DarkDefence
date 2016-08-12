@@ -17,6 +17,7 @@
 
 #include "../AbilitySystem/MobAbilities/MobAbility.h"
 
+#include "../GlobalScripts/TileMapManager.h"
 class MobSpawner;
 
 class AIComponent;
@@ -45,14 +46,18 @@ public:
     virtual MobModel* getModel() const;
     int calculateDistanceSqr(Mob* other);
     //DestructibleObject* getCurrentTarget();
+    TileMapManager* getTileMapManager() const;
+    void setTileMapManager(TileMapManager* aTileMapPtr);
 protected:
-    Mob(MobModel* model);
+    Mob(MobModel* model, TileMapManager* aTileMapPtr = nullptr);
     virtual ~Mob();
 
     MobModel* mobModel;
 
-	AIComponent* mobAI;
+
     MobEffectReceiver* mobEffectReceiver;
+    TileMapManager* tileMapPtr;
+    AIComponent* mobAI;
 
 };
 

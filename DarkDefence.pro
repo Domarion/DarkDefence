@@ -99,7 +99,8 @@ SOURCES += \
     src/GraphicsSystem/GraphicsManager.cpp \
     src/AbilitySystem/ItemAbilities/ItemAbilitiesStorage.cpp \
     src/AbilitySystem/SpellStorage.cpp \
-    src/SaveData/DataGenerator.cpp
+    src/SaveData/DataGenerator.cpp \
+    src/GlobalScripts/TileMapManager.cpp
 
 HEADERS += \
     src/AI/AIComponent.h \
@@ -202,7 +203,9 @@ HEADERS += \
     src/GlobalConstants.h \
     src/AbilitySystem/ItemAbilities/ItemAbilitiesStorage.h \
     src/AbilitySystem/SpellStorage.h \
-    src/SaveData/DataGenerator.h
+    src/SaveData/DataGenerator.h \
+    src/GlobalScripts/TileMapManager.h \
+    src/Utility/Size.h
 
 unix:!macx: LIBS += -L$$PWD/../../../../usr/lib64/ -lboost_serialization
 

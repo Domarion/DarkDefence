@@ -10,7 +10,7 @@
 #include "Mob.h"
 #include <utility>
 #include <vector>
-
+#include "../GlobalScripts/TileMapManager.h"
 class Mob;
 class MobSpawner//: SceneObjectFabric
 {
@@ -19,7 +19,7 @@ public:
 	virtual ~MobSpawner();
     void loadWavesInfo(string filename);
 	bool canSpawn(double timestep);
-    list<SceneObject*> * doSpawn();
+    list<Mob*> * doSpawn(TileMapManager* aTileMap = nullptr);
     bool noMoreWaves() const;
     double getCurrentTime() const;
 

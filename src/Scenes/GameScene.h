@@ -12,7 +12,6 @@
 #include "../GraphicsSystem/UI/AnimatedSprite.h"
 #include "../GraphicsSystem/UI/GroupBox.h"
 #include "../GraphicsSystem/UI/CompositeLabel.h"
-//#include "../GraphicsSystem/UI/TextButton.h"
 #include "../GraphicsSystem/UI/ImageButton.h"
 #include "../GraphicsSystem/UI/ProgressBar.h"
 
@@ -29,6 +28,7 @@ using std::vector;
 #include "../Mob/TowerUpgradeController.h"
 #include "../AbilitySystem/ItemAbilities/ItemAbilitiesStorage.h"
 
+
 class GameScene: public Scene
 {
 public:
@@ -37,15 +37,15 @@ public:
     virtual void initScene(SceneManager* sceneManagerPtr) override;
 
 	virtual void startUpdate(double timestep) override;
-    virtual void copyToRender() const override;
 
     map<string, AbilityModel* >& getAbilityModelList();
     void ConnectMethod(std::function<void(string)> handler);
-    AbilityModel*getAbilityModelWithName(string name);
+    AbilityModel* getAbilityModelWithName(string name);
     void sendMessage(string msgText);
 private:
 
     void loadData();
+    vector<vector<int> > loadMapTemplate(string mapPath);
     SceneObjectFabric objectFabric;
     SceneObject* Terrain;
     vector<ImageButton> abilityButtons;
@@ -73,4 +73,11 @@ private:
     ImageButton resumeBtn;
     void setActiveMstones(string s);
     std::function<void(string)> method;
+
+    TileMapManager* tileMap;
+
+
+    // Scene interface
+public:
+    virtual void resetState() override;
 };

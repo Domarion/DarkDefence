@@ -33,11 +33,12 @@ public:
 
     virtual void addToUIList(IDrawable* item);
     virtual void removeFromUIList(IDrawable* item);
+    void clearUIList();
     SceneObject* findObjectByTag(std::string tag);
     list<SceneObject*> *findObjectsByTag(std::string tag);
     SceneObject* findObjectWithPos(int x, int y);
     list<SceneObject*>* findObjectsWithPos(int x, int y);
-
+    virtual void resetState();
 protected:
     list<IDrawable*> listGUI;
     list<SceneObject*> sceneObjects;

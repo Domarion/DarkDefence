@@ -7,7 +7,6 @@
 
 #include "InventoryScene.h"
 #include "../GlobalScripts/GameModel.h"
-#include "../Input/InputDispatcher.h"
 
 InventoryScene::InventoryScene()
    // :arialFont(new CFont())
@@ -31,24 +30,20 @@ void InventoryScene::initScene( SceneManager* sceneManagerPtr)
         std::cout << "ShopScene" << std::endl;
 
 
-        //GameModel::getInstance()->loadShopItems("GameData/Items.xml");
-
-        //arialFont.get()->loadFromFile("Fonts/arial.ttf", 24);
-
 
         button.setFont(FontManager::getInstance()->getFontByKind("ButtonFont"));
         button.setPos(Renderer::getInstance()->getScreenWidth() - 100, Renderer::getInstance()->getScreenHeight() - 50);
         button.setText("Назад");
         string s1 = "MainScene";
         button.ConnectMethod(std::bind(&SceneManager::setCurrentSceneByName, sceneManagerPtr, s1));
-        listGUI.push_back(&button);
+        Scene::addToUIList(&button);
 
         heroFigure.setRect(300,0, 300, 500);
         heroController.setModel(GameModel::getInstance()->getHeroInventory());
         heroController.setView(&heroFigure);
         heroController.initView();
 
-        listGUI.push_back(&heroFigure);
+        Scene::addToUIList(&heroFigure);
     }
 
     if (GameModel::getInstance()->getInventory()->getItemCount() > 0)
@@ -67,14 +62,8 @@ void InventoryScene::initScene( SceneManager* sceneManagerPtr)
         inventoryController.setView(&scroll);
         inventoryController.initView();
 
-        listGUI.push_back(&scroll);
+        Scene::addToUIList(&scroll);
     }
-
-
-
-    InputDispatcher::getInstance()->addHandler(&scroll);
-    InputDispatcher::getInstance()->addHandler(&heroFigure);
-    InputDispatcher::getInstance()->addHandler(&button);
 
 
 }

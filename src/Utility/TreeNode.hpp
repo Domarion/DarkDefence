@@ -63,10 +63,10 @@ public:
 	TreeNode(string name, string parent_name, T& newData);
 	TreeNode();
 	~TreeNode();
-	bool addChild(string itemname, TreeNode<T>& item);
+    bool addChild(string itemname, TreeNode<T>& item);
     bool addChildData(string itemname, T& nodeData);
-	bool addChildtoParent(string parentname, string itemname, TreeNode<T>& item);
-	bool removeChild(TreeNode<T>& item);
+    bool addChildtoParent(string parentname, string itemname, TreeNode<T>& item);
+    bool removeChild(TreeNode<T>& item);
     TreeNode<T>* recursiveSearch(string itemname);
     T& getData();
     void setData(const T& value);
@@ -79,7 +79,7 @@ private:
 	string nodeName;
 	string parentName;
 	T data;
-	map<string, TreeNode<T> > children;
+    map<string, TreeNode<T> > children;
 };
 
 #include "../Utility/TreeNode_impl.hpp"

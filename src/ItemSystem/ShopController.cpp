@@ -81,5 +81,15 @@ void ShopController::initView()
         view->addItem(btn);
 	}
 	view->calculateVisibleItemsPositions();
-	view->ConnectMethod(std::bind( &ShopInventory::sendItem, model, std::placeholders::_1) );
+    view->ConnectMethod(std::bind( &ShopController::sendItemToModel, this, std::placeholders::_1) );
+}
+
+bool ShopController::sendItemToModel(int index)
+{
+    if (model->sendItem(index))
+    {
+        view->removeItem(index);
+        return true;
+    }
+    return false;
 }

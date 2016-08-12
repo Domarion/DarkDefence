@@ -20,6 +20,8 @@ public:
 	void setModel(ShopInventory* newModel);
     ShopInventory*  getModel() const;
 	void initView();
+    bool sendItemToModel(int index);
+
 private:
   //  vector<std::shared_ptr<ShopItemUI> > shopItems;
 	ShopInventory* model;

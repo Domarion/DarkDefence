@@ -17,12 +17,12 @@ TowerFabric::~TowerFabric()
     producedTowers.clear();
 }
 
-Tower * TowerFabric::produceTower(std::string towerName, TowerUpgradeController* upgrader)
+Tower * TowerFabric::produceTower(std::string towerName, TowerUpgradeController* upgrader, TileMapManager* aTileMap)
 {
     MobModel* model = GameModel::getInstance()->getTowerByName(towerName);
     if (model == nullptr)
         return nullptr;
-    Tower* someMob = new Tower(model);
+    Tower* someMob = new Tower(model, aTileMap);
     AnimatedSprite* someSprite = new AnimatedSprite();
 
     someSprite->setRect(0,0, 50, 80);

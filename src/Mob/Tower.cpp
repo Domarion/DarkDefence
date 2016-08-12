@@ -20,8 +20,8 @@ bool Tower::onClick(SDL_Point *point)
     return false;
 }
 
-Tower::Tower(MobModel *model)
-    :Mob(model)
+Tower::Tower(MobModel *model, TileMapManager *aTileMapPtr)
+    :Mob(model, aTileMapPtr)
 {
 
 }

@@ -13,21 +13,21 @@
 #include "Scenes/ShopScene.h"
 #include "Scenes/ScoreScene.h"
 //#include "SaveData/DataGenerator.h"
-#include <memory>
-using std::unique_ptr;
+
 
 int main( int argc, char* args[])
 {
 
-  /*  DataGenerator dataGenerator;
+    /*DataGenerator dataGenerator;
+    dataGenerator.saveItems();
     dataGenerator.saveMission();
     dataGenerator.saveMonsterCollection();
     dataGenerator.saveTowerTree();
-    dataGenerator.saveMineCollection();
+    dataGenerator.saveMineCollection(;
 */
 
     SceneManager *sceneManager = new SceneManager();
-    unique_ptr<GameApp> app(new GameApp(sceneManager));
+    std::unique_ptr<GameApp> app(new GameApp(sceneManager));
 
     const int screenWidth = 800;
     const int screenHeight = 480;
@@ -40,18 +40,19 @@ int main( int argc, char* args[])
 	ShopScene *shopScene = new ShopScene();
     ScoreScene* scoreScene = new ScoreScene();
 
-    gameScene->ConnectMethod(std::bind(&GameApp::receiveMessage, app.get(), std::placeholders::_1));
 
-	sceneManager->addScene(mainScene, "MainScene");
+    sceneManager->addScene(mainScene, "MainScene");
     sceneManager->addScene(mapMenuScene, "MapMenuScene");
 	sceneManager->addScene(gameScene, "GameScene");
+
+    gameScene->ConnectMethod(std::bind(&GameApp::receiveMessage, app.get(), std::placeholders::_1));
 	sceneManager->addScene(inventoryScene, "InventoryScene");
 	sceneManager->addScene(shopScene, "ShopScene");
     sceneManager->addScene(scoreScene, "ScoreScene");
 
     sceneManager->setCurrentSceneByName("MainScene");
 
-    bool result = app->gameLoop();
+    int result = app->gameLoop();
 
 	return result;
 }

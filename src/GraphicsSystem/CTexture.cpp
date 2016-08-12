@@ -9,7 +9,7 @@
 #include <SDL_image.h>
 #include "../GlobalScripts/Renderer.h"
 #include "../Utility/textfilefunctions.h"
-
+#include <iostream>
 CTexture::~CTexture()
 {
     free();
@@ -87,8 +87,15 @@ void  CTexture::setTexture(SDL_Texture* value)
 
 void CTexture::setTextureFromText(string &text, std::shared_ptr<CFont> font)
 {
-    setTexture(Renderer::getInstance()->textToTexture(font.get()->getFont(),text, font.get()->getFontColor()));
-    autoScale();
+    SDL_Texture* textTexture = Renderer::getInstance()->textToTexture(font.get()->getFont(),text, font.get()->getFontColor());
+
+    if (textTexture != nullptr)
+    {
+        setTexture(textTexture);
+        autoScale();
+    }
+    else
+        std::cout << "CTexture::setTextureFromText texture is null" << std::endl;
 }
 
 void CTexture::loadTexture(const string& filename)

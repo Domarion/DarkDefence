@@ -186,8 +186,8 @@ bool ScrollList::onClick(SDL_Point* point)
 
               std::cout << "ScrollConnected != nullptr" << std::endl;
 
-				if (connectedMethod(i))
-					removeItem(i);
+                connectedMethod(i);
+
 				//calculateVisibleItemsPositions();
 			}
 			return true;

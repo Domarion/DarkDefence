@@ -95,12 +95,16 @@ bool MobSpawner::canSpawn(double timestep)
 
 
 
-list<SceneObject*>* MobSpawner::doSpawn()
+list<Mob *> *MobSpawner::doSpawn(TileMapManager* aTileMap)
 {
 
-    list<SceneObject*> *some = new list<SceneObject*>();
+    list<Mob*> *some = new list<Mob*>();
     int n = wavesInfo[waveNumber - 1].size();
     std::cout << n << std::endl;
+    if (aTileMap == nullptr)
+     {
+        std::cout << "doSpawn aTileMap nullptr" << std::endl;
+    }
     for(int i = 0; i < n; ++i)
     {
         string monsterName = (wavesInfo[waveNumber - 1])[i].first;
@@ -108,8 +112,13 @@ list<SceneObject*>* MobSpawner::doSpawn()
 
         for(int index = 0; index < monsterCount; ++index)
         {
-            Mob* someMob = new Mob(GameModel::getInstance()->getMonsterByName(monsterName));
+            Mob* someMob = new Mob(GameModel::getInstance()->getMonsterByName(monsterName), aTileMap);
 
+
+            if (someMob->getTileMapManager() == nullptr)
+            {
+                std::cout << "someMob->getTileMapManager = nullptr" << std::endl;
+            }
            AnimatedSprite* someSprite = new AnimatedSprite();
 
             someSprite->setRect(0,0, 50, 80);
@@ -137,6 +146,11 @@ list<SceneObject*>* MobSpawner::doSpawn()
             someMob->setSprite(someSprite);
             //someMob->init();
             some->push_back(someMob);
+
+            if (someMob->getTileMapManager() == nullptr)
+            {
+                std::cout << "someMob->getTileMapManager = nullptr1" << std::endl;
+            }
         }
     }
 

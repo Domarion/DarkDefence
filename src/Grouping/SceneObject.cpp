@@ -28,6 +28,7 @@ void SceneObject::setX(int value)
         spriteModel->setPosX(x);
 }
 
+
 SceneObject::~SceneObject()
 {
     finalize();
@@ -139,4 +140,15 @@ int SceneObject::getX() const
 int SceneObject::getY() const
 {
     return y;
+}
+
+SDL_Point SceneObject::getPos() const
+{
+   SDL_Point currentPos = { getX(), getY()};
+   return currentPos;
+}
+
+void SceneObject::setPos(SDL_Point aPos)
+{
+    setPos(aPos.x, aPos.y);
 }

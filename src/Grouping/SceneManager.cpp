@@ -45,6 +45,7 @@ void SceneManager::setCurrentScene(Scene* value, bool cleanFlag)//TODO:: cleanFl
 	if (currentScene != nullptr )//&& cleanFlag)
 	{
     //	currentScene->finalizeScene();
+        currentScene->resetState();
 	}
 
 	currentScene = value;

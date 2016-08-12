@@ -15,14 +15,15 @@
 #include <ctime>
 #include "../Input/InputDispatcher.h"
 #include "../GlobalScripts/Renderer.h"
-
-
+#include "../Utility/textfilefunctions.h"
+#include <sstream>
+using std::stringstream;
 
 
 #include "../GlobalConstants.h"
 
 GameScene::GameScene()
-:Scene(), Terrain(nullptr), gates(nullptr), waveLabel(), itemAbilitiesStorage(), resPlace(nullptr)
+:Scene(), Terrain(nullptr), gates(nullptr), waveLabel(), itemAbilitiesStorage(), resPlace(nullptr), tileMap(nullptr)
 {
 	// TODO Auto-generated constructor stub
 
@@ -38,17 +39,8 @@ GameScene::~GameScene()
         delete Terrain;
     if (gates != nullptr)
         delete gates;
-    //spellStorage.free();
 
-
-	// TODO Auto-generated destructor stub
-
-  /*  for(int i = 0; i != ResourcesModel::resourceTypeCount; ++i)
-    {
-
-      //  delete resourceLabels[i];
-    }*/
-    //TTF_CloseFont(arialFont);
+    delete tileMap;
 }
 
 void GameScene::initScene(SceneManager* sceneManagerPtr)
@@ -141,7 +133,7 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
         waveLabel.setPos(0,0);
         topPanel.addChild(&waveLabel);
 
-        listGUI.push_back(&topPanel);
+        Scene::addToUIList(&topPanel);
 
 
 
@@ -149,7 +141,7 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
         Terrain = objectFabric.produce("Terrain", "none", "GameData/textures/terrain.JPG", Renderer::getInstance()->getScreenWidth() , Renderer::getInstance()->getScreenHeight() );
         spawnObject(0,0, Terrain);
         towerUpgradeController.init(this);
-        Tower* tower = towerFabric.produceTower("BasicTower", &towerUpgradeController);
+        Tower* tower = towerFabric.produceTower("BasicTower", &towerUpgradeController, tileMap);
         spawnObject(10, 300, tower);
 
         resPlace = new ResourcePlace();
@@ -168,8 +160,8 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
 
 
        AnimatedSprite* newView = new AnimatedSprite();
-        newView->setRect(0, 0, 100, 100);
-        newView->loadTexture("GameData/textures/Gates.png");
+        newView->setRect(0, 0, 200, 200);
+        newView->loadTexture("GameData/textures/Castle2.png");
         gates = new Gates();
         gates->setSprite(newView);
         gates->setTag("Gates");
@@ -207,7 +199,7 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
             std::cout << imgPath << std::endl;
             abilityButtons[i].setRect( x1, y1, w, h);
             abilityButtons[i].loadTexture(imgPath);
-            listGUI.push_back(&abilityButtons[i]);
+            Scene::addToUIList(&abilityButtons[i]);
             if (i < 4)
                 abilityButtons[i].ConnectMethod(std::bind(&SpellStorage::setAbilityReady, &spellStorage, GameModel::getInstance()->getAbilityNameFromIndex(i)));
         }
@@ -216,21 +208,18 @@ void GameScene::initScene(SceneManager* sceneManagerPtr)
         pauseBtn.setRect(750, 430, 50, 50);
         pauseBtn.loadTexture("GameData/textures/pause-button.png");
         pauseBtn.ConnectMethod(std::bind(&GameScene::sendMessage, this, GlobalConstants::Paused));
-        listGUI.push_back(&pauseBtn);
+        Scene::addToUIList(&pauseBtn);
 
         resumeBtn.setRect(700, 430, 50, 50);
         resumeBtn.loadTexture("GameData/textures/resume-button.png");
         resumeBtn.ConnectMethod(std::bind(&GameScene::sendMessage, this, GlobalConstants::Resumed));
-        listGUI.push_back(&resumeBtn);
+        Scene::addToUIList(&resumeBtn);
 	}
-
-    for(int i = 0; i < 4; ++i)
-        InputDispatcher::getInstance()->addHandler(&abilityButtons[i]);
 
     InputDispatcher::getInstance()->addHandler(dynamic_cast<InputHandler*>(spellStorage.getAbilityModelWithName("Prick")));
     InputDispatcher::getInstance()->addHandler(resPlace);
-    InputDispatcher::getInstance()->addHandler(&pauseBtn);
-    InputDispatcher::getInstance()->addHandler(&resumeBtn);
+
+
 }
 
 
@@ -267,14 +256,28 @@ void GameScene::startUpdate(double timestep)
     waveLabel.setText(monsterSpawner.getWaveStringInfo());
     if (monsterSpawner.canSpawn(timestep))
 	{
-        list<SceneObject*> *some = monsterSpawner.doSpawn();
+        if (tileMap == nullptr)
+        {
+            std::cout << "TileIsNullinGameScene" << std::endl;
+        }
+
+        list<Mob*> *some = monsterSpawner.doSpawn(tileMap);
 
         for(auto ptr = some->begin(); ptr != some->end(); ++ptr)
         {
             int x = rand() % 5 +3;
             int y = rand() % 5 +3;
-
+            if ((*ptr)->getTileMapManager() == nullptr)
+            {
+                std::cout << "ptr->getTileMapManager = nullptr1" << std::endl;
+            }
             spawnObject(x*70,y*50,*ptr);
+            if ((*ptr)->getTileMapManager() == nullptr)
+            {
+                std::cout << "afterspqn->getTileMapManager = nullptr1" << std::endl;
+            }
+
+
         }
         delete some;
     }
@@ -283,6 +286,7 @@ void GameScene::startUpdate(double timestep)
         {
              waveLabel.setText(monsterSpawner.getWaveStringInfo());
             GameModel::getInstance()->setGameStatus(Enums::GameStatuses::gsWON);
+            GameModel::getInstance()->setMissionReward(currentMission.getReward());
             std::string s2 = "ScoreScene";
             parentSceneManager->setCurrentSceneByName(s2);
         }
@@ -291,10 +295,6 @@ void GameScene::startUpdate(double timestep)
 
     GameModel::getInstance()->getManaModel()->regenerate(timestep);
     manaBar.calculateFront(GameModel::getInstance()->getManaModel()->getCurrent(),GameModel::getInstance()->getManaModel()->getLimit());
-
-
-   // if (gates.getDestructibleObject() != nullptr)
-     //   gatesHealthBar.calculateFront(gates.getDestructibleObject()->getCurrentHealth(),gates.getDestructibleObject()->getMaximumHealth());
 
 
     if (gates->getDestructibleObject()->getCurrentHealth() <= 0)
@@ -310,36 +310,7 @@ void GameScene::startUpdate(double timestep)
         resourceLabels[i]->setText(s);
     }
 
-  //  std::cout << "resfromindex = " << GameModel::getInstance()->getResourcesModel()->printResourceFromIndex(3) <<std::endl;
 }
-
-void GameScene::copyToRender() const
-{
-
-	list<SceneObject*>::const_iterator  const_iter = sceneObjects.begin();
-	list<SceneObject*>::const_iterator end = sceneObjects.end();
-	for(;const_iter != end; ++const_iter)
-	{
-        if (*const_iter == nullptr)
-            continue;
-
-		if ( (*const_iter)->getSprite() != nullptr )
-		{
-            (*const_iter)->getSprite()->draw();
-
-            //SDL_Rect some =  (*const_iter)->getSprite()->getRect();
-
-
-
-            //Renderer::getInstance()->renderTexture((*const_iter)->getSprite()->getTexture(), &some);
-
-		}
-	}
-
-
-    Scene::copyToRender();
-}
-
 
 
 map<string, AbilityModel *> &GameScene::getAbilityModelList()
@@ -386,7 +357,50 @@ void GameScene::loadData()
     monsterSpawner.loadWavesInfo("GameData/wavesInfo.txt");
 
     GameModel::getInstance()->loadAbilitiesNames("GameData/abilities.txt");
+
+    string tileMapMatrixPath = "GameData/Missions/" + std::to_string(curIndex) + "/map.txt";
+    vector<vector<int> > aMapTemplate = loadMapTemplate(tileMapMatrixPath);
+    tileMap = new TileMapManager(aMapTemplate);
 }
 
+vector<vector<int> > GameScene::loadMapTemplate(string mapPath)
+{
+    string destString;
+    androidText::loadTextFileToString(mapPath, destString);
+
+
+    vector<vector<int> > resultingMap;
+
+    if (!destString.empty())
+    {
+        stringstream stream(destString);
+        size_t n = 0;
+        size_t m = 0;
+
+        stream >> n;
+        stream >> m;
+
+        resultingMap.resize(n);
+        for(size_t row = 0; row < n; ++row)
+            resultingMap[row].resize(m);
+
+        for(size_t row = 0; row < n; ++row)
+            for(size_t column = 0; column < m; ++column)
+            {
+                std::cout << "row = " << row << " column= " << column;
+                int res;
+                stream >> res;
+                std::cout << "result = " << res << std::endl;
+                resultingMap[row][column] = res;
+            }
+    }
+
+    return resultingMap;
+}
+
+void GameScene::resetState()
+{
+
+}
 
 

@@ -28,6 +28,8 @@ public:
     virtual void setSprite(AnimatedSprite* value);
     int getX() const;
     int getY() const;
+    SDL_Point getPos() const;
+    void setPos(SDL_Point aPos);
 
     virtual string getName() const;
     virtual void setName(const string &value);

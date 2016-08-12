@@ -18,7 +18,7 @@ public:
 
     static FontManager* getInstance();
     void loadFontList(string filename);
-    shared_ptr<CFont> getFontByKind(string kind);
+    shared_ptr<CFont>& getFontByKind(string kind);
 
 private:
     FontManager();

@@ -10,7 +10,6 @@
 #include "../GraphicsSystem/UI/Label.h"
 #include "../GraphicsSystem/UI/TextButton.h"
 #include "../GraphicsSystem/UI/ProgressBar.h"
-#include <memory>
 
 class MainScene: public Scene
 {
@@ -25,11 +24,12 @@ public:
 
 
 private:
-	//Label labelText;
-	TextButton button, button2, button3;
-    //std::shared_ptr<CFont> arialFont;
+    void loadMenuItems(string filename);
+    vector<TextButton> menuItems;
+    vector<pair<string, string> > itemNamesSceneNamesMapping;
+    //TextButton button, button2, button3;
     CTexture backGround;
-	//ProgressBar bar;
+
 };
 
 
