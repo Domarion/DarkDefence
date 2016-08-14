@@ -8,7 +8,6 @@
 #pragma once
 #include "ShopInventory.h"
 #include "../GraphicsSystem/UI/ScrollList.h"
-//#include <memory>
 
 class ShopController
 {
@@ -23,10 +22,6 @@ public:
     bool sendItemToModel(int index);
 
 private:
-  //  vector<std::shared_ptr<ShopItemUI> > shopItems;
 	ShopInventory* model;
 	ScrollList* view;
-    //std::shared_ptr<CFont> arial;
-    SDL_Color color;
-    vector<IDrawable*> buttons;
 };

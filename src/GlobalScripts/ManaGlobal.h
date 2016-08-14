@@ -10,7 +10,7 @@
 class ManaGlobal
 {
 public:
-    ManaGlobal(int maxMana = 100, int regenValue = 10, double regenPeriod = 2000);
+    ManaGlobal(int maxMana = 100, int regenValue = 50, double regenPeriod = 2000);
 	~ManaGlobal();
 	void setCurrent(int value);
 	int getCurrent() const;

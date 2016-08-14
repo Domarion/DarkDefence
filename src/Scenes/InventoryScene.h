@@ -7,27 +7,23 @@
 
 #pragma once
 #include "../Grouping/Scene.h"
-#include "../GraphicsSystem/UI/TextButton.h"
-
 #include "../ItemSystem/InventoryController.h"
 #include "../ItemSystem/HeroInventoryController.h"
+
 class InventoryScene: public Scene
 {
 public:
 	InventoryScene();
 	virtual ~InventoryScene();
-    virtual void initScene(SceneManager* sceneManagerPtr) override;
-	virtual void finalizeScene() override;
-
-	virtual void startUpdate(double timestep) override;
+    virtual void init(SceneManager* sceneManagerPtr) override;
+    virtual void clear() override;
 
 private:
-	ScrollList scroll;
-    SlotContainer heroFigure;
-	InventoryController inventoryController;
-    HeroInventoryController heroController;
-	TextButton button;
-   // std::shared_ptr<CFont> arialFont;
+    void initControlButton();
+    void initHeroView();
+    void initInventoryView();
 
+    InventoryController* inventoryController;
+    HeroInventoryController* heroController;
 };
 

@@ -24,8 +24,8 @@ class Scene
 public:
 	Scene();
 	virtual ~Scene();
-    virtual void initScene(SceneManager* sceneManagerPtr);
-	virtual void finalizeScene();
+    virtual void init(SceneManager* sceneManagerPtr);
+    virtual void clear();
     virtual void copyToRender() const;
 	virtual void startUpdate(double timestep);
     virtual void spawnObject(int x, int y, SceneObject* obj);
@@ -38,11 +38,16 @@ public:
     list<SceneObject*> *findObjectsByTag(std::string tag);
     SceneObject* findObjectWithPos(int x, int y);
     list<SceneObject*>* findObjectsWithPos(int x, int y);
-    virtual void resetState();
-protected:
+    SceneManager* getParentSceneManager();
+
+
+
+private:
     list<IDrawable*> listGUI;
     list<SceneObject*> sceneObjects;
 	SceneManager* parentSceneManager;
+protected:
+     void addLoadSceneButton(string aButtonName, string aFontName, string aSceneName, int posX, int posY, int width, int height);
 	bool wasInited;
 
 };

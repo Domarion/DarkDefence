@@ -6,69 +6,31 @@
  */
 
 #include "MainScene.h"
-#include "../GraphicsSystem/UI/Label.h"
-#include <iostream>
 #include "../Utility/textfilefunctions.h"
 #include <sstream>
 
 MainScene::MainScene()
-
 {
-	// TODO Auto-generated constructor stub
 }
 
 MainScene::~MainScene()
 {
-
-
+    clear();
 }
 
 
-void MainScene::finalizeScene()
+void MainScene::init(SceneManager* sceneManagerPtr)
 {
-}
+    Scene::init(sceneManagerPtr);
 
-
-
-
-void MainScene::initScene(SceneManager* sceneManagerPtr)
-{
-    Renderer::getInstance()->setRendererDrawColor(255, 255, 255);
-
-	if (wasInited == false)
-	{
-        Scene::initScene(sceneManagerPtr);
-        backGround.loadTexture("GameData/textures/castle.jpg");
-        backGround.setRect(0, 0, Renderer::getInstance()->getScreenWidth(), Renderer::getInstance()->getScreenHeight());
-        Scene::addToUIList(&backGround);
-        wasInited = true;
-    }
-        shared_ptr<CFont> FontManagerFont = FontManager::getInstance()->getFontByKind("MenuFont");
-        if (FontManagerFont.get() == nullptr)
-            std::cout << "FontManagerFont is null MenuFont" << std::endl;
-
-        int x = Renderer::getInstance()->getScreenWidth()/4;
-        int y = Renderer::getInstance()->getScreenHeight()/4;
-
+    if (itemNamesSceneNamesMapping.empty())
         loadMenuItems("GameData/MainMenu.txt");
-        menuItems.resize(itemNamesSceneNamesMapping.size());
-        for(size_t menuIndex = 0; menuIndex < menuItems.size(); ++menuIndex)
-        {
-            menuItems[menuIndex].setFont(FontManagerFont);
-            menuItems[menuIndex].setRect(x, y, 200, 50);
-            menuItems[menuIndex].setText(itemNamesSceneNamesMapping[menuIndex].first);
-            menuItems[menuIndex].ConnectMethod(std::bind(&SceneManager::setCurrentSceneByName, sceneManagerPtr, itemNamesSceneNamesMapping[menuIndex].second));
-            y += 96;
-            Scene::addToUIList(&menuItems[menuIndex]);
-        }
 
+    initBackground();
+    initUIMenuItems();
 }
 
-void MainScene::startUpdate(double timestep)
-{
-    Scene::startUpdate(timestep);
 
-}
 
 void MainScene::loadMenuItems(string filename)
 {
@@ -79,32 +41,55 @@ void MainScene::loadMenuItems(string filename)
    {
         std::istringstream str(destString);
 
-        size_t n  = 0;
+        size_t pairCount{};
 
-        str >> n;
+        str >> pairCount;
         string str2;
         std::getline(str, str2);
-        if (n > 0)
-        {
-            itemNamesSceneNamesMapping.resize(n);
 
-            for(size_t i = 0; i < n; ++i)
+        if (pairCount > 0)
+        {
+            itemNamesSceneNamesMapping.resize(pairCount);
+
+            for(size_t i = 0; i < pairCount; ++i)
             {
                 string item;
-               // str >> item;
-
                 std::getline(str, item);
                 std::cout << std::noskipws << item << std::endl;
                 size_t firstEnd = item.find('=');
                 string itemName = item.substr(0, firstEnd);
                 string sceneName = item.substr(firstEnd + 1, item.size() - firstEnd);
                 itemNamesSceneNamesMapping[i] = std::make_pair(itemName, sceneName);
-
             }
         }
-
    }
 }
 
+void MainScene::initUIMenuItems()
+{
+
+    int x = Renderer::getInstance()->getScreenWidth()/4;
+    int y = Renderer::getInstance()->getScreenHeight()/4;
+
+    for(size_t menuIndex = 0; menuIndex < itemNamesSceneNamesMapping.size(); ++menuIndex)
+    {
+        Scene::addLoadSceneButton(itemNamesSceneNamesMapping[menuIndex].first,
+                                  "MenuFont",
+                                  itemNamesSceneNamesMapping[menuIndex].second,
+                                  x, y, 200, 50);
+        y += 96;
+
+    }
+}
+
+void MainScene::initBackground()
+{
+    Renderer::getInstance()->setRendererDrawColor(255, 255, 255);
+
+    CTexture* backGround = new CTexture();
+    backGround->loadTexture("GameData/textures/castle.jpg");
+    backGround->setRect(0, 0, Renderer::getInstance()->getScreenWidth(), Renderer::getInstance()->getScreenHeight());
+    Scene::addToUIList(backGround);
+}
 
 

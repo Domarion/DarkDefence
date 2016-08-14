@@ -18,7 +18,7 @@ ManaGlobal::~ManaGlobal()
 
 void ManaGlobal::setCurrent(int value)
 {
-	if (value > getLimit())
+    if (value >= getLimit())
 	{
 		current = getLimit();
 	}

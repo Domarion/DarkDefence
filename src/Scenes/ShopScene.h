@@ -7,25 +7,26 @@
 
 #pragma once
 #include "../Grouping/Scene.h"
-#include "../GraphicsSystem/UI/TextButton.h"
 #include "../ItemSystem/ShopController.h"
+#include "../GraphicsSystem/UI/Label.h"
+
 class ShopScene: public Scene
 {
 public:
 	ShopScene();
 	virtual ~ShopScene();
-    virtual void initScene(SceneManager* sceneManagerPtr) override;
-	virtual void finalizeScene() override;
-
+    virtual void init(SceneManager* sceneManagerPtr) override;
+    virtual void clear() override;
 
 	virtual void startUpdate(double timestep) override;
 
 private:
-    //std::shared_ptr<CFont> arialFont;
-	ScrollList scroll;
-	ShopController shopController;
-	TextButton button;
-    CTexture backGround;
-    Label goldCoins;
-    Label sceneName;
+
+    void initControlButton();
+    void initBackGroundUI();
+    void initShopItemsUI();
+    Label *goldCoins;
+
+    ShopController* shopController;
+
 };

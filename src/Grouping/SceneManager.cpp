@@ -19,13 +19,14 @@ SceneManager::SceneManager()
 
 SceneManager::~SceneManager()
 {
+    currentScene = nullptr;
 
 	for(auto i = scenes.begin(); i != scenes.end(); ++i)
         delete scenes.at(i->first);
 
     scenes.clear();
 
-    currentScene = nullptr;
+
 }
 
 Scene* SceneManager::getCurrentScene() const
@@ -39,19 +40,18 @@ void SceneManager::addScene(Scene* scene, const string name)
 	scenes[name] = scene;
 }
 
-void SceneManager::setCurrentScene(Scene* value, bool cleanFlag)//TODO:: cleanFlag?
+void SceneManager::setCurrentScene(Scene* value)
 {
 	InputDispatcher::getInstance()->clearHandlers();
-	if (currentScene != nullptr )//&& cleanFlag)
+    if (currentScene != nullptr )
 	{
-    //	currentScene->finalizeScene();
-        currentScene->resetState();
+        currentScene->clear();
 	}
 
 	currentScene = value;
 
     if (currentScene != nullptr)
-        currentScene->initScene(this);
+        currentScene->init(this);
     else
         std::cout << "currentScene is NULL" << std::endl;
 }

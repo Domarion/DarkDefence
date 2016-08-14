@@ -1,5 +1,4 @@
 #include "textfilefunctions.h"
-#include <SDL_rwops.h>
 #include <iostream>
 namespace androidText
 {
@@ -38,7 +37,25 @@ void setRelativePath(string &filename)
 {
    #ifndef __ANDROID__
    filename = "/home/kostya_hm/Projects/DarkDefence/"+ filename;
-   #endif
+#endif
 }
+
+void saveStringsTofile(SDL_RWops* filetoWrite, const vector<string> &strings)
+{
+    if (filetoWrite != nullptr)
+    {
+        int stringCount = strings.size();
+        SDL_RWwrite(filetoWrite, &stringCount, sizeof(int), 1);
+
+        for(int i = 0; i < stringCount; ++i)
+        {
+            int stringByteLength = strings[i].size();
+            SDL_RWwrite(filetoWrite, &stringByteLength, sizeof(int), 1);
+            SDL_RWwrite(filetoWrite, strings[i].c_str(), stringByteLength, 1);
+        }
+    }
+}
+
+
 
 }

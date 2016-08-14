@@ -4,7 +4,7 @@
 class MapIndicator: public CTexture
 {
 public:
-    MapIndicator();
+    MapIndicator(int aItemWidth, int aItemHeight, int aMapCount, int aMapIndex);
 
     int getCurrentMapIndex() const;
     void setCurrentMapIndex(int value);
@@ -27,6 +27,8 @@ public:
 
     int getIndicatorHeight() const;
     void setIndicatorHeight(int value);
+
+    void setIndicatorSize(int width, int height);
 
 private:
     CTexture&  textureChoice(int index);

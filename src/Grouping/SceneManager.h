@@ -23,7 +23,7 @@ public:
 	SceneManager();
 	virtual ~SceneManager();
 	Scene* getCurrentScene() const;
-	void setCurrentScene(Scene* value, bool cleanFlag = false);
+    void setCurrentScene(Scene* value);
 	void addScene(Scene* scene, const string name);
 
 	void setCurrentSceneByName(string name);

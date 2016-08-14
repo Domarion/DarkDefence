@@ -113,7 +113,7 @@ void MissionView::draw()
 
 }
 
-void MissionView::finalize()
+void MissionView::clear()
 {
     missionName.free();
     missionDescription.free();

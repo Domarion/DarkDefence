@@ -11,45 +11,22 @@
 #include <list>
 using std::list;
 #include "../Input/InputDispatcher.h"
-
-
+#include "../GraphicsSystem/UI/TextButton.h"
 
 Scene::Scene()
 :listGUI(), sceneObjects(), parentSceneManager(nullptr), wasInited(false)
 {
 }
 
-void Scene::initScene(SceneManager* sceneManagerPtr)
+void Scene::init(SceneManager* sceneManagerPtr)
 {
 
 	parentSceneManager = sceneManagerPtr;
 }
 
-void Scene::finalizeScene()
-{
-
-    list<SceneObject*>::iterator  iter1 = sceneObjects.begin();
-    list<SceneObject*>::iterator end = sceneObjects.end();
-    for(;iter1 != end; ++iter1)
-        if (*iter1 != nullptr)
-            delete (*iter1);
-
-    sceneObjects.clear();
-
-    list<IDrawable*>::iterator  iter2 = listGUI.begin();
-    list<IDrawable*>::iterator end2 = listGUI.end();
-    for(;iter2 != end2; ++iter2)
-        delete (*iter2);
-
-    listGUI.clear();
-    wasInited = false;
-
-    parentSceneManager = nullptr;
-}
 
 Scene::~Scene()
 {
-    //finalizeScene();
 }
 
 
@@ -208,7 +185,43 @@ list<SceneObject *> *Scene::findObjectsWithPos(int x, int y)
 
 }
 
-void Scene::resetState()
+SceneManager *Scene::getParentSceneManager()
 {
-    finalizeScene();
+    return parentSceneManager;
 }
+
+void Scene::addLoadSceneButton(string aButtonName, string aFontName, string aSceneName, int posX, int posY, int width, int height)
+{
+    TextButton* button = new TextButton();
+    button->setFont(FontManager::getInstance()->getFontByKind(aFontName));
+    button->setRect(posX, posY, width, height);
+    button->setText(aButtonName);
+    button->ConnectMethod(std::bind(&SceneManager::setCurrentSceneByName, getParentSceneManager(), aSceneName));
+    addToUIList(button);
+}
+
+void Scene::clear()
+{
+    if (!sceneObjects.empty())
+    {
+        for(auto sceneObject : sceneObjects)
+            if (sceneObject != nullptr)
+                delete sceneObject;
+        sceneObjects.clear();
+    }
+
+
+    for(auto guiItem : listGUI)
+        if (guiItem != nullptr)
+            delete guiItem;
+
+    listGUI.clear();
+
+    wasInited = false;
+
+    parentSceneManager = nullptr;
+}
+
+
+
+

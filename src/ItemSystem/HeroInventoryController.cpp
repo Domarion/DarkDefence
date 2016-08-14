@@ -16,9 +16,7 @@ HeroInventoryController::HeroInventoryController()
 
 HeroInventoryController::~HeroInventoryController()
 {
-    for(size_t i = 0; i < buttons.size(); ++i)
-        delete buttons[i];
-	// TODO Auto-generated destructor stub
+    view = nullptr;
 }
 
 void HeroInventoryController::setView(SlotContainer* newView)
@@ -104,13 +102,10 @@ void HeroInventoryController::receiveItemFromModel(string caption, size_t itemTy
 
     TextButton* btn = new TextButton();
 
-    buttons.push_back(btn);
     std::cout << ( "GameData/textures/items/" + caption  + ".png") << std::endl;
     btn->loadTexture("GameData/textures/items/" +
                                                                   caption + ".png");
 
-  //  if (btn->getTexture() == nullptr)
-    //   std::cout << " texture is nullptr" << std::endl;
 
     view->receiveItem(btn, itemType);
 

@@ -26,6 +26,7 @@ public:
     int getWaveNumber() const;
     int getWaveCount() const;
     string getWaveStringInfo();
+    void reset();
 private:
     double period;
     double currentTime;

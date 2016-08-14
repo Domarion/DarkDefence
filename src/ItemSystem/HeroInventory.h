@@ -21,6 +21,6 @@ public:
     virtual bool sendItem(size_t index) override;
 	virtual void receiveItem(ItemModel item) override;
 	virtual void addItem(ItemModel item) override;
-    list<string> getItemNames();
+
 };
 

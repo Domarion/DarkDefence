@@ -51,23 +51,7 @@ void MobSpawner::loadWavesInfo(string filename)
             wavesInfo[waveNum - 1].push_back(std::make_pair(mobName, mobCount));
         }
     }
-/*
-    std::ifstream file0(filename);
-    if (file0.good())
-    {
-        file0 >> waveCount;
 
-        wavesInfo.resize(waveCount);
-        while(!file0.eof())
-        {
-            int waveNum;
-            string mobName;
-            int mobCount;
-            file0 >> waveNum >> mobName >> mobCount;
-            wavesInfo[waveNum - 1].push_back(std::make_pair(mobName, mobCount));
-        }
-    }
-    file0.close();*/
 }
 
 bool MobSpawner::canSpawn(double timestep)
@@ -206,6 +190,13 @@ string MobSpawner::getWaveStringInfo()
 
    return s;
 
+}
+
+void MobSpawner::reset()
+{
+    waveNumber = waveCount = 0;
+    currentTime = period;
+    wavesInfo.clear();
 }
 
 

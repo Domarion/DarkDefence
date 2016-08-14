@@ -120,3 +120,11 @@ Reward &Mission::getReward()
 {
     return reward;
 }
+
+void Mission::reset()
+{
+    missionStatus = mNOT_STARTED;
+    description.clear();
+    caption.clear();
+
+}

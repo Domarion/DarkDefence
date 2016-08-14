@@ -10,13 +10,11 @@
 TextButton::TextButton()
 :Label()
 {
-    // TODO Auto-generated constructor stub
 
 }
 
 TextButton::~TextButton()
 {
-    // TODO Auto-generated destructor stub
 
 }
 
@@ -28,11 +26,8 @@ bool TextButton::onClick(SDL_Point* point)
     bool result = SDL_PointInRect(point, &getRect());
 
     if (result)
-    {
-        //std::cout << "Clicked" << std::endl;
         connectedMethod("zero");
-        //TODO: something similar to delegate
-    }
+
     return result;
 }
 

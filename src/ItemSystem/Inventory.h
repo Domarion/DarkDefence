@@ -26,6 +26,7 @@ public:
 	Inventory();
 	virtual ~Inventory();
     virtual bool sendItem(size_t index);
+    int getItemIndexByName(string name);
 	virtual void receiveItem(ItemModel item);
 	virtual void addItem(ItemModel item);
 
@@ -35,6 +36,7 @@ public:
     virtual void ConnectMethod( std::function<void(ItemModel)> handler);
     virtual ItemModel* getItemByName(string name);
 
+    vector<string> getItemNames();
 protected:
 	vector<ItemModel> items;
     std::function<void(string, size_t)> connectedMethod;

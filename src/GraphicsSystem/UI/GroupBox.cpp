@@ -15,9 +15,8 @@ GroupBox::GroupBox()
 
 GroupBox::~GroupBox()
 {
-    // TODO Auto-generated destructor stub
-   //  for(int i = 0; i < children.size(); ++i)
-     //   delete children[i];
+   for(size_t i = 0; i < children.size(); ++i)
+        delete children[i];
 }
 
 bool GroupBox::addChild(IDrawable * const child, bool vertical)

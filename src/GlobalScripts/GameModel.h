@@ -44,7 +44,7 @@ public:
 
 
     void deserialize(Mission& obj, string filename);
-	void loadShopItems(string filename);
+    bool loadShopItems(string filename);
 
 	ShopInventory* getShopInventory();
 	Inventory* getInventory();
@@ -95,6 +95,8 @@ public:
 
     MobAbility* getMobAbilityByName(string name);
 
+    void saveGameData(string filename);
+
 private:
     GameModel();
     ~GameModel();
@@ -123,5 +125,6 @@ private:
 
 
     map<string, MobAbility*> mobAbilitiesMap;
+    bool shopItemsLoaded;
 };
 

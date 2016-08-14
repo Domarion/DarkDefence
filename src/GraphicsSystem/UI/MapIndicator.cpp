@@ -1,7 +1,7 @@
 ﻿#include "MapIndicator.h"
 #include "../../GlobalScripts/Renderer.h"
-MapIndicator::MapIndicator()
-    :mapCount(0), currentMapIndex(0), indicatorWidth(0), indicatorHeight(0)
+MapIndicator::MapIndicator(int aItemWidth, int aItemHeight, int aMapCount, int aMapIndex)
+    :mapCount(aMapCount), currentMapIndex(aMapIndex), indicatorWidth(aItemWidth), indicatorHeight(aItemHeight)
 {
 
 }
@@ -82,6 +82,12 @@ int MapIndicator::getIndicatorHeight() const
 void MapIndicator::setIndicatorHeight(int value)
 {
     indicatorHeight = value;
+}
+
+void MapIndicator::setIndicatorSize(int width, int height)
+{
+    setIndicatorWidth(width);
+    setIndicatorHeight(height);
 }
 
 void MapIndicator::setLockedTexture(const string& filename)

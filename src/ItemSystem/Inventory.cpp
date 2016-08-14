@@ -53,7 +53,15 @@ bool Inventory::sendItem(size_t index)
 
 		return true;
 	}
-	return false;
+    return false;
+}
+
+int Inventory::getItemIndexByName(string name)
+{
+    for(size_t i = 0; i < items.size(); ++i)
+        if (items[i].getCaption() == name)
+            return i;
+    return -1;
 }
 
 void Inventory::receiveItem(ItemModel item)
@@ -89,4 +97,16 @@ void Inventory::ConnectReceiver(std::function<void (string, size_t)> handler)
 {
     connectedMethod = handler;
 
+}
+
+vector<string> Inventory::getItemNames()
+{
+    vector<string> itemNames;
+    itemNames.reserve((items.size()));
+    for(auto ptr = items.begin(); ptr != items.end(); ++ptr)
+    {
+        if (!ptr->getCaption().empty())
+            itemNames.push_back(ptr->getCaption());
+    }
+    return itemNames;
 }

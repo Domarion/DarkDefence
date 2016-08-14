@@ -153,6 +153,7 @@ void CTexture::setZOrder(int value)
 
 void CTexture::setSize(int w, int h)
 {
+
     rect.w = w;
     rect.h = h;
 }

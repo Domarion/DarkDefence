@@ -6,12 +6,11 @@
  */
 
 #include "ShopController.h"
-//#include "../GraphicsSystem/UI/TextButton.h"
 #include "../GraphicsSystem/ShopItemUI.h"
 #include "../Grouping/FontManager.h"
 
 ShopController::ShopController()
-: model(nullptr), view(nullptr)//, arial(new CFont())
+: model(nullptr), view(nullptr)
 {
 	// TODO Auto-generated constructor stub
 
@@ -19,8 +18,7 @@ ShopController::ShopController()
 
 ShopController::~ShopController()
 {
-    for(size_t i = 0; i < buttons.size(); ++i)
-        delete buttons[i];
+    view = nullptr;
 	// TODO Auto-generated destructor stub
 }
 
@@ -47,21 +45,11 @@ ShopInventory*  ShopController::getModel() const
 void ShopController::initView()
 {
 
-    //arial =
-   // arial.get()->loadFromFile("Fonts/arial.ttf", 20);
-
-
-
 	int count = model->getItemCount();
 	std::cout << "ItemCount = " << count << std::endl;
 	for(int i = 0; i != count; ++i)
 	{
-        //TextButton* btn = new TextButton();
-
-
-
         ShopItemUI* btn = new ShopItemUI();
-         buttons.push_back(btn);
 
         string ipath = "GameData/textures/items/" +
                 model->getItemFromIndex(i)->getCaption() + ".png";
@@ -71,12 +59,9 @@ void ShopController::initView()
 
         view->setItemWidth(btn->getRect().w);
         view->setItemHeight(btn->getRect().h);
-        //std::cout << ( "GameData/textures/items/" + model->getItemFromIndex(i)->getCaption()  + ".png") << std::endl;
 
 
 
-        //if (btn->getTexture() == nullptr)
-            //std::cout << "index = " << i << " texture is nullptr" << std::endl;
 
         view->addItem(btn);
 	}

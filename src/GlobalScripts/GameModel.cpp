@@ -27,6 +27,7 @@ using std::ifstream;
 #include "../Utility/textfilefunctions.h"
 #include <sstream>
 using std::stringstream;
+#include "AccountModel.h"
 
 GameModel* GameModel::instance_ = nullptr;
 
@@ -147,22 +148,6 @@ void GameModel::loadMinesList(string filename)
     }
 
 
-  /*  ifstream somestream(filename);
-    std::cout << "fuck0" << std::endl;
-    if (somestream.good())
-    {
-        boost::archive::xml_iarchive xmlinp(somestream);
-        // xmlinp.register_type<MineModel>();
-        xmlinp >> boost::serialization::make_nvp("Mines", mineCollection);
-
-        mineResMapping.resize(mineCollection.size());
-    std::cout << "fuck01" << std::endl;
-    }
-
-std::cout << "fuck1" << std::endl;
-    somestream.close();
-
-*/
     for(auto i = mineCollection.begin(); i != mineCollection.end(); ++i)
     {
         minesModelsMap.insert(std::make_pair(i->getName(), *i));
@@ -194,18 +179,7 @@ void GameModel::deserialize(Mission &obj, string filename)
     }
 
 
-  /*  ifstream missionStream(filename);
 
-    if (missionStream.good())
-    {
-
-        boost::archive::xml_iarchive xmlinp(missionStream);
-        xmlinp.register_type<ResourceGoal>();
-        xmlinp >> boost::serialization::make_nvp("Mission", obj);
-
-    }
-
-    missionStream.close();*/
 }
 
 TreeNode<MobModel>* GameModel::getRootTower()
@@ -217,9 +191,15 @@ void GameModel::addItemToInventoryByName(string name)
 {
 
     std::cout << "rewItemName = " << name << std::endl;
-    ItemModel* item =shop.getItemByName(name);
-    if (item != nullptr)
-        inventory.addItem(*item);
+
+
+    loadShopItems("GameData/Items.xml");
+
+    int index = shop.getItemIndexByName(name);
+    if (index >= 0)
+    {
+        shop.sendItem(index);
+    }
 }
 
 bool GameModel::canSpawn() const
@@ -250,6 +230,8 @@ int GameModel::getCurrentMissionIndex() const
 {
     return currentMissionIndex;
 }
+
+
 
 Enums::GameStatuses GameModel::getGameStatus() const
 {
@@ -295,6 +277,24 @@ MobAbility *GameModel::getMobAbilityByName(string name)
     return nullptr;
 }
 
+void GameModel::saveGameData(string filename)
+{
+    string filename1(filename);
+    androidText::setRelativePath(filename1);
+
+    SDL_RWops* binaryDataFile = SDL_RWFromFile(filename1.c_str(),"w+b");
+    if (binaryDataFile != nullptr)
+    {
+        int goldAmount = AccountModel::getInstance()->getGoldAmount();
+        SDL_RWwrite(binaryDataFile, &goldAmount, sizeof(int), 1);
+        vector<string> inventoryItemsNames = getInventory()->getItemNames();
+        androidText::saveStringsTofile(binaryDataFile, inventoryItemsNames);
+        vector<string> heroItemsNames = getHeroInventory()->getItemNames();
+        androidText::saveStringsTofile(binaryDataFile, heroItemsNames);
+        SDL_RWclose(binaryDataFile);
+    }
+}
+
 const Reward& GameModel::getMissionReward() const
 {
     return missionReward;
@@ -330,24 +330,6 @@ void GameModel::loadAbilitiesNames(string filename)
         }
     }
 
-    /*
-    ifstream abilityStream(filename);
-    if (abilityStream.good())
-    {
-        int n;
-        abilityStream >> n;
-        if (n > 0)
-        {
-            abilitiesNames.resize(n);
-            for(int i = 0; i < n; ++i)
-            {
-                abilityStream >> abilitiesNames[ i ];
-             //   std::cout << abilitiesNames[i] << std::endl;
-            }
-        }
-    }
-
-    abilityStream.close();*/
 }
 
 string GameModel::getAbilityNameFromIndex(int index)
@@ -448,38 +430,35 @@ ResourcesModel* GameModel::getResourcesModel()
 GameModel::GameModel()
 :waveNumber(0), waveCount(0), pointsPerWave(0), pointsPerMap(0),
  pointsRefundModifier(1), MonsterCountOnMap( 0 ), gameStatus(Enums::GameStatuses::gsINPROGRESS), currentMissionIndex(0), heroFigure(9),
- resourcesModelPtr(new ResourcesModel()), towerUpgradesRootNode(), missionReward()
+ resourcesModelPtr(new ResourcesModel()), towerUpgradesRootNode(), missionReward(),shopItemsLoaded(false)
 {
 
 }
 
-void GameModel::loadShopItems(string filename)
+bool GameModel::loadShopItems(string filename)
 {
-
-    string textString;
-    androidText::loadTextFileToString(filename, textString);
-
-
-    if (!textString.empty())
+    if (shopItemsLoaded == false)
     {
-        stringstream str(textString);
+        string textString;
+        androidText::loadTextFileToString(filename, textString);
 
 
-        boost::archive::xml_iarchive xmlinp(str);
-        xmlinp >> BOOST_SERIALIZATION_NVP(shop);
+        if (!textString.empty())
+        {
+            stringstream str(textString);
+
+
+            boost::archive::xml_iarchive xmlinp(str);
+            xmlinp >> BOOST_SERIALIZATION_NVP(shop);
+        }
+
+        shop.ConnectMethod(std::bind(&Inventory::receiveItem, &inventory, std::placeholders::_1));
+        inventory.ConnectMethod(std::bind(&HeroInventory::receiveItem, &heroFigure, std::placeholders::_1));
+        heroFigure.ConnectMethod(std::bind(&Inventory::receiveItem, &inventory, std::placeholders::_1));
+
+        shopItemsLoaded = true;
     }
-    /*ifstream somestream(filename);
-	if (somestream.good())
-	{
-        boost::archive::xml_iarchive xmlinp(somestream);
-        xmlinp >> BOOST_SERIALIZATION_NVP(shop);
-	}
-
-    somestream.close();*/
-	//ItemModel empty;
-	shop.ConnectMethod(std::bind(&Inventory::receiveItem, &inventory, std::placeholders::_1));
-    inventory.ConnectMethod(std::bind(&HeroInventory::receiveItem, &heroFigure, std::placeholders::_1));
-    heroFigure.ConnectMethod(std::bind(&Inventory::receiveItem, &inventory, std::placeholders::_1));
+    return (!shopItemsLoaded);
 }
 
 ShopInventory* GameModel::getShopInventory()

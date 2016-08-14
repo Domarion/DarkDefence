@@ -24,15 +24,14 @@ GameApp::GameApp(SceneManager* aSceneManager)
 
 GameApp::~GameApp()
 {
-	if (sceneManager != nullptr)
-		delete sceneManager;
-
+    if (sceneManager != nullptr)
+        delete sceneManager;
 
     renderer->destroyRenderer();
     renderer = nullptr;
 
     TTF_Quit();
-	IMG_Quit();
+    IMG_Quit();
     SDL_Quit();
 }
 
@@ -61,12 +60,12 @@ int GameApp::gameLoop()
     int lasttime = SDL_GetTicks();
     const int MS_PER_UPDATE = 16;//1000ms/60FPS
     int lag = 0;
-	bool quit = false;
+    bool quit = false;
 
-	try
-	{
-		while(!quit)
-		{
+    try
+    {
+        while(!quit)
+        {
             int currenttime = SDL_GetTicks();
             quit = processInput();
 
@@ -85,14 +84,14 @@ int GameApp::gameLoop()
             else
                 lasttime = currenttime;
 
-			renderScene(const_cast<const Scene*>(sceneManager->getCurrentScene()));
-		}
-	}
-	catch (std::exception &ex)
-	{
-		cout << "Exception: " << ex.what() << endl;
-		return 1;
-	}
+            renderScene(const_cast<const Scene*>(sceneManager->getCurrentScene()));
+        }
+    }
+    catch (std::exception &ex)
+    {
+        cout << "Exception: " << ex.what() << endl;
+        return 1;
+    }
 
 	return 0;
 }
@@ -104,12 +103,12 @@ int GameApp::renderScene(const Scene* scene)
 
         renderer->renderClear();
 
-		if (scene != nullptr)
-		{
+        if (scene != nullptr)
+        {
             scene->copyToRender();
-		}
-		else
-			cout << "Scene is null!" << endl;
+        }
+        else
+            cout << "Scene is null!" << endl;
 
         renderer->renderPresent();
 
@@ -125,8 +124,8 @@ bool GameApp::isPaused()
 
 void GameApp::updateScene(Scene* scene, double timestep)
 {
-	if (scene != nullptr)
-		scene->startUpdate(timestep);
+    if (scene != nullptr)
+        scene->startUpdate(timestep);
 }
 
 bool GameApp::processInput()

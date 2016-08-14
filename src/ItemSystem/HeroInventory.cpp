@@ -89,13 +89,4 @@ void HeroInventory::addItem(ItemModel item)
     }
 }
 
-list<string> HeroInventory::getItemNames()
-{
-    list<string> itemNames;
-    for(auto ptr = items.begin(); ptr != items.end(); ++ptr)
-    {
-        if (!ptr->getCaption().empty())
-            itemNames.push_back(ptr->getCaption());
-    }
-    return itemNames;
-}
+

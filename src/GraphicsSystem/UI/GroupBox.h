@@ -13,7 +13,7 @@ class GroupBox: public CTexture
 {
 public:
 	GroupBox();
-	~GroupBox();
+    virtual ~GroupBox();
     bool addChild(IDrawable* const child, bool vertical = false);
     bool removeChild(IDrawable* const child);
     virtual void draw() override;

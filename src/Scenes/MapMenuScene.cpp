@@ -1,8 +1,11 @@
 #include "MapMenuScene.h"
 #include "../GlobalScripts/GameModel.h"
+#include "../GraphicsSystem/UI/MissionView.h"
+#include "../GraphicsSystem/UI/TextButton.h"
+#include "../GraphicsSystem/UI/MapIndicator.h"
 
 MapMenuScene::MapMenuScene()
-   // :arialFont(new CFont())
+   :currentMissionIndex(0)
 {
 
 }
@@ -12,86 +15,82 @@ MapMenuScene::~MapMenuScene()
 
 }
 
-void MapMenuScene::initScene(SceneManager *sceneManagerPtr)
+void MapMenuScene::init(SceneManager *sceneManagerPtr)
 {
-
+     Scene::init(sceneManagerPtr);
      Renderer::getInstance()->setRendererDrawColor(255, 255, 255);
-
-     if (wasInited)
-     {
-         wasInited = false;
-         mapIndicator.free();
-         Scene::clearUIList();
-         mapPicture.free();
-         currentMissionView.free();
-     }
+     loadMissionView();
+     loadMapPicture();
+     initMapIndicators();
+     initNavigationButtons();
+}
 
 
-    if (!wasInited)
-    {
-        Scene::initScene(sceneManagerPtr);
-        int curIndex =  GameModel::getInstance()->getCurrentMissionIndex();
-
-        string s ="GameData/Missions/" + std::to_string(curIndex) +"/Mission.xml";
-        GameModel::getInstance()->deserialize(currentMission, s);
-
-        currentMissionView.init(currentMission, FontManager::getInstance()->getFontByKind("ButtonFont"));
-        Scene::addToUIList(&currentMissionView);
-
-        mapIndicator.setRect(420, 0, 150, 48);
-        mapIndicator.setIndicatorWidth(48);
-        mapIndicator.setIndicatorHeight(48);
-        mapIndicator.setCurrentMapIndex(curIndex);
-        mapIndicator.setMapCount(3);//TODO missionCount
-        mapIndicator.setCompletedTexture("GameData/textures/MapIndicator/completed.png");
-        mapIndicator.setLockedTexture("GameData/textures/MapIndicator/locked.png");
-        mapIndicator.setNormalTexture("GameData/textures/MapIndicator/normal.png");
-        Scene::addToUIList(&mapIndicator);
-
-        //arialFont.setFont(currentMissionView.getFont());
-
-        //arialFont.get()->loadFromFile("Fonts/arial.ttf", 24);
-
-
-        mapPicture.setRect(400, 60, 400, Renderer::getInstance()->getScreenHeight() - 100);
-        string mapImagePath = "GameData/Missions/" + std::to_string(curIndex) +"/mission.jpg";
-        mapPicture.loadTexture(mapImagePath);
-        Scene::addToUIList(&mapPicture);
-
-
-        loadButton.setFont(FontManager::getInstance()->getFontByKind("ButtonFont"));
-        loadButton.setPos(Renderer::getInstance()->getScreenWidth() - 150, Renderer::getInstance()->getScreenHeight() - 30);
-        loadButton.setText("Начать");
-        string s0 = "GameScene";
-        loadButton.ConnectMethod(std::bind(&SceneManager::setCurrentSceneByName, sceneManagerPtr, s0));
-        Scene::addToUIList(&loadButton);
-
-
-        backButton.setFont(FontManager::getInstance()->getFontByKind("ButtonFont"));
-        backButton.setPos(0, Renderer::getInstance()->getScreenHeight() - 30);
-        backButton.setText("Назад");
-        string s000 = "MainScene";
-        backButton.ConnectMethod(std::bind(&SceneManager::setCurrentSceneByName, sceneManagerPtr, s000));
-        Scene::addToUIList(&backButton);
-        wasInited = false;
-    }
+void MapMenuScene::clear()
+{
+    Scene::clear();
 
 }
 
-void MapMenuScene::finalizeScene()
+void MapMenuScene::initNavigationButtons()
 {
+    TextButton* backButton = new TextButton();
+    backButton->setFont(FontManager::getInstance()->getFontByKind("ButtonFont"));
+    backButton->setPos(0, Renderer::getInstance()->getScreenHeight() - 30);
+    backButton->setText("Назад");
+    string s000 = "MainScene";
+    backButton->ConnectMethod(std::bind(&SceneManager::setCurrentSceneByName, getParentSceneManager(), s000));
+    Scene::addToUIList(backButton);
+
+    TextButton* loadButton = new TextButton();
+    loadButton->setFont(FontManager::getInstance()->getFontByKind("ButtonFont"));
+    loadButton->setPos(Renderer::getInstance()->getScreenWidth() - 150, Renderer::getInstance()->getScreenHeight() - 30);
+    loadButton->setText("Начать");
+    string s0 = "GameScene";
+    loadButton->ConnectMethod(std::bind(&SceneManager::setCurrentSceneByName, getParentSceneManager(), s0));
+    Scene::addToUIList(loadButton);
+
 
 }
 
-void MapMenuScene::startUpdate(double timestep)
+void MapMenuScene::loadMissionView()
 {
+
+    currentMissionIndex =  GameModel::getInstance()->getCurrentMissionIndex();
+
+    string s ="GameData/Missions/" + std::to_string(currentMissionIndex) +"/Mission.xml";
+    GameModel::getInstance()->deserialize(currentMission, s);
+
+    MissionView* currentMissionView = new MissionView();
+    currentMissionView->init(currentMission, FontManager::getInstance()->getFontByKind("ButtonFont"));
+    Scene::addToUIList(currentMissionView);
+
 
 }
 
-void MapMenuScene::resetState()
+void MapMenuScene::loadMapPicture()
 {
-    mapPicture.free();
-    currentMissionView.finalize();
-    Scene::resetState();
+    CTexture* mapPicture = new CTexture();
+    mapPicture->setRect(400, 60, 400, Renderer::getInstance()->getScreenHeight() - 100);
+    string mapImagePath = "GameData/Missions/" + std::to_string(currentMissionIndex) +"/mission.jpg";
+    mapPicture->loadTexture(mapImagePath);
+    Scene::addToUIList(mapPicture);
+}
+
+void MapMenuScene::initMapIndicators()
+{
+    const int mapCount = 2;
+    const int indicatorsHeight = 48;
+    MapIndicator* mapIndicator = new MapIndicator(indicatorsHeight,
+                                                 indicatorsHeight,
+                                                 mapCount,
+                                                 currentMissionIndex);
+    mapIndicator->setRect(420, 0, 150, indicatorsHeight);
+
+    mapIndicator->setCompletedTexture("GameData/textures/MapIndicator/completed.png");
+    mapIndicator->setLockedTexture("GameData/textures/MapIndicator/locked.png");
+    mapIndicator->setNormalTexture("GameData/textures/MapIndicator/normal.png");
+
+    Scene::addToUIList(mapIndicator);
 }
 

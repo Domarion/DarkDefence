@@ -17,208 +17,33 @@
 #include "../GlobalScripts/Renderer.h"
 #include "../Utility/textfilefunctions.h"
 #include <sstream>
+
 using std::stringstream;
 
 
 #include "../GlobalConstants.h"
 
-GameScene::GameScene()
-:Scene(), Terrain(nullptr), gates(nullptr), waveLabel(), itemAbilitiesStorage(), resPlace(nullptr), tileMap(nullptr)
-{
-	// TODO Auto-generated constructor stub
 
+GameScene::GameScene()
+:Scene(), gates(nullptr), gatesHealthBar(nullptr), manaBar(nullptr), pointsLabel(nullptr), waveLabel(nullptr), itemAbilitiesStorage(), tileMap(nullptr)
+{
+    srand (time(NULL));
 }
 
 GameScene::~GameScene()
 {
-    for(size_t i = 0; i != resourceLabels.size(); ++i)
-        delete resourceLabels[i];
-    resourceLabels.clear();
-
-    if (Terrain != nullptr)
-        delete Terrain;
-    if (gates != nullptr)
-        delete gates;
 
     delete tileMap;
 }
 
-void GameScene::initScene(SceneManager* sceneManagerPtr)
+void GameScene::init(SceneManager* sceneManagerPtr)
 {
+    Scene::init(sceneManagerPtr);
+    loadData();
 
-	if (!wasInited)
-	{
-
-        Scene::initScene(sceneManagerPtr);
-        loadData();
-
-
-        topPanel.setRect(0,0, Renderer::getInstance()->getScreenWidth(), 40);
-       // topPanel.loadTexture("GameData/textures/topPanel.png");
-
-
-        gatesHealthBar.setRect(0, 0, 90, 15);
-
-        SDL_Surface *surface1 = SDL_CreateRGBSurface(0, gatesHealthBar.getRect().w, gatesHealthBar.getRect().h, 16, 0, 0, 0, 0);
-        SDL_Surface *surface2 = SDL_CreateRGBSurface(0, gatesHealthBar.getRect().w, gatesHealthBar.getRect().h, 16, 0, 0, 0, 0);
-
-        SDL_FillRect(surface1, nullptr, SDL_MapRGB(surface1->format, 150,100, 0));
-        SDL_FillRect(surface2, nullptr, SDL_MapRGB(surface2->format, 200,100, 0));
-
-
-
-        SDL_Texture  *backTexture = Renderer::getInstance()->getTextureFromSurface(surface1);
-        SDL_Texture  *frontTexture = Renderer::getInstance()->getTextureFromSurface(surface2);
-        SDL_FreeSurface(surface1);
-        SDL_FreeSurface(surface2);
-        gatesHealthBar.setTexture(backTexture);
-        gatesHealthBar.setFrontTexture(frontTexture);
-        backTexture = nullptr;
-        frontTexture = nullptr;
-        gatesHealthBar.calculateFront(5000, 5000);
-        topPanel.addChild(&gatesHealthBar);
-
-
-
-        GameModel::getInstance()->getManaModel()->setLimit(100);
-
-        manaBar.setRect(0, 0, 90, 15);
-
-        SDL_Surface *surface3 = SDL_CreateRGBSurface(0, manaBar.getRect().w, manaBar.getRect().h, 16, 0, 0, 0, 0);
-        SDL_Surface *surface4 = SDL_CreateRGBSurface(0, manaBar.getRect().w, manaBar.getRect().h, 16, 0, 0, 0, 0);
-
-        SDL_FillRect(surface3, nullptr, SDL_MapRGB(surface3->format, 50,0, 200));
-        SDL_FillRect(surface4, nullptr, SDL_MapRGB(surface4->format, 0,0, 255));
-
-        SDL_Texture  *backTexture1 = Renderer::getInstance()->getTextureFromSurface(surface3);
-        SDL_Texture  *frontTexture1 =Renderer::getInstance()->getTextureFromSurface(surface4);
-        SDL_FreeSurface(surface3);
-        SDL_FreeSurface(surface4);
-        manaBar.setTexture(backTexture1);
-        manaBar.setFrontTexture(frontTexture1);
-        //backTexture1 = nullptr;
-        //frontTexture1 = nullptr;
-        manaBar.calculateFront(100, 100);
-        topPanel.addChild(&manaBar, true);
-
-
-
-        resourceLabels.resize(ResourcesModel::resourceTypeCount);
-        for(int i = 0; i != ResourcesModel::resourceTypeCount; ++i)
-        {
-            string s = GameModel::getInstance()->getResourcesModel()->printResourceFromIndex(i);
-            resourceLabels[i] = new CompositeLabel();
-
-            resourceLabels[i]->setFont(FontManager::getInstance()->getFontByKind("TextFont"));
-            string iconPath = "GameData/textures/Resources/"
-                    + GameModel::getInstance()->getResourcesModel()->getResourceNameFromIndex(i) + ".png";
-            resourceLabels[i]->loadIcon( iconPath );
-            resourceLabels[i]->setIconRect(0,0, 30 , 30);
-            resourceLabels[i]->setPos(0, 0);
-
-           // resourceLabels[i]->setRect(0, 0, 120, 24);
-            resourceLabels[i]->setText(s);
-
-            topPanel.addChild(resourceLabels[i]);
-        }
-
-        pointsLabel.setFont(FontManager::getInstance()->getFontByKind("TextFont"));
-        pointsLabel.setRect(0,0, 30, 20);
-        pointsLabel.setPos(0,0);
-        topPanel.addChild(&pointsLabel);
-
-
-
-        waveLabel.setFont(FontManager::getInstance()->getFontByKind("TextFont"));
-        waveLabel.setPos(0,0);
-        topPanel.addChild(&waveLabel);
-
-        Scene::addToUIList(&topPanel);
-
-
-
-
-        Terrain = objectFabric.produce("Terrain", "none", "GameData/textures/terrain.JPG", Renderer::getInstance()->getScreenWidth() , Renderer::getInstance()->getScreenHeight() );
-        spawnObject(0,0, Terrain);
-        towerUpgradeController.init(this);
-        Tower* tower = towerFabric.produceTower("BasicTower", &towerUpgradeController, tileMap);
-        spawnObject(10, 300, tower);
-
-        resPlace = new ResourcePlace();
-        AnimatedSprite* resSprite = new AnimatedSprite();
-        resSprite->setRect(0, 0, 200, 200);
-        resSprite->loadTexture("GameData/textures/Resources/WheatResource.png");
-        resPlace->setSprite(resSprite);
-        resPlace->setName("ResourcePlace");
-        resPlace->setTag("ResourcePlace");
-        spawnObject(300, 200, resPlace);
-
-
-
-
-        srand (time(NULL));
-
-
-       AnimatedSprite* newView = new AnimatedSprite();
-        newView->setRect(0, 0, 200, 200);
-        newView->loadTexture("GameData/textures/Castle2.png");
-        gates = new Gates();
-        gates->setSprite(newView);
-        gates->setTag("Gates");
-        gates->getDestructibleObject()->connectMethod(std::bind(&ProgressBar::calculateFront, &gatesHealthBar, std::placeholders::_1, std::placeholders::_2));
-        gates->getDestructibleObject()->setMaximumHealth(5000);
-
-
-        spawnObject(40,100, gates);
-
-        int x1 = 0;
-        int y1 = Renderer::getInstance()->getScreenHeight() - 50;
-        int w = 50;
-        int h = 50;
-
-
-        spellStorage.loadWithScene(this);
-        std::cout << "productionOfMine beforeItemApply is = " << (GameModel::getInstance()->getMineModelFromListByRes(Enums::ResourceTypes::WOOD)->getProduction()) << std::endl;
-
-        list<string> itemNames = GameModel::getInstance()->getHeroInventory()->getItemNames();
-        itemAbilitiesStorage.loadItemAbilities();
-        for(auto itemNamePtr = itemNames.begin(); itemNamePtr != itemNames.end(); ++itemNamePtr)
-        {
-            ItemAbility* temp = itemAbilitiesStorage.getItemAbilityByName(*itemNamePtr);
-            if (temp != nullptr)
-                temp->init(this);
-        }
-
-          std::cout << "productionOfMine AfterItemApplyis = " << (GameModel::getInstance()->getMineModelFromListByRes(Enums::ResourceTypes::WOOD)->getProduction()) << std::endl;
-
-        abilityButtons.resize( GameModel::getInstance()->getAbilityCount());
-        for(size_t i = 0; i < abilityButtons.size(); x1 += w, ++i)
-        {
-           // std::cout << i << std::endl;
-            string imgPath = "GameData/textures/Abilities/Ability" + GameModel::getInstance()->getAbilityNameFromIndex(i) + ".png";
-            std::cout << imgPath << std::endl;
-            abilityButtons[i].setRect( x1, y1, w, h);
-            abilityButtons[i].loadTexture(imgPath);
-            Scene::addToUIList(&abilityButtons[i]);
-            if (i < 4)
-                abilityButtons[i].ConnectMethod(std::bind(&SpellStorage::setAbilityReady, &spellStorage, GameModel::getInstance()->getAbilityNameFromIndex(i)));
-        }
-
-
-        pauseBtn.setRect(750, 430, 50, 50);
-        pauseBtn.loadTexture("GameData/textures/pause-button.png");
-        pauseBtn.ConnectMethod(std::bind(&GameScene::sendMessage, this, GlobalConstants::Paused));
-        Scene::addToUIList(&pauseBtn);
-
-        resumeBtn.setRect(700, 430, 50, 50);
-        resumeBtn.loadTexture("GameData/textures/resume-button.png");
-        resumeBtn.ConnectMethod(std::bind(&GameScene::sendMessage, this, GlobalConstants::Resumed));
-        Scene::addToUIList(&resumeBtn);
-	}
-
-    InputDispatcher::getInstance()->addHandler(dynamic_cast<InputHandler*>(spellStorage.getAbilityModelWithName("Prick")));
-    InputDispatcher::getInstance()->addHandler(resPlace);
-
+    initUILayer();
+    placeSceneObjects();
+    applyArtefactEffects();
 
 }
 
@@ -227,7 +52,7 @@ void GameScene::startUpdate(double timestep)
 {
     Scene::startUpdate(timestep);
 
-    if (gates->getDestructibleObject() != nullptr)
+    if (gates != nullptr && gates->getDestructibleObject() != nullptr)
     switch(currentMission.checkStatus())
     {
     case MissionStatuses::mIN_PROGRESS:case MissionStatuses::mNOT_STARTED:
@@ -241,7 +66,7 @@ void GameScene::startUpdate(double timestep)
         //std::cout << "fuckThemAll" << std::endl;
 
         GameModel::getInstance()->setMissionReward(currentMission.getReward());
-        parentSceneManager->setCurrentSceneByName(s1);
+        getParentSceneManager()->setCurrentSceneByName(s1);
         break;
     }
     case MissionStatuses::mFAILED:
@@ -249,11 +74,11 @@ void GameScene::startUpdate(double timestep)
         GameModel::getInstance()->setGameStatus(Enums::GameStatuses::gsLOST);
         std::string s2 = "ScoreScene";
         // std::cout << "idiot" << std::endl;
-        parentSceneManager->setCurrentSceneByName(s2);
+        getParentSceneManager()->setCurrentSceneByName(s2);
         break;
     }
     }
-    waveLabel.setText(monsterSpawner.getWaveStringInfo());
+    waveLabel->setText(monsterSpawner.getWaveStringInfo());
     if (monsterSpawner.canSpawn(timestep))
 	{
         if (tileMap == nullptr)
@@ -284,20 +109,23 @@ void GameScene::startUpdate(double timestep)
     else
         if(monsterSpawner.noMoreWaves())
         {
-             waveLabel.setText(monsterSpawner.getWaveStringInfo());
+             waveLabel->setText(monsterSpawner.getWaveStringInfo());
             GameModel::getInstance()->setGameStatus(Enums::GameStatuses::gsWON);
             GameModel::getInstance()->setMissionReward(currentMission.getReward());
             std::string s2 = "ScoreScene";
-            parentSceneManager->setCurrentSceneByName(s2);
+            getParentSceneManager()->setCurrentSceneByName(s2);
         }
 
-    pointsLabel.setText(std::to_string(GameModel::getInstance()->getPointsPerWave()));
+    if (pointsLabel != nullptr)
+        pointsLabel->setText(std::to_string(GameModel::getInstance()->getPointsPerWave()));
 
     GameModel::getInstance()->getManaModel()->regenerate(timestep);
-    manaBar.calculateFront(GameModel::getInstance()->getManaModel()->getCurrent(),GameModel::getInstance()->getManaModel()->getLimit());
+
+    if (manaBar != nullptr)
+        manaBar->calculateFront(GameModel::getInstance()->getManaModel()->getCurrent(),GameModel::getInstance()->getManaModel()->getLimit());
 
 
-    if (gates->getDestructibleObject()->getCurrentHealth() <= 0)
+    if (gates != nullptr && gates->getDestructibleObject()->getCurrentHealth() <= 0)
         GameModel::getInstance()->setGameStatus(Enums::GameStatuses::gsLOST);
 
     spellStorage.updateAbilities(timestep);
@@ -306,8 +134,8 @@ void GameScene::startUpdate(double timestep)
     for(int i = 0; i != ResourcesModel::resourceTypeCount; ++i)
     {
         string s = GameModel::getInstance()->getResourcesModel()->printResourceFromIndex(i);
-
-        resourceLabels[i]->setText(s);
+        if (resourceLabels[i] != nullptr)
+            resourceLabels[i]->setText(s);
     }
 
 }
@@ -363,6 +191,195 @@ void GameScene::loadData()
     tileMap = new TileMapManager(aMapTemplate);
 }
 
+void GameScene::initTopPanel()
+{
+    GroupBox* topPanel = new GroupBox();
+    topPanel->setRect(0,0, Renderer::getInstance()->getScreenWidth(), 40);
+   // topPanel.loadTexture("GameData/textures/topPanel.png");
+
+    gatesHealthBar = new ProgressBar();
+
+    gatesHealthBar->setRect(0, 0, 90, 15);
+
+    SDL_Surface *surface1 = SDL_CreateRGBSurface(0, gatesHealthBar->getRect().w, gatesHealthBar->getRect().h, 16, 0, 0, 0, 0);
+    SDL_Surface *surface2 = SDL_CreateRGBSurface(0, gatesHealthBar->getRect().w, gatesHealthBar->getRect().h, 16, 0, 0, 0, 0);
+
+    SDL_FillRect(surface1, nullptr, SDL_MapRGB(surface1->format, 150,100, 0));
+    SDL_FillRect(surface2, nullptr, SDL_MapRGB(surface2->format, 200,100, 0));
+
+
+
+    SDL_Texture  *backTexture = Renderer::getInstance()->getTextureFromSurface(surface1);
+    SDL_Texture  *frontTexture = Renderer::getInstance()->getTextureFromSurface(surface2);
+    SDL_FreeSurface(surface1);
+    SDL_FreeSurface(surface2);
+    gatesHealthBar->setTexture(backTexture);
+    gatesHealthBar->setFrontTexture(frontTexture);
+
+    gatesHealthBar->calculateFront(5000, 5000);
+    topPanel->addChild(gatesHealthBar);
+
+
+    manaBar = new ProgressBar();
+    GameModel::getInstance()->getManaModel()->setLimit(100);
+
+    manaBar->setRect(0, 0, 90, 15);
+
+    SDL_Surface *surface3 = SDL_CreateRGBSurface(0, manaBar->getRect().w, manaBar->getRect().h, 16, 0, 0, 0, 0);
+    SDL_Surface *surface4 = SDL_CreateRGBSurface(0, manaBar->getRect().w, manaBar->getRect().h, 16, 0, 0, 0, 0);
+
+    SDL_FillRect(surface3, nullptr, SDL_MapRGB(surface3->format, 50,0, 200));
+    SDL_FillRect(surface4, nullptr, SDL_MapRGB(surface4->format, 0,0, 255));
+
+    SDL_Texture  *backTexture1 = Renderer::getInstance()->getTextureFromSurface(surface3);
+    SDL_Texture  *frontTexture1 = Renderer::getInstance()->getTextureFromSurface(surface4);
+    SDL_FreeSurface(surface3);
+    SDL_FreeSurface(surface4);
+    manaBar->setTexture(backTexture1);
+    manaBar->setFrontTexture(frontTexture1);
+    manaBar->calculateFront(100, 100);
+    topPanel->addChild(manaBar, true);
+
+
+
+    resourceLabels.resize(ResourcesModel::resourceTypeCount);
+    for(int i = 0; i != ResourcesModel::resourceTypeCount; ++i)
+    {
+        string s = GameModel::getInstance()->getResourcesModel()->printResourceFromIndex(i);
+        resourceLabels[i] = new CompositeLabel();
+
+        resourceLabels[i]->setFont(FontManager::getInstance()->getFontByKind("TextFont"));
+        string iconPath = "GameData/textures/Resources/"
+                + GameModel::getInstance()->getResourcesModel()->getResourceNameFromIndex(i) + ".png";
+        resourceLabels[i]->loadIcon( iconPath );
+        resourceLabels[i]->setIconRect(0,0, 30 , 30);
+        resourceLabels[i]->setPos(0, 0);
+
+       // resourceLabels[i]->setRect(0, 0, 120, 24);
+        resourceLabels[i]->setText(s);
+
+        topPanel->addChild(resourceLabels[i]);
+    }
+    pointsLabel = new Label();
+    pointsLabel->setFont(FontManager::getInstance()->getFontByKind("TextFont"));
+    pointsLabel->setRect(0,0, 30, 20);
+    pointsLabel->setPos(0,0);
+    topPanel->addChild(pointsLabel);
+
+
+    waveLabel = new Label();
+    waveLabel->setFont(FontManager::getInstance()->getFontByKind("TextFont"));
+    waveLabel->setPos(0,0);
+    topPanel->addChild(waveLabel);
+
+    Scene::addToUIList(topPanel);
+}
+
+void GameScene::initAbilitiesButtons()
+{
+    int x1 = 0;
+    int y1 = Renderer::getInstance()->getScreenHeight() - 50;
+    int w = 50;
+    int h = 50;
+
+    spellStorage.loadWithScene(this);
+
+
+    vector<ImageButton*> abilityButtons( GameModel::getInstance()->getAbilityCount());
+
+    for(size_t i = 0; i < abilityButtons.size(); x1 += w, ++i)
+    {
+        abilityButtons[i] = new ImageButton();
+        abilityButtons[i]->setRect( x1, y1, w, h);
+
+        string imgPath = "GameData/textures/Abilities/Ability" + GameModel::getInstance()->getAbilityNameFromIndex(i) + ".png";
+        abilityButtons[i]->loadTexture(imgPath);
+        Scene::addToUIList(abilityButtons[i]);
+        if (i < 4)
+            abilityButtons[i]->ConnectMethod(std::bind(&SpellStorage::setAbilityReady, &spellStorage, GameModel::getInstance()->getAbilityNameFromIndex(i)));
+    }
+
+    InputDispatcher::getInstance()->addHandler(dynamic_cast<InputHandler*>(spellStorage.getAbilityModelWithName("Prick")));
+
+}
+
+void GameScene::initUILayer()
+{
+    initTopPanel();
+    initAbilitiesButtons();
+
+    ImageButton* pauseBtn = new ImageButton();
+    pauseBtn->setRect(750, 430, 50, 50);
+    pauseBtn->loadTexture("GameData/textures/pause-button.png");
+    pauseBtn->ConnectMethod(std::bind(&GameScene::sendMessage, this, GlobalConstants::Paused));
+    Scene::addToUIList(pauseBtn);
+
+    ImageButton* resumeBtn = new ImageButton();
+    resumeBtn->setRect(700, 430, 50, 50);
+    resumeBtn->loadTexture("GameData/textures/resume-button.png");
+    resumeBtn->ConnectMethod(std::bind(&GameScene::sendMessage, this, GlobalConstants::Resumed));
+    Scene::addToUIList(resumeBtn);
+}
+
+void GameScene::placeResourcesPlaces()
+{
+    ResourcePlace *resPlace = new ResourcePlace();
+    AnimatedSprite* resSprite = new AnimatedSprite();
+    resSprite->setRect(0, 0, 200, 200);
+    resSprite->loadTexture("GameData/textures/Resources/WheatResource.png");
+    resPlace->setSprite(resSprite);
+    resPlace->setName("ResourcePlace");
+    resPlace->setTag("ResourcePlace");
+    spawnObject(300, 200, resPlace);
+}
+
+void GameScene::placeCastle()
+{
+    AnimatedSprite* newView = new AnimatedSprite();
+     newView->setRect(0, 0, 200, 200);
+     newView->loadTexture("GameData/textures/Castle2.png");
+     gates = new Gates();
+     gates->setSprite(newView);
+     gates->setTag("Gates");
+     gates->getDestructibleObject()->connectMethod(std::bind(&ProgressBar::calculateFront, gatesHealthBar, std::placeholders::_1, std::placeholders::_2));
+     gates->getDestructibleObject()->setMaximumHealth(5000);
+     spawnObject(40,100, gates);
+}
+
+void GameScene::placeTowers()
+{
+    towerUpgradeController.init(this);
+    Tower* tower = towerFabric.produceTower("BasicTower", &towerUpgradeController, tileMap);
+    spawnObject(10, 300, tower);
+}
+
+void GameScene::placeSceneObjects()
+{
+    SceneObject* Terrain = objectFabric.produce("Terrain", "none", "GameData/textures/terrain.JPG", Renderer::getInstance()->getScreenWidth() , Renderer::getInstance()->getScreenHeight() );
+    spawnObject(0,0, Terrain);
+
+    placeResourcesPlaces();
+    placeTowers();
+    placeCastle();
+}
+
+void GameScene::applyArtefactEffects()
+{
+
+    std::cout << "productionOfMine beforeItemApply is = " << (GameModel::getInstance()->getMineModelFromListByRes(Enums::ResourceTypes::WOOD)->getProduction()) << std::endl;
+
+    vector<string> itemNames = GameModel::getInstance()->getHeroInventory()->getItemNames();
+    itemAbilitiesStorage.loadItemAbilities();
+    for(auto itemNamePtr = itemNames.begin(); itemNamePtr != itemNames.end(); ++itemNamePtr)
+    {
+        ItemAbility* temp = itemAbilitiesStorage.getItemAbilityByName(*itemNamePtr);
+        if (temp != nullptr)
+            temp->init(this);
+    }
+
+      std::cout << "productionOfMine AfterItemApplyis = " << (GameModel::getInstance()->getMineModelFromListByRes(Enums::ResourceTypes::WOOD)->getProduction()) << std::endl;
+}
+
 vector<vector<int> > GameScene::loadMapTemplate(string mapPath)
 {
     string destString;
@@ -398,9 +415,18 @@ vector<vector<int> > GameScene::loadMapTemplate(string mapPath)
     return resultingMap;
 }
 
-void GameScene::resetState()
+void GameScene::clear()
 {
-
+    pointsLabel = nullptr;
+    waveLabel = nullptr;
+    manaBar = nullptr;
+    gatesHealthBar = nullptr;
+    gates = nullptr;
+    for(auto &resourcelabel : resourceLabels)
+        resourcelabel = nullptr;
+    currentMission.reset();
+    monsterSpawner.reset();
+    Scene::clear();
 }
 
 

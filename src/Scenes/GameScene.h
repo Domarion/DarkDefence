@@ -15,7 +15,6 @@
 #include "../GraphicsSystem/UI/ImageButton.h"
 #include "../GraphicsSystem/UI/ProgressBar.h"
 
-
 #include "../Mob/Gates.h"
 
 #include "../MissionSystem/Mission.h"
@@ -34,8 +33,8 @@ class GameScene: public Scene
 public:
 	GameScene();
 	virtual ~GameScene();
-    virtual void initScene(SceneManager* sceneManagerPtr) override;
-
+    virtual void init(SceneManager* sceneManagerPtr) override;
+    virtual void clear() override;
 	virtual void startUpdate(double timestep) override;
 
     map<string, AbilityModel* >& getAbilityModelList();
@@ -45,39 +44,44 @@ public:
 private:
 
     void loadData();
+
+    void initTopPanel();
+    void initAbilitiesButtons();
+    void initUILayer();
+
+    void placeResourcesPlaces();
+    void placeCastle();
+    void placeTowers();
+    void placeSceneObjects();
+
+    void applyArtefactEffects();
+
+    Gates* gates;
+    ProgressBar *gatesHealthBar, *manaBar;
+    Label* pointsLabel;
+    Label* waveLabel;
+
     vector<vector<int> > loadMapTemplate(string mapPath);
     SceneObjectFabric objectFabric;
-    SceneObject* Terrain;
-    vector<ImageButton> abilityButtons;
-    GroupBox topPanel;
-    vector<CompositeLabel*> resourceLabels;
-    ProgressBar gatesHealthBar;
 
-    ProgressBar manaBar;
+
+    vector<CompositeLabel*> resourceLabels;
+
     TowerFabric towerFabric;
 	MobSpawner monsterSpawner;
-    Gates* gates;
+
 
     Mission currentMission;
-    //std::shared_ptr<CFont> arialFont;
-    Label pointsLabel;
-    Label waveLabel;
+
 
 
     SpellStorage spellStorage;
     ItemAbilitiesStorage itemAbilitiesStorage;
-    ResourcePlace *resPlace;
     TowerUpgradeController towerUpgradeController;
 
-    ImageButton pauseBtn;
-    ImageButton resumeBtn;
+
     void setActiveMstones(string s);
     std::function<void(string)> method;
 
     TileMapManager* tileMap;
-
-
-    // Scene interface
-public:
-    virtual void resetState() override;
 };

@@ -35,8 +35,7 @@ void ScrollList::initScrollList( int itemsToShow,
 
 ScrollList::~ScrollList()
 {
-    for(size_t i = 0; i < itemList.size(); ++i)
-        delete itemList[i];
+    clear();
 	// TODO Auto-generated destructor stub
 }
 
@@ -72,37 +71,36 @@ void ScrollList::removeItem(int index)
     if (itemList.size() == 1)
     {
         firstToShow = lastToShow = -1;
-           itemList.pop_back();
-           return;
+
+        IDrawable* backItem = itemList.back();
+        itemList.pop_back();
+        delete backItem;
+
+        return;
 
     }
 
     if (index == itemList.size() - 1)
     {
         --lastToShow;
+        IDrawable* backItem = itemList.back();
         itemList.pop_back();
+        delete backItem;
 
         return;
     }
+
+    delete itemList[index];
 
     for(int i = index; i < itemList.size() - 1; ++i)
         itemList[i] = itemList[i + 1];
 
     itemList.pop_back();
-   // itemList[itemList.size() - 1] = nullptr;
-
 
 
     if (lastToShow >= itemList.size())
         lastToShow = itemList.size() - 1;
-  //  if (lastToShow <= itemCountToShow - 1 && itemList.size() <= itemCountToShow)
-    //   --lastToShow;
-    /*
-			if (lastToShow != firstToShow && lastToShow != itemList.size() - 1)
-			{
-				std::swap(itemList[index], itemList[itemList.size() - 1]);
-				//calculateVisibleItemsPositions();
-            }*/
+
 
     calculateVisibleItemsPositions();
 
@@ -141,6 +139,8 @@ void ScrollList::clear()
 {
     firstToShow = lastToShow = -1;
     itemCountToShow = 0;
+    for(size_t i = 0; i < itemList.size(); ++i)
+        delete itemList[i];
     itemList.clear();
 }
 

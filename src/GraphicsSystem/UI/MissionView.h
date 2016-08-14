@@ -14,7 +14,7 @@ public:
     virtual ~MissionView();
     void init(Mission& missionRef, std::shared_ptr<CFont> arialFont);
     virtual void draw() override;
-    void finalize();
+    void clear();
 
 private:
     Label missionName;
