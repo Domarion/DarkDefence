@@ -96,7 +96,7 @@ public:
     MobAbility* getMobAbilityByName(string name);
 
     void saveGameData(string filename);
-
+    void loadGameData(string filename);
 private:
     GameModel();
     ~GameModel();
@@ -126,5 +126,6 @@ private:
 
     map<string, MobAbility*> mobAbilitiesMap;
     bool shopItemsLoaded;
+    bool gameDataLoaded;
 };
 

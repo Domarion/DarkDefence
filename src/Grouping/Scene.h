@@ -39,7 +39,7 @@ public:
     SceneObject* findObjectWithPos(int x, int y);
     list<SceneObject*>* findObjectsWithPos(int x, int y);
     SceneManager* getParentSceneManager();
-
+    virtual void onGameQuit();
 
 
 private:

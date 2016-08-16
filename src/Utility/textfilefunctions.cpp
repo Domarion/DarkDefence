@@ -55,7 +55,26 @@ void saveStringsTofile(SDL_RWops* filetoWrite, const vector<string> &strings)
         }
     }
 }
+void loadStringsFromfile(SDL_RWops* filetoRead, vector<string> &strings)
+{
+    if (filetoRead != nullptr)
+    {
+        int stringCount{0};
+        SDL_RWread(filetoRead, &stringCount, sizeof(int), 1);
+        strings.resize(stringCount);
+        for(int i = 0; i < stringCount; ++i)
+        {
+            int stringByteLength{};
+            SDL_RWread(filetoRead, &stringByteLength, sizeof(int), 1);
 
+            char* char_string =  new char[stringByteLength + 1];
+            SDL_RWread(filetoRead, char_string, 1, stringByteLength);
+            char_string[stringByteLength] = '\0';
+
+            strings[i].assign(char_string);
+        }
+    }
+}
 
 
 }

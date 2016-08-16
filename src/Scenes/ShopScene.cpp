@@ -64,15 +64,15 @@ void ShopScene::initBackGroundUI()
     Scene::addToUIList(backGround);
 
     goldCoins = new Label();
-    goldCoins->setFont(FontManager::getInstance()->getFontByKind("TextFont"));
+    goldCoins->setFont(FontManager::getInstance()->getFontByKind("ButtonFont"));
     string goldAmount = std::to_string(AccountModel::getInstance()->getGoldAmount());
     goldCoins->setText(goldAmount);
-    goldCoins->setPos(Renderer::getInstance()->getScreenWidth() - 100 - goldCoins->getRect().w - 10, Renderer::getInstance()->getScreenHeight() - 50);
+    goldCoins->setPos(Renderer::getInstance()->getScreenWidth() - 310, Renderer::getInstance()->getScreenHeight() - 50);
 
     Scene::addToUIList(goldCoins);
 
     Label* sceneName = new Label();
-    sceneName->setFont(FontManager::getInstance()->getFontByKind("TextFont"));
+    sceneName->setFont(FontManager::getInstance()->getFontByKind("ButtonFont"));
     string sceneNameString = "Мистическая лавка";
     sceneName->setText(sceneNameString);
     sceneName->setPos(goldCoins->getRect().x - sceneName->getRect().w -100, goldCoins->getRect().y);

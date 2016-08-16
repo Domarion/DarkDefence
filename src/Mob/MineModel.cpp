@@ -8,6 +8,7 @@
 #include "MineModel.h"
 #include "../GlobalScripts/GameModel.h"
 MineModel::MineModel()
+    :DestructibleObject(),limit(0,0), production(0, 0), productionPeriod(0, 0), currentTime(0.0), productionType(Enums::ResourceTypes::WHEAT)
 {
 	// TODO Auto-generated constructor stub
 

@@ -135,7 +135,10 @@ bool GameApp::processInput()
     while (SDL_PollEvent(&event) != 0)
     {
         if (event.type == SDL_QUIT)
+        {
+            //bsceneManager->getCurrentScene()->onGameQuit();
             needQuit = true;
+        }
         else
             InputDispatcher::getInstance()->sendEvent(&event);
     }

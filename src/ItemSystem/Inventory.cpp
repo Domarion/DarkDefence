@@ -64,6 +64,12 @@ int Inventory::getItemIndexByName(string name)
     return -1;
 }
 
+void Inventory::sendItemWithoutPriceCheck(string name)
+{
+    size_t index = getItemIndexByName(name);
+    this->sendItem(index);
+}
+
 void Inventory::receiveItem(ItemModel item)
 {
     std::cout << " Inventory itemReceived" << std::endl;

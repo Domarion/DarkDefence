@@ -99,7 +99,6 @@ bool TowerUpgradeController::menuClickHandler(size_t itemIndex)
     if (itemIndex == currentTowerChildren.size())
     {
         parentGameScene->removeFromUIList(&towerMenu);
-        InputDispatcher::getInstance()->removeHandler(&towerMenu);
         return false;
     }
 
@@ -132,11 +131,9 @@ bool TowerUpgradeController::menuClickHandler(size_t itemIndex)
 
         int x = cachedTower->getSprite()->getRect().x;
         int y = cachedTower->getSprite()->getRect().y;
-           InputDispatcher::getInstance()->removeHandler(cachedTower);
         parentGameScene->destroyObject(cachedTower);
 
         parentGameScene->removeFromUIList(&towerMenu);
-        InputDispatcher::getInstance()->removeHandler(&towerMenu);
 
         cachedTower = fabric->produceTower(towerName, this, cachedTower->getTileMapManager());
         if (cachedTower == nullptr)

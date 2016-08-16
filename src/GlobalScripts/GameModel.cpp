@@ -177,9 +177,6 @@ void GameModel::deserialize(Mission &obj, string filename)
         xmlinp.register_type<ResourceGoal>();
         xmlinp >> boost::serialization::make_nvp("Mission", obj);
     }
-
-
-
 }
 
 TreeNode<MobModel>* GameModel::getRootTower()
@@ -195,11 +192,8 @@ void GameModel::addItemToInventoryByName(string name)
 
     loadShopItems("GameData/Items.xml");
 
-    int index = shop.getItemIndexByName(name);
-    if (index >= 0)
-    {
-        shop.sendItem(index);
-    }
+    shop.sendItemWithoutPriceCheck(name);
+
 }
 
 bool GameModel::canSpawn() const
@@ -287,12 +281,56 @@ void GameModel::saveGameData(string filename)
     {
         int goldAmount = AccountModel::getInstance()->getGoldAmount();
         SDL_RWwrite(binaryDataFile, &goldAmount, sizeof(int), 1);
+        SDL_RWwrite(binaryDataFile, &currentMissionIndex, sizeof(int), 1);
         vector<string> inventoryItemsNames = getInventory()->getItemNames();
         androidText::saveStringsTofile(binaryDataFile, inventoryItemsNames);
         vector<string> heroItemsNames = getHeroInventory()->getItemNames();
         androidText::saveStringsTofile(binaryDataFile, heroItemsNames);
         SDL_RWclose(binaryDataFile);
     }
+}
+
+void GameModel::loadGameData(string filename)
+{
+    if (gameDataLoaded == false)
+    {
+        string filename1(filename);
+        androidText::setRelativePath(filename1);
+
+        SDL_RWops* binaryDataFile = SDL_RWFromFile(filename1.c_str(),"r+b");
+        if (binaryDataFile != nullptr)
+        {
+            int goldAmount{};
+            SDL_RWread(binaryDataFile, &goldAmount, sizeof(int), 1);
+            AccountModel::getInstance()->setGoldAmount(goldAmount);
+            SDL_RWread(binaryDataFile, &currentMissionIndex, sizeof(int), 1);
+
+            std::cout << "HASGOLD=" << AccountModel::getInstance()->getGoldAmount() << std::endl;
+            vector<string> inventoryItemsNames;
+            androidText::loadStringsFromfile(binaryDataFile, inventoryItemsNames);
+
+            loadShopItems("GameData/Items.xml");
+
+
+            for(auto itemName : inventoryItemsNames)
+                shop.sendItemWithoutPriceCheck(itemName);
+
+
+
+            vector<string> heroItemsNames;
+            androidText::loadStringsFromfile(binaryDataFile, heroItemsNames);
+
+            for(auto itemName : heroItemsNames)
+            {
+                shop.sendItemWithoutPriceCheck(itemName);
+                inventory.sendItemWithoutPriceCheck(itemName);
+            }
+
+            SDL_RWclose(binaryDataFile);
+        }
+        gameDataLoaded = true;
+    }
+
 }
 
 const Reward& GameModel::getMissionReward() const
@@ -430,7 +468,8 @@ ResourcesModel* GameModel::getResourcesModel()
 GameModel::GameModel()
 :waveNumber(0), waveCount(0), pointsPerWave(0), pointsPerMap(0),
  pointsRefundModifier(1), MonsterCountOnMap( 0 ), gameStatus(Enums::GameStatuses::gsINPROGRESS), currentMissionIndex(0), heroFigure(9),
- resourcesModelPtr(new ResourcesModel()), towerUpgradesRootNode(), missionReward(),shopItemsLoaded(false)
+ resourcesModelPtr(new ResourcesModel()), towerUpgradesRootNode(), missionReward(),
+  shopItemsLoaded(false), gameDataLoaded(false)
 {
 
 }

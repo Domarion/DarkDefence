@@ -298,9 +298,13 @@ void GameScene::initAbilitiesButtons()
         if (i < 4)
             abilityButtons[i]->ConnectMethod(std::bind(&SpellStorage::setAbilityReady, &spellStorage, GameModel::getInstance()->getAbilityNameFromIndex(i)));
     }
-
-    InputDispatcher::getInstance()->addHandler(dynamic_cast<InputHandler*>(spellStorage.getAbilityModelWithName("Prick")));
-
+    InputHandler* prickhandler = dynamic_cast<InputHandler*>(spellStorage.getAbilityModelWithName("Prick"));
+    if(prickhandler != nullptr)
+    {
+        InputDispatcher::getInstance()->addHandler(prickhandler);
+    }
+    else
+        std::cout << "WTF_prick" << std::endl;
 }
 
 void GameScene::initUILayer()

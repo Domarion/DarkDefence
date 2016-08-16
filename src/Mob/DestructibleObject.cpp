@@ -121,7 +121,7 @@ bool DestructibleObject::changeHealth(int amount)
 
     if (connectedMethod != nullptr)
         connectedMethod(currentHealth,  getMaximumHealth());
-    return (currentHealth > 0);
+    return (currentHealth <= 0);
 }
 
 void DestructibleObject::setCurrentHealth(int hp)

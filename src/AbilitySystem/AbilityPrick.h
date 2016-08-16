@@ -15,7 +15,7 @@ public:
     virtual bool onCooldown(double timestep) override;
     int getDamage() const;
     void setDamage(int value);
-
+bool update(double timestep) override;
 private:
     int damage;
     PrickObject* somePrick;

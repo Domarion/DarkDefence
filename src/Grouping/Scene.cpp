@@ -12,6 +12,7 @@
 using std::list;
 #include "../Input/InputDispatcher.h"
 #include "../GraphicsSystem/UI/TextButton.h"
+#include "../GlobalScripts/GameModel.h"
 
 Scene::Scene()
 :listGUI(), sceneObjects(), parentSceneManager(nullptr), wasInited(false)
@@ -188,6 +189,12 @@ list<SceneObject *> *Scene::findObjectsWithPos(int x, int y)
 SceneManager *Scene::getParentSceneManager()
 {
     return parentSceneManager;
+}
+
+void Scene::onGameQuit()
+{
+    GameModel::getInstance()->saveGameData("GameData/save.bin");
+
 }
 
 void Scene::addLoadSceneButton(string aButtonName, string aFontName, string aSceneName, int posX, int posY, int width, int height)

@@ -220,6 +220,7 @@ void AIComponent::Attack()
         {
             avaliableTargets.remove(currentTarget);
             currentTarget = nullptr;
+            std::cout << "WHY" << std::endl;
 
         }
         delete[] damage;

@@ -8,7 +8,7 @@
 #include "MainScene.h"
 #include "../Utility/textfilefunctions.h"
 #include <sstream>
-
+#include "../GlobalScripts/GameModel.h"
 MainScene::MainScene()
 {
 }
@@ -90,6 +90,8 @@ void MainScene::initBackground()
     backGround->loadTexture("GameData/textures/castle.jpg");
     backGround->setRect(0, 0, Renderer::getInstance()->getScreenWidth(), Renderer::getInstance()->getScreenHeight());
     Scene::addToUIList(backGround);
+
+    GameModel::getInstance()->loadGameData("GameData/save.bin");
 }
 
 

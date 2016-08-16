@@ -27,6 +27,7 @@ public:
 	virtual ~Inventory();
     virtual bool sendItem(size_t index);
     int getItemIndexByName(string name);
+    virtual void sendItemWithoutPriceCheck(string name);
 	virtual void receiveItem(ItemModel item);
 	virtual void addItem(ItemModel item);
 
