@@ -57,8 +57,10 @@ void ScrollList::addItem(IDrawable* item)
 			}
 
 
-        item->setRect(getRect().x, getRect().y, itemWidth, itemHeight);
-         item->setPos(getRect().x, getRect().y);
+
+        item->setSize(itemWidth, itemHeight);
+
+        item->setPos(getRect().x, getRect().y);
 
          calculateVisibleItemsPositions();
 	}

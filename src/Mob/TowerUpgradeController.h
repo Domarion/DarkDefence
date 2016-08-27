@@ -25,7 +25,7 @@ private:
 
     std::shared_ptr<CFont> arialFont1;
     Tower *cachedTower;
-    vector<string> currentTowerChildren;
+    vector<string> currentTowerChildrenNames;
     ScrollList towerMenu;
     TowerFabric* fabric;
 };

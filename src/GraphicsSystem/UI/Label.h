@@ -12,7 +12,7 @@
 class Label: public IDrawable
 {
 public:
-    Label(const string& lText, std::shared_ptr<CFont> lFont);
+    Label(const string& lText, std::shared_ptr<CFont>& lFont);
     Label(const string& lText);
     Label();
     ~Label();

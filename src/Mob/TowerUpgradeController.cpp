@@ -3,6 +3,7 @@
 #include "../GraphicsSystem/UI/CompositeLabel.h"
 #include <iostream>
 #include "../Input/InputDispatcher.h"
+#include "../GraphicsSystem/UI/GroupBox.h"
 
 TowerUpgradeController::TowerUpgradeController()
     :parentGameScene(nullptr), arialFont1(new CFont()), cachedTower(nullptr), fabric(new TowerFabric())
@@ -42,38 +43,59 @@ void TowerUpgradeController::receiveTowerUpgrade(Tower *tower)
       std::cout << "TOWER2" << std::endl;
 
 
-    currentTowerChildren = currentGrade->getChildrenNames();
+    currentTowerChildrenNames = currentGrade->getChildrenNames();
 
+    auto currentTowerChildren = currentGrade->getChildren();
 
-    std::cout << "TOWERupCHILDREN SIZE = " << (currentTowerChildren.size()) << std::endl;
-    towerMenu.initScrollList(currentTowerChildren.size() + 1, 150, 48);
-    towerMenu.setRect(tower->getSprite()->getRect().x + 150, tower->getSprite()->getRect().y, 300, 400);
-      std::cout << "TOWER_MENU_POS x = " << (towerMenu.getRect().x) << " y = " << (towerMenu.getRect().y) << std::endl;
+    towerMenu.initScrollList(currentTowerChildrenNames.size() + 1, 300, 100);
+    towerMenu.setRect(200, 100, 300, 600);
 
-    for(size_t i = 0; i < currentTowerChildren.size(); ++i)
+    const int iconWidth = 48;
+    const int iconWidthSmall = 22;
+
+    for(auto& childrenName: currentTowerChildrenNames)//TODO:new UI View for upgrades
     {
-        CompositeLabel* label = new CompositeLabel();
-        label->setFont(arialFont1);
-        string iconPath = "GameData/textures/Towers/UpgradeIcons/" + currentTowerChildren[i] +".jpg";
-        std::cout << iconPath << std::endl;
-        label->loadIcon(iconPath);
-        label->setIconRect(0,0, 48, 48);
-        //label->setPos(0,0);
-        label->setText(currentTowerChildren[i]);
+        MobModel childModel = currentTowerChildren.at(childrenName).getData();
 
-        std::cout << "LabelText= " << (label->getText()) << std::endl;
-        towerMenu.addItem(label);
+        GroupBox* menuItem = new GroupBox();
+        towerMenu.addItem(menuItem);
+        CTexture* upgradeIcon = new CTexture(iconWidth, iconWidth);
+        string iconPath = "GameData/textures/Towers/UpgradeIcons/" + childrenName +".jpg";
+        upgradeIcon->loadTexture(iconPath);
+        menuItem->addChild(upgradeIcon);
+
+
+        Label* upgradeName = new Label(childrenName, arialFont1);
+        menuItem->addChild(upgradeName);
+
+        GroupBox* priceLabels= new GroupBox();
+        menuItem->addChild(priceLabels, true);
+
+        int* childPrice = childModel.getPrice();
+        const size_t priceCount = ResourcesModel::resourceTypeCount;
+        for(size_t i = 0; i < priceCount; ++i)
+        {
+            CTexture* resourceIcon = new CTexture(iconWidthSmall, iconWidthSmall);
+
+            string RiconPath = "GameData/textures/Resources/"
+                    + GameModel::getInstance()->getResourcesModel()->getResourceNameFromIndex(i) + ".png";
+            resourceIcon->loadTexture(RiconPath);
+            priceLabels->addChild(resourceIcon);
+
+            Label* resourceLabel = new Label(std::to_string(childPrice[i]), arialFont1);
+            priceLabels->addChild(resourceLabel);
+        }
+
+
+        //attack damage, distance, reloadTime, abilities, UPprices
+
     }
 
-    CompositeLabel* closeLabel = new CompositeLabel();
-    closeLabel->setFont(arialFont1);
+
+    CTexture* closeButton = new CTexture(iconWidth, iconWidth);
+    towerMenu.addItem(closeButton);
     string iconPath = "GameData/textures/Towers/UpgradeIcons/CloseLabel.png";
-    std::cout << iconPath << std::endl;
-    closeLabel->loadIcon(iconPath);
-    closeLabel->setIconRect(0,0, 48, 48);
-    //label->setPos(0,0);
-    closeLabel->setText("Close");
-    towerMenu.addItem(closeLabel);
+    closeButton->loadTexture(iconPath);
 
 
 
@@ -96,14 +118,14 @@ bool TowerUpgradeController::menuClickHandler(size_t itemIndex)
     if (parentGameScene == nullptr || cachedTower == nullptr)
         return false;
 
-    if (itemIndex == currentTowerChildren.size())
+    if (itemIndex == currentTowerChildrenNames.size())
     {
         parentGameScene->removeFromUIList(&towerMenu);
         return false;
     }
 
     std::cout << "itemIndex = " << itemIndex << std::endl;
-    string towerName = currentTowerChildren[itemIndex];
+    string towerName = currentTowerChildrenNames[itemIndex];
     std::cout << "towername = " << towerName << std::endl;
 
     TreeNode<MobModel>* rootTower = GameModel::getInstance()->getRootTower();

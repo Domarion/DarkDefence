@@ -48,6 +48,13 @@ CTexture::CTexture(const string& filename)
 
 }
 
+CTexture::CTexture(int aWidth, int aHeight)
+: texture(nullptr), zOrder(0)
+{
+    setPos(0, 0);
+    setSize(aWidth,aHeight);
+}
+
 
 void CTexture::draw()
 {

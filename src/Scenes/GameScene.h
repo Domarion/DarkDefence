@@ -27,6 +27,7 @@ using std::vector;
 #include "../Mob/TowerUpgradeController.h"
 #include "../AbilitySystem/ItemAbilities/ItemAbilitiesStorage.h"
 
+#include "../GlobalScripts/ManaGlobal.h"
 
 class GameScene: public Scene
 {
@@ -61,7 +62,6 @@ private:
     Label* pointsLabel;
     Label* waveLabel;
 
-    vector<vector<int> > loadMapTemplate(string mapPath);
     SceneObjectFabric objectFabric;
 
 
@@ -84,4 +84,5 @@ private:
     std::function<void(string)> method;
 
     TileMapManager* tileMap;
+    ManaGlobal* manaModel;
 };

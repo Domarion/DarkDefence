@@ -1,5 +1,7 @@
 #include "textfilefunctions.h"
 #include <iostream>
+#include <sstream>
+
 namespace androidText
 {
 
@@ -76,5 +78,38 @@ void loadStringsFromfile(SDL_RWops* filetoRead, vector<string> &strings)
     }
 }
 
+vector<vector<int> > loadMatrixFromFile(string filename)
+{
+    string destString;
+    loadTextFileToString(filename, destString);
 
+
+    vector<vector<int> > resultingMap;
+
+    if (!destString.empty())
+    {
+        std::stringstream stream(destString);
+        size_t n = 0;
+        size_t m = 0;
+
+        stream >> n;
+        stream >> m;
+
+        resultingMap.resize(n);
+        for(size_t row = 0; row < n; ++row)
+            resultingMap[row].resize(m);
+
+        for(size_t row = 0; row < n; ++row)
+            for(size_t column = 0; column < m; ++column)
+            {
+                std::cout << "row = " << row << " column= " << column;
+                int res;
+                stream >> res;
+                std::cout << "result = " << res << std::endl;
+                resultingMap[row][column] = res;
+            }
+    }
+
+    return resultingMap;
+}
 }

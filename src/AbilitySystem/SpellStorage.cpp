@@ -3,6 +3,7 @@
 #include "../AbilitySystem/AbilitySnowStorm.h"
 #include "../AbilitySystem/AbilityShrink.h"
 #include "../AbilitySystem/AbilityPrick.h"
+#include "../AbilitySystem/AbilityEarthquake.h"
 
 SpellStorage::SpellStorage()
 {
@@ -46,10 +47,18 @@ void SpellStorage::loadWithScene(Scene *scenePtr)
     prick->setWorkTime(0);
     prick->setDamage(120);
 
+    AbilityEarthquake* quake = new AbilityEarthquake();
+    quake->init(scenePtr);
+    quake->setManaCost(50);
+    quake->setCooldownTime(10000);
+    quake->setWorkTime(3000);
+    quake->setDamagePerSecond(30);
+
     abilityModelsMap["MagicStones"] = magicStones;
     abilityModelsMap["SnowStorm"] = snowStorm;
     abilityModelsMap["Shrink"] = shrink;
     abilityModelsMap["Prick"] = prick;
+    abilityModelsMap["Earthquake"] = quake;
 }
 
 AbilityModel * SpellStorage::getAbilityModelWithName(string name)

@@ -11,10 +11,10 @@ using std::cout;
 using std::endl;
 
 
-Label::Label(const string &lText, std::shared_ptr<CFont> lFont)
- : text(lText),font(lFont), texture()
+Label::Label(const string &lText, std::shared_ptr<CFont> &lFont)
 {
-
+    setFont(lFont);
+    setText(lText);
 }
 
 Label::Label(const string& lText)

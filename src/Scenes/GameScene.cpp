@@ -16,9 +16,7 @@
 #include "../Input/InputDispatcher.h"
 #include "../GlobalScripts/Renderer.h"
 #include "../Utility/textfilefunctions.h"
-#include <sstream>
 
-using std::stringstream;
 
 
 #include "../GlobalConstants.h"
@@ -187,7 +185,7 @@ void GameScene::loadData()
     GameModel::getInstance()->loadAbilitiesNames("GameData/abilities.txt");
 
     string tileMapMatrixPath = "GameData/Missions/" + std::to_string(curIndex) + "/map.txt";
-    vector<vector<int> > aMapTemplate = loadMapTemplate(tileMapMatrixPath);
+    vector<vector<int> > aMapTemplate = androidText::loadMatrixFromFile(tileMapMatrixPath);
     tileMap = new TileMapManager(aMapTemplate);
 }
 
@@ -295,8 +293,8 @@ void GameScene::initAbilitiesButtons()
         string imgPath = "GameData/textures/Abilities/Ability" + GameModel::getInstance()->getAbilityNameFromIndex(i) + ".png";
         abilityButtons[i]->loadTexture(imgPath);
         Scene::addToUIList(abilityButtons[i]);
-        if (i < 4)
-            abilityButtons[i]->ConnectMethod(std::bind(&SpellStorage::setAbilityReady, &spellStorage, GameModel::getInstance()->getAbilityNameFromIndex(i)));
+
+        abilityButtons[i]->ConnectMethod(std::bind(&SpellStorage::setAbilityReady, &spellStorage, GameModel::getInstance()->getAbilityNameFromIndex(i)));
     }
     InputHandler* prickhandler = dynamic_cast<InputHandler*>(spellStorage.getAbilityModelWithName("Prick"));
     if(prickhandler != nullptr)
@@ -384,40 +382,7 @@ void GameScene::applyArtefactEffects()
       std::cout << "productionOfMine AfterItemApplyis = " << (GameModel::getInstance()->getMineModelFromListByRes(Enums::ResourceTypes::WOOD)->getProduction()) << std::endl;
 }
 
-vector<vector<int> > GameScene::loadMapTemplate(string mapPath)
-{
-    string destString;
-    androidText::loadTextFileToString(mapPath, destString);
 
-
-    vector<vector<int> > resultingMap;
-
-    if (!destString.empty())
-    {
-        stringstream stream(destString);
-        size_t n = 0;
-        size_t m = 0;
-
-        stream >> n;
-        stream >> m;
-
-        resultingMap.resize(n);
-        for(size_t row = 0; row < n; ++row)
-            resultingMap[row].resize(m);
-
-        for(size_t row = 0; row < n; ++row)
-            for(size_t column = 0; column < m; ++column)
-            {
-                std::cout << "row = " << row << " column= " << column;
-                int res;
-                stream >> res;
-                std::cout << "result = " << res << std::endl;
-                resultingMap[row][column] = res;
-            }
-    }
-
-    return resultingMap;
-}
 
 void GameScene::clear()
 {

@@ -11,7 +11,7 @@
 class ResourcesModel
 {
 public:
-	static const int resourceTypeCount = 4;
+    static const int resourceTypeCount = 3;
 	ResourcesModel();
 	~ResourcesModel();
 	std::string getResourceNameFromIndex(int index);

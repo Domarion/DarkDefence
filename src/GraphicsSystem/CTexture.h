@@ -13,7 +13,7 @@ public:
     CTexture(SDL_Texture* aTexture, const SDL_Rect& newRect);
     explicit CTexture(SDL_Texture* aTexture = nullptr);
     explicit CTexture(const string& filename);
-
+    explicit CTexture(int aWidth, int aHeight);
     virtual ~CTexture();
     void free();
     virtual void draw() override;
