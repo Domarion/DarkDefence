@@ -57,7 +57,7 @@ void MissionView::init(Mission& missionRef, std::shared_ptr<CFont> arialFont)
             if (resGoal != nullptr)
             {
                 str = "GameData/textures/Resources/"
-                        + GameModel::getInstance()->getResourcesModel()->getResourceNameFromIndex(resGoal->getResourceType()) + ".png";
+                        + GameModel::getInstance()->getResourcesModel()->getResourceNameFromIndex(static_cast<int>(resGoal->getResourceType())) + ".png";
             }
 
         }

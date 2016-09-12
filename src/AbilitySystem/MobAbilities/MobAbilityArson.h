@@ -19,6 +19,12 @@ public:
     // MobAbility interface
 public:
     virtual bool isTargetable() override;
+
+    // MobAbility interface
+public:
+    virtual bool canTrigger(SceneObject *targ, AIMobStates aistate) override;
+private:
+    EffectModel arsonEffect;
 };
 
 

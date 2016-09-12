@@ -332,13 +332,13 @@ void GameScene::placeResourcesPlaces()
     resPlace->setSprite(resSprite);
     resPlace->setName("ResourcePlace");
     resPlace->setTag("ResourcePlace");
-    spawnObject(300, 200, resPlace);
+    spawnObject(400, 100, resPlace);
 }
 
 void GameScene::placeCastle()
 {
     AnimatedSprite* newView = new AnimatedSprite();
-     newView->setRect(0, 0, 200, 200);
+     newView->setRect(0, 0, 120, 120);
      newView->loadTexture("GameData/textures/Castle2.png");
      gates = new Gates();
      gates->setSprite(newView);
@@ -351,8 +351,17 @@ void GameScene::placeCastle()
 void GameScene::placeTowers()
 {
     towerUpgradeController.init(this);
-    Tower* tower = towerFabric.produceTower("BasicTower", &towerUpgradeController, tileMap);
-    spawnObject(10, 300, tower);
+
+    list<string> towerNames = {"WatcherTower","BallistaTower", "CatapultTower", "MageTower", "ProductivityTower",
+                               "WindTower", "EarthTower","CloudTower"};
+    int x = 10;
+    for(const auto& towerName : towerNames)
+    {
+        Tower* tower = towerFabric.produceTower(towerName, &towerUpgradeController, tileMap);
+        spawnObject(x, 300, tower);
+        x+= 60;
+    }
+
 }
 
 void GameScene::placeSceneObjects()

@@ -27,7 +27,7 @@ bool ResourcePlace::onClick(SDL_Point *point)
     if (SDL_PointInRect(point, &getSprite()->getRect()))
     {
 
-           std::cout << "resType =" << resourceType << std::endl;
+           //std::cout << "resType =" << resourceType << std::endl;
          MineModel* tempMineModel = GameModel::getInstance()->getMineModelByRes(resourceType);
         tempMineModel->setLimit(this->limit);
         Mine * tempMine = new Mine();

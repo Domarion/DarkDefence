@@ -16,7 +16,7 @@ void HelmOfLigofglass::init(Scene* const scenePtr)
     TreeNode<MobModel>* tower = GameModel::getInstance()->getRootTower()->recursiveSearch(towerName);
     if (tower != nullptr)
     {
-        int dmg = tower->getData().getAttackDamageWithIndex(Enums::DamageTypes::dtFIRE) + 10;
-        tower->getData().setAttackDamageWithIndex(Enums::DamageTypes::dtFIRE, dmg);
+        int dmg = tower->getData().getAttackDamageWithIndex(static_cast<int>(Enums::DamageTypes::dtFIRE)) + 10;
+        tower->getData().setAttackDamageWithIndex(static_cast<int>(Enums::DamageTypes::dtFIRE), dmg);
     }
 }

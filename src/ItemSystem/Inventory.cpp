@@ -77,7 +77,7 @@ void Inventory::receiveItem(ItemModel item)
     {
 		items.push_back(item);
         if (connectedMethod != nullptr)
-            connectedMethod(item.getCaption(), item.getItemType());
+            connectedMethod(item.getCaption(), static_cast<int>(item.getItemType()));
     }
 }
 

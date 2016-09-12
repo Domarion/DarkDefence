@@ -31,7 +31,7 @@ inline bool TreeNode<T>::addChild(string itemname, TreeNode<T>& item)
 template<typename T>
 inline bool TreeNode<T>::addChildData(string itemname, T& nodeData)
 {
-    TreeNode<T>* item = new TreeNode<T>("itemname", this->getNodeName(), nodeData);
+    TreeNode<T>* item = new TreeNode<T>(itemname, this->getNodeName(), nodeData);
     return addChild(itemname, *item);
 }
 
@@ -66,11 +66,6 @@ inline bool TreeNode<T>::addChildtoParent(string parentname, string itemname,
 
 }
 
-/*template<typename T>
-inline TreeNode<T>::TreeNode(string name, const T& newData)
-:nodeName(name), data(newData)
-{
-}*/
 
 template<typename T>
 inline TreeNode<T>::TreeNode(string name, string parent_name, T& newData)

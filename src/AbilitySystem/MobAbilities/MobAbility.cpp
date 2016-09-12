@@ -11,7 +11,7 @@ MobAbility::~MobAbility()
 
 }
 
-void MobAbility::setTarget(DestructibleObject *targ)
+void MobAbility::setTarget(SceneObject *targ)
 {
     target = targ;
     if (target == nullptr)
@@ -27,4 +27,3 @@ bool MobAbility::isTargetable()
 {
     return false;
 }
-

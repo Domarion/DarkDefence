@@ -28,7 +28,7 @@ void BurningStick::update(double timestep)
     if (currentTime <= 0.0)
     {
         currentTime = period;
-        GameModel::getInstance()->getResourcesModel()->removeResource(Enums::ResourceTypes::WOOD, amount);
+        GameModel::getInstance()->getResourcesModel()->removeResource(static_cast<int>(Enums::ResourceTypes::WOOD), amount);
     }
     else
         currentTime -= timestep;

@@ -16,7 +16,7 @@ void TitanChock::init(Scene* const scenePtr)
     TreeNode<MobModel>* tower = GameModel::getInstance()->getRootTower()->recursiveSearch(towerName);
     if (tower != nullptr)
     {
-        int dmg = tower->getData().getAttackDamageWithIndex(Enums::DamageTypes::dtPSYONICAL) + 5;
-        tower->getData().setAttackDamageWithIndex(Enums::DamageTypes::dtPSYONICAL, dmg);
+        int dmg = tower->getData().getAttackDamageWithIndex(static_cast<int>(Enums::DamageTypes::dtCOLD)) + 5;
+        tower->getData().setAttackDamageWithIndex(static_cast<int>(Enums::DamageTypes::dtCOLD), dmg);
     }
 }

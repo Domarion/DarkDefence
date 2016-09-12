@@ -18,11 +18,12 @@
 int main( int argc, char* args[])
 {
 
-    /*DataGenerator dataGenerator;
-    dataGenerator.saveItems();
+   /*DataGenerator dataGenerator;
+    dataGenerator.saveTowerTree();
+  dataGenerator.saveItems();
     dataGenerator.saveMission();
     dataGenerator.saveMonsterCollection();
-    dataGenerator.saveTowerTree();
+
     dataGenerator.saveMineCollection(;
 */
 

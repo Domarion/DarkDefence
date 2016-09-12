@@ -1,6 +1,7 @@
 #pragma once
 #include "../Grouping/SceneObject.h"
 #include "MineModel.h"
+#include "../AbilitySystem/DestructibleObjectEffectReceiver.h"
 
 class Mine: public SceneObject
 {
@@ -18,5 +19,6 @@ public:
     void setMineModel(MineModel * newModel);
 private:
     MineModel* model;
+    DestructibleObjectEffectReceiver* mineEffectReceiver;
 };
 

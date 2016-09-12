@@ -26,7 +26,7 @@ class TreeNode
 {
 	friend class boost::serialization::access;
 	template<class Archive>
-	void save(Archive & ar, const unsigned int version) const
+    void save(Archive & ar, const unsigned int version) const
 	{
 		ar & BOOST_SERIALIZATION_NVP(nodeName);
 		ar & BOOST_SERIALIZATION_NVP(parentName);
@@ -35,29 +35,19 @@ class TreeNode
 
         ar & boost::serialization::make_nvp("children", children);
 
-
-
-	/*	for(auto t = children.begin(); t != children.end(); ++t)
-		{
-			ar & boost::serialization::make_nvp("parentName", nodeName);
-			t->second.save(ar, version);
-		}*/
 	}
 
-	template<class Archive>
-	void load(Archive & ar, const unsigned int version)
-	{
-		//ar & BOOST_SERIALIZATION_NVP(nodeName);
-		//ar & BOOST_SERIALIZATION_NVP(data);
-
-		ar & BOOST_SERIALIZATION_NVP(nodeName);
-		ar & BOOST_SERIALIZATION_NVP(parentName);
-		ar & BOOST_SERIALIZATION_NVP(data);
+    template<class Archive>
+    void load(Archive & ar, const unsigned int version)
+    {
+        ar & BOOST_SERIALIZATION_NVP(nodeName);
+        ar & BOOST_SERIALIZATION_NVP(parentName);
+        ar & BOOST_SERIALIZATION_NVP(data);
         ar & boost::serialization::make_nvp("children", children);
 
-	}
+    }
 
-	BOOST_SERIALIZATION_SPLIT_MEMBER()
+    BOOST_SERIALIZATION_SPLIT_MEMBER()
 public:
 	//TreeNode(string name, const T& newData);
 	TreeNode(string name, string parent_name, T& newData);

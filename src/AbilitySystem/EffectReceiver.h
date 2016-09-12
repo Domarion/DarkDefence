@@ -9,6 +9,7 @@ public:
     virtual bool applyEffect(EffectModel* const effect);
     virtual bool cancelEffect(EffectModel* const effect);
     virtual bool parseEffect(EffectModel* const effect, bool remove);
+    virtual bool hasEffect(EffectModel* const effect) const;
 private:
     list<EffectModel*> effectsList;
 protected:

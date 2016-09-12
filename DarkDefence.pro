@@ -100,7 +100,15 @@ SOURCES += \
     src/AbilitySystem/ItemAbilities/ItemAbilitiesStorage.cpp \
     src/AbilitySystem/SpellStorage.cpp \
     src/SaveData/DataGenerator.cpp \
-    src/GlobalScripts/TileMapManager.cpp
+    src/GlobalScripts/TileMapManager.cpp \
+    src/Mob/EnemyInfo.cpp \
+    src/GraphicsSystem/newSystem/Composite.cpp \
+    src/GraphicsSystem/newSystem/Leaf.cpp \
+    src/GraphicsSystem/newSystem/Texture2D.cpp \
+    src/GraphicsSystem/newSystem/UIElement/UILabel.cpp \
+    src/GraphicsSystem/newSystem/Font.cpp \
+    src/GraphicsSystem/newSystem/UIElement/UIProgressBar.cpp \
+    src/GraphicsSystem/newSystem/UIElement/HorizontalPanel.cpp
 
 HEADERS += \
     src/AI/AIComponent.h \
@@ -205,7 +213,17 @@ HEADERS += \
     src/AbilitySystem/SpellStorage.h \
     src/SaveData/DataGenerator.h \
     src/GlobalScripts/TileMapManager.h \
-    src/Utility/Size.h
+    src/Utility/Size.h \
+    src/Mob/EnemyInfo.h \
+    src/GraphicsSystem/newSystem/IComposite.h \
+    src/GraphicsSystem/newSystem/Composite.h \
+    src/GraphicsSystem/newSystem/Leaf.h \
+    src/GraphicsSystem/newSystem/Texture2D.h \
+    src/GraphicsSystem/newSystem/UtilityStructs.h \
+    src/GraphicsSystem/newSystem/UIElement/UILabel.h \
+    src/GraphicsSystem/newSystem/Font.h \
+    src/GraphicsSystem/newSystem/UIElement/UIProgressBar.h \
+    src/GraphicsSystem/newSystem/UIElement/HorizontalPanel.h
 
 unix:!macx: LIBS += -L$$PWD/../../../../usr/lib64/ -lboost_serialization
 

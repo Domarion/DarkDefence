@@ -8,6 +8,12 @@
 #include "../ItemSystem/ShopInventory.h"
 #include "../Mob/MobModel.h"
 #include "../Utility/TreeNode.hpp"
+#include "../Mob/EnemyInfo.h"
+
+
+
+#include <array>
+using std::array;
 
 DataGenerator::DataGenerator()
 {
@@ -52,28 +58,50 @@ void DataGenerator::saveTowerTree()
 {
 
     string tag = "Tower";
+    EnemyInfo enemyInfo("Monster", Enums::EReaction::Attack, 1);
     const int health = 100;
     int protection[] = {10, 5, 0, 0};
     int damage[] = {20, 0, 0, 5};
-    int attackDistance = 200;//TODO:единицы измерения?
+    int attackDistance = 100;//TODO:единицы измерения?
     int moveSpeed = 0;
     int reloadTime = 1000; //миллисекунд
     int damageArea = 0;
-    list<string> enemyTags;
-    enemyTags.push_back("Monster");
+    list<EnemyInfo> enemyTags;
+    enemyTags.push_back(enemyInfo);
 
 
-    string firstTowerName = "BasicTower";
+
+
+    string firstTowerName = "WatcherTower";
     MobModel firstTower (firstTowerName, tag, health, protection, damage,
                      attackDistance, moveSpeed, reloadTime, damageArea, enemyTags);
 
-    string secondTowerName = "MageTower";
-    MobModel secondTower (secondTowerName, tag, health, protection, damage,
-                     attackDistance, moveSpeed, reloadTime, damageArea, enemyTags);
-
-    //TreeNode(string name, string parent_name, T& newData);
     TreeNode<MobModel> rootNode(firstTower.getName(), "none", firstTower);
-    rootNode.addChildData(secondTower.getName(), secondTower);
+
+    array<string, 4> watcherTowerChildrenNames = {"BallistaTower", "CatapultTower", "MageTower", "ProductivityTower"};
+
+    for(auto& towername : watcherTowerChildrenNames)
+    {
+        MobModel watcherTowerChild (towername, tag, health, protection, damage,
+                         attackDistance, moveSpeed, reloadTime, damageArea, enemyTags);
+        rootNode.addChildData(watcherTowerChild.getName(), watcherTowerChild);
+    }
+
+
+    array<string, 3> mageTowerChildrenNames = {"WindTower", "EarthTower","CloudTower"};
+
+
+    TreeNode<MobModel> *mageTowerNode = rootNode.recursiveSearch("MageTower");
+    if (mageTowerNode != nullptr)
+    {
+        for(auto& towername : mageTowerChildrenNames)
+        {
+           MobModel mageTowerChild (towername, tag, health, protection, damage,
+                             attackDistance, moveSpeed, reloadTime, damageArea, enemyTags);
+           mageTowerNode->addChildData(mageTowerChild.getName(), mageTowerChild);
+        }
+    }
+
 
     std::string filePath = "/home/kostya_hm/TowerTree.xml";
     std::ofstream outputXMLFile(filePath);
@@ -91,7 +119,7 @@ void DataGenerator::saveTowerTree()
 void DataGenerator::saveMineCollection()
 {
 
-    string goldMineCaption = "GoldMine";
+    //string goldMineCaption = "GoldMine";
     string stoneMineCaption = "StoneMine";
     string sawMillCaption = "SawMill";
     string windMillCaption = "WindMill";
@@ -103,9 +131,9 @@ void DataGenerator::saveMineCollection()
     const int productionAmount = 20;
     const int productionPeriod = 5000; //миллисекунд
 
-    MineModel goldMine(goldMineCaption, tag, health,
-                       protection, Enums::ResourceTypes::GOLD, productionAmount, productionPeriod
-                       );
+   // MineModel goldMine(goldMineCaption, tag, health,
+     //                  protection, Enums::ResourceTypes::GOLD, productionAmount, productionPeriod
+       //                );
     MineModel stoneMine(stoneMineCaption, tag, health, protection,
                         Enums::ResourceTypes::STONE, productionAmount, productionPeriod
                         );
@@ -119,7 +147,7 @@ void DataGenerator::saveMineCollection()
 
     list<MineModel> mineList;
 
-    mineList.push_back(goldMine);
+    //mineList.push_back(goldMine);
     mineList.push_back(stoneMine);
     mineList.push_back(sawMill);
     mineList.push_back(windMill);
@@ -148,9 +176,10 @@ void DataGenerator::saveMonsterCollection()
     int moveSpeed = 0.5;//TODO::единицы измерения?
     int reloadTime = 3000; //миллисекунд
     int damageArea = 0;
-    list<string> enemyTags;
-    enemyTags.push_back("Gates");
-    enemyTags.push_back("Mine");
+    EnemyInfo enemyInfoMine("Mine", Enums::EReaction::UseAbilities, 3);
+    EnemyInfo enemyInfoGates("Gates", Enums::EReaction::Attack, 1);
+
+    list<EnemyInfo> enemyTags{enemyInfoMine, enemyInfoGates};
 
     string firstMonsterName = "Necromant";
     MobModel firstMonster (firstMonsterName, tag, health, protection, damage,

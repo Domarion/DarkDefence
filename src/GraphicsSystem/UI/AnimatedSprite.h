@@ -19,6 +19,8 @@ public:
     string getCurrentState() const;
     void setCurrentState(const string &value);
     void setAnimRects(string state, vector<SDL_Rect> rects);
+    bool isVisible() const;
+    void setVisible(bool aVisible);
 private:
 
     size_t frameNumber;
@@ -26,5 +28,6 @@ private:
     int  msCount;
     map<string, vector<SDL_Rect> > animationStates;
     string currentState;
+    bool visible;
 };
 

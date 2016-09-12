@@ -42,8 +42,8 @@ void GoldPick::update(double timestep)
     if (currentTime <= 0.0)
     {
         currentTime = period;
-        GameModel::getInstance()->getResourcesModel()->addResource(Enums::ResourceTypes::GOLD, amount);
-        GameModel::getInstance()->getResourcesModel()->addResource(Enums::ResourceTypes::STONE, amount);
+        //GameModel::getInstance()->getResourcesModel()->addResource(Enums::ResourceTypes::GOLD, amount);
+        GameModel::getInstance()->getResourcesModel()->addResource(static_cast<int>(Enums::ResourceTypes::STONE), amount);
     }
     else
         currentTime -= timestep;

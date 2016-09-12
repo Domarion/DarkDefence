@@ -89,7 +89,7 @@ void MineModel::produce(double timestep)
     {
         int prod = getProduction();
         std::cout << "Prod =" << (prod) <<std::endl;
-        if ( prod <= getLimit() && GameModel::getInstance()->getResourcesModel()->addResource(productionType, prod))
+        if ( prod <= getLimit() && GameModel::getInstance()->getResourcesModel()->addResource(static_cast<int>(productionType), prod))
         {
              std::cout << "Prod++ =" << (prod) <<std::endl;
             limit.first -= prod;

@@ -1,4 +1,4 @@
-#include "MobAbilityRegeneration.h"
+﻿#include "MobAbilityRegeneration.h"
 
 MobAbilityRegeneration::MobAbilityRegeneration()
 {
@@ -15,6 +15,7 @@ bool MobAbilityRegeneration::onReady(double timestep)
     if (target != nullptr)
     {
          std::cout << "WTFRegeneration" << std::endl;
+
 
         abilityState = Enums::AbilityStates::asWorking;
     }
@@ -38,7 +39,7 @@ bool MobAbilityRegeneration::onWorking(double timestep)
     {
          counter = 0;
         int regen = 30;
-        if (target->addHealth(regen))
+        if (target->getDestructibleObject()->addHealth(regen))
         {
             currentWorkTime = workTime;
             abilityState = Enums::AbilityStates::asOnCooldown;
@@ -73,4 +74,21 @@ bool MobAbilityRegeneration::onCooldown(double timestep)
         currentCooldownTime -= timestep;
 
     return true;
+}
+
+bool MobAbilityRegeneration::canTrigger(SceneObject *targ, Enums::AIMobStates aistate)
+{
+    if (targ == nullptr || abilityState != Enums::AbilityStates::asNotAvaliable)
+        return false;
+
+    const double allowedPercentage = 0.70;
+    double percentage = static_cast<double>(targ->getDestructibleObject()->getCurrentHealth()) / targ->getDestructibleObject()->getMaximumHealth();
+
+    if ( percentage < allowedPercentage)
+    {
+        target = targ;
+        return true;
+    }
+
+    return false;
 }

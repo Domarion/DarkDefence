@@ -44,8 +44,7 @@ public:
     virtual DestructibleObject* getDestructibleObject() override;
     virtual EffectReceiver* getEffectReceiver() const override;
     virtual MobModel* getModel() const;
-    int calculateDistanceSqr(Mob* other);
-    //DestructibleObject* getCurrentTarget();
+
     TileMapManager* getTileMapManager() const;
     void setTileMapManager(TileMapManager* aTileMapPtr);
 protected:

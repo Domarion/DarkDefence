@@ -14,7 +14,7 @@
 using std::pair;
 #include <list>
 using std::list;
-
+#include "EnemyInfo.h"
 
 
 class MobModel: public DestructibleObject
@@ -33,7 +33,7 @@ class MobModel: public DestructibleObject
 		ar & BOOST_SERIALIZATION_NVP(moveSpeed);
         ar & BOOST_SERIALIZATION_NVP(reloadTimeMaximum);
         ar & BOOST_SERIALIZATION_NVP(damageArea);
-		ar & BOOST_SERIALIZATION_NVP(enemyTags);
+        ar & boost::serialization::make_nvp("enemyTags", enemiesInfo);
         ar & boost::serialization::make_nvp("Abilities", mobAbilitiesNames);
         ar & boost::serialization::make_nvp("price", price);
 
@@ -44,8 +44,8 @@ class MobModel: public DestructibleObject
 
 public:
 	MobModel();
-	MobModel(string aName, string aTag,
-            int aMaxHealth, int aProtection[], int damage[], double distance, double speed, double aReloadTime, int aDamageArea, list<string> enemiesTags);
+    MobModel(string aName, string aTag,
+            int aMaxHealth, int aProtection[], int damage[], double distance, double speed, double aReloadTime, int aDamageArea, list<EnemyInfo> enemiesTags);
 	virtual ~MobModel();
 
 	MobModel(const MobModel& right);
@@ -56,7 +56,7 @@ public:
 
 	const pair<double, double>& getMoveSpeed() const;
 	void setMoveSpeed(const pair<double, double>& moveSpeed);
-	const list<string>& getEnemyTags() const;
+    const list<EnemyInfo> &getEnemyTags() const;
 	bool checkDistance(int distanceSqr);
 
     void setAttackDamageModifier(int index, int modifier);
@@ -101,7 +101,7 @@ private:
 	pair<double, double> reloadTimeMaximum;
     double reloadTime;
     int damageArea;
-    list<string> enemyTags;
+    list<EnemyInfo> enemiesInfo;
     bool isVisible;
 	//int x, y;
 

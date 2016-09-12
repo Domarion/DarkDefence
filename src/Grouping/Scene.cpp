@@ -56,6 +56,9 @@ void Scene::startUpdate(double timestep)
 
 void Scene::spawnObject(int x, int y, SceneObject *obj)
 {
+    if (obj == nullptr)
+        return;
+
     obj->setParentScene(this);
 
 

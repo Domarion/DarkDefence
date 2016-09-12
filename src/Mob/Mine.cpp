@@ -2,7 +2,7 @@
 #include "ResourcePlace.h"
 
 Mine::Mine()
-    :model(nullptr)
+    :model(nullptr),mineEffectReceiver(new DestructibleObjectEffectReceiver())
 {
 
 }
@@ -46,6 +46,7 @@ bool Mine::update(double timestep)
 void Mine::finalize()
 {
     delete model;
+    delete mineEffectReceiver;
 }
 
 DestructibleObject *Mine::getDestructibleObject()
@@ -55,7 +56,7 @@ DestructibleObject *Mine::getDestructibleObject()
 
 EffectReceiver *Mine::getEffectReceiver() const
 {
-    return nullptr;
+    return mineEffectReceiver;
 }
 
 MineModel *  Mine::getMineModel()

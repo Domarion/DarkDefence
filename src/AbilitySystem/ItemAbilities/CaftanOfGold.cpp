@@ -27,7 +27,7 @@ void CaftanOfGold::update(double timestep)
     if (currentTime <= 0.0)
     {
         currentTime = period;
-        GameModel::getInstance()->getResourcesModel()->addResource(Enums::ResourceTypes::GOLD, goldAmount);
+        //GameModel::getInstance()->getResourcesModel()->addResource(Enums::ResourceTypes::GOLD, goldAmount);
     }
     else
         currentTime -= timestep;

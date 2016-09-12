@@ -24,6 +24,7 @@ using std::ifstream;
 #include "../AbilitySystem/MobAbilities/MobAbilityArson.h"
 #include "../AbilitySystem/MobAbilities/MobAbilityRegeneration.h"
 #include "../AbilitySystem/MobAbilities/MobAbilitySprint.h"
+#include "../AbilitySystem/MobAbilities/MobAbilityInvisiblity.h"
 #include "../Utility/textfilefunctions.h"
 #include <sstream>
 using std::stringstream;
@@ -151,9 +152,8 @@ void GameModel::loadMinesList(string filename)
     for(auto i = mineCollection.begin(); i != mineCollection.end(); ++i)
     {
         minesModelsMap.insert(std::make_pair(i->getName(), *i));
-    std::cout << "fuck" << std::endl;
-        std:: cout << "prodType = " << (i->getProductionType()) << " mineName = " << (i->getName()) << std::endl;
-        mineResMapping[i->getProductionType()] = i->getName();
+       // std:: cout << "prodType = " << (i->getProductionType()) << " mineName = " << (i->getName()) << std::endl;
+        mineResMapping[static_cast<int>(i->getProductionType())] = i->getName();
     }
 
     for(auto i = minesModelsMap.begin(); i != minesModelsMap.end(); ++i)
@@ -267,7 +267,8 @@ MobAbility *GameModel::getMobAbilityByName(string name)
         return new MobAbilityRegeneration();
     if (name == "MobAbilitySprint")
         return new MobAbilitySprint();
-
+    if (name == "MobAbilityInvisiblity")
+        return new MobAbilityInvisiblity();
     return nullptr;
 }
 
@@ -420,14 +421,14 @@ int GameModel::getMonsterCount() const
 
 MineModel *GameModel::getMineModel(string name)
 {
-    return new MineModel(minesModelsMap[name]);
+    return new MineModel(minesModelsMap.at(name));
 }
 
 MineModel *GameModel::getMineModelByRes(Enums::ResourceTypes resType)
 {
 
     //std::cout << "Minename=" << mineResMapping[resType] << std::endl;
-    return getMineModel(mineResMapping[resType]);
+    return getMineModel(mineResMapping[static_cast<int>(resType)]);
     // return nullptr;
 }
 
@@ -438,7 +439,7 @@ MineModel *GameModel::getMineModelFromList(string name)
 
 MineModel *GameModel::getMineModelFromListByRes(Enums::ResourceTypes resType)
 {
-    return getMineModelFromList(mineResMapping[resType]);
+    return getMineModelFromList(mineResMapping[static_cast<int>(resType)]);
 }
 
 MobModel *  GameModel::getMonsterFromListWithName(string name)

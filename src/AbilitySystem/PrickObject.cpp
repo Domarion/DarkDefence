@@ -42,7 +42,7 @@ void PrickObject::init(int x, int y)
            if (temp != nullptr)
            {
                std::cout << "Damage to" << temp->getName() << std::endl;
-               temp->receiveDamageOneType(Enums::DamageTypes::dtPHYSICAL, damage);
+               temp->receiveDamageOneType(static_cast<int>(Enums::DamageTypes::dtPHYSICAL), damage);
            }
         }
         notDid = false;

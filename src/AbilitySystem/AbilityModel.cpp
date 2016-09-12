@@ -60,7 +60,9 @@ bool AbilityModel::update(double timestep)
 void AbilityModel::setAsReady()
 {
     if (abilityState == Enums::AbilityStates::asNotAvaliable)
+    {
         abilityState = Enums::AbilityStates::asReady;
+    }
 }
 
 int AbilityModel::getManaCost() const

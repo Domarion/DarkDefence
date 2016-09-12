@@ -1,7 +1,7 @@
 #include "AnimatedSprite.h"
 
 AnimatedSprite::AnimatedSprite()
-    :CTexture(), frameNumber(0), oldFrameTime(0), msCount(64)
+    :CTexture(), frameNumber(0), oldFrameTime(0), msCount(64), visible(true)
 {
 
 }
@@ -13,6 +13,9 @@ AnimatedSprite::~AnimatedSprite()
 
 void AnimatedSprite::draw()
 {
+    if (!visible)
+        return;
+
     if (animationStates.size() > 0)
     {
         CTexture::drawPart(&animationStates.at(currentState).at(frameNumber));
@@ -50,4 +53,14 @@ void AnimatedSprite::setAnimRects(string state, vector<SDL_Rect> rects)
 {
     setCurrentState(state);
     animationStates[state] = rects;
+}
+
+bool AnimatedSprite::isVisible() const
+{
+    return visible;
+}
+
+void AnimatedSprite::setVisible(bool aVisible)
+{
+    visible = aVisible;
 }

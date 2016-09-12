@@ -1,8 +1,8 @@
 #pragma once
-#include "../../Mob/DestructibleObject.h"
+#include "../../Grouping/SceneObject.h"
 #include "../AbilityModel.h"
-
-
+#include "../../Enums.h"
+using Enums::AIMobStates;
 
 class MobAbility: public AbilityModel
 {
@@ -11,13 +11,13 @@ public:
     virtual ~MobAbility();
 
 
-    virtual void setTarget(DestructibleObject* targ);
+    virtual void setTarget(SceneObject *targ);
     virtual bool isInProcess();
     virtual bool isTargetable();
-
+    virtual bool canTrigger(SceneObject* targ, AIMobStates aistate) = 0;
 
 protected:
 
-    DestructibleObject* target;
+    SceneObject* target;
 };
 

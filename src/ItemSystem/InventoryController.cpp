@@ -102,16 +102,6 @@ void InventoryController::receiveItemFromModel(string caption, size_t itemType)
     btn->init(arial, ipath, caption, "descr stub");
 
 
-
-    /*TextButton* btn = new TextButton();
-
-
-    std::cout << ( "GameData/textures/items/" + caption  + ".png") << std::endl;
-
-
-    if (btn->getTexture() == nullptr)
-        std::cout  << " texture is nullptr" << std::endl;*/
-
     view->addItem(btn);
     view->calculateVisibleItemsPositions();
 

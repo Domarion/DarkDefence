@@ -12,7 +12,7 @@
 
 Mob::Mob(MobModel* model, TileMapManager* aTileMapPtr)
 :mobModel(model),
-  mobEffectReceiver(new MobEffectReceiver()), tileMapPtr(aTileMapPtr), mobAI(new AIComponent(this))
+  mobEffectReceiver(new MobEffectReceiver()), tileMapPtr(aTileMapPtr), mobAI(new AIComponent(this))///TODO:Нельзя инициировать недостроенным объектом!
 {
 	// TODO Auto-generated constructor stub
 
@@ -107,16 +107,6 @@ MobModel *Mob::getModel() const
     return mobModel;
 }
 
-int Mob::calculateDistanceSqr(Mob *other)
-{
-    if (other == nullptr)
-        return -1;
-
-    int diffX = this->getX() - other->getX();
-    int diffY = this->getY() - other->getY();
-
-    return diffX*diffX + diffY*diffY;
-}
 
 TileMapManager *Mob::getTileMapManager() const
 {

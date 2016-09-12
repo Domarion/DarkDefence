@@ -26,7 +26,7 @@ void ChoppersHat::update(double timestep)
     if (currentTime <= 0.0)
     {
         currentTime = period;
-        GameModel::getInstance()->getResourcesModel()->addResource(resType, amount);
+        GameModel::getInstance()->getResourcesModel()->addResource(static_cast<int>(resType), amount);
     }
     else
         currentTime -= timestep;

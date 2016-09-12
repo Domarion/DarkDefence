@@ -1,5 +1,5 @@
 #include "EffectReceiver.h"
-
+#include <algorithm>
 EffectReceiver::EffectReceiver()
 {
 
@@ -46,4 +46,10 @@ bool EffectReceiver::parseEffect(EffectModel * const effect, bool remove)
 
     return parseMethod(attributes, flag);
 
+}
+
+bool EffectReceiver::hasEffect(EffectModel * const effect) const
+{
+    auto findIter = std::find(effectsList.begin(), effectsList.end(), effect);
+    return findIter != effectsList.end();
 }

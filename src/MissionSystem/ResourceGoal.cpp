@@ -1,7 +1,7 @@
 #include "ResourceGoal.h"
 
 ResourceGoal::ResourceGoal()
-    :resourceType(Enums::ResourceTypes::GOLD)
+    :resourceType(Enums::ResourceTypes::WOOD)
 {
 
 }
@@ -22,7 +22,7 @@ bool ResourceGoal::checkCondition()
     if (BasicGoal::checkCondition() == false)
         return false;
 
-    current = GameModel::getInstance()->getResourcesModel()->getResourceAmountFromIndex(resourceType);
+    current = GameModel::getInstance()->getResourcesModel()->getResourceAmountFromIndex(static_cast<int>(resourceType));
 
     if (current >= needed)
         goalStatus = GoalStatuses::gCOMPLETED;

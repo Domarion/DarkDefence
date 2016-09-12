@@ -58,9 +58,9 @@ void MobModel::setMoveSpeed(const pair<double, double>& moveSpeed)
 
 
 MobModel::MobModel(string aName, string aTag, int aMaxHealth,
-        int aProtection[], int damage[], double distance, double speed, double aReloadTime, int aDamageArea, list<string> enemiesTags)
+        int aProtection[], int damage[], double distance, double speed, double aReloadTime, int aDamageArea, list<EnemyInfo> enemiesTags)
 :DestructibleObject(aName, aTag, aMaxHealth, aProtection), attackDistance(distance, 0.0),
- moveSpeed(speed, 0.0), reloadTimeMaximum(aReloadTime, 0.0), reloadTime(aReloadTime), damageArea(aDamageArea), enemyTags(enemiesTags), isVisible(true)
+ moveSpeed(speed, 0.0), reloadTimeMaximum(aReloadTime, 0.0), reloadTime(aReloadTime), damageArea(aDamageArea), enemiesInfo(enemiesTags), isVisible(true)
 {
 	for(int i = 0; i < DestructibleObject::damageTypesCount; ++i)
 	{
@@ -90,7 +90,7 @@ MobModel::MobModel(const MobModel& right)
 		attackDamage[i] = right.attackDamage[i];
 	attackDistance = right.attackDistance;
 	moveSpeed = right.moveSpeed;
-	enemyTags = right.enemyTags;
+    enemiesInfo = right.enemiesInfo;
     reloadTimeMaximum = right.reloadTimeMaximum;
     mobAbilitiesNames = right.mobAbilitiesNames;
     for(int i = 0; i < DestructibleObject::damageTypesCount; ++i)
@@ -102,9 +102,9 @@ MobModel::MobModel(const MobModel& right)
 
 }
 
-const list<string>& MobModel::getEnemyTags() const
+const list<EnemyInfo>& MobModel::getEnemyTags() const
 {
-	return enemyTags;
+    return enemiesInfo;
 }
 
 bool MobModel::checkDistance(int distanceSqr)
