@@ -84,9 +84,6 @@ void ResourcesModel::decreaseLimit(int resourceType, int amount)
 
 void ResourcesModel::loadFromFile(std::string filename)
 {
-
-
-
     string textString;
     androidText::loadTextFileToString(filename, textString);
 
@@ -106,25 +103,4 @@ void ResourcesModel::loadFromFile(std::string filename)
             resourceTypes[i].setCurrentAmount(amount);
         }
     }
-
-
-
-    /*std::ifstream somestream(filename);
-    if (somestream.good())
-    {
-
-       for(int i = 0; i != ResourcesModel::resourceTypeCount; ++i)
-       {
-           std::string s;
-           int amount;
-           int limit;
-           somestream >> s >> amount >> limit;
-           resourceTypes[i].setCaption(s);
-           resourceTypes[i].setLimit(limit);
-           resourceTypes[i].setCurrentAmount(amount);
-       }
-    }
-
-
-    somestream.close();
-*/}
+}

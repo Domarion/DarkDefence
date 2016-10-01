@@ -9,6 +9,12 @@ ResourcePlace::ResourcePlace()
 
 }
 
+ResourcePlace::ResourcePlace(int aLimit, Enums::ResourceTypes aResourceType)
+    :limit(aLimit), resourceType(aResourceType)
+{
+
+}
+
 ResourcePlace::~ResourcePlace()
 {
 
@@ -17,6 +23,11 @@ ResourcePlace::~ResourcePlace()
 void ResourcePlace::setLimit(int amount)
 {
     limit = amount;
+}
+
+Enums::ResourceTypes ResourcePlace::getResourceType() const
+{
+    return resourceType;
 }
 
 bool ResourcePlace::onClick(SDL_Point *point)
@@ -44,7 +55,7 @@ bool ResourcePlace::onClick(SDL_Point *point)
 
         if (sprt->getTexture() == nullptr)
             std::cout << "NULLMILL" <<std::endl;
-        tempMine->setName("WindMill");
+        tempMine->setName(tempMineModel->getName());
         tempMine->setTag("Mine");
         tempMine->setSprite(sprt);
          std::cout << "x = " << (this->getX()) << " y = " << (this->getY()) << std::endl;

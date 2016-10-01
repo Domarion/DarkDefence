@@ -165,3 +165,20 @@ int Renderer::getScreenHeight()
     return h;
 }
 
+int Renderer::getDPI() const
+{
+    return SDL_GetDisplayDPI(0, nullptr, nullptr, nullptr);
+}
+
+int Renderer::DensityPixelToRealPixel(int densityPixel) const
+{
+    static const double dpi_coeff = getDpi() / minimumDPI;
+    return static_cast<int>(densityPixel*dpi_coeff);
+}
+
+int Renderer::RealPixelToDensityPixel(int realPixel) const
+{
+    static const double dpi_coeff = minimumDPI / getDpi();
+    return static_cast<int>(realPixel*dpi_coeff);
+}
+

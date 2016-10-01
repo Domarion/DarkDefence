@@ -325,10 +325,15 @@ void GameScene::initUILayer()
 
 void GameScene::placeResourcesPlaces()
 {
-    ResourcePlace *resPlace = new ResourcePlace();
+
+
+    ResourcePlace *resPlace = new ResourcePlace(1000, Enums::ResourceTypes::WOOD);
     AnimatedSprite* resSprite = new AnimatedSprite();
     resSprite->setRect(0, 0, 200, 200);
-    resSprite->loadTexture("GameData/textures/Resources/WheatResource.png");
+
+    string resourceName = GameModel::getInstance()->getResourcesModel()->getResourceNameFromIndex(static_cast<int> (resPlace->getResourceType()));
+    string texturePath = "GameData/textures/Resources/" + resourceName + "Resource.png";
+    resSprite->loadTexture(texturePath);
     resPlace->setSprite(resSprite);
     resPlace->setName("ResourcePlace");
     resPlace->setTag("ResourcePlace");

@@ -40,6 +40,10 @@ public:
     int getScreenWidth();
     int getScreenHeight();
 
+    int getDPI() const;
+    int DensityPixelToRealPixel(int densityPixel) const;
+    int RealPixelToDensityPixel(int realPixel) const;
+
 private:
 
     Renderer();
@@ -48,5 +52,6 @@ private:
 
     SDL_Window* windowPtr;
     SDL_Renderer* rendererPtr;
+    const double minimumDPI = 160.0; //px = dp * (dpi/160)
 };
 

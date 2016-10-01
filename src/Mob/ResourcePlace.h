@@ -7,8 +7,10 @@ class ResourcePlace: public SceneObject, public InputHandler
 {
 public:
     ResourcePlace();
+    ResourcePlace(int aLimit, Enums::ResourceTypes aResourceType);
     virtual ~ResourcePlace();
     void setLimit(int amount);
+    Enums::ResourceTypes getResourceType() const;
     // InputHandler interface
 public:
     virtual bool onClick(SDL_Point *point) override;

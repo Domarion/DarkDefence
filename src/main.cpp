@@ -18,14 +18,14 @@
 int main( int argc, char* args[])
 {
 
-   /*DataGenerator dataGenerator;
+  /* DataGenerator dataGenerator;
     dataGenerator.saveTowerTree();
   dataGenerator.saveItems();
     dataGenerator.saveMission();
     dataGenerator.saveMonsterCollection();
 
-    dataGenerator.saveMineCollection(;
-*/
+    dataGenerator.saveMineCollection();*/
+
 
     SceneManager *sceneManager = new SceneManager();
     std::unique_ptr<GameApp> app(new GameApp(sceneManager));

@@ -1,0 +1,6 @@
+5
+MagicStones
+SnowStorm
+Shrink
+Prick
+Earthquake

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<!DOCTYPE boost_serialization>
+<boost_serialization signature="serialization::archive" version="12">
+<Mission class_id="1" tracking_level="0" version="0">
+	<caption>First Mission</caption>
+	<description>Very simple mission</description>
+	<goals class_id="2" tracking_level="0" version="0">
+		<count>1</count>
+		<item_version>0</item_version>
+		<item class_id="0" tracking_level="1" version="0" object_id="_0">
+			<BasicGoal class_id="3" tracking_level="1" version="0" object_id="_1">
+				<description>yet another resource mission</description>
+				<goalStatus>0</goalStatus>
+				<needed>1000</needed>
+			</BasicGoal>
+			<resourceType>2</resourceType>
+		</item>
+	</goals>
+	<reward class_id="4" tracking_level="0" version="0">
+		<itemNames class_id="5" tracking_level="0" version="0">
+			<count>1</count>
+			<item_version>0</item_version>
+			<item>CaftanOfGold</item>
+		</itemNames>
+		<goldCoins>15</goldCoins>
+	</reward>
+	<status>0</status>
+</Mission>
+</boost_serialization>
+

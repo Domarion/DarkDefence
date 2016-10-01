@@ -65,16 +65,8 @@ void loadStringsFromfile(SDL_RWops* filetoRead, vector<string> &strings)
         SDL_RWread(filetoRead, &stringCount, sizeof(int), 1);
         strings.resize(stringCount);
         for(int i = 0; i < stringCount; ++i)
-        {
-            int stringByteLength{};
-            SDL_RWread(filetoRead, &stringByteLength, sizeof(int), 1);
+            strings[i].assign(loadStringFromFile(filetoRead));
 
-            char* char_string =  new char[stringByteLength + 1];
-            SDL_RWread(filetoRead, char_string, 1, stringByteLength);
-            char_string[stringByteLength] = '\0';
-
-            strings[i].assign(char_string);
-        }
     }
 }
 
@@ -112,4 +104,76 @@ vector<vector<int> > loadMatrixFromFile(string filename)
 
     return resultingMap;
 }
+
+void loadAnimFromFile(SDL_RWops *filetoRead, map<string, vector<SDL_Rect> > &anims)
+{
+    if (filetoRead != nullptr)
+    {
+        int animationStatesCount = 0;
+        SDL_RWread(filetoRead, &animationStatesCount, sizeof(int), 1);
+
+        for(int animStateIndex = 0; animStateIndex < animationStatesCount; ++animStateIndex)
+        {
+            string animationStateName(loadStringFromFile(filetoRead));
+            int animationStateFrameCount = 0;
+            SDL_RWread(filetoRead, &animationStateFrameCount, sizeof(int), 1);
+            vector<SDL_Rect> stateRects(animationStateFrameCount);
+            for(int animationStateFrameIndex = 0; animationStateFrameIndex < animationStateFrameCount; ++animationStateFrameIndex)
+            {
+                SDL_Rect animFrameRect = {0, 0, 0, 0};
+                SDL_RWread(filetoRead, &animFrameRect, sizeof(SDL_Rect), 1);
+
+                stateRects[animationStateFrameIndex] = animFrameRect;
+            }
+            anims[animationStateName] = stateRects;
+        }
+
+    }
+}
+
+char* loadStringFromFile(SDL_RWops *filetoRead)
+{
+    if (filetoRead != nullptr)
+    {
+        int stringByteLength{};
+        SDL_RWread(filetoRead, &stringByteLength, sizeof(int), 1);
+
+        char* char_string =  new char[stringByteLength + 1];
+        SDL_RWread(filetoRead, char_string, 1, stringByteLength);
+        char_string[stringByteLength] = '\0';
+        return char_string;
+    }
+
+    return nullptr;
+}
+
+void saveAnimsToFile(SDL_RWops *filetoWrite, const map<string, vector<SDL_Rect> > &anims)
+{
+    if (filetoWrite != nullptr)
+    {
+        int animationStatesCount = anims.size();
+        SDL_RWwrite(filetoWrite, &animationStatesCount, sizeof(int), 1);
+
+        for(const auto& mapIter : anims)
+        {
+
+            int stringByteLength = mapIter.first.size();
+            SDL_RWwrite(filetoWrite, &stringByteLength, sizeof(int), 1);
+            SDL_RWwrite(filetoWrite, mapIter.first.c_str(), stringByteLength, 1);
+
+            int animationStateFrameCount = mapIter.second.size();
+
+            SDL_RWwrite(filetoWrite, &animationStateFrameCount, sizeof(int), 1);
+
+
+            for(int animationStateFrameIndex = 0; animationStateFrameIndex < animationStateFrameCount; ++animationStateFrameIndex)
+            {
+                SDL_Rect animFrameRect = mapIter.second[animationStateFrameIndex];
+                SDL_RWwrite(filetoWrite, &animFrameRect, sizeof(SDL_Rect), 1);
+            }
+        }
+    }
+
+}
+
 }

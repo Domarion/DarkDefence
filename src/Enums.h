@@ -10,7 +10,7 @@ namespace Enums
 {
     enum class ItemTypes {DEFAULT = 0, HELM, AMULET, WEAPON, CUIRASS, SHIELD, RING, BOOTS,CONSUMABLE};
     enum class GameStatuses {gsINPROGRESS = 0, gsWON, gsLOST};
-    enum class ResourceTypes {WOOD = 0, STONE, WHEAT};
+    enum class ResourceTypes {STONE = 0, WOOD, WHEAT};
     enum class AbilityStates {asNotAvaliable = -1, asReady = 0, asWorking, asOnCooldown};
     enum class DamageTypes {dtPHYSICAL = 0, dtFIRE, dtCOLD};
     enum class EReaction: bool
