@@ -20,7 +20,7 @@ weak_ptr<IComposite> Leaf::getParent() const
 Position Leaf::getPosition() const
 {
     Position globalPosition = localPosition;
-    if (!getParent().expired())
+    if (hasParent())
     {
         shared_ptr<IComposite>  parentPtr = getParent().lock();
         Position parentPosition = parentPtr->getPosition();
@@ -32,10 +32,16 @@ Position Leaf::getPosition() const
 
 void Leaf::setPosition(Position pos)
 {
+    if (hasParent() && (pos.x < 0 || pos.y < 0))
+            throw std::logic_error("Error: relative to parent coord cannot be less than 0");
     localPosition = pos;
 }
 
 void Leaf::setParent(weak_ptr<IComposite> aParent)
 {
     parent = aParent;
+}
+bool Leaf::hasParent() const
+{
+    return !getParent().expired();
 }

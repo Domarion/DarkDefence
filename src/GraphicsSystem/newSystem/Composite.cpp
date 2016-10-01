@@ -29,7 +29,7 @@ weak_ptr<IComposite> Composite::getParent() const
 Position Composite::getPosition() const
 {
     Position globalPosition = localPosition;
-    if (!getParent().expired())
+    if (hasParent())
     {
         shared_ptr<IComposite>  parentPtr = getParent().lock();
         Position parentPosition = parentPtr->getPosition();
@@ -41,6 +41,8 @@ Position Composite::getPosition() const
 
 void Composite::setPosition(Position pos)
 {
+    if (hasParent() && (pos.x < 0 || pos.y < 0))
+            throw std::logic_error("Error: relative to parent coord cannot be less than 0");
     localPosition = pos;
 }
 
@@ -51,7 +53,7 @@ bool Composite::hasChildren() const
 
 Position Composite::getNextPosition() const
 {
-    Position localPos = {0, 0};
+    Position localPos{0, 0};
     if (hasChildren())
     {
         shared_ptr<IComposite> lastChild = children.back();
@@ -59,6 +61,11 @@ Position Composite::getNextPosition() const
         localPos.y = lastChild->getPosition().y;
     }
     return localPos;
+}
+
+bool Composite::hasParent() const
+{
+    return !getParent().expired();
 }
 
 void Composite::setParent(weak_ptr<IComposite> aParent)

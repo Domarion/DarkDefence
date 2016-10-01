@@ -98,7 +98,7 @@ BOOST_FIXTURE_TEST_CASE(ShouldHaveNoParent, CompositeFixture)
 {
 
     auto composite = std::make_shared<compositeT>();
-    BOOST_CHECK_EQUAL(composite->getParent().expired(), true);
+    BOOST_CHECK_EQUAL(composite->hasParent(), false);
 }
 
 BOOST_FIXTURE_TEST_CASE(ShouldHaveParentAfterAdd, CompositeFixture)
@@ -107,7 +107,7 @@ BOOST_FIXTURE_TEST_CASE(ShouldHaveParentAfterAdd, CompositeFixture)
     auto compositeParent = std::make_shared<compositeT>();
     auto compositeChild = std::make_shared<compositeT>();
     compositeParent->addChild(compositeChild);
-    BOOST_CHECK_EQUAL(compositeChild->getParent().expired(), false);
+    BOOST_CHECK_EQUAL(compositeChild->hasParent(), true);
 }
 
 BOOST_FIXTURE_TEST_CASE(ParentAndChildsParentShouldBeEqual, CompositeFixture)
@@ -134,5 +134,55 @@ BOOST_FIXTURE_TEST_CASE(LeafShouldThrowAfterRemoveChildAttempt, CompositeFixture
     auto leafChild = std::make_shared<leafT>();
 
     BOOST_CHECK_THROW(leaf->removeChild(leafChild), std::logic_error);
+}
+
+BOOST_FIXTURE_TEST_CASE(ChildsDefaultPosShouldBeEqualParentPos, CompositeFixture)
+{
+    auto composite = std::make_shared<compositeT>();
+    auto leafChild = std::make_shared<leafT>();
+
+    composite->setPosition(std::move(Position(0, 20)));
+    composite->addChild(leafChild);
+    const Position childPos(0, 20);
+    BOOST_CHECK_EQUAL(leafChild->getPosition(), childPos);
+}
+
+BOOST_FIXTURE_TEST_CASE(ChildsPosShouldBeCalculatedWithParentPos, CompositeFixture)
+{
+    auto composite = std::make_shared<compositeT>();
+    auto leafChild = std::make_shared<leafT>();
+
+    composite->setPosition(std::move(Position(0, 20)));
+    composite->addChild(leafChild);
+    leafChild->setPosition(std::move(Position(10, 20)));
+    const Position childPos(10, 40);
+    BOOST_CHECK_EQUAL(leafChild->getPosition(), childPos);
+}
+
+BOOST_FIXTURE_TEST_CASE(ThrowWhenSettingChildPosAxisLTZero, CompositeFixture)
+{
+    auto composite = std::make_shared<compositeT>();
+    auto leafChild = std::make_shared<leafT>();
+
+    composite->setPosition(std::move(Position(0, 20)));
+    composite->addChild(leafChild);
+
+
+    BOOST_CHECK_THROW(leafChild->setPosition(std::move(Position(-100, 20))), std::logic_error);
+}
+
+BOOST_FIXTURE_TEST_CASE(NoThrowSettingLeafPosAxisLTZero, CompositeFixture)
+{
+    auto leafChild = std::make_shared<leafT>();
+
+    BOOST_CHECK_NO_THROW(leafChild->setPosition(std::move(Position(-100, 20))));
+}
+
+BOOST_FIXTURE_TEST_CASE(LeafPosAxisShouldLTZero, CompositeFixture)
+{
+    auto leafChild = std::make_shared<leafT>();
+    const Position pos(-100, 20);
+    leafChild->setPosition(pos);
+    BOOST_CHECK_EQUAL(leafChild->getPosition(), pos);
 }
 BOOST_AUTO_TEST_SUITE_END()

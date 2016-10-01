@@ -115,6 +115,7 @@ set(SRC_LIST
     GraphicsSystem/newSystem/Leaf.h
     Enums.h
 
+    GraphicsSystem/newSystem/UtilityStructs.cpp
     Input/InputHandler.cpp
     Input/SceneInputHandler.cpp
     Input/InputDispatcher.cpp

@@ -26,4 +26,5 @@ private:
     // IComposite interface
 public:
     virtual void setParent(weak_ptr<IComposite> aParent) override;
+    bool hasParent() const override;
 };

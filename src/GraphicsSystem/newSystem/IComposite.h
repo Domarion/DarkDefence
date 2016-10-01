@@ -20,5 +20,6 @@ public:
     virtual void setPosition(Position pos) = 0;
     virtual Size getSize() const = 0;
     virtual void setSize(Size size) = 0;
+    virtual bool hasParent() const = 0;
 };
 

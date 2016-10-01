@@ -19,12 +19,14 @@ public:
     virtual void setPosition(Position pos) override;
     virtual bool hasChildren() const;
     virtual void setParent(weak_ptr<IComposite> aParent) override;
+    virtual bool hasParent() const override;
+
 protected:
     Position getNextPosition() const;
+
 private:
     list<shared_ptr<IComposite> > children;
     weak_ptr<IComposite> parent;
     Position localPosition;
-
 };
 
