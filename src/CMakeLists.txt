@@ -1,4 +1,4 @@
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
 
 set(SRC_LIST
     Input/InputHandler.h
@@ -102,7 +102,6 @@ set(SRC_LIST
     GraphicsSystem/ShopItemUI.h
     GraphicsSystem/CFont.h
     GraphicsSystem/CTexture.h
-    GraphicsSystem/shopitemui.h
     GraphicsSystem/GraphicsManager.h
     GraphicsSystem/IDrawable.h
     GraphicsSystem/newSystem/Font.h

@@ -22,4 +22,8 @@ private:
     Position localPosition;
 
 
+
+    // IComposite interface
+public:
+    virtual void setParent(weak_ptr<IComposite> aParent) override;
 };

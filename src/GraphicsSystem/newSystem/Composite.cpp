@@ -3,7 +3,10 @@
 void Composite::addChild(shared_ptr<IComposite> child)
 {
     if (child != nullptr)
+    {
+        child->setParent(shared_from_this());
         children.push_back(child);
+    }
 }
 
 void Composite::removeChild(shared_ptr<IComposite> child)
@@ -56,4 +59,9 @@ Position Composite::getNextPosition() const
         localPos.y = lastChild->getPosition().y;
     }
     return localPos;
+}
+
+void Composite::setParent(weak_ptr<IComposite> aParent)
+{
+    parent = aParent;
 }

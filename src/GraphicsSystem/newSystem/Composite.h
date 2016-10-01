@@ -4,7 +4,7 @@
 using std::list;
 
 
-class Composite : public IComposite
+class Composite : public IComposite, public std::enable_shared_from_this<Composite>
 {
 public:
 
@@ -18,13 +18,13 @@ public:
     virtual Position getPosition() const override;
     virtual void setPosition(Position pos) override;
     virtual bool hasChildren() const;
+    virtual void setParent(weak_ptr<IComposite> aParent) override;
 protected:
     Position getNextPosition() const;
 private:
     list<shared_ptr<IComposite> > children;
     weak_ptr<IComposite> parent;
     Position localPosition;
-
 
 };
 

@@ -1,14 +1,14 @@
 #include "Leaf.h"
 #include <exception>
-
 void Leaf::addChild(shared_ptr<IComposite> child)
 {
-    //throw std::exception("Error: add child to leaf");
+
+    throw std::logic_error("Error: add child to leaf");
 }
 
 void Leaf::removeChild(shared_ptr<IComposite> child)
 {
-   // throw std::exception("Error: remove child from leaf");
+    throw std::logic_error("Error: remove child from leaf");
 
 }
 
@@ -33,4 +33,9 @@ Position Leaf::getPosition() const
 void Leaf::setPosition(Position pos)
 {
     localPosition = pos;
+}
+
+void Leaf::setParent(weak_ptr<IComposite> aParent)
+{
+    parent = aParent;
 }
