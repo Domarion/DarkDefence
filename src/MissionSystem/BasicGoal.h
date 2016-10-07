@@ -17,7 +17,7 @@
 
 #include <string>
 
-enum GoalStatuses
+enum class GoalStatuses
 {
 	gIN_PROGRESS,
 	gCOMPLETED,

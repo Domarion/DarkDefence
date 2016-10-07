@@ -9,7 +9,7 @@ UIProgressBar::UIProgressBar(const Texture2D &background, const Texture2D &foreg
 
 void UIProgressBar::calculateProgress(int current, int max)
 {
-    if (max != 0)
+    if (max > 0)
     {
        Size frontSize = frontTexture.getSize();
        frontSize.width = static_cast<int>(backTexture.getSize().width *(current + 0.0)/max);

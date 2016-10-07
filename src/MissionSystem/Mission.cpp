@@ -51,13 +51,13 @@ MissionStatuses Mission::checkStatus()
     for(auto goal = goals.begin(); goal != goals.end(); ++goal)
     {
         (*goal)->checkCondition();
-        if ((*goal)->getGoalStatus() == gFAILED)
+        if ((*goal)->getGoalStatus() == GoalStatuses::gFAILED)
         {
             missionStatus = mFAILED;
             return missionStatus;
         }
 
-        if ((*goal)->getGoalStatus() == gCOMPLETED)
+        if ((*goal)->getGoalStatus() == GoalStatuses::gCOMPLETED)
             ++goalCompleted;
 
     }

@@ -19,20 +19,17 @@ public:
         :x(posX), y(posY)
    {
    }
-   bool operator==( Position const & right)
+   bool operator==( Position const & right) const
    {
         return x == right.x && y == right.y;
    }
 
-   bool operator!=( Position const & right)
+   bool operator!=( Position const & right) const
    {
        return !(*this == right);
    }
 
     int x, y;
 private:
-    friend bool operator==(Position const & left, Position const & right);
     friend std::ostream& operator<<(std::ostream& output, Position const & right);
 };
-
-//typedef SDL_Point Position;
