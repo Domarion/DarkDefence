@@ -9,9 +9,9 @@ using std::string;
 #include "../GraphicsSystem/UI/CompositeLabel.h"
 
 
-ScoreScene::ScoreScene()
+ScoreScene::ScoreScene(std::shared_ptr<RenderingSystem> &aRenderer)
+    :Scene(aRenderer)
 {
-
 }
 
 ScoreScene::~ScoreScene()
@@ -21,7 +21,7 @@ ScoreScene::~ScoreScene()
 
 void ScoreScene::init(SceneManager *sceneManagerPtr)
 {
-    Renderer::getInstance()->setRendererDrawColor(255, 255, 255);
+    //Renderer::getInstance()->setRendererDrawColor(255, 255, 255);
 
     Scene::init(sceneManagerPtr);
 
@@ -42,11 +42,11 @@ void ScoreScene::initControlLabel()
     TextButton* backButton = new TextButton();
     backButton->setFont(FontManager::getInstance()->getFontByKind("ButtonFont"));
     backButton->setRect(0, 0, 200, 50);
-    backButton->setPos(Renderer::getInstance()->getScreenWidth() - 200, Renderer::getInstance()->getScreenHeight() - 50);
+    //backButton->setPos(Renderer::getInstance()->getScreenWidth() - 200, Renderer::getInstance()->getScreenHeight() - 50);
     backButton->setText("Главное меню");
     string s = "MainScene";
     backButton->ConnectMethod(std::bind(&SceneManager::setCurrentSceneByName, getParentSceneManager(), s));
-    Scene::addToUIList(backButton);
+//    Scene::addToUIList(backButton);
 }
 
 void ScoreScene::showItemRewards()
@@ -65,7 +65,7 @@ void ScoreScene::showItemRewards()
         tempComposite->setPos(0, y0);
         tempComposite->setText(*mri);
         y0 += 50;
-        Scene::addToUIList(tempComposite);
+//        Scene::addToUIList(tempComposite);
 
         GameModel::getInstance()->addItemToInventoryByName(*mri);
     }
@@ -90,7 +90,7 @@ void ScoreScene::showGoldReward()
         tempComposite->setPos(0, y0);
         tempComposite->setText(std::to_string(goldCoins));
 
-        Scene::addToUIList(tempComposite);
+//        Scene::addToUIList(tempComposite);
     }
 }
 
@@ -117,5 +117,5 @@ void ScoreScene::showScoreView()
 
     ScoreLabel->setPos(0, 0);
 
-    Scene::addToUIList(ScoreLabel);
+//    Scene::addToUIList(ScoreLabel);
 }

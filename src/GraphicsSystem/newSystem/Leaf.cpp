@@ -1,5 +1,13 @@
 #include "Leaf.h"
 #include <exception>
+
+Leaf::Leaf(std::shared_ptr<RenderingSystem>& aRenderingContext)
+    :IComposite()
+    , renderer(aRenderingContext)
+{
+
+}
+
 void Leaf::addChild(shared_ptr<IComposite> child)
 {
 

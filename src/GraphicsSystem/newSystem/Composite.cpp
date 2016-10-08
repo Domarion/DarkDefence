@@ -1,5 +1,12 @@
 #include "Composite.h"
 
+Composite::Composite(std::shared_ptr<RenderingSystem> &aRenderingContext)
+    :IComposite()
+    , renderer(aRenderingContext)
+{
+
+}
+
 void Composite::addChild(shared_ptr<IComposite> child)
 {
     if (child != nullptr)
@@ -15,7 +22,7 @@ void Composite::removeChild(shared_ptr<IComposite> child)
         children.remove(child);
 }
 
-void Composite::draw()
+void Composite::draw() const
 {
     for(const auto& child : children)
         child->draw();
@@ -71,4 +78,15 @@ bool Composite::hasParent() const
 void Composite::setParent(weak_ptr<IComposite> aParent)
 {
     parent = aParent;
+}
+
+bool Composite::onClick(SDL_Point *point)
+{
+    for(const auto &child : children)
+    {
+        InputHandler* handler = dynamic_cast<InputHandler*>(child.get());
+        if (handler != nullptr && handler->onClick(point))
+               return true;
+    }
+    return false;
 }

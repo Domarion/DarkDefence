@@ -5,7 +5,7 @@
 class ScoreScene: public Scene
 {
 public:
-    ScoreScene();
+    ScoreScene(std::shared_ptr<RenderingSystem> &aRenderer);
     virtual ~ScoreScene();
     virtual void init(SceneManager* sceneManagerPtr) override;
     virtual void clear() override;

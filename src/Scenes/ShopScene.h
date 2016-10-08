@@ -13,7 +13,7 @@
 class ShopScene: public Scene
 {
 public:
-	ShopScene();
+    ShopScene(std::shared_ptr<RenderingSystem> &aRenderer);
 	virtual ~ShopScene();
     virtual void init(SceneManager* sceneManagerPtr) override;
     virtual void clear() override;

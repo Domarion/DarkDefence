@@ -5,16 +5,17 @@
 #include "../Font.h"
 
 
-class UILabel final: public Leaf
+class UILabel: public Leaf
 {
 public:
     UILabel() = default;
-    explicit UILabel(const string& ltext, const Font& lfont);
+    explicit UILabel(const string& ltext, const Font& lfont, std::shared_ptr<RenderingSystem>& aRenderingContext);
+
     virtual ~UILabel() = default;
 
     void setText(const string& ltext);
     // IComposite interface
-    virtual void draw() override;
+    virtual void draw() const override;
     virtual Size getSize() const override;
     virtual void setSize(Size size) override;
 

@@ -1,7 +1,11 @@
 #include "UILabel.h"
 
-UILabel::UILabel(const string &ltext, const Font &lfont)
-    :text(ltext), font(lfont)
+UILabel::UILabel(const string &ltext, const Font &lfont, std::shared_ptr<RenderingSystem> &aRenderingContext)
+    : Leaf(aRenderingContext)
+    , text(ltext)
+    , font(lfont)
+    , textTexture(aRenderingContext)
+
 {
     setText(ltext);
 
@@ -14,7 +18,7 @@ void UILabel::setText(const string &ltext)
     textTexture.scaleToTexture();
 }
 
-void UILabel::draw()
+void UILabel::draw() const
 {
     textTexture.drawAtPosition(getPosition());
 }

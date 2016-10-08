@@ -16,9 +16,12 @@ using std::endl;
 #include "Grouping/FontManager.h"
 #include "GlobalConstants.h"
 
-GameApp::GameApp(SceneManager* aSceneManager)
-:renderer(nullptr), window(nullptr), sceneManager(aSceneManager), paused(false)
+GameApp::GameApp(SceneManager* aSceneManager, std::shared_ptr<RenderingSystem> &aRenderer)
+:renderer(aRenderer)
+, sceneManager(aSceneManager)
+, paused(false)
 {
+    FontManager::getInstance()->loadFontList("GameData/fontconfig.txt");
 
 }
 
@@ -26,33 +29,8 @@ GameApp::~GameApp()
 {
     if (sceneManager != nullptr)
         delete sceneManager;
-
-    renderer->destroyRenderer();
-    renderer = nullptr;
-
-    TTF_Quit();
-    IMG_Quit();
-    SDL_Quit();
 }
 
-void GameApp::initLibrary(int windowWidth, int windowHeight)
-{
-    if (SDL_Init(SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_EVENTS) == 0)
-    {
-        renderer = Renderer::getInstance();
-        renderer->initRenderer(windowWidth, windowHeight);
-
-        int imgFlags = IMG_INIT_PNG;
-        IMG_Init(imgFlags);
-        TTF_Init();
-
-        FontManager::getInstance()->loadFontList("GameData/fontconfig.txt");
-    }
-    else
-    {
-       cout << "SDL_Init Error: " << SDL_GetError() << endl;
-    }
-}
 
 int GameApp::gameLoop()
 {

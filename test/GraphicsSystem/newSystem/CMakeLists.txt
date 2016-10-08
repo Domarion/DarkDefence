@@ -2,7 +2,13 @@ project(newSystemTests)
 
 add_executable (CompositeTest CompositeTest.cpp)
 set(newSystemPath ../../../src/GraphicsSystem/newSystem)
-add_library(composite ${newSystemPath}/Composite.cpp ${newSystemPath}/Leaf.cpp ${newSystemPath}/UtilityStructs.cpp)
+set(srcPath ../../../src)
+
+add_library(composite ${newSystemPath}/Composite.cpp
+    ${newSystemPath}/Leaf.cpp
+    ${newSystemPath}/UtilityStructs.cpp
+    ${srcPath}/Input/InputHandler.cpp
+    )
 target_link_libraries (CompositeTest
                       composite
                       ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}

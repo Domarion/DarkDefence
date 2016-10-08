@@ -22,8 +22,15 @@
 #include "../GlobalConstants.h"
 
 
-GameScene::GameScene()
-:Scene(), gates(nullptr), gatesHealthBar(nullptr), manaBar(nullptr), pointsLabel(nullptr), waveLabel(nullptr), itemAbilitiesStorage(), tileMap(nullptr)
+GameScene::GameScene(std::shared_ptr<RenderingSystem> &aRenderer)
+:Scene(aRenderer)
+, gates(nullptr)
+, gatesHealthBar(nullptr)
+, manaBar(nullptr)
+, pointsLabel(nullptr)
+, waveLabel(nullptr)
+, itemAbilitiesStorage()
+, tileMap(nullptr)
 {
     srand (time(NULL));
 }
@@ -270,7 +277,7 @@ void GameScene::initTopPanel()
     waveLabel->setPos(0,0);
     topPanel->addChild(waveLabel);
 
-    Scene::addToUIList(topPanel);
+    //Scene::addToUIList(topPanel);
 }
 
 void GameScene::initAbilitiesButtons()
@@ -292,7 +299,7 @@ void GameScene::initAbilitiesButtons()
 
         string imgPath = "GameData/textures/Abilities/Ability" + GameModel::getInstance()->getAbilityNameFromIndex(i) + ".png";
         abilityButtons[i]->loadTexture(imgPath);
-        Scene::addToUIList(abilityButtons[i]);
+        //Scene::addToUIList(abilityButtons[i]);
 
         abilityButtons[i]->ConnectMethod(std::bind(&SpellStorage::setAbilityReady, &spellStorage, GameModel::getInstance()->getAbilityNameFromIndex(i)));
     }
@@ -314,13 +321,13 @@ void GameScene::initUILayer()
     pauseBtn->setRect(750, 430, 50, 50);
     pauseBtn->loadTexture("GameData/textures/pause-button.png");
     pauseBtn->ConnectMethod(std::bind(&GameScene::sendMessage, this, GlobalConstants::Paused));
-    Scene::addToUIList(pauseBtn);
+    //Scene::addToUIList(pauseBtn);
 
     ImageButton* resumeBtn = new ImageButton();
     resumeBtn->setRect(700, 430, 50, 50);
     resumeBtn->loadTexture("GameData/textures/resume-button.png");
     resumeBtn->ConnectMethod(std::bind(&GameScene::sendMessage, this, GlobalConstants::Resumed));
-    Scene::addToUIList(resumeBtn);
+    //Scene::addToUIList(resumeBtn);
 }
 
 void GameScene::placeResourcesPlaces()

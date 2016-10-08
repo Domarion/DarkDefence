@@ -8,11 +8,10 @@
 #include "ShopScene.h"
 #include "../GlobalScripts/GameModel.h"
 #include "../GlobalScripts/AccountModel.h"
-ShopScene::ShopScene()
-    :shopController(nullptr)
-   // :arialFont(new CFont())
+ShopScene::ShopScene(std::shared_ptr<RenderingSystem> &aRenderer)
+    :Scene(aRenderer)
+    , shopController(nullptr)
 {
-	// TODO Auto-generated constructor stub
 
 }
 
@@ -23,7 +22,7 @@ ShopScene::~ShopScene()
 
 void ShopScene::init(SceneManager* sceneManagerPtr)
 {
-    Renderer::getInstance()->setRendererDrawColor(255, 255, 255);
+    renderer->setRendererDrawColor(255, 255, 255, 255);
 
     Scene::init(sceneManagerPtr);
     initBackGroundUI();
@@ -51,32 +50,32 @@ void ShopScene::startUpdate(double timestep)
 
 void ShopScene::initControlButton()
 {
-    Scene::addLoadSceneButton("Назад", "ButtonFont", "MainScene",
-                Renderer::getInstance()->getScreenWidth() - 100, Renderer::getInstance()->getScreenHeight() - 50,
-                              100, 50);
+//    Scene::addLoadSceneButton("Назад", "ButtonFont", "MainScene",
+//                Renderer::getInstance()->getScreenWidth() - 100, Renderer::getInstance()->getScreenHeight() - 50,
+//                              100, 50);
 }
 
 void ShopScene::initBackGroundUI()
 {
-    CTexture* backGround = new CTexture();
-    backGround->loadTexture("GameData/textures/shopBackground.jpg");
-    backGround->setRect(0, 0, Renderer::getInstance()->getScreenWidth()*0.6, Renderer::getInstance()->getScreenHeight() - 50);
-    Scene::addToUIList(backGround);
+//    CTexture* backGround = new CTexture();
+//    backGround->loadTexture("GameData/textures/shopBackground.jpg");
+//    backGround->setRect(0, 0, Renderer::getInstance()->getScreenWidth()*0.6, Renderer::getInstance()->getScreenHeight() - 50);
+//    Scene::addToUIList(backGround);
 
-    goldCoins = new Label();
-    goldCoins->setFont(FontManager::getInstance()->getFontByKind("ButtonFont"));
-    string goldAmount = std::to_string(AccountModel::getInstance()->getGoldAmount());
-    goldCoins->setText(goldAmount);
-    goldCoins->setPos(Renderer::getInstance()->getScreenWidth() - 310, Renderer::getInstance()->getScreenHeight() - 50);
+//    goldCoins = new Label();
+//    goldCoins->setFont(FontManager::getInstance()->getFontByKind("ButtonFont"));
+//    string goldAmount = std::to_string(AccountModel::getInstance()->getGoldAmount());
+//    goldCoins->setText(goldAmount);
+//    goldCoins->setPos(Renderer::getInstance()->getScreenWidth() - 310, Renderer::getInstance()->getScreenHeight() - 50);
 
-    Scene::addToUIList(goldCoins);
+//    Scene::addToUIList(goldCoins);
 
-    Label* sceneName = new Label();
-    sceneName->setFont(FontManager::getInstance()->getFontByKind("ButtonFont"));
-    string sceneNameString = "Мистическая лавка";
-    sceneName->setText(sceneNameString);
-    sceneName->setPos(goldCoins->getRect().x - sceneName->getRect().w -100, goldCoins->getRect().y);
-    Scene::addToUIList(sceneName);
+//    Label* sceneName = new Label();
+//    sceneName->setFont(FontManager::getInstance()->getFontByKind("ButtonFont"));
+//    string sceneNameString = "Мистическая лавка";
+//    sceneName->setText(sceneNameString);
+//    sceneName->setPos(goldCoins->getRect().x - sceneName->getRect().w -100, goldCoins->getRect().y);
+//    Scene::addToUIList(sceneName);
 
     initControlButton();
 }
@@ -86,22 +85,22 @@ void ShopScene::initShopItemsUI()
 
     GameModel::getInstance()->loadShopItems("GameData/Items.xml");
 
-        const int showItems = 5;
-        const int itemWidth = 72;
-        const int itemHeight = 72;
+//        const int showItems = 5;
+//        const int itemWidth = 72;
+//        const int itemHeight = 72;
 
-        ScrollList* scroll =  new ScrollList();
-        scroll->initScrollList(showItems, itemWidth, itemHeight);
-        scroll->setRect(Renderer::getInstance()->getScreenWidth()*0.6, 0, Renderer::getInstance()->getScreenWidth()*0.4, Renderer::getInstance()->getScreenHeight() - 50);
-        scroll->loadTexture("GameData/textures/topPanel.png");
+//        ScrollList* scroll =  new ScrollList();
+//        scroll->initScrollList(showItems, itemWidth, itemHeight);
+//        scroll->setRect(Renderer::getInstance()->getScreenWidth()*0.6, 0, Renderer::getInstance()->getScreenWidth()*0.4, Renderer::getInstance()->getScreenHeight() - 50);
+//        scroll->loadTexture("GameData/textures/topPanel.png");
 
-        shopController = new ShopController();
-        shopController->setModel(GameModel::getInstance()->getShopInventory());
+//        shopController = new ShopController();
+//        shopController->setModel(GameModel::getInstance()->getShopInventory());
 
-        shopController->setView(scroll);
-        shopController->initView();
+//        shopController->setView(scroll);
+//        shopController->initView();
 
-        Scene::addToUIList(scroll);
+//        Scene::addToUIList(scroll);
 
 
 }

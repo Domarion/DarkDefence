@@ -11,7 +11,7 @@
 class MainScene: public Scene
 {
 public:
-	MainScene();
+    MainScene(std::shared_ptr<RenderingSystem> &aRenderer);
 	virtual ~MainScene();
     virtual void init(SceneManager* sceneManagerPtr) override;
 

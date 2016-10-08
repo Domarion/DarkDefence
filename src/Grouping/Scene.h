@@ -13,16 +13,16 @@ using std::list;
 #include "../GraphicsSystem/CTexture.h"
 #include "SceneObject.h"
 #include "SceneManager.h"
-#include "../GlobalScripts/Renderer.h"
+#include "../GraphicsSystem/newSystem/RenderingSystem.h"
 #include "FontManager.h"
-
+#include "../GraphicsSystem/newSystem/UIElement/ConcreteComposite.h"
 class SceneObject;
 class SceneManager;
 
 class Scene
 {
 public:
-	Scene();
+    Scene(std::shared_ptr<RenderingSystem>& aRenderer);
 	virtual ~Scene();
     virtual void init(SceneManager* sceneManagerPtr);
     virtual void clear();
@@ -31,8 +31,8 @@ public:
     virtual void spawnObject(int x, int y, SceneObject* obj);
     virtual void destroyObject(SceneObject* obj);
 
-    virtual void addToUIList(IDrawable* item);
-    virtual void removeFromUIList(IDrawable* item);
+    virtual void addToUIList(const std::shared_ptr<IComposite> &item);
+    virtual void removeFromUIList(const std::shared_ptr<IComposite>& item);
     void clearUIList();
     SceneObject* findObjectByTag(std::string tag);
     list<SceneObject*> *findObjectsByTag(std::string tag);
@@ -42,12 +42,18 @@ public:
     virtual void onGameQuit();
 
 
-private:
-    list<IDrawable*> listGUI;
-    list<SceneObject*> sceneObjects;
-	SceneManager* parentSceneManager;
-protected:
-     void addLoadSceneButton(string aButtonName, string aFontName, string aSceneName, int posX, int posY, int width, int height);
-	bool wasInited;
 
+protected:
+    mutable std::shared_ptr<RenderingSystem> renderer;
+    std::shared_ptr<ConcreteComposite> MainRect;
+
+     void addLoadSceneButton(string aButtonName, string aFontName, string aSceneName, int posX, int posY, int width, int height);
+
+private:
+
+
+    list<std::shared_ptr<IComposite> > listGUI;
+    list<SceneObject*> sceneObjects;
+    SceneManager* parentSceneManager;
+    bool wasInited;
 };

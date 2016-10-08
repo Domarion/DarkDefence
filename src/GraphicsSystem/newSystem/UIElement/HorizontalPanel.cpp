@@ -1,5 +1,11 @@
 #include "HorizontalPanel.h"
 
+HorizontalPanel::HorizontalPanel(std::shared_ptr<RenderingSystem> &aRenderingContext)
+    :Composite(aRenderingContext)
+{
+
+}
+
 Size HorizontalPanel::getSize() const
 {
     return panelSize;

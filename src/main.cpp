@@ -4,8 +4,10 @@
  *  Created on: 8 марта 2016 г.
  *      Author: kostya_hm
  */
-#include "GameApp.h"
 
+#include "SDL_Engine.h"
+#include "GameApp.h"
+#include "GraphicsSystem/newSystem/RenderingSystem.h"
 #include "Scenes/MainScene.h"
 #include "Scenes/MapMenuScene.h"
 #include "Scenes/GameScene.h"
@@ -26,20 +28,20 @@ int main( int argc, char* args[])
 
     dataGenerator.saveMineCollection();*/
 
+    auto SDL2_Library = std::make_unique<SDL2Engine::SDL2>(SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_EVENTS);
 
+
+    Size screenSize(800, 480);
+    auto Renderer = std::make_shared<RenderingSystem>(screenSize);
     SceneManager *sceneManager = new SceneManager();
-    std::unique_ptr<GameApp> app(new GameApp(sceneManager));
+    std::unique_ptr<GameApp> app = std::make_unique<GameApp>(sceneManager, Renderer);
 
-    const int screenWidth = 800;
-    const int screenHeight = 480;
-    app->initLibrary(screenWidth, screenHeight);
-
-	MainScene *mainScene = new MainScene();
-    MapMenuScene *mapMenuScene = new MapMenuScene();
-	GameScene *gameScene = new GameScene();
-	InventoryScene *inventoryScene = new InventoryScene();
-	ShopScene *shopScene = new ShopScene();
-    ScoreScene* scoreScene = new ScoreScene();
+    MainScene *mainScene = new MainScene(Renderer);
+    MapMenuScene *mapMenuScene = new MapMenuScene(Renderer);
+    GameScene *gameScene = new GameScene(Renderer);
+    InventoryScene *inventoryScene = new InventoryScene(Renderer);
+    ShopScene *shopScene = new ShopScene(Renderer);
+    ScoreScene* scoreScene = new ScoreScene(Renderer);
 
 
     sceneManager->addScene(mainScene, "MainScene");

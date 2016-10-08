@@ -1,8 +1,8 @@
 #include "UIProgressBar.h"
 
 
-UIProgressBar::UIProgressBar(const Texture2D &background, const Texture2D &foreground)
-    :backTexture(background), frontTexture(foreground)
+UIProgressBar::UIProgressBar(std::shared_ptr<RenderingSystem> &aRenderingContext, const Texture2D &background, const Texture2D &foreground)
+    :Leaf(aRenderingContext), backTexture(background), frontTexture(foreground)
 {
 
 }
@@ -17,7 +17,7 @@ void UIProgressBar::calculateProgress(int current, int max)
     }
 }
 
-void UIProgressBar::draw()
+void UIProgressBar::draw() const
 {
     backTexture.drawAtPosition(getPosition());
     frontTexture.drawAtPosition(getPosition());

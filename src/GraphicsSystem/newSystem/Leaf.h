@@ -1,10 +1,11 @@
 #pragma oncer
 #include "IComposite.h"
-
+#include "RenderingSystem.h"
 
 class Leaf : public IComposite
 {
 public:
+    explicit Leaf(std::shared_ptr<RenderingSystem>& aRenderingContext);
 
     Leaf() = default;
     virtual ~Leaf() = default;
@@ -18,6 +19,8 @@ public:
     virtual void setPosition(Position pos) override;
 
 private:
+    mutable std::shared_ptr<RenderingSystem> renderer;
+
     weak_ptr<IComposite> parent;
     Position localPosition;
 

@@ -28,7 +28,7 @@ struct CompositeFixture
 
         // IComposite interface
     public:
-        virtual void draw() override
+        virtual void draw() const override
         {
 
         }

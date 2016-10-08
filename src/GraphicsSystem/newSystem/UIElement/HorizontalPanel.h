@@ -4,6 +4,8 @@
 class HorizontalPanel : public Composite
 {
 public:
+    explicit HorizontalPanel(std::shared_ptr<RenderingSystem>& aRenderingContext);
+
     HorizontalPanel() = default;
     virtual ~HorizontalPanel() = default;
     // IComposite interface

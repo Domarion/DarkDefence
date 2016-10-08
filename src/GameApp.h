@@ -7,13 +7,13 @@
 
 #pragma once
 
-#include "GlobalScripts/Renderer.h"
+#include "GraphicsSystem/newSystem/RenderingSystem.h"
 #include "Grouping/SceneManager.h"
 
 class GameApp
 {
 public:
-    GameApp(SceneManager* aSceneManager);
+    explicit GameApp(SceneManager* aSceneManager, std::shared_ptr<RenderingSystem>& aRenderer);
 	~GameApp();
     void initLibrary(int windowWidth, int windowHeight);
     int gameLoop();
@@ -28,8 +28,7 @@ private:
     void updateScene(Scene* scene, double timestep);
     int renderScene(const Scene* scene);
     bool isPaused();
-    Renderer* renderer;
-    SDL_Window* window;
+    std::shared_ptr<RenderingSystem> renderer;
 	SDL_Event event;
 	SceneManager* sceneManager;
     bool paused;

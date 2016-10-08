@@ -11,12 +11,19 @@
 #include <list>
 using std::list;
 #include "../Input/InputDispatcher.h"
-#include "../GraphicsSystem/UI/TextButton.h"
+#include "../GraphicsSystem/newSystem/UIElement/UITextButton.h"
 #include "../GlobalScripts/GameModel.h"
-
-Scene::Scene()
-:listGUI(), sceneObjects(), parentSceneManager(nullptr), wasInited(false)
+#include <iostream>
+Scene::Scene(std::shared_ptr<RenderingSystem> &aRenderer)
+:renderer(aRenderer)
+, MainRect(std::make_shared<ConcreteComposite>())
+, listGUI()
+, sceneObjects()
+, parentSceneManager(nullptr)
+, wasInited(false)
 {
+    MainRect->setSize(renderer->getScreenSize());
+    MainRect->setPosition(Position(0, 0));
 }
 
 void Scene::init(SceneManager* sceneManagerPtr)
@@ -37,7 +44,7 @@ void Scene::copyToRender() const
         if (sceneObject != nullptr && sceneObject->getSprite() != nullptr )
             sceneObject->getSprite()->draw();
 
-    for(auto guiItem : listGUI)
+    for(const auto& guiItem : listGUI)
         if (guiItem != nullptr)
             guiItem->draw();
 }
@@ -85,27 +92,30 @@ void Scene::destroyObject(SceneObject *obj)
     obj->finalize();
 }
 
-void Scene::addToUIList(IDrawable *item)
+void Scene::addToUIList(const std::shared_ptr<IComposite> &item)
 {
     if (item == nullptr)
         return;
 
     listGUI.push_back(item);
 
-    InputHandler* handler = dynamic_cast<InputHandler*>(item);
+    InputHandler* handler = dynamic_cast<InputHandler*>(item.get());
+
 
     if (handler != nullptr)
             InputDispatcher::getInstance()->addHandler(handler);
+    else
+        std::cout << "fucking NULL";
 }
 
-void Scene::removeFromUIList(IDrawable *item)
+void Scene::removeFromUIList(const std::shared_ptr<IComposite> &item)
 {
     if (item == nullptr)
         return;
 
     listGUI.remove(item);
 
-    InputHandler* handler = dynamic_cast<InputHandler*>(item);
+    InputHandler* handler = dynamic_cast<InputHandler*>(item.get());
 
     if (handler != nullptr)
         InputDispatcher::getInstance()->removeHandler(handler);
@@ -202,12 +212,19 @@ void Scene::onGameQuit()
 
 void Scene::addLoadSceneButton(string aButtonName, string aFontName, string aSceneName, int posX, int posY, int width, int height)
 {
-    TextButton* button = new TextButton();
-    button->setFont(FontManager::getInstance()->getFontByKind(aFontName));
-    button->setRect(posX, posY, width, height);
-    button->setText(aButtonName);
-    button->ConnectMethod(std::bind(&SceneManager::setCurrentSceneByName, getParentSceneManager(), aSceneName));
-    addToUIList(button);
+
+      auto textButton = std::make_shared<UITextButton>(aButtonName, FontManager::getInstance()->getFontByKind2(aFontName), renderer);
+      textButton->setSize(Size(width, height));
+      textButton->setPosition(Position(posX, posY));
+      textButton->ConnectMethod(std::bind(&SceneManager::setCurrentSceneByName, getParentSceneManager(), aSceneName));
+
+      MainRect->addChild(textButton);
+//    TextButton* button = new TextButton();
+//    button->setFont(FontManager::getInstance()->getFontByKind(aFontName));
+//    button->setRect(posX, posY, width, height);
+//    button->setText(aButtonName);
+//    button->ConnectMethod(std::bind(&SceneManager::setCurrentSceneByName, getParentSceneManager(), aSceneName));
+//    addToUIList(button);
 }
 
 void Scene::clear()
@@ -221,9 +238,9 @@ void Scene::clear()
     }
 
 
-    for(auto guiItem : listGUI)
-        if (guiItem != nullptr)
-            delete guiItem;
+//    for(auto guiItem : listGUI)
+//        if (guiItem != nullptr)
+//            guiItem.reset();
 
     listGUI.clear();
 

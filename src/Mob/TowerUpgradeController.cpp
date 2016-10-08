@@ -107,7 +107,7 @@ void TowerUpgradeController::receiveTowerUpgrade(Tower *tower)
         towerMenu.calculateVisibleItemsPositions();
         towerMenu.ConnectMethod(std::bind(&TowerUpgradeController::menuClickHandler, this, std::placeholders::_1));
 
-        parentGameScene->addToUIList(&towerMenu);
+//        parentGameScene->addToUIList(&towerMenu);
     }
 }
 
@@ -120,7 +120,7 @@ bool TowerUpgradeController::menuClickHandler(size_t itemIndex)
 
     if (itemIndex == currentTowerChildrenNames.size())
     {
-        parentGameScene->removeFromUIList(&towerMenu);
+//        parentGameScene->removeFromUIList(&towerMenu);
         return false;
     }
 
@@ -155,7 +155,7 @@ bool TowerUpgradeController::menuClickHandler(size_t itemIndex)
         int y = cachedTower->getSprite()->getRect().y;
         parentGameScene->destroyObject(cachedTower);
 
-        parentGameScene->removeFromUIList(&towerMenu);
+//        parentGameScene->removeFromUIList(&towerMenu);
 
         cachedTower = fabric->produceTower(towerName, this, cachedTower->getTileMapManager());
         if (cachedTower == nullptr)

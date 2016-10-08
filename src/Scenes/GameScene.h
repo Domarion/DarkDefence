@@ -32,7 +32,7 @@ using std::vector;
 class GameScene: public Scene
 {
 public:
-	GameScene();
+    GameScene(std::shared_ptr<RenderingSystem> &aRenderer);
 	virtual ~GameScene();
     virtual void init(SceneManager* sceneManagerPtr) override;
     virtual void clear() override;

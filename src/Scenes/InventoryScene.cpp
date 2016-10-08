@@ -10,8 +10,10 @@
 
 
 
-InventoryScene::InventoryScene()
-    :inventoryController(nullptr), heroController(nullptr)
+InventoryScene::InventoryScene(std::shared_ptr<RenderingSystem> &aRenderer)
+    :Scene(aRenderer)
+    , inventoryController(nullptr)
+    , heroController(nullptr)
 {
 }
 
@@ -22,7 +24,7 @@ InventoryScene::~InventoryScene()
 
 void InventoryScene::init( SceneManager* sceneManagerPtr)
 {
-    Renderer::getInstance()->setRendererDrawColor(255, 255, 255);
+//    Renderer::getInstance()->setRendererDrawColor(255, 255, 255);
     Scene::init(sceneManagerPtr);
 
     initControlButton();
@@ -39,9 +41,9 @@ void InventoryScene::clear()
 
 void InventoryScene::initControlButton()
 {
-    Scene::addLoadSceneButton("Назад", "ButtonFont", "MainScene",
-                Renderer::getInstance()->getScreenWidth() - 100, Renderer::getInstance()->getScreenHeight() - 50,
-                              100, 50);
+//    Scene::addLoadSceneButton("Назад", "ButtonFont", "MainScene",
+//                Renderer::getInstance()->getScreenWidth() - 100, Renderer::getInstance()->getScreenHeight() - 50,
+//                              100, 50);
 }
 
 void InventoryScene::initHeroView()
@@ -54,7 +56,7 @@ void InventoryScene::initHeroView()
     heroController->setView(heroFigure);
     heroController->initView();
 
-    Scene::addToUIList(heroFigure);
+    //Scene::addToUIList(heroFigure);
 }
 
 void InventoryScene::initInventoryView()
@@ -67,7 +69,7 @@ void InventoryScene::initInventoryView()
 
         ScrollList* scroll = new ScrollList();
         scroll->initScrollList(showItems, itemWidth, itemHeight);
-        scroll->setRect(0, 0, Renderer::getInstance()->getScreenWidth()*0.4, Renderer::getInstance()->getScreenHeight() - 50);
+//        scroll->setRect(0, 0, Renderer::getInstance()->getScreenWidth()*0.4, Renderer::getInstance()->getScreenHeight() - 50);
         scroll->loadTexture("GameData/textures/topPanel.png");
 
         inventoryController = new InventoryController();
@@ -77,7 +79,7 @@ void InventoryScene::initInventoryView()
         inventoryController->setView(scroll);
         inventoryController->initView();
 
-        Scene::addToUIList(scroll);
+        //Scene::addToUIList(scroll);
     }
 }
 
