@@ -21,7 +21,7 @@ void Texture2D::setTextureFromText(const string &ltext, Font lfont)
                     SDL_DestroyTexture);
 }
 
-shared_ptr<SDL_Texture> Texture2D::getTexture() const
+const shared_ptr<SDL_Texture>& Texture2D::getTexture() const
 {
     return texturePtr;
 }

@@ -15,12 +15,12 @@ MobAbilityArson::~MobAbilityArson()
 
 bool MobAbilityArson::onReady(double timestep)
 {
-    std::cout << "WTFArson000" << std::endl;
+    //std::cout << "WTFArson000" << std::endl;
 
 
        if (target != nullptr)
        {
-         std::cout << "WTFArson" << std::endl;
+      //   std::cout << "WTFArson" << std::endl;
            target->getEffectReceiver()->applyEffect(&arsonEffect);
            abilityState = Enums::AbilityStates::asWorking;
        }
@@ -48,7 +48,7 @@ bool MobAbilityArson::onWorking(double timestep)
         int damage = 30;
         target->getDestructibleObject()->receiveDamageOneType(static_cast<int>(Enums::DamageTypes::dtFIRE), damage);
 
-        std::cout << "AbilityArson Working" << std::endl;
+        //std::cout << "AbilityArson Working" << std::endl;
         counter = 0;
     }
 
@@ -98,12 +98,12 @@ bool MobAbilityArson::canTrigger(SceneObject *targ, Enums::AIMobStates aimobstat
 
     if (targ->getTag() != "Mine" || targ->getEffectReceiver() == nullptr || targ->getEffectReceiver()->hasEffect(&arsonEffect))
     {
-        std::cout << "what happened?" << std::endl;
+        //std::cout << "what happened?" << std::endl;
         return false;
     }
     target = targ;
 
-    std::cout << "trololo?" << std::endl;
+    //std::cout << "trololo?" << std::endl;
     return true;
 }
 

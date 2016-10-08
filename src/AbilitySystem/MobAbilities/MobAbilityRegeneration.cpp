@@ -14,7 +14,7 @@ bool MobAbilityRegeneration::onReady(double timestep)
 {
     if (target != nullptr)
     {
-         std::cout << "WTFRegeneration" << std::endl;
+         //std::cout << "WTFRegeneration" << std::endl;
 
 
         abilityState = Enums::AbilityStates::asWorking;
@@ -45,7 +45,7 @@ bool MobAbilityRegeneration::onWorking(double timestep)
             abilityState = Enums::AbilityStates::asOnCooldown;
             return false;
         }
-        std::cout << "AbilityRegeneration Working" << std::endl;
+        //std::cout << "AbilityRegeneration Working" << std::endl;
 
     }
 

@@ -17,7 +17,7 @@ public:
     void setTexture(shared_ptr<SDL_Texture> texture);
     void setTextureFromText(const string& ltext, Font lfont);
 
-    shared_ptr<SDL_Texture> getTexture() const;
+    const shared_ptr<SDL_Texture> &getTexture() const;
     void loadTexture(const string& filename);
     void drawAtPosition(Position pos);
     Size getSize() const;

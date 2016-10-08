@@ -115,6 +115,8 @@ set(SRC_LIST
     GraphicsSystem/newSystem/Leaf.h
     Enums.h
 
+    GraphicsSystem/newSystem/RenderingSystem.h
+
     GraphicsSystem/newSystem/UtilityStructs.cpp
     Input/InputHandler.cpp
     Input/SceneInputHandler.cpp
@@ -221,6 +223,8 @@ set(SRC_LIST
     GraphicsSystem/newSystem/UIElement/HorizontalPanel.cpp
     GraphicsSystem/newSystem/UIElement/UIProgressBar.cpp
     GraphicsSystem/newSystem/Texture2D.cpp
+
+    GraphicsSystem/newSystem/RenderingSystem.cpp
 
     )
 
