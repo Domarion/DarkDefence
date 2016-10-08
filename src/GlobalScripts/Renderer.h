@@ -2,7 +2,6 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include <string>
-//#include "../GraphicsSystem/CFont.h"
 using std::string;
 
 class Renderer
@@ -28,7 +27,6 @@ public:
 
     SDL_Texture* textToTexture(TTF_Font * font, string text, SDL_Color color);
     SDL_Texture* textToTexture(TTF_Font* font, string text, Uint8 r, Uint8 g, Uint8 b);
-    //SDL_Texture* stringToTexture(string text, const CFont& font);
     SDL_Texture* textToTexture(string fontFilename, int size, string text, Uint8 r, Uint8 g, Uint8 b);
 
 
