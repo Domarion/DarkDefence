@@ -65,7 +65,17 @@ Position Composite::getNextPosition() const
     {
         shared_ptr<IComposite> lastChild = children.back();
         localPos.x = lastChild->getPosition().x + lastChild->getSize().width;
-        localPos.y = lastChild->getPosition().y;
+    }
+    return localPos;
+}
+
+Position Composite::getNextVerticalPosition() const
+{
+    Position localPos{0, 0};
+    if (hasChildren())
+    {
+        shared_ptr<IComposite> lastChild = children.back();
+        localPos.y = lastChild->getPosition().y + lastChild->getSize().height;
     }
     return localPos;
 }

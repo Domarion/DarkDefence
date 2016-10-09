@@ -40,7 +40,7 @@ public:
     list<SceneObject*>* findObjectsWithPos(int x, int y);
     SceneManager* getParentSceneManager();
     virtual void onGameQuit();
-
+    std::shared_ptr<RenderingSystem>& getRenderer();
 
 
 protected:

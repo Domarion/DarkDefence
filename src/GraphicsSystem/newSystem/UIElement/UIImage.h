@@ -2,7 +2,7 @@
 
 #include "../Leaf.h"
 #include "../Texture2D.h"
-class UIImage final: public Leaf
+class UIImage: public Leaf
 {
 public:
     explicit UIImage(std::shared_ptr<RenderingSystem>& aRenderingContext);

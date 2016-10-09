@@ -161,13 +161,18 @@ SceneObject *Scene::findObjectWithPos(int x, int y)
 {
 
     SDL_Point point = {x, y};
-    for(auto ptr = sceneObjects.begin(); ptr != sceneObjects.end(); ++ptr)
+    for(auto& sceneobject : sceneObjects)
     {
-      if ((*ptr) != nullptr)
+      if (sceneobject != nullptr)
       {
-          const SDL_Rect some = (*ptr)->getSprite()->getRect();
-         if (SDL_PointInRect(&point, &some))
-            return *ptr;
+          const SDL_Rect some = {sceneobject->getSprite()->getPosition().x
+                                 , sceneobject->getSprite()->getPosition().y
+                                , sceneobject->getSprite()->getSize().width
+                                , sceneobject->getSprite()->getSize().height
+                                };
+
+          if (SDL_PointInRect(&point, &some))
+               return sceneobject;
        }
     }
     return nullptr;
@@ -178,14 +183,18 @@ list<SceneObject *> *Scene::findObjectsWithPos(int x, int y)
     SDL_Point point = {x, y};
     list<SceneObject*>* filteredList =  new list<SceneObject*>();
 
-    for(auto ptr = sceneObjects.begin(); ptr != sceneObjects.end(); ++ptr)
+    for(auto &sceneobject : sceneObjects)
     {
-        if ((*ptr) != nullptr)
+        if (sceneobject != nullptr)
         {
-           const SDL_Rect some = (*ptr)->getSprite()->getRect();
+           const SDL_Rect some = {sceneobject->getSprite()->getPosition().x
+                                  , sceneobject->getSprite()->getPosition().y
+                                 , sceneobject->getSprite()->getSize().width
+                                 , sceneobject->getSprite()->getSize().height
+                                 };
 
            if (SDL_PointInRect(&point, &some))
-                filteredList->push_back(*ptr);
+                filteredList->push_back(sceneobject);
         }
     }
 
@@ -208,6 +217,11 @@ void Scene::onGameQuit()
 {
     GameModel::getInstance()->saveGameData("GameData/save.bin");
 
+}
+
+std::shared_ptr<RenderingSystem> &Scene::getRenderer()
+{
+    return renderer;
 }
 
 void Scene::addLoadSceneButton(string aButtonName, string aFontName, string aSceneName, int posX, int posY, int width, int height)

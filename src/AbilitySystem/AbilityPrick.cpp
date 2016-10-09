@@ -45,10 +45,11 @@ bool AbilityPrick::onWorking(double timestep)
         abilityState = Enums::AbilityStates::asOnCooldown;
         std::cout << "prickEnter" << std::endl;
         somePrick = new PrickObject(damage);
-       AnimatedSprite* sptr = new AnimatedSprite();
-        sptr->setRect(0,0, 200, 200);
-        sptr->loadTexture("GameData/textures/EmptySlot.png");
-        somePrick->setSprite(sptr);
+
+        auto spritePrick = std::make_shared<AnimationSceneSprite>(parentScenePtr->getRenderer());
+        spritePrick->setSize(Size(200, 200));
+        spritePrick->loadTexture("GameData/textures/EmptySlot.png");
+        somePrick->setSprite(spritePrick);
 
         parentScenePtr->spawnObject(coordX,coordY, somePrick);
         coordX = 0;

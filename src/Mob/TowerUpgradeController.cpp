@@ -151,13 +151,13 @@ bool TowerUpgradeController::menuClickHandler(size_t itemIndex)
 
         GameModel::getInstance()->getResourcesModel()->removeResources(model.getPrice());
 
-        int x = cachedTower->getSprite()->getRect().x;
-        int y = cachedTower->getSprite()->getRect().y;
+        int x = cachedTower->getSprite()->getPosition().x;
+        int y = cachedTower->getSprite()->getPosition().y;
         parentGameScene->destroyObject(cachedTower);
 
 //        parentGameScene->removeFromUIList(&towerMenu);
 
-        cachedTower = fabric->produceTower(towerName, this, cachedTower->getTileMapManager());
+        cachedTower = fabric->produceTower(towerName, parentGameScene->getRenderer(), this, cachedTower->getTileMapManager());
         if (cachedTower == nullptr)
             return false;
         parentGameScene->spawnObject(x, y, cachedTower);

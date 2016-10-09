@@ -11,9 +11,10 @@
 #include "../Grouping/SceneObjectFabric.h"
 #include "../GraphicsSystem/UI/AnimatedSprite.h"
 #include "../GraphicsSystem/UI/GroupBox.h"
-#include "../GraphicsSystem/UI/CompositeLabel.h"
+#include "../GraphicsSystem/newSystem/UIElement/UILabel.h"
+#include "../GraphicsSystem/newSystem/UIElement/UIProgressBar.h"
+
 #include "../GraphicsSystem/UI/ImageButton.h"
-#include "../GraphicsSystem/UI/ProgressBar.h"
 
 #include "../Mob/Gates.h"
 
@@ -58,14 +59,14 @@ private:
     void applyArtefactEffects();
 
     Gates* gates;
-    ProgressBar *gatesHealthBar, *manaBar;
-    Label* pointsLabel;
-    Label* waveLabel;
+    std::shared_ptr<UIProgressBar> gatesHealthBar, manaBar;
+    std::shared_ptr<UILabel> pointsLabel;
+    std::shared_ptr<UILabel> waveLabel;
 
     SceneObjectFabric objectFabric;
 
 
-    vector<CompositeLabel*> resourceLabels;
+    vector<std::shared_ptr<UILabel> > resourceLabels;
 
     TowerFabric towerFabric;
 	MobSpawner monsterSpawner;
@@ -85,4 +86,6 @@ private:
 
     TileMapManager* tileMap;
     ManaGlobal* manaModel;
+    void initResourceView();
+    void initProgressBars();
 };

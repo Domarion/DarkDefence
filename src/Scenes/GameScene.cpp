@@ -14,9 +14,8 @@
 #include <cstdlib>
 #include <ctime>
 #include "../Input/InputDispatcher.h"
-#include "../GlobalScripts/Renderer.h"
 #include "../Utility/textfilefunctions.h"
-
+#include "../GraphicsSystem/newSystem/UIElement/UIImageButton.h"
 
 
 #include "../GlobalConstants.h"
@@ -29,6 +28,7 @@ GameScene::GameScene(std::shared_ptr<RenderingSystem> &aRenderer)
 , manaBar(nullptr)
 , pointsLabel(nullptr)
 , waveLabel(nullptr)
+, monsterSpawner(aRenderer)
 , itemAbilitiesStorage()
 , tileMap(nullptr)
 {
@@ -127,7 +127,7 @@ void GameScene::startUpdate(double timestep)
     GameModel::getInstance()->getManaModel()->regenerate(timestep);
 
     if (manaBar != nullptr)
-        manaBar->calculateFront(GameModel::getInstance()->getManaModel()->getCurrent(),GameModel::getInstance()->getManaModel()->getLimit());
+        manaBar->calculateProgress(GameModel::getInstance()->getManaModel()->getCurrent(),GameModel::getInstance()->getManaModel()->getLimit());
 
 
     if (gates != nullptr && gates->getDestructibleObject()->getCurrentHealth() <= 0)
@@ -196,113 +196,120 @@ void GameScene::loadData()
     tileMap = new TileMapManager(aMapTemplate);
 }
 
-void GameScene::initTopPanel()
+void GameScene::initResourceView()
 {
-    GroupBox* topPanel = new GroupBox();
-    topPanel->setRect(0,0, Renderer::getInstance()->getScreenWidth(), 40);
-   // topPanel.loadTexture("GameData/textures/topPanel.png");
+    auto resourcePanel = std::make_shared<ConcreteComposite>(renderer);
+    resourcePanel->setSize(Size(MainRect->getSize().width/3, 50));
+    resourcePanel->setPosition(MainRect->getNextPosition());
 
-    gatesHealthBar = new ProgressBar();
-
-    gatesHealthBar->setRect(0, 0, 90, 15);
-
-    SDL_Surface *surface1 = SDL_CreateRGBSurface(0, gatesHealthBar->getRect().w, gatesHealthBar->getRect().h, 16, 0, 0, 0, 0);
-    SDL_Surface *surface2 = SDL_CreateRGBSurface(0, gatesHealthBar->getRect().w, gatesHealthBar->getRect().h, 16, 0, 0, 0, 0);
-
-    SDL_FillRect(surface1, nullptr, SDL_MapRGB(surface1->format, 150,100, 0));
-    SDL_FillRect(surface2, nullptr, SDL_MapRGB(surface2->format, 200,100, 0));
-
-
-
-    SDL_Texture  *backTexture = Renderer::getInstance()->getTextureFromSurface(surface1);
-    SDL_Texture  *frontTexture = Renderer::getInstance()->getTextureFromSurface(surface2);
-    SDL_FreeSurface(surface1);
-    SDL_FreeSurface(surface2);
-    gatesHealthBar->setTexture(backTexture);
-    gatesHealthBar->setFrontTexture(frontTexture);
-
-    gatesHealthBar->calculateFront(5000, 5000);
-    topPanel->addChild(gatesHealthBar);
-
-
-    manaBar = new ProgressBar();
-    GameModel::getInstance()->getManaModel()->setLimit(100);
-
-    manaBar->setRect(0, 0, 90, 15);
-
-    SDL_Surface *surface3 = SDL_CreateRGBSurface(0, manaBar->getRect().w, manaBar->getRect().h, 16, 0, 0, 0, 0);
-    SDL_Surface *surface4 = SDL_CreateRGBSurface(0, manaBar->getRect().w, manaBar->getRect().h, 16, 0, 0, 0, 0);
-
-    SDL_FillRect(surface3, nullptr, SDL_MapRGB(surface3->format, 50,0, 200));
-    SDL_FillRect(surface4, nullptr, SDL_MapRGB(surface4->format, 0,0, 255));
-
-    SDL_Texture  *backTexture1 = Renderer::getInstance()->getTextureFromSurface(surface3);
-    SDL_Texture  *frontTexture1 = Renderer::getInstance()->getTextureFromSurface(surface4);
-    SDL_FreeSurface(surface3);
-    SDL_FreeSurface(surface4);
-    manaBar->setTexture(backTexture1);
-    manaBar->setFrontTexture(frontTexture1);
-    manaBar->calculateFront(100, 100);
-    topPanel->addChild(manaBar, true);
-
-
-
+    Font labelFont = FontManager::getInstance()->getFontByKind2("TextFont");
     resourceLabels.resize(ResourcesModel::resourceTypeCount);
     for(int i = 0; i != ResourcesModel::resourceTypeCount; ++i)
     {
-        string s = GameModel::getInstance()->getResourcesModel()->printResourceFromIndex(i);
-        resourceLabels[i] = new CompositeLabel();
-
-        resourceLabels[i]->setFont(FontManager::getInstance()->getFontByKind("TextFont"));
         string iconPath = "GameData/textures/Resources/"
                 + GameModel::getInstance()->getResourcesModel()->getResourceNameFromIndex(i) + ".png";
-        resourceLabels[i]->loadIcon( iconPath );
-        resourceLabels[i]->setIconRect(0,0, 30 , 30);
-        resourceLabels[i]->setPos(0, 0);
 
-       // resourceLabels[i]->setRect(0, 0, 120, 24);
-        resourceLabels[i]->setText(s);
+        auto resourceIcon = std::make_shared<UIImage>(renderer);
+        resourceIcon->loadTexture(iconPath);
+        resourceIcon->setSize(Size(48, 48));
+        resourceIcon->setPosition(resourcePanel->getNextPosition());
+        resourcePanel->addChild(resourceIcon);
 
-        topPanel->addChild(resourceLabels[i]);
+        string labelText = GameModel::getInstance()->getResourcesModel()->printResourceFromIndex(i);
+        resourceLabels[i] = std::make_shared<UILabel>(labelText, labelFont, renderer);
+        resourceLabels[i]->setSize(Size(80, 25));
+        resourceLabels[i]->setPosition(resourcePanel->getNextPosition());
+
+        resourcePanel->addChild(resourceLabels[i]);
     }
-    pointsLabel = new Label();
-    pointsLabel->setFont(FontManager::getInstance()->getFontByKind("TextFont"));
-    pointsLabel->setRect(0,0, 30, 20);
-    pointsLabel->setPos(0,0);
-    topPanel->addChild(pointsLabel);
+    MainRect->addChild(resourcePanel);
 
+}
 
-    waveLabel = new Label();
-    waveLabel->setFont(FontManager::getInstance()->getFontByKind("TextFont"));
-    waveLabel->setPos(0,0);
-    topPanel->addChild(waveLabel);
+void GameScene::initProgressBars()
+{
 
-    //Scene::addToUIList(topPanel);
+    auto progressBarGroup = std::make_shared<ConcreteComposite>(renderer);
+    progressBarGroup->setSize(Size(200, 50));
+    progressBarGroup->setPosition(MainRect->getNextPosition());
+
+    Texture2D gatesHealthBarBack(renderer);
+    gatesHealthBarBack.loadTexture("GameData/textures/HealthBarEmpty.png");
+    Texture2D gatesHealthBarFront(renderer);
+    gatesHealthBarFront.loadTexture("GameData/textures/HealthBarFull.png");
+
+    gatesHealthBar = std::make_shared<UIProgressBar>(renderer, gatesHealthBarBack, gatesHealthBarFront);
+    gatesHealthBar->setSize(Size(progressBarGroup->getSize().width, progressBarGroup->getSize().height/2));
+    gatesHealthBar->calculateProgress(5000, 5000);
+    progressBarGroup->addChild(gatesHealthBar);
+
+    Texture2D manaBarBack(renderer);
+    manaBarBack.loadTexture("GameData/textures/ManaBarEmpty.png");
+    Texture2D manaBarFront(renderer);
+    manaBarFront.loadTexture("GameData/textures/ManaBarFull.png");
+
+    manaBar = std::make_shared<UIProgressBar>(renderer, manaBarBack, manaBarFront);
+    manaBar->setSize(Size(progressBarGroup->getSize().width, progressBarGroup->getSize().height/2));
+    manaBar->setPosition(progressBarGroup->getNextVerticalPosition());
+    manaBar->calculateProgress(100, 100);
+    progressBarGroup->addChild(manaBar);
+
+    MainRect->addChild(progressBarGroup);
+}
+
+void GameScene::initTopPanel()
+{
+    initProgressBars();
+    initResourceView();
+
+    auto miniGroup = std::make_shared<ConcreteComposite>(renderer);
+    miniGroup->setSize(Size(MainRect->getSize().width/3, 50));
+    miniGroup->setPosition(MainRect->getNextPosition());
+
+    Font aFont = FontManager::getInstance()->getFontByKind2("TextFont");
+    pointsLabel = std::make_shared<UILabel>("none", aFont, renderer);
+    pointsLabel->setSize(Size(100, 50));
+
+    miniGroup->addChild(pointsLabel);
+
+    waveLabel = std::make_shared<UILabel>("none", aFont, renderer);
+    waveLabel->setSize(Size(100, 50));
+    waveLabel->setPosition(miniGroup->getNextPosition());
+    miniGroup->addChild(waveLabel);
+
+    MainRect->addChild(miniGroup);
 }
 
 void GameScene::initAbilitiesButtons()
 {
-    int x1 = 0;
-    int y1 = Renderer::getInstance()->getScreenHeight() - 50;
-    int w = 50;
-    int h = 50;
+
+    Position abilityButtonPos(0, MainRect->getSize().height - 48);
+    Size abilityButtonSize(48, 48);
+
 
     spellStorage.loadWithScene(this);
 
+    auto abilityButtonsGroup = std::make_shared<ConcreteComposite>(renderer);
+    abilityButtonsGroup->setSize(Size(MainRect->getSize().width/3, abilityButtonSize.height));
+    abilityButtonsGroup->setPosition(abilityButtonPos);
 
-    vector<ImageButton*> abilityButtons( GameModel::getInstance()->getAbilityCount());
 
-    for(size_t i = 0; i < abilityButtons.size(); x1 += w, ++i)
+    size_t abilityButtonCount = GameModel::getInstance()->getAbilityCount();
+
+    for(size_t i = 0; i < abilityButtonCount; ++i)
     {
-        abilityButtons[i] = new ImageButton();
-        abilityButtons[i]->setRect( x1, y1, w, h);
-
+        auto abilityButton = std::make_shared<UIImageButton>(renderer);
         string imgPath = "GameData/textures/Abilities/Ability" + GameModel::getInstance()->getAbilityNameFromIndex(i) + ".png";
-        abilityButtons[i]->loadTexture(imgPath);
-        //Scene::addToUIList(abilityButtons[i]);
 
-        abilityButtons[i]->ConnectMethod(std::bind(&SpellStorage::setAbilityReady, &spellStorage, GameModel::getInstance()->getAbilityNameFromIndex(i)));
+        abilityButton->loadTexture(imgPath);
+        abilityButton->setSize(abilityButtonSize);
+        abilityButton->setPosition(abilityButtonsGroup->getNextPosition());
+        abilityButton->ConnectMethod(std::bind(&SpellStorage::setAbilityReady, &spellStorage, GameModel::getInstance()->getAbilityNameFromIndex(i)));
+        abilityButtonsGroup->addChild(abilityButton);
+
     }
+    MainRect->addChild(abilityButtonsGroup);
+
     InputHandler* prickhandler = dynamic_cast<InputHandler*>(spellStorage.getAbilityModelWithName("Prick"));
     if(prickhandler != nullptr)
     {
@@ -317,17 +324,23 @@ void GameScene::initUILayer()
     initTopPanel();
     initAbilitiesButtons();
 
-    ImageButton* pauseBtn = new ImageButton();
-    pauseBtn->setRect(750, 430, 50, 50);
-    pauseBtn->loadTexture("GameData/textures/pause-button.png");
-    pauseBtn->ConnectMethod(std::bind(&GameScene::sendMessage, this, GlobalConstants::Paused));
-    //Scene::addToUIList(pauseBtn);
 
-    ImageButton* resumeBtn = new ImageButton();
-    resumeBtn->setRect(700, 430, 50, 50);
-    resumeBtn->loadTexture("GameData/textures/resume-button.png");
-    resumeBtn->ConnectMethod(std::bind(&GameScene::sendMessage, this, GlobalConstants::Resumed));
-    //Scene::addToUIList(resumeBtn);
+    Size buttonSize(48, 48);
+    auto pauseButton = std::make_shared<UIImageButton>(renderer);
+    pauseButton->loadTexture("GameData/textures/pause-button.png");
+    pauseButton->setSize(buttonSize);
+    pauseButton->setPosition(MainRect->getNextPosition());
+    pauseButton->ConnectMethod(std::bind(&GameScene::sendMessage, this, GlobalConstants::Paused));
+    MainRect->addChild(pauseButton);
+
+    auto resumeButton = std::make_shared<UIImageButton>(renderer);
+    resumeButton->loadTexture("GameData/textures/resume-button.png");
+    resumeButton->setSize(buttonSize);
+    resumeButton->setPosition(MainRect->getNextPosition());
+    resumeButton->ConnectMethod(std::bind(&GameScene::sendMessage, this, GlobalConstants::Resumed));
+    MainRect->addChild(resumeButton);
+
+    Scene::addToUIList(MainRect);
 }
 
 void GameScene::placeResourcesPlaces()
@@ -335,8 +348,9 @@ void GameScene::placeResourcesPlaces()
 
 
     ResourcePlace *resPlace = new ResourcePlace(1000, Enums::ResourceTypes::WOOD);
-    AnimatedSprite* resSprite = new AnimatedSprite();
-    resSprite->setRect(0, 0, 200, 200);
+    auto resSprite = std::make_shared<AnimationSceneSprite>(renderer);
+
+    resSprite->setSize(Size(200, 200));
 
     string resourceName = GameModel::getInstance()->getResourcesModel()->getResourceNameFromIndex(static_cast<int> (resPlace->getResourceType()));
     string texturePath = "GameData/textures/Resources/" + resourceName + "Resource.png";
@@ -349,13 +363,15 @@ void GameScene::placeResourcesPlaces()
 
 void GameScene::placeCastle()
 {
-    AnimatedSprite* newView = new AnimatedSprite();
-     newView->setRect(0, 0, 120, 120);
+    auto newView = std::make_shared<AnimationSceneSprite>(renderer);
+
+
+     newView->setSize(Size(120, 120));
      newView->loadTexture("GameData/textures/Castle2.png");
      gates = new Gates();
      gates->setSprite(newView);
      gates->setTag("Gates");
-     gates->getDestructibleObject()->connectMethod(std::bind(&ProgressBar::calculateFront, gatesHealthBar, std::placeholders::_1, std::placeholders::_2));
+     gates->getDestructibleObject()->connectMethod(std::bind(&UIProgressBar::calculateProgress, gatesHealthBar, std::placeholders::_1, std::placeholders::_2));
      gates->getDestructibleObject()->setMaximumHealth(5000);
      spawnObject(40,100, gates);
 }
@@ -369,7 +385,7 @@ void GameScene::placeTowers()
     int x = 10;
     for(const auto& towerName : towerNames)
     {
-        Tower* tower = towerFabric.produceTower(towerName, &towerUpgradeController, tileMap);
+        Tower* tower = towerFabric.produceTower(towerName, renderer, &towerUpgradeController, tileMap);
         spawnObject(x, 300, tower);
         x+= 60;
     }
@@ -378,7 +394,7 @@ void GameScene::placeTowers()
 
 void GameScene::placeSceneObjects()
 {
-    SceneObject* Terrain = objectFabric.produce("Terrain", "none", "GameData/textures/terrain.JPG", Renderer::getInstance()->getScreenWidth() , Renderer::getInstance()->getScreenHeight() );
+    SceneObject* Terrain = objectFabric.produce("Terrain", "none", "GameData/textures/terrain.JPG", MainRect->getSize().width , MainRect->getSize().height, renderer );
     spawnObject(0,0, Terrain);
 
     placeResourcesPlaces();

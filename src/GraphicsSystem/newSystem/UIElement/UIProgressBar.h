@@ -10,6 +10,7 @@ public:
     virtual ~UIProgressBar() = default;
     void calculateProgress(int current, int max);
 
+
     // IComposite interface
     virtual void draw() const override;
     virtual Size getSize() const override;

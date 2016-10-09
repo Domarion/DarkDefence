@@ -9,6 +9,9 @@
 
 #include "Inventory.h"
 #include "../GraphicsSystem/UI/ScrollList.h"
+#include <memory>
+#include "../GraphicsSystem/newSystem/IComposite.h"
+#include "../GraphicsSystem/newSystem/Font.h"
 
 class InventoryController
 {
@@ -25,9 +28,9 @@ public:
 private:
 	Inventory* model;
 	ScrollList* view;
-    std::shared_ptr<CFont> arial;
+    Font arial;
     SDL_Color color;
-    vector<IDrawable*> buttons;
+    vector<std::shared_ptr<IComposite> > buttons;
 
 };
 

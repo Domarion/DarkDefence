@@ -26,8 +26,12 @@ public:
 public:
     virtual bool onClick(SDL_Point *point) override;
 
-protected:
+
     Position getNextPosition() const;
+    Position getNextVerticalPosition() const;
+protected:
+
+
     std::shared_ptr<RenderingSystem> renderer;
 
 protected:

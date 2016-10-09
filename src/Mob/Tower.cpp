@@ -9,7 +9,12 @@ void Tower::connectMethod(std::function<void (Tower *, int, int)> method)
 
 bool Tower::onClick(SDL_Point *point)
 {
-    if (SDL_PointInRect(point, &getSprite()->getRect()))
+
+    SDL_Rect rect = {this->getSprite()->getPosition().x
+                     , this->getSprite()->getPosition().y
+                     , this->getSprite()->getSize().width
+                     , this->getSprite()->getSize().height};
+    if (SDL_PointInRect(point, &rect))
     {
         if (connectedMethod != nullptr)
         {

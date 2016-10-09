@@ -14,8 +14,12 @@
 #include <sstream>
 using std::stringstream;
 
-MobSpawner::MobSpawner()
-    : period(5000), currentTime(period), waveNumber(0), waveCount(0)
+MobSpawner::MobSpawner(std::shared_ptr<RenderingSystem> &aRenderingContext)
+    : renderer(aRenderingContext)
+    , period(5000)
+    , currentTime(period)
+    , waveNumber(0)
+    , waveCount(0)
 
 {
 	// TODO Auto-generated constructor stub
@@ -103,9 +107,10 @@ list<Mob *> *MobSpawner::doSpawn(TileMapManager* aTileMap)
             {
                 std::cout << "someMob->getTileMapManager = nullptr" << std::endl;
             }
-           AnimatedSprite* someSprite = new AnimatedSprite();
+            auto someSprite = std::make_shared<AnimationSceneSprite>(renderer);
 
-            someSprite->setRect(0,0, 50, 80);
+
+            someSprite->setSize(Size( 50, 80));
             someSprite->loadTexture("GameData/textures/Monsters/" + monsterName + "Sheet.png");
 
             vector<SDL_Rect> walkRects;

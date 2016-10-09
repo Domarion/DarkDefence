@@ -120,6 +120,9 @@ set(SRC_LIST
     GraphicsSystem/newSystem/UIElement/ConcreteComposite.h
     GraphicsSystem/newSystem/UIElement/UIImage.h
     GraphicsSystem/newSystem/UIElement/UITextButton.h
+    GraphicsSystem/newSystem/UIElement/UIImageButton.h
+    GraphicsSystem/newSystem/ConcreteUIViews/UIMissionView.h
+    GraphicsSystem/newSystem/ConcreteUIViews/AnimationSceneSprite.h
 
 
     GraphicsSystem/newSystem/UtilityStructs.cpp
@@ -234,6 +237,10 @@ set(SRC_LIST
     GraphicsSystem/newSystem/UIElement/ConcreteComposite.cpp
     GraphicsSystem/newSystem/UIElement/UIImage.cpp
     GraphicsSystem/newSystem/UIElement/UITextButton.cpp
+    GraphicsSystem/newSystem/UIElement/UIImageButton.cpp
+
+    GraphicsSystem/newSystem/ConcreteUIViews/UIMissionView.cpp
+    GraphicsSystem/newSystem/ConcreteUIViews/AnimationSceneSprite.cpp
 
 
     )

@@ -26,8 +26,8 @@ bool Mine::update(double timestep)
             if (model->getLimit() > 0)
             {
                 ResourcePlace* resPlace = new ResourcePlace();
-                AnimatedSprite* resSprite = new AnimatedSprite();
-                resSprite->setRect(0, 0, 200, 200);
+                auto resSprite = std::make_shared<AnimationSceneSprite>(parentScenePtr->getRenderer());
+                resSprite->setSize(Size(200, 200));
                 resSprite->loadTexture("GameData/textures/Resources/WheatResource.png");
                 resPlace->setSprite(resSprite);
                 resPlace->setName("ResourcePlace");

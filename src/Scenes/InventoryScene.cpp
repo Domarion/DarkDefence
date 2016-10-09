@@ -24,12 +24,13 @@ InventoryScene::~InventoryScene()
 
 void InventoryScene::init( SceneManager* sceneManagerPtr)
 {
-//    Renderer::getInstance()->setRendererDrawColor(255, 255, 255);
+    renderer->setRendererDrawColor(255, 255, 255, 255);
     Scene::init(sceneManagerPtr);
 
     initControlButton();
-    initHeroView();
-    initInventoryView();
+//    initHeroView();
+//    initInventoryView();
+    Scene::addToUIList(MainRect);
 }
 
 void InventoryScene::clear()
@@ -41,20 +42,23 @@ void InventoryScene::clear()
 
 void InventoryScene::initControlButton()
 {
-//    Scene::addLoadSceneButton("Назад", "ButtonFont", "MainScene",
-//                Renderer::getInstance()->getScreenWidth() - 100, Renderer::getInstance()->getScreenHeight() - 50,
-//                              100, 50);
+
+    Position pos(MainRect->getSize().width - 100, MainRect->getSize().height - 50);
+
+    Scene::addLoadSceneButton("Назад", "ButtonFont", "MainScene",
+                pos.x, pos.y, 100, 50);
 }
 
 void InventoryScene::initHeroView()
 {
-    SlotContainer* heroFigure = new SlotContainer();
+//    SlotContainer* heroFigure = new SlotContainer();
 
-    heroFigure->setRect(300,0, 300, 500);
-    heroController =  new HeroInventoryController();
-    heroController->setModel(GameModel::getInstance()->getHeroInventory());
-    heroController->setView(heroFigure);
-    heroController->initView();
+//    heroFigure->setRect(300,0, 300, 500);
+//    heroController =  new HeroInventoryController();
+//    heroController->setModel(GameModel::getInstance()->getHeroInventory());
+//    heroController->setView(heroFigure);
+//    heroController->initView();
+
 
     //Scene::addToUIList(heroFigure);
 }

@@ -38,6 +38,11 @@ void Texture2D::drawAtPosition(Position pos) const
     renderer->renderTexture(texturePtr.get(),getSize(),std::move(pos));
 }
 
+void Texture2D::drawPartAtPosition(Position pos, const SDL_Rect *clip) const
+{
+    renderer->renderTexture(texturePtr.get(), std::move(pos), clip);
+}
+
 Size Texture2D::getSize() const
 {
     return textureSize;

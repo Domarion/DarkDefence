@@ -15,7 +15,7 @@ class Mob;
 class MobSpawner//: SceneObjectFabric
 {
 public:
-	MobSpawner();
+    MobSpawner(std::shared_ptr<RenderingSystem>& aRenderingContext);
 	virtual ~MobSpawner();
     void loadWavesInfo(string filename);
 	bool canSpawn(double timestep);
@@ -28,6 +28,7 @@ public:
     string getWaveStringInfo();
     void reset();
 private:
+    std::shared_ptr<RenderingSystem> renderer;
     double period;
     double currentTime;
     int waveNumber, waveCount;

@@ -14,7 +14,7 @@ public:
     RenderingSystem() = delete;
 
     void renderTexture(SDL_Texture *texturePtr, const Size aTextureSize,  const Position &&aDestPosition);
-
+    void renderTexture(SDL_Texture *texturePtr, const Position&& aDestPosition, const SDL_Rect *clipRect);
 
 
     std::unique_ptr<SDL_Texture, void(*)(SDL_Texture*)>  loadTextureFromFile(const string& filename);

@@ -19,6 +19,16 @@ RenderingSystem::RenderingSystem(const Size &aScreenSize)
         SDL_RenderCopy(renderer.get(), texturePtr, nullptr, &destRect);
     }
 
+    void RenderingSystem::renderTexture(SDL_Texture *texturePtr, const Position &&aDestPosition, const SDL_Rect *clipRect)
+    {
+        if (texturePtr != nullptr && clipRect != nullptr)
+        {
+            SDL_Rect destRect = {aDestPosition.x, aDestPosition.y, clipRect->w, clipRect->h};
+
+            SDL_RenderCopy(renderer.get(), texturePtr, clipRect, &destRect);
+        }
+    }
+
     std::unique_ptr<SDL_Texture, void (*)(SDL_Texture *)> RenderingSystem::loadTextureFromFile(const std::string &filename)
     {
         return std::unique_ptr<SDL_Texture, void (*)(SDL_Texture *)>(IMG_LoadTexture(renderer.get(), filename.c_str()),  [](SDL_Texture* aTexture){SDL_DestroyTexture(aTexture);});

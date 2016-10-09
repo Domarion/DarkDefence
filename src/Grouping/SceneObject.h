@@ -8,7 +8,7 @@
 #pragma once
 #include <string>
 using std::string;
-#include "../GraphicsSystem/UI/AnimatedSprite.h"
+#include "../GraphicsSystem/newSystem/ConcreteUIViews/AnimationSceneSprite.h"
 #include "Scene.h"
 #include "../Mob/DestructibleObject.h"
 #include "../AbilitySystem/EffectReceiver.h"
@@ -24,8 +24,8 @@ public:
     virtual void setPos(int x, int y);
     virtual bool update(double timestep);
 	virtual void finalize();
-    virtual AnimatedSprite * getSprite() const;
-    virtual void setSprite(AnimatedSprite* value);
+    virtual const std::shared_ptr<AnimationSceneSprite> &getSprite() const;
+    virtual void setSprite(std::shared_ptr<AnimationSceneSprite> &value);
     int getX() const;
     int getY() const;
     SDL_Point getPos() const;
@@ -45,15 +45,15 @@ public:
     int computeDistanceSqr(SceneObject* second);
     virtual ~SceneObject();
 
-    void setX(int value);
+//    void setX(int value);
 
-    void setY(int value);
+//    void setY(int value);
 
 protected:
 
     SceneObject();
 
-    AnimatedSprite* spriteModel;
+    std::shared_ptr<AnimationSceneSprite> spriteModel;
     int x, y;
     string name;
     string tag;

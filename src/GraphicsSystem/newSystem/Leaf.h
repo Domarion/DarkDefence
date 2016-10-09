@@ -1,4 +1,4 @@
-#pragma oncer
+#pragma once
 #include "IComposite.h"
 #include "RenderingSystem.h"
 

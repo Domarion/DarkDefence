@@ -17,15 +17,17 @@ TowerFabric::~TowerFabric()
     producedTowers.clear();
 }
 
-Tower * TowerFabric::produceTower(std::string towerName, TowerUpgradeController* upgrader, TileMapManager* aTileMap)
+Tower * TowerFabric::produceTower(std::string towerName, std::shared_ptr<RenderingSystem>& aRenderingContext, TowerUpgradeController* upgrader, TileMapManager* aTileMap
+                                  )
 {
     MobModel* model = GameModel::getInstance()->getTowerByName(towerName);
     if (model == nullptr)
         return nullptr;
     Tower* someMob = new Tower(model, aTileMap);
-    AnimatedSprite* someSprite = new AnimatedSprite();
+    auto someSprite = std::make_shared<AnimationSceneSprite>(aRenderingContext);
 
-    someSprite->setRect(0,0, 50, 80);
+
+    someSprite->setSize(Size(50, 80));
     someSprite->loadTexture("GameData/textures/Towers/" + towerName + ".png");
 
     someMob->setSprite(someSprite);

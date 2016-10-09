@@ -1,7 +1,7 @@
 #pragma once
 #include "../Composite.h"
 
-class ConcreteComposite final: public Composite
+class ConcreteComposite: public Composite
 {
 public:
     explicit ConcreteComposite(std::shared_ptr<RenderingSystem>& aRenderingContext);

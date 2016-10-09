@@ -1,4 +1,4 @@
-//#pragma once
+#pragma once
 #include <SDL.h>
 #include <memory>
 using std::shared_ptr;
@@ -20,6 +20,7 @@ public:
     const shared_ptr<SDL_Texture> &getTexture() const;
     void loadTexture(const string& filename);
     void drawAtPosition(Position pos) const;
+    void drawPartAtPosition(Position pos, const SDL_Rect *clip) const;
     Size getSize() const;
     void setSize(Size size);
     void scaleToTexture();

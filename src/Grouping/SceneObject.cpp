@@ -14,19 +14,19 @@ SceneObject::SceneObject()
 
 }
 
-void SceneObject::setY(int value)
-{
-    y = value;
-    if (spriteModel != nullptr)
-        spriteModel->setPosY(y);
-}
+//void SceneObject::setY(int value)
+//{
+//    y = value;
+//    if (spriteModel != nullptr)
+//        spriteModel->setPosY(y);
+//}
 
-void SceneObject::setX(int value)
-{
-    x = value;
-    if (spriteModel != nullptr)
-        spriteModel->setPosX(x);
-}
+//void SceneObject::setX(int value)
+//{
+//    x = value;
+//    if (spriteModel != nullptr)
+//        spriteModel->setPosX(x);
+//}
 
 
 SceneObject::~SceneObject()
@@ -102,7 +102,7 @@ void SceneObject::setPos(int x, int y)
     this->y = y;
     if (spriteModel != nullptr)
     {
-        spriteModel->setPos(x, y);
+        spriteModel->setPosition(Position(x, y));
     }
 
 }
@@ -120,16 +120,14 @@ bool SceneObject::update(double timestep)
 void SceneObject::finalize()
 {
     parentScenePtr = nullptr;
-    if (spriteModel != nullptr)
-        delete spriteModel;
 }
 
-AnimatedSprite* SceneObject::getSprite() const
+const std::shared_ptr<AnimationSceneSprite> &SceneObject::getSprite() const
 {
 	return spriteModel;
 }
 
-void SceneObject::setSprite(AnimatedSprite* value)
+void SceneObject::setSprite(std::shared_ptr<AnimationSceneSprite> & value)
 {
     spriteModel = value;
 }
