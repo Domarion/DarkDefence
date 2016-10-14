@@ -25,3 +25,17 @@ target_link_libraries (RendererTest
     ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES} ${SDL2TTF_LIBRARIES}
     ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
 add_test (NAME MyRendererTest COMMAND RendererTest)
+
+
+add_executable (UIScrollListTest UIScrollListTest.cpp)
+add_library(UIScrollList ${newSystemPath}/ConcreteUIViews/UIScrollList.cpp
+    ${newSystemPath}/UIElement/ConcreteComposite.cpp
+    ${newSystemPath}/Composite.cpp
+    ${srcPath}/Input/InputHandler.cpp
+    ${newSystemPath}/UtilityStructs.cpp)
+
+target_link_libraries (UIScrollListTest
+    UIScrollList
+    ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES} ${SDL2TTF_LIBRARIES}
+    ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
+add_test (NAME MyUIScrollListTest COMMAND UIScrollListTest)

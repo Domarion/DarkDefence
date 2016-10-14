@@ -123,6 +123,7 @@ set(SRC_LIST
     GraphicsSystem/newSystem/UIElement/UIImageButton.h
     GraphicsSystem/newSystem/ConcreteUIViews/UIMissionView.h
     GraphicsSystem/newSystem/ConcreteUIViews/AnimationSceneSprite.h
+    GraphicsSystem/newSystem/ConcreteUIViews/UIScrollList.h
 
 
     GraphicsSystem/newSystem/UtilityStructs.cpp
@@ -241,6 +242,7 @@ set(SRC_LIST
 
     GraphicsSystem/newSystem/ConcreteUIViews/UIMissionView.cpp
     GraphicsSystem/newSystem/ConcreteUIViews/AnimationSceneSprite.cpp
+    GraphicsSystem/newSystem/ConcreteUIViews/UIScrollList.cpp
 
 
     )

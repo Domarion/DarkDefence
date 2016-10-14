@@ -13,8 +13,8 @@ public:
     Composite() = default;
     virtual ~Composite() = default;
 
-    virtual void addChild(shared_ptr<IComposite> child) override;
-    virtual void removeChild(shared_ptr<IComposite> child) override;
+    virtual void addChild(const shared_ptr<IComposite>& child) override;
+    virtual void removeChild(const shared_ptr<IComposite>& child) override;
     virtual void draw() const override;
     virtual weak_ptr<IComposite> getParent() const override;//правильно ли?
     virtual Position getPosition() const override;
@@ -38,5 +38,9 @@ protected:
     list<shared_ptr<IComposite> > children;
     weak_ptr<IComposite> parent;
     Position localPosition;
+
+    // IComposite interface
+public:
+    virtual Position getLocalPosition() const override;
 };
 

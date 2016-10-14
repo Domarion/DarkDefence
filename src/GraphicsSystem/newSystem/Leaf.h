@@ -10,8 +10,8 @@ public:
     Leaf() = default;
     virtual ~Leaf() = default;
 
-    virtual void addChild(shared_ptr<IComposite> child) override;
-    virtual void removeChild(shared_ptr<IComposite> child) override;
+    virtual void addChild(const shared_ptr<IComposite>& child) override;
+    virtual void removeChild(const shared_ptr<IComposite>& child) override;
     virtual weak_ptr<IComposite> getParent() const override;
 
     // IComposite interface
@@ -30,4 +30,8 @@ private:
 public:
     virtual void setParent(weak_ptr<IComposite> aParent) override;
     bool hasParent() const override;
+
+    // IComposite interface
+public:
+    virtual Position getLocalPosition() const override;
 };

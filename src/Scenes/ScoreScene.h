@@ -11,7 +11,6 @@ public:
     virtual void clear() override;
 
 private:
-    void initControlLabel();
     void showItemRewards();
     void showGoldReward();
     void showScoreView();

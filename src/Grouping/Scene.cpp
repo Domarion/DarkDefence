@@ -228,17 +228,11 @@ void Scene::addLoadSceneButton(string aButtonName, string aFontName, string aSce
 {
 
       auto textButton = std::make_shared<UITextButton>(aButtonName, FontManager::getInstance()->getFontByKind2(aFontName), renderer);
-      textButton->setSize(Size(width, height));
       textButton->setPosition(Position(posX, posY));
       textButton->ConnectMethod(std::bind(&SceneManager::setCurrentSceneByName, getParentSceneManager(), aSceneName));
 
       MainRect->addChild(textButton);
-//    TextButton* button = new TextButton();
-//    button->setFont(FontManager::getInstance()->getFontByKind(aFontName));
-//    button->setRect(posX, posY, width, height);
-//    button->setText(aButtonName);
-//    button->ConnectMethod(std::bind(&SceneManager::setCurrentSceneByName, getParentSceneManager(), aSceneName));
-//    addToUIList(button);
+
 }
 
 void Scene::clear()
@@ -251,10 +245,6 @@ void Scene::clear()
         sceneObjects.clear();
     }
 
-
-//    for(auto guiItem : listGUI)
-//        if (guiItem != nullptr)
-//            guiItem.reset();
 
     listGUI.clear();
 

@@ -8,6 +8,9 @@
 #include "ShopScene.h"
 #include "../GlobalScripts/GameModel.h"
 #include "../GlobalScripts/AccountModel.h"
+#include "../GraphicsSystem/newSystem/UIElement/UIImage.h"
+#include "../GraphicsSystem/newSystem/UIElement/UILabel.h"
+
 ShopScene::ShopScene(std::shared_ptr<RenderingSystem> &aRenderer)
     :Scene(aRenderer)
     , shopController(nullptr)
@@ -27,6 +30,7 @@ void ShopScene::init(SceneManager* sceneManagerPtr)
     Scene::init(sceneManagerPtr);
     initBackGroundUI();
     initShopItemsUI();
+    Scene::addToUIList(MainRect);
 }
 
 void ShopScene::clear()
@@ -50,17 +54,23 @@ void ShopScene::startUpdate(double timestep)
 
 void ShopScene::initControlButton()
 {
-//    Scene::addLoadSceneButton("Назад", "ButtonFont", "MainScene",
-//                Renderer::getInstance()->getScreenWidth() - 100, Renderer::getInstance()->getScreenHeight() - 50,
-//                              100, 50);
+    Scene::addLoadSceneButton("Назад", "ButtonFont", "MainScene",
+                MainRect->getSize().width - 100, MainRect->getSize().height - 50,
+                              100, 50);
 }
 
 void ShopScene::initBackGroundUI()
 {
-//    CTexture* backGround = new CTexture();
-//    backGround->loadTexture("GameData/textures/shopBackground.jpg");
-//    backGround->setRect(0, 0, Renderer::getInstance()->getScreenWidth()*0.6, Renderer::getInstance()->getScreenHeight() - 50);
-//    Scene::addToUIList(backGround);
+
+    auto backGroundImage = std::make_shared<UIImage>(renderer);
+    backGroundImage->loadTexture("GameData/textures/shopBackground.jpg");
+    backGroundImage->setSize(Size(MainRect->getSize().width*3/5, MainRect->getSize().height - 50));
+    MainRect->addChild(backGroundImage);
+
+    Font aFont = FontManager::getInstance()->getFontByKind2("ButtonFont");
+    auto sceneNameLabel = std::make_shared<UILabel>("Мистическая лавка", aFont, renderer);
+    sceneNameLabel->setPosition(MainRect->getNextVerticalPosition());
+    MainRect->addChild(sceneNameLabel);
 
 //    goldCoins = new Label();
 //    goldCoins->setFont(FontManager::getInstance()->getFontByKind("ButtonFont"));
@@ -70,12 +80,6 @@ void ShopScene::initBackGroundUI()
 
 //    Scene::addToUIList(goldCoins);
 
-//    Label* sceneName = new Label();
-//    sceneName->setFont(FontManager::getInstance()->getFontByKind("ButtonFont"));
-//    string sceneNameString = "Мистическая лавка";
-//    sceneName->setText(sceneNameString);
-//    sceneName->setPos(goldCoins->getRect().x - sceneName->getRect().w -100, goldCoins->getRect().y);
-//    Scene::addToUIList(sceneName);
 
     initControlButton();
 }

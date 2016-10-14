@@ -16,7 +16,7 @@ void HorizontalPanel::setSize(Size size)
     panelSize = size;
 }
 
-void HorizontalPanel::addChild(shared_ptr<IComposite> child)
+void HorizontalPanel::addChild(const shared_ptr<IComposite> &child)
 {
 
     child->setPosition(getNextPosition());

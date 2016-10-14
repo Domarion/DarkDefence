@@ -8,13 +8,13 @@ Leaf::Leaf(std::shared_ptr<RenderingSystem>& aRenderingContext)
 
 }
 
-void Leaf::addChild(shared_ptr<IComposite> child)
+void Leaf::addChild(const shared_ptr<IComposite> &child)
 {
 
     throw std::logic_error("Error: add child to leaf");
 }
 
-void Leaf::removeChild(shared_ptr<IComposite> child)
+void Leaf::removeChild(const shared_ptr<IComposite> &child)
 {
     throw std::logic_error("Error: remove child from leaf");
 
@@ -52,4 +52,9 @@ void Leaf::setParent(weak_ptr<IComposite> aParent)
 bool Leaf::hasParent() const
 {
     return !getParent().expired();
+}
+
+Position Leaf::getLocalPosition() const
+{
+    return localPosition;
 }

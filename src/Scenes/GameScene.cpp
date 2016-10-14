@@ -199,7 +199,7 @@ void GameScene::loadData()
 void GameScene::initResourceView()
 {
     auto resourcePanel = std::make_shared<ConcreteComposite>(renderer);
-    resourcePanel->setSize(Size(MainRect->getSize().width/3, 50));
+    resourcePanel->setSize(Size(MainRect->getSize().width/4, 50));
     resourcePanel->setPosition(MainRect->getNextPosition());
 
     Font labelFont = FontManager::getInstance()->getFontByKind2("TextFont");
@@ -217,7 +217,7 @@ void GameScene::initResourceView()
 
         string labelText = GameModel::getInstance()->getResourcesModel()->printResourceFromIndex(i);
         resourceLabels[i] = std::make_shared<UILabel>(labelText, labelFont, renderer);
-        resourceLabels[i]->setSize(Size(80, 25));
+        resourceLabels[i]->setSize(Size(50, 25));
         resourceLabels[i]->setPosition(resourcePanel->getNextPosition());
 
         resourcePanel->addChild(resourceLabels[i]);
@@ -263,7 +263,7 @@ void GameScene::initTopPanel()
     initResourceView();
 
     auto miniGroup = std::make_shared<ConcreteComposite>(renderer);
-    miniGroup->setSize(Size(MainRect->getSize().width/3, 50));
+    miniGroup->setSize(Size(MainRect->getSize().width/4, 50));
     miniGroup->setPosition(MainRect->getNextPosition());
 
     Font aFont = FontManager::getInstance()->getFontByKind2("TextFont");
@@ -322,7 +322,7 @@ void GameScene::initAbilitiesButtons()
 void GameScene::initUILayer()
 {
     initTopPanel();
-    initAbilitiesButtons();
+
 
 
     Size buttonSize(48, 48);
@@ -341,6 +341,8 @@ void GameScene::initUILayer()
     MainRect->addChild(resumeButton);
 
     Scene::addToUIList(MainRect);
+
+    initAbilitiesButtons();
 }
 
 void GameScene::placeResourcesPlaces()

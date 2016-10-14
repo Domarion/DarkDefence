@@ -7,7 +7,7 @@ Composite::Composite(std::shared_ptr<RenderingSystem> &aRenderingContext)
 
 }
 
-void Composite::addChild(shared_ptr<IComposite> child)
+void Composite::addChild(const shared_ptr<IComposite> &child)
 {
     if (child != nullptr)
     {
@@ -16,7 +16,7 @@ void Composite::addChild(shared_ptr<IComposite> child)
     }
 }
 
-void Composite::removeChild(shared_ptr<IComposite> child)
+void Composite::removeChild(const shared_ptr<IComposite> &child)
 {
     if (child != nullptr)
         children.remove(child);
@@ -64,7 +64,7 @@ Position Composite::getNextPosition() const
     if (hasChildren())
     {
         shared_ptr<IComposite> lastChild = children.back();
-        localPos.x = lastChild->getPosition().x + lastChild->getSize().width;
+        localPos.x = lastChild->getLocalPosition().x + lastChild->getSize().width;
     }
     return localPos;
 }
@@ -75,9 +75,14 @@ Position Composite::getNextVerticalPosition() const
     if (hasChildren())
     {
         shared_ptr<IComposite> lastChild = children.back();
-        localPos.y = lastChild->getPosition().y + lastChild->getSize().height;
+        localPos.y = lastChild->getLocalPosition().y + lastChild->getSize().height;
     }
     return localPos;
+}
+
+Position Composite::getLocalPosition() const
+{
+    return localPosition;
 }
 
 bool Composite::hasParent() const
