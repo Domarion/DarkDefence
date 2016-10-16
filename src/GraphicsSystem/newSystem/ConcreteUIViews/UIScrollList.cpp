@@ -16,12 +16,22 @@ void UIScrollList::ConnectMethod(std::function<bool (int)> method)
 
 bool UIScrollList::canDrag() const
 {
-
+    return children.size() > itemCountToShow;
 }
 
 bool UIScrollList::onDrag(int direction)
 {
+    if (direction == 0 || children.empty())
+        return false;
 
+
+    size_t points = abs(direction);
+    if (direction > 0)
+        scrollUp(points);
+    else
+        scrollDown(points);
+
+    return true;
 }
 
 int UIScrollList::getItemCountToShow()
@@ -61,6 +71,7 @@ void UIScrollList::scrollUp(size_t amount)
 
         std::advance(toFirst, -distance);
         std::advance(toLast, -distance);
+        recalcItemPositions();
     }
 }
 
@@ -73,11 +84,27 @@ void UIScrollList::scrollDown(size_t amount)
         if (distance > amount)
             distance = amount;
 
-            std::advance(toFirst, distance);
-            std::advance(toLast, distance);
-        }
+        std::advance(toFirst, distance);
+        std::advance(toLast, distance);
+
+        recalcItemPositions();
+    }
 
 
+}
+
+void UIScrollList::recalcItemPositions()
+{
+
+    const int xPos{0};
+    int yPos{0};
+
+    for(auto firstIter = toFirst; firstIter != toLast; ++firstIter)
+    {
+        (*firstIter)->setPosition(Position(xPos, yPos));
+
+        yPos += (*firstIter)->getSize().height;
+    }
 }
 
 void UIScrollList::addChild(const shared_ptr<IComposite> &child)
@@ -93,6 +120,7 @@ void UIScrollList::addChild(const shared_ptr<IComposite> &child)
         {
             std::advance(toLast, itemCountToShow - std::distance(toFirst, toLast));
         }
+    recalcItemPositions();
 }
 
 void UIScrollList::removeChild(const shared_ptr<IComposite> &child)
@@ -142,7 +170,7 @@ void UIScrollList::removeChild(const shared_ptr<IComposite> &child)
 
         }
 
-
+        recalcItemPositions();
 
 
 //        if (children.size() <= itemCountToShow)
@@ -166,5 +194,33 @@ void UIScrollList::removeChild(const shared_ptr<IComposite> &child)
 
 void UIScrollList::draw() const
 {
+    for(auto firstIter = toFirst; firstIter != toLast; ++firstIter)
+        (*firstIter)->draw();
+}
 
+bool UIScrollList::onClick(SDL_Point *point)
+{
+
+    auto clickedItemIter = children.end();
+    bool isSuccess = false;
+    for(auto childIter = children.begin(); childIter != children.end(); ++childIter)
+    {
+
+        auto child1 = dynamic_cast<InputHandler*>(childIter->get());
+        if (child1 != nullptr && child1->onClick(point))
+        {
+            clickedItemIter = childIter;
+            isSuccess = true;
+
+            break;
+        }
+    }
+
+    if (clickedItemIter != children.end()
+            && connectedMethod != nullptr
+            && connectedMethod(std::distance(children.begin(), clickedItemIter)))
+        removeChild(*clickedItemIter);
+//        children.erase(clickedItemIter);
+
+    return isSuccess;
 }

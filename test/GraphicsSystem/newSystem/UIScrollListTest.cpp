@@ -39,8 +39,11 @@ BOOST_FIXTURE_TEST_CASE(scrollBorderLastPointerShouldMoveOnAddMoreThan, UIScroll
     scroll->addChild(child2);
     scroll->addChild(child3);
     scroll->addChild(child4);
+
+    auto last_iterator = scroll->getBeginIterator();
+    std::advance(last_iterator, 3);
     BOOST_CHECK(scroll->getIteratorToFirst() == scroll->getBeginIterator());
-    BOOST_CHECK(scroll->getIteratorToLast() != scroll->getEndIterator());
+    BOOST_CHECK(scroll->getIteratorToLast() == last_iterator);
 }
 
 BOOST_FIXTURE_TEST_CASE(scrollPointersDistanceShouldBeLEConst, UIScrollListFixture)
