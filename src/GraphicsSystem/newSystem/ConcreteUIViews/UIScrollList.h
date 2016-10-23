@@ -13,7 +13,7 @@ public:
     virtual bool canDrag() const override;
     virtual bool onDrag(int direction) override;
     int getItemCountToShow();
-
+    int getChildrenCount() const;
     std::list<shared_ptr<IComposite> >::const_iterator getBeginIterator() const;
     std::list<shared_ptr<IComposite> >::const_iterator getEndIterator() const;
 
@@ -38,4 +38,8 @@ public:
     // InputHandler interface
 public:
     virtual bool onClick(SDL_Point *point) override;
+
+    // InputHandler interface
+public:
+    virtual bool containsPoint(int x, int y) const override;
 };

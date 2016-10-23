@@ -56,8 +56,8 @@ void InputDispatcher::sendEvent(SDL_Event* inputEvent)//TODO:: Wrong Logic
 				if(handlers[i]->canDrag() && handlers[i]->containsPoint(inputEvent->motion.x, inputEvent->motion.y))
 				{
 
-					handlers[i]->onDrag(yDiff);
-					break;
+                    if (handlers[i]->onDrag(yDiff))
+                        break;
 				}
 			}
 		}

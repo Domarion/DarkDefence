@@ -104,6 +104,8 @@ bool Composite::canDrag() const
 
 bool Composite::onDrag(int direction)
 {
+    std::cout << "TryTo?" << std::endl;
+
     for (auto& child: children)
     {
         if (child.get() != nullptr)
@@ -111,12 +113,29 @@ bool Composite::onDrag(int direction)
             InputHandler* handler= dynamic_cast<InputHandler*>(child.get());
             if (handler != nullptr)
             {
+                std::cout << "NotNull" << std::endl;
                 if (handler->onDrag(direction))
                     return true;
             }
         }
     }
     return false;
+}
+
+bool Composite::containsPoint(int x, int y) const
+{
+    for (auto& child: children)
+    {
+        if (child.get() != nullptr)
+        {
+            InputHandler* handler= dynamic_cast<InputHandler*>(child.get());
+            if (handler != nullptr)
+            {
+                if (handler->containsPoint(x, y))
+                    return true;
+            }
+        }
+    }
 }
 
 bool Composite::hasParent() const

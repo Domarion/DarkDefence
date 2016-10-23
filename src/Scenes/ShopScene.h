@@ -31,6 +31,6 @@ private:
     std::shared_ptr<UILabel> goldCoinsLabel;
 //    Label *goldCoins;
 
-    ShopController* shopController;
+    std::shared_ptr<ShopController> shopController;
 
 };

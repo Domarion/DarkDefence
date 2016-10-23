@@ -82,29 +82,13 @@ void ShopController::initView(std::shared_ptr<RenderingSystem>& aRenderer)
         shopItem->addChild(shopItemBuyButton);
 
         view->addChild(shopItem);
-        /*ShopItemUI* btn = new ShopItemUI();
-
-        string ipath = "GameData/textures/items/" +
-                model->getItemFromIndex(i)->getCaption() + ".png";
-        string iprice = std::to_string(model->getItemFromIndex(i)->getPrice());
-        btn->init(FontManager::getInstance()->getFontByKind("TextFont"),ipath,model->getItemFromIndex(i)->getCaption(), model->getItemFromIndex(i)->getDescription(), iprice );
-
-        */
-
-
-
-      //  view->setItemWidth(btn->getRect().w);
-        //view->setItemHeight(btn->getRect().h);
-
-
-
-
-//        view->addChild(btn);
 	}
     view->ConnectMethod(std::bind( &ShopController::sendItemToModel, this, std::placeholders::_1) );
 }
 
 bool ShopController::sendItemToModel(int index)
 {
+    if (model == nullptr)
+        return false;
     return model->sendItem(index);
 }

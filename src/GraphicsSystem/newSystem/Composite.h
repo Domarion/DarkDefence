@@ -47,5 +47,9 @@ public:
 public:
     virtual bool canDrag() const override;
     virtual bool onDrag(int direction) override;
+
+    // InputHandler interface
+public:
+    virtual bool containsPoint(int x, int y) const override;
 };
 

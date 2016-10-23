@@ -31,6 +31,7 @@ void ShopScene::init(SceneManager* sceneManagerPtr)
     Scene::init(sceneManagerPtr);
     initBackGroundUI();
     initShopItemsUI();
+    std::cout << "KU-KU" << std::endl;
     Scene::addToUIList(MainRect);
 }
 
@@ -38,7 +39,7 @@ void ShopScene::clear()
 {
 
     Scene::clear();
-    delete shopController;
+    //delete shopController;
 }
 
 
@@ -103,7 +104,7 @@ void ShopScene::initShopItemsUI()
     scroll->setPosition(Position(MainRect->getSize().width*3/5, 0));
 
 
-    shopController = new ShopController();
+    shopController = std::make_shared<ShopController>();
     shopController->setModel(GameModel::getInstance()->getShopInventory());
     shopController->setView(scroll);
     shopController->initView(renderer);

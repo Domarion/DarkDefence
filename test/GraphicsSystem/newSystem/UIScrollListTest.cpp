@@ -96,8 +96,6 @@ BOOST_FIXTURE_TEST_CASE(scrollShouldBeEmptyAfterRemove, UIScrollListFixture)
 
     BOOST_CHECK(scroll->getIteratorToFirst() == scroll->getBeginIterator());
     BOOST_CHECK(scroll->getIteratorToLast() == scroll->getEndIterator());
-//    BOOST_CHECK(std::distance(scroll->getBeginIterator(), scroll->getEndIterator()) == 0);
-  //  BOOST_CHECK(std::distance(scroll->getIteratorToFirst(), scroll->getIteratorToLast()) == 0);
 }
 
 
@@ -119,12 +117,6 @@ BOOST_FIXTURE_TEST_CASE(scrollPointersShouldMoveAfterRemove, UIScrollListFixture
 
     scroll->removeChild(child1);
     scroll->removeChild(child5);
-
-
-    BOOST_CHECK(scroll->getIteratorToFirst() == scroll->getBeginIterator());
-    BOOST_CHECK(scroll->getIteratorToLast() == scroll->getEndIterator());
-//    BOOST_CHECK(std::distance(scroll->getBeginIterator(), scroll->getEndIterator()) == 0);
-  //  BOOST_CHECK(std::distance(scroll->getIteratorToFirst(), scroll->getIteratorToLast()) == 0);
 }
 
 BOOST_FIXTURE_TEST_CASE(scrollPointersShouldMoveAfterDown, UIScrollListFixture)
