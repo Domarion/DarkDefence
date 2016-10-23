@@ -33,6 +33,8 @@ public:
 
     virtual void addToUIList(const std::shared_ptr<IComposite> &item);
     virtual void removeFromUIList(const std::shared_ptr<IComposite>& item);
+
+    void addAsInputHandler(InputHandler* item);
     void clearUIList();
     SceneObject* findObjectByTag(std::string tag);
     list<SceneObject*> *findObjectsByTag(std::string tag);

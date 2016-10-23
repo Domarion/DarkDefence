@@ -25,10 +25,11 @@ SDL_Rect *UITextButton::getRect()
 bool UITextButton::onClick(SDL_Point *point)
 {
 
-    bool result = SDL_PointInRect(point, getRect());
+    std::unique_ptr<SDL_Rect> rect(getRect());
+    bool result = SDL_PointInRect(point, rect.get());
 
     std::cout << "ClickingResult" << std::boolalpha << result;
-    if (result)
+    if (result && connectedMethod != nullptr)
         connectedMethod("zero");
 
     return result;

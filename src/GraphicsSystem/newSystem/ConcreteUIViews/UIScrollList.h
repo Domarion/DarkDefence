@@ -8,6 +8,7 @@ public:
     explicit UIScrollList(int aItemsToShow
                           , std::shared_ptr<RenderingSystem>& aRenderingContext);
     virtual ~UIScrollList() = default;
+
     virtual void ConnectMethod(std::function<bool(int)> method);
     virtual bool canDrag() const override;
     virtual bool onDrag(int direction) override;

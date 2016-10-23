@@ -25,7 +25,7 @@ bool UIScrollList::onDrag(int direction)
         return false;
 
 
-    size_t points = abs(direction);
+    size_t points = 1;//abs(direction);
     if (direction > 0)
         scrollUp(points);
     else
@@ -206,13 +206,27 @@ bool UIScrollList::onClick(SDL_Point *point)
     for(auto childIter = children.begin(); childIter != children.end(); ++childIter)
     {
 
-        auto child1 = dynamic_cast<InputHandler*>(childIter->get());
-        if (child1 != nullptr && child1->onClick(point))
+        InputHandler* inputHandler = dynamic_cast<InputHandler*>(childIter->get());
+        if (inputHandler != nullptr && inputHandler->onClick(point))
         {
             clickedItemIter = childIter;
             isSuccess = true;
 
             break;
+        }
+        else
+        {
+            Size size = childIter->get()->getSize();
+            Position position = childIter->get()->getLocalPosition();
+            SDL_Rect childRect{position.x, position.y, size.width, size.height};
+
+            if (SDL_PointInRect(point, &childRect))
+            {
+                clickedItemIter = childIter;
+                isSuccess = true;
+
+                break;
+            }
         }
     }
 

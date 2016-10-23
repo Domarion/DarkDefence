@@ -124,7 +124,10 @@ set(SRC_LIST
     GraphicsSystem/newSystem/ConcreteUIViews/UIMissionView.h
     GraphicsSystem/newSystem/ConcreteUIViews/AnimationSceneSprite.h
     GraphicsSystem/newSystem/ConcreteUIViews/UIScrollList.h
+    GraphicsSystem/newSystem/ConcreteUIViews/UIShopItem.h
+    GraphicsSystem/newSystem/ConcreteUIViews/UISlot.h
 
+    GraphicsSystem/newSystem/ConcreteUIViews/UISlotContainer.h
 
     GraphicsSystem/newSystem/UtilityStructs.cpp
     Input/InputHandler.cpp
@@ -243,8 +246,10 @@ set(SRC_LIST
     GraphicsSystem/newSystem/ConcreteUIViews/UIMissionView.cpp
     GraphicsSystem/newSystem/ConcreteUIViews/AnimationSceneSprite.cpp
     GraphicsSystem/newSystem/ConcreteUIViews/UIScrollList.cpp
+    GraphicsSystem/newSystem/ConcreteUIViews/UIShopItem.cpp
+    GraphicsSystem/newSystem/ConcreteUIViews/UISlot.cpp
 
-
+    GraphicsSystem/newSystem/ConcreteUIViews/UISlotContainer.cpp
     )
 
 

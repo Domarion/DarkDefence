@@ -38,7 +38,6 @@ void ScoreScene::init(SceneManager *sceneManagerPtr)
 void ScoreScene::clear()
 {
     Scene::clear();
-
 }
 
 

@@ -24,6 +24,8 @@ public:
     Size getSize() const;
     void setSize(Size size);
     void scaleToTexture();
+    bool hasTexture() const;
+    void resetTexture();
 private:
     shared_ptr<SDL_Texture> texturePtr;
     Size textureSize;

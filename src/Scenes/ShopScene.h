@@ -8,7 +8,9 @@
 #pragma once
 #include "../Grouping/Scene.h"
 #include "../ItemSystem/ShopController.h"
-#include "../GraphicsSystem/UI/Label.h"
+#include "../GraphicsSystem/newSystem/UIElement/UILabel.h"
+
+//#include "../GraphicsSystem/UI/Label.h"
 
 class ShopScene: public Scene
 {
@@ -25,7 +27,9 @@ private:
     void initControlButton();
     void initBackGroundUI();
     void initShopItemsUI();
-    Label *goldCoins;
+
+    std::shared_ptr<UILabel> goldCoinsLabel;
+//    Label *goldCoins;
 
     ShopController* shopController;
 

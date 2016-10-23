@@ -19,12 +19,12 @@ HeroInventoryController::~HeroInventoryController()
     view = nullptr;
 }
 
-void HeroInventoryController::setView(SlotContainer* newView)
+void HeroInventoryController::setView(std::shared_ptr<UISlotContainer> newView)
 {
 	view = newView;
 }
 
-SlotContainer*  HeroInventoryController::getView() const
+std::shared_ptr<UISlotContainer> HeroInventoryController::getView() const
 {
 	return view;
 }
@@ -36,61 +36,74 @@ void HeroInventoryController::setModel(HeroInventory* newModel)
 
 HeroInventory*  HeroInventoryController::getModel() const
 {
-	return model;
+    return model;
 }
 
-void HeroInventoryController::initView()
+void HeroInventoryController::initLocalPositions(Size aRectSize)
 {
-	int count = model->getItemCount();
-	if (count == 0)
-		return;
-	std::cout << "ItemCount = " << count << std::endl;
-	for(int i = 0; i != count; ++i)
-	{
-		TextButton* btn = new TextButton();
+    if (model == nullptr)
+        return;
 
-
-        if (model->getItemFromIndex(i)->getDescription() == "none")
-        {
-            btn->loadTexture("GameData/textures/EmptySlot.png" );
-        }
-        else
-        {
-            std::cout << ( "GameData/textures/items/" + model->getItemFromIndex(i)->getCaption()  + ".png") << std::endl;
-            btn->loadTexture("GameData/textures/items/"
-                                                                            + model->getItemFromIndex(i)->getCaption() + ".png");
-        }
-
-        if (btn->getTexture() == nullptr)
-            std::cout << "index = " << i << " herotexture is nullptr" << std::endl;
-
-        view->addItem(btn, i);
-	}
-	int itemWidth = 50;
-	int itemHeight = 50;
-
-    int centerX = view->getRect().x + static_cast<int>(view->getRect().w * 0.5) +itemWidth;
+    size_t count = model->getItemCount();
+    slotsPositions.resize(count);
+    Size itemSize(50, 50);
+    int centerHorizontal{(aRectSize.width - itemSize.width)/2};
     int y = 0;
-    view->setItemRect(0, centerX, y, itemWidth, itemHeight);
-    y += itemHeight;
 
-    view->setItemRect(1, centerX, y, itemWidth, itemHeight);
-     y += itemHeight;
 
-    view->setItemRect(2, centerX - itemWidth, y, itemWidth, itemHeight);
-    view->setItemRect(3, centerX, y, itemWidth, itemHeight);
-    view->setItemRect(4, centerX + itemWidth, y, itemWidth, itemHeight);
+    for(size_t i = 0; i < count; ++i)
+    {
+       slotsPositions[i] = Position(centerHorizontal, y);
+       y += itemSize.height;
+    }
+   // slotsPositions[0] = centerHorizontal;
+    //    int centerX = view->getRect().x + static_cast<int>(view->getRect().w * 0.5) +itemWidth;
+    //    int y = 0;
+    //    view->setItemRect(0, centerX, y, itemWidth, itemHeight);
+    //    y += itemHeight;
 
-    view->setItemRect(5, centerX - 2*itemWidth, y - itemHeight, itemWidth, itemHeight);
+    //    view->setItemRect(1, centerX, y, itemWidth, itemHeight);
+    //     y += itemHeight;
 
-    y += itemHeight;
+    //    view->setItemRect(2, centerX - itemWidth, y, itemWidth, itemHeight);
+    //    view->setItemRect(3, centerX, y, itemWidth, itemHeight);
+    //    view->setItemRect(4, centerX + itemWidth, y, itemWidth, itemHeight);
 
-    view->setItemRect(6, centerX, y, itemWidth, itemHeight);
-   // y += itemHeight;
-    view->setItemRect(7, centerX + 2*itemWidth, y, itemWidth, itemHeight);
-    view->setItemRect(8, centerX + 3*itemWidth, y, itemWidth, itemHeight);
+    //    view->setItemRect(5, centerX - 2*itemWidth, y - itemHeight, itemWidth, itemHeight);
+
+    //    y += itemHeight;
+
+    //    view->setItemRect(6, centerX, y, itemWidth, itemHeight);
+    //   // y += itemHeight;
+    //    view->setItemRect(7, centerX + 2*itemWidth, y, itemWidth, itemHeight);
+    //    view->setItemRect(8, centerX + 3*itemWidth, y, itemWidth, itemHeight);
+}
+
+void HeroInventoryController::initView(std::shared_ptr<RenderingSystem> &aRenderer)
+{
+    if (model == nullptr)
+        return;
+
+    size_t count = model->getItemCount();
+
+    if (count == 0)
+        return;
+
+    std::string emptySlotPath = "GameData/textures/EmptySlot.png";
+    Size itemSize(50, 50);
+    view = std::make_shared<UISlotContainer>(emptySlotPath, count, itemSize, aRenderer);
+
+    for(size_t i = 0; i < count; ++i)
+    {
+        std::string aItemPath = "GameData/textures/items/"
+                + model->getItemFromIndex(i)->getCaption() + ".png";
+        view->LoadItemAtIndex(aItemPath, i);
+        view->SetItemPos(slotsPositions[i], i);
+
+    }
     view->ConnectMethod(std::bind( &HeroInventory::sendItem, model, std::placeholders::_1) );
     model->ConnectReceiver(std::bind( &HeroInventoryController::receiveItemFromModel, this, std::placeholders::_1, std::placeholders::_2) );
+
 }
 
 
@@ -100,14 +113,14 @@ void HeroInventoryController::receiveItemFromModel(string caption, size_t itemTy
     if (caption.empty())
         return;
 
-    TextButton* btn = new TextButton();
+//    TextButton* btn = new TextButton();
 
-    std::cout << ( "GameData/textures/items/" + caption  + ".png") << std::endl;
-    btn->loadTexture("GameData/textures/items/" +
-                                                                  caption + ".png");
-
-
-    view->receiveItem(btn, itemType);
+//    std::cout << ( "GameData/textures/items/" + caption  + ".png") << std::endl;
+//    btn->loadTexture("GameData/textures/items/" +
+//                                                                  caption + ".png");
+    std::string imgPath = "GameData/textures/items/" +
+            caption + ".png";
+    view->LoadItemAtIndex(imgPath, itemType);
 
 
 }

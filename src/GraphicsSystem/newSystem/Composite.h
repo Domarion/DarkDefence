@@ -42,5 +42,10 @@ protected:
     // IComposite interface
 public:
     virtual Position getLocalPosition() const override;
+
+    // InputHandler interface
+public:
+    virtual bool canDrag() const override;
+    virtual bool onDrag(int direction) override;
 };
 

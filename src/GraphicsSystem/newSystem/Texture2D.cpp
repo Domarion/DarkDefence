@@ -58,3 +58,13 @@ void Texture2D::scaleToTexture()
     SDL_QueryTexture(getTexture().get(), nullptr, nullptr, &textureSize.width, &textureSize.height);
 
 }
+
+bool Texture2D::hasTexture() const
+{
+    return texturePtr != nullptr;
+}
+
+void Texture2D::resetTexture()
+{
+    texturePtr.reset();
+}

@@ -85,6 +85,40 @@ Position Composite::getLocalPosition() const
     return localPosition;
 }
 
+bool Composite::canDrag() const
+{
+    for (auto& child: children)
+    {
+        if (child.get() != nullptr)
+        {
+            InputHandler* handler= dynamic_cast<InputHandler*>(child.get());
+            if (handler != nullptr)
+            {
+                if (handler->canDrag())
+                    return true;
+            }
+        }
+    }
+   return false;
+}
+
+bool Composite::onDrag(int direction)
+{
+    for (auto& child: children)
+    {
+        if (child.get() != nullptr)
+        {
+            InputHandler* handler= dynamic_cast<InputHandler*>(child.get());
+            if (handler != nullptr)
+            {
+                if (handler->onDrag(direction))
+                    return true;
+            }
+        }
+    }
+    return false;
+}
+
 bool Composite::hasParent() const
 {
     return !getParent().expired();

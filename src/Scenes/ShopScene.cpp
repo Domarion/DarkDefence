@@ -13,6 +13,7 @@
 
 ShopScene::ShopScene(std::shared_ptr<RenderingSystem> &aRenderer)
     :Scene(aRenderer)
+    , goldCoinsLabel(nullptr)
     , shopController(nullptr)
 {
 
@@ -35,7 +36,6 @@ void ShopScene::init(SceneManager* sceneManagerPtr)
 
 void ShopScene::clear()
 {
-    goldCoins = nullptr;
 
     Scene::clear();
     delete shopController;
@@ -44,11 +44,11 @@ void ShopScene::clear()
 
 void ShopScene::startUpdate(double timestep)
 {
-    if (goldCoins != nullptr)
+    if (goldCoinsLabel != nullptr)
     {
         Scene::startUpdate(timestep);
         string sss1 = std::to_string(AccountModel::getInstance()->getGoldAmount());
-        goldCoins->setText(sss1);
+        goldCoinsLabel->setText(sss1);
     }
 }
 
@@ -72,6 +72,13 @@ void ShopScene::initBackGroundUI()
     sceneNameLabel->setPosition(MainRect->getNextVerticalPosition());
     MainRect->addChild(sceneNameLabel);
 
+    string goldAmount = std::to_string(AccountModel::getInstance()->getGoldAmount());
+
+    goldCoinsLabel = std::make_shared<UILabel>(goldAmount, aFont, renderer);
+    goldCoinsLabel->setPosition(Position(MainRect->getNextPosition().x, sceneNameLabel->getPosition().y));
+    MainRect->addChild(goldCoinsLabel);
+
+
 //    goldCoins = new Label();
 //    goldCoins->setFont(FontManager::getInstance()->getFontByKind("ButtonFont"));
 //    string goldAmount = std::to_string(AccountModel::getInstance()->getGoldAmount());
@@ -88,8 +95,20 @@ void ShopScene::initShopItemsUI()
 {
 
     GameModel::getInstance()->loadShopItems("GameData/Items.xml");
+    const int showItems = 5;
 
-//        const int showItems = 5;
+    auto scroll = std::make_shared<UIScrollList>(showItems, renderer);
+
+    scroll->setSize(Size(MainRect->getSize().width*2/5, MainRect->getSize().height - 50));
+    scroll->setPosition(Position(MainRect->getSize().width*3/5, 0));
+
+
+    shopController = new ShopController();
+    shopController->setModel(GameModel::getInstance()->getShopInventory());
+    shopController->setView(scroll);
+    shopController->initView(renderer);
+    MainRect->addChild(scroll);
+
 //        const int itemWidth = 72;
 //        const int itemHeight = 72;
 

@@ -121,6 +121,13 @@ void Scene::removeFromUIList(const std::shared_ptr<IComposite> &item)
         InputDispatcher::getInstance()->removeHandler(handler);
 }
 
+void Scene::addAsInputHandler(InputHandler *item)
+{
+
+    if (item != nullptr)
+        InputDispatcher::getInstance()->addHandler(item);
+}
+
 void Scene::clearUIList()
 {
     listGUI.clear();

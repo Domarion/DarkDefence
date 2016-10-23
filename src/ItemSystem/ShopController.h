@@ -7,21 +7,20 @@
 
 #pragma once
 #include "ShopInventory.h"
-#include "../GraphicsSystem/UI/ScrollList.h"
-
+#include "../GraphicsSystem/newSystem/ConcreteUIViews/UIScrollList.h"
+#include <memory>
 class ShopController
 {
 public:
-	ShopController();
-	virtual ~ShopController();
-	void setView(ScrollList* newView);
-    ScrollList*  getView() const;
+    ShopController();
+    virtual ~ShopController() = default;
+    void setView(std::shared_ptr<UIScrollList> &newView);
 	void setModel(ShopInventory* newModel);
     ShopInventory*  getModel() const;
-	void initView();
+    void initView(std::shared_ptr<RenderingSystem> &aRenderer);
     bool sendItemToModel(int index);
 
 private:
 	ShopInventory* model;
-	ScrollList* view;
+    std::shared_ptr<UIScrollList> view;
 };
