@@ -138,6 +138,11 @@ bool Composite::containsPoint(int x, int y) const
     }
 }
 
+void Composite::clearChildren()
+{
+    children.clear();
+}
+
 bool Composite::hasParent() const
 {
     return !getParent().expired();

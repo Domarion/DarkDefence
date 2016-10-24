@@ -51,5 +51,9 @@ public:
     // InputHandler interface
 public:
     virtual bool containsPoint(int x, int y) const override;
+
+    // IComposite interface
+public:
+    virtual void clearChildren() override;
 };
 

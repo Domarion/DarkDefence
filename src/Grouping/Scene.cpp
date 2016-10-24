@@ -130,7 +130,9 @@ void Scene::addAsInputHandler(InputHandler *item)
 
 void Scene::clearUIList()
 {
+    MainRect->clearChildren();
     listGUI.clear();
+
 }
 
 
@@ -226,6 +228,11 @@ void Scene::onGameQuit()
 
 }
 
+std::shared_ptr<ConcreteComposite> &Scene::getMainRect()
+{
+    return MainRect;
+}
+
 std::shared_ptr<RenderingSystem> &Scene::getRenderer()
 {
     return renderer;
@@ -253,8 +260,7 @@ void Scene::clear()
     }
 
 
-    listGUI.clear();
-
+    clearUIList();
     wasInited = false;
 
     parentSceneManager = nullptr;

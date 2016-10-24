@@ -1,5 +1,5 @@
 #pragma once
-#include "../GraphicsSystem/UI/ScrollList.h"
+#include "../GraphicsSystem/newSystem/ConcreteUIViews/UIScrollList.h"
 #include "TowerFabric.hpp"
 #include "../Utility/TreeNode.hpp"
 #include <vector>
@@ -15,18 +15,20 @@ class TowerUpgradeController
 public:
     TowerUpgradeController();
     ~TowerUpgradeController();
-    void init(Scene* parent);
+    void init(Scene* parent, std::shared_ptr<RenderingSystem> &aRenderer);
     void receiveTowerUpgrade(Tower* tower);
     bool menuClickHandler(size_t itemIndex);
+    bool closeHandler(size_t itemIndex);
 
 private:
 
     Scene* parentGameScene;
 
-    std::shared_ptr<CFont> arialFont1;
     Tower *cachedTower;
     vector<string> currentTowerChildrenNames;
-    ScrollList towerMenu;
+    std::shared_ptr<UIScrollList> towerMenu;
     TowerFabric* fabric;
+    std::shared_ptr<RenderingSystem> renderer;
+    std::shared_ptr<ConcreteComposite> upgradeGroup;
 };
 

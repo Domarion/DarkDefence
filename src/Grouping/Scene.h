@@ -44,6 +44,7 @@ public:
     virtual void onGameQuit();
     std::shared_ptr<RenderingSystem>& getRenderer();
 
+    std::shared_ptr<ConcreteComposite>& getMainRect();
 
 protected:
     mutable std::shared_ptr<RenderingSystem> renderer;

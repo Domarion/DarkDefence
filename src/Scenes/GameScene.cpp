@@ -380,7 +380,7 @@ void GameScene::placeCastle()
 
 void GameScene::placeTowers()
 {
-    towerUpgradeController.init(this);
+    towerUpgradeController.init(this, renderer);
 
     list<string> towerNames = {"WatcherTower","BallistaTower", "CatapultTower", "MageTower", "ProductivityTower",
                                "WindTower", "EarthTower","CloudTower"};

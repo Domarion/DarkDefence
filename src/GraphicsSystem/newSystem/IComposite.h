@@ -21,5 +21,6 @@ public:
     virtual Size getSize() const = 0;
     virtual void setSize(Size size) = 0;
     virtual bool hasParent() const = 0;
+    virtual void clearChildren(){}
 };
 
