@@ -17,15 +17,15 @@ void PrickObject::init(int x, int y)
 {
     SceneObject::init(x, y);
 
-    if (parentScenePtr != nullptr)
+    if (!parentScenePtr.expired())
     {
         std::cout << "prickObject init" << std::endl;
-        list<SceneObject*>* mobListWithTag = parentScenePtr->findObjectsByTag("Monster");
+        auto mobListWithTag = parentScenePtr.lock()->findObjectsByTag("Monster");
 
         if (mobListWithTag == nullptr)
             return;
 
-        list<SceneObject*> affectedMobs;
+        list<std::shared_ptr<SceneObject>> affectedMobs;
         for(auto mobWithTag =mobListWithTag->begin(); mobWithTag != mobListWithTag->end(); ++mobWithTag)
         {
             SDL_Rect prickRect = {this->getSprite()->getPosition().x
@@ -45,8 +45,6 @@ void PrickObject::init(int x, int y)
         }
 
         mobListWithTag->clear();
-        delete mobListWithTag;
-        mobListWithTag = nullptr;
 
         for(auto affectedMob = affectedMobs.begin(); affectedMob != affectedMobs.end(); ++affectedMob)
         {

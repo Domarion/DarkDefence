@@ -3,18 +3,13 @@
 #include "TowerUpgradeController.h"
 #include <vector>
 using std::vector;
-//#include <memory>
 
 class TowerUpgradeController;
-
-class Tower;
 
 class TowerFabric
 {
 public:
-    TowerFabric();
-    ~TowerFabric();
-    Tower* produceTower(string towerName, std::shared_ptr<RenderingSystem> &aRenderingContext, TowerUpgradeController* upgrader = nullptr, TileMapManager *aTileMap = nullptr);
-private:
-    vector< Tower* > producedTowers;
+    TowerFabric() = default;
+    ~TowerFabric() = default;
+    std::shared_ptr<Tower> produceTower(string towerName, std::shared_ptr<RenderingSystem> &aRenderingContext, std::shared_ptr<TowerUpgradeController> upgrader = nullptr, TileMapManager *aTileMap = nullptr);
 };

@@ -10,15 +10,12 @@
 #include "../AI/AIComponent.h"
 #include "../Grouping/SceneObject.h"
 #include "MobModel.h"
-#include "MobSpawner.h"
 
 #include "../AbilitySystem/MobEffectReceiver.h"
-//#include "../Grouping/SceneObjectFabric.h"
 
 #include "../AbilitySystem/MobAbilities/MobAbility.h"
 
 #include "../GlobalScripts/TileMapManager.h"
-class MobSpawner;
 
 class AIComponent;
 class MobAbility;
@@ -26,12 +23,12 @@ class MobEffectReceiver;
 class MobModel;
 
 
-class Mob: public SceneObject
+class Mob: public SceneObject, public std::enable_shared_from_this<Mob>
 {
-    //friend class SceneObjectFabric;
-    friend class MobSpawner;
-    friend class TowerFabric;
 public:
+    Mob(MobModel* model, TileMapManager* aTileMapPtr = nullptr);
+    virtual ~Mob();
+
     virtual void init(int x, int y) override;
 
     virtual bool update(double timestep) override;
@@ -48,15 +45,13 @@ public:
     TileMapManager* getTileMapManager() const;
     void setTileMapManager(TileMapManager* aTileMapPtr);
 protected:
-    Mob(MobModel* model, TileMapManager* aTileMapPtr = nullptr);
-    virtual ~Mob();
 
     MobModel* mobModel;
 
 
     MobEffectReceiver* mobEffectReceiver;
     TileMapManager* tileMapPtr;
-    AIComponent* mobAI;
+    std::unique_ptr<AIComponent> mobAI;
 
 };
 

@@ -83,14 +83,14 @@ bool MobSpawner::canSpawn(double timestep)
 
 
 
-list<Mob *> *MobSpawner::doSpawn(TileMapManager* aTileMap)
+std::unique_ptr<list<std::shared_ptr<Mob>>> MobSpawner::doSpawn(TileMapManager* aTileMap)
 {
+    auto some = std::make_unique<std::list<shared_ptr<Mob>>>();
 
-    list<Mob*> *some = new list<Mob*>();
     int n = wavesInfo[waveNumber - 1].size();
     std::cout << n << std::endl;
     if (aTileMap == nullptr)
-     {
+    {
         std::cout << "doSpawn aTileMap nullptr" << std::endl;
     }
     for(int i = 0; i < n; ++i)
@@ -100,7 +100,7 @@ list<Mob *> *MobSpawner::doSpawn(TileMapManager* aTileMap)
 
         for(int index = 0; index < monsterCount; ++index)
         {
-            Mob* someMob = new Mob(GameModel::getInstance()->getMonsterByName(monsterName), aTileMap);
+            auto someMob = std::make_shared<Mob>(GameModel::getInstance()->getMonsterByName(monsterName), aTileMap);
 
 
             if (someMob->getTileMapManager() == nullptr)
@@ -143,9 +143,7 @@ list<Mob *> *MobSpawner::doSpawn(TileMapManager* aTileMap)
         }
     }
 
-
-
-	return some;
+    return std::move(some);
 
 }
 

@@ -46,11 +46,11 @@ bool ResourcePlace::onClick(SDL_Point *point)
            //std::cout << "resType =" << resourceType << std::endl;
          MineModel* tempMineModel = GameModel::getInstance()->getMineModelByRes(resourceType);
         tempMineModel->setLimit(this->limit);
-        Mine * tempMine = new Mine();
+        auto tempMine = std::make_shared<Mine>();
         tempMine->setMineModel(tempMineModel);
 
 
-        auto sprt = std::make_shared<AnimationSceneSprite>(parentScenePtr->getRenderer());
+        auto sprt = std::make_shared<AnimationSceneSprite>(parentScenePtr.lock()->getRenderer());
         sprt->setSize(Size( 90, 120));
         string s1 = "GameData/textures/Buildings/" +tempMineModel->getName() + ".png";
         std::cout << s1 << std::endl;
@@ -62,9 +62,9 @@ bool ResourcePlace::onClick(SDL_Point *point)
         tempMine->setTag("Mine");
         tempMine->setSprite(sprt);
          std::cout << "x = " << (this->getX()) << " y = " << (this->getY()) << std::endl;
-        parentScenePtr->spawnObject(this->getX(), this->getY(), tempMine);
+        parentScenePtr.lock()->spawnObject(this->getX(), this->getY(), tempMine);
 
-        parentScenePtr->destroyObject(this);
+        parentScenePtr.lock()->destroyObject(shared_from_this());
         return true;
     }
     return false;

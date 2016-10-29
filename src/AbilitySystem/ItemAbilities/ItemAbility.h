@@ -10,6 +10,6 @@ class ItemAbility
 public:
     ItemAbility();
     virtual ~ItemAbility();
-    virtual void init(Scene* const scenePtr) = 0;
+    virtual void init(std::shared_ptr<Scene> scenePtr) = 0;
     virtual void update(double timestep);
 };

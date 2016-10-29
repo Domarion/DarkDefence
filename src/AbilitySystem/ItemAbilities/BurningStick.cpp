@@ -11,7 +11,7 @@ BurningStick::~BurningStick()
 }
 
 
-void BurningStick::init(Scene* const scenePtr)
+void BurningStick::init(std::shared_ptr<Scene> scenePtr)
 {
     amount = 2;
     currentTime = period = 3000;

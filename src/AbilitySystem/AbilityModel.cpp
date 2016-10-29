@@ -16,7 +16,7 @@ AbilityModel::~AbilityModel()
 
 }
 
-void AbilityModel::init(Scene * const scenePtr)
+void AbilityModel::init(std::shared_ptr<Scene> scenePtr)
 {
     parentScenePtr = scenePtr;
 }

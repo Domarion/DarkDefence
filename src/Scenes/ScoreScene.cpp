@@ -20,7 +20,7 @@ ScoreScene::~ScoreScene()
 
 }
 
-void ScoreScene::init(SceneManager *sceneManagerPtr)
+void ScoreScene::init(std::shared_ptr<SceneManager> sceneManagerPtr)
 {
     renderer->setRendererDrawColor(255, 255, 255, 255);
 

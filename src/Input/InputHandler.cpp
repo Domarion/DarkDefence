@@ -18,7 +18,7 @@ InputHandler::~InputHandler()
 	// TODO Auto-generated destructor stub
 }
 
-bool InputHandler::onDrag(int direction )
+bool InputHandler::onDrag(int /*direction*/)
 {
 	return false;
 }
@@ -28,7 +28,7 @@ bool InputHandler::canDrag() const
 	return false;
 }
 
-bool InputHandler::containsPoint(int x, int y) const
+bool InputHandler::containsPoint(int /*x*/, int /*y*/) const
 {
     return false;
 }

@@ -11,12 +11,10 @@ AbilitySnowStorm::~AbilitySnowStorm()
     if (affectedMobs != nullptr)
     {
         affectedMobs->clear();
-        delete affectedMobs;
-        affectedMobs = nullptr;
     }
 }
 
-void AbilitySnowStorm::init(Scene * const scenePtr)
+void AbilitySnowStorm::init(std::shared_ptr<Scene> scenePtr)
 {
     AbilityModel::init(scenePtr);
 
@@ -102,8 +100,6 @@ bool AbilitySnowStorm::onCooldown(double timestep)
     if (currentCooldownTime <= 0)
     {
         affectedMobs->clear();
-        delete affectedMobs;
-        affectedMobs = nullptr;
 
         currentCooldownTime = cooldownTime;
         abilityState = Enums::AbilityStates::asNotAvaliable;

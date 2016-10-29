@@ -22,7 +22,7 @@ MainScene::~MainScene()
 }
 
 
-void MainScene::init(SceneManager* sceneManagerPtr)
+void MainScene::init(std::shared_ptr<SceneManager> sceneManagerPtr)
 {
     Scene::init(sceneManagerPtr);
 

@@ -259,16 +259,16 @@ void GameModel::setPointsRefundModifier(double value)
 
 
 
-MobAbility *GameModel::getMobAbilityByName(string name)
+std::unique_ptr<MobAbility> GameModel::getMobAbilityByName(string name)
 {
     if (name == "MobAbilityArson")
-        return new MobAbilityArson();
+        return std::make_unique<MobAbilityArson>();
     if (name == "MobAbilityRegeneration")
-        return new MobAbilityRegeneration();
+        return std::make_unique<MobAbilityRegeneration>();
     if (name == "MobAbilitySprint")
-        return new MobAbilitySprint();
+        return std::make_unique<MobAbilitySprint>();
     if (name == "MobAbilityInvisiblity")
-        return new MobAbilityInvisiblity();
+        return std::make_unique<MobAbilityInvisiblity>();
     return nullptr;
 }
 

@@ -10,7 +10,7 @@ GoldPick::~GoldPick()
 
 }
 
-void GoldPick::init(Scene * const scenePtr)
+void GoldPick::init(std::shared_ptr<Scene> scenePtr)
 {
     amount = 3;
     currentTime = period = 3000;
@@ -23,10 +23,10 @@ void GoldPick::init(Scene * const scenePtr)
         mptr->second.setMaximumHealth(newMaxHp);
     }
 
-    GameScene* gameScenePtr = dynamic_cast<GameScene*>(scenePtr);
+    auto gameScenePtr = std::dynamic_pointer_cast<GameScene>(scenePtr);
     if (gameScenePtr == nullptr)
         return;
-    AbilityModel* magicStone = gameScenePtr->getAbilityModelWithName("MagicStones");
+    auto magicStone = gameScenePtr->getAbilityModelWithName("MagicStones");
     if (magicStone != nullptr)
     {
         int manaCost = static_cast<int>( 0.15 * magicStone->getManaCost());

@@ -8,13 +8,13 @@ class SpellStorage
 public:
     SpellStorage();
     ~SpellStorage();
-    void loadWithScene(Scene* scenePtr);
-    AbilityModel* getAbilityModelWithName(string name);
+    void loadWithScene(std::shared_ptr<Scene> scenePtr);
+    std::shared_ptr<AbilityModel> getAbilityModelWithName(string name);
     void setAbilityReady(string s);
     void updateAbilities(double timestep);
-    map<string, AbilityModel* >& getAbilityModelList();
+    map<string, std::shared_ptr<AbilityModel> >& getAbilityModelList();
     void free();
 private:
-    map<string, AbilityModel* > abilityModelsMap;
+    map<string, std::shared_ptr<AbilityModel> > abilityModelsMap;
 };
 

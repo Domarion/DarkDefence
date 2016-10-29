@@ -10,7 +10,7 @@ IceTalisman::~IceTalisman()
 
 }
 
-void IceTalisman::init(Scene* const scenePtr)
+void IceTalisman::init(std::shared_ptr<Scene> scenePtr)
 {
     ManaGlobal* manaModelPtr = GameModel::getInstance()->getManaModel();
 

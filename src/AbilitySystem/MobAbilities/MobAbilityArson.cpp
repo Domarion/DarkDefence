@@ -89,7 +89,7 @@ bool MobAbilityArson::isTargetable()
     return true;
 }
 
-bool MobAbilityArson::canTrigger(SceneObject *targ, Enums::AIMobStates aimobstate)
+bool MobAbilityArson::canTrigger(std::shared_ptr<SceneObject> targ, Enums::AIMobStates aimobstate)
 {
     if (targ == nullptr
             || aimobstate != Enums::AIMobStates::aiATTACK

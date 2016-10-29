@@ -8,7 +8,11 @@
 #include "../GraphicsSystem/newSystem/UIElement/UITextButton.h"
 
 TowerUpgradeController::TowerUpgradeController()
-    :parentGameScene(nullptr), cachedTower(nullptr), towerMenu(nullptr), fabric(new TowerFabric()), upgradeGroup(nullptr)
+    : parentGameScene(nullptr)
+    , cachedTower(nullptr)
+    , towerMenu(nullptr)
+    , fabric(std::make_unique<TowerFabric>())
+    , upgradeGroup(nullptr)
 {
 
 
@@ -16,17 +20,16 @@ TowerUpgradeController::TowerUpgradeController()
 
 TowerUpgradeController::~TowerUpgradeController()
 {
-    delete fabric;
 }
 
-void TowerUpgradeController::init(Scene *parent, std::shared_ptr<RenderingSystem> &aRenderer)
+void TowerUpgradeController::init(std::shared_ptr<Scene> parent, std::shared_ptr<RenderingSystem> &aRenderer)
 {
     parentGameScene = parent;
     renderer = aRenderer;
 
 }
 
-void TowerUpgradeController::receiveTowerUpgrade(Tower *tower)
+void TowerUpgradeController::receiveTowerUpgrade(std::shared_ptr<Tower> tower)
 {
     if (tower == nullptr || parentGameScene == nullptr)
         return;
@@ -184,7 +187,7 @@ bool TowerUpgradeController::menuClickHandler(size_t itemIndex)
 
         parentGameScene->getMainRect()->removeChild(upgradeGroup);
 
-        cachedTower = fabric->produceTower(towerName, parentGameScene->getRenderer(), this, cachedTower->getTileMapManager());
+        cachedTower = fabric->produceTower(towerName, parentGameScene->getRenderer(), shared_from_this(), cachedTower->getTileMapManager());
         if (cachedTower == nullptr)
             return false;
         parentGameScene->spawnObject(x, y, cachedTower);

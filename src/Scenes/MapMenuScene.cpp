@@ -18,7 +18,7 @@ MapMenuScene::~MapMenuScene()
 
 }
 
-void MapMenuScene::init(SceneManager *sceneManagerPtr)
+void MapMenuScene::init(std::shared_ptr<SceneManager> sceneManagerPtr)
 {
      Scene::init(sceneManagerPtr);
      renderer->setRendererDrawColor(255, 255, 255, 255);

@@ -22,7 +22,7 @@ InventoryScene::~InventoryScene()
     clear();
 }
 
-void InventoryScene::init( SceneManager* sceneManagerPtr)
+void InventoryScene::init(std::shared_ptr<SceneManager> sceneManagerPtr)
 {
     renderer->setRendererDrawColor(255, 255, 255, 255);
     Scene::init(sceneManagerPtr);

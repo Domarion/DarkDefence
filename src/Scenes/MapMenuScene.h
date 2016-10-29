@@ -7,7 +7,7 @@ class MapMenuScene: public Scene
 public:
     MapMenuScene(std::shared_ptr<RenderingSystem> &aRenderer);
     virtual ~MapMenuScene();
-    virtual void init(SceneManager* sceneManagerPtr) override;
+    virtual void init(std::shared_ptr<SceneManager> sceneManagerPtr) override;
     virtual void clear() override;
 
 private:

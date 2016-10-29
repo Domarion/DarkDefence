@@ -1,8 +1,6 @@
 #include "Tower.h"
 
-
-
-void Tower::connectMethod(std::function<void (Tower *, int, int)> method)
+void Tower::connectMethod(std::function<void(std::shared_ptr<Tower>, int, int)> method)
 {
     connectedMethod = method;
 }
@@ -18,7 +16,7 @@ bool Tower::onClick(SDL_Point *point)
     {
         if (connectedMethod != nullptr)
         {
-            connectedMethod(this, point->x, point->y);
+            connectedMethod(std::static_pointer_cast<Tower>(shared_from_this()), point->x, point->y);
         }
         return true;
     }

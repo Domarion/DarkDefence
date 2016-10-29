@@ -24,7 +24,7 @@ ShopScene::~ShopScene()
     clear();
 }
 
-void ShopScene::init(SceneManager* sceneManagerPtr)
+void ShopScene::init(std::shared_ptr<SceneManager> sceneManagerPtr)
 {
     renderer->setRendererDrawColor(255, 255, 255, 255);
 

@@ -35,13 +35,13 @@ class GameScene: public Scene
 public:
     GameScene(std::shared_ptr<RenderingSystem> &aRenderer);
 	virtual ~GameScene();
-    virtual void init(SceneManager* sceneManagerPtr) override;
+    virtual void init(std::shared_ptr<SceneManager> sceneManagerPtr) override;
     virtual void clear() override;
 	virtual void startUpdate(double timestep) override;
 
-    map<string, AbilityModel* >& getAbilityModelList();
+    map<std::string, std::shared_ptr<AbilityModel> > &getAbilityModelList();
     void ConnectMethod(std::function<void(string)> handler);
-    AbilityModel* getAbilityModelWithName(string name);
+    std::shared_ptr<AbilityModel> getAbilityModelWithName(string name);
     void sendMessage(string msgText);
 private:
 
@@ -58,7 +58,7 @@ private:
 
     void applyArtefactEffects();
 
-    Gates* gates;
+    std::shared_ptr<Gates> gates;
     std::shared_ptr<UIProgressBar> gatesHealthBar, manaBar;
     std::shared_ptr<UILabel> pointsLabel;
     std::shared_ptr<UILabel> waveLabel;
@@ -78,7 +78,7 @@ private:
 
     SpellStorage spellStorage;
     ItemAbilitiesStorage itemAbilitiesStorage;
-    TowerUpgradeController towerUpgradeController;
+    std::shared_ptr<TowerUpgradeController> towerUpgradeController;
 
 
     void setActiveMstones(string s);

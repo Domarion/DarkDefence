@@ -11,13 +11,13 @@ IceBoots::~IceBoots()
 
 }
 
-void IceBoots::init(Scene * const scenePtr)
+void IceBoots::init(std::shared_ptr<Scene> scenePtr)
 {
 
-    GameScene* gameScenePtr = dynamic_cast<GameScene*>(scenePtr);
+    auto gameScenePtr = std::dynamic_pointer_cast<GameScene>(scenePtr);
     if (gameScenePtr == nullptr)
         return;
-    AbilityModel* magicStone = gameScenePtr->getAbilityModelWithName("SnowStorm");
+    auto magicStone = gameScenePtr->getAbilityModelWithName("SnowStorm");
     if (magicStone != nullptr)
     {
         int manaCost = static_cast<int>( 0.5 * magicStone->getManaCost());

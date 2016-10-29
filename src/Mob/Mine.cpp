@@ -25,15 +25,15 @@ bool Mine::update(double timestep)
 
             if (model->getLimit() > 0)
             {
-                ResourcePlace* resPlace = new ResourcePlace();
-                auto resSprite = std::make_shared<AnimationSceneSprite>(parentScenePtr->getRenderer());
+                auto resPlace = std::make_shared<ResourcePlace>();
+                auto resSprite = std::make_shared<AnimationSceneSprite>(parentScenePtr.lock()->getRenderer());
                 resSprite->setSize(Size(200, 200));
                 resSprite->loadTexture("GameData/textures/Resources/WheatResource.png");
                 resPlace->setSprite(resSprite);
                 resPlace->setName("ResourcePlace");
                 resPlace->setTag("ResourcePlace");
 
-                parentScenePtr->spawnObject(x, y, resPlace);
+                parentScenePtr.lock()->spawnObject(x, y, resPlace);
                 resPlace->setLimit(model->getLimit());
             }
             return false;

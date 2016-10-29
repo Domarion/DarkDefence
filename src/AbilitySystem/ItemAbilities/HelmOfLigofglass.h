@@ -9,6 +9,6 @@ public:
 
     // ItemAbility interface
 public:
-    virtual void init(Scene* const scenePtr) override;
+    virtual void init(std::shared_ptr<Scene> scenePtr) override;
 };
 

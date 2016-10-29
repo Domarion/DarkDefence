@@ -8,7 +8,7 @@
 #include "SceneObject.h"
 
 SceneObject::SceneObject()
-:spriteModel(nullptr), x(0), y(0), parentScenePtr(nullptr)
+:spriteModel(nullptr), x(0), y(0)
 {
 	// TODO Auto-generated constructor stub
 
@@ -45,14 +45,14 @@ void SceneObject::setTag(const string &value)
     tag = value;
 }
 
-void SceneObject::setParentScene(Scene* scene)
+void SceneObject::setParentScene(std::shared_ptr<Scene> scene)
 {
     parentScenePtr = scene;
 }
 
-Scene *SceneObject::getParentScene()
+std::shared_ptr<Scene> SceneObject::getParentScene()
 {
-    return parentScenePtr;
+    return parentScenePtr.lock();
 }
 
 DestructibleObject *SceneObject::getDestructibleObject()
@@ -73,7 +73,7 @@ int SceneObject::computeDistanceSqr(int x0, int y0, int x1, int y1)
     return (xdist*xdist + ydist*ydist);
 }
 
-int SceneObject::computeDistanceSqr(SceneObject *second)
+int SceneObject::computeDistanceSqr(std::shared_ptr<SceneObject> second)
 {
     if (second  == nullptr)
         return -1;
@@ -119,7 +119,7 @@ bool SceneObject::update(double timestep)
 
 void SceneObject::finalize()
 {
-    parentScenePtr = nullptr;
+    //parentScenePtr = nullptr;
 }
 
 const std::shared_ptr<AnimationSceneSprite> &SceneObject::getSprite() const

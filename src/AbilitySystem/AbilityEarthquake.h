@@ -3,6 +3,8 @@
 
 class AbilityEarthquake: public AbilityModel
 {
+    using SceneObjectList = std::unique_ptr<std::list<std::shared_ptr<SceneObject> > >;
+
 public:
     AbilityEarthquake();
     virtual ~AbilityEarthquake();
@@ -12,5 +14,5 @@ public:
     void setDamagePerSecond(int value);
 private:
     int damagePerSecond;
-    list<SceneObject*>* affectedMobs;
+    SceneObjectList affectedMobs;
 };

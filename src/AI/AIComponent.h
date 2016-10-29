@@ -26,20 +26,19 @@ using std::string;
 class AIComponent
 {
 public:
-    AIComponent(Mob* aMob = nullptr);
-    virtual ~AIComponent();
+    AIComponent(std::weak_ptr<Mob> aMob);
+    virtual ~AIComponent() = default;
 	virtual void MakeDecision(double timestep);
-    SceneObject* getCurrentTarget();
-    SceneObject* getSelf();
+    std::shared_ptr<SceneObject> getCurrentTarget();
     void initMobAbilities();
 protected:
-    Mob* MobPtr;
+    std::weak_ptr<Mob> MobPtr;
 
     AIMobStates aiMobState;
-    SceneObject* currentTarget;
-    list<SceneObject*> avaliableTargets;
+    std::shared_ptr<SceneObject> currentTarget;
+    list<std::shared_ptr<SceneObject>> avaliableTargets;
     list<EnemyInfo> enemiesInfoList;
-    list<MobAbility*> mobAbilities;
+    list<std::shared_ptr<MobAbility>> mobAbilities;
 private:
 	void Search();
 	void Select();
@@ -48,7 +47,7 @@ private:
     void MovetoTile(double timestep);
 
     void MoveToPos(double timestep, SDL_Point targetPoint);
-    bool Cast(SceneObject* target);
+    bool Cast(std::shared_ptr<SceneObject> target);
 
     bool distanceInRange(const pair<int, int>& firstPoint, const pair<int, int>& secondPoint);
     int getPriorityFromTag(const string& aTag);

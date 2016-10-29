@@ -10,7 +10,7 @@ HelmOfGold::~HelmOfGold()
 
 }
 
-void HelmOfGold::init(Scene* const scenePtr)
+void HelmOfGold::init(std::shared_ptr<Scene> scenePtr)
 {
     goldAmount = 1;
     currentTime = period = 3000;

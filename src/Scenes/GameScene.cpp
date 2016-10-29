@@ -30,6 +30,7 @@ GameScene::GameScene(std::shared_ptr<RenderingSystem> &aRenderer)
 , waveLabel(nullptr)
 , monsterSpawner(aRenderer)
 , itemAbilitiesStorage()
+, towerUpgradeController(std::make_shared<TowerUpgradeController>())
 , tileMap(nullptr)
 {
     srand (time(NULL));
@@ -41,7 +42,7 @@ GameScene::~GameScene()
     delete tileMap;
 }
 
-void GameScene::init(SceneManager* sceneManagerPtr)
+void GameScene::init(std::shared_ptr<SceneManager> sceneManagerPtr)
 {
     Scene::init(sceneManagerPtr);
     loadData();
@@ -91,7 +92,7 @@ void GameScene::startUpdate(double timestep)
             std::cout << "TileIsNullinGameScene" << std::endl;
         }
 
-        list<Mob*> *some = monsterSpawner.doSpawn(tileMap);
+        auto some = monsterSpawner.doSpawn(tileMap);
 
         for(auto ptr = some->begin(); ptr != some->end(); ++ptr)
         {
@@ -109,7 +110,6 @@ void GameScene::startUpdate(double timestep)
 
 
         }
-        delete some;
     }
     else
         if(monsterSpawner.noMoreWaves())
@@ -146,7 +146,7 @@ void GameScene::startUpdate(double timestep)
 }
 
 
-map<string, AbilityModel *> &GameScene::getAbilityModelList()
+map<string, std::shared_ptr<AbilityModel>> &GameScene::getAbilityModelList()
 {
    return spellStorage.getAbilityModelList();
 }
@@ -156,7 +156,7 @@ void GameScene::ConnectMethod(std::function<void (string)> handler)
     method = handler;
 }
 
-AbilityModel *GameScene::getAbilityModelWithName(string name)
+std::shared_ptr<AbilityModel> GameScene::getAbilityModelWithName(string name)
 {
     return spellStorage.getAbilityModelWithName(name);
 }
@@ -287,7 +287,7 @@ void GameScene::initAbilitiesButtons()
     Size abilityButtonSize(48, 48);
 
 
-    spellStorage.loadWithScene(this);
+    spellStorage.loadWithScene(shared_from_this());
 
     auto abilityButtonsGroup = std::make_shared<ConcreteComposite>(renderer);
     abilityButtonsGroup->setSize(Size(MainRect->getSize().width/3, abilityButtonSize.height));
@@ -310,7 +310,7 @@ void GameScene::initAbilitiesButtons()
     }
     MainRect->addChild(abilityButtonsGroup);
 
-    InputHandler* prickhandler = dynamic_cast<InputHandler*>(spellStorage.getAbilityModelWithName("Prick"));
+    InputHandler* prickhandler = dynamic_cast<InputHandler*>(spellStorage.getAbilityModelWithName("Prick").get());
     if(prickhandler != nullptr)
     {
         InputDispatcher::getInstance()->addHandler(prickhandler);
@@ -349,7 +349,7 @@ void GameScene::placeResourcesPlaces()
 {
 
 
-    ResourcePlace *resPlace = new ResourcePlace(1000, Enums::ResourceTypes::WOOD);
+    auto resPlace = std::make_shared<ResourcePlace>(1000, Enums::ResourceTypes::WOOD);
     auto resSprite = std::make_shared<AnimationSceneSprite>(renderer);
 
     resSprite->setSize(Size(200, 200));
@@ -370,7 +370,7 @@ void GameScene::placeCastle()
 
      newView->setSize(Size(120, 120));
      newView->loadTexture("GameData/textures/Castle2.png");
-     gates = new Gates();
+     gates = std::make_shared<Gates>();
      gates->setSprite(newView);
      gates->setTag("Gates");
      gates->getDestructibleObject()->connectMethod(std::bind(&UIProgressBar::calculateProgress, gatesHealthBar, std::placeholders::_1, std::placeholders::_2));
@@ -380,14 +380,14 @@ void GameScene::placeCastle()
 
 void GameScene::placeTowers()
 {
-    towerUpgradeController.init(this, renderer);
+    towerUpgradeController->init(shared_from_this(), renderer);
 
     list<string> towerNames = {"WatcherTower","BallistaTower", "CatapultTower", "MageTower", "ProductivityTower",
                                "WindTower", "EarthTower","CloudTower"};
     int x = 10;
     for(const auto& towerName : towerNames)
     {
-        Tower* tower = towerFabric.produceTower(towerName, renderer, &towerUpgradeController, tileMap);
+        std::shared_ptr<Tower> tower= towerFabric.produceTower(towerName, renderer, towerUpgradeController, tileMap);
         spawnObject(x, 300, tower);
         x+= 60;
     }
@@ -396,7 +396,7 @@ void GameScene::placeTowers()
 
 void GameScene::placeSceneObjects()
 {
-    SceneObject* Terrain = objectFabric.produce("Terrain", "none", "GameData/textures/terrain.JPG", MainRect->getSize().width , MainRect->getSize().height, renderer );
+    std::shared_ptr<SceneObject> Terrain = objectFabric.produce("Terrain", "none", "GameData/textures/terrain.JPG", MainRect->getSize().width , MainRect->getSize().height, renderer );
     spawnObject(0,0, Terrain);
 
     placeResourcesPlaces();
@@ -415,7 +415,7 @@ void GameScene::applyArtefactEffects()
     {
         ItemAbility* temp = itemAbilitiesStorage.getItemAbilityByName(*itemNamePtr);
         if (temp != nullptr)
-            temp->init(this);
+            temp->init(shared_from_this());
     }
 
       std::cout << "productionOfMine AfterItemApplyis = " << (GameModel::getInstance()->getMineModelFromListByRes(Enums::ResourceTypes::WOOD)->getProduction()) << std::endl;
@@ -430,8 +430,6 @@ void GameScene::clear()
     manaBar = nullptr;
     gatesHealthBar = nullptr;
     gates = nullptr;
-    for(auto &resourcelabel : resourceLabels)
-        resourcelabel = nullptr;
     currentMission.reset();
     monsterSpawner.reset();
     Scene::clear();

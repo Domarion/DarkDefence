@@ -17,30 +17,19 @@ SceneManager::SceneManager()
 
 }
 
-SceneManager::~SceneManager()
-{
-    currentScene = nullptr;
 
-	for(auto i = scenes.begin(); i != scenes.end(); ++i)
-        delete scenes.at(i->first);
-
-    scenes.clear();
-
-
-}
-
-Scene* SceneManager::getCurrentScene() const
+std::shared_ptr<Scene> SceneManager::getCurrentScene()
 {
 	return currentScene;
 }
 
 
-void SceneManager::addScene(Scene* scene, const string name)
+void SceneManager::addScene(std::shared_ptr<Scene> scene, std::string name)
 {
-	scenes[name] = scene;
+    scenes.emplace(std::make_pair(name, scene));//[name] = scene;
 }
 
-void SceneManager::setCurrentScene(Scene* value)
+void SceneManager::setCurrentScene(std::shared_ptr<Scene>& value)
 {
 	InputDispatcher::getInstance()->clearHandlers();
     if (currentScene != nullptr )
@@ -51,7 +40,7 @@ void SceneManager::setCurrentScene(Scene* value)
 	currentScene = value;
 
     if (currentScene != nullptr)
-        currentScene->init(this);
+        currentScene->init(shared_from_this());
     else
         std::cout << "currentScene is NULL" << std::endl;
 }

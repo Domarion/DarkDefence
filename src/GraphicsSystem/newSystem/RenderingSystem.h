@@ -12,7 +12,8 @@ public:
 
     explicit RenderingSystem(const Size& aScreenSize);
     RenderingSystem() = delete;
-
+    RenderingSystem(const RenderingSystem&) = delete;
+    RenderingSystem& operator=(const RenderingSystem&) = delete;
     void renderTexture(SDL_Texture *texturePtr, const Size aTextureSize,  const Position &&aDestPosition);
     void renderTexture(SDL_Texture *texturePtr, const Position&& aDestPosition, const SDL_Rect *clipRect);
 

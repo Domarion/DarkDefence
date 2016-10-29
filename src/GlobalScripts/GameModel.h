@@ -93,7 +93,7 @@ public:
 
    // void loadMobAbilities();
 
-    MobAbility* getMobAbilityByName(string name);
+    std::unique_ptr<MobAbility> getMobAbilityByName(string name);
 
     void saveGameData(string filename);
     void loadGameData(string filename);

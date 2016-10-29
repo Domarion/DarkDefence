@@ -17,19 +17,21 @@ using std::map;
 
 class Scene;
 
-class SceneManager
+class SceneManager: public std::enable_shared_from_this<SceneManager>
 {
 public:
 	SceneManager();
-	virtual ~SceneManager();
-	Scene* getCurrentScene() const;
-    void setCurrentScene(Scene* value);
-	void addScene(Scene* scene, const string name);
-
+    SceneManager(const SceneManager&) = delete;
+    SceneManager& operator=(const SceneManager&) = delete;
+    virtual ~SceneManager() = default;
+    std::shared_ptr<Scene> getCurrentScene();
+    void addScene(std::shared_ptr<Scene> scene, std::string name);
 	void setCurrentSceneByName(string name);
-private:
 
-	Scene* currentScene;
-	map<string, Scene*> scenes;
+private:
+    void setCurrentScene(std::shared_ptr<Scene> &value);
+
+    std::shared_ptr<Scene> currentScene;
+    map<string, std::shared_ptr<Scene>> scenes;
 };
 

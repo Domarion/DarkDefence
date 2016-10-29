@@ -19,7 +19,7 @@ public:
 	virtual ~MobSpawner();
     void loadWavesInfo(string filename);
 	bool canSpawn(double timestep);
-    list<Mob*> * doSpawn(TileMapManager* aTileMap = nullptr);
+    std::unique_ptr<list<std::shared_ptr<Mob> > > doSpawn(TileMapManager* aTileMap = nullptr);
     bool noMoreWaves() const;
     double getCurrentTime() const;
 

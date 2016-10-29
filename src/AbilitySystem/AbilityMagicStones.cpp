@@ -11,7 +11,7 @@ AbilityMagicStones::~AbilityMagicStones()
     gatesSceneObject = nullptr;
 }
 
-void AbilityMagicStones::init(Scene* const scenePtr)
+void AbilityMagicStones::init(std::shared_ptr<Scene> scenePtr)
 {
     AbilityModel::init(scenePtr);
     pair<string, double> miniProtection = std::make_pair("Protection", +500);

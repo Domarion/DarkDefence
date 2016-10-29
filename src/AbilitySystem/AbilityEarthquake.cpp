@@ -9,12 +9,7 @@ AbilityEarthquake::AbilityEarthquake()
 
 AbilityEarthquake::~AbilityEarthquake()
 {
-    if (affectedMobs != nullptr)
-    {
-        affectedMobs->clear();
-        delete affectedMobs;
-        affectedMobs = nullptr;
-    }
+
 }
 
 
@@ -49,7 +44,7 @@ bool AbilityEarthquake::onWorking(double timestep)
 
     if (counter >= 1000)
     {
-        if (affectedMobs!= nullptr && affectedMobs->size() > 0)
+        if (affectedMobs!= nullptr && !affectedMobs->empty())
             for(auto affectedMob = affectedMobs->begin(); affectedMob != affectedMobs->end(); ++affectedMob)
             {
                 if (*affectedMob != nullptr)
@@ -77,8 +72,6 @@ bool AbilityEarthquake::onCooldown(double timestep)
     if (currentCooldownTime <= 0)
     {
         affectedMobs->clear();
-        delete affectedMobs;
-        affectedMobs = nullptr;
 
         currentCooldownTime = cooldownTime;
         abilityState = Enums::AbilityStates::asNotAvaliable;

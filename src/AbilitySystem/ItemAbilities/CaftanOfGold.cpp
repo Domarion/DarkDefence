@@ -10,7 +10,7 @@ CaftanOfGold::~CaftanOfGold()
 
 }
 
-void CaftanOfGold::init(Scene* const scenePtr)
+void CaftanOfGold::init(std::shared_ptr<Scene> scenePtr)
 {
     goldAmount = 2;
     currentTime = period = 3000;

@@ -2,28 +2,16 @@
 #include "../GraphicsSystem/CTexture.h"
 #include "../GlobalScripts/GameModel.h"
 
-TowerFabric::TowerFabric()
-{
-
-}
-
-TowerFabric::~TowerFabric()
-{
-   /* for(size_t i = 0; i < producedTowers.size(); ++i)
-    {
-        delete producedTowers[i];
-        producedTowers[i] = nullptr;
-    }*/
-    producedTowers.clear();
-}
-
-Tower * TowerFabric::produceTower(std::string towerName, std::shared_ptr<RenderingSystem>& aRenderingContext, TowerUpgradeController* upgrader, TileMapManager* aTileMap
-                                  )
+std::shared_ptr<Tower> TowerFabric::produceTower(
+        std::string towerName,
+        std::shared_ptr<RenderingSystem>& aRenderingContext,
+        std::shared_ptr<TowerUpgradeController> upgrader,
+        TileMapManager* aTileMap)
 {
     MobModel* model = GameModel::getInstance()->getTowerByName(towerName);
     if (model == nullptr)
         return nullptr;
-    Tower* someMob = new Tower(model, aTileMap);
+    auto someMob = std::make_shared<Tower>(model, aTileMap);
     auto someSprite = std::make_shared<AnimationSceneSprite>(aRenderingContext);
 
 
@@ -32,12 +20,11 @@ Tower * TowerFabric::produceTower(std::string towerName, std::shared_ptr<Renderi
 
     someMob->setSprite(someSprite);
 
-
     if (upgrader != nullptr)
         someMob->connectMethod(std::bind(&TowerUpgradeController::receiveTowerUpgrade, upgrader, std::placeholders::_1));
+
     someMob->init(0, 0);
 
-    producedTowers.push_back(someMob);
 
     return someMob;
 }

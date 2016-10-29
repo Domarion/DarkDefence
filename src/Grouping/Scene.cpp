@@ -15,7 +15,7 @@ using std::list;
 #include "../GlobalScripts/GameModel.h"
 #include <iostream>
 Scene::Scene(std::shared_ptr<RenderingSystem> &aRenderer)
-:renderer(aRenderer)
+: renderer(aRenderer)
 , MainRect(std::make_shared<ConcreteComposite>())
 , listGUI()
 , sceneObjects()
@@ -27,9 +27,8 @@ Scene::Scene(std::shared_ptr<RenderingSystem> &aRenderer)
     MainRect->setPosition(Position(0, 0));
 }
 
-void Scene::init(SceneManager* sceneManagerPtr)
+void Scene::init(std::shared_ptr<SceneManager> sceneManagerPtr)
 {
-
 	parentSceneManager = sceneManagerPtr;
 }
 
@@ -67,18 +66,18 @@ void Scene::startUpdate(double timestep)
     }
 }
 
-void Scene::spawnObject(int x, int y, SceneObject *obj)
+void Scene::spawnObject(int x, int y, std::shared_ptr<SceneObject> obj)
 {
     if (obj == nullptr)
         return;
 
-    obj->setParentScene(this);
+    obj->setParentScene(shared_from_this());
 
 
     obj->init(x, y);
 
 
-    InputHandler* handler = dynamic_cast<InputHandler*>(obj);
+    InputHandler* handler = dynamic_cast<InputHandler*>(obj.get());
 
     if (handler != nullptr)
             InputDispatcher::getInstance()->addHandler(handler);
@@ -86,9 +85,9 @@ void Scene::spawnObject(int x, int y, SceneObject *obj)
     sceneObjects.push_back(obj);
 }
 
-void Scene::destroyObject(SceneObject *obj)
+void Scene::destroyObject(std::shared_ptr<SceneObject> obj)
 {
-    InputHandler* handler = dynamic_cast<InputHandler*>(obj);
+    InputHandler* handler = dynamic_cast<InputHandler*>(obj.get());
 
     if (handler != nullptr)
             InputDispatcher::getInstance()->removeHandler(handler);
@@ -142,7 +141,7 @@ void Scene::clearUIList()
 }
 
 
-SceneObject* Scene::findObjectByTag(std::string tag)
+std::shared_ptr<SceneObject> Scene::findObjectByTag(std::string tag)
 {
     for(auto ptr = sceneObjects.begin(); ptr != sceneObjects.end(); ++ptr)
     {
@@ -152,9 +151,9 @@ SceneObject* Scene::findObjectByTag(std::string tag)
     return nullptr;
 }
 
-list<SceneObject *> *Scene::findObjectsByTag(string tag)
+Scene::SceneObjectList Scene::findObjectsByTag(string tag)
 {
-    list<SceneObject*>* filteredList =  new list<SceneObject*>();
+    auto filteredList = std::make_unique<std::list<std::shared_ptr<SceneObject>>>();
 
     for(auto ptr = sceneObjects.begin(); ptr != sceneObjects.end(); ++ptr)
     {
@@ -164,7 +163,6 @@ list<SceneObject *> *Scene::findObjectsByTag(string tag)
 
     if (filteredList->empty())
     {
-        delete filteredList;
         return nullptr;
     }
 
@@ -172,7 +170,7 @@ list<SceneObject *> *Scene::findObjectsByTag(string tag)
 
 }
 
-SceneObject *Scene::findObjectWithPos(int x, int y)
+std::shared_ptr<SceneObject> Scene::findObjectWithPos(int x, int y)
 {
 
     SDL_Point point = {x, y};
@@ -193,10 +191,10 @@ SceneObject *Scene::findObjectWithPos(int x, int y)
     return nullptr;
 }
 
-list<SceneObject *> *Scene::findObjectsWithPos(int x, int y)
+Scene::SceneObjectList Scene::findObjectsWithPos(int x, int y)
 {
     SDL_Point point = {x, y};
-    list<SceneObject*>* filteredList =  new list<SceneObject*>();
+    auto filteredList =  std::make_unique<std::list<std::shared_ptr<SceneObject>>>();
 
     for(auto &sceneobject : sceneObjects)
     {
@@ -215,7 +213,6 @@ list<SceneObject *> *Scene::findObjectsWithPos(int x, int y)
 
     if (filteredList->empty())
     {
-        delete filteredList;
         return nullptr;
     }
 
@@ -223,7 +220,7 @@ list<SceneObject *> *Scene::findObjectsWithPos(int x, int y)
 
 }
 
-SceneManager *Scene::getParentSceneManager()
+std::shared_ptr<SceneManager> Scene::getParentSceneManager()
 {
     return parentSceneManager;
 }
@@ -257,15 +254,6 @@ void Scene::addLoadSceneButton(string aButtonName, string aFontName, string aSce
 
 void Scene::clear()
 {
-    if (!sceneObjects.empty())
-    {
-        for(auto sceneObject : sceneObjects)
-            if (sceneObject != nullptr)
-                delete sceneObject;
-        sceneObjects.clear();
-    }
-
-
     clearUIList();
     wasInited = false;
 

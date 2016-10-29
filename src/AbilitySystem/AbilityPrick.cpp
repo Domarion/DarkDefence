@@ -11,7 +11,7 @@ AbilityPrick::~AbilityPrick()
 
 }
 
-void AbilityPrick::init(Scene * const scenePtr)
+void AbilityPrick::init(std::shared_ptr<Scene> scenePtr)
 {
     AbilityModel::init(scenePtr);
 }
@@ -44,7 +44,7 @@ bool AbilityPrick::onWorking(double timestep)
     {
         abilityState = Enums::AbilityStates::asOnCooldown;
         std::cout << "prickEnter" << std::endl;
-        somePrick = new PrickObject(damage);
+        somePrick = std::make_shared<PrickObject>(damage);
 
         auto spritePrick = std::make_shared<AnimationSceneSprite>(parentScenePtr->getRenderer());
         spritePrick->setSize(Size(200, 200));

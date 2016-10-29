@@ -11,7 +11,7 @@ ChoppersHat::~ChoppersHat()
 
 }
 
-void ChoppersHat::init(Scene * const scenePtr)
+void ChoppersHat::init(std::shared_ptr<Scene> scenePtr)
 {
    // resType = Enums::ResourceTypes::WOOD;
     amount = 2;
