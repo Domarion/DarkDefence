@@ -13,16 +13,22 @@ AnimationSceneSprite::AnimationSceneSprite(std::shared_ptr<RenderingSystem> &aRe
 
 void AnimationSceneSprite::draw() const
 {
+    drawAtPosition(getPosition());
+}
+
+void AnimationSceneSprite::drawAtPosition(Position pos) const
+{
     if (!visible)
         return;
 
     if (animationStates.size() > 0)
     {
-        frame.drawPartAtPosition(getPosition(), &animationStates.at(currentState).at(frameNumber));
+        frame.drawPartAtPosition(pos, &animationStates.at(currentState).at(frameNumber));
     }
     else
-       frame.drawAtPosition(getPosition());
+        frame.drawAtPosition(pos);
 }
+
 
 Size AnimationSceneSprite::getSize() const
 {

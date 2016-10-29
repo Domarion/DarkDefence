@@ -199,7 +199,7 @@ void GameScene::loadData()
 void GameScene::initResourceView()
 {
     auto resourcePanel = std::make_shared<ConcreteComposite>(renderer);
-    resourcePanel->setSize(Size(MainRect->getSize().width/4, 50));
+    resourcePanel->setSize(Size(MainRect->getSize().width/3, 50));
     resourcePanel->setPosition(MainRect->getNextPosition());
 
     Font labelFont = FontManager::getInstance()->getFontByKind2("TextFont");
@@ -217,7 +217,7 @@ void GameScene::initResourceView()
 
         string labelText = GameModel::getInstance()->getResourcesModel()->printResourceFromIndex(i);
         resourceLabels[i] = std::make_shared<UILabel>(labelText, labelFont, renderer);
-        resourceLabels[i]->setSize(Size(50, 25));
+        resourceLabels[i]->setSize(Size(30, 25));
         resourceLabels[i]->setPosition(resourcePanel->getNextPosition());
 
         resourcePanel->addChild(resourceLabels[i]);
@@ -230,7 +230,7 @@ void GameScene::initProgressBars()
 {
 
     auto progressBarGroup = std::make_shared<ConcreteComposite>(renderer);
-    progressBarGroup->setSize(Size(200, 50));
+    progressBarGroup->setSize(Size(100, 50));
     progressBarGroup->setPosition(MainRect->getNextPosition());
 
     Texture2D gatesHealthBarBack(renderer);
@@ -268,7 +268,7 @@ void GameScene::initTopPanel()
 
     Font aFont = FontManager::getInstance()->getFontByKind2("TextFont");
     pointsLabel = std::make_shared<UILabel>("none", aFont, renderer);
-    pointsLabel->setSize(Size(100, 50));
+    pointsLabel->setSize(Size(50, 50));
 
     miniGroup->addChild(pointsLabel);
 

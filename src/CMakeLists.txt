@@ -128,6 +128,7 @@ set(SRC_LIST
     GraphicsSystem/newSystem/ConcreteUIViews/UISlot.h
 
     GraphicsSystem/newSystem/ConcreteUIViews/UISlotContainer.h
+    GraphicsSystem/newSystem/Camera2D.h
 
     GraphicsSystem/newSystem/UtilityStructs.cpp
     Input/InputHandler.cpp
@@ -250,6 +251,8 @@ set(SRC_LIST
     GraphicsSystem/newSystem/ConcreteUIViews/UISlot.cpp
 
     GraphicsSystem/newSystem/ConcreteUIViews/UISlotContainer.cpp
+    GraphicsSystem/newSystem/Camera2D.cpp
+
     )
 
 

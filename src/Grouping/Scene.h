@@ -16,6 +16,7 @@ using std::list;
 #include "../GraphicsSystem/newSystem/RenderingSystem.h"
 #include "FontManager.h"
 #include "../GraphicsSystem/newSystem/UIElement/ConcreteComposite.h"
+#include "../GraphicsSystem/newSystem/Camera2D.h"
 class SceneObject;
 class SceneManager;
 
@@ -59,4 +60,5 @@ private:
     list<SceneObject*> sceneObjects;
     SceneManager* parentSceneManager;
     bool wasInited;
+    Camera2D mCamera;
 };

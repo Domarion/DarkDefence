@@ -21,6 +21,7 @@ Scene::Scene(std::shared_ptr<RenderingSystem> &aRenderer)
 , sceneObjects()
 , parentSceneManager(nullptr)
 , wasInited(false)
+, mCamera(Size(aRenderer->getScreenSize().width, aRenderer->getScreenSize().height))
 {
     MainRect->setSize(renderer->getScreenSize());
     MainRect->setPosition(Position(0, 0));
@@ -42,7 +43,12 @@ void Scene::copyToRender() const
 {
     for(auto sceneObject : sceneObjects)
         if (sceneObject != nullptr && sceneObject->getSprite() != nullptr )
-            sceneObject->getSprite()->draw();
+        {
+            Position sceneObjectPosition = sceneObject->getPosition();
+            Size sceneObjectSize = sceneObject->getSprite()->getSize();
+            if (mCamera.hasIntersection(sceneObjectPosition, sceneObjectSize))
+                sceneObject->getSprite()->drawAtPosition(mCamera.worldToCameraPosition(sceneObjectPosition));
+        }
 
     for(const auto& guiItem : listGUI)
         if (guiItem != nullptr)

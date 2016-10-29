@@ -1,12 +1,11 @@
 #include "TowerUpgradeController.h"
 #include "../GlobalScripts/GameModel.h"
-//#include "../GraphicsSystem/UI/CompositeLabel.h"
 #include <iostream>
 #include "../Input/InputDispatcher.h"
-//#include "../GraphicsSystem/UI/GroupBox.h"
 #include "../GraphicsSystem/newSystem/UIElement/ConcreteComposite.h"
 #include "../GraphicsSystem/newSystem/UIElement/UILabel.h"
 #include "../GraphicsSystem/newSystem/UIElement/UIImageButton.h"
+#include "../GraphicsSystem/newSystem/UIElement/UITextButton.h"
 
 TowerUpgradeController::TowerUpgradeController()
     :parentGameScene(nullptr), cachedTower(nullptr), towerMenu(nullptr), fabric(new TowerFabric()), upgradeGroup(nullptr)
@@ -65,6 +64,7 @@ void TowerUpgradeController::receiveTowerUpgrade(Tower *tower)
         menuItemGroup->setSize(Size(200, 100));
         string iconPath = "GameData/textures/Towers/UpgradeIcons/" + childrenName +".jpg";
 
+
         auto upgradeIcon = std::make_shared<UIImage>(renderer);
         upgradeIcon->loadTexture(iconPath);
         upgradeIcon->setSize(Size(iconWidth, iconWidth));
@@ -76,7 +76,8 @@ void TowerUpgradeController::receiveTowerUpgrade(Tower *tower)
 
         auto priceGroup = std::make_shared<ConcreteComposite>(renderer);
         priceGroup->setSize(Size(menuItemGroup->getSize().width, menuItemGroup->getSize().height/2));
-        priceGroup->setPosition(menuItemGroup->getNextVerticalPosition());
+        Position priceGroupPos = Position(upgradeName->getLocalPosition().x, menuItemGroup->getNextVerticalPosition().y);
+        priceGroup->setPosition(priceGroupPos);
 
         int* childPrice = childModel.getPrice();
         const size_t priceCount = ResourcesModel::resourceTypeCount;
@@ -96,6 +97,12 @@ void TowerUpgradeController::receiveTowerUpgrade(Tower *tower)
             upgradeName->setPosition(priceGroup->getNextPosition());
             priceGroup->addChild(upgradeName);
         }
+
+        auto buyButton = std::make_shared<UITextButton>("Купить", arial1Font, renderer);
+        buyButton->setPosition(priceGroup->getNextPosition());
+        buyButton->ConnectMethod(std::bind(&TowerUpgradeController::stub, this, std::placeholders::_1));
+        priceGroup->addChild(buyButton);
+
         menuItemGroup->addChild(priceGroup);
         towerMenu->addChild(menuItemGroup);
 

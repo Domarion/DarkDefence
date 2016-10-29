@@ -29,6 +29,7 @@ public:
     int getX() const;
     int getY() const;
     SDL_Point getPos() const;
+    Position getPosition() const;
     void setPos(SDL_Point aPos);
 
     virtual string getName() const;

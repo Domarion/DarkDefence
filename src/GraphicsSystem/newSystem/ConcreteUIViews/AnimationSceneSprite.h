@@ -16,6 +16,7 @@ public:
     // IComposite interface
 public:
     virtual void draw() const override;
+    void drawAtPosition(Position pos) const;
     virtual Size getSize() const override;
     virtual void setSize(Size size) override;
     void calculateFrameNumber();

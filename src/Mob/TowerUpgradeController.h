@@ -22,6 +22,7 @@ public:
 
 private:
 
+    void stub(std::string){}
     Scene* parentGameScene;
 
     Tower *cachedTower;

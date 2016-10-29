@@ -146,6 +146,11 @@ SDL_Point SceneObject::getPos() const
    return currentPos;
 }
 
+Position SceneObject::getPosition() const
+{
+    return Position(getX(), getY());
+}
+
 void SceneObject::setPos(SDL_Point aPos)
 {
     setPos(aPos.x, aPos.y);
