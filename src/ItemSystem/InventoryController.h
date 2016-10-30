@@ -20,14 +20,13 @@ public:
     explicit InventoryController(std::shared_ptr<RenderingSystem> &aRenderer);
 	virtual ~InventoryController();
     void setView(std::shared_ptr<UIScrollList> &newView);
-//    ScrollList* getView() const;
-	void setModel(Inventory* newModel);
-    Inventory* getModel() const;
+    void setModel(std::shared_ptr<Inventory> newModel);
+    std::shared_ptr<Inventory> getModel() const;
     void initView();
     void receiveItemFromModel(string caption, size_t itemType);
     bool sendItemToModel(int index);
 private:
-	Inventory* model;
+    std::shared_ptr<Inventory> model;
     std::shared_ptr<UIScrollList> view;
     std::shared_ptr<RenderingSystem> renderer;
 

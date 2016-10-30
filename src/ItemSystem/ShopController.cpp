@@ -26,12 +26,12 @@ void ShopController::setView(std::shared_ptr<UIScrollList> &newView)
 }
 
 
-void ShopController::setModel(ShopInventory* newModel)
+void ShopController::setModel(std::shared_ptr<ShopInventory> newModel)
 {
 	model = newModel;
 }
 
-ShopInventory*  ShopController::getModel() const
+std::shared_ptr<ShopInventory> ShopController::getModel() const
 {
 	return model;
 }

@@ -208,7 +208,7 @@ void DataGenerator::saveMonsterCollection()
 
 void DataGenerator::saveItems()
 {
-    Inventory fullInventory;
+    std::shared_ptr<Inventory> fullInventory = std::make_shared<Inventory>();
 
     const int firstItemPrice = 100;
     ItemModel firstItem("GulakiAmulet", "Some", Enums::ItemTypes::AMULET, firstItemPrice);
@@ -217,8 +217,8 @@ void DataGenerator::saveItems()
     ItemModel secondItem("ChoppersHat", "Some", Enums::ItemTypes::HELM, secondItemPrice);
 
 
-    fullInventory.addItem(firstItem);
-    fullInventory.addItem(secondItem);
+    fullInventory->addItem(firstItem);
+    fullInventory->addItem(secondItem);
 
     std::string filePath = "/home/kostya_hm/Items.xml";
     std::ofstream outputXMLFile(filePath);

@@ -27,4 +27,6 @@ namespace SDL2Engine
             SDL_Quit();
         }
     };
+
+
 }

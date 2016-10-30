@@ -41,7 +41,9 @@ GameModel::GameModel()
     , MonsterCountOnMap( 0 )
     , gameStatus(Enums::GameStatuses::gsINPROGRESS)
     , currentMissionIndex(0)
-    , heroFigure(9)
+    , shop(std::make_shared<ShopInventory>())
+    , heroFigure(std::make_shared<HeroInventory>(9))
+    , inventory(std::make_shared<Inventory>())
     , resourcesModelPtr(new ResourcesModel())
     , towerUpgradesRootNode()
     , missionReward()
@@ -210,7 +212,7 @@ void GameModel::addItemToInventoryByName(string name)
 
     loadShopItems("GameData/Items.xml");
 
-    shop.sendItemWithoutPriceCheck(name);
+    shop->sendItemWithoutPriceCheck(name);
 
 }
 
@@ -332,7 +334,7 @@ void GameModel::loadGameData(string filename)
 
 
             for(auto itemName : inventoryItemsNames)
-                shop.sendItemWithoutPriceCheck(itemName);
+                shop->sendItemWithoutPriceCheck(itemName);
 
 
 
@@ -341,8 +343,8 @@ void GameModel::loadGameData(string filename)
 
             for(auto itemName : heroItemsNames)
             {
-                shop.sendItemWithoutPriceCheck(itemName);
-                inventory.sendItemWithoutPriceCheck(itemName);
+                shop->sendItemWithoutPriceCheck(itemName);
+                inventory->sendItemWithoutPriceCheck(itemName);
             }
 
             SDL_RWclose(binaryDataFile);
@@ -494,27 +496,27 @@ bool GameModel::loadShopItems(string filename)
             xmlinp >> BOOST_SERIALIZATION_NVP(shop);
         }
 
-        shop.ConnectMethod(std::bind(&Inventory::receiveItem, &inventory, std::placeholders::_1));
-        inventory.ConnectMethod(std::bind(&HeroInventory::receiveItem, &heroFigure, std::placeholders::_1));
-        heroFigure.ConnectMethod(std::bind(&Inventory::receiveItem, &inventory, std::placeholders::_1));
+        shop->ConnectMethod(std::bind(&Inventory::receiveItem, inventory, std::placeholders::_1));
+        inventory->ConnectMethod(std::bind(&HeroInventory::receiveItem, heroFigure, std::placeholders::_1));
+        heroFigure->ConnectMethod(std::bind(&Inventory::receiveItem, inventory, std::placeholders::_1));
 
         shopItemsLoaded = true;
     }
     return (!shopItemsLoaded);
 }
 
-ShopInventory* GameModel::getShopInventory()
+std::shared_ptr<ShopInventory> GameModel::getShopInventory()
 {
-	return &shop;
+    return shop;
 }
 
-Inventory* GameModel::getInventory()
+std::shared_ptr<Inventory> GameModel::getInventory()
 {
-    return &inventory;
+    return inventory;
 }
 
-HeroInventory *GameModel::getHeroInventory()
+std::shared_ptr<HeroInventory> GameModel::getHeroInventory()
 {
-    return &heroFigure;
+    return heroFigure;
 
 }

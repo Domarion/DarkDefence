@@ -23,7 +23,7 @@ private:
     void initHeroView();
     void initInventoryView();
 
-    InventoryController* inventoryController;
-    HeroInventoryController* heroController;
+    std::unique_ptr<InventoryController> inventoryController;
+    std::unique_ptr<HeroInventoryController> heroController;
 };
 

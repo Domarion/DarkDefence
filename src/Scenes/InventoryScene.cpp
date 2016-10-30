@@ -35,9 +35,10 @@ void InventoryScene::init(std::shared_ptr<SceneManager> sceneManagerPtr)
 
 void InventoryScene::clear()
 {
-    delete inventoryController;
-    delete heroController;
     Scene::clear();
+    heroController.release();
+    inventoryController.release();
+
 }
 
 void InventoryScene::initControlButton()
@@ -51,7 +52,7 @@ void InventoryScene::initControlButton()
 
 void InventoryScene::initHeroView()
 {
-    heroController =  new HeroInventoryController();
+    heroController =  std::make_unique<HeroInventoryController>();
     heroController->setModel(GameModel::getInstance()->getHeroInventory());
     heroController->initLocalPositions(MainRect->getSize());
     heroController->initView(renderer);
@@ -63,22 +64,21 @@ void InventoryScene::initHeroView()
 
   Scene::addAsInputHandler(heroController->getView().get());
 
-    //Scene::addToUIList(heroFigure);
 }
 
 void InventoryScene::initInventoryView()
 {
-    if (GameModel::getInstance()->getInventory()->getItemCount() > 0)
-    {
+//   if (GameModel::getInstance()->getInventory()->getItemCount() > 0)
+//   {
         const int showItems = 5;
         auto scroll = std::make_shared<UIScrollList>(showItems, renderer);
 
-        inventoryController = new InventoryController(renderer);
+        inventoryController = std::make_unique<InventoryController>(renderer);
         inventoryController->setModel(GameModel::getInstance()->getInventory());
         inventoryController->setView(scroll);
         inventoryController->initView();
 
         MainRect->addChild(scroll);
-    }
+//    }
 }
 

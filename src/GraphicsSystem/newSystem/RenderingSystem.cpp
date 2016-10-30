@@ -45,7 +45,7 @@ RenderingSystem::RenderingSystem(const Size &aScreenSize)
 
     }
 
-    std::unique_ptr<SDL_Texture, void (*)(SDL_Texture *)> RenderingSystem::textToTexture(TTF_Font *aFont, const std::__cxx11::string &aText, Uint8 red, Uint8 green, Uint8 blue, Uint8 alpha)
+    std::unique_ptr<SDL_Texture, void (*)(SDL_Texture *)> RenderingSystem::textToTexture(TTF_Font *aFont, const std::string &aText, Uint8 red, Uint8 green, Uint8 blue, Uint8 alpha)
     {
         SDL_Color color = {red, green, blue, alpha};
         return textToTexture(aFont,aText, std::move(color));

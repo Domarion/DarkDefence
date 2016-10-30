@@ -15,13 +15,13 @@ public:
 	virtual ~HeroInventoryController();
     void setView(std::shared_ptr<UISlotContainer> newView);
     std::shared_ptr<UISlotContainer> getView() const;
-	void setModel(HeroInventory* newModel);
-    HeroInventory* getModel() const;
+    void setModel(std::shared_ptr<HeroInventory> newModel);
+    std::shared_ptr<HeroInventory> getModel() const;
     void initLocalPositions(Size aRectSize);
     void initView(std::shared_ptr<RenderingSystem> &aRenderer);
     void receiveItemFromModel(string caption, size_t itemType);
 private:
-	HeroInventory* model;
+    std::shared_ptr<HeroInventory> model;
     std::shared_ptr<UISlotContainer> view;
     std::vector<Position> slotsPositions;
 };

@@ -15,13 +15,13 @@
 int main( int /*argc*/, char** /*args*/)
 {
 
-  /* DataGenerator dataGenerator;
-    dataGenerator.saveTowerTree();
-  dataGenerator.saveItems();
-    dataGenerator.saveMission();
-    dataGenerator.saveMonsterCollection();
+//  DataGenerator dataGenerator;
+//    dataGenerator.saveTowerTree();
+//  dataGenerator.saveItems();
+//    dataGenerator.saveMission();
+//    dataGenerator.saveMonsterCollection();
 
-    dataGenerator.saveMineCollection();*/
+//    dataGenerator.saveMineCollection();
 
     auto SDL2_Library = std::make_unique<SDL2Engine::SDL2>(SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_EVENTS);
 

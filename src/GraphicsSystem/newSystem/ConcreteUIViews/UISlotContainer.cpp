@@ -4,8 +4,9 @@ UISlotContainer::UISlotContainer(std::string aEmptyImagePath,
                                  size_t aItemCount,
                                  Size aItemSize,
                                  std::shared_ptr<RenderingSystem> &aRenderer)
-    :mItems(aItemCount)
+    : mItems(aItemCount)
     , mRenderer(aRenderer)
+    , mConnectedMethod(nullptr)
 {
     for (auto& item : mItems)
     {
@@ -14,18 +15,18 @@ UISlotContainer::UISlotContainer(std::string aEmptyImagePath,
     }
 }
 
-void UISlotContainer::LoadItemAtIndex(std::string &aPath, int aIndex)
+void UISlotContainer::LoadItemAtIndex(std::string &aPath, size_t aIndex)
 {
     mItems[aIndex]->resetForeground();
     mItems[aIndex]->loadForeground(aPath);
 }
 
-void UISlotContainer::SetItemPos(Position aPos, int aIndex)
+void UISlotContainer::SetItemPos(Position aPos, size_t aIndex)
 {
     mItems[aIndex]->setPosition(aPos);
 }
 
-void UISlotContainer::FillItemAtIndex(std::shared_ptr<UISlot> &aItem, int aIndex)
+void UISlotContainer::FillItemAtIndex(std::shared_ptr<UISlot> &aItem, size_t aIndex)
 {
     mItems[aIndex] = aItem;
 }

@@ -20,13 +20,10 @@ HeroInventory::HeroInventory(int slots1)
 
     items[slots1 - 1].setItemType(static_cast<Enums::ItemTypes>(slots1 - 1));
     items[slots1 - 1].setDescription("none");
-	// TODO Auto-generated constructor stub
-
 }
 
 HeroInventory::~HeroInventory()
 {
-	// TODO Auto-generated destructor stub
 }
 
 bool HeroInventory::sendItem(size_t index)

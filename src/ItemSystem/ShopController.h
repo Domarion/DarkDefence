@@ -15,12 +15,12 @@ public:
     ShopController();
     virtual ~ShopController() = default;
     void setView(std::shared_ptr<UIScrollList> &newView);
-	void setModel(ShopInventory* newModel);
-    ShopInventory*  getModel() const;
+    void setModel(std::shared_ptr<ShopInventory> newModel);
+    std::shared_ptr<ShopInventory>  getModel() const;
     void initView(std::shared_ptr<RenderingSystem> &aRenderer);
     bool sendItemToModel(int index);
 
 private:
-	ShopInventory* model;
+    std::shared_ptr<ShopInventory> model;
     std::shared_ptr<UIScrollList> view;
 };

@@ -16,16 +16,10 @@
 InventoryController::InventoryController(std::shared_ptr<RenderingSystem>& aRenderer)
 : model(nullptr), view(nullptr), renderer(aRenderer), arial()
 {
-	// TODO Auto-generated constructor stub
-
 }
 
 InventoryController::~InventoryController()
 {
-
-   // for(size_t i = 0; i < buttons.size(); ++i)
-     //   delete buttons[i];
-	// TODO Auto-generated destructor stub
 }
 
 void InventoryController::setView(std::shared_ptr<UIScrollList>& newView)
@@ -33,17 +27,12 @@ void InventoryController::setView(std::shared_ptr<UIScrollList>& newView)
 	view = newView;
 }
 
-//ScrollList*  InventoryController::getView() const
-//{
-//	return view;
-//}
-
-void InventoryController::setModel(Inventory* newModel)
+void InventoryController::setModel(std::shared_ptr<Inventory> newModel)
 {
 	model = newModel;
 }
 
-Inventory*  InventoryController::getModel() const
+std::shared_ptr<Inventory> InventoryController::getModel() const
 {
 	return model;
 }
@@ -81,35 +70,15 @@ void InventoryController::initView()
         shopItemDescription->setPosition(descPos);
         shopItemGroup->addChild(shopItemDescription);
 
-
-       // ShopItemUI *btn =  new ShopItemUI();
-
-       // buttons.push_back(btn);
-//        string ipath = "GameData/textures/items/" +
-//                model->getItemFromIndex(i)->getCaption() + ".png";
-
-       //btn->init(arial,ipath,model->getItemFromIndex(i)->getCaption(), model->getItemFromIndex(i)->getDescription());
-
-
-//        view->setItemWidth(btn->getRect().w);
-//        view->setItemHeight(btn->getRect().h);
-        //TextButton* btn = new TextButton();
-
-
-        //std::cout << ( "GameData/textures/items/" + model->getItemFromIndex(i)->getCaption()  + ".png") << std::endl;
-
-        //if (btn->getTexture() == nullptr)
-            //std::cout << "index = " << i << " texture is nullptr" << std::endl;
-
         view->addChild(shopItemGroup);
 	}
+
     view->ConnectMethod(std::bind( &InventoryController::sendItemToModel, this, std::placeholders::_1) );
     model->ConnectReceiver(std::bind( &InventoryController::receiveItemFromModel, this, std::placeholders::_1, std::placeholders::_2) );
 }
 
 void InventoryController::receiveItemFromModel(string caption, size_t itemType)
 {
-
     if (caption.empty())
         return;
 

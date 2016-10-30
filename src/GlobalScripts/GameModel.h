@@ -45,9 +45,9 @@ public:
     void deserialize(Mission& obj, string filename);
     bool loadShopItems(string filename);
 
-	ShopInventory* getShopInventory();
-	Inventory* getInventory();
-    HeroInventory* getHeroInventory();
+    std::shared_ptr<ShopInventory> getShopInventory();
+    std::shared_ptr<Inventory> getInventory();
+    std::shared_ptr<HeroInventory> getHeroInventory();
 	TreeNode<MobModel> * getRootTower();
 
 
@@ -106,9 +106,9 @@ private:
 	int MonsterCountOnMap;
 	Enums::GameStatuses gameStatus;
     int currentMissionIndex;
-	ShopInventory shop;
-	HeroInventory heroFigure;
-	Inventory inventory;
+    std::shared_ptr<ShopInventory> shop;
+    std::shared_ptr<HeroInventory> heroFigure;
+    std::shared_ptr<Inventory> inventory;
 	ResourcesModel* resourcesModelPtr;
 	map<string, MobModel> monstersModelsMap;
     TreeNode<MobModel> towerUpgradesRootNode;

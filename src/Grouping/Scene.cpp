@@ -137,7 +137,7 @@ void Scene::clearUIList()
 {
     MainRect->clearChildren();
     listGUI.clear();
-
+    InputDispatcher::getInstance()->clearHandlers();
 }
 
 

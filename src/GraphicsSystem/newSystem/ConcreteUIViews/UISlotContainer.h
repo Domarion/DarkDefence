@@ -14,9 +14,9 @@ public:
         std::shared_ptr<RenderingSystem>& aRenderer);
     virtual ~UISlotContainer() = default;
 
-    void LoadItemAtIndex(std::string& aPath, int aIndex);
-    void SetItemPos(Position aPos, int aIndex);
-    void FillItemAtIndex(std::shared_ptr<UISlot>& aItem, int aIndex);
+    void LoadItemAtIndex(std::string& aPath, size_t aIndex);
+    void SetItemPos(Position aPos, size_t aIndex);
+    void FillItemAtIndex(std::shared_ptr<UISlot>& aItem, size_t aIndex);
     void CleanItemAtIndex(int aIndex);
     void ConnectMethod(std::function<bool(int)> method);
     virtual bool onClick(SDL_Point* point) override;
@@ -29,4 +29,3 @@ private:
 
 
 };
-//TODO:: продумать интерфейс и реализацию

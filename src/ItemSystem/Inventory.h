@@ -8,6 +8,7 @@
 #include "ItemModel.h"
 #include <boost/serialization/vector.hpp>
 #include <boost/serialization/export.hpp>
+#include <boost/serialization/shared_ptr.hpp>
 #include <vector>
 using std::vector;
 #include <functional>
@@ -46,4 +47,3 @@ protected:
 
 
 };
-

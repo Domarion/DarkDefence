@@ -8,10 +8,10 @@
 #include "HeroInventoryController.h"
 #include "../GraphicsSystem/UI/TextButton.h"
 HeroInventoryController::HeroInventoryController()
-:model(nullptr), view(nullptr)
+    : model(nullptr)
+    , view(nullptr)
+    , slotsPositions()
 {
-	// TODO Auto-generated constructor stub
-
 }
 
 HeroInventoryController::~HeroInventoryController()
@@ -29,12 +29,12 @@ std::shared_ptr<UISlotContainer> HeroInventoryController::getView() const
 	return view;
 }
 
-void HeroInventoryController::setModel(HeroInventory* newModel)
+void HeroInventoryController::setModel(std::shared_ptr<HeroInventory> newModel)
 {
 	model = newModel;
 }
 
-HeroInventory*  HeroInventoryController::getModel() const
+std::shared_ptr<HeroInventory> HeroInventoryController::getModel() const
 {
     return model;
 }
@@ -109,18 +109,10 @@ void HeroInventoryController::initView(std::shared_ptr<RenderingSystem> &aRender
 
 void HeroInventoryController::receiveItemFromModel(string caption, size_t itemType)
 {
-
     if (caption.empty())
         return;
 
-//    TextButton* btn = new TextButton();
-
-//    std::cout << ( "GameData/textures/items/" + caption  + ".png") << std::endl;
-//    btn->loadTexture("GameData/textures/items/" +
-//                                                                  caption + ".png");
-    std::string imgPath = "GameData/textures/items/" +
-            caption + ".png";
+    std::string imgPath = "GameData/textures/items/" + caption + ".png";
     view->LoadItemAtIndex(imgPath, itemType);
-
 
 }
