@@ -26,7 +26,7 @@ class MobModel;
 class Mob: public SceneObject, public std::enable_shared_from_this<Mob>
 {
 public:
-    Mob(MobModel* model, TileMapManager* aTileMapPtr = nullptr);
+    Mob(std::shared_ptr<MobModel> model, std::shared_ptr<TileMapManager> aTileMapPtr = nullptr);
     virtual ~Mob();
 
     virtual void init(int x, int y) override;
@@ -38,19 +38,19 @@ public:
 
     virtual string getTag() const;
     virtual void setTag(const string &value);
-    virtual DestructibleObject* getDestructibleObject() override;
-    virtual EffectReceiver* getEffectReceiver() const override;
-    virtual MobModel* getModel() const;
+    virtual std::shared_ptr<DestructibleObject> getDestructibleObject() const override;
+    virtual std::shared_ptr<EffectReceiver> getEffectReceiver() const override;
+    virtual std::shared_ptr<MobModel> getModel() const;
 
-    TileMapManager* getTileMapManager() const;
-    void setTileMapManager(TileMapManager* aTileMapPtr);
+    std::shared_ptr<TileMapManager> getTileMapManager() const;
+    void setTileMapManager(std::shared_ptr<TileMapManager> aTileMapPtr);
 protected:
 
-    MobModel* mobModel;
+    std::shared_ptr<MobModel> mobModel;
 
 
-    MobEffectReceiver* mobEffectReceiver;
-    TileMapManager* tileMapPtr;
+    std::shared_ptr<MobEffectReceiver>  mobEffectReceiver;
+    std::shared_ptr<TileMapManager> tileMapPtr;
     std::unique_ptr<AIComponent> mobAI;
 
 };

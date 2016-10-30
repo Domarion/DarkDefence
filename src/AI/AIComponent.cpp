@@ -161,7 +161,7 @@ void AIComponent::MovetoTile(double timestep)
 
     }
 
-    TileMapManager* tilemapPtr = MobPtr.lock()->getTileMapManager();
+    auto tilemapPtr = MobPtr.lock()->getTileMapManager();
 
     if (tilemapPtr == nullptr)
     {
@@ -189,10 +189,8 @@ void AIComponent::MovetoTile(double timestep)
 
         if (canBuildPath)
         {
-            list<pair<int, int> > *path = tilemapPtr->getPath(targetPos);
+            auto path = tilemapPtr->getPath(targetPos);
             nextCell = path->back();
-
-            delete path;
         }
         else
         {

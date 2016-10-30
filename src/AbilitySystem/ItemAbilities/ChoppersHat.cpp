@@ -11,7 +11,7 @@ ChoppersHat::~ChoppersHat()
 
 }
 
-void ChoppersHat::init(std::shared_ptr<Scene> scenePtr)
+void ChoppersHat::init(std::shared_ptr<Scene> scenePtr, std::shared_ptr<ManaGlobal> aManaModel)
 {
    // resType = Enums::ResourceTypes::WOOD;
     amount = 2;

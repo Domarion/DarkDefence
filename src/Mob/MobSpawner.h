@@ -6,20 +6,20 @@
  */
 
 #pragma once
-//#include "../Grouping/SceneObjectFabric.h"
+
 #include "Mob.h"
 #include <utility>
 #include <vector>
 #include "../GlobalScripts/TileMapManager.h"
-class Mob;
-class MobSpawner//: SceneObjectFabric
+
+class MobSpawner
 {
 public:
     MobSpawner(std::shared_ptr<RenderingSystem>& aRenderingContext);
 	virtual ~MobSpawner();
     void loadWavesInfo(string filename);
 	bool canSpawn(double timestep);
-    std::unique_ptr<list<std::shared_ptr<Mob> > > doSpawn(TileMapManager* aTileMap = nullptr);
+    std::unique_ptr<list<std::shared_ptr<Mob> > > doSpawn(std::shared_ptr<TileMapManager> aTileMap = nullptr);
     bool noMoreWaves() const;
     double getCurrentTime() const;
 

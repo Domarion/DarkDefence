@@ -44,21 +44,26 @@ bool ResourcePlace::onClick(SDL_Point *point)
     {
 
            //std::cout << "resType =" << resourceType << std::endl;
-         MineModel* tempMineModel = GameModel::getInstance()->getMineModelByRes(resourceType);
+        std::unique_ptr<MineModel> tempMineModel = GameModel::getInstance()->getMineModelByRes(resourceType);
         tempMineModel->setLimit(this->limit);
         auto tempMine = std::make_shared<Mine>();
-        tempMine->setMineModel(tempMineModel);
+
+        std::string mineName = tempMineModel->getName();
+
+
+
+        tempMine->setMineModel(std::move(tempMineModel));
 
 
         auto sprt = std::make_shared<AnimationSceneSprite>(parentScenePtr.lock()->getRenderer());
         sprt->setSize(Size( 90, 120));
-        string s1 = "GameData/textures/Buildings/" +tempMineModel->getName() + ".png";
-        std::cout << s1 << std::endl;
-        sprt->loadTexture(s1);
+
+        string path = "GameData/textures/Buildings/" + mineName + ".png";
+        sprt->loadTexture(path);
 
 
 
-        tempMine->setName(tempMineModel->getName());
+        tempMine->setName(mineName);
         tempMine->setTag("Mine");
         tempMine->setSprite(sprt);
          std::cout << "x = " << (this->getX()) << " y = " << (this->getY()) << std::endl;

@@ -1,7 +1,8 @@
 #include "MobAbility.h"
 
-MobAbility::MobAbility()
-    :target(nullptr)
+MobAbility::MobAbility(std::shared_ptr<ManaGlobal> aManaModel)
+    : AbilityModel(aManaModel)
+    , target(nullptr)
 {
 
 }

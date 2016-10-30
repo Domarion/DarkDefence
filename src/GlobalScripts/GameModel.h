@@ -20,9 +20,8 @@ using std::map;
 using std::vector;
 
 #include "ManaGlobal.h"
-//#include "../AbilitySystem/ItemAbilities/ItemAbility.h"
 #include "../AbilitySystem/MobAbilities/MobAbility.h"
-//class ItemAbility;
+
 class MobAbility;
 
 class GameModel//TODO: разделение на мелкие классы
@@ -32,8 +31,8 @@ public:
 
     static GameModel* getInstance();
     ResourcesModel* getResourcesModel();
-    MobModel* getMonsterByName(string name);
-    MobModel* getTowerByName(string name);
+    std::unique_ptr<MobModel> getMonsterByName(string name);
+    std::unique_ptr<MobModel> getTowerByName(string name);
 
 	void loadMonsterList(string filename);
     void loadMonsterPointsList(string filename);
@@ -66,8 +65,8 @@ public:
     int getMonsterCount() const;
 
 
-    MineModel *getMineModel(string name);
-    MineModel *getMineModelByRes(Enums::ResourceTypes resType);
+    std::unique_ptr<MineModel> getMineModel(string name);
+    std::unique_ptr<MineModel> getMineModelByRes(Enums::ResourceTypes resType);
 
 
     MineModel *getMineModelFromList(string name);
@@ -87,7 +86,6 @@ public:
     int getPointsPerWave() const;
 
     void resetGameValues();
-    ManaGlobal* getManaModel();
     double getPointsRefundModifier() const;
     void setPointsRefundModifier(double value);
 
@@ -100,6 +98,7 @@ public:
 private:
     GameModel();
     ~GameModel();
+    static GameModel* instance_;
 
     int waveNumber, waveCount;
     int pointsPerWave, pointsPerMap;
@@ -116,15 +115,12 @@ private:
     Reward missionReward;
     vector<string> abilitiesNames;
     map<string, int> monsterPointsMap;
-	static GameModel* instance_;
     map<string, MineModel> minesModelsMap;
 
     vector<string> mineResMapping;
 
-    ManaGlobal manaModel;
 
 
-    map<string, MobAbility*> mobAbilitiesMap;
     bool shopItemsLoaded;
     bool gameDataLoaded;
 };

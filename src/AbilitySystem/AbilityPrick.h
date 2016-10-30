@@ -5,7 +5,7 @@
 class AbilityPrick: public AbilityModel, public InputHandler
 {
 public:
-    AbilityPrick();
+    AbilityPrick(std::shared_ptr<ManaGlobal> aManaModel);
     virtual ~AbilityPrick();
     // AbilityModel interface
 public:

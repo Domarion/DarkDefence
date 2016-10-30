@@ -12,7 +12,7 @@ RockSpike::~RockSpike()
 
 }
 
-void RockSpike::init(std::shared_ptr<Scene> scenePtr)
+void RockSpike::init(std::shared_ptr<Scene> scenePtr, std::shared_ptr<ManaGlobal> aManaModel)
 {
     amount = 3;
     currentTime = period = 3000;

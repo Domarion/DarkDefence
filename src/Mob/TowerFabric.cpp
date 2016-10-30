@@ -6,12 +6,12 @@ std::shared_ptr<Tower> TowerFabric::produceTower(
         std::string towerName,
         std::shared_ptr<RenderingSystem>& aRenderingContext,
         std::shared_ptr<TowerUpgradeController> upgrader,
-        TileMapManager* aTileMap)
+        std::shared_ptr<TileMapManager> aTileMap)
 {
-    MobModel* model = GameModel::getInstance()->getTowerByName(towerName);
+    auto model = GameModel::getInstance()->getTowerByName(towerName);
     if (model == nullptr)
         return nullptr;
-    auto someMob = std::make_shared<Tower>(model, aTileMap);
+    auto someMob = std::make_shared<Tower>(std::move(model), aTileMap);
     auto someSprite = std::make_shared<AnimationSceneSprite>(aRenderingContext);
 
 

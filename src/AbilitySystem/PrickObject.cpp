@@ -48,7 +48,7 @@ void PrickObject::init(int x, int y)
 
         for(auto affectedMob = affectedMobs.begin(); affectedMob != affectedMobs.end(); ++affectedMob)
         {
-           DestructibleObject* temp = (*affectedMob)->getDestructibleObject();
+           auto temp = (*affectedMob)->getDestructibleObject();
            if (temp != nullptr)
            {
                std::cout << "Damage to" << temp->getName() << std::endl;

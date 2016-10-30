@@ -15,23 +15,23 @@ SpellStorage::~SpellStorage()
     free();
 }
 
-void SpellStorage::loadWithScene(std::shared_ptr<Scene> scenePtr)
+void SpellStorage::loadWithScene(std::shared_ptr<Scene> scenePtr, std::shared_ptr<ManaGlobal> aManaModel)
 {
-    auto magicStones = std::make_unique<AbilityMagicStones>();
+    auto magicStones = std::make_unique<AbilityMagicStones>(aManaModel);
     magicStones->init(scenePtr);
     magicStones->setManaCost(100);
     magicStones->setCooldownTime(10000);
     magicStones->setWorkTime(10000);
 
 
-    auto snowStorm = std::make_unique<AbilitySnowStorm>();
+    auto snowStorm = std::make_unique<AbilitySnowStorm>(aManaModel);
     snowStorm->init(scenePtr);
     snowStorm->setManaCost(100);
     snowStorm->setCooldownTime(10000);
     snowStorm->setWorkTime(10000);
     snowStorm->setDamagePerSecond(30);
 
-    auto shrink = std::make_unique<AbilityShrink>();
+    auto shrink = std::make_unique<AbilityShrink>(aManaModel);
 
     shrink->init(scenePtr);
     shrink->setManaCost(100);
@@ -39,14 +39,14 @@ void SpellStorage::loadWithScene(std::shared_ptr<Scene> scenePtr)
     shrink->setWorkTime(11000);
     shrink->setDamagePerSecond(0.2);
 
-    auto prick = std::make_unique<AbilityPrick>();
+    auto prick = std::make_unique<AbilityPrick>(aManaModel);
     prick->init(scenePtr);
     prick->setManaCost(100);
     prick->setCooldownTime(10000);
     prick->setWorkTime(0);
     prick->setDamage(120);
 
-    auto quake = std::make_unique<AbilityEarthquake>();
+    auto quake = std::make_unique<AbilityEarthquake>(aManaModel);
     quake->init(scenePtr);
     quake->setManaCost(50);
     quake->setCooldownTime(10000);

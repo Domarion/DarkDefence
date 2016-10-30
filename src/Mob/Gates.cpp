@@ -8,37 +8,31 @@
 #include "Gates.h"
 
 Gates::Gates()
-:SceneObject(),model(new DestructibleObject()), effectReceiver(new DestructibleObjectEffectReceiver())
+: SceneObject()
+, model(std::make_shared<DestructibleObject>())
+, effectReceiver(std::make_shared<DestructibleObjectEffectReceiver>())
 {
-	// TODO Auto-generated constructor stub
     effectReceiver->init(model);
 }
 
-Gates::~Gates()
-{
-    delete effectReceiver;
-	delete model;
-	// TODO Auto-generated destructor stub
-}
-
-DestructibleObject* Gates::getModel()
+std::shared_ptr<DestructibleObject> Gates::getModel()
 {
 	return model;
 }
 
-void Gates::setModel(DestructibleObject* newModel)
+void Gates::setModel(std::shared_ptr<DestructibleObject> newModel)
 {
     model = newModel;
     effectReceiver->init(model);
 
 }
 
-EffectReceiver* Gates::getEffectReceiver() const
+std::shared_ptr<EffectReceiver> Gates::getEffectReceiver() const
 {
     return effectReceiver;
 }
 
-DestructibleObject* Gates::getDestructibleObject()
+std::shared_ptr<DestructibleObject> Gates::getDestructibleObject() const
 {
     return model;
 }
@@ -48,8 +42,6 @@ bool Gates::update(double timestep)
     SceneObject::update(timestep);
     if (!model->IsAlive())
     {
-      // if (parentScenePtr != nullptr)
-        //parentScenePtr->destroyObject(this);
        return false;
     }
     return true;

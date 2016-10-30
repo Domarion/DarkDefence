@@ -32,21 +32,20 @@ GameScene::GameScene(std::shared_ptr<RenderingSystem> &aRenderer)
 , itemAbilitiesStorage()
 , towerUpgradeController(std::make_shared<TowerUpgradeController>())
 , tileMap(nullptr)
+, mManaModel(nullptr)
+
 {
     srand (time(NULL));
 }
 
 GameScene::~GameScene()
 {
-
-    delete tileMap;
 }
 
 void GameScene::init(std::shared_ptr<SceneManager> sceneManagerPtr)
 {
     Scene::init(sceneManagerPtr);
     loadData();
-
     initUILayer();
     placeSceneObjects();
     applyArtefactEffects();
@@ -124,10 +123,13 @@ void GameScene::startUpdate(double timestep)
     if (pointsLabel != nullptr)
         pointsLabel->setText(std::to_string(GameModel::getInstance()->getPointsPerWave()));
 
-    GameModel::getInstance()->getManaModel()->regenerate(timestep);
+    if (mManaModel != nullptr)
+    {
+        mManaModel->regenerate(timestep);
 
-    if (manaBar != nullptr)
-        manaBar->calculateProgress(GameModel::getInstance()->getManaModel()->getCurrent(),GameModel::getInstance()->getManaModel()->getLimit());
+        if (manaBar != nullptr)
+            manaBar->calculateProgress(mManaModel->getCurrent(), mManaModel->getLimit());
+    }
 
 
     if (gates != nullptr && gates->getDestructibleObject()->getCurrentHealth() <= 0)
@@ -193,7 +195,7 @@ void GameScene::loadData()
 
     string tileMapMatrixPath = "GameData/Missions/" + std::to_string(curIndex) + "/map.txt";
     vector<vector<int> > aMapTemplate = androidText::loadMatrixFromFile(tileMapMatrixPath);
-    tileMap = new TileMapManager(aMapTemplate);
+    tileMap = std::make_shared<TileMapManager>(aMapTemplate);
 }
 
 void GameScene::initResourceView()
@@ -283,11 +285,13 @@ void GameScene::initTopPanel()
 void GameScene::initAbilitiesButtons()
 {
 
+    mManaModel = std::make_shared<ManaGlobal>();
+
     Position abilityButtonPos(0, MainRect->getSize().height - 48);
     Size abilityButtonSize(48, 48);
 
 
-    spellStorage.loadWithScene(shared_from_this());
+    spellStorage.loadWithScene(shared_from_this(), mManaModel);
 
     auto abilityButtonsGroup = std::make_shared<ConcreteComposite>(renderer);
     abilityButtonsGroup->setSize(Size(MainRect->getSize().width/3, abilityButtonSize.height));
@@ -413,9 +417,9 @@ void GameScene::applyArtefactEffects()
     itemAbilitiesStorage.loadItemAbilities();
     for(auto itemNamePtr = itemNames.begin(); itemNamePtr != itemNames.end(); ++itemNamePtr)
     {
-        ItemAbility* temp = itemAbilitiesStorage.getItemAbilityByName(*itemNamePtr);
+        auto temp = itemAbilitiesStorage.getItemAbilityByName(*itemNamePtr);
         if (temp != nullptr)
-            temp->init(shared_from_this());
+            temp->init(shared_from_this(), mManaModel);
     }
 
       std::cout << "productionOfMine AfterItemApplyis = " << (GameModel::getInstance()->getMineModelFromListByRes(Enums::ResourceTypes::WOOD)->getProduction()) << std::endl;
@@ -432,6 +436,7 @@ void GameScene::clear()
     gates = nullptr;
     currentMission.reset();
     monsterSpawner.reset();
+    mManaModel = nullptr;
     Scene::clear();
 }
 

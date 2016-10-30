@@ -10,7 +10,7 @@ GoldPick::~GoldPick()
 
 }
 
-void GoldPick::init(std::shared_ptr<Scene> scenePtr)
+void GoldPick::init(std::shared_ptr<Scene> scenePtr, std::shared_ptr<ManaGlobal> aManaModel)
 {
     amount = 3;
     currentTime = period = 3000;

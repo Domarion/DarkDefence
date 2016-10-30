@@ -13,12 +13,12 @@ public:
 
     virtual bool update(double timestep);
     virtual void finalize();
-    virtual DestructibleObject *getDestructibleObject();
-    virtual EffectReceiver *getEffectReceiver() const;
-    MineModel* getMineModel();
-    void setMineModel(MineModel * newModel);
+    virtual std::shared_ptr<DestructibleObject> getDestructibleObject() const override;
+    virtual std::shared_ptr<EffectReceiver> getEffectReceiver() const override;
+    std::shared_ptr<MineModel> getMineModel();
+    void setMineModel(std::shared_ptr<MineModel> newModel);
 private:
-    MineModel* model;
-    DestructibleObjectEffectReceiver* mineEffectReceiver;
+    std::shared_ptr<MineModel> model;
+    std::shared_ptr<DestructibleObjectEffectReceiver> mineEffectReceiver;
 };
 

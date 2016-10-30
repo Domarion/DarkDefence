@@ -6,11 +6,11 @@ using std::map;
 class ItemAbilitiesStorage
 {
 public:
-    ItemAbilitiesStorage();
-    ~ItemAbilitiesStorage();
+    ItemAbilitiesStorage() = default;
+    ~ItemAbilitiesStorage() = default;
     void loadItemAbilities();
-    ItemAbility* getItemAbilityByName(string name);
+    std::shared_ptr<ItemAbility> getItemAbilityByName(string name);
 private:
-    map<string, ItemAbility*> itemAbilitiesMap;
+    map<string, std::shared_ptr<ItemAbility>> itemAbilitiesMap;
 };
 

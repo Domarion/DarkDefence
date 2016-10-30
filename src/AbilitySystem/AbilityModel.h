@@ -4,11 +4,12 @@
 using std::string;
 #include "../Grouping/Scene.h"
 #include <memory>
+#include "../GlobalScripts/ManaGlobal.h"
 
 class AbilityModel
 {
 public:
-    AbilityModel();
+    AbilityModel(std::shared_ptr<ManaGlobal> aManaModel);
     virtual ~AbilityModel();
     virtual void init(std::shared_ptr<Scene> scenePtr);
     virtual bool onReady(double timestep);
@@ -37,5 +38,6 @@ protected:
     double cooldownTime;
     double currentCooldownTime;
     std::shared_ptr<Scene> parentScenePtr;
+    std::shared_ptr<ManaGlobal> mManaModel;
 };
 

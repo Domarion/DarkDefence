@@ -8,9 +8,9 @@ class Tower: public Mob, public InputHandler
 
 public:
     void connectMethod(std::function<void(std::shared_ptr<Tower>, int, int)> method);
-    Tower(MobModel* model, TileMapManager* aTileMapPtr = nullptr);
+    Tower(std::shared_ptr<MobModel> model, std::shared_ptr<TileMapManager> aTileMapPtr = nullptr);
 
-    virtual ~Tower();
+    virtual ~Tower() = default;
 
 
 

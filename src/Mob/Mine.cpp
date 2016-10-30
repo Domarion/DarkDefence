@@ -2,7 +2,8 @@
 #include "ResourcePlace.h"
 
 Mine::Mine()
-    :model(nullptr),mineEffectReceiver(new DestructibleObjectEffectReceiver())
+    : model(nullptr)
+    , mineEffectReceiver(std::make_shared<DestructibleObjectEffectReceiver>())
 {
 
 }
@@ -45,26 +46,24 @@ bool Mine::update(double timestep)
 
 void Mine::finalize()
 {
-    delete model;
-    delete mineEffectReceiver;
 }
 
-DestructibleObject *Mine::getDestructibleObject()
+std::shared_ptr<DestructibleObject> Mine::getDestructibleObject() const
 {
     return model;
 }
 
-EffectReceiver *Mine::getEffectReceiver() const
+std::shared_ptr<EffectReceiver> Mine::getEffectReceiver() const
 {
     return mineEffectReceiver;
 }
 
-MineModel *  Mine::getMineModel()
+std::shared_ptr<MineModel>  Mine::getMineModel()
 {
     return model;
 }
 
-void Mine::setMineModel(MineModel *  newModel)
+void Mine::setMineModel(std::shared_ptr<MineModel>  newModel)
 {
    model = newModel;
 }

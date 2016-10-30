@@ -11,15 +11,13 @@ BurningStick::~BurningStick()
 }
 
 
-void BurningStick::init(std::shared_ptr<Scene> scenePtr)
+void BurningStick::init(std::shared_ptr<Scene> scenePtr, std::shared_ptr<ManaGlobal> aManaModel)
 {
     amount = 2;
     currentTime = period = 3000;
 
-    ManaGlobal* manaModelPtr = GameModel::getInstance()->getManaModel();
-
-    int newRegenValue = manaModelPtr->getRegenValue() + 5;
-    manaModelPtr->setRegenValue(newRegenValue);
+    int newRegenValue = aManaModel->getRegenValue() + 5;
+    aManaModel->setRegenValue(newRegenValue);
 
 }
 

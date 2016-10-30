@@ -11,11 +11,11 @@ SteelShield::~SteelShield()
 
 }
 
-void SteelShield::init(std::shared_ptr<Scene> scenePtr)
+void SteelShield::init(std::shared_ptr<Scene> scenePtr, std::shared_ptr<ManaGlobal> aManaModel)
 {
-    ManaGlobal* manamodel = GameModel::getInstance()->getManaModel();
-    int regen = manamodel->getRegenValue() - 1;
-    manamodel->setRegenValue(regen);
+
+    int regen = aManaModel->getRegenValue() - 1;
+    aManaModel->setRegenValue(regen);
 
     auto gameScenePtr = std::dynamic_pointer_cast<GameScene>(scenePtr);
     if (gameScenePtr == nullptr)

@@ -23,13 +23,8 @@ bool Tower::onClick(SDL_Point *point)
     return false;
 }
 
-Tower::Tower(MobModel *model, TileMapManager *aTileMapPtr)
+Tower::Tower(std::shared_ptr<MobModel> model, std::shared_ptr<TileMapManager> aTileMapPtr)
     :Mob(model, aTileMapPtr)
-{
-
-}
-
-Tower::~Tower()
 {
 
 }

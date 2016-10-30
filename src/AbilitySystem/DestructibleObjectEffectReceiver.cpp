@@ -2,17 +2,12 @@
 #include <iostream>
 
 DestructibleObjectEffectReceiver::DestructibleObjectEffectReceiver()
-    :doModelPtr(nullptr)
+    : doModelPtr(nullptr)
 {
 
 }
 
-DestructibleObjectEffectReceiver::~DestructibleObjectEffectReceiver()
-{
-
-}
-
-void DestructibleObjectEffectReceiver::init(DestructibleObject * const modelPtr)
+void DestructibleObjectEffectReceiver::init(std::shared_ptr<DestructibleObject> modelPtr)
 {
     doModelPtr = modelPtr;
 }

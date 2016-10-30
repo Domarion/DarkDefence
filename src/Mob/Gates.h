@@ -16,15 +16,15 @@ class Gates: public SceneObject
 {
 public:
 	Gates();
-	virtual ~Gates();
-    DestructibleObject* getModel();
-    virtual DestructibleObject* getDestructibleObject() override;
+    virtual ~Gates() = default;
+    std::shared_ptr<DestructibleObject> getModel();
+    virtual std::shared_ptr<DestructibleObject> getDestructibleObject() const override;
+    virtual std::shared_ptr<EffectReceiver> getEffectReceiver() const override;
     virtual bool update(double timestep) override;
-	void setModel(DestructibleObject* newModel);
-    EffectReceiver* getEffectReceiver() const;
+    void setModel(std::shared_ptr<DestructibleObject> newModel);
 private:
-	DestructibleObject* model;
-    DestructibleObjectEffectReceiver* effectReceiver;
+    std::shared_ptr<DestructibleObject> model;
+    std::shared_ptr<DestructibleObjectEffectReceiver> effectReceiver;
 
 };
 

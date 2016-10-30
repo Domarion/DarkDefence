@@ -1,13 +1,10 @@
 #include "AbilityEarthquake.h"
 #include "../GlobalScripts/GameModel.h"
 
-AbilityEarthquake::AbilityEarthquake()
- :damagePerSecond(0), affectedMobs( nullptr )
-{
-
-}
-
-AbilityEarthquake::~AbilityEarthquake()
+AbilityEarthquake::AbilityEarthquake(std::shared_ptr<ManaGlobal> aManaModel)
+ : AbilityModel(aManaModel)
+ , damagePerSecond(0)
+ , affectedMobs(nullptr)
 {
 
 }

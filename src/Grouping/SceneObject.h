@@ -39,8 +39,8 @@ public:
     virtual void setTag(const string &value);
     virtual void setParentScene(std::shared_ptr<Scene> scene);
     virtual std::shared_ptr<Scene> getParentScene();
-    virtual DestructibleObject* getDestructibleObject();
-    virtual EffectReceiver* getEffectReceiver() const;
+    virtual std::shared_ptr<DestructibleObject> getDestructibleObject() const;
+    virtual std::shared_ptr<EffectReceiver> getEffectReceiver() const;
 
     int computeDistanceSqr(int x0, int y0, int x1, int y1);
     int computeDistanceSqr(std::shared_ptr<SceneObject> second);

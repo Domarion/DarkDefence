@@ -55,12 +55,12 @@ std::shared_ptr<Scene> SceneObject::getParentScene()
     return parentScenePtr.lock();
 }
 
-DestructibleObject *SceneObject::getDestructibleObject()
+std::shared_ptr<DestructibleObject> SceneObject::getDestructibleObject() const
 {
     return nullptr;
 }
 
-EffectReceiver *SceneObject::getEffectReceiver() const
+std::shared_ptr<EffectReceiver>  SceneObject::getEffectReceiver() const
 {
     return nullptr;
 }

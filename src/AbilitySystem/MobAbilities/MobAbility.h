@@ -7,7 +7,7 @@ using Enums::AIMobStates;
 class MobAbility: public AbilityModel
 {
 public:
-    MobAbility();
+    MobAbility(std::shared_ptr<ManaGlobal> aManaModel = nullptr);
     virtual ~MobAbility();
 
 

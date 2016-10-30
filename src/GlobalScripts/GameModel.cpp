@@ -32,18 +32,36 @@ using std::stringstream;
 
 GameModel* GameModel::instance_ = nullptr;
 
-MobModel* GameModel::getMonsterByName(string name)
+GameModel::GameModel()
+    : waveNumber(0)
+    , waveCount(0)
+    , pointsPerWave(0)
+    , pointsPerMap(0)
+    , pointsRefundModifier(1)
+    , MonsterCountOnMap( 0 )
+    , gameStatus(Enums::GameStatuses::gsINPROGRESS)
+    , currentMissionIndex(0)
+    , heroFigure(9)
+    , resourcesModelPtr(new ResourcesModel())
+    , towerUpgradesRootNode()
+    , missionReward()
+    , shopItemsLoaded(false)
+    , gameDataLoaded(false)
 {
-    return new MobModel(monstersModelsMap[name]);
 }
 
-MobModel* GameModel::getTowerByName(string name)
+std::unique_ptr<MobModel> GameModel::getMonsterByName(string name)
+{
+    return std::make_unique<MobModel>(monstersModelsMap[name]);
+}
+
+std::unique_ptr<MobModel> GameModel::getTowerByName(string name)
 {
 
     TreeNode<MobModel>* temp = towerUpgradesRootNode.recursiveSearch(name);
     if (temp == nullptr)
         return nullptr;
-    return new MobModel(temp->getData());
+    return std::make_unique<MobModel>(temp->getData());
 }
 
 void GameModel::loadMonsterList(string filename)
@@ -400,12 +418,6 @@ void GameModel::resetGameValues()
     waveNumber = waveCount = 0;
 }
 
-ManaGlobal *GameModel::getManaModel()
-{
-    return &manaModel;
-
-}
-
 void GameModel::setGameStatus(const Enums::GameStatuses &value)
 {
     gameStatus = value;
@@ -419,17 +431,14 @@ int GameModel::getMonsterCount() const
     return MonsterCountOnMap;
 }
 
-MineModel *GameModel::getMineModel(string name)
+std::unique_ptr<MineModel> GameModel::getMineModel(string name)
 {
-    return new MineModel(minesModelsMap.at(name));
+    return std::make_unique<MineModel>(minesModelsMap.at(name));
 }
 
-MineModel *GameModel::getMineModelByRes(Enums::ResourceTypes resType)
+std::unique_ptr<MineModel> GameModel::getMineModelByRes(Enums::ResourceTypes resType)
 {
-
-    //std::cout << "Minename=" << mineResMapping[resType] << std::endl;
     return getMineModel(mineResMapping[static_cast<int>(resType)]);
-    // return nullptr;
 }
 
 MineModel *GameModel::getMineModelFromList(string name)
@@ -466,14 +475,7 @@ ResourcesModel* GameModel::getResourcesModel()
 }
 
 
-GameModel::GameModel()
-:waveNumber(0), waveCount(0), pointsPerWave(0), pointsPerMap(0),
- pointsRefundModifier(1), MonsterCountOnMap( 0 ), gameStatus(Enums::GameStatuses::gsINPROGRESS), currentMissionIndex(0), heroFigure(9),
- resourcesModelPtr(new ResourcesModel()), towerUpgradesRootNode(), missionReward(),
-  shopItemsLoaded(false), gameDataLoaded(false)
-{
 
-}
 
 bool GameModel::loadShopItems(string filename)
 {

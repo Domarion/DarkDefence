@@ -1,7 +1,10 @@
 #include "AbilityShrink.h"
 #include "../GlobalScripts/GameModel.h"
-AbilityShrink::AbilityShrink()
-    :damagePerSecond(0.0), affectedMobs( nullptr )
+
+AbilityShrink::AbilityShrink(std::shared_ptr<ManaGlobal> aManaModel)
+    : AbilityModel(aManaModel)
+    , damagePerSecond(0.0)
+    , affectedMobs( nullptr )
 {
 
 }
@@ -32,7 +35,6 @@ bool AbilityShrink::onReady(double timestep)
     if (affectedMobs != nullptr)
     {
         abilityState = Enums::AbilityStates::asWorking;
-        std::cout << "worked" << std::endl;
     }
     else
         abilityState = Enums::AbilityStates::asNotAvaliable;

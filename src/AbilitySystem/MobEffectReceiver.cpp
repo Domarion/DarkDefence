@@ -6,12 +6,8 @@ MobEffectReceiver::MobEffectReceiver()
 
 }
 
-MobEffectReceiver::~MobEffectReceiver()
-{
 
-}
-
-void MobEffectReceiver::init(MobModel * const modelPtr)
+void MobEffectReceiver::init(std::shared_ptr<MobModel> modelPtr)
 {
     mobModelPtr = modelPtr;
 }

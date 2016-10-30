@@ -83,10 +83,9 @@ bool MobSpawner::canSpawn(double timestep)
 
 
 
-std::unique_ptr<list<std::shared_ptr<Mob>>> MobSpawner::doSpawn(TileMapManager* aTileMap)
+std::unique_ptr<list<std::shared_ptr<Mob>>> MobSpawner::doSpawn(std::shared_ptr<TileMapManager> aTileMap)
 {
     auto some = std::make_unique<std::list<shared_ptr<Mob>>>();
-
     int n = wavesInfo[waveNumber - 1].size();
     std::cout << n << std::endl;
     if (aTileMap == nullptr)

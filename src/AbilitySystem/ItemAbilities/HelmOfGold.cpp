@@ -10,15 +10,13 @@ HelmOfGold::~HelmOfGold()
 
 }
 
-void HelmOfGold::init(std::shared_ptr<Scene> scenePtr)
+void HelmOfGold::init(std::shared_ptr<Scene> scenePtr, std::shared_ptr<ManaGlobal> aManaModel)
 {
     goldAmount = 1;
     currentTime = period = 3000;
 
-    ManaGlobal* manaModelPtr = GameModel::getInstance()->getManaModel();
-
-    int newMaxMana = manaModelPtr->getLimit() - 30;
-    manaModelPtr->setLimit(newMaxMana);
+    int newMaxMana = aManaModel->getLimit() - 30;
+    aManaModel->setLimit(newMaxMana);
 
 }
 

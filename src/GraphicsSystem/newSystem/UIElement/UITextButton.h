@@ -14,7 +14,6 @@ public:
 
     void ConnectMethod(std::function<void(std::string)> method);
 
-    SDL_Rect* getRect();
     // InputHandler interface
 public:
     virtual bool onClick(SDL_Point *point) override;

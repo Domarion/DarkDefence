@@ -1,9 +1,10 @@
 #include "MobAbilityArson.h"
 
 MobAbilityArson::MobAbilityArson()
+    : arsonEffect(std::make_shared<EffectModel>())
 
 {
-    arsonEffect.setCaption("ArsonEffect");
+    arsonEffect->setCaption("ArsonEffect");
 }
 
 MobAbilityArson::~MobAbilityArson()
@@ -21,7 +22,7 @@ bool MobAbilityArson::onReady(double timestep)
        if (target != nullptr)
        {
       //   std::cout << "WTFArson" << std::endl;
-           target->getEffectReceiver()->applyEffect(&arsonEffect);
+           target->getEffectReceiver()->applyEffect(arsonEffect);
            abilityState = Enums::AbilityStates::asWorking;
        }
        else
@@ -57,7 +58,7 @@ bool MobAbilityArson::onWorking(double timestep)
         currentWorkTime = workTime;
         abilityState = Enums::AbilityStates::asOnCooldown;
 
-        target->getEffectReceiver()->cancelEffect(&arsonEffect);
+        target->getEffectReceiver()->cancelEffect(arsonEffect);
         target = nullptr;
     }
     else
@@ -96,7 +97,7 @@ bool MobAbilityArson::canTrigger(std::shared_ptr<SceneObject> targ, Enums::AIMob
             || abilityState != Enums::AbilityStates::asNotAvaliable)
         return false;
 
-    if (targ->getTag() != "Mine" || targ->getEffectReceiver() == nullptr || targ->getEffectReceiver()->hasEffect(&arsonEffect))
+    if (targ->getTag() != "Mine" || targ->getEffectReceiver() == nullptr || targ->getEffectReceiver()->hasEffect(arsonEffect))
     {
         //std::cout << "what happened?" << std::endl;
         return false;

@@ -10,9 +10,11 @@
 
 
 
-Mob::Mob(MobModel* model, TileMapManager* aTileMapPtr)
-:mobModel(model),
-  mobEffectReceiver(new MobEffectReceiver()), tileMapPtr(aTileMapPtr), mobAI(nullptr)
+Mob::Mob(std::shared_ptr<MobModel> model, std::shared_ptr<TileMapManager> aTileMapPtr)
+    : mobModel(model)
+    , mobEffectReceiver(std::make_shared<MobEffectReceiver>())
+    , tileMapPtr(aTileMapPtr)
+    , mobAI(nullptr)
 {
 
    mobEffectReceiver->init(mobModel);
@@ -59,8 +61,6 @@ void Mob::finalize()
 
 Mob::~Mob()
 {
-    delete mobModel;
-    delete mobEffectReceiver;
     tileMapPtr = nullptr;
 }
 
@@ -82,23 +82,23 @@ void Mob::setTag(const string &value)
     mobModel->setTag(value);
 }
 
-DestructibleObject *Mob::getDestructibleObject()
+std::shared_ptr<DestructibleObject> Mob::getDestructibleObject() const
 {
     return mobModel;
 }
 
-EffectReceiver* Mob::getEffectReceiver() const
+std::shared_ptr<EffectReceiver>  Mob::getEffectReceiver() const
 {
     return mobEffectReceiver;
 }
 
-MobModel *Mob::getModel() const
+std::shared_ptr<MobModel> Mob::getModel() const
 {
     return mobModel;
 }
 
 
-TileMapManager *Mob::getTileMapManager() const
+std::shared_ptr<TileMapManager> Mob::getTileMapManager() const
 {
     if (tileMapPtr == nullptr)
     {
@@ -107,7 +107,7 @@ TileMapManager *Mob::getTileMapManager() const
     return tileMapPtr;
 }
 
-void Mob::setTileMapManager(TileMapManager *aTileMapPtr)
+void Mob::setTileMapManager(std::shared_ptr<TileMapManager> aTileMapPtr)
 {
     tileMapPtr = aTileMapPtr;
 }

@@ -12,12 +12,11 @@ VampsRod::~VampsRod()
 
 }
 
-void VampsRod::init(std::shared_ptr<Scene> scenePtr)
+void VampsRod::init(std::shared_ptr<Scene> scenePtr, std::shared_ptr<ManaGlobal> aManaModel)
 {
-    ManaGlobal* manamodel = GameModel::getInstance()->getManaModel();
 
-    int manaMax = manamodel->getLimit() + 50;
-     manamodel->setLimit(manaMax);
+    int manaMax = aManaModel->getLimit() + 50;
+    aManaModel->setLimit(manaMax);
 
      auto gameScenePtr = std::dynamic_pointer_cast<GameScene>(scenePtr);
      if (gameScenePtr == nullptr)
@@ -29,7 +28,6 @@ void VampsRod::init(std::shared_ptr<Scene> scenePtr)
         if (ptr->first == "Shrink")
         {
             std::shared_ptr<AbilityShrink> shrink = std::dynamic_pointer_cast<AbilityShrink>(ptr->second);
-//            AbilityShrink* shrink = dynamic_cast<AbilityShrink*>(ptr->second);
             if (shrink != nullptr)
             {
                 double dps =  4 * shrink->getDamagePerSecond();

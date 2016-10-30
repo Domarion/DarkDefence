@@ -75,7 +75,6 @@ private:
     Mission currentMission;
 
 
-
     SpellStorage spellStorage;
     ItemAbilitiesStorage itemAbilitiesStorage;
     std::shared_ptr<TowerUpgradeController> towerUpgradeController;
@@ -84,8 +83,9 @@ private:
     void setActiveMstones(string s);
     std::function<void(string)> method;
 
-    TileMapManager* tileMap;
-    ManaGlobal* manaModel;
+    std::shared_ptr<TileMapManager> tileMap;
+    std::shared_ptr<ManaGlobal> mManaModel;
+
     void initResourceView();
     void initProgressBars();
 };
