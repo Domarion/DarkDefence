@@ -25,7 +25,7 @@ void UIProgressBar::draw() const
 
 Size UIProgressBar::getSize() const
 {
-    backTexture.getSize();
+    return backTexture.getSize();
 }
 
 void UIProgressBar::setSize(Size size)

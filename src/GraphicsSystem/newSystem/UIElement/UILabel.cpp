@@ -25,7 +25,7 @@ void UILabel::draw() const
 
 Size UILabel::getSize() const
 {
-    textTexture.getSize();
+    return textTexture.getSize();
 }
 
 void UILabel::setSize(Size size)
