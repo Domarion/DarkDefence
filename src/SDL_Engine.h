@@ -2,7 +2,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
-
+#include "GraphicsSystem/newSystem/UtilityStructs.h"
 namespace SDL2Engine
 {
     class SDL2 final
@@ -16,6 +16,21 @@ namespace SDL2Engine
                 IMG_Init(imgFlags);
                 TTF_Init();
             }
+        }
+
+        Size getScreenResolution() const
+        {
+            Size resolution;
+
+            SDL_DisplayMode dm;
+
+            if (SDL_GetDesktopDisplayMode(0, &dm) == 0)
+            {
+                resolution.width = dm.w;
+                resolution.height = dm.h;
+            }
+            return resolution;
+
         }
 
         SDL2() = delete;
