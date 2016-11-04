@@ -14,6 +14,9 @@
 
 #include <string>
 #include "BasicGoal.h"
+#include <boost/serialization/shared_ptr.hpp>
+
+#include <memory>
 //#include <boost/serialization/export.hpp>
 enum MissionStatuses
 {
@@ -48,17 +51,17 @@ public:
 
     MissionStatuses checkStatus();
 	void setStatus(MissionStatuses value);
-    void addGoal(BasicGoal* goal);
+    void addGoal(std::shared_ptr<BasicGoal> goal);
     void setReward(const Reward& someReward);
     std::list<std::string> getGoalsFullDesc();
     std::list<std::string> getGoalsNeeded();
-    std::list<BasicGoal*>& getGoals();
+    std::list<std::shared_ptr<BasicGoal>>& getGoals();
     Reward& getReward();
     void reset();
 private:
 	std::string caption;
 	std::string description;
-    std::list<BasicGoal*> goals;
+    std::list<std::shared_ptr<BasicGoal>> goals;
     Reward reward;
     MissionStatuses missionStatus;
 

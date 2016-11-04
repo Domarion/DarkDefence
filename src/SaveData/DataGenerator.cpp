@@ -24,7 +24,7 @@ void DataGenerator::saveMission()
 {
     const string goalDescription = "yet another resource goal";
     const int resourceAmountNeeded = 100;
-    ResourceGoal someGoal(goalDescription, resourceAmountNeeded, Enums::ResourceTypes::WHEAT);
+    auto someGoal = std::make_shared<ResourceGoal>(goalDescription, resourceAmountNeeded, Enums::ResourceTypes::WHEAT);
 
     const int coinsAmount = 15;
     Reward someReward(coinsAmount);
@@ -37,7 +37,7 @@ void DataGenerator::saveMission()
     const string MissionDescription = "Very simple mission";
     Mission someMission(MissionCaption, MissionDescription, someReward);
 
-    someMission.addGoal(&someGoal);
+    someMission.addGoal(someGoal);
 
 
     std::string filePath = "/home/kostya_hm/Mission.xml";

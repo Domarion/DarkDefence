@@ -17,9 +17,6 @@ using std::ifstream;
 #include <functional>
 #include <boost/mpl/placeholders.hpp>
 #include "../MissionSystem/ResourceGoal.h"
-#include <iostream>
-
-
 
 #include "../AbilitySystem/MobAbilities/MobAbilityArson.h"
 #include "../AbilitySystem/MobAbilities/MobAbilityRegeneration.h"
@@ -44,7 +41,7 @@ GameModel::GameModel()
     , shop(std::make_shared<ShopInventory>())
     , heroFigure(std::make_shared<HeroInventory>(9))
     , inventory(std::make_shared<Inventory>())
-    , resourcesModelPtr(new ResourcesModel())
+    , resourcesModelPtr(std::make_shared<ResourcesModel>())
     , towerUpgradesRootNode()
     , missionReward()
     , shopItemsLoaded(false)
@@ -210,7 +207,7 @@ void GameModel::addItemToInventoryByName(string name)
     std::cout << "rewItemName = " << name << std::endl;
 
 
-    loadShopItems("GameData/Items.xml");
+//    loadShopItems("GameData/Items.xml");
 
     shop->sendItemWithoutPriceCheck(name);
 
@@ -254,7 +251,6 @@ Enums::GameStatuses GameModel::getGameStatus() const
 
 GameModel::~GameModel()
 {
-    delete resourcesModelPtr;
 	// TODO Auto-generated destructor stub
 }
 
@@ -330,7 +326,7 @@ void GameModel::loadGameData(string filename)
             vector<string> inventoryItemsNames;
             androidText::loadStringsFromfile(binaryDataFile, inventoryItemsNames);
 
-            loadShopItems("GameData/Items.xml");
+//            loadShopItems("GameData/Items.xml");
 
 
             for(auto itemName : inventoryItemsNames)
@@ -471,7 +467,7 @@ GameModel*  GameModel::getInstance()
 	return instance_;
 }
 
-ResourcesModel* GameModel::getResourcesModel()
+std::shared_ptr<ResourcesModel> GameModel::getResourcesModel()
 {
 	return resourcesModelPtr;
 }

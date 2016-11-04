@@ -21,7 +21,7 @@ FontManager *FontManager::getInstance()
     return instance_;
 }
 
-void FontManager::loadFontList(string filename)
+void FontManager::loadFontList(string filename, std::shared_ptr<RenderingSystem>& aRenderer)
 {
 
     string textString;
@@ -41,7 +41,7 @@ void FontManager::loadFontList(string filename)
             int r, g, b;
             fontConf >> key >> fontPath >> fontSize >> r >> g >> b;
 //            fontList[key] = std::make_shared<CFont>(fontPath, fontSize, r, g, b);
-            fontList2[key]= Font(fontPath,fontSize, r, g, b);
+            fontList2[key]= Font(fontPath,fontSize, r, g, b, aRenderer);
         }
         std::cout << "FontsLoaded:" << std::endl;
     }

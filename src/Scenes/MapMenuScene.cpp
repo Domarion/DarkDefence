@@ -52,6 +52,7 @@ void MapMenuScene::loadMissionView()
 
     currentMissionIndex =  GameModel::getInstance()->getCurrentMissionIndex();
 
+
     string s ="GameData/Missions/" + std::to_string(currentMissionIndex) +"/Mission.xml";
     GameModel::getInstance()->deserialize(currentMission, s);
 

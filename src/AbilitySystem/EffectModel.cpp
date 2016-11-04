@@ -14,11 +14,13 @@ EffectModel::~EffectModel()
 bool EffectModel::addMiniEffect(pair<string, double> &mini)
 {
     affectedAttributes.push_back(mini);
+    return true;
 }
 
 bool EffectModel::removeMiniEffect(pair<string, double> &mini)
 {
     affectedAttributes.remove(mini);
+    return true;
 }
 
 const list<pair<string, double> > &EffectModel::getAffectedAttributes() const
