@@ -61,7 +61,7 @@ bool AbilityEarthquake::onWorking(double timestep)
         currentWorkTime -= timestep;
         counter+= timestep;
     }
-
+    return true;
 }
 
 bool AbilityEarthquake::onCooldown(double timestep)

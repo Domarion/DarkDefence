@@ -10,5 +10,6 @@ public:
     void saveMineCollection();
     void saveMonsterCollection();
     void saveItems();
+    void saveAnim();
 };
 

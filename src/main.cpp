@@ -16,6 +16,7 @@ int main( int /*argc*/, char** /*args*/)
 {
 
 //  DataGenerator dataGenerator;
+//  dataGenerator.saveAnim();
 //    dataGenerator.saveTowerTree();
 //  dataGenerator.saveItems();
 //    dataGenerator.saveMission();

@@ -28,9 +28,6 @@ MobSpawner::MobSpawner(std::shared_ptr<RenderingSystem> &aRenderingContext)
 
 void MobSpawner::loadWavesInfo(string filename)
 {
-
-
-
     string textString;
     androidText::loadTextFileToString(filename, textString);
 
@@ -108,27 +105,20 @@ std::unique_ptr<list<std::shared_ptr<Mob>>> MobSpawner::doSpawn(std::shared_ptr<
             someSprite->setSize(Size( 50, 80));
             someSprite->loadTexture("GameData/textures/Monsters/" + monsterName + "Sheet.png");
 
-            vector<SDL_Rect> walkRects;
-            SDL_Rect rect0 = {13, 7, 42, 73};
-            SDL_Rect rect1 = {102, 12, 43, 67};
-            SDL_Rect rect2 = {181, 17, 49, 64};
-            SDL_Rect rect3 = {267, 13, 47, 67};
-            SDL_Rect rect4 = {360, 11, 42, 68};
-            SDL_Rect rect5 = {463, 14, 47, 68};
-            SDL_Rect rect6 = {568, 18, 49, 65};
-            SDL_Rect rect7 = {652, 15, 55, 68};
-            walkRects.push_back(rect0);
-            walkRects.push_back(rect1);
-            walkRects.push_back(rect2);
-            walkRects.push_back(rect3);
-            walkRects.push_back(rect4);
-            walkRects.push_back(rect5);
-            walkRects.push_back(rect6);
-            walkRects.push_back(rect7);
 
-            someSprite->setAnimRects("Walk", walkRects);
+
+            map<string, vector<SDL_Rect> > anims;
+
+            std::string filename = "GameData/anims/Monsters/" + monsterName + ".anim";
+            androidText::setRelativePath(filename);
+            androidText::loadAnimFromFile(filename, anims);
+
+            for(auto& anim : anims)
+            {
+                someSprite->setAnimRects(anim.first, anim.second);
+            }
+
             someMob->setSprite(someSprite);
-            //someMob->init();
             some->push_back(someMob);
 
             if (someMob->getTileMapManager() == nullptr)
@@ -138,7 +128,7 @@ std::unique_ptr<list<std::shared_ptr<Mob>>> MobSpawner::doSpawn(std::shared_ptr<
         }
     }
 
-    return std::move(some);
+    return some;
 
 }
 

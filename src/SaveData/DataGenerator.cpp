@@ -9,7 +9,7 @@
 #include "../Mob/MobModel.h"
 #include "../Utility/TreeNode.hpp"
 #include "../Mob/EnemyInfo.h"
-
+#include "../Utility/textfilefunctions.h"
 
 
 #include <array>
@@ -230,4 +230,38 @@ void DataGenerator::saveItems()
 
     }
     outputXMLFile.close();
+}
+
+void DataGenerator::saveAnim()
+{
+    vector<SDL_Rect> walkRects;
+    SDL_Rect rect0 = {13, 7, 42, 73};
+    SDL_Rect rect1 = {102, 12, 43, 67};
+    SDL_Rect rect2 = {181, 17, 49, 64};
+    SDL_Rect rect3 = {267, 13, 47, 67};
+    SDL_Rect rect4 = {360, 11, 42, 68};
+    SDL_Rect rect5 = {463, 14, 47, 68};
+    SDL_Rect rect6 = {568, 18, 49, 65};
+    SDL_Rect rect7 = {652, 15, 55, 68};
+    walkRects.push_back(rect0);
+    walkRects.push_back(rect1);
+    walkRects.push_back(rect2);
+    walkRects.push_back(rect3);
+    walkRects.push_back(rect4);
+    walkRects.push_back(rect5);
+    walkRects.push_back(rect6);
+    walkRects.push_back(rect7);
+
+    map<string, vector<SDL_Rect>> anims;
+    anims["Walk"] = walkRects;
+
+    std::string MobAnim = "/home/kostya_hm/Monster.anim";
+
+
+    SDL_RWops* binaryDataFile = SDL_RWFromFile(MobAnim.c_str(),"w+b");
+    if (binaryDataFile != nullptr)
+    {
+        androidText::saveAnimsToFile(binaryDataFile, anims);
+        SDL_RWclose(binaryDataFile);
+    }
 }

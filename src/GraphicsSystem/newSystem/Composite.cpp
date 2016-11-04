@@ -136,6 +136,7 @@ bool Composite::containsPoint(int x, int y) const
             }
         }
     }
+    return false;
 }
 
 void Composite::clearChildren()

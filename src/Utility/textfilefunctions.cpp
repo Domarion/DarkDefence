@@ -131,6 +131,13 @@ void loadAnimFromFile(SDL_RWops *filetoRead, map<string, vector<SDL_Rect> > &ani
     }
 }
 
+void loadAnimFromFile(const std::string& filename, map<string, vector<SDL_Rect> > &anims)
+{
+    SDL_RWops* binaryDataFile = SDL_RWFromFile(filename.c_str(),"r+b");
+    loadAnimFromFile(binaryDataFile, anims);
+    SDL_RWclose(binaryDataFile);
+}
+
 char* loadStringFromFile(SDL_RWops *filetoRead)
 {
     if (filetoRead != nullptr)
