@@ -56,6 +56,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -g -O2 -Wall")
 #    GraphicsSystem/CFont.cpp
 #    GraphicsSystem/GraphicsManager.cpp
 #    GraphicsSystem/ShopItemUI.cpp
+#    GlobalScripts/Renderer.h
 #)
 
 set(SRC_LIST
@@ -135,7 +136,7 @@ set(SRC_LIST
     GlobalScripts/ManaGlobal.h
     GlobalScripts/TileMapManager.h
     GlobalScripts/GameModel.h
-    GlobalScripts/Renderer.h
+
     AI/AIComponent.h
     ItemSystem/Inventory.h
     ItemSystem/InventoryController.h

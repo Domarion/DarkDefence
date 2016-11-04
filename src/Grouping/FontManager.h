@@ -18,7 +18,7 @@ class FontManager
 public:
 
     static FontManager* getInstance();
-    void loadFontList(string filename);
+    void loadFontList(string filename, std::shared_ptr<RenderingSystem> &aRenderer);
 //    shared_ptr<CFont>& getFontByKind(string kind);
     Font & getFontByKind2(string kind);
 

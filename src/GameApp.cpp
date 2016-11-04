@@ -28,7 +28,7 @@ GameApp::GameApp(std::unique_ptr<SceneManager> aSceneManager, std::unique_ptr<Re
 , mSceneManager(std::move(aSceneManager))
 , paused(false)
 {
-    FontManager::getInstance()->loadFontList("GameData/fontconfig.txt");
+    FontManager::getInstance()->loadFontList("GameData/fontconfig.txt", mRenderer);
 
 }
 
