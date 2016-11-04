@@ -16,6 +16,7 @@ int main( int /*argc*/, char** /*args*/)
 {
 
 //  DataGenerator dataGenerator;
+//  dataGenerator.saveTerrain();
 //  dataGenerator.saveAnim();
 //    dataGenerator.saveTowerTree();
 //  dataGenerator.saveItems();
@@ -34,7 +35,7 @@ int main( int /*argc*/, char** /*args*/)
     app->preloadedData();
     app->addScenes();
     int result = app->gameLoop();
-
+//    int result = 0;
 	return result;
 }
 

@@ -26,9 +26,11 @@ public:
 
     std::unique_ptr<SDL_Texture, TTextureDeleter> getTextureFromSurface(SDL_Surface* surface);
 
-
+    std::unique_ptr<SDL_Texture, TTextureDeleter> createBlankTexture(Size aSize, SDL_TextureAccess aAccess);
     std::unique_ptr<SDL_Texture, TTextureDeleter> textToTexture(TTF_Font* aFont, const string& aText, SDL_Color&& color);
     std::unique_ptr<SDL_Texture, TTextureDeleter> textToTexture(TTF_Font* aFont, const string& aText, Uint8 red, Uint8 green, Uint8 blue, Uint8 alpha);
+
+    void renderToTarget(SDL_Texture *texturePtr);
 
     void setRendererDrawColor(Uint8 red, Uint8 green, Uint8 blue, Uint8 alpha);
     void renderClear();

@@ -8,6 +8,13 @@ Texture2D::Texture2D(std::shared_ptr<RenderingSystem> &renderingContext)
 
 }
 
+Texture2D::Texture2D(const Texture2D &right)
+{
+    texturePtr = right.texturePtr;
+    textureSize = right.textureSize;
+    renderer = right.renderer;
+}
+
 void Texture2D::setTexture(shared_ptr<SDL_Texture> texture)
 {
     texturePtr = texture;
@@ -67,4 +74,19 @@ bool Texture2D::hasTexture() const
 void Texture2D::resetTexture()
 {
     texturePtr.reset();
+}
+
+void Texture2D::setAsRenderTarget()
+{
+    renderer->renderToTarget(getTexture().get());
+}
+
+void Texture2D::unSetAsRenderTarget()
+{
+    renderer->renderToTarget(nullptr);
+}
+
+void Texture2D::createBlankTexture(SDL_TextureAccess aAccess)
+{
+    texturePtr = std::move(renderer->createBlankTexture(getSize(), aAccess));
 }

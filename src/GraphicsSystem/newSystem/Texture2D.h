@@ -13,6 +13,7 @@ class Texture2D final
 {
 public:
     Texture2D(std::shared_ptr<RenderingSystem> &renderingContext);
+    Texture2D(const Texture2D& right);
     virtual ~Texture2D() = default;
     void setTexture(shared_ptr<SDL_Texture> texture);
     void setTextureFromText(const string& ltext, Font lfont);
@@ -26,9 +27,13 @@ public:
     void scaleToTexture();
     bool hasTexture() const;
     void resetTexture();
+    void setAsRenderTarget();
+    void unSetAsRenderTarget();
+    void createBlankTexture(SDL_TextureAccess aAccess = SDL_TEXTUREACCESS_TARGET);
+
 private:
     shared_ptr<SDL_Texture> texturePtr;
-    Size textureSize;
+    Size textureSize{};
     std::shared_ptr<RenderingSystem> renderer;
 };
 

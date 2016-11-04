@@ -45,10 +45,27 @@ RenderingSystem::RenderingSystem(const Size &aScreenSize)
 
     }
 
+    std::unique_ptr<SDL_Texture, RenderingSystem::TTextureDeleter> RenderingSystem::createBlankTexture(Size aSize, SDL_TextureAccess aAccess)
+    {
+        return std::unique_ptr<SDL_Texture, RenderingSystem::TTextureDeleter>(
+            SDL_CreateTexture(
+                renderer.get()
+                , SDL_PIXELFORMAT_RGBA8888
+                , aAccess
+                , aSize.width
+                , aSize.height)
+                ,  [](SDL_Texture* aTexture){SDL_DestroyTexture(aTexture);});
+    }
+
     std::unique_ptr<SDL_Texture, RenderingSystem::TTextureDeleter> RenderingSystem::textToTexture(TTF_Font *aFont, const std::string &aText, Uint8 red, Uint8 green, Uint8 blue, Uint8 alpha)
     {
         SDL_Color color = {red, green, blue, alpha};
         return textToTexture(aFont,aText, std::move(color));
+    }
+
+    void RenderingSystem::renderToTarget(SDL_Texture *texturePtr)
+    {
+        SDL_SetRenderTarget(renderer.get(), texturePtr);
     }
 
     std::unique_ptr<SDL_Texture, RenderingSystem::TTextureDeleter> RenderingSystem::textToTexture(TTF_Font* aFont, const string& aText, SDL_Color &&color)

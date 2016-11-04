@@ -1,31 +1,46 @@
 #include "TileTerrainMaker.h" 
 #include <sstream>
 #include "../../Utility/textfilefunctions.h"
-void TileLegendParser::parseString(const std::string &aLegend, TileLegendCollection &aDestCollection)
+void TileLegendCollection::parseString(const std::string &aLegend)
 {
     std::istringstream legendTokens(aLegend);
 
-    Size tileSize;
     legendTokens >> tileSize.width >> tileSize.height;
 
     size_t collection_size{0};
     legendTokens >> collection_size;
     std::string tilename;
+    std::string tileletter;
+
     for(size_t index = 0; index < collection_size; ++index)
     {
+        legendTokens >> tileletter;
+        std::cout << "tileletter is = " << tileletter << std::endl;
         legendTokens >> tilename;
-        tilename = tilename.substr(0, 1);
-        aDestCollection.loadTile(tilename, tileSize);
-    }
-   /* size_t mapSizeRow{0};
-    legendTokens >> mapSizeRow;
-    std::vector<std::string> map(mapSizeRow);
-    for(size_t row = 0; row < mapSizeRow; ++row)
-    {
-        legendTokens >> map[row];
-    }
-    aDestCollection.constructTextureByMap(map);*/
+        std::cout << "tilename is = " << tilename << std::endl;
 
+        loadTile(tileletter, tilename, tileSize);
+    }
+
+    legendTokens >> rows >> columns;
+    matrix.resize(rows);
+
+    for(size_t row = 0; row < rows; ++row)
+    {
+        std::string str = "";
+
+        for(size_t column = 0; column < columns; ++column)
+        {
+            char symbol = legendTokens.get();
+            while(isspace(symbol))
+            {
+               symbol = legendTokens.get();
+            }
+            str += symbol;
+        }
+        std::cout << "string in matrix" << str << std::endl;
+        matrix[row] = str;
+    }
 }
 
 TileLegendCollection::TileLegendCollection(std::shared_ptr<RenderingSystem> &aRenderer)
@@ -40,24 +55,41 @@ size_t TileLegendCollection::size() const
     return tiles.size();
 }
 
-
-
-void TileLegendCollection::loadTile(const std::string& aTileName, Size aTileSize)
+void TileLegendCollection::loadTile(const std::string tileMapping, const std::string& aTileName, Size aTileSize)
 {
     std::string tempPath = "GameData/textures/Tiles/" + aTileName + ".png";
-    androidText::setRelativePath(tempPath);
+    std::cout << "tempPath" << tempPath << std::endl;
+
     Texture2D texture(mRenderer);
-    texture.loadTexture(tempPath);
     texture.setSize(aTileSize);
-    tiles.emplace(aTileName,texture);//[aTileName]=texture;
+    texture.loadTexture(tempPath);
+    tiles.emplace(tileMapping[0], texture);//[aTileName]=texture;
 }
 
-//Texture2D TileLegendCollection::constructTextureByMap(std::vector<std::string> &map)
-//{
-//    return Texture2D(mRenderer);
-//}
-
-Texture2D TileLegendCollection::getTextureByTag(const std::string &aTag)
+Texture2D TileLegendCollection::constructTextureByMap()
 {
-    return tiles.at(aTag);
+    Texture2D targetTexture(mRenderer);
+
+    targetTexture.setSize(Size(tileSize.width * columns, tileSize.height * rows));
+    targetTexture.createBlankTexture();
+    targetTexture.setAsRenderTarget();
+
+    for(size_t row = 0; row < rows; ++row)
+    {
+        for(size_t column = 0; column < columns; ++column)
+        {
+            Position pos{column * tileSize.width, row * tileSize.height};
+            std::string line = matrix[row];
+            std::cout << "character is = " << line[column] << std::endl;
+            tiles.at(line[column]).drawAtPosition(pos);
+
+        }
+    }
+    targetTexture.unSetAsRenderTarget();
+    return targetTexture;
+}
+
+Texture2D& TileLegendCollection::getTextureByTag(const std::string &aTag)
+{
+    return tiles.at(aTag[0]);
 }
