@@ -1,6 +1,13 @@
 #include "Composite.h"
 
-void Composite::addChild(shared_ptr<IComposite> child)
+Composite::Composite(std::shared_ptr<RenderingSystem> &aRenderingContext)
+    :IComposite()
+    , renderer(aRenderingContext)
+{
+
+}
+
+void Composite::addChild(const shared_ptr<IComposite> &child)
 {
     if (child != nullptr)
     {
@@ -9,13 +16,13 @@ void Composite::addChild(shared_ptr<IComposite> child)
     }
 }
 
-void Composite::removeChild(shared_ptr<IComposite> child)
+void Composite::removeChild(const shared_ptr<IComposite> &child)
 {
     if (child != nullptr)
         children.remove(child);
 }
 
-void Composite::draw()
+void Composite::draw() const
 {
     for(const auto& child : children)
         child->draw();
@@ -57,10 +64,84 @@ Position Composite::getNextPosition() const
     if (hasChildren())
     {
         shared_ptr<IComposite> lastChild = children.back();
-        localPos.x = lastChild->getPosition().x + lastChild->getSize().width;
-        localPos.y = lastChild->getPosition().y;
+        localPos.x = lastChild->getLocalPosition().x + lastChild->getSize().width;
     }
     return localPos;
+}
+
+Position Composite::getNextVerticalPosition() const
+{
+    Position localPos{0, 0};
+    if (hasChildren())
+    {
+        shared_ptr<IComposite> lastChild = children.back();
+        localPos.y = lastChild->getLocalPosition().y + lastChild->getSize().height;
+    }
+    return localPos;
+}
+
+Position Composite::getLocalPosition() const
+{
+    return localPosition;
+}
+
+bool Composite::canDrag() const
+{
+    for (auto& child: children)
+    {
+        if (child.get() != nullptr)
+        {
+            InputHandler* handler= dynamic_cast<InputHandler*>(child.get());
+            if (handler != nullptr)
+            {
+                if (handler->canDrag())
+                    return true;
+            }
+        }
+    }
+   return false;
+}
+
+bool Composite::onDrag(int direction)
+{
+    std::cout << "TryTo?" << std::endl;
+
+    for (auto& child: children)
+    {
+        if (child.get() != nullptr)
+        {
+            InputHandler* handler= dynamic_cast<InputHandler*>(child.get());
+            if (handler != nullptr)
+            {
+                std::cout << "NotNull" << std::endl;
+                if (handler->onDrag(direction))
+                    return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool Composite::containsPoint(int x, int y) const
+{
+    for (auto& child: children)
+    {
+        if (child.get() != nullptr)
+        {
+            InputHandler* handler= dynamic_cast<InputHandler*>(child.get());
+            if (handler != nullptr)
+            {
+                if (handler->containsPoint(x, y))
+                    return true;
+            }
+        }
+    }
+    return false;
+}
+
+void Composite::clearChildren()
+{
+    children.clear();
 }
 
 bool Composite::hasParent() const
@@ -71,4 +152,15 @@ bool Composite::hasParent() const
 void Composite::setParent(weak_ptr<IComposite> aParent)
 {
     parent = aParent;
+}
+
+bool Composite::onClick(SDL_Point *point)
+{
+    for(const auto &child : children)
+    {
+        InputHandler* handler = dynamic_cast<InputHandler*>(child.get());
+        if (handler != nullptr && handler->onClick(point))
+               return true;
+    }
+    return false;
 }

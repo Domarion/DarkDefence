@@ -17,28 +17,38 @@ void PrickObject::init(int x, int y)
 {
     SceneObject::init(x, y);
 
-    if (parentScenePtr != nullptr)
+    if (!parentScenePtr.expired())
     {
         std::cout << "prickObject init" << std::endl;
-        list<SceneObject*>* mobListWithTag = parentScenePtr->findObjectsByTag("Monster");
+        auto mobListWithTag = parentScenePtr.lock()->findObjectsByTag("Monster");
 
         if (mobListWithTag == nullptr)
             return;
 
-        list<SceneObject*> affectedMobs;
-        for(auto mobWithTag = mobListWithTag->begin(); mobWithTag != mobListWithTag->end(); ++mobWithTag)
+        list<std::shared_ptr<SceneObject>> affectedMobs;
+        for(auto mobWithTag =mobListWithTag->begin(); mobWithTag != mobListWithTag->end(); ++mobWithTag)
         {
-            if (SDL_HasIntersection(&getSprite()->getRect(), &(*mobWithTag)->getSprite()->getRect()))
-                affectedMobs.insert(affectedMobs.end(), *mobWithTag);
+            SDL_Rect prickRect = {this->getSprite()->getPosition().x
+                                  , this->getSprite()->getPosition().y
+                                  , this->getSprite()->getSize().width
+                                  , this->getSprite()->getSize().height
+                                  };
+
+            SDL_Rect mobRect = {(*mobWithTag)->getSprite()->getPosition().x
+                                  , (*mobWithTag)->getSprite()->getPosition().y
+                                  , (*mobWithTag)->getSprite()->getSize().width
+                                  , (*mobWithTag)->getSprite()->getSize().height
+                                  };
+
+            if (SDL_HasIntersection(&prickRect,&mobRect))
+                affectedMobs.insert(affectedMobs.end(), (*mobWithTag));
         }
 
         mobListWithTag->clear();
-        delete mobListWithTag;
-        mobListWithTag = nullptr;
 
         for(auto affectedMob = affectedMobs.begin(); affectedMob != affectedMobs.end(); ++affectedMob)
         {
-           DestructibleObject* temp = (*affectedMob)->getDestructibleObject();
+           auto temp = (*affectedMob)->getDestructibleObject();
            if (temp != nullptr)
            {
                std::cout << "Damage to" << temp->getName() << std::endl;

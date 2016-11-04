@@ -10,13 +10,11 @@ IceTalisman::~IceTalisman()
 
 }
 
-void IceTalisman::init(Scene* const scenePtr)
+void IceTalisman::init(std::shared_ptr<Scene> scenePtr, std::shared_ptr<ManaGlobal> aManaModel)
 {
-    ManaGlobal* manaModelPtr = GameModel::getInstance()->getManaModel();
+    int newRegenValue = aManaModel->getRegenValue() - 2;
+    aManaModel->setRegenValue(newRegenValue);
 
-    int newRegenValue = manaModelPtr->getRegenValue() - 2;
-    manaModelPtr->setRegenValue(newRegenValue);
-
-    int newMaxMana = manaModelPtr->getLimit() + 150;
-    manaModelPtr->setLimit(newMaxMana);
+    int newMaxMana = aManaModel->getLimit() + 150;
+    aManaModel->setLimit(newMaxMana);
 }

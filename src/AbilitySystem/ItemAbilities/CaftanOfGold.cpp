@@ -10,15 +10,14 @@ CaftanOfGold::~CaftanOfGold()
 
 }
 
-void CaftanOfGold::init(Scene* const scenePtr)
+void CaftanOfGold::init(std::shared_ptr<Scene> scenePtr, std::shared_ptr<ManaGlobal> aManaModel)
 {
     goldAmount = 2;
     currentTime = period = 3000;
 
-    ManaGlobal* manaModelPtr = GameModel::getInstance()->getManaModel();
 
-    int newRegenValue = manaModelPtr->getRegenValue() - 1;
-    manaModelPtr->setRegenValue(newRegenValue);
+    int newRegenValue = aManaModel->getRegenValue() - 1;
+    aManaModel->setRegenValue(newRegenValue);
 
 }
 

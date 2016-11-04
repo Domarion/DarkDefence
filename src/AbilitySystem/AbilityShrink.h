@@ -4,10 +4,12 @@
 
 class AbilityShrink: public AbilityModel
 {
+    using SceneObjectList = std::unique_ptr<std::list<std::shared_ptr<SceneObject> > >;
+
 public:
-    AbilityShrink();
+    AbilityShrink(std::shared_ptr<ManaGlobal> aManaModel);
     virtual ~AbilityShrink();
-    virtual void init(Scene* const scenePtr);
+    virtual void init(std::shared_ptr<Scene> scenePtr);
     virtual bool onReady(double timestep);
     virtual bool onWorking(double timestep);
     virtual bool onCooldown(double timestep);
@@ -15,6 +17,6 @@ public:
     double getDamagePerSecond() const;
 private:
     double damagePerSecond;
-    list<SceneObject*>* affectedMobs;
+    SceneObjectList affectedMobs;
 };
 

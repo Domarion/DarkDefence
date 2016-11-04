@@ -1,16 +1,7 @@
 #include "EffectReceiver.h"
 #include <algorithm>
-EffectReceiver::EffectReceiver()
-{
 
-}
-
-EffectReceiver::~EffectReceiver()
-{
-
-}
-
-bool EffectReceiver::applyEffect(EffectModel * const effect)
+bool EffectReceiver::applyEffect(std::shared_ptr<EffectModel> effect)
 {
     if (effect == nullptr)
         return false;
@@ -24,7 +15,7 @@ bool EffectReceiver::applyEffect(EffectModel * const effect)
     return false;
 }
 
-bool EffectReceiver::cancelEffect(EffectModel * const effect)
+bool EffectReceiver::cancelEffect(std::shared_ptr<EffectModel> effect)
 {
     if (effect == nullptr)
         return false;
@@ -37,7 +28,7 @@ bool EffectReceiver::cancelEffect(EffectModel * const effect)
     return false;
 }
 
-bool EffectReceiver::parseEffect(EffectModel * const effect, bool remove)
+bool EffectReceiver::parseEffect(std::shared_ptr<EffectModel> effect, bool remove)
 {
     int flag = remove? -1 : 1;
     if (effect == nullptr)
@@ -48,7 +39,7 @@ bool EffectReceiver::parseEffect(EffectModel * const effect, bool remove)
 
 }
 
-bool EffectReceiver::hasEffect(EffectModel * const effect) const
+bool EffectReceiver::hasEffect(std::shared_ptr<EffectModel> effect) const
 {
     auto findIter = std::find(effectsList.begin(), effectsList.end(), effect);
     return findIter != effectsList.end();

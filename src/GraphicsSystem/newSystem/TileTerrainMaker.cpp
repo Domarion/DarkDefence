@@ -28,6 +28,13 @@ void TileLegendParser::parseString(const std::string &aLegend, TileLegendCollect
 
 }
 
+TileLegendCollection::TileLegendCollection(std::shared_ptr<RenderingSystem> &aRenderer)
+    : mRenderer(aRenderer)
+    , tiles()
+{
+
+}
+
 size_t TileLegendCollection::size() const
 {
     return tiles.size();
@@ -39,16 +46,16 @@ void TileLegendCollection::loadTile(const std::string& aTileName, Size aTileSize
 {
     std::string tempPath = "GameData/textures/Tiles/" + aTileName + ".png";
     androidText::setRelativePath(tempPath);
-    Texture2D texture;
+    Texture2D texture(mRenderer);
     texture.loadTexture(tempPath);
     texture.setSize(aTileSize);
-    tiles[aTileName]=texture;
+    tiles.emplace(aTileName,texture);//[aTileName]=texture;
 }
 
-Texture2D TileLegendCollection::constructTextureByMap(std::vector<std::string> &map)
-{
-
-}
+//Texture2D TileLegendCollection::constructTextureByMap(std::vector<std::string> &map)
+//{
+//    return Texture2D(mRenderer);
+//}
 
 Texture2D TileLegendCollection::getTextureByTag(const std::string &aTag)
 {

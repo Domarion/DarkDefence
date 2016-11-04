@@ -15,8 +15,8 @@ public:
 	virtual ~InputHandler();
 	virtual bool onClick(SDL_Point* point) = 0;
 	virtual bool canDrag() const;
-	virtual bool onDrag(int direction);
-	virtual bool containsPoint(int x, int y) const;
+    virtual bool onDrag(int);
+    virtual bool containsPoint(int, int) const;
     //virtual bool canWorkWithGamePause() const;
 };
 

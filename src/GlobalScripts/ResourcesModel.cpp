@@ -22,12 +22,12 @@ ResourcesModel::~ResourcesModel()
 	// TODO Auto-generated destructor stub
 }
 
-std::string ResourcesModel::getResourceNameFromIndex(int index)
+std::string ResourcesModel::getResourceNameFromIndex(size_t index)
 {
 	return resourceTypes[index].getCaption();
 }
 
-std::string ResourcesModel::printResourceFromIndex(int index)
+std::string ResourcesModel::printResourceFromIndex(size_t index)
 {
 	return resourceTypes[index].printToString();
 }

@@ -1,4 +1,7 @@
-#define BOOST_TEST_MODULE CompositeTest
+
+
+
+#define BOOST_TEST_MODULE COMPOSITE_TEST
 #include <boost/test/unit_test.hpp>
 #include "src/GraphicsSystem/newSystem/Composite.h"
 #include "src/GraphicsSystem/newSystem/Leaf.h"
@@ -28,7 +31,7 @@ struct CompositeFixture
 
         // IComposite interface
     public:
-        virtual void draw() override
+        virtual void draw() const override
         {
 
         }

@@ -8,14 +8,23 @@
 #include "MineModel.h"
 #include "../GlobalScripts/GameModel.h"
 MineModel::MineModel()
-    :DestructibleObject(),limit(0,0), production(0, 0), productionPeriod(0, 0), currentTime(0.0), productionType(Enums::ResourceTypes::WHEAT)
+    : DestructibleObject(),limit(0, 0)
+    , production(0, 0)
+    , productionPeriod(0, 0)
+    , currentTime(0.0)
+    , productionType(Enums::ResourceTypes::WHEAT)
 {
 	// TODO Auto-generated constructor stub
 
 }
 
 MineModel::MineModel(string aName, string aTag, int aMaxHealth, int aProtection[], Enums::ResourceTypes resType, int aProduction, double aPeriod)
-:DestructibleObject(aName, aTag, aMaxHealth, aProtection), productionType(resType)
+    : DestructibleObject(aName, aTag, aMaxHealth, aProtection)
+    , limit(0, 0)
+    , production(0, 0)
+    , productionPeriod(0, 0)
+    , currentTime(0.0)
+    , productionType(resType)
 {
     production.first = aProduction;
     production.second = 0;
@@ -58,9 +67,9 @@ int MineModel::getProduction() const
     return production.first + production.second;
 }
 
-void MineModel::setProduction(int production)
+void MineModel::setProduction(int aProduction)
 {
-    this->production.first = production;
+    this->production.first = aProduction;
 }
 
 double MineModel::getProductionPeriod() const
@@ -73,9 +82,9 @@ double MineModel::getCurrentTime() const
 	return currentTime;
 }
 
-void MineModel::setCurrentTime(double currentTime)
+void MineModel::setCurrentTime(double aCurrentTime)
 {
-    this->currentTime = currentTime;
+    this->currentTime = aCurrentTime;
 }
 
 Enums::ResourceTypes MineModel::getProductionType() const
@@ -101,15 +110,15 @@ void MineModel::produce(double timestep)
         currentTime -= timestep;
 }
 
-void MineModel::setProductionPeriod(double productionPeriod)
+void MineModel::setProductionPeriod(double aProductionPeriod)
 {
-    this->productionPeriod.first = productionPeriod;
+    this->productionPeriod.first = aProductionPeriod;
     setCurrentTime( getProductionPeriod());
 }
 
-void MineModel::setLimit(int limit)
+void MineModel::setLimit(int aLimit)
 {
-    this->limit.first = limit;
+    this->limit.first = aLimit;
 }
 
 

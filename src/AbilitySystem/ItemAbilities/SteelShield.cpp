@@ -11,16 +11,16 @@ SteelShield::~SteelShield()
 
 }
 
-void SteelShield::init(Scene * const scenePtr)
+void SteelShield::init(std::shared_ptr<Scene> scenePtr, std::shared_ptr<ManaGlobal> aManaModel)
 {
-    ManaGlobal* manamodel = GameModel::getInstance()->getManaModel();
-    int regen = manamodel->getRegenValue() - 1;
-    manamodel->setRegenValue(regen);
 
-    GameScene* gameScenePtr = dynamic_cast<GameScene*>(scenePtr);
+    int regen = aManaModel->getRegenValue() - 1;
+    aManaModel->setRegenValue(regen);
+
+    auto gameScenePtr = std::dynamic_pointer_cast<GameScene>(scenePtr);
     if (gameScenePtr == nullptr)
         return;
-    AbilityModel* magicStone = gameScenePtr->getAbilityModelWithName("MagicStones");
+    auto magicStone = gameScenePtr->getAbilityModelWithName("MagicStones");
     if (magicStone != nullptr)
     {
         double workTime = magicStone->getWorkTime() *1.4;

@@ -12,19 +12,19 @@ RockSpike::~RockSpike()
 
 }
 
-void RockSpike::init(Scene * const scenePtr)
+void RockSpike::init(std::shared_ptr<Scene> scenePtr, std::shared_ptr<ManaGlobal> aManaModel)
 {
     amount = 3;
     currentTime = period = 3000;
-    GameScene* gameScenePtr = dynamic_cast<GameScene*>(scenePtr);
+    auto gameScenePtr = std::dynamic_pointer_cast<GameScene>(scenePtr);
     if (gameScenePtr == nullptr)
         return;
-    AbilityPrick* prick = dynamic_cast<AbilityPrick*>(gameScenePtr->getAbilityModelWithName("Prick"));
+    std::shared_ptr<AbilityPrick> prick = std::dynamic_pointer_cast<AbilityPrick>(gameScenePtr->getAbilityModelWithName("Prick"));
     if (prick != nullptr)
     {
         int dmg = static_cast<int>( 1.5 * prick->getDamage());
         prick->setDamage(dmg);
-        double cooldown = static_cast<int>( prick->getCooldownTime() *0.5);
+        double cooldown = static_cast<int>( prick->getCooldownTime() * 0.5);
         prick->setCooldownTime(cooldown);
     }
 }

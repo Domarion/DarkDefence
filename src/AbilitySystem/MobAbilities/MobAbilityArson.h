@@ -22,9 +22,9 @@ public:
 
     // MobAbility interface
 public:
-    virtual bool canTrigger(SceneObject *targ, AIMobStates aistate) override;
+    virtual bool canTrigger(std::shared_ptr<SceneObject>, AIMobStates aistate) override;
 private:
-    EffectModel arsonEffect;
+    std::shared_ptr<EffectModel> arsonEffect;
 };
 
 

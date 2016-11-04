@@ -21,7 +21,7 @@ public:
 	bool PayGold(int amount);
     void addGold(int amount);
 private:
-    AccountModel(int goldValue = 1000, int goldMax = 5000);
+    AccountModel(int goldValue = 300, int goldMax = 5000);
 	~AccountModel();
 	string accountName;
     int goldAmount, goldLimit;

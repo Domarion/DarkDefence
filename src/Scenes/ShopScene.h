@@ -8,14 +8,16 @@
 #pragma once
 #include "../Grouping/Scene.h"
 #include "../ItemSystem/ShopController.h"
-#include "../GraphicsSystem/UI/Label.h"
+#include "../GraphicsSystem/newSystem/UIElement/UILabel.h"
+
+//#include "../GraphicsSystem/UI/Label.h"
 
 class ShopScene: public Scene
 {
 public:
-	ShopScene();
+    ShopScene(std::shared_ptr<RenderingSystem> &aRenderer);
 	virtual ~ShopScene();
-    virtual void init(SceneManager* sceneManagerPtr) override;
+    virtual void init(std::shared_ptr<SceneManager> sceneManagerPtr) override;
     virtual void clear() override;
 
 	virtual void startUpdate(double timestep) override;
@@ -25,8 +27,10 @@ private:
     void initControlButton();
     void initBackGroundUI();
     void initShopItemsUI();
-    Label *goldCoins;
 
-    ShopController* shopController;
+    std::shared_ptr<UILabel> goldCoinsLabel;
+//    Label *goldCoins;
+
+    std::shared_ptr<ShopController> shopController;
 
 };

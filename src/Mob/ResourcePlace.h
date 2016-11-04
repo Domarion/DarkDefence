@@ -3,7 +3,10 @@
 #include "../Input/InputHandler.h"
 #include "../Enums.h"
 
-class ResourcePlace: public SceneObject, public InputHandler
+class ResourcePlace:
+        public SceneObject
+        , public InputHandler
+        , public std::enable_shared_from_this<ResourcePlace>
 {
 public:
     ResourcePlace();

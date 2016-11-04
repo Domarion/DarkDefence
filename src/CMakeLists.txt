@@ -1,4 +1,62 @@
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -g -O2 -Wall")
+#    -Weffc++ -pedantic  \
+#    -pedantic-errors -Wextra -Waggregate-return -Wcast-align \
+#    -Wcast-qual  -Wchar-subscripts  -Wcomment -Wconversion \
+#    -Wdisabled-optimization \
+#    -Wfloat-equal  -Wformat  -Wformat=2 \
+#    -Wformat-nonliteral -Wformat-security  \
+#    -Wformat-y2k \
+#    -Wimplicit  -Wimport  -Winit-self  -Winline \
+#    -Winvalid-pch   \
+#    -Wunsafe-loop-optimizations  -Wlong-long -Wmissing-braces \
+#    -Wmissing-field-initializers -Wmissing-format-attribute   \
+#    -Wmissing-include-dirs -Wmissing-noreturn \
+#    -Wpacked -Wparentheses  -Wpointer-arith \
+#    -Wredundant-decls -Wreturn-type \
+#    -Wsequence-point  -Wshadow -Wsign-compare  -Wstack-protector \
+#    -Wstrict-aliasing -Wstrict-aliasing=2 -Wswitch \
+#    -Wswitch-enum -Wtrigraphs  -Wuninitialized \
+#    -Wunknown-pragmas  -Wunreachable-code -Wunused \
+#    -Wunused-function  -Wunused-label  -Wunused-parameter \
+#    -Wunused-value  -Wunused-variable  -Wvariadic-macros \
+#    -Wvolatile-register-var  -Wwrite-strings")
+
+#set(OLD_SRC_LIST
+#    GraphicsSystem/UI/MapIndicator.h
+#    GraphicsSystem/UI/StateButton.h
+#    GraphicsSystem/UI/GroupBox.h
+#    GraphicsSystem/UI/ImageButton.h
+#    GraphicsSystem/UI/CompositeLabel.h
+#    GraphicsSystem/UI/Label.h
+#    GraphicsSystem/UI/SlotContainer.h
+#    GraphicsSystem/UI/MissionView.h
+#    GraphicsSystem/UI/ScrollList.h
+#    GraphicsSystem/UI/TextButton.h
+#    GraphicsSystem/UI/AnimatedSprite.h
+#    GraphicsSystem/UI/ProgressBar.h
+#    GraphicsSystem/ShopItemUI.h
+#    GraphicsSystem/CFont.h
+#    GraphicsSystem/CTexture.h
+#    GraphicsSystem/GraphicsManager.h
+#    GraphicsSystem/IDrawable.h
+
+#    GraphicsSystem/UI/StateButton.cpp
+#    GraphicsSystem/UI/Label.cpp
+#    GraphicsSystem/UI/MapIndicator.cpp
+#    GraphicsSystem/UI/MissionView.cpp
+#    GraphicsSystem/UI/ProgressBar.cpp
+#    GraphicsSystem/UI/ScrollList.cpp
+#    GraphicsSystem/UI/ImageButton.cpp
+#    GraphicsSystem/UI/SlotContainer.cpp
+#    GraphicsSystem/UI/CompositeLabel.cpp
+#    GraphicsSystem/UI/AnimatedSprite.cpp
+#    GraphicsSystem/UI/TextButton.cpp
+#    GraphicsSystem/UI/GroupBox.cpp
+#    GraphicsSystem/CTexture.cpp
+#    GraphicsSystem/CFont.cpp
+#    GraphicsSystem/GraphicsManager.cpp
+#    GraphicsSystem/ShopItemUI.cpp
+#)
 
 set(SRC_LIST
     Input/InputHandler.h
@@ -87,23 +145,7 @@ set(SRC_LIST
     ItemSystem/ItemCell.h
     ItemSystem/HeroInventoryController.h
     ItemSystem/ShopInventory.h
-    GraphicsSystem/UI/MapIndicator.h
-    GraphicsSystem/UI/StateButton.h
-    GraphicsSystem/UI/GroupBox.h
-    GraphicsSystem/UI/ImageButton.h
-    GraphicsSystem/UI/CompositeLabel.h
-    GraphicsSystem/UI/Label.h
-    GraphicsSystem/UI/SlotContainer.h
-    GraphicsSystem/UI/MissionView.h
-    GraphicsSystem/UI/ScrollList.h
-    GraphicsSystem/UI/TextButton.h
-    GraphicsSystem/UI/AnimatedSprite.h
-    GraphicsSystem/UI/ProgressBar.h
-    GraphicsSystem/ShopItemUI.h
-    GraphicsSystem/CFont.h
-    GraphicsSystem/CTexture.h
-    GraphicsSystem/GraphicsManager.h
-    GraphicsSystem/IDrawable.h
+
     GraphicsSystem/newSystem/Font.h
     GraphicsSystem/newSystem/Composite.h
     GraphicsSystem/newSystem/IComposite.h
@@ -116,6 +158,21 @@ set(SRC_LIST
     Enums.h
     GraphicsSystem/newSystem/TileTerrainMaker.h
 
+
+    GraphicsSystem/newSystem/RenderingSystem.h
+    SDL_Engine.h
+    GraphicsSystem/newSystem/UIElement/ConcreteComposite.h
+    GraphicsSystem/newSystem/UIElement/UIImage.h
+    GraphicsSystem/newSystem/UIElement/UITextButton.h
+    GraphicsSystem/newSystem/UIElement/UIImageButton.h
+    GraphicsSystem/newSystem/ConcreteUIViews/UIMissionView.h
+    GraphicsSystem/newSystem/ConcreteUIViews/AnimationSceneSprite.h
+    GraphicsSystem/newSystem/ConcreteUIViews/UIScrollList.h
+    GraphicsSystem/newSystem/ConcreteUIViews/UIShopItem.h
+    GraphicsSystem/newSystem/ConcreteUIViews/UISlot.h
+
+    GraphicsSystem/newSystem/ConcreteUIViews/UISlotContainer.h
+    GraphicsSystem/newSystem/Camera2D.h
 
     GraphicsSystem/newSystem/UtilityStructs.cpp
     Input/InputHandler.cpp
@@ -200,22 +257,7 @@ set(SRC_LIST
     ItemSystem/ShopController.cpp
     ItemSystem/ShopInventory.cpp
     ItemSystem/ItemModel.cpp
-    GraphicsSystem/UI/StateButton.cpp
-    GraphicsSystem/UI/Label.cpp
-    GraphicsSystem/UI/MapIndicator.cpp
-    GraphicsSystem/UI/MissionView.cpp
-    GraphicsSystem/UI/ProgressBar.cpp
-    GraphicsSystem/UI/ScrollList.cpp
-    GraphicsSystem/UI/ImageButton.cpp
-    GraphicsSystem/UI/SlotContainer.cpp
-    GraphicsSystem/UI/CompositeLabel.cpp
-    GraphicsSystem/UI/AnimatedSprite.cpp
-    GraphicsSystem/UI/TextButton.cpp
-    GraphicsSystem/UI/GroupBox.cpp
-    GraphicsSystem/CTexture.cpp
-    GraphicsSystem/CFont.cpp
-    GraphicsSystem/GraphicsManager.cpp
-    GraphicsSystem/ShopItemUI.cpp
+
     GraphicsSystem/newSystem/Leaf.cpp
     GraphicsSystem/newSystem/Composite.cpp
     GraphicsSystem/newSystem/Font.cpp
@@ -224,6 +266,22 @@ set(SRC_LIST
     GraphicsSystem/newSystem/UIElement/UIProgressBar.cpp
     GraphicsSystem/newSystem/Texture2D.cpp
     GraphicsSystem/newSystem/TileTerrainMaker.cpp
+
+    GraphicsSystem/newSystem/RenderingSystem.cpp
+    SDL_Engine.cpp
+    GraphicsSystem/newSystem/UIElement/ConcreteComposite.cpp
+    GraphicsSystem/newSystem/UIElement/UIImage.cpp
+    GraphicsSystem/newSystem/UIElement/UITextButton.cpp
+    GraphicsSystem/newSystem/UIElement/UIImageButton.cpp
+
+    GraphicsSystem/newSystem/ConcreteUIViews/UIMissionView.cpp
+    GraphicsSystem/newSystem/ConcreteUIViews/AnimationSceneSprite.cpp
+    GraphicsSystem/newSystem/ConcreteUIViews/UIScrollList.cpp
+    GraphicsSystem/newSystem/ConcreteUIViews/UIShopItem.cpp
+    GraphicsSystem/newSystem/ConcreteUIViews/UISlot.cpp
+
+    GraphicsSystem/newSystem/ConcreteUIViews/UISlotContainer.cpp
+    GraphicsSystem/newSystem/Camera2D.cpp
 
     )
 

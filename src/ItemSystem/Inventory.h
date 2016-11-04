@@ -8,6 +8,7 @@
 #include "ItemModel.h"
 #include <boost/serialization/vector.hpp>
 #include <boost/serialization/export.hpp>
+#include <boost/serialization/shared_ptr.hpp>
 #include <vector>
 using std::vector;
 #include <functional>
@@ -18,7 +19,7 @@ class Inventory
 {
 	friend class boost::serialization::access;
 	template <typename Archive>
-		 void serialize(Archive &ar, const unsigned int version)
+         void serialize(Archive &ar, const unsigned int /*version*/)
 		{
             ar & boost::serialization::make_nvp("ArtifactList", items);
 		}
@@ -46,4 +47,3 @@ protected:
 
 
 };
-

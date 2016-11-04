@@ -35,33 +35,41 @@ bool ResourcePlace::onClick(SDL_Point *point)
     if (getSprite() == nullptr)
         return false;
 
-    if (SDL_PointInRect(point, &getSprite()->getRect()))
+    SDL_Rect rect = {this->getSprite()->getPosition().x
+                     , this->getSprite()->getPosition().y
+                     , this->getSprite()->getSize().width
+                     , this->getSprite()->getSize().height
+                    };
+    if (SDL_PointInRect(point, &rect))
     {
 
            //std::cout << "resType =" << resourceType << std::endl;
-         MineModel* tempMineModel = GameModel::getInstance()->getMineModelByRes(resourceType);
+        std::unique_ptr<MineModel> tempMineModel = GameModel::getInstance()->getMineModelByRes(resourceType);
         tempMineModel->setLimit(this->limit);
-        Mine * tempMine = new Mine();
-        tempMine->setMineModel(tempMineModel);
+        auto tempMine = std::make_shared<Mine>();
+
+        std::string mineName = tempMineModel->getName();
 
 
 
-       AnimatedSprite* sprt = new AnimatedSprite();
-        sprt->setRect(0,0, 90, 120);
-        string s1 = "GameData/textures/Buildings/" +tempMineModel->getName() + ".png";
-        std::cout << s1 << std::endl;
-        sprt->loadTexture(s1);
+        tempMine->setMineModel(std::move(tempMineModel));
 
 
-        if (sprt->getTexture() == nullptr)
-            std::cout << "NULLMILL" <<std::endl;
-        tempMine->setName(tempMineModel->getName());
+        auto sprt = std::make_shared<AnimationSceneSprite>(parentScenePtr.lock()->getRenderer());
+        sprt->setSize(Size( 90, 120));
+
+        string path = "GameData/textures/Buildings/" + mineName + ".png";
+        sprt->loadTexture(path);
+
+
+
+        tempMine->setName(mineName);
         tempMine->setTag("Mine");
         tempMine->setSprite(sprt);
          std::cout << "x = " << (this->getX()) << " y = " << (this->getY()) << std::endl;
-        parentScenePtr->spawnObject(this->getX(), this->getY(), tempMine);
+        parentScenePtr.lock()->spawnObject(this->getX(), this->getY(), tempMine);
 
-        parentScenePtr->destroyObject(this);
+        parentScenePtr.lock()->destroyObject(shared_from_this());
         return true;
     }
     return false;

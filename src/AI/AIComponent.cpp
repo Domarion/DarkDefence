@@ -8,13 +8,7 @@
 #include "AIComponent.h"
 #include "../GlobalScripts/GameModel.h"
 
-
-AIComponent::~AIComponent()
-{
-	// TODO Auto-generated destructor stub
-}
-
-AIComponent::AIComponent(Mob *aMob)
+AIComponent::AIComponent(std::weak_ptr<Mob> aMob)
 :MobPtr(aMob), aiMobState(AIMobStates::aiSEARCH), currentTarget(nullptr)
 
 {
@@ -47,7 +41,7 @@ void AIComponent::MakeDecision(double timestep)
 		default:
 			break;
     }
-    Cast(MobPtr);
+    Cast(MobPtr.lock());
     for(auto& abilityPtr : mobAbilities)
         if (abilityPtr != nullptr)
              abilityPtr->update(timestep);
@@ -55,26 +49,20 @@ void AIComponent::MakeDecision(double timestep)
 
 }
 
-SceneObject *AIComponent::getCurrentTarget()
+std::shared_ptr<SceneObject> AIComponent::getCurrentTarget()
 {
     return currentTarget;
 }
 
-SceneObject *AIComponent::getSelf()
-{
-    return MobPtr;
-}
-
 void AIComponent::Search()
 {
-    enemiesInfoList = MobPtr->getModel()->getEnemyTags();
+    enemiesInfoList = MobPtr.lock()->getModel()->getEnemyTags();
     for(const auto& enemyInfo : enemiesInfoList)
     {
-        list<SceneObject*>* lst = MobPtr->getParentScene()->findObjectsByTag(enemyInfo.getTag());
+        auto lst = MobPtr.lock()->getParentScene()->findObjectsByTag(enemyInfo.getTag());
         if (lst == nullptr || lst->empty())
             continue;
         avaliableTargets.insert(avaliableTargets.end(), lst->begin(), lst->end());
-        delete lst;
     }
 
 
@@ -93,7 +81,7 @@ void AIComponent::Select()
         for(auto& target: avaliableTargets)
 		{
 
-            int distanceSqr = MobPtr->computeDistanceSqr(target);
+            int distanceSqr = MobPtr.lock()->computeDistanceSqr(target);
             int priority = getPriorityFromTag(target->getTag());
             if (priority > maxPriority || (priority == maxPriority && distanceSqr < closestDistanceSqr))
 			{
@@ -113,7 +101,7 @@ void AIComponent::Select()
 
 void AIComponent::Attack()
 {
-     std::cout << (MobPtr->getModel()->getName()) << std::endl;
+     std::cout << (MobPtr.lock()->getModel()->getName()) << std::endl;
     if (currentTarget == nullptr)
 		aiMobState = AIMobStates::aiSELECT;
 	else
@@ -130,7 +118,7 @@ void AIComponent::Attack()
        }
        else
        {
-           int* damage = MobPtr->getModel()->getAttackDamage();
+           int* damage = MobPtr.lock()->getModel()->getAttackDamage();
 
            if (currentTarget->getDestructibleObject()->receiveDamage(damage))
            {
@@ -141,7 +129,7 @@ void AIComponent::Attack()
            }
            delete[] damage;
 
-           MobPtr->getModel()->reload();
+           MobPtr.lock()->getModel()->reload();
            aiMobState = AIMobStates::aiRELOAD;
        }
 
@@ -150,8 +138,8 @@ void AIComponent::Attack()
 
 void AIComponent::Reload(double timestep)
 {
-    if (MobPtr->getModel()->getReloadTime() > 0)
-        MobPtr->getModel()->setReloadTime(MobPtr->getModel()->getReloadTime() - timestep);
+    if (MobPtr.lock()->getModel()->getReloadTime() > 0)
+        MobPtr.lock()->getModel()->setReloadTime(MobPtr.lock()->getModel()->getReloadTime() - timestep);
 	else
 	{
         aiMobState = (currentTarget == nullptr)? AIMobStates::aiSELECT : AIMobStates::aiATTACK;
@@ -173,7 +161,7 @@ void AIComponent::MovetoTile(double timestep)
 
     }
 
-    TileMapManager* tilemapPtr = MobPtr->getTileMapManager();
+    auto tilemapPtr = MobPtr.lock()->getTileMapManager();
 
     if (tilemapPtr == nullptr)
     {
@@ -181,7 +169,7 @@ void AIComponent::MovetoTile(double timestep)
         return;
     }
 
-    pair<int, int> mobPos = tilemapPtr->getPosFromGlobalCoords(MobPtr->getPos());
+    pair<int, int> mobPos = tilemapPtr->getPosFromGlobalCoords(MobPtr.lock()->getPos());
     pair<int, int> targetPos = tilemapPtr->getPosFromGlobalCoords(currentTarget->getPos());
 
     if (distanceInRange(mobPos, targetPos))
@@ -192,7 +180,7 @@ void AIComponent::MovetoTile(double timestep)
         return;
     }
 
-    if ((MobPtr->getTag() == "Tower"))
+    if ((MobPtr.lock()->getTag() == "Tower"))
         return;
 
     if ((nextCell == emptyCell)|| (nextCell == mobPos))
@@ -201,10 +189,8 @@ void AIComponent::MovetoTile(double timestep)
 
         if (canBuildPath)
         {
-            list<pair<int, int> > *path = tilemapPtr->getPath(targetPos);
+            auto path = tilemapPtr->getPath(targetPos);
             nextCell = path->back();
-
-            delete path;
         }
         else
         {
@@ -219,12 +205,12 @@ void AIComponent::MovetoTile(double timestep)
 
 void AIComponent::MoveToPos(double timestep, SDL_Point targetPoint)
 {
-    double spd = MobPtr->getModel()->getMoveSpeed().first * timestep*0.002;
+    double spd = MobPtr.lock()->getModel()->getMoveSpeed().first * timestep*0.002;
 
-    int diffX =  MobPtr->getX() +static_cast<int>((targetPoint.x - MobPtr->getX())*spd);
-    int diffY = MobPtr->getY()+ static_cast<int>((targetPoint.y  - MobPtr->getY())*spd);
+    int diffX =  MobPtr.lock()->getX() +static_cast<int>((targetPoint.x - MobPtr.lock()->getX())*spd);
+    int diffY = MobPtr.lock()->getY()+ static_cast<int>((targetPoint.y  - MobPtr.lock()->getY())*spd);
 
-    MobPtr->setPos(diffX, diffY);
+    MobPtr.lock()->setPos(diffX, diffY);
 }
 
 
@@ -233,7 +219,7 @@ bool AIComponent::distanceInRange(const pair<int, int> &firstPoint, const pair<i
     int diffX = secondPoint.first - firstPoint.first;
     int diffY = secondPoint.second - firstPoint.second;
     int current_distance = diffX*diffX + diffY*diffY;
-    int attackDistance = MobPtr->getModel()->getAttackDistance().first;
+    int attackDistance = static_cast<int>(MobPtr.lock()->getModel()->getAttackDistance().first);
 
     return current_distance <= attackDistance;
 }
@@ -256,7 +242,7 @@ Enums::EReaction AIComponent::getReactionByTag(const string &aTag)
 }
 
 
-bool AIComponent::Cast(SceneObject* target)
+bool AIComponent::Cast(std::shared_ptr<SceneObject> target)
 {
     for(auto& abilityPtr : mobAbilities)
         if (abilityPtr != nullptr &&
@@ -273,7 +259,7 @@ bool AIComponent::Cast(SceneObject* target)
 void AIComponent::initMobAbilities()
 {
 
-    list<string> mobAbilitiesNames =  MobPtr->getModel()->getAbilitiesNames();
+    list<string> mobAbilitiesNames =  MobPtr.lock()->getModel()->getAbilitiesNames();
 
     for(auto ptr = mobAbilitiesNames.begin(); ptr != mobAbilitiesNames.end(); ++ptr)
     {

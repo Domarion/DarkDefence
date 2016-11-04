@@ -9,29 +9,23 @@
 #include "../Utility/textfilefunctions.h"
 #include "../GlobalScripts/GameModel.h"
 #include <fstream>
-#include "../GraphicsSystem/UI/AnimatedSprite.h"
-
 #include <sstream>
 using std::stringstream;
 
-MobSpawner::MobSpawner()
-    : period(5000), currentTime(period), waveNumber(0), waveCount(0)
+MobSpawner::MobSpawner(std::shared_ptr<RenderingSystem> &aRenderingContext)
+    : renderer(aRenderingContext)
+    , period(5000)
+    , currentTime(period)
+    , waveNumber(0)
+    , waveCount(0)
+    , wavesInfo()
 
 {
-	// TODO Auto-generated constructor stub
-
 }
 
-MobSpawner::~MobSpawner()
-{
-    // TODO Auto-generated destructor stub
-}
 
 void MobSpawner::loadWavesInfo(string filename)
 {
-
-
-
     string textString;
     androidText::loadTextFileToString(filename, textString);
 
@@ -44,10 +38,12 @@ void MobSpawner::loadWavesInfo(string filename)
         wavesInfo.resize(waveCount);
         while(!file0.eof())
         {
-            int waveNum;
+            size_t waveNum{};
             string mobName;
-            int mobCount;
+            int mobCount{};
             file0 >> waveNum >> mobName >> mobCount;
+            if (waveNum <= 0)
+                throw std::logic_error("WaveNum shold be greater than zero");
             wavesInfo[waveNum - 1].push_back(std::make_pair(mobName, mobCount));
         }
     }
@@ -56,7 +52,6 @@ void MobSpawner::loadWavesInfo(string filename)
 
 bool MobSpawner::canSpawn(double timestep)
 {
-   // std::cout << "Monster Count = " << (GameModel::getInstance()->getMonsterCount()) << std::endl;
     if (GameModel::getInstance()->canSpawn())
     {
 
@@ -79,56 +74,49 @@ bool MobSpawner::canSpawn(double timestep)
 
 
 
-list<Mob *> *MobSpawner::doSpawn(TileMapManager* aTileMap)
+std::unique_ptr<list<std::shared_ptr<Mob>>> MobSpawner::doSpawn(std::shared_ptr<TileMapManager> aTileMap)
 {
-
-    list<Mob*> *some = new list<Mob*>();
-    int n = wavesInfo[waveNumber - 1].size();
+    auto some = std::make_unique<std::list<shared_ptr<Mob>>>();
+    size_t n = wavesInfo[waveNumber - 1].size();
     std::cout << n << std::endl;
     if (aTileMap == nullptr)
-     {
+    {
         std::cout << "doSpawn aTileMap nullptr" << std::endl;
     }
-    for(int i = 0; i < n; ++i)
+    for(size_t i = 0; i < n; ++i)
     {
         string monsterName = (wavesInfo[waveNumber - 1])[i].first;
         int monsterCount = (wavesInfo[waveNumber - 1])[i].second;
 
         for(int index = 0; index < monsterCount; ++index)
         {
-            Mob* someMob = new Mob(GameModel::getInstance()->getMonsterByName(monsterName), aTileMap);
+            auto someMob = std::make_shared<Mob>(GameModel::getInstance()->getMonsterByName(monsterName), aTileMap);
 
 
             if (someMob->getTileMapManager() == nullptr)
             {
                 std::cout << "someMob->getTileMapManager = nullptr" << std::endl;
             }
-           AnimatedSprite* someSprite = new AnimatedSprite();
+            auto someSprite = std::make_shared<AnimationSceneSprite>(renderer);
 
-            someSprite->setRect(0,0, 50, 80);
+
+            someSprite->setSize(Size( 50, 80));
             someSprite->loadTexture("GameData/textures/Monsters/" + monsterName + "Sheet.png");
 
-            vector<SDL_Rect> walkRects;
-            SDL_Rect rect0 = {13, 7, 42, 73};
-            SDL_Rect rect1 = {102, 12, 43, 67};
-            SDL_Rect rect2 = {181, 17, 49, 64};
-            SDL_Rect rect3 = {267, 13, 47, 67};
-            SDL_Rect rect4 = {360, 11, 42, 68};
-            SDL_Rect rect5 = {463, 14, 47, 68};
-            SDL_Rect rect6 = {568, 18, 49, 65};
-            SDL_Rect rect7 = {652, 15, 55, 68};
-            walkRects.push_back(rect0);
-            walkRects.push_back(rect1);
-            walkRects.push_back(rect2);
-            walkRects.push_back(rect3);
-            walkRects.push_back(rect4);
-            walkRects.push_back(rect5);
-            walkRects.push_back(rect6);
-            walkRects.push_back(rect7);
 
-            someSprite->setAnimRects("Walk", walkRects);
+
+            map<string, vector<SDL_Rect> > anims;
+
+            std::string filename = "GameData/anims/Monsters/" + monsterName + ".anim";
+            androidText::setRelativePath(filename);
+            androidText::loadAnimFromFile(filename, anims);
+
+            for(auto& anim : anims)
+            {
+                someSprite->setAnimRects(anim.first, anim.second);
+            }
+
             someMob->setSprite(someSprite);
-            //someMob->init();
             some->push_back(someMob);
 
             if (someMob->getTileMapManager() == nullptr)
@@ -138,9 +126,7 @@ list<Mob *> *MobSpawner::doSpawn(TileMapManager* aTileMap)
         }
     }
 
-
-
-	return some;
+    return some;
 
 }
 

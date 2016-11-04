@@ -16,43 +16,44 @@ using std::endl;
 #include "Grouping/FontManager.h"
 #include "GlobalConstants.h"
 
-GameApp::GameApp(SceneManager* aSceneManager)
-:renderer(nullptr), window(nullptr), sceneManager(aSceneManager), paused(false)
+#include "Scenes/MainScene.h"
+#include "Scenes/MapMenuScene.h"
+#include "Scenes/GameScene.h"
+#include "Scenes/InventoryScene.h"
+#include "Scenes/ShopScene.h"
+#include "Scenes/ScoreScene.h"
+#include <string>
+GameApp::GameApp(std::unique_ptr<SceneManager> aSceneManager, std::unique_ptr<RenderingSystem> aRenderer)
+: mRenderer(std::move(aRenderer))
+, mSceneManager(std::move(aSceneManager))
+, paused(false)
 {
+    FontManager::getInstance()->loadFontList("GameData/fontconfig.txt");
 
 }
 
-GameApp::~GameApp()
+void GameApp::addScenes()
 {
-    if (sceneManager != nullptr)
-        delete sceneManager;
+    auto mainScene = std::make_unique<MainScene>(mRenderer);
+    auto mapMenuScene = std::make_unique<MapMenuScene>(mRenderer);
+    auto gameScene = std::make_unique<GameScene>(mRenderer);
+    auto inventoryScene = std::make_unique<InventoryScene>(mRenderer);
+    auto shopScene = std::make_unique<ShopScene>(mRenderer);
+    auto scoreScene = std::make_unique<ScoreScene>(mRenderer);
 
-    renderer->destroyRenderer();
-    renderer = nullptr;
+    gameScene->ConnectMethod(std::bind(&GameApp::receiveMessage, this, std::placeholders::_1));
 
-    TTF_Quit();
-    IMG_Quit();
-    SDL_Quit();
+    mSceneManager->addScene(std::move(mainScene), "MainScene");
+    mSceneManager->addScene(std::move(mapMenuScene), "MapMenuScene");
+    mSceneManager->addScene(std::move(gameScene), "GameScene");
+
+    mSceneManager->addScene(std::move(inventoryScene), "InventoryScene");
+    mSceneManager->addScene(std::move(shopScene), "ShopScene");
+    mSceneManager->addScene(std::move(scoreScene), "ScoreScene");
+
+    mSceneManager->setCurrentSceneByName("MainScene");
 }
 
-void GameApp::initLibrary(int windowWidth, int windowHeight)
-{
-    if (SDL_Init(SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_EVENTS) == 0)
-    {
-        renderer = Renderer::getInstance();
-        renderer->initRenderer(windowWidth, windowHeight);
-
-        int imgFlags = IMG_INIT_PNG;
-        IMG_Init(imgFlags);
-        TTF_Init();
-
-        FontManager::getInstance()->loadFontList("GameData/fontconfig.txt");
-    }
-    else
-    {
-       cout << "SDL_Init Error: " << SDL_GetError() << endl;
-    }
-}
 
 int GameApp::gameLoop()
 {
@@ -77,14 +78,14 @@ int GameApp::gameLoop()
 
                 while (lag >= MS_PER_UPDATE)
                 {
-                    updateScene(sceneManager->getCurrentScene(), MS_PER_UPDATE);
+                    updateScene(mSceneManager->getCurrentScene(), MS_PER_UPDATE);
                     lag -= MS_PER_UPDATE;
                 }
             }
             else
                 lasttime = currenttime;
 
-            renderScene(const_cast<const Scene*>(sceneManager->getCurrentScene()));
+            renderScene(mSceneManager->getCurrentScene());
         }
     }
     catch (std::exception &ex)
@@ -96,12 +97,12 @@ int GameApp::gameLoop()
 	return 0;
 }
 
-int GameApp::renderScene(const Scene* scene)
+int GameApp::renderScene(std::shared_ptr<Scene> scene)
 {
-    if (renderer != nullptr)
+    if (mRenderer != nullptr)
     {
 
-        renderer->renderClear();
+        mRenderer->renderClear();
 
         if (scene != nullptr)
         {
@@ -110,7 +111,7 @@ int GameApp::renderScene(const Scene* scene)
         else
             cout << "Scene is null!" << endl;
 
-        renderer->renderPresent();
+        mRenderer->renderPresent();
 
     }
 
@@ -122,7 +123,7 @@ bool GameApp::isPaused()
     return paused;
 }
 
-void GameApp::updateScene(Scene* scene, double timestep)
+void GameApp::updateScene(std::shared_ptr<Scene> scene, double timestep)
 {
     if (scene != nullptr)
         scene->startUpdate(timestep);

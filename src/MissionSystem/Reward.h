@@ -20,7 +20,7 @@ class Reward
 {
      friend class boost::serialization::access;
      template <typename Archive>
-     void serialize(Archive &ar, const unsigned int version)
+     void serialize(Archive &ar, const unsigned int /*version*/)
      {
          ar & BOOST_SERIALIZATION_NVP(itemNames);
          ar & BOOST_SERIALIZATION_NVP(goldCoins);

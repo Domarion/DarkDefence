@@ -46,7 +46,7 @@ bool MobAbilityInvisiblity::onCooldown(double timestep)
     return true;
 }
 
-bool MobAbilityInvisiblity::canTrigger(SceneObject *targ, Enums::AIMobStates aistate)
+bool MobAbilityInvisiblity::canTrigger(std::shared_ptr<SceneObject> targ, Enums::AIMobStates aistate)
 {
     if (targ == nullptr)
         return false;

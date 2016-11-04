@@ -1,7 +1,10 @@
 #include "AbilityPrick.h"
-#include <iostream>
-AbilityPrick::AbilityPrick()
-    :damage(0), somePrick(nullptr), coordX(0), coordY(0)
+AbilityPrick::AbilityPrick(std::shared_ptr<ManaGlobal> aManaModel)
+    : AbilityModel(aManaModel)
+    , damage(0)
+    , somePrick(nullptr)
+    , coordX(0)
+    , coordY(0)
 {
 
 }
@@ -11,7 +14,7 @@ AbilityPrick::~AbilityPrick()
 
 }
 
-void AbilityPrick::init(Scene * const scenePtr)
+void AbilityPrick::init(std::shared_ptr<Scene> scenePtr)
 {
     AbilityModel::init(scenePtr);
 }
@@ -30,11 +33,6 @@ bool AbilityPrick::onReady(double timestep)
         abilityState =Enums::AbilityStates::asWorking;
     }
 
-
-
-   // else
-     //   abilityState = Enums::AbilityStates::asNotAvaliable;
-
     return true;
 }
 
@@ -43,12 +41,12 @@ bool AbilityPrick::onWorking(double timestep)
     if (parentScenePtr != nullptr && coordX > 0 && coordY > 0)
     {
         abilityState = Enums::AbilityStates::asOnCooldown;
-        std::cout << "prickEnter" << std::endl;
-        somePrick = new PrickObject(damage);
-       AnimatedSprite* sptr = new AnimatedSprite();
-        sptr->setRect(0,0, 200, 200);
-        sptr->loadTexture("GameData/textures/EmptySlot.png");
-        somePrick->setSprite(sptr);
+        somePrick = std::make_shared<PrickObject>(damage);
+
+        auto spritePrick = std::make_shared<AnimationSceneSprite>(parentScenePtr->getRenderer());
+        spritePrick->setSize(Size(200, 200));
+        spritePrick->loadTexture("GameData/textures/EmptySlot.png");
+        somePrick->setSprite(spritePrick);
 
         parentScenePtr->spawnObject(coordX,coordY, somePrick);
         coordX = 0;
@@ -121,7 +119,6 @@ bool AbilityPrick::onClick(SDL_Point *point)
     {
         coordX = point->x;
         coordY = point->y;
-        std::cout << "WTF CLICKED" << std::endl;
 
         return true;
     }

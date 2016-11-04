@@ -1,10 +1,9 @@
-#include "Texture2D.h"
-#include "../../GlobalScripts/Renderer.h"
-
+﻿#include "Texture2D.h"
 #include "../../Utility/textfilefunctions.h"
 
-Texture2D::Texture2D()
+Texture2D::Texture2D(std::shared_ptr<RenderingSystem> &renderingContext)
     :texturePtr(nullptr, SDL_DestroyTexture)
+    , renderer(renderingContext)
 {
 
 }
@@ -17,11 +16,11 @@ void Texture2D::setTexture(shared_ptr<SDL_Texture> texture)
 
 void Texture2D::setTextureFromText(const string &ltext, Font lfont)
 {
-    texturePtr.reset(Renderer::getInstance()->textToTexture(lfont.getFont().get(),ltext, lfont.getFontColor()),
-                    SDL_DestroyTexture);
+    texturePtr.reset();
+    texturePtr = renderer->textToTexture(lfont.getFont().get(),ltext, lfont.getFontColor());
 }
 
-shared_ptr<SDL_Texture> Texture2D::getTexture() const
+const shared_ptr<SDL_Texture>& Texture2D::getTexture() const
 {
     return texturePtr;
 }
@@ -30,15 +29,18 @@ void Texture2D::loadTexture(const string &filename)
 {
     string filename1 = filename;
     androidText::setRelativePath(filename1);
-    texturePtr.reset(Renderer::getInstance()->loadTextureFromFile(filename1),
-                     SDL_DestroyTexture);
-
+    texturePtr.reset();
+    texturePtr = renderer->loadTextureFromFile(filename1);
 }
 
-void Texture2D::drawAtPosition(Position pos)
+void Texture2D::drawAtPosition(Position pos) const
 {
-    SDL_Rect rect = {pos.x, pos.y, getSize().width, getSize().height};
-    Renderer::getInstance()->renderTexture(texturePtr.get(), &rect);
+    renderer->renderTexture(texturePtr.get(),getSize(),std::move(pos));
+}
+
+void Texture2D::drawPartAtPosition(Position pos, const SDL_Rect *clip) const
+{
+    renderer->renderTexture(texturePtr.get(), std::move(pos), clip);
 }
 
 Size Texture2D::getSize() const
@@ -55,4 +57,14 @@ void Texture2D::scaleToTexture()
 {
     SDL_QueryTexture(getTexture().get(), nullptr, nullptr, &textureSize.width, &textureSize.height);
 
+}
+
+bool Texture2D::hasTexture() const
+{
+    return texturePtr != nullptr;
+}
+
+void Texture2D::resetTexture()
+{
+    texturePtr.reset();
 }

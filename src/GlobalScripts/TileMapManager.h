@@ -6,12 +6,16 @@ using std::pair;
 using std::list;
 using std::vector;
 #include <SDL_rect.h>
+#include <memory>
 class TileMapManager
 {
+    using Path = std::unique_ptr<list<pair<int, int>>>;
+
 public:
+
     explicit TileMapManager(vector<vector<int> > &aMapTemplate);
     bool waveAlgo(pair<int, int> startVertex, pair<int, int> endVertex);
-    list<pair<int, int> > * getPath(pair<int, int> endVertex);
+    Path getPath(pair<int, int> endVertex);
     int getRowCount() const;
     int getColumnCount() const;
 
@@ -22,7 +26,7 @@ public:
 
 private:
 
-    list<pair<int, int> >* getAvaliableNeightbours(int aRow, int aColumn);
+    Path getAvaliableNeightbours(int aRow, int aColumn);
     vector<vector<int> > mapTemplate;
     vector<vector<int> > waveZone;
     list<pair<int, int> > oldFront;

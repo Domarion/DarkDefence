@@ -1,30 +1,24 @@
 #include "AbilitySnowStorm.h"
 #include "../GlobalScripts/GameModel.h"
-AbilitySnowStorm::AbilitySnowStorm()
-    :damagePerSecond(0), affectedMobs( nullptr )
+AbilitySnowStorm::AbilitySnowStorm(std::shared_ptr<ManaGlobal> aManaModel)
+    : AbilityModel(aManaModel)
+    , snowEffect(nullptr)
+    , damagePerSecond(0)
+    , affectedMobs(nullptr)
 {
 
 }
 
-AbilitySnowStorm::~AbilitySnowStorm()
-{
-    if (affectedMobs != nullptr)
-    {
-        affectedMobs->clear();
-        delete affectedMobs;
-        affectedMobs = nullptr;
-    }
-}
-
-void AbilitySnowStorm::init(Scene * const scenePtr)
+void AbilitySnowStorm::init(std::shared_ptr<Scene> scenePtr)
 {
     AbilityModel::init(scenePtr);
 
 
     pair<string, double> mv = std::make_pair("MoveSpeed", -2.0);
     pair<string, double> rt = std::make_pair("ReloadTime", +5.0e+3);
-    snowEffect.addMiniEffect(mv);
-    snowEffect.addMiniEffect(rt);
+    snowEffect = std::make_shared<EffectModel>();
+    snowEffect->addMiniEffect(mv);
+    snowEffect->addMiniEffect(rt);
 
 }
 
@@ -47,7 +41,7 @@ bool AbilitySnowStorm::onReady(double timestep)
         for(auto affectedMob = affectedMobs->begin(); affectedMob != affectedMobs->end(); ++affectedMob)
         {
             if (*affectedMob != nullptr)
-                (*affectedMob)->getEffectReceiver()->applyEffect(&snowEffect);
+                (*affectedMob)->getEffectReceiver()->applyEffect(snowEffect);
         }
 
         abilityState = Enums::AbilityStates::asWorking;
@@ -80,7 +74,7 @@ bool AbilitySnowStorm::onWorking(double timestep)
             for(auto affectedMob = affectedMobs->begin(); affectedMob != affectedMobs->end(); ++affectedMob)
             {
                 if (*affectedMob != nullptr)
-                    (*affectedMob)->getEffectReceiver()->cancelEffect(&snowEffect);
+                    (*affectedMob)->getEffectReceiver()->cancelEffect(snowEffect);
             }
 
 
@@ -90,7 +84,7 @@ bool AbilitySnowStorm::onWorking(double timestep)
     else
     {
         currentWorkTime -= timestep;
-        counter+= timestep;
+        counter += timestep;
     }
 
     //std::cout << "worked" << std::endl;
@@ -102,8 +96,6 @@ bool AbilitySnowStorm::onCooldown(double timestep)
     if (currentCooldownTime <= 0)
     {
         affectedMobs->clear();
-        delete affectedMobs;
-        affectedMobs = nullptr;
 
         currentCooldownTime = cooldownTime;
         abilityState = Enums::AbilityStates::asNotAvaliable;

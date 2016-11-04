@@ -2,7 +2,8 @@
 #include "ResourcePlace.h"
 
 Mine::Mine()
-    :model(nullptr),mineEffectReceiver(new DestructibleObjectEffectReceiver())
+    : model(nullptr)
+    , mineEffectReceiver(std::make_shared<DestructibleObjectEffectReceiver>())
 {
 
 }
@@ -25,15 +26,15 @@ bool Mine::update(double timestep)
 
             if (model->getLimit() > 0)
             {
-                ResourcePlace* resPlace = new ResourcePlace();
-                AnimatedSprite* resSprite = new AnimatedSprite();
-                resSprite->setRect(0, 0, 200, 200);
+                auto resPlace = std::make_shared<ResourcePlace>();
+                auto resSprite = std::make_shared<AnimationSceneSprite>(parentScenePtr.lock()->getRenderer());
+                resSprite->setSize(Size(200, 200));
                 resSprite->loadTexture("GameData/textures/Resources/WheatResource.png");
                 resPlace->setSprite(resSprite);
                 resPlace->setName("ResourcePlace");
                 resPlace->setTag("ResourcePlace");
 
-                parentScenePtr->spawnObject(x, y, resPlace);
+                parentScenePtr.lock()->spawnObject(x, y, resPlace);
                 resPlace->setLimit(model->getLimit());
             }
             return false;
@@ -45,26 +46,24 @@ bool Mine::update(double timestep)
 
 void Mine::finalize()
 {
-    delete model;
-    delete mineEffectReceiver;
 }
 
-DestructibleObject *Mine::getDestructibleObject()
+std::shared_ptr<DestructibleObject> Mine::getDestructibleObject() const
 {
     return model;
 }
 
-EffectReceiver *Mine::getEffectReceiver() const
+std::shared_ptr<EffectReceiver> Mine::getEffectReceiver() const
 {
     return mineEffectReceiver;
 }
 
-MineModel *  Mine::getMineModel()
+std::shared_ptr<MineModel>  Mine::getMineModel()
 {
     return model;
 }
 
-void Mine::setMineModel(MineModel *  newModel)
+void Mine::setMineModel(std::shared_ptr<MineModel>  newModel)
 {
    model = newModel;
 }

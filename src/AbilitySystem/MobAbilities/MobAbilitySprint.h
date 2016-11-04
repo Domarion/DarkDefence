@@ -16,6 +16,6 @@ public:
 
     // MobAbility interface
 public:
-    virtual bool canTrigger(SceneObject *targ, Enums::AIMobStates aistate) override;
+    virtual bool canTrigger(std::shared_ptr<SceneObject> targ, Enums::AIMobStates aistate) override;
 };
 

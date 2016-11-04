@@ -1,7 +1,8 @@
 #include "AbilityMagicStones.h"
-#include <iostream>
-AbilityMagicStones::AbilityMagicStones()
-    :gatesSceneObject(nullptr)
+
+AbilityMagicStones::AbilityMagicStones(std::shared_ptr<ManaGlobal> aManaModel)
+    : AbilityModel(aManaModel)
+    , gatesSceneObject(nullptr)
 {
 
 }
@@ -11,11 +12,12 @@ AbilityMagicStones::~AbilityMagicStones()
     gatesSceneObject = nullptr;
 }
 
-void AbilityMagicStones::init(Scene* const scenePtr)
+void AbilityMagicStones::init(std::shared_ptr<Scene> scenePtr)
 {
     AbilityModel::init(scenePtr);
     pair<string, double> miniProtection = std::make_pair("Protection", +500);
-    StoneEffect.addMiniEffect(miniProtection);
+    StoneEffect = std::make_shared<EffectModel>();
+    StoneEffect->addMiniEffect(miniProtection);
 }
 
 bool AbilityMagicStones::onReady(double timestep)
@@ -32,9 +34,8 @@ bool AbilityMagicStones::onReady(double timestep)
 
     if (gatesSceneObject != nullptr)
     {
-        gatesSceneObject->getEffectReceiver()->applyEffect(&StoneEffect);
+        gatesSceneObject->getEffectReceiver()->applyEffect(StoneEffect);
         abilityState = Enums::AbilityStates::asWorking;
-         std::cout << "worked" << std::endl;
     }
     else
         abilityState = Enums::AbilityStates::asNotAvaliable;
@@ -47,7 +48,7 @@ bool AbilityMagicStones::onWorking(double timestep)
     if (currentWorkTime <= 0)
     {
         if (gatesSceneObject != nullptr)
-            gatesSceneObject->getEffectReceiver()->cancelEffect(&StoneEffect);
+            gatesSceneObject->getEffectReceiver()->cancelEffect(StoneEffect);
 
         currentWorkTime = workTime;
         abilityState = Enums::AbilityStates::asOnCooldown;
@@ -55,7 +56,6 @@ bool AbilityMagicStones::onWorking(double timestep)
     else
         currentWorkTime -= timestep;
 
-    //std::cout << "worked" << std::endl;
     return true;
 }
 

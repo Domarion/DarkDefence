@@ -6,6 +6,7 @@ BOOST_AUTO_TEST_SUITE(TileTerrainMakerTestSuite)
 struct TileTerrainMakerFixture
 {
      TileLegendParser parser;
+     std::shared_ptr<RenderingSystem> nullRenderer = nullptr;
 };
 
 
@@ -14,7 +15,7 @@ BOOST_FIXTURE_TEST_CASE(TilesShouldBeLoaded, TileTerrainMakerFixture)
    //Given
     const std::string legendString("50 50\n2\n@=grass\n|=rocks");
 
-    TileLegendCollection collection;
+    TileLegendCollection collection(nullRenderer);
    //When
     parser.parseString(legendString, collection);
 

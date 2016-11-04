@@ -1,12 +1,10 @@
 #include "AbilityModel.h"
-#include "../GlobalScripts/GameModel.h"
 
-#include <iostream>
-AbilityModel::AbilityModel()
+AbilityModel::AbilityModel(std::shared_ptr<ManaGlobal> aManaModel)
     :abilityState(Enums::AbilityStates::asNotAvaliable),
       abilityName("none"), manaCost(0), workTime(0.0),
       currentWorkTime(0.0), cooldownTime(0.0), currentCooldownTime(0.0),
-      parentScenePtr(nullptr)
+      parentScenePtr(nullptr), mManaModel(aManaModel)
 {
 
 }
@@ -16,7 +14,7 @@ AbilityModel::~AbilityModel()
 
 }
 
-void AbilityModel::init(Scene * const scenePtr)
+void AbilityModel::init(std::shared_ptr<Scene> scenePtr)
 {
     parentScenePtr = scenePtr;
 }
@@ -25,9 +23,8 @@ void AbilityModel::init(Scene * const scenePtr)
 
 bool AbilityModel::onReady(double timestep)
 {
-    return ( GameModel::getInstance()->getManaModel()->payMana(getManaCost()));
+    return mManaModel->payMana(getManaCost());
 }
-
 
 bool AbilityModel::update(double timestep)
 {

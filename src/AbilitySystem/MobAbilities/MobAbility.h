@@ -7,17 +7,17 @@ using Enums::AIMobStates;
 class MobAbility: public AbilityModel
 {
 public:
-    MobAbility();
+    MobAbility(std::shared_ptr<ManaGlobal> aManaModel = nullptr);
     virtual ~MobAbility();
 
 
-    virtual void setTarget(SceneObject *targ);
+    virtual void setTarget(std::shared_ptr<SceneObject> targ);
     virtual bool isInProcess();
     virtual bool isTargetable();
-    virtual bool canTrigger(SceneObject* targ, AIMobStates aistate) = 0;
+    virtual bool canTrigger(std::shared_ptr<SceneObject> targ, AIMobStates aistate) = 0;
 
 protected:
 
-    SceneObject* target;
+    std::shared_ptr<SceneObject> target;
 };
 

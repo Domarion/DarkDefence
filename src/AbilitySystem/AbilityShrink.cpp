@@ -1,7 +1,10 @@
 #include "AbilityShrink.h"
 #include "../GlobalScripts/GameModel.h"
-AbilityShrink::AbilityShrink()
-    :damagePerSecond(0.0), affectedMobs( nullptr )
+
+AbilityShrink::AbilityShrink(std::shared_ptr<ManaGlobal> aManaModel)
+    : AbilityModel(aManaModel)
+    , damagePerSecond(0.0)
+    , affectedMobs( nullptr )
 {
 
 }
@@ -11,7 +14,7 @@ AbilityShrink::~AbilityShrink()
 
 }
 
-void AbilityShrink::init(Scene * const scenePtr)
+void AbilityShrink::init(std::shared_ptr<Scene> scenePtr)
 {
     AbilityModel::init(scenePtr);
 }
@@ -32,7 +35,6 @@ bool AbilityShrink::onReady(double timestep)
     if (affectedMobs != nullptr)
     {
         abilityState = Enums::AbilityStates::asWorking;
-        std::cout << "worked" << std::endl;
     }
     else
         abilityState = Enums::AbilityStates::asNotAvaliable;
@@ -77,8 +79,6 @@ bool AbilityShrink::onCooldown(double timestep)
     if (currentCooldownTime <= 0)
     {
         affectedMobs->clear();
-        delete affectedMobs;
-        affectedMobs = nullptr;
 
         currentCooldownTime = cooldownTime;
         abilityState = Enums::AbilityStates::asNotAvaliable;

@@ -10,8 +10,10 @@
 
 
 
-InventoryScene::InventoryScene()
-    :inventoryController(nullptr), heroController(nullptr)
+InventoryScene::InventoryScene(std::shared_ptr<RenderingSystem> &aRenderer)
+    :Scene(aRenderer)
+    , inventoryController(nullptr)
+    , heroController(nullptr)
 {
 }
 
@@ -20,64 +22,63 @@ InventoryScene::~InventoryScene()
     clear();
 }
 
-void InventoryScene::init( SceneManager* sceneManagerPtr)
+void InventoryScene::init(std::shared_ptr<SceneManager> sceneManagerPtr)
 {
-    Renderer::getInstance()->setRendererDrawColor(255, 255, 255);
+    renderer->setRendererDrawColor(255, 255, 255, 255);
     Scene::init(sceneManagerPtr);
 
     initControlButton();
     initHeroView();
     initInventoryView();
+    Scene::addToUIList(MainRect);
 }
 
 void InventoryScene::clear()
 {
-    delete inventoryController;
-    delete heroController;
     Scene::clear();
+    heroController.release();
+    inventoryController.release();
+
 }
 
 void InventoryScene::initControlButton()
 {
+
+    Position pos(MainRect->getSize().width - 100, MainRect->getSize().height - 50);
+
     Scene::addLoadSceneButton("Назад", "ButtonFont", "MainScene",
-                Renderer::getInstance()->getScreenWidth() - 100, Renderer::getInstance()->getScreenHeight() - 50,
-                              100, 50);
+                pos.x, pos.y, 100, 50);
 }
 
 void InventoryScene::initHeroView()
 {
-    SlotContainer* heroFigure = new SlotContainer();
-
-    heroFigure->setRect(300,0, 300, 500);
-    heroController =  new HeroInventoryController();
+    heroController =  std::make_unique<HeroInventoryController>();
     heroController->setModel(GameModel::getInstance()->getHeroInventory());
-    heroController->setView(heroFigure);
-    heroController->initView();
+    heroController->initLocalPositions(MainRect->getSize());
+    heroController->initView(renderer);
+    auto items = heroController->getView()->getItems();
+    for(auto& item : items)
+    {
+        MainRect->addChild(item);
+    }
 
-    Scene::addToUIList(heroFigure);
+  Scene::addAsInputHandler(heroController->getView().get());
+
 }
 
 void InventoryScene::initInventoryView()
 {
-    if (GameModel::getInstance()->getInventory()->getItemCount() > 0)
-    {
+//   if (GameModel::getInstance()->getInventory()->getItemCount() > 0)
+//   {
         const int showItems = 5;
-        const int itemWidth = 72;
-        const int itemHeight = 72;
+        auto scroll = std::make_shared<UIScrollList>(showItems, renderer);
 
-        ScrollList* scroll = new ScrollList();
-        scroll->initScrollList(showItems, itemWidth, itemHeight);
-        scroll->setRect(0, 0, Renderer::getInstance()->getScreenWidth()*0.4, Renderer::getInstance()->getScreenHeight() - 50);
-        scroll->loadTexture("GameData/textures/topPanel.png");
-
-        inventoryController = new InventoryController();
+        inventoryController = std::make_unique<InventoryController>(renderer);
         inventoryController->setModel(GameModel::getInstance()->getInventory());
-
-
         inventoryController->setView(scroll);
         inventoryController->initView();
 
-        Scene::addToUIList(scroll);
-    }
+        MainRect->addChild(scroll);
+//    }
 }
 

@@ -1,7 +1,8 @@
 #include "MobAbility.h"
 
-MobAbility::MobAbility()
-    :target(nullptr)
+MobAbility::MobAbility(std::shared_ptr<ManaGlobal> aManaModel)
+    : AbilityModel(aManaModel)
+    , target(nullptr)
 {
 
 }
@@ -11,11 +12,9 @@ MobAbility::~MobAbility()
 
 }
 
-void MobAbility::setTarget(SceneObject *targ)
+void MobAbility::setTarget(std::shared_ptr<SceneObject> targ)
 {
     target = targ;
-    if (target == nullptr)
-        std::cout << "Why target is nullptr?" << std::endl;
 }
 
 bool MobAbility::isInProcess()

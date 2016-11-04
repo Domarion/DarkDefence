@@ -23,7 +23,7 @@ bool TileMapManager::waveAlgo(pair<int, int> startVertex, pair<int, int> endVert
     {
         for(auto currentVertex: oldFront)
         {
-            list<pair<int, int> > *vertexNeightbours = getAvaliableNeightbours(currentVertex.first, currentVertex.second);
+            TileMapManager::Path vertexNeightbours = getAvaliableNeightbours(currentVertex.first, currentVertex.second);
 
             if (!vertexNeightbours->empty())
                  for(auto neightbour: *vertexNeightbours)
@@ -32,8 +32,6 @@ bool TileMapManager::waveAlgo(pair<int, int> startVertex, pair<int, int> endVert
                         waveZone[neightbour.first][neightbour.second] = startVertexDistance + 1;
                         newFront.push_back(neightbour);
                     }
-
-            delete vertexNeightbours;
         }
 
         if (newFront.empty())
@@ -58,9 +56,9 @@ bool TileMapManager::waveAlgo(pair<int, int> startVertex, pair<int, int> endVert
     return false;
 }
 
-list<pair<int, int> > *TileMapManager::getPath(pair<int, int> endVertex)
+TileMapManager::Path TileMapManager::getPath(pair<int, int> endVertex)
 {
-    list<pair<int, int> > *path = new list<pair<int, int> >();
+    auto path = std::make_unique<list<pair<int, int>>>();
     path->push_back(endVertex);
 
     size_t startVertexDistance = waveZone[endVertex.first][endVertex.second];
@@ -69,7 +67,7 @@ list<pair<int, int> > *TileMapManager::getPath(pair<int, int> endVertex)
 
     for(;startVertexDistance > 0; --startVertexDistance)
     {
-        list<pair<int, int> > *vertexNeightbours = getAvaliableNeightbours(currentVertex.first, currentVertex.second);
+        TileMapManager::Path vertexNeightbours = getAvaliableNeightbours(currentVertex.first, currentVertex.second);
 
         if (!vertexNeightbours->empty())
              for(auto neightbour: *vertexNeightbours)
@@ -89,8 +87,6 @@ list<pair<int, int> > *TileMapManager::getPath(pair<int, int> endVertex)
                          break;
                      }
              }
-
-        delete vertexNeightbours;
     }
 
     return path;
@@ -134,10 +130,9 @@ SDL_Point TileMapManager::getGlobalPosFromLocalCoords(pair<int,int> localPos)
     return globalPos;
 }
 
-list<pair<int, int> >* TileMapManager::getAvaliableNeightbours(int aRow, int aColumn)
+TileMapManager::Path TileMapManager::getAvaliableNeightbours(int aRow, int aColumn)
 {
-    list<pair<int, int> > *neightbourList = new list<pair<int, int> >();
-
+    auto neightbourList = std::make_unique<list<pair<int, int>>>();
 
     int rowCount = getRowCount();
     int columnCount = getColumnCount();

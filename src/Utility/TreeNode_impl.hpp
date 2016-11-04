@@ -37,12 +37,12 @@ inline bool TreeNode<T>::addChildData(string itemname, T& nodeData)
 
 
 
-template<typename T>
-inline bool TreeNode<T>::removeChild(TreeNode<T> &item)//TODO:implement
-{
-	return false;
+//template<typename T>
+//inline bool TreeNode<T>::removeChild(TreeNode<T> &item)//TODO:implement
+//{
+//	return false;
 
-}
+//}
 
 
 template<typename T>

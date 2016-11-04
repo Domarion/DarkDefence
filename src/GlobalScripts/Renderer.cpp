@@ -156,6 +156,7 @@ int Renderer::getScreenWidth()
 
     return w;
 }
+int w = 0, h = 0;
 
 int Renderer::getScreenHeight()
 {

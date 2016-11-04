@@ -32,18 +32,38 @@ using std::stringstream;
 
 GameModel* GameModel::instance_ = nullptr;
 
-MobModel* GameModel::getMonsterByName(string name)
+GameModel::GameModel()
+    : waveNumber(0)
+    , waveCount(0)
+    , pointsPerWave(0)
+    , pointsPerMap(0)
+    , pointsRefundModifier(1)
+    , MonsterCountOnMap( 0 )
+    , gameStatus(Enums::GameStatuses::gsINPROGRESS)
+    , currentMissionIndex(0)
+    , shop(std::make_shared<ShopInventory>())
+    , heroFigure(std::make_shared<HeroInventory>(9))
+    , inventory(std::make_shared<Inventory>())
+    , resourcesModelPtr(new ResourcesModel())
+    , towerUpgradesRootNode()
+    , missionReward()
+    , shopItemsLoaded(false)
+    , gameDataLoaded(false)
 {
-    return new MobModel(monstersModelsMap[name]);
 }
 
-MobModel* GameModel::getTowerByName(string name)
+std::unique_ptr<MobModel> GameModel::getMonsterByName(string name)
+{
+    return std::make_unique<MobModel>(monstersModelsMap[name]);
+}
+
+std::unique_ptr<MobModel> GameModel::getTowerByName(string name)
 {
 
     TreeNode<MobModel>* temp = towerUpgradesRootNode.recursiveSearch(name);
     if (temp == nullptr)
         return nullptr;
-    return new MobModel(temp->getData());
+    return std::make_unique<MobModel>(temp->getData());
 }
 
 void GameModel::loadMonsterList(string filename)
@@ -192,7 +212,7 @@ void GameModel::addItemToInventoryByName(string name)
 
     loadShopItems("GameData/Items.xml");
 
-    shop.sendItemWithoutPriceCheck(name);
+    shop->sendItemWithoutPriceCheck(name);
 
 }
 
@@ -259,16 +279,16 @@ void GameModel::setPointsRefundModifier(double value)
 
 
 
-MobAbility *GameModel::getMobAbilityByName(string name)
+std::unique_ptr<MobAbility> GameModel::getMobAbilityByName(string name)
 {
     if (name == "MobAbilityArson")
-        return new MobAbilityArson();
+        return std::make_unique<MobAbilityArson>();
     if (name == "MobAbilityRegeneration")
-        return new MobAbilityRegeneration();
+        return std::make_unique<MobAbilityRegeneration>();
     if (name == "MobAbilitySprint")
-        return new MobAbilitySprint();
+        return std::make_unique<MobAbilitySprint>();
     if (name == "MobAbilityInvisiblity")
-        return new MobAbilityInvisiblity();
+        return std::make_unique<MobAbilityInvisiblity>();
     return nullptr;
 }
 
@@ -314,7 +334,7 @@ void GameModel::loadGameData(string filename)
 
 
             for(auto itemName : inventoryItemsNames)
-                shop.sendItemWithoutPriceCheck(itemName);
+                shop->sendItemWithoutPriceCheck(itemName);
 
 
 
@@ -323,8 +343,8 @@ void GameModel::loadGameData(string filename)
 
             for(auto itemName : heroItemsNames)
             {
-                shop.sendItemWithoutPriceCheck(itemName);
-                inventory.sendItemWithoutPriceCheck(itemName);
+                shop->sendItemWithoutPriceCheck(itemName);
+                inventory->sendItemWithoutPriceCheck(itemName);
             }
 
             SDL_RWclose(binaryDataFile);
@@ -376,7 +396,7 @@ string GameModel::getAbilityNameFromIndex(int index)
     return abilitiesNames[ index ];
 }
 
-int GameModel::getAbilityCount() const
+size_t GameModel::getAbilityCount() const
 {
     return abilitiesNames.size();
 }
@@ -400,12 +420,6 @@ void GameModel::resetGameValues()
     waveNumber = waveCount = 0;
 }
 
-ManaGlobal *GameModel::getManaModel()
-{
-    return &manaModel;
-
-}
-
 void GameModel::setGameStatus(const Enums::GameStatuses &value)
 {
     gameStatus = value;
@@ -419,17 +433,14 @@ int GameModel::getMonsterCount() const
     return MonsterCountOnMap;
 }
 
-MineModel *GameModel::getMineModel(string name)
+std::unique_ptr<MineModel> GameModel::getMineModel(string name)
 {
-    return new MineModel(minesModelsMap.at(name));
+    return std::make_unique<MineModel>(minesModelsMap.at(name));
 }
 
-MineModel *GameModel::getMineModelByRes(Enums::ResourceTypes resType)
+std::unique_ptr<MineModel> GameModel::getMineModelByRes(Enums::ResourceTypes resType)
 {
-
-    //std::cout << "Minename=" << mineResMapping[resType] << std::endl;
     return getMineModel(mineResMapping[static_cast<int>(resType)]);
-    // return nullptr;
 }
 
 MineModel *GameModel::getMineModelFromList(string name)
@@ -466,14 +477,7 @@ ResourcesModel* GameModel::getResourcesModel()
 }
 
 
-GameModel::GameModel()
-:waveNumber(0), waveCount(0), pointsPerWave(0), pointsPerMap(0),
- pointsRefundModifier(1), MonsterCountOnMap( 0 ), gameStatus(Enums::GameStatuses::gsINPROGRESS), currentMissionIndex(0), heroFigure(9),
- resourcesModelPtr(new ResourcesModel()), towerUpgradesRootNode(), missionReward(),
-  shopItemsLoaded(false), gameDataLoaded(false)
-{
 
-}
 
 bool GameModel::loadShopItems(string filename)
 {
@@ -492,27 +496,27 @@ bool GameModel::loadShopItems(string filename)
             xmlinp >> BOOST_SERIALIZATION_NVP(shop);
         }
 
-        shop.ConnectMethod(std::bind(&Inventory::receiveItem, &inventory, std::placeholders::_1));
-        inventory.ConnectMethod(std::bind(&HeroInventory::receiveItem, &heroFigure, std::placeholders::_1));
-        heroFigure.ConnectMethod(std::bind(&Inventory::receiveItem, &inventory, std::placeholders::_1));
+        shop->ConnectMethod(std::bind(&Inventory::receiveItem, inventory, std::placeholders::_1));
+        inventory->ConnectMethod(std::bind(&HeroInventory::receiveItem, heroFigure, std::placeholders::_1));
+        heroFigure->ConnectMethod(std::bind(&Inventory::receiveItem, inventory, std::placeholders::_1));
 
         shopItemsLoaded = true;
     }
     return (!shopItemsLoaded);
 }
 
-ShopInventory* GameModel::getShopInventory()
+std::shared_ptr<ShopInventory> GameModel::getShopInventory()
 {
-	return &shop;
+    return shop;
 }
 
-Inventory* GameModel::getInventory()
+std::shared_ptr<Inventory> GameModel::getInventory()
 {
-    return &inventory;
+    return inventory;
 }
 
-HeroInventory *GameModel::getHeroInventory()
+std::shared_ptr<HeroInventory> GameModel::getHeroInventory()
 {
-    return &heroFigure;
+    return heroFigure;
 
 }

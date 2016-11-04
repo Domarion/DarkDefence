@@ -5,13 +5,12 @@
 class ScoreScene: public Scene
 {
 public:
-    ScoreScene();
+    ScoreScene(std::shared_ptr<RenderingSystem> &aRenderer);
     virtual ~ScoreScene();
-    virtual void init(SceneManager* sceneManagerPtr) override;
+    virtual void init(std::shared_ptr<SceneManager> sceneManagerPtr) override;
     virtual void clear() override;
 
 private:
-    void initControlLabel();
     void showItemRewards();
     void showGoldReward();
     void showScoreView();

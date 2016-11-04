@@ -13,9 +13,9 @@
 class InventoryScene: public Scene
 {
 public:
-	InventoryScene();
+    InventoryScene(std::shared_ptr<RenderingSystem> &aRenderer);
 	virtual ~InventoryScene();
-    virtual void init(SceneManager* sceneManagerPtr) override;
+    virtual void init(std::shared_ptr<SceneManager> sceneManagerPtr) override;
     virtual void clear() override;
 
 private:
@@ -23,7 +23,7 @@ private:
     void initHeroView();
     void initInventoryView();
 
-    InventoryController* inventoryController;
-    HeroInventoryController* heroController;
+    std::unique_ptr<InventoryController> inventoryController;
+    std::unique_ptr<HeroInventoryController> heroController;
 };
 

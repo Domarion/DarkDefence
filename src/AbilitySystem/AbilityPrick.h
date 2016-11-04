@@ -5,11 +5,11 @@
 class AbilityPrick: public AbilityModel, public InputHandler
 {
 public:
-    AbilityPrick();
+    AbilityPrick(std::shared_ptr<ManaGlobal> aManaModel);
     virtual ~AbilityPrick();
     // AbilityModel interface
 public:
-    virtual void init(Scene * const scenePtr) override;
+    virtual void init(std::shared_ptr<Scene> scenePtr) override;
     virtual bool onReady(double timestep) override;
     virtual bool onWorking(double timestep) override;
     virtual bool onCooldown(double timestep) override;
@@ -18,7 +18,7 @@ public:
 bool update(double timestep) override;
 private:
     int damage;
-    PrickObject* somePrick;
+    std::shared_ptr<PrickObject> somePrick;
     int coordX, coordY;
     // InputHandler interface
 public:

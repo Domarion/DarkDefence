@@ -6,12 +6,13 @@ class UIProgressBar final: public Leaf
 {
 public:
     UIProgressBar() = default;
-    explicit UIProgressBar(const Texture2D& background, const Texture2D& foreground);
+    explicit UIProgressBar(std::shared_ptr<RenderingSystem>& aRenderingContext, const Texture2D& background, const Texture2D& foreground);
     virtual ~UIProgressBar() = default;
     void calculateProgress(int current, int max);
 
+
     // IComposite interface
-    virtual void draw() override;
+    virtual void draw() const override;
     virtual Size getSize() const override;
     virtual void setSize(Size size) override;
 

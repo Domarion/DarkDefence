@@ -11,7 +11,7 @@
 InputDispatcher* InputDispatcher::instance_ = nullptr;
 
 InputDispatcher::InputDispatcher()
-:previousEventType( -1)
+:previousEventType(0)
 {
 	// TODO Auto-generated constructor stub
 
@@ -56,8 +56,8 @@ void InputDispatcher::sendEvent(SDL_Event* inputEvent)//TODO:: Wrong Logic
 				if(handlers[i]->canDrag() && handlers[i]->containsPoint(inputEvent->motion.x, inputEvent->motion.y))
 				{
 
-					handlers[i]->onDrag(yDiff);
-					break;
+                    if (handlers[i]->onDrag(yDiff))
+                        break;
 				}
 			}
 		}

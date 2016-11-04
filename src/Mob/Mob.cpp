@@ -10,29 +10,26 @@
 
 
 
-Mob::Mob(MobModel* model, TileMapManager* aTileMapPtr)
-:mobModel(model),
-  mobEffectReceiver(new MobEffectReceiver()), tileMapPtr(aTileMapPtr), mobAI(new AIComponent(this))///TODO:Нельзя инициировать недостроенным объектом!
+Mob::Mob(std::shared_ptr<MobModel> model, std::shared_ptr<TileMapManager> aTileMapPtr)
+    : mobModel(model)
+    , mobEffectReceiver(std::make_shared<MobEffectReceiver>())
+    , tileMapPtr(aTileMapPtr)
+    , mobAI(nullptr)
 {
-	// TODO Auto-generated constructor stub
 
-    mobEffectReceiver->init(mobModel);
+   mobEffectReceiver->init(mobModel);
    if ( tileMapPtr == nullptr)
    {
        std::cout << "Mob_tileNullptr" << std::endl;
    }
+
 }
 
 void Mob::init(int x, int y)
 {
-    SceneObject::init(x, y);
+    mobAI = std::make_unique<AIComponent>(shared_from_this());
 
-	if (mobAI != nullptr)
-    {
-        //mobAI->setSprite(spriteModel);
-        //mobAI->setScene(parentScenePtr);
-       //this->setTileMapManager( getParentScene()->getTileMap());
-    }
+    SceneObject::init(x, y);
 
     if (mobModel->getTag() == "Monster")
 		GameModel::getInstance()->incMonsterCount();
@@ -48,11 +45,9 @@ bool Mob::update(double timestep)
     if (!mobModel->IsAlive())
     {
         finalize();
-        //parentScenePtr->destroyObject(this);
         return false;
     }
-	mobAI->MakeDecision(timestep);
-   // setPos(mobModel->getWorldX(),mobModel->getWorldY());
+    mobAI->MakeDecision(timestep);
     return true;
 }
 
@@ -66,14 +61,9 @@ void Mob::finalize()
 
 Mob::~Mob()
 {
-
-    delete mobAI;
-    delete mobModel;
-    delete mobEffectReceiver;
     tileMapPtr = nullptr;
-    //finalize();
-
 }
+
 string Mob::getName() const
 {
     return mobModel->getName();
@@ -92,23 +82,23 @@ void Mob::setTag(const string &value)
     mobModel->setTag(value);
 }
 
-DestructibleObject *Mob::getDestructibleObject()
+std::shared_ptr<DestructibleObject> Mob::getDestructibleObject() const
 {
     return mobModel;
 }
 
-EffectReceiver* Mob::getEffectReceiver() const
+std::shared_ptr<EffectReceiver>  Mob::getEffectReceiver() const
 {
     return mobEffectReceiver;
 }
 
-MobModel *Mob::getModel() const
+std::shared_ptr<MobModel> Mob::getModel() const
 {
     return mobModel;
 }
 
 
-TileMapManager *Mob::getTileMapManager() const
+std::shared_ptr<TileMapManager> Mob::getTileMapManager() const
 {
     if (tileMapPtr == nullptr)
     {
@@ -117,7 +107,7 @@ TileMapManager *Mob::getTileMapManager() const
     return tileMapPtr;
 }
 
-void Mob::setTileMapManager(TileMapManager *aTileMapPtr)
+void Mob::setTileMapManager(std::shared_ptr<TileMapManager> aTileMapPtr)
 {
     tileMapPtr = aTileMapPtr;
 }

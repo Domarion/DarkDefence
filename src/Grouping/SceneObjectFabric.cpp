@@ -19,17 +19,20 @@ SceneObjectFabric::~SceneObjectFabric()
 	// TODO Auto-generated destructor stub
 }
 
-SceneObject* SceneObjectFabric::produce(string name, string tag, string spritePath, int width, int height)
+std::unique_ptr<SceneObject> SceneObjectFabric::produce(string name, string tag, string spritePath, int width, int height,
+                                        std::shared_ptr<RenderingSystem>& aRenderingContext)
 {
-    SceneObject* someObject = new SceneObject();
+    auto someObject = std::make_unique<SceneObject>();
+    auto someSprite = std::make_shared<AnimationSceneSprite>(aRenderingContext);
 
-    AnimatedSprite* someSprite = new AnimatedSprite();
-    someSprite->setRect(0, 0, width, height);
+
+    someSprite->setSize(Size(width, height));
 
     someSprite->loadTexture(spritePath);
     someObject->setSprite(someSprite);
     someObject->setName(name);
     someObject->setTag(tag);
+
     return someObject;
 }
 

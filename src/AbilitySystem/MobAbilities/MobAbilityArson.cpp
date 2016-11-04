@@ -1,9 +1,10 @@
 #include "MobAbilityArson.h"
 
 MobAbilityArson::MobAbilityArson()
+    : arsonEffect(std::make_shared<EffectModel>())
 
 {
-    arsonEffect.setCaption("ArsonEffect");
+    arsonEffect->setCaption("ArsonEffect");
 }
 
 MobAbilityArson::~MobAbilityArson()
@@ -15,13 +16,13 @@ MobAbilityArson::~MobAbilityArson()
 
 bool MobAbilityArson::onReady(double timestep)
 {
-    std::cout << "WTFArson000" << std::endl;
+    //std::cout << "WTFArson000" << std::endl;
 
 
        if (target != nullptr)
        {
-         std::cout << "WTFArson" << std::endl;
-           target->getEffectReceiver()->applyEffect(&arsonEffect);
+      //   std::cout << "WTFArson" << std::endl;
+           target->getEffectReceiver()->applyEffect(arsonEffect);
            abilityState = Enums::AbilityStates::asWorking;
        }
        else
@@ -48,7 +49,7 @@ bool MobAbilityArson::onWorking(double timestep)
         int damage = 30;
         target->getDestructibleObject()->receiveDamageOneType(static_cast<int>(Enums::DamageTypes::dtFIRE), damage);
 
-        std::cout << "AbilityArson Working" << std::endl;
+        //std::cout << "AbilityArson Working" << std::endl;
         counter = 0;
     }
 
@@ -57,7 +58,7 @@ bool MobAbilityArson::onWorking(double timestep)
         currentWorkTime = workTime;
         abilityState = Enums::AbilityStates::asOnCooldown;
 
-        target->getEffectReceiver()->cancelEffect(&arsonEffect);
+        target->getEffectReceiver()->cancelEffect(arsonEffect);
         target = nullptr;
     }
     else
@@ -89,21 +90,21 @@ bool MobAbilityArson::isTargetable()
     return true;
 }
 
-bool MobAbilityArson::canTrigger(SceneObject *targ, Enums::AIMobStates aimobstate)
+bool MobAbilityArson::canTrigger(std::shared_ptr<SceneObject> targ, Enums::AIMobStates aimobstate)
 {
     if (targ == nullptr
             || aimobstate != Enums::AIMobStates::aiATTACK
             || abilityState != Enums::AbilityStates::asNotAvaliable)
         return false;
 
-    if (targ->getTag() != "Mine" || targ->getEffectReceiver() == nullptr || targ->getEffectReceiver()->hasEffect(&arsonEffect))
+    if (targ->getTag() != "Mine" || targ->getEffectReceiver() == nullptr || targ->getEffectReceiver()->hasEffect(arsonEffect))
     {
-        std::cout << "what happened?" << std::endl;
+        //std::cout << "what happened?" << std::endl;
         return false;
     }
     target = targ;
 
-    std::cout << "trololo?" << std::endl;
+    //std::cout << "trololo?" << std::endl;
     return true;
 }
 

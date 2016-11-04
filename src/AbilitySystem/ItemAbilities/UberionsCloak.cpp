@@ -10,13 +10,12 @@ UberionsCloak::~UberionsCloak()
 
 }
 
-void UberionsCloak::init(Scene* const scenePtr)
+void UberionsCloak::init(std::shared_ptr<Scene> scenePtr, std::shared_ptr<ManaGlobal> aManaModel)
 {
-    ManaGlobal* manaModelPtr = GameModel::getInstance()->getManaModel();
-    int newRegenValue = manaModelPtr->getRegenValue() + 10;
-    manaModelPtr->setRegenValue(newRegenValue);
-    int newMaxMana = manaModelPtr->getLimit() + 50;
-    manaModelPtr->setLimit(newMaxMana);
+    int newRegenValue = aManaModel->getRegenValue() + 10;
+    aManaModel->setRegenValue(newRegenValue);
+    int newMaxMana = aManaModel->getLimit() + 50;
+    aManaModel->setLimit(newMaxMana);
 
     double newPointsModifier = GameModel::getInstance()->getPointsRefundModifier() + 0.2;
     GameModel::getInstance()->setPointsRefundModifier(newPointsModifier);

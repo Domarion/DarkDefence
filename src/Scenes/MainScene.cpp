@@ -9,7 +9,10 @@
 #include "../Utility/textfilefunctions.h"
 #include <sstream>
 #include "../GlobalScripts/GameModel.h"
-MainScene::MainScene()
+#include "../GraphicsSystem/newSystem/UIElement/UIImage.h"
+
+MainScene::MainScene(std::shared_ptr<RenderingSystem> &aRenderer)
+    :Scene(aRenderer)
 {
 }
 
@@ -19,7 +22,7 @@ MainScene::~MainScene()
 }
 
 
-void MainScene::init(SceneManager* sceneManagerPtr)
+void MainScene::init(std::shared_ptr<SceneManager> sceneManagerPtr)
 {
     Scene::init(sceneManagerPtr);
 
@@ -28,6 +31,7 @@ void MainScene::init(SceneManager* sceneManagerPtr)
 
     initBackground();
     initUIMenuItems();
+    Scene::addToUIList(MainRect);
 }
 
 
@@ -68,8 +72,9 @@ void MainScene::loadMenuItems(string filename)
 void MainScene::initUIMenuItems()
 {
 
-    int x = Renderer::getInstance()->getScreenWidth()/4;
-    int y = Renderer::getInstance()->getScreenHeight()/4;
+
+    int x = MainRect->getSize().width/4;
+    int y = MainRect->getSize().height/4;
 
     for(size_t menuIndex = 0; menuIndex < itemNamesSceneNamesMapping.size(); ++menuIndex)
     {
@@ -84,14 +89,20 @@ void MainScene::initUIMenuItems()
 
 void MainScene::initBackground()
 {
-    Renderer::getInstance()->setRendererDrawColor(255, 255, 255);
+      renderer->setRendererDrawColor(255, 255, 255, 255);
 
-    CTexture* backGround = new CTexture();
-    backGround->loadTexture("GameData/textures/castle.jpg");
-    backGround->setRect(0, 0, Renderer::getInstance()->getScreenWidth(), Renderer::getInstance()->getScreenHeight());
-    Scene::addToUIList(backGround);
+      auto backGround = std::make_shared<UIImage>(renderer);
+      backGround->loadTexture("GameData/textures/castle.jpg");
+      backGround->setSize(MainRect->getSize());
+      MainRect->addChild(backGround);
 
-    GameModel::getInstance()->loadGameData("GameData/save.bin");
+
+//    CTexture* backGround = new CTexture();
+//    backGround->loadTexture("GameData/textures/castle.jpg");
+//    backGround->setRect(0, 0, Renderer::getInstance()->getScreenWidth(), Renderer::getInstance()->getScreenHeight());
+//    Scene::addToUIList(backGround);
+
+    //GameModel::getInstance()->loadGameData("GameData/save.bin");
 }
 
 

@@ -1,16 +1,17 @@
-#pragma oncer
+#pragma once
 #include "IComposite.h"
-
+#include "RenderingSystem.h"
 
 class Leaf : public IComposite
 {
 public:
+    explicit Leaf(std::shared_ptr<RenderingSystem>& aRenderingContext);
 
     Leaf() = default;
     virtual ~Leaf() = default;
 
-    virtual void addChild(shared_ptr<IComposite> child) override;
-    virtual void removeChild(shared_ptr<IComposite> child) override;
+    virtual void addChild(const shared_ptr<IComposite>& child) override;
+    virtual void removeChild(const shared_ptr<IComposite>& child) override;
     virtual weak_ptr<IComposite> getParent() const override;
 
     // IComposite interface
@@ -18,6 +19,8 @@ public:
     virtual void setPosition(Position pos) override;
 
 private:
+    mutable std::shared_ptr<RenderingSystem> renderer;
+
     weak_ptr<IComposite> parent;
     Position localPosition;
 
@@ -27,4 +30,8 @@ private:
 public:
     virtual void setParent(weak_ptr<IComposite> aParent) override;
     bool hasParent() const override;
+
+    // IComposite interface
+public:
+    virtual Position getLocalPosition() const override;
 };

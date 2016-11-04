@@ -7,21 +7,23 @@
 
 #pragma once
 #include "HeroInventory.h"
-#include "../GraphicsSystem/UI/SlotContainer.h"
+#include "../GraphicsSystem/newSystem/ConcreteUIViews/UISlotContainer.h"
 class HeroInventoryController
 {
 public:
-	HeroInventoryController();
+    HeroInventoryController();
 	virtual ~HeroInventoryController();
-	void setView(SlotContainer* newView);
-    SlotContainer* getView() const;
-	void setModel(HeroInventory* newModel);
-    HeroInventory* getModel() const;
-	void initView();
+    void setView(std::shared_ptr<UISlotContainer> newView);
+    std::shared_ptr<UISlotContainer> getView() const;
+    void setModel(std::shared_ptr<HeroInventory> newModel);
+    std::shared_ptr<HeroInventory> getModel() const;
+    void initLocalPositions(Size aRectSize);
+    void initView(std::shared_ptr<RenderingSystem> &aRenderer);
     void receiveItemFromModel(string caption, size_t itemType);
 private:
-	HeroInventory* model;
-	SlotContainer* view;
+    std::shared_ptr<HeroInventory> model;
+    std::shared_ptr<UISlotContainer> view;
+    std::vector<Position> slotsPositions;
 };
 
 

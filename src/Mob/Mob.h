@@ -10,15 +10,12 @@
 #include "../AI/AIComponent.h"
 #include "../Grouping/SceneObject.h"
 #include "MobModel.h"
-#include "MobSpawner.h"
 
 #include "../AbilitySystem/MobEffectReceiver.h"
-//#include "../Grouping/SceneObjectFabric.h"
 
 #include "../AbilitySystem/MobAbilities/MobAbility.h"
 
 #include "../GlobalScripts/TileMapManager.h"
-class MobSpawner;
 
 class AIComponent;
 class MobAbility;
@@ -26,37 +23,35 @@ class MobEffectReceiver;
 class MobModel;
 
 
-class Mob: public SceneObject
+class Mob: public SceneObject, public std::enable_shared_from_this<Mob>
 {
-    //friend class SceneObjectFabric;
-    friend class MobSpawner;
-    friend class TowerFabric;
 public:
+    Mob(std::shared_ptr<MobModel> model, std::shared_ptr<TileMapManager> aTileMapPtr = nullptr);
+    virtual ~Mob();
+
     virtual void init(int x, int y) override;
 
     virtual bool update(double timestep) override;
 	virtual void finalize() override;
-    virtual string getName() const;
-    virtual void setName(const string &value);
+    virtual string getName() const override;
+    virtual void setName(const string &value) override;
 
-    virtual string getTag() const;
-    virtual void setTag(const string &value);
-    virtual DestructibleObject* getDestructibleObject() override;
-    virtual EffectReceiver* getEffectReceiver() const override;
-    virtual MobModel* getModel() const;
+    virtual string getTag() const override;
+    virtual void setTag(const string &value) override;
+    virtual std::shared_ptr<DestructibleObject> getDestructibleObject() const override;
+    virtual std::shared_ptr<EffectReceiver> getEffectReceiver() const override;
+    virtual std::shared_ptr<MobModel> getModel() const;
 
-    TileMapManager* getTileMapManager() const;
-    void setTileMapManager(TileMapManager* aTileMapPtr);
+    std::shared_ptr<TileMapManager> getTileMapManager() const;
+    void setTileMapManager(std::shared_ptr<TileMapManager> aTileMapPtr);
 protected:
-    Mob(MobModel* model, TileMapManager* aTileMapPtr = nullptr);
-    virtual ~Mob();
 
-    MobModel* mobModel;
+    std::shared_ptr<MobModel> mobModel;
 
 
-    MobEffectReceiver* mobEffectReceiver;
-    TileMapManager* tileMapPtr;
-    AIComponent* mobAI;
+    std::shared_ptr<MobEffectReceiver>  mobEffectReceiver;
+    std::shared_ptr<TileMapManager> tileMapPtr;
+    std::unique_ptr<AIComponent> mobAI;
 
 };
 

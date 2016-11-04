@@ -11,17 +11,24 @@
 #include <list>
 using std::list;
 #include "../Input/InputDispatcher.h"
-#include "../GraphicsSystem/UI/TextButton.h"
+#include "../GraphicsSystem/newSystem/UIElement/UITextButton.h"
 #include "../GlobalScripts/GameModel.h"
-
-Scene::Scene()
-:listGUI(), sceneObjects(), parentSceneManager(nullptr), wasInited(false)
+#include <iostream>
+Scene::Scene(std::shared_ptr<RenderingSystem> &aRenderer)
+: renderer(aRenderer)
+, MainRect(std::make_shared<ConcreteComposite>())
+, listGUI()
+, sceneObjects()
+, parentSceneManager(nullptr)
+, wasInited(false)
+, mCamera(Size(aRenderer->getScreenSize().width, aRenderer->getScreenSize().height))
 {
+    MainRect->setSize(renderer->getScreenSize());
+    MainRect->setPosition(Position(0, 0));
 }
 
-void Scene::init(SceneManager* sceneManagerPtr)
+void Scene::init(std::shared_ptr<SceneManager> sceneManagerPtr)
 {
-
 	parentSceneManager = sceneManagerPtr;
 }
 
@@ -35,9 +42,14 @@ void Scene::copyToRender() const
 {
     for(auto sceneObject : sceneObjects)
         if (sceneObject != nullptr && sceneObject->getSprite() != nullptr )
-            sceneObject->getSprite()->draw();
+        {
+            Position sceneObjectPosition = sceneObject->getPosition();
+            Size sceneObjectSize = sceneObject->getSprite()->getSize();
+            if (mCamera.hasIntersection(sceneObjectPosition, sceneObjectSize))
+                sceneObject->getSprite()->drawAtPosition(mCamera.worldToCameraPosition(sceneObjectPosition));
+        }
 
-    for(auto guiItem : listGUI)
+    for(const auto& guiItem : listGUI)
         if (guiItem != nullptr)
             guiItem->draw();
 }
@@ -54,18 +66,18 @@ void Scene::startUpdate(double timestep)
     }
 }
 
-void Scene::spawnObject(int x, int y, SceneObject *obj)
+void Scene::spawnObject(int x, int y, std::shared_ptr<SceneObject> obj)
 {
     if (obj == nullptr)
         return;
 
-    obj->setParentScene(this);
+    obj->setParentScene(shared_from_this());
 
 
     obj->init(x, y);
 
 
-    InputHandler* handler = dynamic_cast<InputHandler*>(obj);
+    InputHandler* handler = dynamic_cast<InputHandler*>(obj.get());
 
     if (handler != nullptr)
             InputDispatcher::getInstance()->addHandler(handler);
@@ -73,9 +85,9 @@ void Scene::spawnObject(int x, int y, SceneObject *obj)
     sceneObjects.push_back(obj);
 }
 
-void Scene::destroyObject(SceneObject *obj)
+void Scene::destroyObject(std::shared_ptr<SceneObject> obj)
 {
-    InputHandler* handler = dynamic_cast<InputHandler*>(obj);
+    InputHandler* handler = dynamic_cast<InputHandler*>(obj.get());
 
     if (handler != nullptr)
             InputDispatcher::getInstance()->removeHandler(handler);
@@ -85,39 +97,51 @@ void Scene::destroyObject(SceneObject *obj)
     obj->finalize();
 }
 
-void Scene::addToUIList(IDrawable *item)
+void Scene::addToUIList(const std::shared_ptr<IComposite> &item)
 {
     if (item == nullptr)
         return;
 
     listGUI.push_back(item);
 
-    InputHandler* handler = dynamic_cast<InputHandler*>(item);
+    InputHandler* handler = dynamic_cast<InputHandler*>(item.get());
+
 
     if (handler != nullptr)
             InputDispatcher::getInstance()->addHandler(handler);
+    else
+        std::cout << "fucking NULL";
 }
 
-void Scene::removeFromUIList(IDrawable *item)
+void Scene::removeFromUIList(const std::shared_ptr<IComposite> &item)
 {
     if (item == nullptr)
         return;
 
     listGUI.remove(item);
 
-    InputHandler* handler = dynamic_cast<InputHandler*>(item);
+    InputHandler* handler = dynamic_cast<InputHandler*>(item.get());
 
     if (handler != nullptr)
         InputDispatcher::getInstance()->removeHandler(handler);
 }
 
+void Scene::addAsInputHandler(InputHandler *item)
+{
+
+    if (item != nullptr)
+        InputDispatcher::getInstance()->addHandler(item);
+}
+
 void Scene::clearUIList()
 {
+    MainRect->clearChildren();
     listGUI.clear();
+    InputDispatcher::getInstance()->clearHandlers();
 }
 
 
-SceneObject* Scene::findObjectByTag(std::string tag)
+std::shared_ptr<SceneObject> Scene::findObjectByTag(std::string tag)
 {
     for(auto ptr = sceneObjects.begin(); ptr != sceneObjects.end(); ++ptr)
     {
@@ -127,9 +151,9 @@ SceneObject* Scene::findObjectByTag(std::string tag)
     return nullptr;
 }
 
-list<SceneObject *> *Scene::findObjectsByTag(string tag)
+Scene::SceneObjectList Scene::findObjectsByTag(string tag)
 {
-    list<SceneObject*>* filteredList =  new list<SceneObject*>();
+    auto filteredList = std::make_unique<std::list<std::shared_ptr<SceneObject>>>();
 
     for(auto ptr = sceneObjects.begin(); ptr != sceneObjects.end(); ++ptr)
     {
@@ -139,7 +163,6 @@ list<SceneObject *> *Scene::findObjectsByTag(string tag)
 
     if (filteredList->empty())
     {
-        delete filteredList;
         return nullptr;
     }
 
@@ -147,41 +170,49 @@ list<SceneObject *> *Scene::findObjectsByTag(string tag)
 
 }
 
-SceneObject *Scene::findObjectWithPos(int x, int y)
+std::shared_ptr<SceneObject> Scene::findObjectWithPos(int x, int y)
 {
 
     SDL_Point point = {x, y};
-    for(auto ptr = sceneObjects.begin(); ptr != sceneObjects.end(); ++ptr)
+    for(auto& sceneobject : sceneObjects)
     {
-      if ((*ptr) != nullptr)
+      if (sceneobject != nullptr)
       {
-          const SDL_Rect some = (*ptr)->getSprite()->getRect();
-         if (SDL_PointInRect(&point, &some))
-            return *ptr;
+          const SDL_Rect some = {sceneobject->getSprite()->getPosition().x
+                                 , sceneobject->getSprite()->getPosition().y
+                                , sceneobject->getSprite()->getSize().width
+                                , sceneobject->getSprite()->getSize().height
+                                };
+
+          if (SDL_PointInRect(&point, &some))
+               return sceneobject;
        }
     }
     return nullptr;
 }
 
-list<SceneObject *> *Scene::findObjectsWithPos(int x, int y)
+Scene::SceneObjectList Scene::findObjectsWithPos(int x, int y)
 {
     SDL_Point point = {x, y};
-    list<SceneObject*>* filteredList =  new list<SceneObject*>();
+    auto filteredList =  std::make_unique<std::list<std::shared_ptr<SceneObject>>>();
 
-    for(auto ptr = sceneObjects.begin(); ptr != sceneObjects.end(); ++ptr)
+    for(auto &sceneobject : sceneObjects)
     {
-        if ((*ptr) != nullptr)
+        if (sceneobject != nullptr)
         {
-           const SDL_Rect some = (*ptr)->getSprite()->getRect();
+           const SDL_Rect some = {sceneobject->getSprite()->getPosition().x
+                                  , sceneobject->getSprite()->getPosition().y
+                                 , sceneobject->getSprite()->getSize().width
+                                 , sceneobject->getSprite()->getSize().height
+                                 };
 
            if (SDL_PointInRect(&point, &some))
-                filteredList->push_back(*ptr);
+                filteredList->push_back(sceneobject);
         }
     }
 
     if (filteredList->empty())
     {
-        delete filteredList;
         return nullptr;
     }
 
@@ -189,7 +220,7 @@ list<SceneObject *> *Scene::findObjectsWithPos(int x, int y)
 
 }
 
-SceneManager *Scene::getParentSceneManager()
+std::shared_ptr<SceneManager> Scene::getParentSceneManager()
 {
     return parentSceneManager;
 }
@@ -200,33 +231,30 @@ void Scene::onGameQuit()
 
 }
 
+std::shared_ptr<ConcreteComposite> &Scene::getMainRect()
+{
+    return MainRect;
+}
+
+std::shared_ptr<RenderingSystem> &Scene::getRenderer()
+{
+    return renderer;
+}
+
 void Scene::addLoadSceneButton(string aButtonName, string aFontName, string aSceneName, int posX, int posY, int width, int height)
 {
-    TextButton* button = new TextButton();
-    button->setFont(FontManager::getInstance()->getFontByKind(aFontName));
-    button->setRect(posX, posY, width, height);
-    button->setText(aButtonName);
-    button->ConnectMethod(std::bind(&SceneManager::setCurrentSceneByName, getParentSceneManager(), aSceneName));
-    addToUIList(button);
+
+      auto textButton = std::make_shared<UITextButton>(aButtonName, FontManager::getInstance()->getFontByKind2(aFontName), renderer);
+      textButton->setPosition(Position(posX, posY));
+      textButton->ConnectMethod(std::bind(&SceneManager::setCurrentSceneByName, getParentSceneManager(), aSceneName));
+
+      MainRect->addChild(textButton);
+
 }
 
 void Scene::clear()
 {
-    if (!sceneObjects.empty())
-    {
-        for(auto sceneObject : sceneObjects)
-            if (sceneObject != nullptr)
-                delete sceneObject;
-        sceneObjects.clear();
-    }
-
-
-    for(auto guiItem : listGUI)
-        if (guiItem != nullptr)
-            delete guiItem;
-
-    listGUI.clear();
-
+    clearUIList();
     wasInited = false;
 
     parentSceneManager = nullptr;

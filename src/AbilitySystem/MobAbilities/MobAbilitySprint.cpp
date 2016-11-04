@@ -17,7 +17,7 @@ bool MobAbilitySprint::onReady(double timestep)
      std::cout << "WTF" << std::endl;
      if (target != nullptr)
      {
-         Mob* mob = dynamic_cast<Mob*>(target);
+         std::shared_ptr<Mob> mob = std::dynamic_pointer_cast<Mob>(target);
          if (mob != nullptr)
          {
             double msModifier = mob->getModel()->getMoveSpeedModifier() + 1.5;
@@ -45,7 +45,7 @@ bool MobAbilitySprint::onWorking(double timestep)
 
         if (target != nullptr)
         {
-            Mob* mob = dynamic_cast<Mob*>(target);
+            std::shared_ptr<Mob> mob = std::dynamic_pointer_cast<Mob>(target);
             if (mob != nullptr)
             {
                 double msModifier = mob->getModel()->getMoveSpeedModifier() - 0.5;
@@ -76,7 +76,7 @@ bool MobAbilitySprint::onCooldown(double timestep)
     return true;
 }
 
-bool MobAbilitySprint::canTrigger(SceneObject *targ, Enums::AIMobStates aistate)
+bool MobAbilitySprint::canTrigger(std::shared_ptr<SceneObject> targ, Enums::AIMobStates aistate)
 {
     if (aistate == AIMobStates::aiMOVE || aistate == AIMobStates::aiSELECT)
     {

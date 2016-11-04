@@ -8,25 +8,25 @@
 #include "SceneObject.h"
 
 SceneObject::SceneObject()
-:spriteModel(nullptr), x(0), y(0), parentScenePtr(nullptr)
+:spriteModel(nullptr), x(0), y(0)
 {
 	// TODO Auto-generated constructor stub
 
 }
 
-void SceneObject::setY(int value)
-{
-    y = value;
-    if (spriteModel != nullptr)
-        spriteModel->setPosY(y);
-}
+//void SceneObject::setY(int value)
+//{
+//    y = value;
+//    if (spriteModel != nullptr)
+//        spriteModel->setPosY(y);
+//}
 
-void SceneObject::setX(int value)
-{
-    x = value;
-    if (spriteModel != nullptr)
-        spriteModel->setPosX(x);
-}
+//void SceneObject::setX(int value)
+//{
+//    x = value;
+//    if (spriteModel != nullptr)
+//        spriteModel->setPosX(x);
+//}
 
 
 SceneObject::~SceneObject()
@@ -45,22 +45,22 @@ void SceneObject::setTag(const string &value)
     tag = value;
 }
 
-void SceneObject::setParentScene(Scene* scene)
+void SceneObject::setParentScene(std::shared_ptr<Scene> scene)
 {
     parentScenePtr = scene;
 }
 
-Scene *SceneObject::getParentScene()
+std::shared_ptr<Scene> SceneObject::getParentScene()
 {
-    return parentScenePtr;
+    return parentScenePtr.lock();
 }
 
-DestructibleObject *SceneObject::getDestructibleObject()
+std::shared_ptr<DestructibleObject> SceneObject::getDestructibleObject() const
 {
     return nullptr;
 }
 
-EffectReceiver *SceneObject::getEffectReceiver() const
+std::shared_ptr<EffectReceiver>  SceneObject::getEffectReceiver() const
 {
     return nullptr;
 }
@@ -73,7 +73,7 @@ int SceneObject::computeDistanceSqr(int x0, int y0, int x1, int y1)
     return (xdist*xdist + ydist*ydist);
 }
 
-int SceneObject::computeDistanceSqr(SceneObject *second)
+int SceneObject::computeDistanceSqr(std::shared_ptr<SceneObject> second)
 {
     if (second  == nullptr)
         return -1;
@@ -102,7 +102,7 @@ void SceneObject::setPos(int x, int y)
     this->y = y;
     if (spriteModel != nullptr)
     {
-        spriteModel->setPos(x, y);
+        spriteModel->setPosition(Position(x, y));
     }
 
 }
@@ -119,17 +119,15 @@ bool SceneObject::update(double timestep)
 
 void SceneObject::finalize()
 {
-    parentScenePtr = nullptr;
-    if (spriteModel != nullptr)
-        delete spriteModel;
+    //parentScenePtr = nullptr;
 }
 
-AnimatedSprite* SceneObject::getSprite() const
+const std::shared_ptr<AnimationSceneSprite> &SceneObject::getSprite() const
 {
 	return spriteModel;
 }
 
-void SceneObject::setSprite(AnimatedSprite* value)
+void SceneObject::setSprite(std::shared_ptr<AnimationSceneSprite> & value)
 {
     spriteModel = value;
 }
@@ -146,6 +144,11 @@ SDL_Point SceneObject::getPos() const
 {
    SDL_Point currentPos = { getX(), getY()};
    return currentPos;
+}
+
+Position SceneObject::getPosition() const
+{
+    return Position(getX(), getY());
 }
 
 void SceneObject::setPos(SDL_Point aPos)

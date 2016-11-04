@@ -8,8 +8,17 @@ struct Size
         :width(aWidth), height(aHeight)
     {
     }
+
+    bool operator==( Size const & right) const
+    {
+         return width == right.width && height == right.height;
+    }
+
     int width;
     int height;
+
+private:
+     friend std::ostream& operator<<(std::ostream& output, Size const & right);
 };
 
 class Position

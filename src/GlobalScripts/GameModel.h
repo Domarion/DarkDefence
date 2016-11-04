@@ -20,9 +20,8 @@ using std::map;
 using std::vector;
 
 #include "ManaGlobal.h"
-//#include "../AbilitySystem/ItemAbilities/ItemAbility.h"
 #include "../AbilitySystem/MobAbilities/MobAbility.h"
-//class ItemAbility;
+
 class MobAbility;
 
 class GameModel//TODO: разделение на мелкие классы
@@ -32,8 +31,8 @@ public:
 
     static GameModel* getInstance();
     ResourcesModel* getResourcesModel();
-    MobModel* getMonsterByName(string name);
-    MobModel* getTowerByName(string name);
+    std::unique_ptr<MobModel> getMonsterByName(string name);
+    std::unique_ptr<MobModel> getTowerByName(string name);
 
 	void loadMonsterList(string filename);
     void loadMonsterPointsList(string filename);
@@ -46,9 +45,9 @@ public:
     void deserialize(Mission& obj, string filename);
     bool loadShopItems(string filename);
 
-	ShopInventory* getShopInventory();
-	Inventory* getInventory();
-    HeroInventory* getHeroInventory();
+    std::shared_ptr<ShopInventory> getShopInventory();
+    std::shared_ptr<Inventory> getInventory();
+    std::shared_ptr<HeroInventory> getHeroInventory();
 	TreeNode<MobModel> * getRootTower();
 
 
@@ -66,8 +65,8 @@ public:
     int getMonsterCount() const;
 
 
-    MineModel *getMineModel(string name);
-    MineModel *getMineModelByRes(Enums::ResourceTypes resType);
+    std::unique_ptr<MineModel> getMineModel(string name);
+    std::unique_ptr<MineModel> getMineModelByRes(Enums::ResourceTypes resType);
 
 
     MineModel *getMineModelFromList(string name);
@@ -81,25 +80,25 @@ public:
 
     void loadAbilitiesNames(string filename);
     string getAbilityNameFromIndex(int index);
-    int getAbilityCount() const;
+    size_t getAbilityCount() const;
 
     void calculatePointsPerWave();
     int getPointsPerWave() const;
 
     void resetGameValues();
-    ManaGlobal* getManaModel();
     double getPointsRefundModifier() const;
     void setPointsRefundModifier(double value);
 
    // void loadMobAbilities();
 
-    MobAbility* getMobAbilityByName(string name);
+    std::unique_ptr<MobAbility> getMobAbilityByName(string name);
 
     void saveGameData(string filename);
     void loadGameData(string filename);
 private:
     GameModel();
     ~GameModel();
+    static GameModel* instance_;
 
     int waveNumber, waveCount;
     int pointsPerWave, pointsPerMap;
@@ -107,24 +106,21 @@ private:
 	int MonsterCountOnMap;
 	Enums::GameStatuses gameStatus;
     int currentMissionIndex;
-	ShopInventory shop;
-	HeroInventory heroFigure;
-	Inventory inventory;
+    std::shared_ptr<ShopInventory> shop;
+    std::shared_ptr<HeroInventory> heroFigure;
+    std::shared_ptr<Inventory> inventory;
 	ResourcesModel* resourcesModelPtr;
 	map<string, MobModel> monstersModelsMap;
     TreeNode<MobModel> towerUpgradesRootNode;
     Reward missionReward;
     vector<string> abilitiesNames;
     map<string, int> monsterPointsMap;
-	static GameModel* instance_;
     map<string, MineModel> minesModelsMap;
 
     vector<string> mineResMapping;
 
-    ManaGlobal manaModel;
 
 
-    map<string, MobAbility*> mobAbilitiesMap;
     bool shopItemsLoaded;
     bool gameDataLoaded;
 };
