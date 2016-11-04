@@ -19,7 +19,7 @@ class ItemModel
 {
 	friend class boost::serialization::access;
 		template <typename Archive>
-		  void serialize(Archive &ar, const unsigned int version)
+          void serialize(Archive &ar, const unsigned int /*version*/)
 	{
 		ar & BOOST_SERIALIZATION_NVP(caption);
 		ar & BOOST_SERIALIZATION_NVP(description);

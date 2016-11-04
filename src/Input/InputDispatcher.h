@@ -28,7 +28,7 @@ protected:
 
 private:
 
-	int previousEventType;
+    uint32_t previousEventType;
 	std::vector<InputHandler*> handlers;
 	static InputDispatcher* instance_;
 };

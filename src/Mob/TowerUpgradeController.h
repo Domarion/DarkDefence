@@ -18,7 +18,7 @@ public:
     void init(std::shared_ptr<Scene> parent, std::shared_ptr<RenderingSystem> &aRenderer);
     void receiveTowerUpgrade(std::shared_ptr<Tower> tower);
     bool menuClickHandler(size_t itemIndex);
-    bool closeHandler(size_t itemIndex);
+    bool closeHandler(size_t);
 
 private:
 

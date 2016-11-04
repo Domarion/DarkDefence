@@ -35,7 +35,7 @@ GameScene::GameScene(std::shared_ptr<RenderingSystem> &aRenderer)
 , mManaModel(nullptr)
 
 {
-    srand (time(NULL));
+    srand (static_cast<unsigned int>(time(NULL)));
 }
 
 GameScene::~GameScene()
@@ -138,7 +138,7 @@ void GameScene::startUpdate(double timestep)
     spellStorage.updateAbilities(timestep);
 
 
-    for(int i = 0; i != ResourcesModel::resourceTypeCount; ++i)
+    for(size_t i = 0; i != ResourcesModel::resourceTypeCount; ++i)
     {
         string s = GameModel::getInstance()->getResourcesModel()->printResourceFromIndex(i);
         if (resourceLabels[i] != nullptr)
@@ -206,7 +206,7 @@ void GameScene::initResourceView()
 
     Font labelFont = FontManager::getInstance()->getFontByKind2("TextFont");
     resourceLabels.resize(ResourcesModel::resourceTypeCount);
-    for(int i = 0; i != ResourcesModel::resourceTypeCount; ++i)
+    for(size_t i = 0; i != ResourcesModel::resourceTypeCount; ++i)
     {
         string iconPath = "GameData/textures/Resources/"
                 + GameModel::getInstance()->getResourcesModel()->getResourceNameFromIndex(i) + ".png";

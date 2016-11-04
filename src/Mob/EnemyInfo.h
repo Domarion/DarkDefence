@@ -14,7 +14,7 @@ class EnemyInfo
 {
     friend class boost::serialization::access;
     template <typename Archive>
-      void serialize(Archive &ar, const unsigned int version)
+      void serialize(Archive &ar, const unsigned int /*version*/)
     {
         ar & boost::serialization::make_nvp("enemyTag", tag);
         ar & boost::serialization::make_nvp("enemyReaction", reaction);

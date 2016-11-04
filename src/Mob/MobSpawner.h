@@ -16,7 +16,7 @@ class MobSpawner
 {
 public:
     MobSpawner(std::shared_ptr<RenderingSystem>& aRenderingContext);
-	virtual ~MobSpawner();
+    virtual ~MobSpawner() = default;
     void loadWavesInfo(string filename);
 	bool canSpawn(double timestep);
     std::unique_ptr<list<std::shared_ptr<Mob> > > doSpawn(std::shared_ptr<TileMapManager> aTileMap = nullptr);
@@ -31,7 +31,7 @@ private:
     std::shared_ptr<RenderingSystem> renderer;
     double period;
     double currentTime;
-    int waveNumber, waveCount;
+    size_t waveNumber, waveCount;
     std::vector<std::vector<std::pair<string, int> > > wavesInfo;
 
 };

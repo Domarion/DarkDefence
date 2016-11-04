@@ -9,7 +9,7 @@ class ResourceGoal: public BasicGoal
 {
     friend class boost::serialization::access;
     template <typename Archive>
-      void serialize(Archive &ar, const unsigned int version)
+      void serialize(Archive &ar, const unsigned int /*version*/)
     {
         ar & boost::serialization::make_nvp("BasicGoal", (boost::serialization::base_object<BasicGoal>(*this)));
         ar & BOOST_SERIALIZATION_NVP(resourceType);

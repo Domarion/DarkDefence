@@ -40,7 +40,7 @@ void FontManager::loadFontList(string filename)
             int fontSize;
             int r, g, b;
             fontConf >> key >> fontPath >> fontSize >> r >> g >> b;
-            fontList[key] = std::make_shared<CFont>(fontPath, fontSize, r, g, b);
+//            fontList[key] = std::make_shared<CFont>(fontPath, fontSize, r, g, b);
             fontList2[key]= Font(fontPath,fontSize, r, g, b);
         }
         std::cout << "FontsLoaded:" << std::endl;
@@ -53,12 +53,12 @@ void FontManager::loadFontList(string filename)
 
 }
 
-shared_ptr<CFont>& FontManager::getFontByKind(string kind)
-{
-    if (fontList.at( kind ).get() == nullptr)
-          std::cout << "FontManager::getFontByKind: font null" << std::endl;
-    return fontList.at( kind );
-}
+//shared_ptr<CFont>& FontManager::getFontByKind(string kind)
+//{
+//    if (fontList.at( kind ).get() == nullptr)
+//          std::cout << "FontManager::getFontByKind: font null" << std::endl;
+//    return fontList.at( kind );
+//}
 
 Font &FontManager::getFontByKind2(std::string kind)
 {

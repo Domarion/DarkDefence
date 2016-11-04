@@ -80,7 +80,7 @@ public:
 
     void loadAbilitiesNames(string filename);
     string getAbilityNameFromIndex(int index);
-    int getAbilityCount() const;
+    size_t getAbilityCount() const;
 
     void calculatePointsPerWave();
     int getPointsPerWave() const;

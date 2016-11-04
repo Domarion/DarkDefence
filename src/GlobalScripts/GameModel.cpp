@@ -396,7 +396,7 @@ string GameModel::getAbilityNameFromIndex(int index)
     return abilitiesNames[ index ];
 }
 
-int GameModel::getAbilityCount() const
+size_t GameModel::getAbilityCount() const
 {
     return abilitiesNames.size();
 }

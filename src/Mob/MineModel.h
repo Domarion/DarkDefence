@@ -17,7 +17,7 @@ class MineModel: public DestructibleObject
 {
     friend class boost::serialization::access;
     template <typename Archive>
-      void serialize(Archive &ar, const unsigned int version)
+      void serialize(Archive &ar, const unsigned int /*version*/)
     {
 
         //ar.template register_type<MobModel>();
@@ -39,13 +39,13 @@ public:
 	~MineModel();
     MineModel(const MineModel& right);
     int getLimit() const;
-    void setLimit(int limit);
+    void setLimit(int aLimit);
     int getProduction() const;
-    void setProduction(int production);
+    void setProduction(int aProduction);
     double getProductionPeriod() const;
-    void setProductionPeriod(double productionPeriod);
+    void setProductionPeriod(double aProductionPeriod);
 	double getCurrentTime() const;
-	void setCurrentTime(double currentTime);
+    void setCurrentTime(double aCurrentTime);
     Enums::ResourceTypes getProductionType() const;
 
     void produce(double timestep);

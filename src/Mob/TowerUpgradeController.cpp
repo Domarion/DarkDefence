@@ -131,7 +131,7 @@ void TowerUpgradeController::receiveTowerUpgrade(std::shared_ptr<Tower> tower)
     }
 }
 
-bool TowerUpgradeController::closeHandler(size_t itemIndex)
+bool TowerUpgradeController::closeHandler(size_t /*itemIndex*/)
 {
 
     if (parentGameScene == nullptr)

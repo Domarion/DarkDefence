@@ -14,8 +14,8 @@ public:
     static const int resourceTypeCount = 3;
 	ResourcesModel();
 	~ResourcesModel();
-	std::string getResourceNameFromIndex(int index);
-	std::string printResourceFromIndex(int index);
+    std::string getResourceNameFromIndex(size_t index);
+    std::string printResourceFromIndex(size_t index);
 
 	bool canBuy(int costarray[]);
 	void addResources(int costarray[]);

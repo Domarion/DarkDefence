@@ -20,6 +20,43 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -g -O2 -Wall -Weffc++ -pedant
     -Wunused-value  -Wunused-variable  -Wvariadic-macros \
     -Wvolatile-register-var  -Wwrite-strings")
 
+#set(OLD_SRC_LIST
+#    GraphicsSystem/UI/MapIndicator.h
+#    GraphicsSystem/UI/StateButton.h
+#    GraphicsSystem/UI/GroupBox.h
+#    GraphicsSystem/UI/ImageButton.h
+#    GraphicsSystem/UI/CompositeLabel.h
+#    GraphicsSystem/UI/Label.h
+#    GraphicsSystem/UI/SlotContainer.h
+#    GraphicsSystem/UI/MissionView.h
+#    GraphicsSystem/UI/ScrollList.h
+#    GraphicsSystem/UI/TextButton.h
+#    GraphicsSystem/UI/AnimatedSprite.h
+#    GraphicsSystem/UI/ProgressBar.h
+#    GraphicsSystem/ShopItemUI.h
+#    GraphicsSystem/CFont.h
+#    GraphicsSystem/CTexture.h
+#    GraphicsSystem/GraphicsManager.h
+#    GraphicsSystem/IDrawable.h
+
+#    GraphicsSystem/UI/StateButton.cpp
+#    GraphicsSystem/UI/Label.cpp
+#    GraphicsSystem/UI/MapIndicator.cpp
+#    GraphicsSystem/UI/MissionView.cpp
+#    GraphicsSystem/UI/ProgressBar.cpp
+#    GraphicsSystem/UI/ScrollList.cpp
+#    GraphicsSystem/UI/ImageButton.cpp
+#    GraphicsSystem/UI/SlotContainer.cpp
+#    GraphicsSystem/UI/CompositeLabel.cpp
+#    GraphicsSystem/UI/AnimatedSprite.cpp
+#    GraphicsSystem/UI/TextButton.cpp
+#    GraphicsSystem/UI/GroupBox.cpp
+#    GraphicsSystem/CTexture.cpp
+#    GraphicsSystem/CFont.cpp
+#    GraphicsSystem/GraphicsManager.cpp
+#    GraphicsSystem/ShopItemUI.cpp
+#)
+
 set(SRC_LIST
     Input/InputHandler.h
     Input/SceneInputHandler.h
@@ -107,23 +144,7 @@ set(SRC_LIST
     ItemSystem/ItemCell.h
     ItemSystem/HeroInventoryController.h
     ItemSystem/ShopInventory.h
-    GraphicsSystem/UI/MapIndicator.h
-    GraphicsSystem/UI/StateButton.h
-    GraphicsSystem/UI/GroupBox.h
-    GraphicsSystem/UI/ImageButton.h
-    GraphicsSystem/UI/CompositeLabel.h
-    GraphicsSystem/UI/Label.h
-    GraphicsSystem/UI/SlotContainer.h
-    GraphicsSystem/UI/MissionView.h
-    GraphicsSystem/UI/ScrollList.h
-    GraphicsSystem/UI/TextButton.h
-    GraphicsSystem/UI/AnimatedSprite.h
-    GraphicsSystem/UI/ProgressBar.h
-    GraphicsSystem/ShopItemUI.h
-    GraphicsSystem/CFont.h
-    GraphicsSystem/CTexture.h
-    GraphicsSystem/GraphicsManager.h
-    GraphicsSystem/IDrawable.h
+
     GraphicsSystem/newSystem/Font.h
     GraphicsSystem/newSystem/Composite.h
     GraphicsSystem/newSystem/IComposite.h
@@ -233,22 +254,7 @@ set(SRC_LIST
     ItemSystem/ShopController.cpp
     ItemSystem/ShopInventory.cpp
     ItemSystem/ItemModel.cpp
-    GraphicsSystem/UI/StateButton.cpp
-    GraphicsSystem/UI/Label.cpp
-    GraphicsSystem/UI/MapIndicator.cpp
-    GraphicsSystem/UI/MissionView.cpp
-    GraphicsSystem/UI/ProgressBar.cpp
-    GraphicsSystem/UI/ScrollList.cpp
-    GraphicsSystem/UI/ImageButton.cpp
-    GraphicsSystem/UI/SlotContainer.cpp
-    GraphicsSystem/UI/CompositeLabel.cpp
-    GraphicsSystem/UI/AnimatedSprite.cpp
-    GraphicsSystem/UI/TextButton.cpp
-    GraphicsSystem/UI/GroupBox.cpp
-    GraphicsSystem/CTexture.cpp
-    GraphicsSystem/CFont.cpp
-    GraphicsSystem/GraphicsManager.cpp
-    GraphicsSystem/ShopItemUI.cpp
+
     GraphicsSystem/newSystem/Leaf.cpp
     GraphicsSystem/newSystem/Composite.cpp
     GraphicsSystem/newSystem/Font.cpp

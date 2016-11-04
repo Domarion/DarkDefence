@@ -33,11 +33,11 @@ public:
 
     virtual bool update(double timestep) override;
 	virtual void finalize() override;
-    virtual string getName() const;
-    virtual void setName(const string &value);
+    virtual string getName() const override;
+    virtual void setName(const string &value) override;
 
-    virtual string getTag() const;
-    virtual void setTag(const string &value);
+    virtual string getTag() const override;
+    virtual void setTag(const string &value) override;
     virtual std::shared_ptr<DestructibleObject> getDestructibleObject() const override;
     virtual std::shared_ptr<EffectReceiver> getEffectReceiver() const override;
     virtual std::shared_ptr<MobModel> getModel() const;

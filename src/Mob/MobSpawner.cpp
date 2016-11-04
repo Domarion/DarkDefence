@@ -20,16 +20,11 @@ MobSpawner::MobSpawner(std::shared_ptr<RenderingSystem> &aRenderingContext)
     , currentTime(period)
     , waveNumber(0)
     , waveCount(0)
+    , wavesInfo()
 
 {
-	// TODO Auto-generated constructor stub
-
 }
 
-MobSpawner::~MobSpawner()
-{
-    // TODO Auto-generated destructor stub
-}
 
 void MobSpawner::loadWavesInfo(string filename)
 {
@@ -48,10 +43,12 @@ void MobSpawner::loadWavesInfo(string filename)
         wavesInfo.resize(waveCount);
         while(!file0.eof())
         {
-            int waveNum;
+            size_t waveNum{};
             string mobName;
-            int mobCount;
+            int mobCount{};
             file0 >> waveNum >> mobName >> mobCount;
+            if (waveNum <= 0)
+                throw std::logic_error("WaveNum shold be greater than zero");
             wavesInfo[waveNum - 1].push_back(std::make_pair(mobName, mobCount));
         }
     }
@@ -60,7 +57,6 @@ void MobSpawner::loadWavesInfo(string filename)
 
 bool MobSpawner::canSpawn(double timestep)
 {
-   // std::cout << "Monster Count = " << (GameModel::getInstance()->getMonsterCount()) << std::endl;
     if (GameModel::getInstance()->canSpawn())
     {
 
@@ -86,13 +82,13 @@ bool MobSpawner::canSpawn(double timestep)
 std::unique_ptr<list<std::shared_ptr<Mob>>> MobSpawner::doSpawn(std::shared_ptr<TileMapManager> aTileMap)
 {
     auto some = std::make_unique<std::list<shared_ptr<Mob>>>();
-    int n = wavesInfo[waveNumber - 1].size();
+    size_t n = wavesInfo[waveNumber - 1].size();
     std::cout << n << std::endl;
     if (aTileMap == nullptr)
     {
         std::cout << "doSpawn aTileMap nullptr" << std::endl;
     }
-    for(int i = 0; i < n; ++i)
+    for(size_t i = 0; i < n; ++i)
     {
         string monsterName = (wavesInfo[waveNumber - 1])[i].first;
         int monsterCount = (wavesInfo[waveNumber - 1])[i].second;

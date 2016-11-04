@@ -14,7 +14,7 @@ private:
     void initNavigationButtons();
     void loadMissionView();
     void loadMapPicture();
-    void initMapIndicators();
+//    void initMapIndicators();
 
     int currentMissionIndex;
     Mission currentMission;

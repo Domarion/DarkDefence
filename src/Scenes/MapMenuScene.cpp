@@ -9,6 +9,7 @@
 MapMenuScene::MapMenuScene(std::shared_ptr<RenderingSystem> &aRenderer)
    :Scene(aRenderer)
    , currentMissionIndex(0)
+   , currentMission()
 {
 
 }
@@ -75,20 +76,20 @@ void MapMenuScene::loadMapPicture()
     MainRect->addChild(mapPicture);
 }
 
-void MapMenuScene::initMapIndicators()
-{
-    const int mapCount = 2;
-    const int indicatorsHeight = 48;
-    MapIndicator* mapIndicator = new MapIndicator(indicatorsHeight,
-                                                 indicatorsHeight,
-                                                 mapCount,
-                                                 currentMissionIndex);
-    mapIndicator->setRect(420, 0, 150, indicatorsHeight);
+//void MapMenuScene::initMapIndicators()
+//{
+//    const int mapCount = 2;
+//    const int indicatorsHeight = 48;
+//    MapIndicator* mapIndicator = new MapIndicator(indicatorsHeight,
+//                                                 indicatorsHeight,
+//                                                 mapCount,
+//                                                 currentMissionIndex);
+//    mapIndicator->setRect(420, 0, 150, indicatorsHeight);
 
-    mapIndicator->setCompletedTexture("GameData/textures/MapIndicator/completed.png");
-    mapIndicator->setLockedTexture("GameData/textures/MapIndicator/locked.png");
-    mapIndicator->setNormalTexture("GameData/textures/MapIndicator/normal.png");
+//    mapIndicator->setCompletedTexture("GameData/textures/MapIndicator/completed.png");
+//    mapIndicator->setLockedTexture("GameData/textures/MapIndicator/locked.png");
+//    mapIndicator->setNormalTexture("GameData/textures/MapIndicator/normal.png");
 
-//    Scene::addToUIList(mapIndicator);
-}
+////    Scene::addToUIList(mapIndicator);
+//}
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../GraphicsSystem/CFont.h"
+//#include "../GraphicsSystem/CFont.h"
 #include "../GraphicsSystem/newSystem/Font.h"
 
 #include <map>
@@ -19,13 +19,13 @@ public:
 
     static FontManager* getInstance();
     void loadFontList(string filename);
-    shared_ptr<CFont>& getFontByKind(string kind);
+//    shared_ptr<CFont>& getFontByKind(string kind);
     Font & getFontByKind2(string kind);
 
 private:
     FontManager();
     ~FontManager();
-    map<string, shared_ptr< CFont > > fontList;
+//    map<string, shared_ptr< CFont > > fontList;
     map<string, Font > fontList2;
 
     static FontManager* instance_;

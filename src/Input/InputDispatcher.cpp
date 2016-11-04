@@ -11,7 +11,7 @@
 InputDispatcher* InputDispatcher::instance_ = nullptr;
 
 InputDispatcher::InputDispatcher()
-:previousEventType( -1)
+:previousEventType(0)
 {
 	// TODO Auto-generated constructor stub
 

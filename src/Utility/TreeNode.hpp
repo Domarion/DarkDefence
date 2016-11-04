@@ -26,7 +26,7 @@ class TreeNode
 {
 	friend class boost::serialization::access;
 	template<class Archive>
-    void save(Archive & ar, const unsigned int version) const
+    void save(Archive & ar, const unsigned int /*version*/) const
 	{
 		ar & BOOST_SERIALIZATION_NVP(nodeName);
 		ar & BOOST_SERIALIZATION_NVP(parentName);
@@ -38,7 +38,7 @@ class TreeNode
 	}
 
     template<class Archive>
-    void load(Archive & ar, const unsigned int version)
+    void load(Archive & ar, const unsigned int /*version*/)
     {
         ar & BOOST_SERIALIZATION_NVP(nodeName);
         ar & BOOST_SERIALIZATION_NVP(parentName);
@@ -56,7 +56,7 @@ public:
     bool addChild(string itemname, TreeNode<T>& item);
     bool addChildData(string itemname, T& nodeData);
     bool addChildtoParent(string parentname, string itemname, TreeNode<T>& item);
-    bool removeChild(TreeNode<T>& item);
+//    bool removeChild(TreeNode<T>& item);
     TreeNode<T>* recursiveSearch(string itemname);
     T& getData();
     void setData(const T& value);
