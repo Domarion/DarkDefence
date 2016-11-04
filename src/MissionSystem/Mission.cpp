@@ -77,7 +77,7 @@ void Mission::setStatus(MissionStatuses value)
     missionStatus = value;
 }
 
-void Mission::addGoal(BasicGoal *goal)
+void Mission::addGoal(std::shared_ptr<BasicGoal> goal)
 {
     goals.push_back(goal);
 }
@@ -111,7 +111,7 @@ std::list<string> Mission::getGoalsNeeded()
     return someList;
 }
 
-std::list<BasicGoal *> &Mission::getGoals()
+std::list<std::shared_ptr<BasicGoal> > &Mission::getGoals()
 {
     return goals;
 }

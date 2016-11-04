@@ -1,7 +1,8 @@
 #include "ResourceGoal.h"
 
 ResourceGoal::ResourceGoal()
-    :resourceType(Enums::ResourceTypes::WOOD)
+    : BasicGoal()
+    , resourceType(Enums::ResourceTypes::WOOD)
 {
 
 }

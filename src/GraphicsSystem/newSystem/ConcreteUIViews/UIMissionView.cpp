@@ -39,19 +39,20 @@ void UIMissionView::initGoals(Mission &aMission, Font &aFont)
     missionGoalsGroup->setPosition(getNextVerticalPosition());
     missionGoalsGroup->setSize(Size(this->getSize().width, this->getSize().height/4));
 
-    list<BasicGoal*> goals = aMission.getGoals();
+    list<std::shared_ptr<BasicGoal>> goals = aMission.getGoals();
     for(auto& goal : goals)
     {
         if (goal != nullptr)
         {
-            ResourceGoal* resGoal = dynamic_cast<ResourceGoal*>(goal);
+            std::shared_ptr<ResourceGoal> resGoal = std::dynamic_pointer_cast<ResourceGoal>(goal);
+//            ResourceGoal* resGoal = dynamic_cast<ResourceGoal*>(goal.get());
             if (resGoal != nullptr)
             {
                 auto missionGoalIcon = std::make_shared<UIImage>(renderer);
                 missionGoalIcon->setSize(Size(48, 48));
                 string iconFilePath = "GameData/textures/Resources/"
                         + GameModel::getInstance()->getResourcesModel()->getResourceNameFromIndex(static_cast<int>(resGoal->getResourceType())) + ".png";
-                missionGoalIcon->loadTexture(iconFilePath);//TODO::Fix emptyTextureShow
+                missionGoalIcon->loadTexture(iconFilePath);
                 missionGoalsGroup->addChild(missionGoalIcon);
 
 

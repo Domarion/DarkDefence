@@ -95,7 +95,7 @@ void ShopScene::initBackGroundUI()
 void ShopScene::initShopItemsUI()
 {
 
-    GameModel::getInstance()->loadShopItems("GameData/Items.xml");
+//    GameModel::getInstance()->loadShopItems("GameData/Items.xml");
     const int showItems = 5;
 
     auto scroll = std::make_shared<UIScrollList>(showItems, renderer);

@@ -31,6 +31,7 @@ int main( int /*argc*/, char** /*args*/)
     auto sceneManager = std::make_unique<SceneManager>();
 
     auto app = std::make_unique<GameApp>(std::move(sceneManager), std::move(renderer));
+    app->preloadedData();
     app->addScenes();
     int result = app->gameLoop();
 

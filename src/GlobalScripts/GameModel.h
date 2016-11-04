@@ -30,7 +30,7 @@ class GameModel//TODO: разделение на мелкие классы
 public:
 
     static GameModel* getInstance();
-    ResourcesModel* getResourcesModel();
+    std::shared_ptr<ResourcesModel> getResourcesModel();
     std::unique_ptr<MobModel> getMonsterByName(string name);
     std::unique_ptr<MobModel> getTowerByName(string name);
 
@@ -109,7 +109,7 @@ private:
     std::shared_ptr<ShopInventory> shop;
     std::shared_ptr<HeroInventory> heroFigure;
     std::shared_ptr<Inventory> inventory;
-	ResourcesModel* resourcesModelPtr;
+    std::shared_ptr<ResourcesModel> resourcesModelPtr;
 	map<string, MobModel> monstersModelsMap;
     TreeNode<MobModel> towerUpgradesRootNode;
     Reward missionReward;

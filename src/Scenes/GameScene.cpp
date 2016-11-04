@@ -83,6 +83,9 @@ void GameScene::startUpdate(double timestep)
         break;
     }
     }
+
+    if (waveLabel != nullptr)
+    {
     waveLabel->setText(monsterSpawner.getWaveStringInfo());
     if (monsterSpawner.canSpawn(timestep))
 	{
@@ -119,7 +122,7 @@ void GameScene::startUpdate(double timestep)
             std::string s2 = "ScoreScene";
             getParentSceneManager()->setCurrentSceneByName(s2);
         }
-
+    }
     if (pointsLabel != nullptr)
         pointsLabel->setText(std::to_string(GameModel::getInstance()->getPointsPerWave()));
 
@@ -183,7 +186,7 @@ void GameScene::loadData()
     string s01 = "GameData/MineModels.xml";
     GameModel::getInstance()->loadMinesList(s01);
 
-    GameModel::getInstance()->getResourcesModel()->loadFromFile("GameData/resources.txt");
+//    GameModel::getInstance()->getResourcesModel()->loadFromFile("GameData/resources.txt");
 
 
     GameModel::getInstance()->loadMonsterList("GameData/MonsterList.xml");

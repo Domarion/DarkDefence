@@ -19,6 +19,7 @@ public:
     GameApp& operator=(const GameApp&) = delete;
 
     void initLibrary(int windowWidth, int windowHeight);
+    void preloadedData();
     void addScenes();
     int gameLoop();
 

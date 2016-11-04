@@ -32,6 +32,14 @@ GameApp::GameApp(std::unique_ptr<SceneManager> aSceneManager, std::unique_ptr<Re
 
 }
 
+void GameApp::preloadedData()
+{
+    GameModel::getInstance()->getResourcesModel()->loadFromFile("GameData/resources.txt");
+
+    GameModel::getInstance()->loadShopItems("GameData/Items.xml");
+
+}
+
 void GameApp::addScenes()
 {
     auto mainScene = std::make_unique<MainScene>(mRenderer);
