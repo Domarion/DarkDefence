@@ -39,7 +39,7 @@ void setRelativePath(string &filename)
 {
    #ifndef __ANDROID__
    filename = "/home/kostya_hm/Projects/DarkDefence/"+ filename;
-#endif
+   #endif
 }
 
 void saveStringsTofile(SDL_RWops* filetoWrite, const vector<string> &strings)

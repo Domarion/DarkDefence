@@ -9,8 +9,6 @@
 #include "../Utility/textfilefunctions.h"
 #include "../GlobalScripts/GameModel.h"
 #include <fstream>
-#include "../GraphicsSystem/UI/AnimatedSprite.h"
-
 #include <sstream>
 using std::stringstream;
 
