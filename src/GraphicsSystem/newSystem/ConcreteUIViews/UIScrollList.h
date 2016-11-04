@@ -23,7 +23,7 @@ public:
     void scrollDown(size_t amount);
 
 private:
-    int itemCountToShow;
+    size_t itemCountToShow;
     std::list<shared_ptr<IComposite> >::iterator toFirst, toLast;
 
     std::function<bool(int)> connectedMethod;
