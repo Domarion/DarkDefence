@@ -3,7 +3,7 @@
 #include <unordered_map>
 #include "Texture2D.h"
 #include <vector>
-
+#include <memory>
 class TileLegendCollection
 {
 public:
@@ -12,7 +12,7 @@ public:
 
     size_t size() const;
     Texture2D& getTextureByTag(const std::string& aTag);
-    Texture2D constructTextureByMap();
+    Texture2D constructTextureByMap(std::unique_ptr<SDL_Surface, void (*)(SDL_Surface *)>& out);
 
 private:
     void loadTile(const std::string tileMapping, const std::string &aTileName, Size aTileSize);

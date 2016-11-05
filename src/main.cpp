@@ -14,9 +14,9 @@
 
 int main( int /*argc*/, char** /*args*/)
 {
-
+//    int result = 0;
 //  DataGenerator dataGenerator;
-//  dataGenerator.saveTerrain();
+//  dataGenerator.saveTerrain("GameData/terrain.conf");
 //  dataGenerator.saveAnim();
 //    dataGenerator.saveTowerTree();
 //  dataGenerator.saveItems();
@@ -35,7 +35,7 @@ int main( int /*argc*/, char** /*args*/)
     app->preloadedData();
     app->addScenes();
     int result = app->gameLoop();
-//    int result = 0;
+
 	return result;
 }
 

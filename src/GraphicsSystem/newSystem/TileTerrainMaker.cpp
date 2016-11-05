@@ -1,6 +1,7 @@
 #include "TileTerrainMaker.h" 
 #include <sstream>
 #include "../../Utility/textfilefunctions.h"
+#include <SDL_image.h>
 void TileLegendCollection::parseString(const std::string &aLegend)
 {
     std::istringstream legendTokens(aLegend);
@@ -66,7 +67,7 @@ void TileLegendCollection::loadTile(const std::string tileMapping, const std::st
     tiles.emplace(tileMapping[0], texture);//[aTileName]=texture;
 }
 
-Texture2D TileLegendCollection::constructTextureByMap()
+Texture2D TileLegendCollection::constructTextureByMap(std::unique_ptr<SDL_Surface, void (*)(SDL_Surface *)>& out)
 {
     Texture2D targetTexture(mRenderer);
 
@@ -85,6 +86,19 @@ Texture2D TileLegendCollection::constructTextureByMap()
 
         }
     }
+    out = std::move(mRenderer->createSurfaceFromRenderingTarget(targetTexture.getSize(), Position()));
+//   std::string destPath = "/home/kostya_hm/terrain.png";
+
+//    SDL_Surface* outputSurf =  mRenderer->createSurfaceFromRenderingTarget(targetTexture.getSize(), Position()).release();
+
+//    if (outputSurf == nullptr)
+//        std::cout << "surface is nullptr" << std::endl;
+//    if (IMG_SavePNG(outputSurf, destPath.c_str())!= 0)
+//    {
+//        std::cout << "SDL has error " << IMG_GetError() << std::endl;
+//    }
+//    SDL_FreeSurface(outputSurf);
+
     targetTexture.unSetAsRenderTarget();
     return targetTexture;
 }

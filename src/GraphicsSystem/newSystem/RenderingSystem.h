@@ -10,13 +10,14 @@ class RenderingSystem
 {
 public:
     using TTextureDeleter = void (*)(SDL_Texture *);
+    using TSurfaceDeleter = void (*)(SDL_Surface *);
     using TFontDeleter = void(*)(TTF_Font*);
 
     explicit RenderingSystem(const Size& aScreenSize);
     RenderingSystem() = delete;
     RenderingSystem(const RenderingSystem&) = delete;
     RenderingSystem& operator=(const RenderingSystem&) = delete;
-    void renderTexture(SDL_Texture *texturePtr, const Size aTextureSize,  const Position &&aDestPosition);
+    void renderTexture(SDL_Texture *texturePtr, Size aTextureSize,  const Position &&aDestPosition);
     void renderTexture(SDL_Texture *texturePtr, const Position&& aDestPosition, const SDL_Rect *clipRect);
 
 
@@ -30,6 +31,7 @@ public:
     std::unique_ptr<SDL_Texture, TTextureDeleter> textToTexture(TTF_Font* aFont, const string& aText, SDL_Color&& color);
     std::unique_ptr<SDL_Texture, TTextureDeleter> textToTexture(TTF_Font* aFont, const string& aText, Uint8 red, Uint8 green, Uint8 blue, Uint8 alpha);
 
+    std::unique_ptr<SDL_Surface, TSurfaceDeleter> createSurfaceFromRenderingTarget(Size aTextureSize, Position aTexturePosition);
     void renderToTarget(SDL_Texture *texturePtr);
 
     void setRendererDrawColor(Uint8 red, Uint8 green, Uint8 blue, Uint8 alpha);
