@@ -7,7 +7,6 @@
 
 #include "SceneManager.h"
 #include <iostream>
-#include "../Input/InputDispatcher.h"
 using std::cout;
 using std::endl;
 
@@ -31,7 +30,6 @@ void SceneManager::addScene(std::shared_ptr<Scene> scene, std::string name)
 
 void SceneManager::setCurrentScene(std::shared_ptr<Scene>& value)
 {
-	InputDispatcher::getInstance()->clearHandlers();
     if (currentScene != nullptr )
 	{
         currentScene->clear();

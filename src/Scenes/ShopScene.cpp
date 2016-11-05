@@ -11,8 +11,8 @@
 #include "../GraphicsSystem/newSystem/UIElement/UIImage.h"
 #include "../GraphicsSystem/newSystem/UIElement/UILabel.h"
 
-ShopScene::ShopScene(std::shared_ptr<RenderingSystem> &aRenderer)
-    :Scene(aRenderer)
+ShopScene::ShopScene(std::shared_ptr<RenderingSystem> &aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher)
+    : Scene(aRenderer, aInputDispatcher)
     , goldCoinsLabel(nullptr)
     , shopController(nullptr)
 {

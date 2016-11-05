@@ -14,8 +14,9 @@ using std::list;
 #include "../GraphicsSystem/newSystem/UIElement/UITextButton.h"
 #include "../GlobalScripts/GameModel.h"
 #include <iostream>
-Scene::Scene(std::shared_ptr<RenderingSystem> &aRenderer)
+Scene::Scene(std::shared_ptr<RenderingSystem> &aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher)
 : renderer(aRenderer)
+, mInputDispatcher(aInputDispatcher)
 , MainRect(std::make_shared<ConcreteComposite>())
 , listGUI()
 , sceneObjects()
@@ -76,21 +77,20 @@ void Scene::spawnObject(int x, int y, std::shared_ptr<SceneObject> obj)
 
     obj->init(x, y);
 
-
-    InputHandler* handler = dynamic_cast<InputHandler*>(obj.get());
+    auto handler = std::dynamic_pointer_cast<InputHandler>(obj);
 
     if (handler != nullptr)
-            InputDispatcher::getInstance()->addHandler(handler);
+        mInputDispatcher->addHandler(handler);
 
     sceneObjects.push_back(obj);
 }
 
 void Scene::destroyObject(std::shared_ptr<SceneObject> obj)
 {
-    InputHandler* handler = dynamic_cast<InputHandler*>(obj.get());
+    auto handler = std::dynamic_pointer_cast<InputHandler>(obj);
 
     if (handler != nullptr)
-            InputDispatcher::getInstance()->removeHandler(handler);
+        mInputDispatcher->removeHandler(handler);
 
     sceneObjects.remove(obj);
 
@@ -104,11 +104,11 @@ void Scene::addToUIList(const std::shared_ptr<IComposite> &item)
 
     listGUI.push_back(item);
 
-    InputHandler* handler = dynamic_cast<InputHandler*>(item.get());
+    auto handler = std::dynamic_pointer_cast<InputHandler>(item);
 
 
     if (handler != nullptr)
-            InputDispatcher::getInstance()->addHandler(handler);
+        mInputDispatcher->addHandler(handler);
     else
         std::cout << "fucking NULL";
 }
@@ -120,24 +120,24 @@ void Scene::removeFromUIList(const std::shared_ptr<IComposite> &item)
 
     listGUI.remove(item);
 
-    InputHandler* handler = dynamic_cast<InputHandler*>(item.get());
+    auto handler = std::dynamic_pointer_cast<InputHandler>(item);
 
     if (handler != nullptr)
-        InputDispatcher::getInstance()->removeHandler(handler);
+        mInputDispatcher->removeHandler(handler);
 }
 
-void Scene::addAsInputHandler(InputHandler *item)
+void Scene::addAsInputHandler(std::shared_ptr<InputHandler> item)
 {
 
     if (item != nullptr)
-        InputDispatcher::getInstance()->addHandler(item);
+        mInputDispatcher->addHandler(item);
 }
 
 void Scene::clearUIList()
 {
     MainRect->clearChildren();
     listGUI.clear();
-    InputDispatcher::getInstance()->clearHandlers();
+    mInputDispatcher->clearHandlers();
 }
 
 

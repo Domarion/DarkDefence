@@ -291,11 +291,11 @@ void DataGenerator::saveTerrain(std::string filename)
         std::cout << "SDL has error " << IMG_GetError() << std::endl;
     }
 
-    int lasttime = SDL_GetTicks();
+    /*int lasttime = SDL_GetTicks();
     const int MS_PER_UPDATE = 16;//1000ms/60FPS
     int lag = 0;
 
-    /*while(true)
+    while(true)
     {
 
         int currenttime = SDL_GetTicks();

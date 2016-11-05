@@ -9,6 +9,7 @@
 
 #include "GraphicsSystem/newSystem/RenderingSystem.h"
 #include "Grouping/SceneManager.h"
+#include "Input/InputDispatcher.h"
 
 class GameApp
 {
@@ -36,5 +37,6 @@ private:
 	SDL_Event event;
     std::shared_ptr<RenderingSystem> mRenderer;
     std::shared_ptr<SceneManager> mSceneManager;
+    std::shared_ptr<InputDispatcher> mInputDispatcher;
     bool paused;
 };

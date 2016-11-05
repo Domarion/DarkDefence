@@ -9,26 +9,21 @@
 #include <SDL.h>
 #include "InputHandler.h"
 #include <vector>
+#include <memory>
 
 class InputDispatcher
 {
 public:
+    InputDispatcher();
+    ~InputDispatcher() = default;
 
-	static InputDispatcher* getInstance();
-
-
-	void sendEvent(SDL_Event* inputEvent);
-	void addHandler(InputHandler*);
-	void removeHandler(InputHandler*);
+    void sendEvent(const SDL_Event &inputEvent);
+    void addHandler(std::shared_ptr<InputHandler>);
+    void removeHandler(std::shared_ptr<InputHandler>);
 	void clearHandlers();
-protected:
-
-	InputDispatcher();
-	~InputDispatcher();
 
 private:
 
     uint32_t previousEventType;
-	std::vector<InputHandler*> handlers;
-	static InputDispatcher* instance_;
+    std::vector<std::shared_ptr<InputHandler>> handlers;
 };

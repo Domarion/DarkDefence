@@ -21,8 +21,8 @@
 #include "../GlobalConstants.h"
 
 
-GameScene::GameScene(std::shared_ptr<RenderingSystem> &aRenderer)
-:Scene(aRenderer)
+GameScene::GameScene(std::shared_ptr<RenderingSystem> &aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher)
+: Scene(aRenderer, aInputDispatcher)
 , gates(nullptr)
 , gatesHealthBar(nullptr)
 , manaBar(nullptr)
@@ -317,10 +317,10 @@ void GameScene::initAbilitiesButtons()
     }
     MainRect->addChild(abilityButtonsGroup);
 
-    InputHandler* prickhandler = dynamic_cast<InputHandler*>(spellStorage.getAbilityModelWithName("Prick").get());
+    auto prickhandler = std::dynamic_pointer_cast<InputHandler>(spellStorage.getAbilityModelWithName("Prick"));
     if(prickhandler != nullptr)
     {
-        InputDispatcher::getInstance()->addHandler(prickhandler);
+        mInputDispatcher->addHandler(prickhandler);
     }
     else
         std::cout << "WTF_prick" << std::endl;

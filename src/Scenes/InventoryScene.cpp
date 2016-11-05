@@ -10,8 +10,8 @@
 
 
 
-InventoryScene::InventoryScene(std::shared_ptr<RenderingSystem> &aRenderer)
-    :Scene(aRenderer)
+InventoryScene::InventoryScene(std::shared_ptr<RenderingSystem> &aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher)
+    : Scene(aRenderer, aInputDispatcher)
     , inventoryController(nullptr)
     , heroController(nullptr)
 {
@@ -62,7 +62,7 @@ void InventoryScene::initHeroView()
         MainRect->addChild(item);
     }
 
-  Scene::addAsInputHandler(heroController->getView().get());
+  Scene::addAsInputHandler(heroController->getView());
 
 }
 

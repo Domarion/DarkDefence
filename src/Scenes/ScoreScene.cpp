@@ -10,8 +10,8 @@ using std::string;
 
 
 
-ScoreScene::ScoreScene(std::shared_ptr<RenderingSystem> &aRenderer)
-    :Scene(aRenderer)
+ScoreScene::ScoreScene(std::shared_ptr<RenderingSystem> &aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher)
+    : Scene(aRenderer, aInputDispatcher)
 {
 }
 

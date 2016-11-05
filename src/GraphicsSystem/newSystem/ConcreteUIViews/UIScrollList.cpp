@@ -21,13 +21,11 @@ bool UIScrollList::canDrag() const
 
 bool UIScrollList::onDrag(int direction)
 {
-    std::cout << "why cant drag?1111" << std::endl;
 
     if (direction == 0 || children.empty())
         return false;
 
-    std::cout << "why cant drag?" << std::endl;
-    size_t points = 1;//abs(direction);
+    size_t points = abs(direction);
     if (direction > 0)
         scrollUp(points);
     else

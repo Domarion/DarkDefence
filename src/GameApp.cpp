@@ -12,7 +12,6 @@ using std::endl;
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <exception>
-#include "Input/InputDispatcher.h"
 #include "Grouping/FontManager.h"
 #include "GlobalConstants.h"
 
@@ -26,6 +25,7 @@ using std::endl;
 GameApp::GameApp(std::unique_ptr<SceneManager> aSceneManager, std::unique_ptr<RenderingSystem> aRenderer)
 : mRenderer(std::move(aRenderer))
 , mSceneManager(std::move(aSceneManager))
+, mInputDispatcher(std::make_shared<InputDispatcher>())
 , paused(false)
 {
     FontManager::getInstance()->loadFontList("GameData/fontconfig.txt", mRenderer);
@@ -42,12 +42,12 @@ void GameApp::preloadedData()
 
 void GameApp::addScenes()
 {
-    auto mainScene = std::make_unique<MainScene>(mRenderer);
-    auto mapMenuScene = std::make_unique<MapMenuScene>(mRenderer);
-    auto gameScene = std::make_unique<GameScene>(mRenderer);
-    auto inventoryScene = std::make_unique<InventoryScene>(mRenderer);
-    auto shopScene = std::make_unique<ShopScene>(mRenderer);
-    auto scoreScene = std::make_unique<ScoreScene>(mRenderer);
+    auto mainScene = std::make_unique<MainScene>(mRenderer, mInputDispatcher);
+    auto mapMenuScene = std::make_unique<MapMenuScene>(mRenderer, mInputDispatcher);
+    auto gameScene = std::make_unique<GameScene>(mRenderer, mInputDispatcher);
+    auto inventoryScene = std::make_unique<InventoryScene>(mRenderer, mInputDispatcher);
+    auto shopScene = std::make_unique<ShopScene>(mRenderer, mInputDispatcher);
+    auto scoreScene = std::make_unique<ScoreScene>(mRenderer, mInputDispatcher);
 
     gameScene->ConnectMethod(std::bind(&GameApp::receiveMessage, this, std::placeholders::_1));
 
@@ -149,7 +149,7 @@ bool GameApp::processInput()
             needQuit = true;
         }
         else
-            InputDispatcher::getInstance()->sendEvent(&event);
+            mInputDispatcher->sendEvent(event);
     }
 
     return needQuit;

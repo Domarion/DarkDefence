@@ -6,8 +6,8 @@
 
 #include "../GraphicsSystem/UI/MapIndicator.h"
 
-MapMenuScene::MapMenuScene(std::shared_ptr<RenderingSystem> &aRenderer)
-   :Scene(aRenderer)
+MapMenuScene::MapMenuScene(std::shared_ptr<RenderingSystem> &aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher)
+   : Scene(aRenderer, aInputDispatcher)
    , currentMissionIndex(0)
    , currentMission()
 {

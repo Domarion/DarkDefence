@@ -11,8 +11,8 @@
 #include "../GlobalScripts/GameModel.h"
 #include "../GraphicsSystem/newSystem/UIElement/UIImage.h"
 
-MainScene::MainScene(std::shared_ptr<RenderingSystem> &aRenderer)
-    :Scene(aRenderer)
+MainScene::MainScene(std::shared_ptr<RenderingSystem> &aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher)
+    :Scene(aRenderer, aInputDispatcher)
 {
 }
 

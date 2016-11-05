@@ -17,6 +17,7 @@ using std::list;
 #include "FontManager.h"
 #include "../GraphicsSystem/newSystem/UIElement/ConcreteComposite.h"
 #include "../GraphicsSystem/newSystem/Camera2D.h"
+#include "../Input/InputDispatcher.h"
 class SceneObject;
 class SceneManager;
 
@@ -24,7 +25,7 @@ class Scene: public std::enable_shared_from_this<Scene>
 {
     using SceneObjectList = std::unique_ptr<std::list<std::shared_ptr<SceneObject> > >;
 public:
-    Scene(std::shared_ptr<RenderingSystem>& aRenderer);
+    Scene(std::shared_ptr<RenderingSystem>& aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher);
     Scene(const Scene&) = delete;
     Scene& operator=(const Scene&) = delete;
 
@@ -39,7 +40,7 @@ public:
     virtual void addToUIList(const std::shared_ptr<IComposite> &item);
     virtual void removeFromUIList(const std::shared_ptr<IComposite>& item);
 
-    void addAsInputHandler(InputHandler* item);
+    void addAsInputHandler(std::shared_ptr<InputHandler> item);
     void clearUIList();
     std::shared_ptr<SceneObject> findObjectByTag(std::string tag);
     SceneObjectList findObjectsByTag(std::string tag);
@@ -53,6 +54,7 @@ public:
 
 protected:
     mutable std::shared_ptr<RenderingSystem> renderer;
+    std::shared_ptr<InputDispatcher> mInputDispatcher;
     std::shared_ptr<ConcreteComposite> MainRect;
 
      void addLoadSceneButton(string aButtonName, string aFontName, string aSceneName, int posX, int posY, int width, int height);

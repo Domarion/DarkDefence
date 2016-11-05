@@ -15,7 +15,7 @@
 class ShopScene: public Scene
 {
 public:
-    ShopScene(std::shared_ptr<RenderingSystem> &aRenderer);
+    ShopScene(std::shared_ptr<RenderingSystem> &aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher);
 	virtual ~ShopScene();
     virtual void init(std::shared_ptr<SceneManager> sceneManagerPtr) override;
     virtual void clear() override;
