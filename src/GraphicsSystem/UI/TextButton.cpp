@@ -19,11 +19,12 @@ TextButton::~TextButton()
 }
 
 
-bool TextButton::onClick(SDL_Point* point)
+bool TextButton::onClick(Position point)
 {
 
+    SDL_Point sPoint{point.x, point.y};
 
-    bool result = SDL_PointInRect(point, &getRect());
+    bool result = SDL_PointInRect(&sPoint, &getRect());
 
     if (result)
         connectedMethod("zero");

@@ -15,7 +15,7 @@ public:
 
     // InputHandler interface
 public:
-    virtual bool onClick(SDL_Point *point) override;
+    virtual bool onClick(Position point) override;
 
 private:
     std::function<void(std::string)> connectedMethod;

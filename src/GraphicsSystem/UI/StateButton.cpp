@@ -16,9 +16,11 @@ void StateButton::setState1(const string &value)
     setCurrentState(state1);
 }
 
-bool StateButton::onClick(SDL_Point *point)
+bool StateButton::onClick(Position point)
 {
-    bool result = SDL_PointInRect(point, &getRect());
+    SDL_Point sPoint{point.x, point.y};
+
+    bool result = SDL_PointInRect(&sPoint, &getRect());
 
     if (result && connectedMethod != nullptr)
     {

@@ -154,7 +154,7 @@ void Composite::setParent(weak_ptr<IComposite> aParent)
     parent = aParent;
 }
 
-bool Composite::onClick(SDL_Point *point)
+bool Composite::onClick(Position point)
 {
     for(const auto &child : children)
     {

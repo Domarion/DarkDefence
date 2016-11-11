@@ -7,13 +7,13 @@
 
 #pragma once
 #include <SDL_rect.h>
-
+#include "../GraphicsSystem/newSystem/UtilityStructs.h"
 class InputHandler
 {
 public:
 	InputHandler();
 	virtual ~InputHandler();
-	virtual bool onClick(SDL_Point* point) = 0;
+    virtual bool onClick(Position point) = 0;
 	virtual bool canDrag() const;
     virtual bool onDrag(int);
     virtual bool containsPoint(int, int) const;

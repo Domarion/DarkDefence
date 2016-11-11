@@ -113,12 +113,12 @@ bool AbilityPrick::update(double timestep)
 }
 
 
-bool AbilityPrick::onClick(SDL_Point *point)
+bool AbilityPrick::onClick(Position point)
 {
     if (abilityState == Enums::AbilityStates::asWorking)
     {
-        coordX = point->x;
-        coordY = point->y;
+        coordX = point.x;
+        coordY = point.y;
 
         return true;
     }

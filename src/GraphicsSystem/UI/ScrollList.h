@@ -26,7 +26,7 @@ public:
 	void calculateVisibleItemsPositions();
 
 	virtual void draw() override;
-	virtual bool onClick(SDL_Point* point) override;
+	virtual bool onClick(Position point) override;
 	virtual bool canDrag() const override;
 	virtual bool onDrag(int direction) override;
 	virtual void ConnectMethod(std::function<bool(int)> method);

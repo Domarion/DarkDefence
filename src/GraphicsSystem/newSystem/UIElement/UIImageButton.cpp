@@ -11,7 +11,7 @@ void UIImageButton::ConnectMethod(std::function<void (std::string)> method)
     connectedMethod = method;
 }
 
-bool UIImageButton::onClick(SDL_Point *point)
+bool UIImageButton::onClick(Position point)
 {
     SDL_Rect rect = SDL_Rect();
     rect.x = getPosition().x;
@@ -19,7 +19,9 @@ bool UIImageButton::onClick(SDL_Point *point)
     rect.w = getSize().width;
     rect.h = getSize().height;
 
-    bool result = SDL_PointInRect(point, &rect);
+    SDL_Point sPoint{point.x, point.y};
+
+    bool result = SDL_PointInRect(&sPoint, &rect);
 
     std::cout << "ClickingResult" << std::boolalpha << result;
     if (result)

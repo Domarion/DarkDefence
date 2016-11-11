@@ -16,7 +16,7 @@ public:
     Enums::ResourceTypes getResourceType() const;
     // InputHandler interface
 public:
-    virtual bool onClick(SDL_Point *point) override;
+    virtual bool onClick(Position point) override;
 
     // SceneObject interface
 public:

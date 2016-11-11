@@ -11,12 +11,12 @@ SceneInputHandler::~SceneInputHandler()
 
 }
 
-bool SceneInputHandler::onClick(SDL_Point *point)
+bool SceneInputHandler::onClick(Position point)
 {
     if (parentScene == nullptr)
         return false;
 
-    return (parentScene->findObjectWithPos(point->x, point->y)) != nullptr;
+    return (parentScene->findObjectWithPos(point.x, point.y)) != nullptr;
 }
 
 void SceneInputHandler::setParentScene(Scene *value)

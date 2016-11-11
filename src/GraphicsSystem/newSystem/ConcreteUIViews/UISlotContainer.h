@@ -19,7 +19,7 @@ public:
     void FillItemAtIndex(std::shared_ptr<UISlot>& aItem, size_t aIndex);
     void CleanItemAtIndex(int aIndex);
     void ConnectMethod(std::function<bool(int)> method);
-    virtual bool onClick(SDL_Point* point) override;
+    virtual bool onClick(Position point) override;
     std::vector<std::shared_ptr<UISlot> >& getItems();
 private:
 

@@ -4,7 +4,7 @@ UIScrollList::UIScrollList(int aItemsToShow, std::shared_ptr<RenderingSystem> &a
     :ConcreteComposite(aRenderingContext)
     , itemCountToShow(aItemsToShow)
     , toFirst(children.begin())
-    , toLast(children.begin())
+    , toLast(children.end())
 {
 
 }
@@ -64,38 +64,45 @@ std::list<shared_ptr<IComposite> >::iterator &UIScrollList::getIteratorToLast()
     return toLast;
 }
 
-void UIScrollList::scrollUp(size_t amount)
+void UIScrollList::scrollUp(size_t amount)//TODO::Crash
 {
 
     if (toFirst != children.begin())
     {
-        size_t distance = std::distance(toFirst, children.begin());
+
+        size_t distance = std::distance(children.begin(), toFirst);
+        std::cout << "Updistance is" << distance << "amount = " << amount << std::endl;
 
         if (distance > amount)
             distance = amount;
 
-        std::advance(toFirst, -distance);
-        std::advance(toLast, -distance);
+        size_t lastDistance = std::distance(toFirst, toLast);
+        toFirst = children.begin();
+        std::advance(toFirst, distance - 1);
+        toLast = toFirst;
+
+        std::advance(toLast, lastDistance);
         recalcItemPositions();
     }
 }
 
 void UIScrollList::scrollDown(size_t amount)
 {
-    if (children.size() >= amount)
+    if (toLast == children.end())
+        return;
+
+    size_t distance = std::distance(toLast, children.end());
+    std::cout << "Downdistance is" << distance << "amount = " << amount << std::endl;
+    if (distance > amount)
+        distance = amount;
+
+    if (distance > 0)
     {
-
-        size_t distance = std::distance(toLast, children.end());
-        if (distance > amount)
-            distance = amount;
-
         std::advance(toFirst, distance);
         std::advance(toLast, distance);
 
         recalcItemPositions();
     }
-
-
 }
 
 void UIScrollList::recalcItemPositions()
@@ -104,6 +111,7 @@ void UIScrollList::recalcItemPositions()
     const int xPos{0};
     int yPos{0};
 
+    std::cout << "ToLast is End?" << std::boolalpha << (toLast == children.end()) << std::endl;
     for(auto firstIter = toFirst; firstIter != toLast; ++firstIter)
     {
         (*firstIter)->setPosition(Position(xPos, yPos));
@@ -128,7 +136,7 @@ void UIScrollList::addChild(const shared_ptr<IComposite> &child)
     recalcItemPositions();
 }
 
-void UIScrollList::removeChild(const shared_ptr<IComposite> &child)
+void UIScrollList::removeChild(const shared_ptr<IComposite> &child)//TODO::Wrong Logic
 {
     if (child != nullptr)
     {   
@@ -139,7 +147,7 @@ void UIScrollList::removeChild(const shared_ptr<IComposite> &child)
             return;
 
 
-        if (children.size() <= itemCountToShow)
+        if (children.size() <= itemCountToShow + 1)
         {
             children.erase(childIterator);
             toFirst = children.begin();
@@ -150,6 +158,11 @@ void UIScrollList::removeChild(const shared_ptr<IComposite> &child)
         {
 
             toFirst = children.erase(childIterator);
+
+            toLast = toFirst;
+
+            if (std::distance(toFirst, children.end()) >= itemCountToShow)
+                std::advance(toLast, itemCountToShow);
             if (children.size() <= itemCountToShow)
                 toLast = children.end();
 
@@ -162,24 +175,41 @@ void UIScrollList::removeChild(const shared_ptr<IComposite> &child)
             if (childIterDistance > 0 && childIterDistance < firstLastDistance)
             {
                 childIterator = children.erase(childIterator);
-                toLast = toFirst;
-                std::advance(toLast, firstLastDistance);
+                int beginDistance = std::distance(toFirst, children.end());
+                if (beginDistance >= itemCountToShow)
+                {
+                    toLast = toFirst;
+                    std::advance(toLast, itemCountToShow);
+                }
+                else
+                    toLast = children.end();
 
             }
-            else
-            {
-                children.remove(child);
-            }
+//            else
+//            {
+//                children.remove(child);
+//            }
 
-            if (children.size() <= itemCountToShow)
-            {
-                toFirst = children.begin();
-                toLast = children.end();
-            }
+
 
         }
 
+        //            if (children.size() <= itemCountToShow)
+        //            {
+        //                toFirst = children.begin();
+        //                toLast = children.end();
+        //            }
 
+        int fistLastDistance = std::distance(toFirst, toLast);
+        if (fistLastDistance < itemCountToShow)
+        {
+            int beginFirstDistance = std::distance(children.begin(), toFirst);
+            if (beginFirstDistance > 0)
+            {
+                toFirst = children.begin();
+                std::advance(toFirst, beginFirstDistance - 1);
+            }
+        }
         recalcItemPositions();
     }
 }
@@ -190,7 +220,7 @@ void UIScrollList::draw() const
         (*firstIter)->draw();
 }
 
-bool UIScrollList::onClick(SDL_Point *point)
+bool UIScrollList::onClick(Position point)
 {
 
     auto clickedItemIter = toLast;
@@ -211,7 +241,9 @@ bool UIScrollList::onClick(SDL_Point *point)
             Position position = childIter->get()->getLocalPosition();
             SDL_Rect childRect{position.x, position.y, size.width, size.height};
 
-            if (SDL_PointInRect(point, &childRect))
+            SDL_Point sPoint{point.x, point.y};
+
+            if (SDL_PointInRect(&sPoint, &childRect))
             {
                 clickedItemIter = childIter;
                 isSuccess = true;

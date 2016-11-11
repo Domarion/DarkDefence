@@ -41,8 +41,10 @@ void UISlotContainer::ConnectMethod(std::function<bool(int)> method)
     mConnectedMethod = method;
 }
 
-bool UISlotContainer::onClick(SDL_Point *point)
+bool UISlotContainer::onClick(Position point)
 {
+    SDL_Point sPoint{point.x, point.y};
+
     if (mConnectedMethod != nullptr)
         for(size_t index = 0; index < mItems.size(); ++index)
         {
@@ -52,7 +54,7 @@ bool UISlotContainer::onClick(SDL_Point *point)
             mItems[index]->getSize().width,
             mItems[index]->getSize().height};
 
-            if (SDL_PointInRect(point, &itemRect))
+            if (SDL_PointInRect(&sPoint, &itemRect))
             {
                 if (mConnectedMethod(index)) CleanItemAtIndex(index);
                 return true;

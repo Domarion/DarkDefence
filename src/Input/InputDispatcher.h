@@ -23,7 +23,8 @@ public:
 	void clearHandlers();
 
 private:
-
+    void sendEventTouch(const SDL_Event &inputEvent);
+    void sendEventMouse(const SDL_Event &inputEvent);
     uint32_t previousEventType;
     std::vector<std::shared_ptr<InputHandler>> handlers;
 };

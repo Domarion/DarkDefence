@@ -24,7 +24,7 @@ public:
     virtual bool hasParent() const override;
     // InputHandler interface
 public:
-    virtual bool onClick(SDL_Point *point) override;
+    virtual bool onClick(Position point) override;
 
 
     Position getNextPosition() const;

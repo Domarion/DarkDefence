@@ -9,7 +9,7 @@ public:
 
     string getState1() const;
     void setState1(const string &value);
-    virtual bool onClick(SDL_Point* point) override;
+    virtual bool onClick(Position point) override;
     string getState2() const;
     void setState2(const string &value);
 

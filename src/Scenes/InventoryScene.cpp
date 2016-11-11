@@ -36,8 +36,8 @@ void InventoryScene::init(std::shared_ptr<SceneManager> sceneManagerPtr)
 void InventoryScene::clear()
 {
     Scene::clear();
-    heroController.release();
-    inventoryController.release();
+    heroController.reset();
+    inventoryController.reset();
 
 }
 

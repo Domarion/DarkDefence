@@ -21,7 +21,7 @@ public:
     void receiveItem(IDrawable* item, int index);
 	void removeItem(int index);
 	virtual void draw() override;
-	virtual bool onClick(SDL_Point* point) override;
+	virtual bool onClick(Position point) override;
 	virtual void ConnectMethod(std::function<bool(int)> method);
 	virtual bool containsPoint(int x, int y) const override;
 	void setItemRect(int index, SDL_Rect* rect);

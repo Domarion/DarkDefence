@@ -30,17 +30,19 @@ Enums::ResourceTypes ResourcePlace::getResourceType() const
     return resourceType;
 }
 
-bool ResourcePlace::onClick(SDL_Point *point)
+bool ResourcePlace::onClick(Position point)
 {
     if (getSprite() == nullptr)
         return false;
+
+    SDL_Point sPoint{point.x, point.y};
 
     SDL_Rect rect = {this->getSprite()->getPosition().x
                      , this->getSprite()->getPosition().y
                      , this->getSprite()->getSize().width
                      , this->getSprite()->getSize().height
                     };
-    if (SDL_PointInRect(point, &rect))
+    if (SDL_PointInRect(&sPoint, &rect))
     {
 
            //std::cout << "resType =" << resourceType << std::endl;

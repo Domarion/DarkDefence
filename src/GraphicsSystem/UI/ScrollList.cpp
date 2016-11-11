@@ -166,37 +166,40 @@ void ScrollList::draw()
 
 }
 
-bool ScrollList::onClick(SDL_Point* point)
+bool ScrollList::onClick(Position point)
 {
-	int n = itemList.size();
+    int n = itemList.size();
     std::cout << "TouchedAtLeast != nullptr size =" << n << std::endl;
 
 
-	for(int i = 0; i != n; ++i)
+    for(int i = 0; i != n; ++i)
     {
         std::cout << "ScrollItemRect = " << (itemList[i]->getRect().x)<< '\t' << (itemList[i]->getRect().y) << '\t' << (itemList[i]->getRect().w) << '\t' << (itemList[i]->getRect().h)<< std::endl;
-         std::cout << "ClickPos = "  << (point->x) << '\t' << (point->y)<< std::endl;
+        std::cout << "ClickPos = "  << (point->x) << '\t' << (point->y)<< std::endl;
 
-         std::cout << "ItenRect = " << (itemList[i]->getRect().x)
-                   << "\t" << (itemList[i]->getRect().y)
-                   << "\t" << (itemList[i]->getRect().w)
-                   << "\t" << (itemList[i]->getRect().h) << std::endl;
-        if (SDL_PointInRect(point, &itemList[i]->getRect()))
-		{
-			if (connectedMethod != nullptr)
-			{
+        std::cout << "ItenRect = " << (itemList[i]->getRect().x)
+                  << "\t" << (itemList[i]->getRect().y)
+                  << "\t" << (itemList[i]->getRect().w)
+                  << "\t" << (itemList[i]->getRect().h) << std::endl;
 
-              std::cout << "ScrollConnected != nullptr" << std::endl;
+
+        SDL_Point sPoint{point.x, point.y};
+        if (SDL_PointInRect(&sPoint, &itemList[i]->getRect()))
+        {
+            if (connectedMethod != nullptr)
+            {
+
+                std::cout << "ScrollConnected != nullptr" << std::endl;
 
                 connectedMethod(i);
 
-				//calculateVisibleItemsPositions();
-			}
-			return true;
-		}
-      }
+                //calculateVisibleItemsPositions();
+            }
+            return true;
+        }
+    }
 
-	return false;
+    return false;
 }
 
 void ScrollList::ConnectMethod(std::function<bool(int)> method)
@@ -230,7 +233,7 @@ bool ScrollList::onDrag(int direction)
 
 bool ScrollList::containsPoint(int x, int y) const
 {
-	SDL_Point point = { x, y };
+    SDL_Point point = { x, y };
     return SDL_PointInRect(&point, &getRect());
 }
 

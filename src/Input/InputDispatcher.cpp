@@ -17,35 +17,11 @@ InputDispatcher::InputDispatcher()
 
 void InputDispatcher::sendEvent(const SDL_Event& inputEvent)//TODO:: Wrong Logic
 {
-    if (inputEvent.type == SDL_MOUSEBUTTONUP || inputEvent.type == SDL_MOUSEBUTTONDOWN)
-	{
-
-		SDL_Point point;
-		SDL_GetMouseState(&(point.x), &(point.y));
-
-        if (inputEvent.type == SDL_MOUSEBUTTONUP)
-		for(unsigned int i = 0; i != handlers.size(); ++i)
-		{
-			if(handlers[i]->onClick(&point))
-				break;
-		}
-	}
-	else
-        if (inputEvent.type == SDL_MOUSEMOTION && (previousEventType == SDL_MOUSEBUTTONDOWN) )
-		{
-
-            int yDiff = - inputEvent.motion.yrel;
-			std:: cout << "Mouse yDiff = " << yDiff << std::endl;
-			for(unsigned int i = 0; i != handlers.size(); ++i)
-			{
-                if(handlers[i]->canDrag() && handlers[i]->containsPoint(inputEvent.motion.x, inputEvent.motion.y))
-				{
-
-                    if (handlers[i]->onDrag(yDiff))
-                        break;
-				}
-			}
-		}
+    #ifdef __ANDROID__
+        sendEventTouch(inputEvent);
+    #else
+        sendEventMouse(inputEvent);
+    #endif
 
     previousEventType = inputEvent.type;
 }
@@ -65,5 +41,43 @@ void InputDispatcher::removeHandler(std::shared_ptr<InputHandler> handler)
 
 void InputDispatcher::clearHandlers()
 {
-	handlers.clear();
+    handlers.clear();
+}
+
+void InputDispatcher::sendEventTouch(const SDL_Event &inputEvent)
+{
+
+}
+
+void InputDispatcher::sendEventMouse(const SDL_Event &inputEvent)
+{
+    if (inputEvent.type == SDL_MOUSEBUTTONUP || inputEvent.type == SDL_MOUSEBUTTONDOWN)
+    {
+
+        Position point;
+        SDL_GetMouseState(&(point.x), &(point.y));
+
+        if (inputEvent.type == SDL_MOUSEBUTTONUP)
+        for(unsigned int i = 0; i != handlers.size(); ++i)
+        {
+            if(handlers[i] != nullptr && handlers[i]->onClick(point))
+                break;
+        }
+    }
+    else
+        if (inputEvent.type == SDL_MOUSEMOTION && (previousEventType == SDL_MOUSEBUTTONDOWN) )
+        {
+
+            int yDiff = - inputEvent.motion.yrel;
+            std:: cout << "Mouse yDiff = " << yDiff << std::endl;
+            for(unsigned int i = 0; i != handlers.size(); ++i)
+            {
+                if(handlers[i] != nullptr && handlers[i]->canDrag() && handlers[i]->containsPoint(inputEvent.motion.x, inputEvent.motion.y))
+                {
+
+                    if (handlers[i]->onDrag(yDiff))
+                        break;
+                }
+            }
+        }
 }

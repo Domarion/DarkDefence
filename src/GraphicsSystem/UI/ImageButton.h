@@ -9,7 +9,7 @@ class ImageButton: public CTexture, public InputHandler
 public:
     ImageButton();
     virtual ~ImageButton();
-    virtual bool onClick(SDL_Point* point) override;
+    virtual bool onClick(Position point) override;
 
     virtual void ConnectMethod(std::function<void(string)> method);
 

@@ -27,25 +27,25 @@ void SlotContainer::draw()
     if (!slots.empty())
     for(int i = 0; i < slots.size(); ++i)
         slots[i]->draw();
-       //CTexture::CopyTextureToRenderer( slots[i]->getTexture(), nullptr,  );
-        //Renderer::getInstance()->renderTexture( slots[i]->getTexture(), &slots[i]->getRect());
 }
 
-bool SlotContainer::onClick(SDL_Point* point)
+bool SlotContainer::onClick(Position point)
 {
-	int n = slots.size();
-	for(int i = 0; i != n; ++i)
-        if (SDL_PointInRect(point, &slots[i]->getRect()))
-		{
-			if (connectedMethod != nullptr)
-			{
-				if (connectedMethod(i))
-					removeItem(i);
-			}
-			return true;
-		}
+    int n = slots.size();
+    SDL_Point sPoint{point.x, point.y};
 
-	return false;
+    for(int i = 0; i != n; ++i)
+        if (SDL_PointInRect(&sPoint, &slots[i]->getRect()))
+        {
+            if (connectedMethod != nullptr)
+            {
+                if (connectedMethod(i))
+                    removeItem(i);
+            }
+            return true;
+        }
+
+    return false;
 }
 
 void SlotContainer::ConnectMethod(std::function<bool(int)> method)
@@ -55,7 +55,7 @@ void SlotContainer::ConnectMethod(std::function<bool(int)> method)
 
 bool SlotContainer::containsPoint(int x, int y) const
 {
-	SDL_Point point = { x, y };
+    SDL_Point point = { x, y };
     return SDL_PointInRect(&point, &getRect());
 }
 

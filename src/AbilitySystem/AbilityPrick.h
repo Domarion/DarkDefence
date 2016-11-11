@@ -22,6 +22,6 @@ private:
     int coordX, coordY;
     // InputHandler interface
 public:
-    virtual bool onClick(SDL_Point *point) override;
+    virtual bool onClick(Position point) override;
 };
 

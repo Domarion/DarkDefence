@@ -18,7 +18,7 @@ class TextButton: public Label, public InputHandler
 public:
     TextButton();
     virtual ~TextButton();
-    virtual bool onClick(SDL_Point* point) override;
+    virtual bool onClick(Position point) override;
 
     virtual void ConnectMethod(std::function<void(std::string)> method);
 

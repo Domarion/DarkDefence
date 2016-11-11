@@ -143,6 +143,35 @@ BOOST_FIXTURE_TEST_CASE(scrollPointersShouldMoveAfterDown, UIScrollListFixture)
     BOOST_CHECK(scroll->getIteratorToLast() == scroll->getEndIterator());
 }
 
+BOOST_FIXTURE_TEST_CASE(scrollPointersShouldMoveAfterDownAndLastNEEnd, UIScrollListFixture)
+{
+
+    auto child1 = std::make_shared<ConcreteComposite>(nullrendering);
+    auto child2 = std::make_shared<ConcreteComposite>(nullrendering);
+    auto child3 = std::make_shared<ConcreteComposite>(nullrendering);
+    auto child4 = std::make_shared<ConcreteComposite>(nullrendering);
+    auto child5 = std::make_shared<ConcreteComposite>(nullrendering);
+
+    auto scroll = std::make_shared<UIScrollList>(ItemsToShow, nullrendering);
+    scroll->addChild(child1);
+    scroll->addChild(child2);
+    scroll->addChild(child3);
+    scroll->addChild(child4);
+    scroll->addChild(child5);
+
+    auto second_iterator = scroll->getBeginIterator();
+    std::advance(second_iterator, 1);
+
+    scroll->scrollDown(1);
+
+    auto second_last_iterator = scroll->getBeginIterator();
+    std::advance(second_last_iterator, 4);
+
+
+    BOOST_CHECK(scroll->getIteratorToFirst() == second_iterator);
+    BOOST_CHECK(scroll->getIteratorToLast() == second_last_iterator);
+}
+
 BOOST_FIXTURE_TEST_CASE(scrollPointersShouldMoveOnlyOnceAfterDown, UIScrollListFixture)
 {
 
@@ -291,5 +320,53 @@ BOOST_FIXTURE_TEST_CASE(removeAfterScrollShouldntMoveLast, UIScrollListFixture)
 
     BOOST_CHECK(scroll->getIteratorToFirst() == scroll->getBeginIterator());
     BOOST_CHECK(scroll->getIteratorToLast() == scroll->getEndIterator());
+}
+
+BOOST_FIXTURE_TEST_CASE(removeAtEndShouldMoveUpper, UIScrollListFixture)
+{
+
+    auto child1 = std::make_shared<ConcreteComposite>(nullrendering);
+    auto child2 = std::make_shared<ConcreteComposite>(nullrendering);
+    auto child3 = std::make_shared<ConcreteComposite>(nullrendering);
+    auto child4 = std::make_shared<ConcreteComposite>(nullrendering);
+
+    auto scroll = std::make_shared<UIScrollList>(ItemsToShow, nullrendering);
+    scroll->addChild(child1);
+    scroll->addChild(child2);
+    scroll->addChild(child3);
+    scroll->addChild(child4);
+
+    scroll->scrollDown(1);
+
+    scroll->removeChild(child4);
+
+    BOOST_CHECK(scroll->getIteratorToFirst() == scroll->getBeginIterator());
+    BOOST_CHECK(scroll->getIteratorToLast() == scroll->getEndIterator());
+}
+
+
+BOOST_FIXTURE_TEST_CASE(ScrollUpAfterScrollDown, UIScrollListFixture)
+{
+
+    auto child1 = std::make_shared<ConcreteComposite>(nullrendering);
+    auto child2 = std::make_shared<ConcreteComposite>(nullrendering);
+    auto child3 = std::make_shared<ConcreteComposite>(nullrendering);
+    auto child4 = std::make_shared<ConcreteComposite>(nullrendering);
+
+    auto scroll = std::make_shared<UIScrollList>(ItemsToShow, nullrendering);
+    scroll->addChild(child1);
+    scroll->addChild(child2);
+    scroll->addChild(child3);
+    scroll->addChild(child4);
+
+    scroll->scrollDown(1);
+
+    scroll->scrollUp(2);
+
+    auto last_iterator = scroll->getBeginIterator();
+    std::advance(last_iterator, 3);
+
+    BOOST_CHECK(scroll->getIteratorToFirst() == scroll->getBeginIterator());
+    BOOST_CHECK(scroll->getIteratorToLast() == last_iterator);
 }
 BOOST_AUTO_TEST_SUITE_END()

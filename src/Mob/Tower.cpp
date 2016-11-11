@@ -5,18 +5,20 @@ void Tower::connectMethod(std::function<void(std::shared_ptr<Tower>, int, int)> 
     connectedMethod = method;
 }
 
-bool Tower::onClick(SDL_Point *point)
+bool Tower::onClick(Position point)
 {
 
     SDL_Rect rect = {this->getSprite()->getPosition().x
                      , this->getSprite()->getPosition().y
                      , this->getSprite()->getSize().width
                      , this->getSprite()->getSize().height};
-    if (SDL_PointInRect(point, &rect))
+    SDL_Point sPoint{point.x, point.y};
+
+    if (SDL_PointInRect(&sPoint, &rect))
     {
         if (connectedMethod != nullptr)
         {
-            connectedMethod(std::static_pointer_cast<Tower>(shared_from_this()), point->x, point->y);
+            connectedMethod(std::static_pointer_cast<Tower>(shared_from_this()), point.x, point.y);
         }
         return true;
     }

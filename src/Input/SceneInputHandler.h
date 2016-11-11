@@ -7,7 +7,7 @@ class SceneInputHandler: public InputHandler
 public:
     SceneInputHandler();
     virtual ~SceneInputHandler();
-    virtual bool onClick(SDL_Point* point) override;
+    virtual bool onClick(Position point) override;
 
     void setParentScene(Scene *value);
 

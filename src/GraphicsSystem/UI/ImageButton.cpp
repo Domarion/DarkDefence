@@ -11,9 +11,10 @@ ImageButton::~ImageButton()
 
 }
 
-bool ImageButton::onClick(SDL_Point *point)
+bool ImageButton::onClick(Position point)
 {
-    bool result = SDL_PointInRect(point, &getRect());
+    SDL_Point sPoint{point.x, point.y};
+    bool result = SDL_PointInRect(&sPoint, &getRect());
 
     if (result && connectedMethod != nullptr)
     {

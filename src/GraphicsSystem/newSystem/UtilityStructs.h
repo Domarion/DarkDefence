@@ -38,6 +38,7 @@ public:
        return !(*this == right);
    }
 
+
     int x, y;
 private:
     friend std::ostream& operator<<(std::ostream& output, Position const & right);
