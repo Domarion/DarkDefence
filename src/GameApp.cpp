@@ -22,10 +22,10 @@ using std::endl;
 #include "Scenes/ShopScene.h"
 #include "Scenes/ScoreScene.h"
 #include <string>
-GameApp::GameApp(std::unique_ptr<SceneManager> aSceneManager, std::unique_ptr<RenderingSystem> aRenderer)
+GameApp::GameApp(std::unique_ptr<SceneManager> aSceneManager, std::unique_ptr<RenderingSystem>&& aRenderer)
 : mRenderer(std::move(aRenderer))
 , mSceneManager(std::move(aSceneManager))
-, mInputDispatcher(std::make_shared<InputDispatcher>())
+, mInputDispatcher(std::make_shared<InputDispatcher>(mRenderer->getScreenSize()))
 , paused(false)
 {
     FontManager::getInstance()->loadFontList("GameData/fontconfig.txt", mRenderer);

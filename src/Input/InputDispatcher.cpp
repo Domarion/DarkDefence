@@ -9,8 +9,9 @@
 #include <iostream>
 #include <algorithm>
 
-InputDispatcher::InputDispatcher()
-:previousEventType(0)
+InputDispatcher::InputDispatcher(Size aSize)
+: previousEventType(0)
+, mSize(aSize)
 {
 }
 
@@ -46,7 +47,39 @@ void InputDispatcher::clearHandlers()
 
 void InputDispatcher::sendEventTouch(const SDL_Event &inputEvent)
 {
+    if (inputEvent.type == SDL_FINGERUP || inputEvent.type == SDL_FINGERDOWN)
+    {
 
+        int x = static_cast<int>(inputEvent.tfinger.x * mSize.width);
+        int y = static_cast<int>(inputEvent.tfinger.y * mSize.height);
+
+        Position point{x, y};
+
+        if (inputEvent.type == SDL_FINGERUP)
+        for(unsigned int i = 0; i != handlers.size(); ++i)
+        {
+            if(handlers[i] != nullptr && handlers[i]->onClick(point))
+                break;
+        }
+
+    }
+    else if (inputEvent.type == SDL_FINGERMOTION && (previousEventType == SDL_FINGERDOWN) )
+    {
+
+        int x = static_cast<int>(inputEvent.tfinger.x * mSize.width);
+        int y = static_cast<int>(inputEvent.tfinger.y * mSize.height);
+
+        int yDiff = - static_cast<int>(inputEvent.tfinger.dy * mSize.height);
+        std:: cout << "Mouse yDiff = " << yDiff << std::endl;
+        for(unsigned int i = 0; i != handlers.size(); ++i)
+        {
+            if(handlers[i] != nullptr && handlers[i]->canDrag() && handlers[i]->containsPoint(x, y))
+            {
+                if (handlers[i]->onDrag(yDiff))
+                    break;
+            }
+        }
+    }
 }
 
 void InputDispatcher::sendEventMouse(const SDL_Event &inputEvent)
@@ -67,12 +100,15 @@ void InputDispatcher::sendEventMouse(const SDL_Event &inputEvent)
     else
         if (inputEvent.type == SDL_MOUSEMOTION && (previousEventType == SDL_MOUSEBUTTONDOWN) )
         {
+            Position point;
+            SDL_GetMouseState(&(point.x), &(point.y));
+
 
             int yDiff = - inputEvent.motion.yrel;
             std:: cout << "Mouse yDiff = " << yDiff << std::endl;
             for(unsigned int i = 0; i != handlers.size(); ++i)
             {
-                if(handlers[i] != nullptr && handlers[i]->canDrag() && handlers[i]->containsPoint(inputEvent.motion.x, inputEvent.motion.y))
+                if(handlers[i] != nullptr && handlers[i]->canDrag() && handlers[i]->containsPoint(point.x, point.y))
                 {
 
                     if (handlers[i]->onDrag(yDiff))

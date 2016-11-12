@@ -14,7 +14,7 @@
 class GameApp
 {
 public:
-    explicit GameApp(std::unique_ptr<SceneManager> aSceneManager, std::unique_ptr<RenderingSystem> aRenderer);
+    explicit GameApp(std::unique_ptr<SceneManager> aSceneManager, std::unique_ptr<RenderingSystem> &&aRenderer);
     ~GameApp() = default;
     GameApp(const GameApp&) = delete;
     GameApp& operator=(const GameApp&) = delete;
