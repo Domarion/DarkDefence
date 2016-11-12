@@ -102,7 +102,7 @@ void HeroInventoryController::initView(std::shared_ptr<RenderingSystem> &aRender
 
     }
     view->ConnectMethod(std::bind( &HeroInventory::sendItem, model, std::placeholders::_1) );
-    model->ConnectReceiver(std::bind( &HeroInventoryController::receiveItemFromModel, this, std::placeholders::_1, std::placeholders::_2) );
+    model->ConnectControllerReceiver(std::bind( &HeroInventoryController::receiveItemFromModel, this, std::placeholders::_1, std::placeholders::_2) );
 
 }
 

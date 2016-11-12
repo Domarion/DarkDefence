@@ -39,6 +39,11 @@ void ShopScene::clear()
 {
 
     Scene::clear();
+    shopController.reset();
+    goldCoinsLabel.reset();
+
+    GameModel::getInstance()->getShopInventory()->clearControllerReceivers();
+
     //delete shopController;
 }
 
@@ -103,28 +108,12 @@ void ShopScene::initShopItemsUI()
     scroll->setSize(Size(MainRect->getSize().width*2/5, MainRect->getSize().height - 50));
     scroll->setPosition(Position(MainRect->getSize().width*3/5, 0));
 
-
     shopController = std::make_shared<ShopController>();
-    shopController->setModel(GameModel::getInstance()->getShopInventory());
-    shopController->setView(scroll);
-    shopController->initView(renderer);
-    MainRect->addChild(scroll);
-
-//        const int itemWidth = 72;
-//        const int itemHeight = 72;
-
-//        ScrollList* scroll =  new ScrollList();
-//        scroll->initScrollList(showItems, itemWidth, itemHeight);
-//        scroll->setRect(Renderer::getInstance()->getScreenWidth()*0.6, 0, Renderer::getInstance()->getScreenWidth()*0.4, Renderer::getInstance()->getScreenHeight() - 50);
-//        scroll->loadTexture("GameData/textures/topPanel.png");
-
-//        shopController = new ShopController();
-//        shopController->setModel(GameModel::getInstance()->getShopInventory());
-
-//        shopController->setView(scroll);
-//        shopController->initView();
-
-//        Scene::addToUIList(scroll);
-
-
+    if (shopController != nullptr)
+    {
+        shopController->setModel(GameModel::getInstance()->getShopInventory());
+        shopController->setView(std::move(scroll));
+        shopController->initView(renderer);
+        MainRect->addChild(shopController->getView());
+    }
 }

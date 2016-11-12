@@ -15,6 +15,8 @@ set(HEADERS
     )
 
 set(SRC_LIST
+    ${RenderingSystem_INCLUDE_DIRS}SDL_Engine.cpp
+
     ${RenderingSystem_INCLUDE_DIRS}GraphicsSystem/newSystem/Font.cpp
     ${RenderingSystem_INCLUDE_DIRS}GraphicsSystem/newSystem/UtilityStructs.cpp
 

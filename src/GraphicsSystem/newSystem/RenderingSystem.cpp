@@ -35,6 +35,9 @@ void RenderingSystem::renderTexture(SDL_Texture* texturePtr, Position aDestPosit
 
 std::unique_ptr<SDL_Texture, RenderingSystem::TTextureDeleter> RenderingSystem::loadTextureFromFile(const std::string &filename)
 {
+    if (renderer == nullptr)
+       throw std::runtime_error("renderer is null, cannot load texture from file");
+
     return std::unique_ptr<SDL_Texture, TTextureDeleter>(IMG_LoadTexture(renderer.get(), filename.c_str()),  [](SDL_Texture* aTexture){SDL_DestroyTexture(aTexture);});
 }
 

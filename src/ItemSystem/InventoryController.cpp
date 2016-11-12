@@ -42,7 +42,7 @@ void InventoryController::initView()
     arial.loadFromFile("Fonts/arial.ttf", 20);
 
     view->ConnectMethod(std::bind( &InventoryController::sendItemToModel, this, std::placeholders::_1) );
-    model->ConnectReceiver(std::bind( &InventoryController::receiveItemFromModel, this, std::placeholders::_1, std::placeholders::_2) );
+    model->ConnectControllerReceiver(std::bind( &InventoryController::receiveItemFromModel, this, std::placeholders::_1, std::placeholders::_2) );
 
 	int count = model->getItemCount();
 	if (count == 0)

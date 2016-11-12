@@ -34,10 +34,10 @@ public:
 
 	int getItemCount() const;
     const ItemModel* getItemFromIndex(size_t index);
-    virtual void ConnectReceiver( std::function<void(string, size_t)> handler);
-    virtual void ConnectMethod( std::function<void(ItemModel)> handler);
+    virtual void ConnectControllerReceiver( std::function<void(string, size_t)> handler);
+    virtual void ConnectModelReceiver( std::function<void(ItemModel)> handler);
     virtual ItemModel* getItemByName(string name);
-
+    virtual void clearControllerReceivers();
     vector<string> getItemNames();
 protected:
 	vector<ItemModel> items;

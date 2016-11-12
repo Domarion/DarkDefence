@@ -18,7 +18,7 @@ Inventory::~Inventory()
 	// TODO Auto-generated destructor stub
 }
 
-void Inventory::ConnectMethod(std::function<void(ItemModel)> method)
+void Inventory::ConnectModelReceiver(std::function<void(ItemModel)> method)
 {
     connectedMethod0 = method;
 }
@@ -29,6 +29,12 @@ ItemModel* Inventory::getItemByName(string name)
         if (items[i].getCaption() == name)
             return &items[i];
     return nullptr;
+}
+
+void Inventory::clearControllerReceivers()
+{
+   // connectedMethod0 = nullptr;
+    connectedMethod = nullptr;
 }
 
 bool Inventory::sendItem(size_t index)
@@ -99,7 +105,7 @@ const ItemModel*  Inventory::getItemFromIndex(size_t index)
     return &items[index];
 }
 
-void Inventory::ConnectReceiver(std::function<void (string, size_t)> handler)
+void Inventory::ConnectControllerReceiver(std::function<void (string, size_t)> handler)
 {
     connectedMethod = handler;
 

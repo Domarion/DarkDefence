@@ -1,4 +1,4 @@
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -g -O2 -Wall")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -g -O2 -Wall -ggdb")
 #    -Weffc++ -pedantic  \
 #    -pedantic-errors -Wextra -Waggregate-return -Wcast-align \
 #    -Wcast-qual  -Wchar-subscripts  -Wcomment -Wconversion \
@@ -57,6 +57,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -g -O2 -Wall")
 #    GraphicsSystem/GraphicsManager.cpp
 #    GraphicsSystem/ShopItemUI.cpp
 #    GlobalScripts/Renderer.h
+#    GlobalScripts/Renderer.cpp
 #)
 
 set(SRC_LIST
@@ -244,7 +245,6 @@ set(SRC_LIST
     GlobalScripts/ManaGlobal.cpp
     GlobalScripts/ResourcesModel.cpp
     GlobalScripts/ResourceInfo.cpp
-    GlobalScripts/Renderer.cpp
     GlobalScripts/AccountModel.cpp
     GlobalScripts/GameModel.cpp
     GlobalScripts/TileMapManager.cpp

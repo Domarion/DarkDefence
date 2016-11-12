@@ -1,6 +1,7 @@
 #include "TerrainGenerator.hpp"
 #include "SDL_Engine.h"
 #include "Utility/textfilefunctions.h"
+#include <SDL_image.h>
 
 void saveTerrain(std::string filename, std::string outputFilePath);
 

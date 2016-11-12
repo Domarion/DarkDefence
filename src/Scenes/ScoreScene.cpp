@@ -15,10 +15,6 @@ ScoreScene::ScoreScene(std::shared_ptr<RenderingSystem> &aRenderer, std::shared_
 {
 }
 
-ScoreScene::~ScoreScene()
-{
-
-}
 
 void ScoreScene::init(std::shared_ptr<SceneManager> sceneManagerPtr)
 {

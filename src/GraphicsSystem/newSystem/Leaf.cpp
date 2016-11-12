@@ -51,7 +51,7 @@ void Leaf::setParent(weak_ptr<IComposite> aParent)
 }
 bool Leaf::hasParent() const
 {
-    return !getParent().expired();
+    return !(getParent().expired());
 }
 
 Position Leaf::getLocalPosition() const

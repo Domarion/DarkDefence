@@ -20,9 +20,9 @@ ShopController::ShopController()
 
 }
 
-void ShopController::setView(std::shared_ptr<UIScrollList> &newView)
+void ShopController::setView(std::shared_ptr<UIScrollList>&& newView)
 {
-    view = newView;
+    view = std::move(newView);
 }
 
 
@@ -91,4 +91,9 @@ bool ShopController::sendItemToModel(int index)
     if (model == nullptr)
         return false;
     return model->sendItem(index);
+}
+
+std::shared_ptr<UIScrollList> ShopController::getView() const
+{
+    return view;
 }

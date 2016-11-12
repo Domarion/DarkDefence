@@ -29,7 +29,6 @@ private:
     void initShopItemsUI();
 
     std::shared_ptr<UILabel> goldCoinsLabel;
-//    Label *goldCoins;
 
     std::shared_ptr<ShopController> shopController;
 

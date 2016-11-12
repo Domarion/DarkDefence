@@ -10,10 +10,8 @@
 #include <list>
 using std::list;
 
-#include "../GraphicsSystem/CTexture.h"
 #include "SceneObject.h"
 #include "SceneManager.h"
-#include "../GraphicsSystem/newSystem/RenderingSystem.h"
 #include "FontManager.h"
 #include "../GraphicsSystem/newSystem/UIElement/ConcreteComposite.h"
 #include "../GraphicsSystem/newSystem/Camera2D.h"

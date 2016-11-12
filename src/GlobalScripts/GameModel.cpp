@@ -492,9 +492,9 @@ bool GameModel::loadShopItems(string filename)
             xmlinp >> BOOST_SERIALIZATION_NVP(shop);
         }
 
-        shop->ConnectMethod(std::bind(&Inventory::receiveItem, inventory, std::placeholders::_1));
-        inventory->ConnectMethod(std::bind(&HeroInventory::receiveItem, heroFigure, std::placeholders::_1));
-        heroFigure->ConnectMethod(std::bind(&Inventory::receiveItem, inventory, std::placeholders::_1));
+        shop->ConnectModelReceiver(std::bind(&Inventory::receiveItem, inventory, std::placeholders::_1));
+        inventory->ConnectModelReceiver(std::bind(&HeroInventory::receiveItem, heroFigure, std::placeholders::_1));
+        heroFigure->ConnectModelReceiver(std::bind(&Inventory::receiveItem, inventory, std::placeholders::_1));
 
         shopItemsLoaded = true;
     }

@@ -11,8 +11,16 @@ void Composite::addChild(const shared_ptr<IComposite> &child)
 {
     if (child != nullptr)
     {
-        child->setParent(shared_from_this());
-        children.push_back(child);
+        std::weak_ptr<Composite> weak_this = shared_from_this();
+        if (weak_this.expired())
+        {
+            throw std::runtime_error("shared_ptr expired, why?");
+        }
+        else
+        {
+            child->setParent(weak_this);
+            children.push_back(child);
+        }
     }
 }
 

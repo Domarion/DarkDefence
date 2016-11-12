@@ -38,6 +38,9 @@ void InventoryScene::clear()
     Scene::clear();
     heroController.reset();
     inventoryController.reset();
+    GameModel::getInstance()->getHeroInventory()->clearControllerReceivers();
+    GameModel::getInstance()->getInventory()->clearControllerReceivers();
+
 
 }
 
@@ -53,7 +56,10 @@ void InventoryScene::initControlButton()
 void InventoryScene::initHeroView()
 {
     heroController =  std::make_unique<HeroInventoryController>();
-    heroController->setModel(GameModel::getInstance()->getHeroInventory());
+    auto heroInventory = GameModel::getInstance()->getHeroInventory();
+    heroInventory->clearControllerReceivers();
+
+    heroController->setModel(heroInventory);
     heroController->initLocalPositions(MainRect->getSize());
     heroController->initView(renderer);
     auto items = heroController->getView()->getItems();
@@ -74,7 +80,9 @@ void InventoryScene::initInventoryView()
         auto scroll = std::make_shared<UIScrollList>(showItems, renderer);
 
         inventoryController = std::make_unique<InventoryController>(renderer);
-        inventoryController->setModel(GameModel::getInstance()->getInventory());
+        auto inventory = GameModel::getInstance()->getInventory();
+        inventory->clearControllerReceivers();
+        inventoryController->setModel(inventory);
         inventoryController->setView(scroll);
         inventoryController->initView();
 
