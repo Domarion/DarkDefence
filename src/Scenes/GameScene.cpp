@@ -403,7 +403,7 @@ void GameScene::placeTowers()
 
 void GameScene::placeSceneObjects()
 {
-    std::shared_ptr<SceneObject> Terrain = objectFabric.produce("Terrain", "none", "GameData/textures/terrain.JPG", MainRect->getSize().width , MainRect->getSize().height, renderer );
+    std::shared_ptr<SceneObject> Terrain = objectFabric.produce("Terrain", "none", "GameData/textures/terrain.png", MainRect->getSize().width , MainRect->getSize().height, renderer );
     spawnObject(0,0, Terrain);
 
     placeResourcesPlaces();
