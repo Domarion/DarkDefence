@@ -32,22 +32,23 @@ const shared_ptr<SDL_Texture>& Texture2D::getTexture() const
     return texturePtr;
 }
 
-void Texture2D::loadTexture(const string &filename)
+void Texture2D::loadTexture(const string &filename, bool aRelativePath)
 {
     string filename1 = filename;
-    androidText::setRelativePath(filename1);
+    if (aRelativePath)
+        androidText::setRelativePath(filename1);
     texturePtr.reset();
     texturePtr = renderer->loadTextureFromFile(filename1);
 }
 
 void Texture2D::drawAtPosition(Position pos) const
 {
-    renderer->renderTexture(texturePtr.get(),getSize(),std::move(pos));
+    renderer->renderTexture(texturePtr.get(), getSize(), pos);
 }
 
 void Texture2D::drawPartAtPosition(Position pos, const SDL_Rect *clip) const
 {
-    renderer->renderTexture(texturePtr.get(), std::move(pos), clip);
+    renderer->renderTexture(texturePtr.get(), pos, clip);
 }
 
 Size Texture2D::getSize() const

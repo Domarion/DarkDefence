@@ -1,14 +1,13 @@
 #pragma once
 #include <SDL.h>
-#include <memory>
-using std::shared_ptr;
 
 #include <string>
 using std::string;
 
 #include "Font.h"
-#include "UtilityStructs.h"
 #include "RenderingSystem.h"
+using std::shared_ptr;
+
 class Texture2D final
 {
 public:
@@ -19,7 +18,7 @@ public:
     void setTextureFromText(const string& ltext, Font lfont);
 
     const shared_ptr<SDL_Texture> &getTexture() const;
-    void loadTexture(const string& filename);
+    void loadTexture(const string& filename, bool aRelativePath = true);
     void drawAtPosition(Position pos) const;
     void drawPartAtPosition(Position pos, const SDL_Rect *clip) const;
     Size getSize() const;

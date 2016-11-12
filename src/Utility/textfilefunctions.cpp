@@ -6,12 +6,12 @@ namespace androidText
 {
 
 
-void loadTextFileToString(string filename, string& destString)
+void loadTextFileToString(string filename, string& destString, bool aSetRelativePath)
 {
 
     string filename1 = filename;
-
-    setRelativePath(filename1);
+    if (aSetRelativePath)
+        setRelativePath(filename1);
 
     SDL_RWops* ooops = SDL_RWFromFile(filename1.c_str(),"rt");
 
