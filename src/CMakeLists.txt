@@ -157,7 +157,6 @@ set(SRC_LIST
     GraphicsSystem/newSystem/Texture2D.h
     GraphicsSystem/newSystem/Leaf.h
     Enums.h
-    GraphicsSystem/newSystem/TileTerrainMaker.h
 
 
     GraphicsSystem/newSystem/RenderingSystem.h
@@ -266,7 +265,6 @@ set(SRC_LIST
     GraphicsSystem/newSystem/UIElement/HorizontalPanel.cpp
     GraphicsSystem/newSystem/UIElement/UIProgressBar.cpp
     GraphicsSystem/newSystem/Texture2D.cpp
-    GraphicsSystem/newSystem/TileTerrainMaker.cpp
 
     GraphicsSystem/newSystem/RenderingSystem.cpp
     SDL_Engine.cpp

@@ -37,18 +37,3 @@ target_link_libraries (UIScrollListTest
     ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES} ${SDL2TTF_LIBRARIES}
     ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
 add_test (NAME MyUIScrollListTest COMMAND UIScrollListTest)
-
-add_executable (TileTerrainMakerTest TileTerrainMakerTest.cpp)
-add_library(TileTerrainmaker ${newSystemPath}/TileTerrainMaker.cpp
-    ${newSystemPath}/Texture2D.cpp
-    ${newSystemPath}/Font.cpp
-    ${srcPath}/Utility/textfilefunctions.cpp
-    )
-
-target_link_libraries (TileTerrainMakerTest
-    TileTerrainmaker
-    RenderingSystem
-    ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES} ${SDL2TTF_LIBRARIES}
-    ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
-    )
-add_test (NAME TileTerrainMakerTest COMMAND TileTerrainMakerTest)

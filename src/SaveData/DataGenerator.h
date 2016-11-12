@@ -1,5 +1,4 @@
 #pragma once
-#include <string>
 
 class DataGenerator
 {
@@ -11,6 +10,5 @@ public:
     void saveMonsterCollection();
     void saveItems();
     void saveAnim();
-    void saveTerrain(std::string filename);
 };
 

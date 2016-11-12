@@ -11,8 +11,6 @@
 #include "../Mob/EnemyInfo.h"
 #include "../Utility/textfilefunctions.h"
 
-#include "../SDL_Engine.h"
-#include "../GraphicsSystem/newSystem/TileTerrainMaker.h"
 #include <array>
 using std::array;
 
@@ -265,52 +263,4 @@ void DataGenerator::saveAnim()
         androidText::saveAnimsToFile(binaryDataFile, anims);
         SDL_RWclose(binaryDataFile);
     }
-}
-
-void DataGenerator::saveTerrain(std::string filename)
-{
-    auto SDL2_Library = std::make_unique<SDL2Engine::SDL2>(SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_EVENTS);
-    Size scrnSize = Size(800, 480);
-    auto renderer = std::make_shared<RenderingSystem>(scrnSize);
-    TileLegendCollection tileCollection(renderer);
-
-    std::string str;
-    androidText::loadTextFileToString(filename, str);
-//    std::string str = "50 50\n2\nt grass\n| rocks\n4 4\n||||\n|tt|\n|tt|\n||||";
-    tileCollection.parseString(str);
-    using TSurfaceDeleter = void (*)(SDL_Surface *);
-
-    std::unique_ptr<SDL_Surface, TSurfaceDeleter> surface(nullptr, [](SDL_Surface* aSurface){SDL_FreeSurface(aSurface);});
-    Texture2D targetTexture = tileCollection.constructTextureByMap(surface);
-    std::string destPath = "/home/kostya_hm/terrain.png";
-
-    if (surface == nullptr || surface.get() == nullptr)
-        std::cout << "surface is nullptr" << std::endl;
-    if (IMG_SavePNG(surface.get(), destPath.c_str())!= 0)
-    {
-        std::cout << "SDL has error " << IMG_GetError() << std::endl;
-    }
-
-    /*int lasttime = SDL_GetTicks();
-    const int MS_PER_UPDATE = 16;//1000ms/60FPS
-    int lag = 0;
-
-    while(true)
-    {
-
-        int currenttime = SDL_GetTicks();
-
-        int elapsed = currenttime - lasttime;
-        lasttime = currenttime;
-        lag += elapsed;
-
-        while (lag >= MS_PER_UPDATE)
-        {
-            lag -= MS_PER_UPDATE;
-        }
-
-        renderer->renderClear();
-        targetTexture.drawAtPosition(Position());
-        renderer->renderPresent();
-    }*/
 }

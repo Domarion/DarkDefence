@@ -16,7 +16,6 @@ int main( int /*argc*/, char** /*args*/)
 {
 //    int result = 0;
 //  DataGenerator dataGenerator;
-//  dataGenerator.saveTerrain("GameData/terrain.conf");
 //  dataGenerator.saveAnim();
 //    dataGenerator.saveTowerTree();
 //  dataGenerator.saveItems();
