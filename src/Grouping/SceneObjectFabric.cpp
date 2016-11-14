@@ -26,9 +26,19 @@ std::unique_ptr<SceneObject> SceneObjectFabric::produce(string name, string tag,
     auto someSprite = std::make_shared<AnimationSceneSprite>(aRenderingContext);
 
 
-    someSprite->setSize(Size(width, height));
 
     someSprite->loadTexture(spritePath);
+
+
+    if (width == 0 && height == 0)
+    {
+        someSprite->setSizeFromTexture();
+    }
+    else
+    {
+        someSprite->setSize(Size(width, height));
+    }
+
     someObject->setSprite(someSprite);
     someObject->setName(name);
     someObject->setTag(tag);

@@ -4,6 +4,7 @@
 #include "../AbilitySystem/AbilityShrink.h"
 #include "../AbilitySystem/AbilityPrick.h"
 #include "../AbilitySystem/AbilityEarthquake.h"
+#include "../AbilitySystem/AbilityMagicBlink.h"
 
 SpellStorage::SpellStorage()
 {
@@ -53,11 +54,21 @@ void SpellStorage::loadWithScene(std::shared_ptr<Scene> scenePtr, std::shared_pt
     quake->setWorkTime(3000);
     quake->setDamagePerSecond(30);
 
+
+    auto magicBlink = std::make_unique<AbilityMagicBlink>(aManaModel);
+    magicBlink->init(scenePtr);
+    magicBlink->setManaCost(50);
+    magicBlink->setCooldownTime(10000);
+    magicBlink->setWorkTime(10000);
+    magicBlink->setDamage(20);
+
     abilityModelsMap["MagicStones"] = std::move(magicStones);
     abilityModelsMap["SnowStorm"] = std::move(snowStorm);
     abilityModelsMap["Shrink"] = std::move(shrink);
     abilityModelsMap["Prick"] = std::move(prick);
     abilityModelsMap["Earthquake"] = std::move(quake);
+    abilityModelsMap["MagicBlink"] = std::move(magicBlink);
+
 }
 
 std::shared_ptr<AbilityModel> SpellStorage::getAbilityModelWithName(string name)

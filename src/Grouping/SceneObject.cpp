@@ -35,6 +35,20 @@ SceneObject::~SceneObject()
     // TODO Auto-generated destructor stub
 }
 
+bool SceneObject::isVisible() const
+{
+    if (spriteModel == nullptr)
+        throw std::runtime_error("No sprite to get visiblity");
+    return spriteModel->isVisible();
+}
+
+void SceneObject::setVisible(bool aVisiblity)
+{
+    if (spriteModel == nullptr)
+        throw std::runtime_error("No sprite to set visiblity");
+    spriteModel->setVisible(aVisiblity);
+}
+
 string SceneObject::getTag() const
 {
     return tag;

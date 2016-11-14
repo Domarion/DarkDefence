@@ -45,6 +45,8 @@ public:
     int computeDistanceSqr(int x0, int y0, int x1, int y1);
     int computeDistanceSqr(std::shared_ptr<SceneObject> second);
     virtual ~SceneObject();
+    bool isVisible() const;
+    void setVisible(bool aVisiblity);
 
 //    void setX(int value);
 

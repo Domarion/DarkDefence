@@ -26,6 +26,7 @@ public:
     bool isVisible() const;
     void setVisible(bool aVisible);
     void loadTexture(const std::string& path);
+    void setSizeFromTexture();
 private:
     Texture2D frame;
     size_t frameNumber;

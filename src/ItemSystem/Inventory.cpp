@@ -73,7 +73,7 @@ int Inventory::getItemIndexByName(string name)
 void Inventory::sendItemWithoutPriceCheck(string name)
 {
     size_t index = getItemIndexByName(name);
-    this->sendItem(index);
+    Inventory::sendItem(index);
 }
 
 void Inventory::receiveItem(ItemModel item)

@@ -81,6 +81,8 @@ void AIComponent::Select()
         for(auto& target: avaliableTargets)
 		{
 
+            if (target == nullptr || !target->isVisible())
+                continue;
             int distanceSqr = MobPtr.lock()->computeDistanceSqr(target);
             int priority = getPriorityFromTag(target->getTag());
             if (priority > maxPriority || (priority == maxPriority && distanceSqr < closestDistanceSqr))

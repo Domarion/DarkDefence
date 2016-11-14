@@ -143,6 +143,16 @@ bool GameApp::processInput()
 
     while (SDL_PollEvent(&event) != 0)
     {
+        if (event.type == SDL_KEYDOWN) //TestOnly
+        {
+            Position deltaPos{};
+            if (event.key.keysym.sym == SDLK_LEFT)
+                deltaPos.x = -50;
+            else if (event.key.keysym.sym == SDLK_RIGHT)
+                deltaPos.x = +50;
+
+            mSceneManager->getCurrentScene()->onlyTestMoveCamera(deltaPos);
+        }
         if (event.type == SDL_QUIT)
         {
             //bsceneManager->getCurrentScene()->onGameQuit();

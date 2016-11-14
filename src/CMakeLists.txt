@@ -125,6 +125,8 @@ set(SRC_LIST
     AbilitySystem/AbilitySnowStorm.h
     AbilitySystem/AbilityEarthquake.h
     AbilitySystem/AbilityPrick.h
+    AbilitySystem/AbilityMagicBlink.h
+
     AbilitySystem/MobAbilities/MobAbilityRegeneration.h
     AbilitySystem/MobAbilities/MobAbility.h
     AbilitySystem/MobAbilities/MobAbilityArson.h
@@ -237,6 +239,7 @@ set(SRC_LIST
     AbilitySystem/EffectReceiver.cpp
     AbilitySystem/EffectModel.cpp
     AbilitySystem/AbilityEarthquake.cpp
+    AbilitySystem/AbilityMagicBlink.cpp
     AbilitySystem/MobAbilities/MobAbilityRegeneration.cpp
     AbilitySystem/MobAbilities/MobAbilitySprint.cpp
     AbilitySystem/MobAbilities/MobAbilityArson.cpp

@@ -50,6 +50,15 @@ public:
 
     std::shared_ptr<ConcreteComposite>& getMainRect();
 
+    void onlyTestMoveCamera(Position aDeltaPosition) //TestOnly
+    {
+        Position pos = mCamera.getWorldPosition();
+
+        if (pos.x >= 0 && pos.x <= 2000)
+            pos.x += aDeltaPosition.x;
+        mCamera.setWorldPosition(pos);
+    }
+
 protected:
     mutable std::shared_ptr<RenderingSystem> renderer;
     std::shared_ptr<InputDispatcher> mInputDispatcher;
