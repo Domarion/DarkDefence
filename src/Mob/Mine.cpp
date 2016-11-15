@@ -23,21 +23,18 @@ bool Mine::update(double timestep)
         std::cout << "current mine health = " << (model->getCurrentHealth()) << std::endl;
         if (model->getCurrentHealth() <= 0)
         {
-            if (model->getLimit() > 0)
-            {
-                auto resPlace = std::make_shared<ResourcePlace>(model->getLimit(), model->getProductionType());
-                auto resSprite = std::make_shared<AnimationSceneSprite>(parentScenePtr.lock()->getRenderer());
-                resSprite->setSize(Size(200, 200));
+            auto resPlace = std::make_shared<ResourcePlace>(model->getLimit(), model->getProductionType());
+            auto resSprite = std::make_shared<AnimationSceneSprite>(parentScenePtr.lock()->getRenderer());
+            resSprite->setSize(Size(200, 200));
 
-                std::string resourceName = GameModel::getInstance()->getResourcesModel()->getResourceNameFromIndex(static_cast<size_t>(model->getProductionType()));
-                resSprite->loadTexture("GameData/textures/Resources/" + resourceName + "Resource.png");
-                resPlace->setSprite(resSprite);
-                resPlace->setName("ResourcePlace");
-                resPlace->setTag("ResourcePlace");
+            std::string resourceName = GameModel::getInstance()->getResourcesModel()->getResourceNameFromIndex(static_cast<size_t>(model->getProductionType()));
+            resSprite->loadTexture("GameData/textures/Resources/" + resourceName + "Resource.png");
+            resPlace->setSprite(resSprite);
+            resPlace->setName("ResourcePlace");
+            resPlace->setTag("ResourcePlace");
 
-                parentScenePtr.lock()->spawnObject(x, y, resPlace);
+            parentScenePtr.lock()->spawnObject(x, y, resPlace);
 
-            }
             return false;
         }
     }
