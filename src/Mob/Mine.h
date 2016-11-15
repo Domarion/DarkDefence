@@ -20,5 +20,6 @@ public:
 private:
     std::shared_ptr<MineModel> model;
     std::shared_ptr<DestructibleObjectEffectReceiver> mineEffectReceiver;
+    int destructionLoss;
 };
 

@@ -5,6 +5,7 @@
 Mine::Mine()
     : model(nullptr)
     , mineEffectReceiver(std::make_shared<DestructibleObjectEffectReceiver>())
+    , destructionLoss(300)
 {
 
 }
@@ -23,7 +24,11 @@ bool Mine::update(double timestep)
         std::cout << "current mine health = " << (model->getCurrentHealth()) << std::endl;
         if (model->getCurrentHealth() <= 0)
         {
-            auto resPlace = std::make_shared<ResourcePlace>(model->getLimit(), model->getProductionType());
+            int resPlaceLimit = model->getLimit() - destructionLoss;
+            if (resPlaceLimit <= 0 )
+                return false;
+
+            auto resPlace = std::make_shared<ResourcePlace>(resPlaceLimit, model->getProductionType());
             auto resSprite = std::make_shared<AnimationSceneSprite>(parentScenePtr.lock()->getRenderer());
             resSprite->setSize(Size(200, 200));
 
