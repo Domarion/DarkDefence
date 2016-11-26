@@ -39,4 +39,5 @@ private:
     std::shared_ptr<SceneManager> mSceneManager;
     std::shared_ptr<InputDispatcher> mInputDispatcher;
     bool paused;
+    bool needQuit;
 };

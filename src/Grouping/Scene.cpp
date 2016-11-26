@@ -252,6 +252,21 @@ void Scene::addLoadSceneButton(string aButtonName, string aFontName, string aSce
 
 }
 
+void Scene::addSceneButton(string aButtonName,
+                           string aFontName,
+                           int posX, int posY, int width, int height, std::function<void(string)> handler
+                           , std::string aMsg)
+{
+
+      auto textButton = std::make_shared<UITextButton>(aButtonName, FontManager::getInstance()->getFontByKind2(aFontName), renderer);
+      textButton->setPosition(Position(posX, posY));
+      textButton->setMessage(aMsg);
+      textButton->ConnectMethod(handler);
+
+      MainRect->addChild(textButton);
+
+}
+
 void Scene::clear()
 {
     clearUIList();

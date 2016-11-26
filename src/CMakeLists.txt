@@ -118,6 +118,8 @@ set(SRC_LIST
     AbilitySystem/ItemAbilities/VampsRod.h
     AbilitySystem/ItemAbilities/RockSpike.h
     AbilitySystem/ItemAbilities/HelmOfLigofglass.h
+    AbilitySystem/ItemAbilities/GulakiAmulet.h
+
     AbilitySystem/DestructibleObjectEffectReceiver.h
     AbilitySystem/AbilityMagicStones.h
     AbilitySystem/AbilityShrink.h
@@ -132,6 +134,8 @@ set(SRC_LIST
     AbilitySystem/MobAbilities/MobAbilityArson.h
     AbilitySystem/MobAbilities/MobAbilitySprint.h
     AbilitySystem/MobAbilities/MobAbilityInvisiblity.h
+    AbilitySystem/MobAbilities/MobAbilityWheat.h
+
     AbilitySystem/EffectModel.h
     GlobalScripts/AccountModel.h
     GlobalScripts/ResourcesModel.h
@@ -232,6 +236,8 @@ set(SRC_LIST
     AbilitySystem/ItemAbilities/ChoppersHat.cpp
     AbilitySystem/ItemAbilities/SteelShield.cpp
     AbilitySystem/ItemAbilities/ItemAbility.cpp
+    AbilitySystem/ItemAbilities/GulakiAmulet.cpp
+
     AbilitySystem/AbilityShrink.cpp
     AbilitySystem/MobEffectReceiver.cpp
     AbilitySystem/SpellStorage.cpp
@@ -245,6 +251,8 @@ set(SRC_LIST
     AbilitySystem/MobAbilities/MobAbilityArson.cpp
     AbilitySystem/MobAbilities/MobAbility.cpp
     AbilitySystem/MobAbilities/MobAbilityInvisiblity.cpp
+    AbilitySystem/MobAbilities/MobAbilityWheat.cpp
+
     GlobalScripts/ManaGlobal.cpp
     GlobalScripts/ResourcesModel.cpp
     GlobalScripts/ResourceInfo.cpp

@@ -22,6 +22,8 @@ using std::ifstream;
 #include "../AbilitySystem/MobAbilities/MobAbilityRegeneration.h"
 #include "../AbilitySystem/MobAbilities/MobAbilitySprint.h"
 #include "../AbilitySystem/MobAbilities/MobAbilityInvisiblity.h"
+#include "../AbilitySystem/MobAbilities/MobAbilityWheat.h"
+
 #include "../Utility/textfilefunctions.h"
 #include <sstream>
 using std::stringstream;
@@ -285,6 +287,8 @@ std::unique_ptr<MobAbility> GameModel::getMobAbilityByName(string name)
         return std::make_unique<MobAbilitySprint>();
     if (name == "MobAbilityInvisiblity")
         return std::make_unique<MobAbilityInvisiblity>();
+    if (name == "MobAbilityWheat")
+        return std::make_unique<MobAbilityWheat>();
     return nullptr;
 }
 

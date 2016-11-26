@@ -1,9 +1,15 @@
 #include "UITextButton.h"
 #include <iostream>
 UITextButton::UITextButton(const std::string &ltext, const Font &lfont, std::shared_ptr<RenderingSystem> &aRenderingContext)
-    :UILabel(ltext, lfont, aRenderingContext)
+    : UILabel(ltext, lfont, aRenderingContext)
+    , msg("zero")
 {
 
+}
+
+void UITextButton::setMessage(std::string aMsg)
+{
+    msg = aMsg;
 }
 
 void UITextButton::ConnectMethod(std::function<void (std::string)> method)
@@ -27,7 +33,7 @@ bool UITextButton::onClick(Position point)
 
     std::cout << "ClickingResult" << std::boolalpha << result;
     if (result && connectedMethod != nullptr)
-        connectedMethod("zero");
+        connectedMethod(msg);
 
     return result;
 }

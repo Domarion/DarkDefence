@@ -11,7 +11,7 @@ public:
 
     UITextButton() = delete;
     virtual ~UITextButton() = default;
-
+    void setMessage(std::string aMsg);
     void ConnectMethod(std::function<void(std::string)> method);
 
     // InputHandler interface
@@ -20,5 +20,5 @@ public:
 
 private:
     std::function<void(std::string)> connectedMethod;
-
+    std::string msg;
 };

@@ -34,6 +34,11 @@ void MainScene::init(std::shared_ptr<SceneManager> sceneManagerPtr)
     Scene::addToUIList(MainRect);
 }
 
+void MainScene::ConnectMethod(std::function<void (std::string)> handler)
+{
+    method = handler;
+}
+
 
 
 void MainScene::loadMenuItems(string filename)
@@ -85,6 +90,12 @@ void MainScene::initUIMenuItems()
         y += 96;
 
     }
+
+    Scene::addSceneButton("Закрыть",
+                          "MenuFont",
+                          x, y, 200, 50, method, "quit");
+
+
 }
 
 void MainScene::initBackground()

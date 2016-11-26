@@ -27,6 +27,7 @@ GameApp::GameApp(std::unique_ptr<SceneManager> aSceneManager, std::unique_ptr<Re
 , mSceneManager(std::move(aSceneManager))
 , mInputDispatcher(std::make_shared<InputDispatcher>(mRenderer->getScreenSize()))
 , paused(false)
+, needQuit(false)
 {
     FontManager::getInstance()->loadFontList("GameData/fontconfig.txt", mRenderer);
 
@@ -48,6 +49,8 @@ void GameApp::addScenes()
     auto inventoryScene = std::make_unique<InventoryScene>(mRenderer, mInputDispatcher);
     auto shopScene = std::make_unique<ShopScene>(mRenderer, mInputDispatcher);
     auto scoreScene = std::make_unique<ScoreScene>(mRenderer, mInputDispatcher);
+
+    mainScene->ConnectMethod(std::bind(&GameApp::receiveMessage, this, std::placeholders::_1));
 
     gameScene->ConnectMethod(std::bind(&GameApp::receiveMessage, this, std::placeholders::_1));
 
@@ -139,8 +142,6 @@ void GameApp::updateScene(std::shared_ptr<Scene> scene, double timestep)
 
 bool GameApp::processInput()
 {
-    bool needQuit = false;
-
     while (SDL_PollEvent(&event) != 0)
     {
         if (event.type == SDL_KEYDOWN) //TestOnly
@@ -182,6 +183,10 @@ void GameApp::receiveMessage(string msg)
     else
         if (msg == GlobalConstants::Resumed)
             unpause();
+    else if (msg == "quit")
+    {
+        needQuit = true;
+    }
     else
         std::cout << "Wrong message to GameApp" << std::endl;
 }

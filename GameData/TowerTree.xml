@@ -715,8 +715,9 @@
 						</item>
 					</enemyTags>
 					<Abilities>
-						<count>0</count>
+						<count>1</count>
 						<item_version>0</item_version>
+                        <item>MobAbilityWheat</item>
 					</Abilities>
 					<price>
 						<count>4</count>
