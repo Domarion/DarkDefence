@@ -128,7 +128,12 @@ void AIComponent::Attack()
                currentTarget = nullptr;
 
            }
+           else
+           {
+               Cast(currentTarget);
+           }
            delete[] damage;
+
 
            MobPtr.lock()->getModel()->reload();
            aiMobState = AIMobStates::aiRELOAD;
@@ -265,9 +270,11 @@ void AIComponent::initMobAbilities()
     for(auto ptr = mobAbilitiesNames.begin(); ptr != mobAbilitiesNames.end(); ++ptr)
     {
 
-        mobAbilities.push_back(GameModel::getInstance()->getMobAbilityByName(*ptr));
+        std::cout << *ptr << std::endl;
+        mobAbilities.emplace_back(std::move(GameModel::getInstance()->getMobAbilityByName(*ptr)));
         mobAbilities.back()->setWorkTime(4000);
         mobAbilities.back()->setCooldownTime(4000);
+        mobAbilities.back()->init(MobPtr.lock()->getParentScene());
     }
 }
 

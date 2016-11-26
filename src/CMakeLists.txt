@@ -135,6 +135,7 @@ set(SRC_LIST
     AbilitySystem/MobAbilities/MobAbilitySprint.h
     AbilitySystem/MobAbilities/MobAbilityInvisiblity.h
     AbilitySystem/MobAbilities/MobAbilityWheat.h
+    AbilitySystem/MobAbilities/GulakiUpgrade.h
 
     AbilitySystem/EffectModel.h
     GlobalScripts/AccountModel.h
@@ -252,6 +253,7 @@ set(SRC_LIST
     AbilitySystem/MobAbilities/MobAbility.cpp
     AbilitySystem/MobAbilities/MobAbilityInvisiblity.cpp
     AbilitySystem/MobAbilities/MobAbilityWheat.cpp
+    AbilitySystem/MobAbilities/GulakiUpgrade.cpp
 
     GlobalScripts/ManaGlobal.cpp
     GlobalScripts/ResourcesModel.cpp

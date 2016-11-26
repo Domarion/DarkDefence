@@ -86,6 +86,7 @@ public:
     bool isMobVisible() const;
     void setMobVisiblity(bool flag);
     void setAbilitiesNames(list<string> abNames);
+    void addAbilityName(string name);
     list<string>& getAbilitiesNames();
 
     int* getPrice();

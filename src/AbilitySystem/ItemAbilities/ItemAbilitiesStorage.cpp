@@ -5,6 +5,7 @@
 #include "HelmOfLigofglass.h"
 #include "TitanChock.h"
 #include "FeatherOfChap.h"
+#include "GulakiAmulet.h"
 
 
 
@@ -16,6 +17,8 @@ void ItemAbilitiesStorage::loadItemAbilities()
     itemAbilitiesMap["HelmOfLigofglass"] = std::make_shared<HelmOfLigofglass>();
     itemAbilitiesMap["TitanChock"] = std::make_shared<TitanChock>();
     itemAbilitiesMap["FeatherOfChap"] = std::make_shared<FeatherOfChap>();
+    itemAbilitiesMap["GulakiAmulet"] = std::make_shared<GulakiAmulet>();
+
 }
 
 std::shared_ptr<ItemAbility> ItemAbilitiesStorage::getItemAbilityByName(string name)

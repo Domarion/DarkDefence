@@ -59,7 +59,6 @@ inline bool TreeNode<T>::addChildtoParent(string parentname, string itemname,
 	 if (someNode == nullptr)
 	 {
 		 return false;
-		// throw new exception("Error(NPE): Can't find parentNode");
 	 }
 
 	 return someNode->addChild(itemname, item);

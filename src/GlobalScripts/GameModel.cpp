@@ -23,6 +23,7 @@ using std::ifstream;
 #include "../AbilitySystem/MobAbilities/MobAbilitySprint.h"
 #include "../AbilitySystem/MobAbilities/MobAbilityInvisiblity.h"
 #include "../AbilitySystem/MobAbilities/MobAbilityWheat.h"
+#include "../AbilitySystem/MobAbilities/GulakiUpgrade.h"
 
 #include "../Utility/textfilefunctions.h"
 #include <sstream>
@@ -279,6 +280,7 @@ void GameModel::setPointsRefundModifier(double value)
 
 std::unique_ptr<MobAbility> GameModel::getMobAbilityByName(string name)
 {
+    std::cout << "MobAbility Name = " << name << std::endl;
     if (name == "MobAbilityArson")
         return std::make_unique<MobAbilityArson>();
     if (name == "MobAbilityRegeneration")
@@ -289,6 +291,11 @@ std::unique_ptr<MobAbility> GameModel::getMobAbilityByName(string name)
         return std::make_unique<MobAbilityInvisiblity>();
     if (name == "MobAbilityWheat")
         return std::make_unique<MobAbilityWheat>();
+     if (name == "GulakiAmulet")
+     {
+        std::cout << "Found Gulaki" << std::endl;
+        return std::make_unique<GulakiUpgrade>();
+     }
     return nullptr;
 }
 

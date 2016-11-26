@@ -203,6 +203,11 @@ void MobModel::setAbilitiesNames(list<string> abNames)
     mobAbilitiesNames = abNames;
 }
 
+void MobModel::addAbilityName(std::string name)
+{
+    mobAbilitiesNames.push_back(name);
+}
+
 list<string> &MobModel::getAbilitiesNames()
 {
     return mobAbilitiesNames;

@@ -4,7 +4,8 @@
 class GulakiAmulet: public ItemAbility
 {
 public:
-
+    GulakiAmulet() = default;
+    virtual ~GulakiAmulet() = default;
 private:
 
     // ItemAbility interface
