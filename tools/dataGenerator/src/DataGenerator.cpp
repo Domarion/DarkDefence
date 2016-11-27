@@ -1,16 +1,17 @@
 #include "DataGenerator.h"
 #include <fstream>
-#include <boost/archive/xml_oarchive.hpp>
 
-#include "../MissionSystem/ResourceGoal.h"
-#include "../MissionSystem/Mission.h"
-#include "../Mob/MineModel.h"
-#include "../ItemSystem/ShopInventory.h"
-#include "../Mob/MobModel.h"
-#include "../Utility/TreeNode.hpp"
-#include "../Mob/EnemyInfo.h"
-#include "../Utility/textfilefunctions.h"
+#include "ItemSystem/Inventory.h"
+#include "MissionSystem/ResourceGoal.h"
+#include "MissionSystem/Mission.h"
+#include "Mob/MineModel.h"
+#include "Mob/MobModel.h"
+#include "Utility/TreeNode.hpp"
+#include "Mob/EnemyInfo.h"
+#include "Utility/textfilefunctions.h"
 
+#include <cereal/archives/xml.hpp>
+#include <cereal/types/memory.hpp>
 #include <array>
 using std::array;
 
@@ -44,10 +45,11 @@ void DataGenerator::saveMission()
 
     if (outputXMLFile.good())
     {
-        boost::archive::xml_oarchive xmloa (outputXMLFile);
-        xmloa.register_type<ResourceGoal>();
+        cereal::XMLOutputArchive xmloa (outputXMLFile);
+//        xmloa.registerPolymorphicType("ResourceGoal");
+//        xmloa.register_type<ResourceGoal>();
 
-        xmloa << boost::serialization::make_nvp("Mission", someMission);
+        xmloa << cereal::make_nvp("Mission", someMission);
     }
 
     outputXMLFile.close();
@@ -72,32 +74,32 @@ void DataGenerator::saveTowerTree()
 
 
     string firstTowerName = "WatcherTower";
-    MobModel firstTower (firstTowerName, tag, health, protection, damage,
+    auto firstTower = std::make_unique<MobModel>(firstTowerName, tag, health, protection, damage,
                      attackDistance, moveSpeed, reloadTime, damageArea, enemyTags);
 
-    TreeNode<MobModel> rootNode(firstTower.getName(), "none", firstTower);
+    auto rootNode = std::make_shared<TreeNode<MobModel>>(firstTowerName, "none", std::move(firstTower));
 
     array<string, 4> watcherTowerChildrenNames = {"BallistaTower", "CatapultTower", "MageTower", "ProductivityTower"};
 
     for(auto& towername : watcherTowerChildrenNames)
     {
-        MobModel watcherTowerChild (towername, tag, health, protection, damage,
+        auto watcherTowerChild = std::make_unique<MobModel> (towername, tag, health, protection, damage,
                          attackDistance, moveSpeed, reloadTime, damageArea, enemyTags);
-        rootNode.addChildData(watcherTowerChild.getName(), watcherTowerChild);
+        rootNode->addChildData(towername, std::move(watcherTowerChild));
     }
 
 
     array<string, 3> mageTowerChildrenNames = {"WindTower", "EarthTower","CloudTower"};
 
 
-    TreeNode<MobModel> *mageTowerNode = rootNode.recursiveSearch("MageTower");
+    auto mageTowerNode = rootNode->recursiveSearch("MageTower");
     if (mageTowerNode != nullptr)
     {
         for(auto& towername : mageTowerChildrenNames)
         {
-           MobModel mageTowerChild (towername, tag, health, protection, damage,
+           auto mageTowerChild = std::make_unique<MobModel> (towername, tag, health, protection, damage,
                              attackDistance, moveSpeed, reloadTime, damageArea, enemyTags);
-           mageTowerNode->addChildData(mageTowerChild.getName(), mageTowerChild);
+           mageTowerNode->addChildData(towername, std::move(mageTowerChild));
         }
     }
 
@@ -107,10 +109,19 @@ void DataGenerator::saveTowerTree()
 
     if (outputXMLFile.good())
     {
-        boost::archive::xml_oarchive xmloa (outputXMLFile);
-        xmloa.register_type<MobModel>();
-        xmloa.register_type<TreeNode<MobModel> >();
-        xmloa << boost::serialization::make_nvp("TowerTree", rootNode);
+        try
+        {
+            cereal::XMLOutputArchive xmloa(outputXMLFile);
+            xmloa << cereal::make_nvp("TowerTree", rootNode);
+//            boost::archive::xml_oarchive xmloa (outputXMLFile);
+//            xmloa.register_type<MobModel>();
+//            xmloa.register_type<std::shared_ptr<MobModel>>();
+//            xmloa.register_type<std::shared_ptr<TreeNode<MobModel> >>();
+        }
+        catch(std::exception& ex)
+        {
+            std::cerr << "Error in saveTowerTree to file: " << ex.what() << std::endl;
+        }
     }
     outputXMLFile.close();
 }
@@ -157,9 +168,9 @@ void DataGenerator::saveMineCollection()
 
     if (outputXMLFile.good())
     {
-        boost::archive::xml_oarchive xmloa (outputXMLFile);
-        xmloa.register_type<MineModel>();
-        xmloa << boost::serialization::make_nvp("Mines", mineList);
+        cereal::XMLOutputArchive xmloa (outputXMLFile);
+//        xmloa.register_type<MineModel>();
+        xmloa(cereal::make_nvp("Mines", mineList));
     }
     outputXMLFile.close();
 }
@@ -197,9 +208,9 @@ void DataGenerator::saveMonsterCollection()
 
     if (outputXMLFile.good())
     {
-        boost::archive::xml_oarchive xmloa(outputXMLFile);
-        xmloa.register_type<MobModel>();
-        xmloa << boost::serialization::make_nvp("Monsters", monsterList);
+        cereal::XMLOutputArchive xmloa(outputXMLFile);
+//        xmloa.register_type<MobModel>();
+        xmloa(cereal::make_nvp("Monsters", monsterList));
 
     }
     outputXMLFile.close();
@@ -207,7 +218,7 @@ void DataGenerator::saveMonsterCollection()
 
 void DataGenerator::saveItems()
 {
-    std::shared_ptr<Inventory> fullInventory = std::make_shared<Inventory>();
+    auto fullInventory = std::make_shared<Inventory>();
 
     const int firstItemPrice = 100;
     ItemModel firstItem("GulakiAmulet", "Some", Enums::ItemTypes::AMULET, firstItemPrice);
@@ -224,8 +235,8 @@ void DataGenerator::saveItems()
 
     if (outputXMLFile.good())
     {
-        boost::archive::xml_oarchive xmloa (outputXMLFile);
-        xmloa << boost::serialization::make_nvp("Inventory", fullInventory);
+        cereal::XMLOutputArchive xmloa (outputXMLFile);
+        xmloa << cereal::make_nvp("Inventory", fullInventory);
 
     }
     outputXMLFile.close();

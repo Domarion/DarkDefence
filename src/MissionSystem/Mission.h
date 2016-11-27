@@ -7,17 +7,10 @@
 
 #pragma once
 
-#include <boost/serialization/list.hpp>
-#include <list>
-
-#include "Reward.h"
-
-#include <string>
 #include "BasicGoal.h"
-#include <boost/serialization/shared_ptr.hpp>
+#include "Reward.h"
+#include <cereal/types/memory.hpp>
 
-#include <memory>
-//#include <boost/serialization/export.hpp>
 enum MissionStatuses
 {
     mNOT_STARTED = 0,
@@ -28,16 +21,11 @@ enum MissionStatuses
 
 class Mission
 {
-    friend class boost::serialization::access;
+    friend class cereal::access;
     template <typename Archive>
-      void serialize(Archive &ar, const unsigned int /*version*/)
+     void serialize(Archive &ar)
     {
-        ar & BOOST_SERIALIZATION_NVP(caption);
-        ar & BOOST_SERIALIZATION_NVP(description);
-        ar & BOOST_SERIALIZATION_NVP(goals);
-        ar & BOOST_SERIALIZATION_NVP(reward);
-        ar & boost::serialization::make_nvp("status", missionStatus);
-
+        ar(caption, description, goals, reward, cereal::make_nvp("status", missionStatus));
     }
 public:
 	Mission();
@@ -49,7 +37,7 @@ public:
 	void setDescription(std::string value);
 	MissionStatuses getStatus() const;
 
-    MissionStatuses checkStatus();
+    MissionStatuses checkStatus(Enums::GameStatuses aGameStatus);
 	void setStatus(MissionStatuses value);
     void addGoal(std::shared_ptr<BasicGoal> goal);
     void setReward(const Reward& someReward);

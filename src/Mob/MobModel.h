@@ -8,34 +8,31 @@
 #pragma once
 
 #include "DestructibleObject.h"
-#include <boost/serialization/export.hpp>
-#include <boost/serialization/base_object.hpp>
-#include <boost/serialization/list.hpp>
-using std::pair;
-#include <list>
-using std::list;
 #include "EnemyInfo.h"
+#include <cereal/types/base_class.hpp>
+#include <cereal/types/list.hpp>
 
+#include "../GlobalConstants.h"
+using std::pair;
+
+using std::list;
 
 class MobModel: public DestructibleObject
 {
-	friend class boost::serialization::access;
+    friend class cereal::access;
 	template <typename Archive>
-      void serialize(Archive &ar, const unsigned int /*version*/)
+    void serialize(Archive &ar)
 	{
 
-		//ar.template register_type<MobModel>();
-		ar & boost::serialization::make_nvp("DestructibleObject", (boost::serialization::base_object<DestructibleObject>(*this)));
-		//ar & attackDamage;
-
-		ar & BOOST_SERIALIZATION_NVP(attackDamage);
-		ar & BOOST_SERIALIZATION_NVP(attackDistance);
-		ar & BOOST_SERIALIZATION_NVP(moveSpeed);
-        ar & BOOST_SERIALIZATION_NVP(reloadTimeMaximum);
-        ar & BOOST_SERIALIZATION_NVP(damageArea);
-        ar & boost::serialization::make_nvp("enemyTags", enemiesInfo);
-        ar & boost::serialization::make_nvp("Abilities", mobAbilitiesNames);
-        ar & boost::serialization::make_nvp("price", price);
+        ar(cereal::base_class<DestructibleObject>(this),
+            attackDamage,
+            attackDistance,
+            moveSpeed,
+            reloadTimeMaximum,
+            damageArea,
+            cereal::make_nvp("enemyTags", enemiesInfo),
+            cereal::make_nvp("Abilities", mobAbilitiesNames),
+            price);
 
         reloadTime = reloadTimeMaximum.first + reloadTimeMaximum.second;
 
@@ -44,8 +41,16 @@ class MobModel: public DestructibleObject
 
 public:
 	MobModel();
-    MobModel(string aName, string aTag,
-            int aMaxHealth, int aProtection[], int damage[], double distance, double speed, double aReloadTime, int aDamageArea, list<EnemyInfo> enemiesTags);
+    MobModel(string aName,
+             string aTag,
+             int aMaxHealth,
+             int aProtection[],
+             int damage[],
+             double distance,
+             double speed,
+             double aReloadTime,
+             int aDamageArea,
+             list<EnemyInfo> enemiesTags);
 	virtual ~MobModel();
 
 	MobModel(const MobModel& right);
@@ -89,13 +94,13 @@ public:
     void addAbilityName(string name);
     list<string>& getAbilitiesNames();
 
-    int* getPrice();
+    std::array<int, GlobalConstants::resourceTypeCount> getPrice();
     int getDamageArea() const;
     void setDamageArea(int value);
 
 private:
 
-    pair<int, int> attackDamage[DestructibleObject::damageTypesCount];
+    std::array<pair<int, int>, GlobalConstants::damageTypeCount> attackDamage;
 	pair<double, double> attackDistance;
 	pair<double, double> moveSpeed;
 
@@ -107,7 +112,7 @@ private:
 	//int x, y;
 
     list<string> mobAbilitiesNames;
-    int price [DestructibleObject::damageTypesCount];
+    std::array<int, GlobalConstants::resourceTypeCount> price;
 
 };
 

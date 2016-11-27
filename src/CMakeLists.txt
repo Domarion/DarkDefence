@@ -1,4 +1,4 @@
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -g -O2 -Wall -ggdb")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -g -O2 -Wall -Wextra -pedantic -ggdb")
 #    -Weffc++ -pedantic  \
 #    -pedantic-errors -Wextra -Waggregate-return -Wcast-align \
 #    -Wcast-qual  -Wchar-subscripts  -Wcomment -Wconversion \
@@ -60,6 +60,18 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -g -O2 -Wall -ggdb")
 #    GlobalScripts/Renderer.cpp
 #)
 
+#find_package(Boost COMPONENTS serialization REQUIRED)
+include(FindPkgConfig)
+
+PKG_SEARCH_MODULE(SDL2 REQUIRED sdl2)
+PKG_SEARCH_MODULE(SDL2IMAGE REQUIRED SDL2_image>=2.0.0)
+PKG_SEARCH_MODULE(SDL2TTF REQUIRED SDL2_ttf)
+
+set (CerealInclude ../external/cereal/include)
+
+include_directories(. ${SDL2_INCLUDE_DIRS} ${SDL2IMAGE_INCLUDE_DIRS} ${SDL2TTF_INCLUDE_DIRS} ${CerealInclude} )
+
+
 set(SRC_LIST
     Input/InputHandler.h
     Input/SceneInputHandler.h
@@ -97,7 +109,6 @@ set(SRC_LIST
     Grouping/Scene.h
     Grouping/SceneManager.h
     GlobalConstants.h
-    SaveData/DataGenerator.h
     AbilitySystem/MobEffectReceiver.h
     AbilitySystem/EffectReceiver.h
     AbilitySystem/PrickObject.h
@@ -214,7 +225,6 @@ set(SRC_LIST
     Grouping/SceneObject.cpp
     Grouping/FontManager.cpp
     Grouping/Scene.cpp
-    SaveData/DataGenerator.cpp
     GameApp.cpp
     AbilitySystem/AbilityModel.cpp
     AbilitySystem/DestructibleObjectEffectReceiver.cpp
@@ -298,15 +308,8 @@ set(SRC_LIST
     )
 
 
-find_package(Boost COMPONENTS serialization REQUIRED)
-include(FindPkgConfig)
 
-PKG_SEARCH_MODULE(SDL2 REQUIRED sdl2)
-PKG_SEARCH_MODULE(SDL2IMAGE REQUIRED SDL2_image>=2.0.0)
-PKG_SEARCH_MODULE(SDL2TTF REQUIRED SDL2_ttf)
-
-include_directories(${SDL2_INCLUDE_DIRS} ${SDL2IMAGE_INCLUDE_DIRS} ${SDL2TTF_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
 
 add_executable(DarkDefenceGame ${SRC_LIST})
-target_link_libraries( DarkDefenceGame ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES} ${SDL2TTF_LIBRARIES} ${Boost_LIBRARIES})
+target_link_libraries( DarkDefenceGame ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES} ${SDL2TTF_LIBRARIES})
 

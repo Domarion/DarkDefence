@@ -6,7 +6,7 @@
  */
 
 #include "CTexture.h"
-#include <SDL_image.h>
+#include <SDL2/SDL_image.h>
 #include "../GlobalScripts/Renderer.h"
 #include "../Utility/textfilefunctions.h"
 #include <iostream>

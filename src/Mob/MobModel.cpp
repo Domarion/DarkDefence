@@ -213,7 +213,7 @@ list<string> &MobModel::getAbilitiesNames()
     return mobAbilitiesNames;
 }
 
-int *MobModel::getPrice()
+std::array<int, GlobalConstants::resourceTypeCount> MobModel::getPrice()
 {
     return price;
 }

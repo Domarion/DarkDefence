@@ -5,20 +5,18 @@ using std::string;
 #include "../Enums.h"
 using Enums::EReaction;
 
-#include <boost/serialization/access.hpp>
-#include <boost/serialization/string.hpp>
-#include <boost/serialization/export.hpp>
-#include <boost/serialization/version.hpp>
-#include <boost/serialization/nvp.hpp>
+#include <cereal/access.hpp>
+#include <cereal/types/string.hpp>
+
 class EnemyInfo
 {
-    friend class boost::serialization::access;
+    friend class cereal::access;
     template <typename Archive>
       void serialize(Archive &ar, const unsigned int /*version*/)
     {
-        ar & boost::serialization::make_nvp("enemyTag", tag);
-        ar & boost::serialization::make_nvp("enemyReaction", reaction);
-        ar & boost::serialization::make_nvp("priority", priority);
+        ar(cereal::make_nvp("enemyTag", tag),
+           cereal::make_nvp("enemyReaction", reaction),
+           cereal::make_nvp("priority", priority));
     }
 
 public:

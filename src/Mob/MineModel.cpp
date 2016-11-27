@@ -6,7 +6,7 @@
  */
 
 #include "MineModel.h"
-#include "../GlobalScripts/GameModel.h"
+
 MineModel::MineModel()
     : DestructibleObject(),limit(0, 0)
     , production(0, 0)
@@ -42,13 +42,6 @@ MineModel::~MineModel()
 MineModel::MineModel(const MineModel &right)
     :DestructibleObject(right)
 {
-  /*  name = right.name;
-    tag = right.tag;
-    maximumHealth = right.maximumHealth;
-    currentHealth = right.currentHealth;
-    for(int i = 0; i < DestructibleObject::damageTypesCount; ++i)
-        attackProtection[i] = right.attackProtection[i];
-*/
     productionType = right.productionType;
     production = right.production;
     limit = right.limit;
@@ -92,13 +85,13 @@ Enums::ResourceTypes MineModel::getProductionType() const
     return productionType;
 }
 
-void MineModel::produce(double timestep)
+void MineModel::produce(double timestep, std::shared_ptr<ResourcesModel> aResourceModel)
 {
     if (currentTime <= 0)
     {
         int prod = getProduction();
         std::cout << "Prod =" << (prod) <<std::endl;
-        if ( prod <= getLimit() && GameModel::getInstance()->getResourcesModel()->addResource(static_cast<int>(productionType), prod))
+        if ( prod <= getLimit() && aResourceModel->addResource(static_cast<int>(productionType), prod))
         {
              std::cout << "Prod++ =" << (prod) <<std::endl;
             limit.first -= prod;

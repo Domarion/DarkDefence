@@ -1,32 +1,34 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
-<!DOCTYPE boost_serialization>
-<boost_serialization signature="serialization::archive" version="14">
-<Mission class_id="1" tracking_level="0" version="0">
-	<caption>First Mission</caption>
-	<description>Very simple mission</description>
-	<goals class_id="2" tracking_level="0" version="0">
-		<count>1</count>
-		<item_version>1</item_version>
-		<item class_id="3" tracking_level="0" version="1">
-			<px class_id="0" tracking_level="1" version="0" object_id="_0">
-				<BasicGoal class_id="4" tracking_level="1" version="0" object_id="_1">
-					<description>yet another resource goal</description>
-					<goalStatus>0</goalStatus>
-					<needed>8000</needed>
-				</BasicGoal>
-				<resourceType>2</resourceType>
-			</px>
-		</item>
-	</goals>
-	<reward class_id="5" tracking_level="0" version="0">
-		<itemNames class_id="6" tracking_level="0" version="0">
-			<count>1</count>
-			<item_version>0</item_version>
-			<item>HelmOfLigofglass</item>
-		</itemNames>
-		<goldCoins>15</goldCoins>
-	</reward>
-	<status>0</status>
-</Mission>
-</boost_serialization>
+<?xml version="1.0" encoding="utf-8"?>
+<cereal>
+	<Mission>
+		<value0>First Mission</value0>
+		<value1>Very simple mission</value1>
+		<value2 size="dynamic">
+			<value0>
+				<polymorphic_id>2147483649</polymorphic_id>
+				<polymorphic_name>ResourceGoal</polymorphic_name>
+				<ptr_wrapper>
+					<id>2147483649</id>
+					<data>
+						<value0>
+							<cereal_class_version>0</cereal_class_version>
+							<value0>yet another resource goal</value0>
+							<value1>0</value1>
+							<value2>8000</value2>
+						</value0>
+						<value1>2</value1>
+					</data>
+				</ptr_wrapper>
+			</value0>
+		</value2>
+		<value3>
+			<cereal_class_version>0</cereal_class_version>
+			<value0 size="dynamic">
+				<value0>HelmOfLigofglass</value0>
+			</value0>
+			<value1>15</value1>
+		</value3>
+		<status>0</status>
+	</Mission>
+</cereal>
 

@@ -6,24 +6,21 @@
  */
 
 #pragma once
-#include <boost/serialization/access.hpp>
-#include <boost/serialization/string.hpp>
-#include <boost/serialization/list.hpp>
-#include <boost/serialization/utility.hpp>
-#include <boost/serialization/version.hpp>
-#include <list>
+
+#include <cereal/access.hpp>
+#include <cereal/types/string.hpp>
+#include <cereal/types/list.hpp>
+#include <cereal/types/utility.hpp>
 using std::list;
-#include <string>
 using std::string;
 
 class Reward
 {
-     friend class boost::serialization::access;
+     friend class cereal::access;
      template <typename Archive>
      void serialize(Archive &ar, const unsigned int /*version*/)
      {
-         ar & BOOST_SERIALIZATION_NVP(itemNames);
-         ar & BOOST_SERIALIZATION_NVP(goldCoins);
+         ar(itemNames, goldCoins);
      }
 public:
 	Reward();

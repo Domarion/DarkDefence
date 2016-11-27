@@ -1,55 +1,55 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
-<!DOCTYPE boost_serialization>
-<boost_serialization signature="serialization::archive" version="14">
-<shop class_id="0" tracking_level="0" version="1">
-	<px class_id="1" tracking_level="1" version="0" object_id="_0">
-		<ArtifactList class_id="2" tracking_level="0" version="0">
-			<count>7</count>
-			<item_version>0</item_version>
-			<item class_id="3" tracking_level="0" version="0">
-				<caption>GulakiAmulet</caption>
-				<description>Some</description>
-				<itemType>2</itemType>
-				<price>50</price>
-			</item>
-			<item>
-				<caption>ChoppersHat</caption>
-				<description>Some</description>
-				<itemType>1</itemType>
-				<price>100</price>
-			</item>
-			<item>
-				<caption>CaftanOfGold</caption>
-				<description>Some</description>
-				<itemType>4</itemType>
-				<price>100</price>
-			</item>
-			<item>
-				<caption>FeatherOfChap</caption>
-				<description>Some</description>
-				<itemType>2</itemType>
-				<price>100</price>
-			</item>
-			<item>
-				<caption>HelmOfLigofglass</caption>
-				<description>Some</description>
-				<itemType>1</itemType>
-				<price>100</price>
-			</item>
-			<item>
-				<caption>ScabblerHat</caption>
-				<description>Some</description>
-				<itemType>1</itemType>
-				<price>100</price>
-			</item>
-			<item>
-				<caption>TitanChock</caption>
-				<description>Some</description>
-				<itemType>3</itemType>
-				<price>100</price>
-			</item>
-		</ArtifactList>
-	</px>
-</shop>
-</boost_serialization>
-
+<?xml version="1.0" encoding="utf-8"?>
+<cereal>
+	<Inventory>
+		<polymorphic_id>1073741824</polymorphic_id>
+		<ptr_wrapper>
+			<id>2147483649</id>
+			<data>
+				<ArtifactList size="dynamic">
+					<value0>
+						<value0>GulakiAmulet</value0>
+						<value1>Some</value1>
+						<value2>2</value2>
+						<value3>100</value3>
+					</value0>
+					<value1>
+						<value0>ChoppersHat</value0>
+						<value1>Some</value1>
+						<value2>1</value2>
+						<value3>50</value3>
+					</value1>
+                    <value2>
+						<value0>CaftanOfGold</value0>
+						<value1>Some</value1>
+						<value2>4</value2>
+						<value3>100</value3>
+					</value2>
+                    <value3>
+						<value0>FeatherOfChap</value0>
+						<value1>Some</value1>
+						<value2>2</value2>
+						<value3>100</value3>
+					</value3>
+                    <value4>
+						<value0>HelmOfLigofglass</value0>
+						<value1>Some</value1>
+						<value2>1</value2>
+						<value3>100</value3>
+					</value4>
+                    <value5>
+						<value0>ScabblerHat</value0>
+						<value1>Some</value1>
+						<value2>1</value2>
+						<value3>100</value3>
+					</value5>
+                    <value6>
+						<value0>TitanChock</value0>
+						<value1>Some</value1>
+						<value2>3</value2>
+						<value3>100</value3>
+					</value6>
+				</ArtifactList>
+			</data>
+		</ptr_wrapper>
+	</Inventory>
+</cereal>

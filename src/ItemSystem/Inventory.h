@@ -6,22 +6,21 @@
  */
 #pragma once
 #include "ItemModel.h"
-#include <boost/serialization/vector.hpp>
-#include <boost/serialization/export.hpp>
-#include <boost/serialization/shared_ptr.hpp>
-#include <vector>
-using std::vector;
+#include <cereal/access.hpp>
+#include <cereal/types/vector.hpp>
+#include <cereal/types/memory.hpp>
+
 #include <functional>
 #include <string>
 using std::string;
-
+using std::vector;
 class Inventory
 {
-	friend class boost::serialization::access;
+    friend class cereal::access;
 	template <typename Archive>
-         void serialize(Archive &ar, const unsigned int /*version*/)
+         void serialize(Archive &ar)
 		{
-            ar & boost::serialization::make_nvp("ArtifactList", items);
+            ar(cereal::make_nvp("ArtifactList", items));
 		}
 public:
 	Inventory();

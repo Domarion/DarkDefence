@@ -1,12 +1,11 @@
 #pragma once
-#include <SDL_stdinc.h>
 #include "GraphicsSystem/newSystem/UtilityStructs.h"
 namespace SDL2Engine
 {
     class SDL2 final
     {
     public:
-        explicit SDL2(Uint32 flags);
+        explicit SDL2(uint32_t flags);
 
         Size getScreenResolution() const;
 

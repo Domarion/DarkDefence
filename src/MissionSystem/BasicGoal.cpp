@@ -7,7 +7,6 @@
 
 #include "BasicGoal.h"
 #include <string>
-#include "../GlobalScripts/GameModel.h"
 
 BasicGoal::BasicGoal()
     :current(0), needed(0), description(), goalStatus(GoalStatuses::gIN_PROGRESS)
@@ -67,9 +66,9 @@ void BasicGoal::setGoalStatus(GoalStatuses value)
     goalStatus = value;
 }
 
-bool BasicGoal::checkCondition()
+bool BasicGoal::checkCondition(Enums::GameStatuses aGameStatus)
 {
-    if (GameModel::getInstance()->getGameStatus() == Enums::GameStatuses::gsLOST)
+    if (aGameStatus == Enums::GameStatuses::gsLOST)
     {
         goalStatus = GoalStatuses::gFAILED;
         return false;

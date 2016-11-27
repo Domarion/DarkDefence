@@ -1,97 +1,87 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
-<!DOCTYPE boost_serialization>
-<boost_serialization signature="serialization::archive" version="12">
-<Monsters class_id="1" tracking_level="0" version="0">
-	<count>1</count>
-	<item_version>0</item_version>
-	<item class_id="0" tracking_level="1" version="0" object_id="_0">
-		<DestructibleObject class_id="2" tracking_level="0" version="0">
-			<name>Necromant</name>
-			<tag>Monster</tag>
-			<maximumHealth class_id="3" tracking_level="0" version="0">
-				<first>100</first>
-				<second>0</second>
-			</maximumHealth>
-			<attack>
-				<count>4</count>
-				<item>
-					<first>10</first>
+<?xml version="1.0" encoding="utf-8"?>
+<cereal>
+	<Monsters size="dynamic">
+		<value0>
+			<value0>
+				<cereal_class_version>0</cereal_class_version>
+				<value0>Necromant</value0>
+				<value1>Monster</value1>
+				<value2>
+					<first>100</first>
 					<second>0</second>
-				</item>
-				<item>
+				</value2>
+				<protection>
+					<value0>
+						<first>10</first>
+						<second>0</second>
+					</value0>
+					<value1>
+						<first>5</first>
+						<second>0</second>
+					</value1>
+					<value2>
+						<first>0</first>
+						<second>0</second>
+					</value2>
+					<value3>
+						<first>0</first>
+						<second>0</second>
+					</value3>
+				</protection>
+			</value0>
+			<value1>
+				<value0>
+					<first>20</first>
+					<second>0</second>
+				</value0>
+				<value1>
+					<first>0</first>
+					<second>0</second>
+				</value1>
+				<value2>
+					<first>0</first>
+					<second>0</second>
+				</value2>
+				<value3>
 					<first>5</first>
 					<second>0</second>
-				</item>
-				<item>
-					<first>0</first>
-					<second>0</second>
-				</item>
-				<item>
-					<first>0</first>
-					<second>0</second>
-				</item>
-			</attack>
-		</DestructibleObject>
-		<attackDamage>
-			<count>4</count>
-			<item>
-				<first>20</first>
+				</value3>
+			</value1>
+			<value2>
+				<first>1</first>
 				<second>0</second>
-			</item>
-			<item>
-				<first>0</first>
+			</value2>
+			<value3>
+				<first>0.2</first>
 				<second>0</second>
-			</item>
-			<item>
-				<first>0</first>
+			</value3>
+			<value4>
+				<first>3000</first>
 				<second>0</second>
-			</item>
-			<item>
-				<first>5</first>
-				<second>0</second>
-			</item>
-		</attackDamage>
-		<attackDistance class_id="4" tracking_level="0" version="0">
-			<first>1.00000000000000000e+00</first>
-			<second>0.00000000000000000e+00</second>
-		</attackDistance>
-		<moveSpeed>
-			<first>2.00000000000000000e-01</first>
-			<second>0.00000000000000000e+00</second>
-		</moveSpeed>
-		<reloadTimeMaximum>
-			<first>3.00000000000000000e+03</first>
-			<second>0.00000000000000000e+00</second>
-		</reloadTimeMaximum>
-		<damageArea>0</damageArea>
-		<enemyTags class_id="5" tracking_level="0" version="0">
-			<count>2</count>
-			<item_version>0</item_version>
-			<item class_id="6" tracking_level="0" version="0">
-				<enemyTag>Mine</enemyTag>
-				<enemyReaction>1</enemyReaction>
-				<priority>3</priority>
-			</item>
-			<item>
-				<enemyTag>Gates</enemyTag>
-				<enemyReaction>0</enemyReaction>
-				<priority>1</priority>
-			</item>
-		</enemyTags>
-		<Abilities class_id="7" tracking_level="0" version="0">
-			<count>2</count>
-			<item_version>0</item_version>
-			<item>MobAbilityInvisiblity</item>
-			<item>MobAbilityArson</item>
-		</Abilities>
-		<price>
-			<count>4</count>
-			<item>0</item>
-			<item>0</item>
-			<item>0</item>
-			<item>0</item>
-		</price>
-	</item>
-</Monsters>
-</boost_serialization>
+			</value4>
+			<value5>0</value5>
+			<enemyTags size="dynamic">
+				<value0>
+					<cereal_class_version>0</cereal_class_version>
+					<enemyTag>Mine</enemyTag>
+					<enemyReaction>true</enemyReaction>
+					<priority>3</priority>
+				</value0>
+				<value1>
+					<enemyTag>Gates</enemyTag>
+					<enemyReaction>false</enemyReaction>
+					<priority>1</priority>
+				</value1>
+			</enemyTags>
+			<Abilities size="dynamic">
+				<value0>MobAbilityArson</value0>
+			</Abilities>
+			<value6>
+				<value0>0</value0>
+				<value1>0</value1>
+				<value2>0</value2>
+			</value6>
+		</value0>
+	</Monsters>
+</cereal>
 

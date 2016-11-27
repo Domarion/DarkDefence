@@ -21,7 +21,7 @@ public:
     // SceneObject interface
 public:
 
-    virtual bool update(double timestep) override;
+    virtual bool update(double) override;
     virtual void finalize() override;
 private:
     int limit;

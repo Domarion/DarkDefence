@@ -10,12 +10,9 @@
 #include <list>
 using std::list;
 using std::ifstream;
-#include <boost/serialization/list.hpp>
-#include <boost/archive/xml_iarchive.hpp>
 #include <iostream>
 
 #include <functional>
-#include <boost/mpl/placeholders.hpp>
 #include "../MissionSystem/ResourceGoal.h"
 
 #include "../AbilitySystem/MobAbilities/MobAbilityArson.h"
@@ -30,6 +27,8 @@ using std::ifstream;
 using std::stringstream;
 #include "AccountModel.h"
 
+#include <cereal/archives/xml.hpp>
+#include <cereal/types/memory.hpp>
 GameModel* GameModel::instance_ = nullptr;
 
 GameModel::GameModel()
@@ -45,7 +44,7 @@ GameModel::GameModel()
     , heroFigure(std::make_shared<HeroInventory>(9))
     , inventory(std::make_shared<Inventory>())
     , resourcesModelPtr(std::make_shared<ResourcesModel>())
-    , towerUpgradesRootNode()
+    , towerUpgradesRootNode(std::make_shared<TreeNode<MobModel>>())
     , missionReward()
     , shopItemsLoaded(false)
     , gameDataLoaded(false)
@@ -60,10 +59,10 @@ std::unique_ptr<MobModel> GameModel::getMonsterByName(string name)
 std::unique_ptr<MobModel> GameModel::getTowerByName(string name)
 {
 
-    TreeNode<MobModel>* temp = towerUpgradesRootNode.recursiveSearch(name);
+    auto temp = towerUpgradesRootNode->recursiveSearch(name);
     if (temp == nullptr)
         return nullptr;
-    return std::make_unique<MobModel>(temp->getData());
+    return std::make_unique<MobModel>(*temp->getData());
 }
 
 void GameModel::loadMonsterList(string filename)
@@ -83,8 +82,8 @@ void GameModel::loadMonsterList(string filename)
         stringstream str(textString);
 
 
-        boost::archive::xml_iarchive xmlinp(str);
-        xmlinp >> boost::serialization::make_nvp("Monsters",monsterCollection);
+        cereal::XMLInputArchive xmlinp(str);
+        xmlinp(cereal::make_nvp("Monsters", monsterCollection));
     }
 
 
@@ -137,12 +136,22 @@ void GameModel::loadTowerUpgrades(string filename)
 
     if (!textString.empty())
     {
+        try
+        {
         stringstream str(textString);
 
+        cereal::XMLInputArchive xmlinp(str);
+        xmlinp(cereal::make_nvp("TowerTree", towerUpgradesRootNode));
+//        boost::archive::xml_iarchive xmlinp(str);
+//        xmlinp.register_type<std::shared_ptr<MobModel>>();
+//        xmlinp.register_type<std::shared_ptr<TreeNode<MobModel>>>();
+//        xmlinp.register_type<std::map<string, std::shared_ptr<TreeNode<MobModel>>>>();
 
-        boost::archive::xml_iarchive xmlinp(str);
-
-        xmlinp >> boost::serialization::make_nvp("TowerTree", towerUpgradesRootNode);
+        }
+        catch(std::exception& ex)
+        {
+            std::cerr << "Error in loadTowerUpgrades from file: " << ex.what() << std::endl;
+        }
     }
 
 
@@ -161,9 +170,9 @@ void GameModel::loadMinesList(string filename)
         stringstream str(textString);
 
 
-        boost::archive::xml_iarchive xmlinp(str);
+        cereal::XMLInputArchive xmlinp(str);
         // xmlinp.register_type<MineModel>();
-        xmlinp >> boost::serialization::make_nvp("Mines", mineCollection);
+        xmlinp(cereal::make_nvp("Mines", mineCollection));
 
         mineResMapping.resize(mineCollection.size());
     }
@@ -193,15 +202,15 @@ void GameModel::deserialize(Mission &obj, string filename)
         stringstream missionStream(textString);
 
 
-        boost::archive::xml_iarchive xmlinp(missionStream);
-        xmlinp.register_type<ResourceGoal>();
-        xmlinp >> boost::serialization::make_nvp("Mission", obj);
+        cereal::XMLInputArchive xmlinp(missionStream);
+//        xmlinp.register_type<ResourceGoal>();
+        xmlinp >> cereal::make_nvp("Mission", obj);
     }
 }
 
-TreeNode<MobModel>* GameModel::getRootTower()
+std::shared_ptr<TreeNode<MobModel>> GameModel::getRootTower()
 {
-    return &towerUpgradesRootNode;
+    return towerUpgradesRootNode;
 }
 
 void GameModel::addItemToInventoryByName(string name)
@@ -499,8 +508,9 @@ bool GameModel::loadShopItems(string filename)
             stringstream str(textString);
 
 
-            boost::archive::xml_iarchive xmlinp(str);
-            xmlinp >> BOOST_SERIALIZATION_NVP(shop);
+            cereal::XMLInputArchive xmlinp(str);
+
+            xmlinp(shop);
         }
 
         shop->ConnectModelReceiver(std::bind(&Inventory::receiveItem, inventory, std::placeholders::_1));

@@ -7,24 +7,17 @@
 
 #pragma once
 
-#include <boost/serialization/access.hpp>
-#include <boost/serialization/nvp.hpp>
-#include <boost/serialization/string.hpp>
-#include <boost/serialization/export.hpp>
-#include <boost/serialization/version.hpp>
-#include <string>
+#include <cereal/access.hpp>
+#include <cereal/types/string.hpp>
 #include "../Enums.h"
 
 class ItemModel
 {
-	friend class boost::serialization::access;
-		template <typename Archive>
-          void serialize(Archive &ar, const unsigned int /*version*/)
+    friend class cereal::access;
+    template <typename Archive>
+    void serialize(Archive &ar)
 	{
-		ar & BOOST_SERIALIZATION_NVP(caption);
-		ar & BOOST_SERIALIZATION_NVP(description);
-		ar & BOOST_SERIALIZATION_NVP(itemType);
-		ar & BOOST_SERIALIZATION_NVP(price);
+        ar(caption, description, itemType, price);
 	}
 public:
 	ItemModel();

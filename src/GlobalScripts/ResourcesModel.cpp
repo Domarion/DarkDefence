@@ -11,17 +11,6 @@
 #include <sstream>
 using std::stringstream;
 
-ResourcesModel::ResourcesModel()
-{
-	// TODO Auto-generated constructor stub
-
-}
-
-ResourcesModel::~ResourcesModel()
-{
-	// TODO Auto-generated destructor stub
-}
-
 std::string ResourcesModel::getResourceNameFromIndex(size_t index)
 {
 	return resourceTypes[index].getCaption();
@@ -32,23 +21,23 @@ std::string ResourcesModel::printResourceFromIndex(size_t index)
 	return resourceTypes[index].printToString();
 }
 
-bool ResourcesModel::canBuy(int costarray[])
+bool ResourcesModel::canBuy(PriceArray costarray)
 {
-	for(int i = 0; i < ResourcesModel::resourceTypeCount; ++i)
+    for(int i = 0; i < GlobalConstants::resourceTypeCount; ++i)
 		if (!haveEnoughResource(i, costarray[i]))
 			return false;
 	return true;
 }
 
-void ResourcesModel::addResources(int costarray[])
+void ResourcesModel::addResources(PriceArray costarray)
 {
-	for (int i = 0; i < ResourcesModel::resourceTypeCount; ++i)
+    for (int i = 0; i < GlobalConstants::resourceTypeCount; ++i)
 		resourceTypes[i].addResource(costarray[i]);
 }
 
-void ResourcesModel::removeResources(int costarray[])
+void ResourcesModel::removeResources(PriceArray costarray)
 {
-	for (int i = 0; i < ResourcesModel::resourceTypeCount; ++i)
+    for (int i = 0; i < GlobalConstants::resourceTypeCount; ++i)
         resourceTypes[i].removeResource(costarray[i]);
 }
 
@@ -92,11 +81,11 @@ void ResourcesModel::loadFromFile(std::string filename)
     {
         stringstream somestream(textString);
 
-        for(int i = 0; i != ResourcesModel::resourceTypeCount; ++i)
+        for(int i = 0; i != GlobalConstants::resourceTypeCount; ++i)
         {
             std::string s;
-            int amount;
-            int limit;
+            int amount = 0;
+            int limit = 0;
             somestream >> s >> amount >> limit;
             resourceTypes[i].setCaption(s);
             resourceTypes[i].setLimit(limit);

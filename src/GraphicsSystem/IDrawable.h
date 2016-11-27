@@ -1,6 +1,6 @@
 #pragma once
-#include <SDL_rect.h>
-#include <SDL_render.h>
+#include <SDL2/SDL_rect.h>
+#include <SDL2/SDL_render.h>
 
 class IDrawable//TODO: Переработать интерфейс
 {

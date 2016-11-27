@@ -10,7 +10,7 @@ CaftanOfGold::~CaftanOfGold()
 
 }
 
-void CaftanOfGold::init(std::shared_ptr<Scene> scenePtr, std::shared_ptr<ManaGlobal> aManaModel)
+void CaftanOfGold::init(std::shared_ptr<Scene>, std::shared_ptr<ManaGlobal> aManaModel)
 {
     goldAmount = 2;
     currentTime = period = 3000;

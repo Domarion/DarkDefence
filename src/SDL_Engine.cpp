@@ -1,11 +1,11 @@
 #include "SDL_Engine.h"
 #include <SDL.h>
-#include <SDL_image.h>
-#include <SDL_ttf.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 
 namespace SDL2Engine
 {
-SDL2::SDL2(Uint32 flags)
+SDL2::SDL2(uint32_t flags)
 {
     if (SDL_Init(flags) == 0)
     {

@@ -40,7 +40,7 @@ void TowerUpgradeController::receiveTowerUpgrade(std::shared_ptr<Tower> tower)
 
 
     string towerName = tower->getName();
-    TreeNode<MobModel>* currentGrade = GameModel::getInstance()->getRootTower()->recursiveSearch(towerName);
+    std::shared_ptr<TreeNode<MobModel>> currentGrade = GameModel::getInstance()->getRootTower()->recursiveSearch(towerName);
     if (currentGrade == nullptr || currentGrade->hasChildren() == false)
         return;
 
@@ -61,7 +61,7 @@ void TowerUpgradeController::receiveTowerUpgrade(std::shared_ptr<Tower> tower)
 
     for(auto& childrenName: currentTowerChildrenNames)
     {
-        MobModel childModel = currentTowerChildren.at(childrenName).getData();
+        auto childModel = currentTowerChildren.at(childrenName)->getData();
 
         auto menuItemGroup = std::make_shared<ConcreteComposite>(renderer);
         menuItemGroup->setSize(Size(200, 100));
@@ -82,8 +82,8 @@ void TowerUpgradeController::receiveTowerUpgrade(std::shared_ptr<Tower> tower)
         Position priceGroupPos = Position(upgradeName->getLocalPosition().x, menuItemGroup->getNextVerticalPosition().y);
         priceGroup->setPosition(priceGroupPos);
 
-        int* childPrice = childModel.getPrice();
-        const size_t priceCount = ResourcesModel::resourceTypeCount;
+        auto childPrice = childModel->getPrice();
+        const size_t priceCount = GlobalConstants::resourceTypeCount;
         for(size_t i = 0; i < priceCount; ++i)
         {
 
@@ -158,20 +158,20 @@ bool TowerUpgradeController::menuClickHandler(size_t itemIndex)
     string towerName = currentTowerChildrenNames[itemIndex];
     std::cout << "towername = " << towerName << std::endl;
 
-    TreeNode<MobModel>* rootTower = GameModel::getInstance()->getRootTower();
+   auto rootTower = GameModel::getInstance()->getRootTower();
     if (rootTower == nullptr)
     {
         std::cout << "rootTower is nullptr" << std::endl;
         return false;
 
     }
-    TreeNode<MobModel>* searchresult = rootTower->recursiveSearch(towerName);
+    auto searchresult = rootTower->recursiveSearch(towerName);
     if (searchresult == nullptr)
     {
         std::cout << "searchresult is nullptr" << std::endl;
         return false;
     }
-    MobModel model(searchresult->getData());
+    MobModel model(*searchresult->getData());
 
 
 

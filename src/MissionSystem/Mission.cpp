@@ -45,12 +45,12 @@ void Mission::setDescription(std::string value)
     description = value;
 }
 
-MissionStatuses Mission::checkStatus()
+MissionStatuses Mission::checkStatus(Enums::GameStatuses aGameStatus)
 {
     size_t goalCompleted = 0;
     for(auto goal = goals.begin(); goal != goals.end(); ++goal)
     {
-        (*goal)->checkCondition();
+        (*goal)->checkCondition(aGameStatus);
         if ((*goal)->getGoalStatus() == GoalStatuses::gFAILED)
         {
             missionStatus = mFAILED;

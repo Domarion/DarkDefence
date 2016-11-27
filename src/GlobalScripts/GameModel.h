@@ -48,7 +48,7 @@ public:
     std::shared_ptr<ShopInventory> getShopInventory();
     std::shared_ptr<Inventory> getInventory();
     std::shared_ptr<HeroInventory> getHeroInventory();
-	TreeNode<MobModel> * getRootTower();
+    std::shared_ptr<TreeNode<MobModel>> getRootTower();
 
 
     void addItemToInventoryByName(string name);
@@ -111,7 +111,7 @@ private:
     std::shared_ptr<Inventory> inventory;
     std::shared_ptr<ResourcesModel> resourcesModelPtr;
 	map<string, MobModel> monstersModelsMap;
-    TreeNode<MobModel> towerUpgradesRootNode;
+    std::shared_ptr<TreeNode<MobModel>> towerUpgradesRootNode;
     Reward missionReward;
     vector<string> abilitiesNames;
     map<string, int> monsterPointsMap;

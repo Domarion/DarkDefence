@@ -2,7 +2,7 @@
 #include "../UIElement/UILabel.h"
 #include "../UIElement/UIImage.h"
 #include "../../../MissionSystem/ResourceGoal.h"
-
+#include "GlobalScripts/GameModel.h"
 
 UIMissionView::UIMissionView(std::shared_ptr<RenderingSystem> &aRenderingContext)
     :ConcreteComposite(aRenderingContext)

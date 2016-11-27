@@ -8,24 +8,19 @@
 #pragma once
 
 #include "DestructibleObject.h"
-#include <boost/serialization/export.hpp>
-#include <boost/serialization/base_object.hpp>
+#include <cereal/types/base_class.hpp>
 #include "../Enums.h"
+#include "GlobalScripts/ResourcesModel.h"
 using std::pair;
 
 class MineModel: public DestructibleObject
 {
-    friend class boost::serialization::access;
+    friend class cereal::access;
     template <typename Archive>
-      void serialize(Archive &ar, const unsigned int /*version*/)
+    void serialize(Archive &ar)
     {
 
-        //ar.template register_type<MobModel>();
-        ar & boost::serialization::make_nvp("DestructibleObject", (boost::serialization::base_object<DestructibleObject>(*this)));
-        //ar & attackDamage;
-        ar & BOOST_SERIALIZATION_NVP(productionType);
-        ar & BOOST_SERIALIZATION_NVP(production);
-        ar & BOOST_SERIALIZATION_NVP(productionPeriod);
+       ar(cereal::base_class<DestructibleObject>(this), productionType, production, productionPeriod);
 
         currentTime = productionPeriod.first;
     }
@@ -48,7 +43,7 @@ public:
     void setCurrentTime(double aCurrentTime);
     Enums::ResourceTypes getProductionType() const;
 
-    void produce(double timestep);
+    void produce(double timestep, std::shared_ptr<ResourcesModel> aResourceModel);
 private:
 	pair<int, int> limit;
 	pair<int, int> production;

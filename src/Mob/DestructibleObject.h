@@ -6,38 +6,27 @@
  */
 
 #pragma once
+#include <cereal/access.hpp>
+#include <cereal/types/utility.hpp>
+#include <cereal/types/string.hpp>
+#include <cereal/types/array.hpp>
 
-
-#include <boost/serialization/access.hpp>
-#include <boost/serialization/string.hpp>
-#include <boost/serialization/utility.hpp>
-#include <boost/serialization/array.hpp>
-#include <boost/serialization/version.hpp>
-
-#include <utility>
-using std::pair;
-#include <string>
 using std::string;
 
-//#include "../Utility/Subject.h"
 #include <functional>
-class DestructibleObject//: public Subject
+using std::pair;
+
+class DestructibleObject
 {
-	friend class boost::serialization::access;
-		template <typename Archive>
-          void serialize(Archive &ar, const unsigned int /*version*/)
-		{
-			ar & BOOST_SERIALIZATION_NVP(name);
-			ar & BOOST_SERIALIZATION_NVP(tag);
-			ar & BOOST_SERIALIZATION_NVP(maximumHealth);
-            currentHealth = maximumHealth.first;
-			//for (int i = 0; i < DestructibleObject::damageTypesCount; ++i)
+    friend class cereal::access;
+    template <typename Archive>
+    void serialize(Archive &ar, const unsigned int /*version*/)
+    {
+        ar(name, tag, maximumHealth, cereal::make_nvp("protection", attackProtection));
 
-            ar & boost::serialization::make_nvp("attack", attackProtection);
-
-            Alive = true;
-			//ar & attackProtection;
-		}
+        currentHealth = maximumHealth.first;
+        Alive = true;
+    }
 public:
 	const static int damageTypesCount = 4;
 	DestructibleObject();
@@ -45,7 +34,7 @@ public:
     DestructibleObject(const DestructibleObject& right);
 
     virtual ~DestructibleObject();
-	const pair<int, int>& getAttackProtection() const;
+    std::array<pair<int, int>, damageTypesCount> getAttackProtection() const;
 	const string& getName() const;
 	void setName(const string& name);
 	const string& getTag() const;
@@ -73,7 +62,7 @@ protected:
 	bool Alive;
 	pair<int, int> maximumHealth;
 	int currentHealth;
-	pair<int, int> attackProtection[damageTypesCount];
+    std::array<pair<int, int>, damageTypesCount> attackProtection;
 
 
     std::function<void(int, int)> connectedMethod;

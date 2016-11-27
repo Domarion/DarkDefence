@@ -79,7 +79,7 @@ bool ResourcePlace::onClick(Position point)
 
 
 
-bool ResourcePlace::update(double timestep)
+bool ResourcePlace::update(double)
 {
     return true;
 }

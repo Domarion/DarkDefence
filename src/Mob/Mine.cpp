@@ -16,7 +16,7 @@ bool Mine::update(double timestep)
 
     if (model != nullptr)
     {
-        model->produce(timestep);
+        model->produce(timestep, GameModel::getInstance()->getResourcesModel());
 
         if (model->getLimit() <= 0)
             return false;

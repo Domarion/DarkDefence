@@ -7,19 +7,21 @@
 
 #pragma once
 #include "ResourceInfo.h"
+#include "../GlobalConstants.h"
+#include <array>
 
 class ResourcesModel
 {
 public:
-    static const int resourceTypeCount = 3;
-	ResourcesModel();
-	~ResourcesModel();
+    using PriceArray = std::array<int, GlobalConstants::resourceTypeCount>;
+    ResourcesModel() = default;
+    ~ResourcesModel() = default;
     std::string getResourceNameFromIndex(size_t index);
     std::string printResourceFromIndex(size_t index);
 
-	bool canBuy(int costarray[]);
-	void addResources(int costarray[]);
-	void removeResources(int costarray[]);
+    bool canBuy(PriceArray costarray);
+    void addResources(PriceArray costarray);
+    void removeResources(PriceArray costarray);
     int getResourceAmountFromIndex(int resourceType);
 	bool haveEnoughResource(int resourceType, int amount);
 	bool addResource(int resourceType, int amount);
@@ -28,5 +30,5 @@ public:
 	void decreaseLimit(int resourceType, int amount);
     void loadFromFile(std::string filename);
 private:
-	ResourceInfo resourceTypes[resourceTypeCount];
+    std::array<ResourceInfo, GlobalConstants::resourceTypeCount> resourceTypes;
 };

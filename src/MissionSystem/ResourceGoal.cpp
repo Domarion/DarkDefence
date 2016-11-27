@@ -7,10 +7,16 @@ ResourceGoal::ResourceGoal()
 
 }
 
-ResourceGoal::ResourceGoal(std::string aDescription, int controlNumber, Enums::ResourceTypes aResourceType)
-    :BasicGoal(aDescription, controlNumber), resourceType(aResourceType)
+ResourceGoal::ResourceGoal(std::string aDescription, int controlNumber,
+                           Enums::ResourceTypes aResourceType, std::shared_ptr<ResourcesModel> aResourceModel)
+    :BasicGoal(aDescription, controlNumber), resourceType(aResourceType), resourceModel(aResourceModel)
 {
 
+}
+
+void ResourceGoal::setResourceModel(std::shared_ptr<ResourcesModel> aResourceModel)
+{
+    resourceModel = aResourceModel;
 }
 
 void ResourceGoal::setResourceType(Enums::ResourceTypes resType)
@@ -18,12 +24,14 @@ void ResourceGoal::setResourceType(Enums::ResourceTypes resType)
     resourceType = resType;
 }
 
-bool ResourceGoal::checkCondition()
+bool ResourceGoal::checkCondition(Enums::GameStatuses aGameStatus)
 {
-    if (BasicGoal::checkCondition() == false)
+    if (BasicGoal::checkCondition(aGameStatus) == false)
         return false;
 
-    current = GameModel::getInstance()->getResourcesModel()->getResourceAmountFromIndex(static_cast<int>(resourceType));
+
+
+    current = getResourceAmount();
 
     if (current >= needed)
         goalStatus = GoalStatuses::gCOMPLETED;
@@ -36,4 +44,9 @@ bool ResourceGoal::checkCondition()
 Enums::ResourceTypes ResourceGoal::getResourceType()
 {
     return resourceType;
+}
+
+int ResourceGoal::getResourceAmount()
+{
+    return 0;//resourceModel->getResourceAmountFromIndex(static_cast<int>(resourceType));
 }

@@ -12,6 +12,21 @@
 //#include <exception>
 //using std::exception;
 
+template<typename T>
+inline TreeNode<T>::TreeNode(std::string name, std::string parent_name, std::shared_ptr<T> newData)
+    : nodeName(name)
+    , parentName(parent_name)
+    , data(newData)
+{
+}
+
+template<typename T>
+inline TreeNode<T>::TreeNode(std::string name, std::string parent_name, std::unique_ptr<T> newData)
+    : nodeName(name)
+    , parentName(parent_name)
+    , data(std::move(newData))
+{
+}
 
 template<typename T>
 inline TreeNode<T>::~TreeNode()
@@ -19,20 +34,20 @@ inline TreeNode<T>::~TreeNode()
 }
 
 template<typename T>
-inline bool TreeNode<T>::addChild(string itemname, TreeNode<T>& item)
+inline bool TreeNode<T>::addChild(string itemname, std::unique_ptr<TreeNode<T>>&& item)
 {
 
-    children.insert(std::make_pair(itemname, item));
+    children.emplace(std::make_pair(itemname, std::move(item)));
 
 
 	return true;//TODO: ??
 }
 
 template<typename T>
-inline bool TreeNode<T>::addChildData(string itemname, T& nodeData)
+inline bool TreeNode<T>::addChildData(string itemname, std::unique_ptr<T> nodeData)
 {
-    TreeNode<T>* item = new TreeNode<T>(itemname, this->getNodeName(), nodeData);
-    return addChild(itemname, *item);
+    auto item = std::make_unique<TreeNode<T>>(itemname, this->getNodeName(), std::move(nodeData));
+    return addChild(itemname, std::move(item));
 }
 
 
@@ -46,34 +61,34 @@ inline bool TreeNode<T>::addChildData(string itemname, T& nodeData)
 
 
 template<typename T>
-inline bool TreeNode<T>::addChildtoParent(string parentname, string itemname,
-         TreeNode<T> &item)
+inline bool TreeNode<T>::addChildtoParent(const string& parentname, const string& itemname,
+         std::unique_ptr<TreeNode<T>>&& item)
 {
 	if (parentname == itemname)
 		return false;
 
 	if (nodeName == parentname)
-		return addChild(itemname, item);
+        return addChild(itemname, std::move(item));
 
-	 TreeNode<T>* someNode = recursiveSearch(parentname);
+     auto someNode = recursiveSearch(parentname);
 	 if (someNode == nullptr)
 	 {
 		 return false;
 	 }
 
-	 return someNode->addChild(itemname, item);
+     return someNode->addChild(itemname, std::move(item));
 
 }
 
 
-template<typename T>
-inline TreeNode<T>::TreeNode(string name, string parent_name, T& newData)
-:nodeName(name), parentName(parent_name), data(newData)
-{
-}
+
 
 template<typename T>
 inline TreeNode<T>::TreeNode()
+    : nodeName()
+    , parentName()
+    , data(std::make_shared<T>())
+    , children()
 {
 
 }
@@ -85,17 +100,17 @@ inline const string& TreeNode<T>::getNodeName() const
 }
 
 template<typename T>
-inline TreeNode<T>* TreeNode<T>::recursiveSearch(string itemname)
+inline std::shared_ptr<TreeNode<T>> TreeNode<T>::recursiveSearch(string itemname)
 {
 	if (nodeName == itemname)
-		return this;
+        return std::enable_shared_from_this<TreeNode<T>>::shared_from_this();
 
-	for(auto ptr =  children.begin(); ptr != children.end(); ++ptr)
+    for(const auto& child : children)
 	{
 
-        if (ptr->second.nodeName == itemname)
-            return &(ptr->second);
-        TreeNode<T>* someNode = ptr->second.recursiveSearch(itemname);
+        if (child.second->nodeName == itemname)
+            return child.second;
+        auto someNode = child.second->recursiveSearch(itemname);
 		if (someNode != nullptr)
 			return someNode;
 	}
@@ -103,18 +118,18 @@ inline TreeNode<T>* TreeNode<T>::recursiveSearch(string itemname)
 }
 
 template<typename T>
-inline T& TreeNode<T>::getData()
+inline std::shared_ptr<T> TreeNode<T>::getData()
 {
 	return data;
 }
 template<typename T>
-void TreeNode<T>::setData(const T &value)
+void TreeNode<T>::setData(std::shared_ptr<T> value)
 {
     data = value;
 }
 
 template<typename T>
-map<string, TreeNode<T> > &TreeNode<T>::getChildren()
+auto TreeNode<T>::getChildren()
 {
     return children;
 }
@@ -124,7 +139,7 @@ vector<string> TreeNode<T>::getChildrenNames()
 {
     vector<string> keys;
 
-    for(auto t = children.begin(); t!=children.end(); ++t)
+    for(auto t = children.begin(); t != children.end(); ++t)
     {
         keys.push_back(t->first);
     }

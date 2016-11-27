@@ -19,10 +19,9 @@ DestructibleObject::~DestructibleObject()
 {
 	// TODO Auto-generated destructor stub
 }
-
-const pair<int, int>& DestructibleObject::getAttackProtection() const
+std::array<pair<int, int>, DestructibleObject::damageTypesCount> DestructibleObject::getAttackProtection() const
 {
-	return *attackProtection;
+    return attackProtection;
 }
 
 

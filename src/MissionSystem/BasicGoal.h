@@ -7,16 +7,10 @@
 
 #pragma once
 
-
-
-#include <boost/serialization/access.hpp>
-#include <boost/serialization/string.hpp>
-#include <boost/serialization/utility.hpp>
-#include <boost/serialization/version.hpp>
-
-
-#include <string>
-
+#include <cereal/access.hpp>
+#include <cereal/types/string.hpp>
+#include <cereal/types/utility.hpp>
+#include "Enums.h"
 enum class GoalStatuses
 {
 	gIN_PROGRESS,
@@ -26,14 +20,11 @@ enum class GoalStatuses
 
 class BasicGoal
 {
-    friend class boost::serialization::access;
+    friend class cereal::access;
     template <typename Archive>
-      void serialize(Archive &ar, const unsigned int /*version*/)
+    void serialize(Archive &ar, const unsigned int /*version*/)
     {
-        ar & BOOST_SERIALIZATION_NVP(description);
-        ar & BOOST_SERIALIZATION_NVP(goalStatus);
-        ar & BOOST_SERIALIZATION_NVP(needed);
-
+        ar(description, goalStatus, needed);
     }
 public:
 	BasicGoal();
@@ -47,7 +38,7 @@ public:
 	void setDescription(std::string value);
 	GoalStatuses getGoalStatus() const;
 	void setGoalStatus(GoalStatuses value);
-    virtual bool checkCondition();
+    virtual bool checkCondition(Enums::GameStatuses aGameStatus);
 protected:
 	int current;
 	int needed;

@@ -58,7 +58,7 @@ void GameScene::startUpdate(double timestep)
     Scene::startUpdate(timestep);
 
     if (gates != nullptr && gates->getDestructibleObject() != nullptr)
-    switch(currentMission.checkStatus())
+    switch(currentMission.checkStatus(GameModel::getInstance()->getGameStatus()))
     {
     case MissionStatuses::mIN_PROGRESS:case MissionStatuses::mNOT_STARTED:
     {
@@ -141,7 +141,7 @@ void GameScene::startUpdate(double timestep)
     spellStorage.updateAbilities(timestep);
 
 
-    for(size_t i = 0; i != ResourcesModel::resourceTypeCount; ++i)
+    for(size_t i = 0; i != GlobalConstants::resourceTypeCount; ++i)
     {
         string s = GameModel::getInstance()->getResourcesModel()->printResourceFromIndex(i);
         if (resourceLabels[i] != nullptr)
@@ -208,8 +208,8 @@ void GameScene::initResourceView()
     resourcePanel->setPosition(MainRect->getNextPosition());
 
     Font labelFont = FontManager::getInstance()->getFontByKind2("TextFont");
-    resourceLabels.resize(ResourcesModel::resourceTypeCount);
-    for(size_t i = 0; i != ResourcesModel::resourceTypeCount; ++i)
+    resourceLabels.resize(GlobalConstants::resourceTypeCount);
+    for(size_t i = 0; i != GlobalConstants::resourceTypeCount; ++i)
     {
         string iconPath = "GameData/textures/Resources/"
                 + GameModel::getInstance()->getResourcesModel()->getResourceNameFromIndex(i) + ".png";

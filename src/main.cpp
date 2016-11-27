@@ -9,20 +9,8 @@
 #include "GameApp.h"
 #include "GraphicsSystem/newSystem/RenderingSystem.h"
 
-//#include "SaveData/DataGenerator.h"
-
-
 int main( int /*argc*/, char** /*args*/)
 {
-//    int result = 0;
-//  DataGenerator dataGenerator;
-//  dataGenerator.saveAnim();
-//    dataGenerator.saveTowerTree();
-//  dataGenerator.saveItems();
-//    dataGenerator.saveMission();
-//    dataGenerator.saveMonsterCollection();
-
-//    dataGenerator.saveMineCollection();
 
     auto SDL2_Library = std::make_unique<SDL2Engine::SDL2>(SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_EVENTS);
 
