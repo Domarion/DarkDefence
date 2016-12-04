@@ -356,7 +356,7 @@ void GameScene::placeResourcesPlaces()
 {
 
 
-    auto resPlace = std::make_shared<ResourcePlace>(700, Enums::ResourceTypes::WOOD);
+    auto resPlace = std::make_shared<ResourcePlace>(700, Enums::ResourceTypes::STONE);
     auto resSprite = std::make_shared<AnimationSceneSprite>(renderer);
 
     resSprite->setSize(Size(200, 200));
