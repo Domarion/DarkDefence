@@ -172,6 +172,11 @@ void GameScene::sendMessage(string msgText)
         method(msgText);
 }
 
+std::shared_ptr<ManaGlobal> GameScene::getManaModel() const
+{
+    return mManaModel;
+}
+
 void GameScene::loadData()
 {
     int curIndex =  GameModel::getInstance()->getCurrentMissionIndex();
@@ -440,6 +445,7 @@ void GameScene::clear()
     currentMission.reset();
     monsterSpawner.reset();
     mManaModel = nullptr;
+    GameModel::getInstance()->getResourcesModel()->loadFromFile("GameData/resources.txt");
     Scene::clear();
 }
 

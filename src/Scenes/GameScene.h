@@ -43,6 +43,8 @@ public:
     void ConnectMethod(std::function<void(string)> handler);
     std::shared_ptr<AbilityModel> getAbilityModelWithName(string name);
     void sendMessage(string msgText);
+
+    std::shared_ptr<ManaGlobal> getManaModel() const;
 private:
 
     void loadData();

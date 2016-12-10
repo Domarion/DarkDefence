@@ -29,6 +29,12 @@ bool DestructibleObjectEffectReceiver::parseMethod(list<pair<string, double> > &
             std::cout << (doModelPtr->getProtectionModifier()) << std::endl;
 
         }
+        else if (attrib->first == "Health")
+        {
+            int newAmount = doModelPtr->getMaximumHealth() + static_cast<int>(amount);
+            doModelPtr->setMaximumHealth( newAmount );
+
+        }
     }
 
     return true;

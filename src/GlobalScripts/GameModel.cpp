@@ -19,8 +19,12 @@ using std::ifstream;
 #include "../AbilitySystem/MobAbilities/MobAbilityRegeneration.h"
 #include "../AbilitySystem/MobAbilities/MobAbilitySprint.h"
 #include "../AbilitySystem/MobAbilities/MobAbilityInvisiblity.h"
+#include "../AbilitySystem/MobAbilities/MobAbilityFog.h"
+
 #include "../AbilitySystem/MobAbilities/MobAbilityWheat.h"
 #include "../AbilitySystem/MobAbilities/GulakiUpgrade.h"
+#include "../AbilitySystem/MobAbilities/MobEarthTowerAbility.h"
+#include "../AbilitySystem/MobAbilities/MobMageTowerAbility.h"
 
 #include "../Utility/textfilefunctions.h"
 #include <sstream>
@@ -296,15 +300,28 @@ std::unique_ptr<MobAbility> GameModel::getMobAbilityByName(string name)
         return std::make_unique<MobAbilityRegeneration>();
     if (name == "MobAbilitySprint")
         return std::make_unique<MobAbilitySprint>();
+
+    if (name == "MobAbilityFog")
+        return std::make_unique<MobAbilityFog>();
+
     if (name == "MobAbilityInvisiblity")
         return std::make_unique<MobAbilityInvisiblity>();
+
     if (name == "MobAbilityWheat")
         return std::make_unique<MobAbilityWheat>();
+
      if (name == "GulakiAmulet")
      {
         std::cout << "Found Gulaki" << std::endl;
         return std::make_unique<GulakiUpgrade>();
      }
+
+     if (name == "MobEarthTowerAbility")
+         return std::make_unique<MobEarthTowerAbility>();
+
+     if (name == "MobMageTowerAbility")
+         return std::make_unique<MobMageTowerAbility>();
+
     return nullptr;
 }
 

@@ -347,7 +347,9 @@
 														<priority>1</priority>
 													</value0>
 												</enemyTags>
-												<Abilities size="dynamic"/>
+												<Abilities size="dynamic">
+                                                    <value0>MobMageTowerAbility</value0>
+                                                </Abilities>    
 												<value6>
 													<value0>0</value0>
 													<value1>0</value1>
@@ -525,7 +527,9 @@
 																			<priority>1</priority>
 																		</value0>
 																	</enemyTags>
-																	<Abilities size="dynamic"/>
+																	<Abilities size="dynamic">
+                                                                        <value0>MobEarthTowerAbility</value0>
+                                                                    </Abilities>
 																	<value6>
 																		<value0>0</value0>
 																		<value1>0</value1>
@@ -712,7 +716,9 @@
 														<priority>1</priority>
 													</value0>
 												</enemyTags>
-												<Abilities size="dynamic"/>
+												<Abilities size="dynamic">
+                                                    <value0>MobAbilityWheat</value0>
+                                                </Abilities>
 												<value6>
 													<value0>0</value0>
 													<value1>0</value1>
