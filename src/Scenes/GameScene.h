@@ -9,12 +9,8 @@
 #include "../Grouping/Scene.h"
 #include "../Mob/MobSpawner.h"
 #include "../Grouping/SceneObjectFabric.h"
-#include "../GraphicsSystem/UI/AnimatedSprite.h"
-#include "../GraphicsSystem/UI/GroupBox.h"
 #include "../GraphicsSystem/newSystem/UIElement/UILabel.h"
 #include "../GraphicsSystem/newSystem/UIElement/UIProgressBar.h"
-
-#include "../GraphicsSystem/UI/ImageButton.h"
 
 #include "../Mob/Gates.h"
 

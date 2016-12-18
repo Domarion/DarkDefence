@@ -6,7 +6,7 @@
  */
 
 #include "HeroInventoryController.h"
-#include "../GraphicsSystem/UI/TextButton.h"
+//#include "../GraphicsSystem/UI/TextButton.h"
 HeroInventoryController::HeroInventoryController()
     : model(nullptr)
     , view(nullptr)

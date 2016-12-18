@@ -1,6 +1,5 @@
 #include "Font.h"
 #include "../../Utility/textfilefunctions.h"
-#include "../../GlobalScripts/Renderer.h"
 
 Font::Font(shared_ptr<TTF_Font> ttfFont, std::shared_ptr<RenderingSystem> &aRenderer)
     : mRenderer(aRenderer)

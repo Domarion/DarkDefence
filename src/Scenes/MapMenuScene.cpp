@@ -1,10 +1,10 @@
 #include "MapMenuScene.h"
 #include "../GlobalScripts/GameModel.h"
-#include "../GraphicsSystem/UI/MissionView.h"
+//#include "../GraphicsSystem/UI/MissionView.h"
 #include "../GraphicsSystem/newSystem/UIElement/UIImage.h"
 #include "../GraphicsSystem/newSystem/ConcreteUIViews/UIMissionView.h"
 
-#include "../GraphicsSystem/UI/MapIndicator.h"
+//#include "../GraphicsSystem/UI/MapIndicator.h"
 
 MapMenuScene::MapMenuScene(std::shared_ptr<RenderingSystem> &aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher)
    : Scene(aRenderer, aInputDispatcher)

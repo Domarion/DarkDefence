@@ -5,7 +5,7 @@
 using std::pair;
 using std::list;
 using std::vector;
-#include <SDL2/SDL_rect.h>
+#include <SDL_rect.h>
 #include <memory>
 class TileMapManager
 {

@@ -1,6 +1,6 @@
 #pragma once
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
+#include <SDL.h>
+#include <SDL_ttf.h>
 #include <string>
 using std::string;
 #include <memory>
@@ -27,11 +27,11 @@ public:
 
     std::unique_ptr<SDL_Texture, TTextureDeleter> getTextureFromSurface(SDL_Surface* surface);
 
-    std::unique_ptr<SDL_Texture, TTextureDeleter> createBlankTexture(Size aSize, SDL_TextureAccess aAccess);
+//    std::unique_ptr<SDL_Texture, TTextureDeleter> createBlankTexture(Size aSize, SDL_TextureAccess aAccess);
     std::unique_ptr<SDL_Texture, TTextureDeleter> textToTexture(TTF_Font* aFont, const string& aText, SDL_Color&& color);
     std::unique_ptr<SDL_Texture, TTextureDeleter> textToTexture(TTF_Font* aFont, const string& aText, Uint8 red, Uint8 green, Uint8 blue, Uint8 alpha);
 
-    std::unique_ptr<SDL_Surface, TSurfaceDeleter> createSurfaceFromRenderingTarget(Size aTextureSize, Position aTexturePosition);
+//    std::unique_ptr<SDL_Surface, TSurfaceDeleter> createSurfaceFromRenderingTarget(Size aTextureSize, Position aTexturePosition);
     void renderToTarget(SDL_Texture *texturePtr);
 
     void setRendererDrawColor(Uint8 red, Uint8 green, Uint8 blue, Uint8 alpha);

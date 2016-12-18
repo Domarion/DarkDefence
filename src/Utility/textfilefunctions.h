@@ -7,8 +7,8 @@ using std::string;
 using std::vector;
 #include <map>
 using std::map;
-#include <SDL2/SDL_rwops.h>
-#include <SDL2/SDL_rect.h>
+#include <SDL_rwops.h>
+#include <SDL_rect.h>
 
 namespace androidText
 {

@@ -10,8 +10,6 @@
 #include "../ItemSystem/ShopController.h"
 #include "../GraphicsSystem/newSystem/UIElement/UILabel.h"
 
-//#include "../GraphicsSystem/UI/Label.h"
-
 class ShopScene: public Scene
 {
 public:

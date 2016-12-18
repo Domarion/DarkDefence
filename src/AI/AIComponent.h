@@ -10,7 +10,7 @@
 #include "../Mob/Mob.h"
 #include <list>
 using std::list;
-#include <SDL2/SDL_rect.h>
+#include <SDL_rect.h>
 #include <utility>
 using std::pair;
 #include "../Enums.h"

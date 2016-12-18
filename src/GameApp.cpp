@@ -9,8 +9,8 @@
 #include <iostream>
 using std::cout;
 using std::endl;
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_ttf.h>
+#include <SDL_image.h>
+#include <SDL_ttf.h>
 #include <exception>
 #include "Grouping/FontManager.h"
 #include "GlobalConstants.h"

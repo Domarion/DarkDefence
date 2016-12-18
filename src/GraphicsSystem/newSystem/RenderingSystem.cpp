@@ -1,6 +1,6 @@
 #include "RenderingSystem.h"
 #include "UtilityStructs.h"
-#include <SDL2/SDL_image.h>
+#include <SDL_image.h>
 
 
 RenderingSystem::RenderingSystem(const Size &aScreenSize)
@@ -52,17 +52,17 @@ std::unique_ptr<SDL_Texture, RenderingSystem::TTextureDeleter> RenderingSystem::
 
 }
 
-std::unique_ptr<SDL_Texture, RenderingSystem::TTextureDeleter> RenderingSystem::createBlankTexture(Size aSize, SDL_TextureAccess aAccess)
-{
-    return std::unique_ptr<SDL_Texture, RenderingSystem::TTextureDeleter>(
-                SDL_CreateTexture(
-                    renderer.get()
-                    , SDL_PIXELFORMAT_RGB888
-                    , aAccess
-                    , aSize.width
-                    , aSize.height)
-                ,  [](SDL_Texture* aTexture){SDL_DestroyTexture(aTexture);});
-}
+//std::unique_ptr<SDL_Texture, RenderingSystem::TTextureDeleter> RenderingSystem::createBlankTexture(Size aSize, SDL_TextureAccess aAccess)
+//{
+//    return std::unique_ptr<SDL_Texture, RenderingSystem::TTextureDeleter>(
+//                SDL_CreateTexture(
+//                    renderer.get()
+//                    , SDL_PIXELFORMAT_RGB888
+//                    , aAccess
+//                    , aSize.width
+//                    , aSize.height)
+//                ,  [](SDL_Texture* aTexture){SDL_DestroyTexture(aTexture);});
+//}
 
 std::unique_ptr<SDL_Texture, RenderingSystem::TTextureDeleter> RenderingSystem::textToTexture(TTF_Font *aFont, const std::string &aText, Uint8 red, Uint8 green, Uint8 blue, Uint8 alpha)
 {
@@ -70,25 +70,25 @@ std::unique_ptr<SDL_Texture, RenderingSystem::TTextureDeleter> RenderingSystem::
     return textToTexture(aFont,aText, std::move(color));
 }
 
-std::unique_ptr<SDL_Surface, RenderingSystem::TSurfaceDeleter> RenderingSystem::createSurfaceFromRenderingTarget(Size aTextureSize, Position aTexturePosition)
-{
-    SDL_Rect textureRect{aTexturePosition.x, aTexturePosition.y, aTextureSize.width, aTextureSize.height};
-    const int bytesPerPixel = 4;
-    void* data = SDL_malloc(bytesPerPixel * aTextureSize.width * aTextureSize.height);
+//std::unique_ptr<SDL_Surface, RenderingSystem::TSurfaceDeleter> RenderingSystem::createSurfaceFromRenderingTarget(Size aTextureSize, Position aTexturePosition)
+//{
+//    SDL_Rect textureRect{aTexturePosition.x, aTexturePosition.y, aTextureSize.width, aTextureSize.height};
+//    const int bytesPerPixel = 4;
+//    void* data = SDL_malloc(bytesPerPixel * aTextureSize.width * aTextureSize.height);
 
-    // pitch = texture format bytes * textureWidth
-    if (SDL_RenderReadPixels(renderer.get(), &textureRect, SDL_PIXELFORMAT_RGB888, data, bytesPerPixel * aTextureSize.width) != 0)
-        std::cout << SDL_GetError() << std::endl;
+//    // pitch = texture format bytes * textureWidth
+//    if (SDL_RenderReadPixels(renderer.get(), &textureRect, SDL_PIXELFORMAT_RGB888, data, bytesPerPixel * aTextureSize.width) != 0)
+//        std::cout << SDL_GetError() << std::endl;
 
-    return std::unique_ptr<SDL_Surface, RenderingSystem::TSurfaceDeleter>(
-                SDL_CreateRGBSurfaceWithFormatFrom(data
-                                                   , aTextureSize.width
-                                                   , aTextureSize.height
-                                                   , bytesPerPixel * 8
-                                                   , bytesPerPixel * aTextureSize.width
-                                                   , SDL_PIXELFORMAT_RGB888)
-                , [](SDL_Surface* aSurface){SDL_FreeSurface(aSurface);});
-}
+//    return std::unique_ptr<SDL_Surface, RenderingSystem::TSurfaceDeleter>(
+//                SDL_CreateRGBSurfaceWithFormatFrom(data
+//                                                   , aTextureSize.width
+//                                                   , aTextureSize.height
+//                                                   , bytesPerPixel * 8
+//                                                   , bytesPerPixel * aTextureSize.width
+//                                                   , SDL_PIXELFORMAT_RGB888)
+//                , [](SDL_Surface* aSurface){SDL_FreeSurface(aSurface);});
+//}
 
 void RenderingSystem::renderToTarget(SDL_Texture *texturePtr)
 {

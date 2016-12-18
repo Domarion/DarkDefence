@@ -1,5 +1,4 @@
 #include "TowerFabric.hpp"
-#include "../GraphicsSystem/CTexture.h"
 #include "../GlobalScripts/GameModel.h"
 
 std::shared_ptr<Tower> TowerFabric::produceTower(

@@ -1,5 +1,5 @@
 #pragma once
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
 #include <string>
 using std::string;
@@ -28,7 +28,7 @@ public:
     void resetTexture();
     void setAsRenderTarget();
     void unSetAsRenderTarget();
-    void createBlankTexture(SDL_TextureAccess aAccess = SDL_TEXTUREACCESS_TARGET);
+//    void createBlankTexture(SDL_TextureAccess aAccess = SDL_TEXTUREACCESS_TARGET);
 
 private:
     shared_ptr<SDL_Texture> texturePtr;

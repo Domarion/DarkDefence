@@ -7,7 +7,6 @@
 
 #pragma once
 #include "DestructibleObject.h"
-#include "../GraphicsSystem/CTexture.h"
 #include "../Grouping/SceneObject.h"
 #include "../AbilitySystem/DestructibleObjectEffectReceiver.h"
 
