@@ -106,14 +106,6 @@ void MainScene::initBackground()
       backGround->loadTexture("GameData/textures/castle.jpg");
       backGround->setSize(MainRect->getSize());
       MainRect->addChild(backGround);
-
-
-//    CTexture* backGround = new CTexture();
-//    backGround->loadTexture("GameData/textures/castle.jpg");
-//    backGround->setRect(0, 0, Renderer::getInstance()->getScreenWidth(), Renderer::getInstance()->getScreenHeight());
-//    Scene::addToUIList(backGround);
-
-    //GameModel::getInstance()->loadGameData("GameData/save.bin");
 }
 
 

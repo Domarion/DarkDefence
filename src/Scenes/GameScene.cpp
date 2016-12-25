@@ -57,6 +57,25 @@ void GameScene::startUpdate(double timestep)
 {
     Scene::startUpdate(timestep);
 
+    static double counter = 5000;
+    if (counter <= 0)
+    {
+        bool result = GameModel::getInstance()->getResourcesModel()->removeResource(static_cast<int>(Enums::ResourceTypes::WHEAT), 5);
+
+        if (!result && mManaModel)
+        {
+            if (!mManaModel->payMana(5))
+            {
+                if (gates)
+                    gates->getDestructibleObject()->receiveDamageOneType(static_cast<int>(Enums::DamageTypes::dtPHYSICAL), 5);
+            }
+        }
+
+        counter = 1000;
+    }
+    else
+        counter -= timestep;
+
     if (gates != nullptr && gates->getDestructibleObject() != nullptr)
     switch(currentMission.checkStatus(GameModel::getInstance()->getGameStatus()))
     {
