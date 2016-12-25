@@ -11,7 +11,7 @@ BurningStick::~BurningStick()
 }
 
 
-void BurningStick::init(std::shared_ptr<Scene> scenePtr, std::shared_ptr<ManaGlobal> aManaModel)
+void BurningStick::init(std::shared_ptr<Scene> /*scenePtr*/, std::shared_ptr<ManaGlobal> aManaModel)
 {
     amount = 2;
     currentTime = period = 3000;

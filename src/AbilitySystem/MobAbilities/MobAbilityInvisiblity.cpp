@@ -10,7 +10,7 @@ MobAbilityInvisiblity::~MobAbilityInvisiblity()
 
 }
 
-bool MobAbilityInvisiblity::onReady(double timestep)
+bool MobAbilityInvisiblity::onReady(double /*timestep*/)
 {
     if (target != nullptr)
     {
@@ -28,7 +28,7 @@ bool MobAbilityInvisiblity::onReady(double timestep)
     return true;
 }
 
-bool MobAbilityInvisiblity::onWorking(double timestep)
+bool MobAbilityInvisiblity::onWorking(double /*timestep*/)
 {
 
    if (target != nullptr)//И скастован спелл или проведена атака
@@ -41,7 +41,7 @@ bool MobAbilityInvisiblity::onWorking(double timestep)
     return true;
 }
 
-bool MobAbilityInvisiblity::onCooldown(double timestep)
+bool MobAbilityInvisiblity::onCooldown(double /*timestep*/)
 {
     return true;
 }

@@ -14,7 +14,7 @@ MobAbilityArson::~MobAbilityArson()
 
 
 
-bool MobAbilityArson::onReady(double timestep)
+bool MobAbilityArson::onReady(double /*timestep*/)
 {
     //std::cout << "WTFArson000" << std::endl;
 

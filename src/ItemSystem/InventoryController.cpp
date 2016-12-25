@@ -79,7 +79,7 @@ void InventoryController::initView()
 
 }
 
-void InventoryController::receiveItemFromModel(string caption, size_t itemType)
+void InventoryController::receiveItemFromModel(string caption, size_t /*itemType*/)
 {
     if (caption.empty())
         return;

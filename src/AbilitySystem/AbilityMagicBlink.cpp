@@ -45,7 +45,7 @@ bool AbilityMagicBlink::onReady(double timestep)
     return true;
 }
 
-bool AbilityMagicBlink::onWorking(double timestep)
+bool AbilityMagicBlink::onWorking(double /*timestep*/)
 {
     return true;
 }

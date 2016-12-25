@@ -21,7 +21,7 @@ void AbilityModel::init(std::shared_ptr<Scene> scenePtr)
 
 
 
-bool AbilityModel::onReady(double timestep)
+bool AbilityModel::onReady(double /*timestep*/)
 {
     return mManaModel->payMana(getManaCost());
 }

@@ -36,7 +36,7 @@ bool AbilityPrick::onReady(double timestep)
     return true;
 }
 
-bool AbilityPrick::onWorking(double timestep)
+bool AbilityPrick::onWorking(double /*timestep*/)
 {
     if (parentScenePtr != nullptr && coordX > 0 && coordY > 0)
     {

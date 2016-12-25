@@ -10,7 +10,7 @@ TitanChock::~TitanChock()
 
 }
 
-void TitanChock::init(std::shared_ptr<Scene> scenePtr, std::shared_ptr<ManaGlobal> aManaModel)
+void TitanChock::init(std::shared_ptr<Scene> /*scenePtr*/, std::shared_ptr<ManaGlobal> /*aManaModel*/)
 {
     string towerName = "CloudTower";
     auto tower = GameModel::getInstance()->getRootTower()->recursiveSearch(towerName);

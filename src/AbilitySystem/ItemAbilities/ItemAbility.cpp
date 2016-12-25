@@ -10,7 +10,7 @@ ItemAbility::~ItemAbility()
 
 }
 
-void ItemAbility::update(double timestep)
+void ItemAbility::update(double /*timestep*/)
 {
 
 }

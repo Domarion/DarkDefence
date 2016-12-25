@@ -12,7 +12,7 @@ MobAbilitySprint::~MobAbilitySprint()
 
 }
 
-bool MobAbilitySprint::onReady(double timestep)
+bool MobAbilitySprint::onReady(double /*timestep*/)
 {
      std::cout << "WTF" << std::endl;
      if (target != nullptr)

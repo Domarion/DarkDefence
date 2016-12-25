@@ -15,7 +15,7 @@ MobEarthTowerAbility::MobEarthTowerAbility()
 
 }
 
-bool MobEarthTowerAbility::onReady(double timestep)
+bool MobEarthTowerAbility::onReady(double /*timestep*/)
 {
 
     gates = parentScenePtr->findObjectByTag("Gates");
@@ -34,7 +34,7 @@ bool MobEarthTowerAbility::onReady(double timestep)
     return true;
 }
 
-bool MobEarthTowerAbility::onCooldown(double timestep)
+bool MobEarthTowerAbility::onCooldown(double /*timestep*/)
 {
     return false;
 }

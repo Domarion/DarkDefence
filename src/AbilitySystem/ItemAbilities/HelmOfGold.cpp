@@ -10,7 +10,7 @@ HelmOfGold::~HelmOfGold()
 
 }
 
-void HelmOfGold::init(std::shared_ptr<Scene> scenePtr, std::shared_ptr<ManaGlobal> aManaModel)
+void HelmOfGold::init(std::shared_ptr<Scene> /*scenePtr*/, std::shared_ptr<ManaGlobal> aManaModel)
 {
     goldAmount = 1;
     currentTime = period = 3000;

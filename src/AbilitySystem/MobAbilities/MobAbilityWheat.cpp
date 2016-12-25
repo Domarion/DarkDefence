@@ -25,7 +25,7 @@ bool MobAbilityWheat::onWorking(double timestep)
 }
 
 
-bool MobAbilityWheat::canTrigger(std::shared_ptr<SceneObject>, Enums::AIMobStates aistate)
+bool MobAbilityWheat::canTrigger(std::shared_ptr<SceneObject>, Enums::AIMobStates /*aistate*/)
 {
     return abilityState == Enums::AbilityStates::asNotAvaliable;
 }

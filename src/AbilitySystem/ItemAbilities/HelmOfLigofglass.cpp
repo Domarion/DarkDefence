@@ -10,7 +10,7 @@ HelmOfLigofglass::~HelmOfLigofglass()
 
 }
 
-void HelmOfLigofglass::init(std::shared_ptr<Scene> scenePtr, std::shared_ptr<ManaGlobal> aManaModel)
+void HelmOfLigofglass::init(std::shared_ptr<Scene> /*scenePtr*/, std::shared_ptr<ManaGlobal> /*aManaModel*/)
 {
     string towerName = "BallistaTower";
     auto tower = GameModel::getInstance()->getRootTower()->recursiveSearch(towerName);

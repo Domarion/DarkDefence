@@ -10,7 +10,7 @@ UberionsCloak::~UberionsCloak()
 
 }
 
-void UberionsCloak::init(std::shared_ptr<Scene> scenePtr, std::shared_ptr<ManaGlobal> aManaModel)
+void UberionsCloak::init(std::shared_ptr<Scene> /*scenePtr*/, std::shared_ptr<ManaGlobal> aManaModel)
 {
     int newRegenValue = aManaModel->getRegenValue() + 10;
     aManaModel->setRegenValue(newRegenValue);

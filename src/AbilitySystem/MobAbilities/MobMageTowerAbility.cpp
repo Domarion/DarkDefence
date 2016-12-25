@@ -1,6 +1,6 @@
 #include "MobMageTowerAbility.h"
 #include "Scenes/GameScene.h"
-bool MobMageTowerAbility::onReady(double timestep)
+bool MobMageTowerAbility::onReady(double /*timestep*/)
 {
     auto gameScene = std::static_pointer_cast<GameScene>(parentScenePtr);
     mManaModel = gameScene->getManaModel();
@@ -13,12 +13,12 @@ bool MobMageTowerAbility::onReady(double timestep)
     return true;
 }
 
-bool MobMageTowerAbility::onWorking(double timestep)
+bool MobMageTowerAbility::onWorking(double /*timestep*/)
 {
     return true;
 }
 
-bool MobMageTowerAbility::onCooldown(double timestep)
+bool MobMageTowerAbility::onCooldown(double /*timestep*/)
 {
     return true;
 }

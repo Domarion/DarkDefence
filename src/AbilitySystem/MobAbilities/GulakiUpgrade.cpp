@@ -19,7 +19,7 @@ void GulakiUpgrade::releaseDamage(std::shared_ptr<SceneObject> aTarget)
     affectedMobs->push_back(aTarget);
 }
 
-bool GulakiUpgrade::onReady(double timestep)
+bool GulakiUpgrade::onReady(double /*timestep*/)
 {
     if (target != nullptr)
     {
@@ -48,13 +48,13 @@ bool GulakiUpgrade::onReady(double timestep)
 
 }
 
-bool GulakiUpgrade::onWorking(double timestep)
+bool GulakiUpgrade::onWorking(double /*timestep*/)
 {
     return true;
 
 }
 
-bool GulakiUpgrade::onCooldown(double timestep)
+bool GulakiUpgrade::onCooldown(double /*timestep*/)
 {
     return true;
 }

@@ -59,7 +59,7 @@ void PrickObject::init(int x, int y)
     }
 }
 
-bool PrickObject::update(double timestep)
+bool PrickObject::update(double /*timestep*/)
 {
     return notDid;
 }

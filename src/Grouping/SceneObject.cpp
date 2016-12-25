@@ -121,7 +121,7 @@ void SceneObject::setPos(int x, int y)
 
 }
 
-bool SceneObject::update(double timestep)
+bool SceneObject::update(double /*timestep*/)
 {
     if (spriteModel != nullptr)
         spriteModel->calculateFrameNumber();

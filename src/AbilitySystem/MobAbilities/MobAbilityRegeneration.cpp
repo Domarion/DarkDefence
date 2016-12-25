@@ -10,7 +10,7 @@ MobAbilityRegeneration::~MobAbilityRegeneration()
 
 }
 
-bool MobAbilityRegeneration::onReady(double timestep)
+bool MobAbilityRegeneration::onReady(double /*timestep*/)
 {
     if (target != nullptr)
     {
@@ -76,7 +76,7 @@ bool MobAbilityRegeneration::onCooldown(double timestep)
     return true;
 }
 
-bool MobAbilityRegeneration::canTrigger(std::shared_ptr<SceneObject> targ, Enums::AIMobStates aistate)
+bool MobAbilityRegeneration::canTrigger(std::shared_ptr<SceneObject> targ, Enums::AIMobStates /*aistate*/)
 {
     if (targ == nullptr || abilityState != Enums::AbilityStates::asNotAvaliable)
         return false;
