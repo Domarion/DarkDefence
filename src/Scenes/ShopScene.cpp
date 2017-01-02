@@ -81,7 +81,7 @@ void ShopScene::initBackGroundUI()
     string goldAmount = std::to_string(AccountModel::getInstance()->getGoldAmount());
 
     goldCoinsLabel = std::make_shared<UILabel>(goldAmount, aFont, renderer);
-    goldCoinsLabel->setPosition(Position(MainRect->getNextPosition().x, sceneNameLabel->getPosition().y));
+    goldCoinsLabel->setPosition(Position(MainRect->getNextHorizontalPosition().x, sceneNameLabel->getPosition().y));
     MainRect->addChild(goldCoinsLabel);
 
 

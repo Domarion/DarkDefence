@@ -58,7 +58,7 @@ void UIMissionView::initGoals(Mission &aMission, Font &aFont)
 
                 string needed = std::to_string(goal->getNeeded());
                 auto missionGoalLabel = std::make_shared<UILabel>(needed, aFont, renderer);
-                missionGoalLabel->setPosition(missionGoalsGroup->getNextPosition());
+                missionGoalLabel->setPosition(missionGoalsGroup->getNextHorizontalPosition());
 
                 missionGoalsGroup->addChild(missionGoalLabel);
 
@@ -89,7 +89,7 @@ void UIMissionView::initRewards(Mission &aMission, Font &aFont)
         missionRewardsGroup->addChild(missionRewardIcon);
 
 
-        Position labelPos (missionRewardsGroup->getNextPosition().x, pos.y);
+        Position labelPos (missionRewardsGroup->getNextHorizontalPosition().x, pos.y);
 
         auto missionRewardLabel = std::make_shared<UILabel>(descString, aFont, renderer);
         missionRewardLabel->setPosition(labelPos);
@@ -108,7 +108,7 @@ void UIMissionView::initRewards(Mission &aMission, Font &aFont)
     missionRewardsGroup->addChild(missionRewardGoldIcon);
 
 
-    Position labelGoldPos (missionRewardsGroup->getNextPosition().x, goldIconPos.y);
+    Position labelGoldPos (missionRewardsGroup->getNextHorizontalPosition().x, goldIconPos.y);
     string rewardCoins = std::to_string(aMission.getReward().getGoldCoins());
 
     auto missionRewardGoldLabel = std::make_shared<UILabel>(rewardCoins, aFont, renderer);

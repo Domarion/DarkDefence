@@ -60,7 +60,7 @@ void ShopController::initView(std::shared_ptr<RenderingSystem>& aRenderer)
         shopItemGroup->addChild(shopItemIcon);
 
         auto shopItemCaption = std::make_shared<UILabel>(model->getItemFromIndex(i)->getCaption() , aFont, aRenderer);
-        shopItemCaption->setPosition(shopItemGroup->getNextPosition());
+        shopItemCaption->setPosition(shopItemGroup->getNextHorizontalPosition());
         shopItemGroup->addChild(shopItemCaption);
 
         auto shopItemDescription = std::make_shared<UILabel>(model->getItemFromIndex(i)->getDescription() , aFont, aRenderer);
@@ -77,7 +77,7 @@ void ShopController::initView(std::shared_ptr<RenderingSystem>& aRenderer)
         shopItem->addChild(shopItemPrice);
 
         auto shopItemBuyButton = std::make_shared<UITextButton>("Купить" , aFont, aRenderer);
-        shopItemBuyButton->setPosition(Position(shopItem->getNextPosition().x, shopItemPrice->getPosition().y));
+        shopItemBuyButton->setPosition(Position(shopItem->getNextHorizontalPosition().x, shopItemPrice->getPosition().y));
 
         shopItem->addChild(shopItemBuyButton);
 

@@ -66,7 +66,7 @@ void InventoryController::initView()
         shopItemGroup->addChild(shopItemIcon);
 
         auto shopItemCaption = std::make_shared<UILabel>(model->getItemFromIndex(i)->getCaption() , aFont, renderer);
-        shopItemCaption->setPosition(shopItemGroup->getNextPosition());
+        shopItemCaption->setPosition(shopItemGroup->getNextHorizontalPosition());
         shopItemGroup->addChild(shopItemCaption);
 
         auto shopItemDescription = std::make_shared<UILabel>(model->getItemFromIndex(i)->getDescription() , aFont, renderer);
@@ -97,7 +97,7 @@ void InventoryController::receiveItemFromModel(string caption, size_t /*itemType
     shopItemGroup->addChild(shopItemIcon);
 
     auto shopItemCaption = std::make_shared<UILabel>(caption , aFont, renderer);
-    shopItemCaption->setPosition(shopItemGroup->getNextPosition());
+    shopItemCaption->setPosition(shopItemGroup->getNextHorizontalPosition());
     shopItemGroup->addChild(shopItemCaption);
 
     auto shopItemDescription = std::make_shared<UILabel>("descr stub", aFont, renderer);

@@ -19,7 +19,7 @@ void HorizontalPanel::setSize(Size size)
 void HorizontalPanel::addChild(const shared_ptr<IComposite> &child)
 {
 
-    child->setPosition(getNextPosition());
+    child->setPosition(getNextHorizontalPosition());
     Composite::addChild(child);
 
 }

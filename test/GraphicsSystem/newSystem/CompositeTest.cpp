@@ -1,11 +1,11 @@
-
-
-
 #define BOOST_TEST_MODULE COMPOSITE_TEST
+
 #include <boost/test/unit_test.hpp>
 #include "src/GraphicsSystem/newSystem/Composite.h"
 #include "src/GraphicsSystem/newSystem/Leaf.h"
+
 BOOST_AUTO_TEST_SUITE(CompositeTestSuite)
+
 struct CompositeFixture
 {
     class compositeT: public Composite
@@ -17,11 +17,11 @@ struct CompositeFixture
     public:
         virtual Size getSize() const override
         {
-
+            return mScaledSize;
         }
-        virtual void setSize(Size size) override
+        virtual void setSize(Size aSize) override
         {
-
+            mScaledSize = aSize;
         }
     };
 
@@ -37,11 +37,11 @@ struct CompositeFixture
         }
         virtual Size getSize() const override
         {
-
+            return mScaledSize;
         }
-        virtual void setSize(Size size) override
+        virtual void setSize(Size aSize) override
         {
-
+            mScaledSize = aSize;
         }
     };
 };
@@ -187,5 +187,52 @@ BOOST_FIXTURE_TEST_CASE(LeafPosAxisShouldLTZero, CompositeFixture)
     const Position pos(-100, 20);
     leafChild->setPosition(pos);
     BOOST_CHECK_EQUAL(leafChild->getPosition(), pos);
+}
+
+BOOST_FIXTURE_TEST_CASE(CompositeChildrenShouldBeScaledAndMoved, CompositeFixture)
+{
+    const Size expectedCompositeSize{2000, 4000};
+    const Size expectedChildSize{400, 600};
+    const Size expectedChildLeaf1Size{200, 100};
+    const Size expectedChildLeaf2Size{300,  200};
+
+    const Position expectedChildCompositePos{100, 300};
+    const Position expectedChildLeaf1Position{150, 330};
+    const Position expectedChildLeaf2Position{350, 300};
+
+    auto composite = std::make_shared<compositeT>();
+    composite->setSize(Size(1000, 2000));
+    composite->setScalingFactor(2);
+
+    const Position pos(100, 300);
+
+    auto childComposite = std::make_shared<compositeT>();
+    childComposite->setLocalPosition(pos);
+    childComposite->setScalingFactor(2);
+    childComposite->setSize(Size(200, 300));
+
+    auto childLeaf1 = std::make_shared<leafT>();
+    childLeaf1->setLocalPosition(Position(50, 30));
+    childLeaf1->setSize(Size(100, 50));
+
+    childComposite->addChild(childLeaf1);
+
+    auto childLeaf2 = std::make_shared<leafT>();
+    childLeaf2->setLocalPosition(childComposite->getNextHorizontalPosition());
+    childLeaf2->setSize(Size(150, 100));
+
+    childComposite->addChild(childLeaf2);
+
+    composite->addChild(childComposite);
+
+    BOOST_CHECK_EQUAL(composite->getSize(), expectedCompositeSize);
+    BOOST_CHECK_EQUAL(childComposite->getSize(), expectedChildSize);
+    BOOST_CHECK_EQUAL(childLeaf1->getSize(), expectedChildLeaf1Size);
+    BOOST_CHECK_EQUAL(childLeaf2->getSize(), expectedChildLeaf2Size);
+
+    BOOST_CHECK_EQUAL(childComposite->getPosition(), expectedChildCompositePos);
+    BOOST_CHECK_EQUAL(childLeaf1->getPosition(), expectedChildLeaf1Position);
+    BOOST_CHECK_EQUAL(childLeaf2->getPosition(), expectedChildLeaf2Position);
+
 }
 BOOST_AUTO_TEST_SUITE_END()

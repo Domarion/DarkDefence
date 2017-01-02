@@ -19,6 +19,7 @@ void Composite::addChild(const shared_ptr<IComposite> &child)
         else
         {
             child->setParent(weak_this);
+            child->setScalingFactor(this->getScalingFactor());
             children.push_back(child);
         }
     }
@@ -66,7 +67,7 @@ bool Composite::hasChildren() const
     return !children.empty();
 }
 
-Position Composite::getNextPosition() const
+Position Composite::getNextHorizontalPosition() const
 {
     Position localPos{0, 0};
     if (hasChildren())
@@ -90,7 +91,13 @@ Position Composite::getNextVerticalPosition() const
 
 Position Composite::getLocalPosition() const
 {
+
     return localPosition;
+}
+
+void Composite::setLocalPosition(Position aPosition)
+{
+    localPosition = aPosition;
 }
 
 bool Composite::canDrag() const
@@ -171,4 +178,16 @@ bool Composite::onClick(Position point)
                return true;
     }
     return false;
+}
+
+double Composite::getScalingFactor() const
+{
+    return mScaleFactor;
+}
+
+void Composite::setScalingFactor(double aScaleFactor)
+{
+    mScaleFactor = aScaleFactor;
+    mScaledSize = getSize();
+    mScaledSize.multiplyBy(mScaleFactor);
 }

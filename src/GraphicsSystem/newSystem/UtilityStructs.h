@@ -14,6 +14,12 @@ struct Size
          return width == right.width && height == right.height;
     }
 
+    void multiplyBy(double aValue)
+    {
+        width *= aValue;
+        height *= aValue;
+    }
+
     int width;
     int height;
 

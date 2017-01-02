@@ -27,7 +27,7 @@ public:
     virtual bool onClick(Position point) override;
 
 
-    Position getNextPosition() const;
+    Position getNextHorizontalPosition() const;
     Position getNextVerticalPosition() const;
 protected:
 
@@ -37,11 +37,14 @@ protected:
 protected:
     list<shared_ptr<IComposite> > children;
     weak_ptr<IComposite> parent;
-    Position localPosition;
-
+    Position localPosition{0, 0};
+    double mScaleFactor = 0.0;
+    Size mScaledSize;
     // IComposite interface
 public:
     virtual Position getLocalPosition() const override;
+    virtual void setLocalPosition(Position aPosition) override;
+
 
     // InputHandler interface
 public:
@@ -55,5 +58,7 @@ public:
     // IComposite interface
 public:
     virtual void clearChildren() override;
+    double getScalingFactor() const override;
+    void setScalingFactor(double aScaleFactor) override;
 };
 

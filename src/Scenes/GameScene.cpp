@@ -229,7 +229,7 @@ void GameScene::initResourceView()
 {
     auto resourcePanel = std::make_shared<ConcreteComposite>(renderer);
     resourcePanel->setSize(Size(MainRect->getSize().width/3, 50));
-    resourcePanel->setPosition(MainRect->getNextPosition());
+    resourcePanel->setPosition(MainRect->getNextHorizontalPosition());
 
     Font labelFont = FontManager::getInstance()->getFontByKind2("TextFont");
     resourceLabels.resize(GlobalConstants::resourceTypeCount);
@@ -241,13 +241,13 @@ void GameScene::initResourceView()
         auto resourceIcon = std::make_shared<UIImage>(renderer);
         resourceIcon->loadTexture(iconPath);
         resourceIcon->setSize(Size(48, 48));
-        resourceIcon->setPosition(resourcePanel->getNextPosition());
+        resourceIcon->setPosition(resourcePanel->getNextHorizontalPosition());
         resourcePanel->addChild(resourceIcon);
 
         string labelText = GameModel::getInstance()->getResourcesModel()->printResourceFromIndex(i);
         resourceLabels[i] = std::make_shared<UILabel>(labelText, labelFont, renderer);
         resourceLabels[i]->setSize(Size(30, 25));
-        resourceLabels[i]->setPosition(resourcePanel->getNextPosition());
+        resourceLabels[i]->setPosition(resourcePanel->getNextHorizontalPosition());
 
         resourcePanel->addChild(resourceLabels[i]);
     }
@@ -260,7 +260,7 @@ void GameScene::initProgressBars()
 
     auto progressBarGroup = std::make_shared<ConcreteComposite>(renderer);
     progressBarGroup->setSize(Size(100, 50));
-    progressBarGroup->setPosition(MainRect->getNextPosition());
+    progressBarGroup->setPosition(MainRect->getNextHorizontalPosition());
 
     Texture2D gatesHealthBarBack(renderer);
     gatesHealthBarBack.loadTexture("GameData/textures/HealthBarEmpty.png");
@@ -293,7 +293,7 @@ void GameScene::initTopPanel()
 
     auto miniGroup = std::make_shared<ConcreteComposite>(renderer);
     miniGroup->setSize(Size(MainRect->getSize().width/4, 50));
-    miniGroup->setPosition(MainRect->getNextPosition());
+    miniGroup->setPosition(MainRect->getNextHorizontalPosition());
 
     Font aFont = FontManager::getInstance()->getFontByKind2("TextFont");
     pointsLabel = std::make_shared<UILabel>("none", aFont, renderer);
@@ -303,7 +303,7 @@ void GameScene::initTopPanel()
 
     waveLabel = std::make_shared<UILabel>("none", aFont, renderer);
     waveLabel->setSize(Size(100, 50));
-    waveLabel->setPosition(miniGroup->getNextPosition());
+    waveLabel->setPosition(miniGroup->getNextHorizontalPosition());
     miniGroup->addChild(waveLabel);
 
     MainRect->addChild(miniGroup);
@@ -334,7 +334,7 @@ void GameScene::initAbilitiesButtons()
 
         abilityButton->loadTexture(imgPath);
         abilityButton->setSize(abilityButtonSize);
-        abilityButton->setPosition(abilityButtonsGroup->getNextPosition());
+        abilityButton->setPosition(abilityButtonsGroup->getNextHorizontalPosition());
         abilityButton->ConnectMethod(std::bind(&SpellStorage::setAbilityReady, &spellStorage, GameModel::getInstance()->getAbilityNameFromIndex(i)));
         abilityButtonsGroup->addChild(abilityButton);
 
@@ -360,14 +360,14 @@ void GameScene::initUILayer()
     auto pauseButton = std::make_shared<UIImageButton>(renderer);
     pauseButton->loadTexture("GameData/textures/pause-button.png");
     pauseButton->setSize(buttonSize);
-    pauseButton->setPosition(MainRect->getNextPosition());
+    pauseButton->setPosition(MainRect->getNextHorizontalPosition());
     pauseButton->ConnectMethod(std::bind(&GameScene::sendMessage, this, GlobalConstants::Paused));
     MainRect->addChild(pauseButton);
 
     auto resumeButton = std::make_shared<UIImageButton>(renderer);
     resumeButton->loadTexture("GameData/textures/resume-button.png");
     resumeButton->setSize(buttonSize);
-    resumeButton->setPosition(MainRect->getNextPosition());
+    resumeButton->setPosition(MainRect->getNextHorizontalPosition());
     resumeButton->ConnectMethod(std::bind(&GameScene::sendMessage, this, GlobalConstants::Resumed));
     MainRect->addChild(resumeButton);
 

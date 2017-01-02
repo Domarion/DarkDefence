@@ -74,7 +74,7 @@ void TowerUpgradeController::receiveTowerUpgrade(std::shared_ptr<Tower> tower)
         menuItemGroup->addChild(upgradeIcon);
 
         auto upgradeName = std::make_shared<UILabel>(childrenName, arial1Font, renderer);
-        upgradeName->setPosition(menuItemGroup->getNextPosition());
+        upgradeName->setPosition(menuItemGroup->getNextHorizontalPosition());
         menuItemGroup->addChild(upgradeName);
 
         auto priceGroup = std::make_shared<ConcreteComposite>(renderer);
@@ -93,16 +93,16 @@ void TowerUpgradeController::receiveTowerUpgrade(std::shared_ptr<Tower> tower)
 
             resourceIcon->loadTexture(RiconPath);
             resourceIcon->setSize(Size(iconWidthSmall, iconWidthSmall));
-            resourceIcon->setPosition(priceGroup->getNextPosition());
+            resourceIcon->setPosition(priceGroup->getNextHorizontalPosition());
             priceGroup->addChild(resourceIcon);
 
             auto upgradeName = std::make_shared<UILabel>(std::to_string(childPrice[i]), arial1Font, renderer);
-            upgradeName->setPosition(priceGroup->getNextPosition());
+            upgradeName->setPosition(priceGroup->getNextHorizontalPosition());
             priceGroup->addChild(upgradeName);
         }
 
         auto buyButton = std::make_shared<UITextButton>("Купить", arial1Font, renderer);
-        buyButton->setPosition(priceGroup->getNextPosition());
+        buyButton->setPosition(priceGroup->getNextHorizontalPosition());
         buyButton->ConnectMethod(std::bind(&TowerUpgradeController::stub, this, std::placeholders::_1));
         priceGroup->addChild(buyButton);
 

@@ -58,7 +58,7 @@ void ScoreScene::showItemRewards()
         rewardGroup->addChild(rewardIcon);
 
         auto rewardLabel = std::make_shared<UILabel>(rewardItem, aFont, renderer);
-        rewardLabel->setPosition(rewardGroup->getNextPosition());
+        rewardLabel->setPosition(rewardGroup->getNextHorizontalPosition());
         rewardGroup->addChild(rewardLabel);
 
         GameModel::getInstance()->addItemToInventoryByName(rewardItem);
@@ -91,7 +91,7 @@ void ScoreScene::showGoldReward()
         rewardGoldGroup->addChild(rewardGoldIcon);
 
         auto rewardGoldLabel = std::make_shared<UILabel>(std::to_string(goldCoins), aFont, renderer);
-        rewardGoldLabel->setPosition(rewardGoldGroup->getNextPosition());
+        rewardGoldLabel->setPosition(rewardGoldGroup->getNextHorizontalPosition());
         rewardGoldGroup->addChild(rewardGoldLabel);
 
         MainRect->addChild(rewardGoldGroup);
