@@ -87,7 +87,7 @@ void MainScene::initUIMenuItems()
                                   "MenuFont",
                                   itemNamesSceneNamesMapping[menuIndex].second,
                                   x, y, 200, 50);
-        y += 96;
+        y = MainRect->getNextVerticalPosition().y;
 
     }
 

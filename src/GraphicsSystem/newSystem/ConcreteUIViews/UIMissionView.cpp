@@ -36,8 +36,12 @@ void UIMissionView::init(Mission &aMission, Font &aFont)
 void UIMissionView::initGoals(Mission &aMission, Font &aFont)
 {
     auto missionGoalsGroup = std::make_shared<ConcreteComposite>(renderer);
-    missionGoalsGroup->setPosition(getNextVerticalPosition());
+    missionGoalsGroup->setScalingFactor(getScalingFactor());
     missionGoalsGroup->setSize(Size(this->getSize().width, this->getSize().height/4));
+    missionGoalsGroup->setPosition(getNextVerticalPosition());
+
+
+
 
     list<std::shared_ptr<BasicGoal>> goals = aMission.getGoals();
     for(auto& goal : goals)
@@ -45,7 +49,7 @@ void UIMissionView::initGoals(Mission &aMission, Font &aFont)
         if (goal != nullptr)
         {
             std::shared_ptr<ResourceGoal> resGoal = std::dynamic_pointer_cast<ResourceGoal>(goal);
-//            ResourceGoal* resGoal = dynamic_cast<ResourceGoal*>(goal.get());
+
             if (resGoal != nullptr)
             {
                 auto missionGoalIcon = std::make_shared<UIImage>(renderer);
@@ -72,6 +76,8 @@ void UIMissionView::initGoals(Mission &aMission, Font &aFont)
 void UIMissionView::initRewards(Mission &aMission, Font &aFont)
 {
     auto missionRewardsGroup = std::make_shared<ConcreteComposite>(renderer);
+    missionRewardsGroup->setScalingFactor(getScalingFactor());
+
     missionRewardsGroup->setPosition(getNextVerticalPosition());
     missionRewardsGroup->setSize(Size(this->getSize().width, this->getSize().height/4));
 
@@ -100,7 +106,10 @@ void UIMissionView::initRewards(Mission &aMission, Font &aFont)
 
     Position goldIconPos = missionRewardsGroup->getNextVerticalPosition();
     auto missionRewardGoldIcon = std::make_shared<UIImage>(renderer);
+
     missionRewardGoldIcon->setSize(Size(48, 48));
+    missionRewardGoldIcon->setScalingFactor(getScalingFactor());
+
     missionRewardGoldIcon->setPosition(goldIconPos);
     string goldIconFilePath = "GameData/textures/Resources/Gold.png";
     missionRewardGoldIcon->loadTexture(goldIconFilePath);
@@ -112,6 +121,8 @@ void UIMissionView::initRewards(Mission &aMission, Font &aFont)
     string rewardCoins = std::to_string(aMission.getReward().getGoldCoins());
 
     auto missionRewardGoldLabel = std::make_shared<UILabel>(rewardCoins, aFont, renderer);
+    missionRewardGoldLabel->setScalingFactor(getScalingFactor());
+
     missionRewardGoldLabel->setPosition(labelGoldPos);
 
     missionRewardsGroup->addChild(missionRewardGoldLabel);

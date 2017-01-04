@@ -22,10 +22,10 @@ private:
     mutable std::shared_ptr<RenderingSystem> renderer;
 
     weak_ptr<IComposite> parent;
-    Position localPosition;
+    Position localPosition{0,0};
     double mScaleFactor = 0.0;
 protected:
-    Size mScaledSize;
+    Size mScaledSize{0,0};
 
 
     // IComposite interface

@@ -22,19 +22,21 @@ using std::endl;
 #include "Scenes/ShopScene.h"
 #include "Scenes/ScoreScene.h"
 #include <string>
+
 GameApp::GameApp(std::unique_ptr<SceneManager> aSceneManager, std::unique_ptr<RenderingSystem>&& aRenderer)
 : mRenderer(std::move(aRenderer))
 , mSceneManager(std::move(aSceneManager))
 , mInputDispatcher(std::make_shared<InputDispatcher>(mRenderer->getScreenSize()))
-, paused(false)
-, needQuit(false)
+, mIsPaused(false)
+, mNeedQuit(false)
 {
     FontManager::getInstance()->loadFontList("GameData/fontconfig.txt", mRenderer);
 
 }
 
-void GameApp::preloadedData()
+void GameApp::preloadData()
 {
+    // Нужны только названия ресурсов, а не полная ресурсная модель, которая отличается на разных миссиях
     GameModel::getInstance()->getResourcesModel()->loadFromFile("GameData/resources.txt");
 
     GameModel::getInstance()->loadShopItems("GameData/Items.xml");
@@ -101,43 +103,36 @@ int GameApp::gameLoop()
     }
     catch (std::exception &ex)
     {
-        cout << "Exception: " << ex.what() << endl;
+        std::cerr << "Exception: " << ex.what() << std::endl;
         return 1;
     }
 
 	return 0;
 }
 
-int GameApp::renderScene(std::shared_ptr<Scene> scene)
+void GameApp::renderScene(std::shared_ptr<Scene> scene)
 {
-    if (mRenderer != nullptr)
+    if (mRenderer == nullptr || scene == nullptr)
     {
-
-        mRenderer->renderClear();
-
-        if (scene != nullptr)
-        {
-            scene->copyToRender();
-        }
-        else
-            cout << "Scene is null!" << endl;
-
-        mRenderer->renderPresent();
-
+        return;
     }
 
-    return 0;
+    mRenderer->renderClear();
+    scene->copyToRender();
+    mRenderer->renderPresent();
 }
 
 bool GameApp::isPaused()
 {
-    return paused;
+    return mIsPaused;
 }
 
 void GameApp::updateScene(std::shared_ptr<Scene> scene, double timestep)
 {
     if (scene != nullptr)
+    {
         scene->startUpdate(timestep);
+    }
 }
 
 bool GameApp::processInput()
@@ -154,39 +149,45 @@ bool GameApp::processInput()
 
             mSceneManager->getCurrentScene()->onlyTestMoveCamera(deltaPos);
         }
-        if (event.type == SDL_QUIT)
+        else if (event.type == SDL_QUIT)
         {
-            //bsceneManager->getCurrentScene()->onGameQuit();
-            needQuit = true;
+            mNeedQuit = true;
         }
         else
+        {
             mInputDispatcher->sendEvent(event);
+        }
     }
 
-    return needQuit;
+    return mNeedQuit;
 }
 
 void GameApp::pause()
 {
-    paused = true;
+    mIsPaused = true;
 }
 
 void GameApp::unpause()
 {
-    paused = false;
+    mIsPaused = false;
 }
 
-void GameApp::receiveMessage(string msg)
+void GameApp::receiveMessage(string msg)//TODO: Изменить логику обработки сообщений.
 {
     if (msg == GlobalConstants::Paused)
-        pause();
-    else
-        if (msg == GlobalConstants::Resumed)
-            unpause();
-    else if (msg == "quit")
     {
-        needQuit = true;
+        pause();
     }
     else
-        std::cout << "Wrong message to GameApp" << std::endl;
+        if (msg == GlobalConstants::Resumed)
+        {
+            unpause();
+        }
+        else
+            if (msg == "quit")
+            {
+                mNeedQuit = true;
+            }
+            else
+                std::cout << "Wrong message to GameApp" << std::endl;
 }

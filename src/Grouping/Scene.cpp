@@ -24,6 +24,8 @@ Scene::Scene(std::shared_ptr<RenderingSystem> &aRenderer, std::shared_ptr<InputD
 , wasInited(false)
 , mCamera(Size(aRenderer->getScreenSize().width, aRenderer->getScreenSize().height))
 {
+
+    MainRect->setScalingFactor(renderer->getScalingFactor());
     MainRect->setSize(renderer->getScreenSize());
     MainRect->setPosition(Position(0, 0));
 }

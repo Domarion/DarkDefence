@@ -13,7 +13,4 @@ public:
 public:
     virtual Size getSize() const override;
     virtual void setSize(Size size) override;
-private:
-    Size mSize;
-
 };

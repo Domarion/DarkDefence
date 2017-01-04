@@ -19,7 +19,8 @@ void Composite::addChild(const shared_ptr<IComposite> &child)
         else
         {
             child->setParent(weak_this);
-            child->setScalingFactor(this->getScalingFactor());
+            if (child->getSize() != getSize())
+                child->setScalingFactor(this->getScalingFactor());
             children.push_back(child);
         }
     }
@@ -187,7 +188,16 @@ double Composite::getScalingFactor() const
 
 void Composite::setScalingFactor(double aScaleFactor)
 {
+    if (mScaleFactor == aScaleFactor)
+        return;
+
     mScaleFactor = aScaleFactor;
     mScaledSize = getSize();
     mScaledSize.multiplyBy(mScaleFactor);
+    setSize(mScaledSize);
+
+    for(auto& child : children)
+    {
+        child->setScalingFactor(mScaleFactor);
+    }
 }

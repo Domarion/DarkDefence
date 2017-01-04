@@ -7,7 +7,7 @@ RenderingSystem::RenderingSystem(const Size &aScreenSize)
     :   window(SDL_CreateWindow("GameApp", 0, 0, aScreenSize.width, aScreenSize.height, SDL_WINDOW_SHOWN), [](SDL_Window* aWindow){SDL_DestroyWindow(aWindow);})
 ,   renderer(SDL_CreateRenderer(window.get(), -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC), [](SDL_Renderer* aRenderer){SDL_DestroyRenderer(aRenderer);})
 {
-
+    SDL_GetDisplayDPI(0, &mDdpi, nullptr, nullptr);
 }
 
 void RenderingSystem::renderTexture(SDL_Texture* texturePtr, Size aTextureSize,  Position aDestPosition)
@@ -128,6 +128,34 @@ Size RenderingSystem::getScreenSize() const
     SDL_GetWindowSize(window.get(), &screenSize.width, &screenSize.height);
 
     return screenSize;
+}
+
+Size RenderingSystem::getNativeSize() const
+{
+    return Size{800, 480};
+}
+
+double RenderingSystem::getScalingFactor() const //TODO:: Refactor this shit
+{
+    if (mDdpi >= 100 && mDdpi <= 120)
+        return 0.75;
+    if (mDdpi <= 180)
+        return 1;
+    if (mDdpi <= 240)
+        return 1.5;
+    if (mDdpi <= 280)
+        return 2;
+    if (mDdpi <= 320)
+        return 3;
+
+    if (mDdpi <=480)
+        return 4;
+    return 0.5;
+}
+
+double RenderingSystem::getDPI() const
+{
+    return mDdpi;
 }
 
 

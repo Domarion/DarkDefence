@@ -14,6 +14,12 @@ struct Size
          return width == right.width && height == right.height;
     }
 
+    bool operator!=( Size const & right) const
+    {
+        return !(*this == right);
+    }
+
+
     void multiplyBy(double aValue)
     {
         width *= aValue;

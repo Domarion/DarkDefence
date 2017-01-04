@@ -208,8 +208,8 @@ BOOST_FIXTURE_TEST_CASE(CompositeChildrenShouldBeScaledAndMoved, CompositeFixtur
 
     auto childComposite = std::make_shared<compositeT>();
     childComposite->setLocalPosition(pos);
-    childComposite->setScalingFactor(2);
     childComposite->setSize(Size(200, 300));
+    childComposite->setScalingFactor(2);
 
     auto childLeaf1 = std::make_shared<leafT>();
     childLeaf1->setLocalPosition(Position(50, 30));

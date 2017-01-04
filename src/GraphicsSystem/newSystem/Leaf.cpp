@@ -72,9 +72,13 @@ void Leaf::setLocalPosition(Position aPosition)
 
 void Leaf::setScalingFactor(double aScaleFactor)
 {
+    if (mScaleFactor == aScaleFactor)
+        return;
+
     mScaleFactor = aScaleFactor;
     mScaledSize = getSize();
     mScaledSize.multiplyBy(mScaleFactor);
+    setSize(mScaledSize);
 }
 
 double Leaf::getScalingFactor() const

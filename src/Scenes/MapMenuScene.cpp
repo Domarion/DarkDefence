@@ -58,7 +58,9 @@ void MapMenuScene::loadMissionView()
 
 
     auto currentMissionView = std::make_shared<UIMissionView>(renderer);
+
     currentMissionView->setSize(Size(MainRect->getSize().width/4*3, MainRect->getSize().height - 100));
+    currentMissionView->setScalingFactor(MainRect->getScalingFactor());
     currentMissionView->init(currentMission, FontManager::getInstance()->getFontByKind2("ButtonFont"));
     MainRect->addChild(currentMissionView);
 

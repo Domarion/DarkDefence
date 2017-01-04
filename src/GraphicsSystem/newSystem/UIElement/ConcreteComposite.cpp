@@ -8,11 +8,11 @@ ConcreteComposite::ConcreteComposite(std::shared_ptr<RenderingSystem> &aRenderin
 
 Size ConcreteComposite::getSize() const
 {
-    return mSize;
+    return mScaledSize;
 }
 
 void ConcreteComposite::setSize(Size size)
 {
-    mSize = size;
+    mScaledSize = size;
 }
 

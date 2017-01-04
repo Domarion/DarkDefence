@@ -313,9 +313,10 @@ void GameScene::initAbilitiesButtons()
 {
 
     mManaModel = std::make_shared<ManaGlobal>();
+    Size abilityButtonSize(96, 96);
 
-    Position abilityButtonPos(0, MainRect->getSize().height - 48);
-    Size abilityButtonSize(48, 48);
+    int abilityGroupHeight = static_cast<int>(abilityButtonSize.height * MainRect->getScalingFactor());
+    Position abilityButtonPos(0, MainRect->getSize().height - abilityGroupHeight);//TODO:: убрать абсолютное позиционирование, сделать относительное
 
 
     spellStorage.loadWithScene(shared_from_this(), mManaModel);
@@ -323,7 +324,7 @@ void GameScene::initAbilitiesButtons()
     auto abilityButtonsGroup = std::make_shared<ConcreteComposite>(renderer);
     abilityButtonsGroup->setSize(Size(MainRect->getSize().width/3, abilityButtonSize.height));
     abilityButtonsGroup->setPosition(abilityButtonPos);
-
+    abilityButtonsGroup->setScalingFactor(MainRect->getScalingFactor());
 
     size_t abilityButtonCount = GameModel::getInstance()->getAbilityCount();
 
@@ -356,7 +357,7 @@ void GameScene::initUILayer()
 
 
 
-    Size buttonSize(48, 48);
+    Size buttonSize(72, 72);
     auto pauseButton = std::make_shared<UIImageButton>(renderer);
     pauseButton->loadTexture("GameData/textures/pause-button.png");
     pauseButton->setSize(buttonSize);
@@ -383,7 +384,7 @@ void GameScene::placeResourcesPlaces()
     auto resPlace = std::make_shared<ResourcePlace>(700, Enums::ResourceTypes::STONE);
     auto resSprite = std::make_shared<AnimationSceneSprite>(renderer);
 
-    resSprite->setSize(Size(200, 200));
+    resSprite->setSize(Size(100, 100));
 
     string resourceName = GameModel::getInstance()->getResourcesModel()->getResourceNameFromIndex(static_cast<int> (resPlace->getResourceType()));
     string texturePath = "GameData/textures/Resources/" + resourceName + "Resource.png";

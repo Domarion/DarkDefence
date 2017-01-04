@@ -20,7 +20,7 @@ public:
     GameApp& operator=(const GameApp&) = delete;
 
     void initLibrary(int windowWidth, int windowHeight);
-    void preloadedData();
+    void preloadData();
     void addScenes();
     int gameLoop();
 
@@ -32,12 +32,12 @@ private:
     void unpause();
     bool processInput();
     void updateScene(std::shared_ptr<Scene> scene, double timestep);
-    int renderScene(std::shared_ptr<Scene> scene);
+    void renderScene(std::shared_ptr<Scene> scene);
     bool isPaused();
 	SDL_Event event;
     std::shared_ptr<RenderingSystem> mRenderer;
     std::shared_ptr<SceneManager> mSceneManager;
     std::shared_ptr<InputDispatcher> mInputDispatcher;
-    bool paused;
-    bool needQuit;
+    bool mIsPaused;
+    bool mNeedQuit;
 };
