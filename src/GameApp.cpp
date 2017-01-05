@@ -189,5 +189,7 @@ void GameApp::receiveMessage(string msg)//TODO: Изменить логику о
                 mNeedQuit = true;
             }
             else
+            {
                 std::cout << "Wrong message to GameApp" << std::endl;
+            }
 }

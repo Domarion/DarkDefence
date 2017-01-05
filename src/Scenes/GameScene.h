@@ -25,6 +25,7 @@ using std::vector;
 #include "../AbilitySystem/ItemAbilities/ItemAbilitiesStorage.h"
 
 #include "../GlobalScripts/ManaGlobal.h"
+#include "Utility/StructData.hpp"
 
 class GameScene: public Scene
 {
@@ -83,7 +84,7 @@ private:
 
     std::shared_ptr<TileMapManager> tileMap;
     std::shared_ptr<ManaGlobal> mManaModel;
-
+    vector<StructureData> mPositionsVector;
     void initResourceView();
     void initProgressBars();
 };

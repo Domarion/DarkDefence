@@ -19,7 +19,8 @@
 
 
 #include "../GlobalConstants.h"
-
+#include <sstream>
+#include <cereal/archives/xml.hpp>
 
 GameScene::GameScene(std::shared_ptr<RenderingSystem> &aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher)
 : Scene(aRenderer, aInputDispatcher)
@@ -223,6 +224,22 @@ void GameScene::loadData()
     string tileMapMatrixPath = "GameData/Missions/" + std::to_string(curIndex) + "/map.txt";
     vector<vector<int> > aMapTemplate = androidText::loadMatrixFromFile(tileMapMatrixPath);
     tileMap = std::make_shared<TileMapManager>(aMapTemplate);
+
+    string PositionsPath = "GameData/Missions/" + std::to_string(curIndex) + "/Positions.xml";
+
+    string textString;
+    androidText::loadTextFileToString(PositionsPath, textString);
+
+
+    if (!textString.empty())
+    {
+        std::stringstream str(textString);
+
+
+        cereal::XMLInputArchive xmlinp(str);
+        xmlinp(cereal::make_nvp("Positions", mPositionsVector));
+    }
+
 }
 
 void GameScene::initResourceView()
@@ -426,14 +443,54 @@ void GameScene::placeTowers()
 
 }
 
-void GameScene::placeSceneObjects()
+void GameScene::placeSceneObjects()//TODO: Найти лучшее решение для считывания и хранения позиций объектов
 {
     std::shared_ptr<SceneObject> Terrain = objectFabric.produce("Terrain", "none", "GameData/textures/terrain.png", 0 , 0, renderer );
     spawnObject(0,0, Terrain);
 
-    placeResourcesPlaces();
-    placeTowers();
-    placeCastle();
+    towerUpgradeController->init(shared_from_this(), renderer);
+
+    for(const auto& item : mPositionsVector)
+    {
+        if (item.Name.find("Tower") != std::string::npos)
+        {
+            std::shared_ptr<Tower> tower= towerFabric.produceTower(item.Name, renderer, towerUpgradeController, tileMap);
+            spawnObject(item.ImagePosition.x, item.ImagePosition.y, tower);
+        }
+        else
+            if (item.Name == "Gates")
+                {
+                    auto newView = std::make_shared<AnimationSceneSprite>(renderer);
+
+                     newView->setSize(item.ImageSize);
+                     newView->loadTexture("GameData/textures/Castle2.png");
+                     gates = std::make_shared<Gates>();
+                     gates->setSprite(newView);
+                     gates->setTag("Gates");
+                     gates->getDestructibleObject()->connectMethod(std::bind(&UIProgressBar::calculateProgress, gatesHealthBar, std::placeholders::_1, std::placeholders::_2));
+                     gates->getDestructibleObject()->setMaximumHealth(5000);
+                     spawnObject(item.ImagePosition.x, item.ImagePosition.y, gates);
+                }
+                else
+                    if (item.Name == "ResourceStone")
+                    {
+                        auto resPlace = std::make_shared<ResourcePlace>(700, Enums::ResourceTypes::STONE);
+                        auto resSprite = std::make_shared<AnimationSceneSprite>(renderer);
+
+                        resSprite->setSize(item.ImageSize);
+
+                        string resourceName = GameModel::getInstance()->getResourcesModel()->getResourceNameFromIndex(static_cast<int> (resPlace->getResourceType()));
+                        string texturePath = "GameData/textures/Resources/" + resourceName + "Resource.png";
+                        resSprite->loadTexture(texturePath);
+                        resPlace->setSprite(resSprite);
+                        resPlace->setName("ResourcePlace");
+                        resPlace->setTag("ResourcePlace");
+                        spawnObject(item.ImagePosition.x, item.ImagePosition.y, resPlace);
+                    }
+        }
+//    placeResourcesPlaces();
+//    placeTowers();
+//    placeCastle();
 }
 
 void GameScene::applyArtefactEffects()

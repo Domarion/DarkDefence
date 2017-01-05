@@ -175,6 +175,7 @@ set(SRC_LIST
     GraphicsSystem/newSystem/UIElement/HorizontalPanel.h
     GraphicsSystem/newSystem/UIElement/UIProgressBar.h
     GraphicsSystem/newSystem/UtilityStructs.h
+    Utility/StructData.hpp
     GraphicsSystem/newSystem/Texture2D.h
     GraphicsSystem/newSystem/Leaf.h
     Enums.h

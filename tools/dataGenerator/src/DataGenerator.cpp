@@ -14,6 +14,7 @@
 #include <cereal/types/memory.hpp>
 #include <array>
 using std::array;
+#include "Utility/StructData.hpp"
 
 DataGenerator::DataGenerator()
 {
@@ -274,4 +275,30 @@ void DataGenerator::saveAnim()
         androidText::saveAnimsToFile(binaryDataFile, anims);
         SDL_RWclose(binaryDataFile);
     }
+}
+
+void DataGenerator::savePositions()
+{
+
+
+    vector<StructureData> dataVector{ {"WatcherTower", Size{50, 80}, Position{10, 300}},
+                                         {"WatcherTower", Size{50, 80}, Position{60, 300}},
+                                         {"WatcherTower", Size{50, 80}, Position{110, 300}},
+                                         {"WatcherTower", Size{50, 80}, Position{160, 300}},
+                                         {"WatcherTower", Size{50, 80}, Position{210, 300}},
+                                         {"Spawner", Size{70, 70}, Position{350, 200}},
+                                         {"Gates", Size{80, 80}, Position{20, 150}},
+                                         {"ResourceStone", Size{60, 50}, Position{200, 100}}
+                                        };
+
+    std::string filePath = "/home/kostya_hm/Positions.xml";
+    std::ofstream outputXMLFile(filePath);
+
+    if (outputXMLFile.good())
+    {
+        cereal::XMLOutputArchive xmloa (outputXMLFile);
+        xmloa << cereal::make_nvp("Positions", dataVector);
+
+    }
+    outputXMLFile.close();
 }

@@ -10,5 +10,6 @@ int main()
     dataGenerator.saveMonsterCollection();
 
     dataGenerator.saveMineCollection();
+    dataGenerator.savePositions();
     return 0;
 }
