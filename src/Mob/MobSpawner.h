@@ -6,32 +6,37 @@
  */
 
 #pragma once
-
-#include "Mob.h"
+#include <string>
 #include <utility>
 #include <vector>
-#include "../GlobalScripts/TileMapManager.h"
+#include <functional>
+
+using std::string;
 
 class MobSpawner
 {
 public:
-    MobSpawner(std::shared_ptr<RenderingSystem>& aRenderingContext);
+    MobSpawner();
     virtual ~MobSpawner() = default;
-    void loadWavesInfo(string filename);
+    void loadWavesInfo(std::string filename);
 	bool canSpawn(double timestep);
-    std::unique_ptr<list<std::shared_ptr<Mob> > > doSpawn(std::shared_ptr<TileMapManager> aTileMap = nullptr);
     bool noMoreWaves() const;
     double getCurrentTime() const;
-
+    bool isSpawned() const;
     int getWaveNumber() const;
     int getWaveCount() const;
     string getWaveStringInfo();
     void reset();
+    std::vector<std::pair<string, int> > getCurrentWaveInfo();
+    void connectInfoProcesser(std::function<void(string)> aInfoProcesser);
+    void update(double timestep);
+    void disconnectInfoProcesser();
 private:
-    std::shared_ptr<RenderingSystem> renderer;
     double period;
     double currentTime;
     size_t waveNumber, waveCount;
     std::vector<std::vector<std::pair<string, int> > > wavesInfo;
+    std::function<void(string)> mInfoProcesser;
+    std::string previousValue{};
 
 };

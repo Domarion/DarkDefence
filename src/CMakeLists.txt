@@ -95,6 +95,7 @@ set(SRC_LIST
     Mob/ResourcePlace.h
     Mob/MobSpawner.h
     Mob/EnemyInfo.h
+    Mob/Spawner.h
     Utility/TreeNode.hpp
     Utility/TreeNode_impl.hpp
     Utility/textfilefunctions.h
@@ -218,6 +219,7 @@ set(SRC_LIST
     Mob/TowerUpgradeController.cpp
     Mob/Tower.cpp
     Mob/ResourcePlace.cpp
+    Mob/Spawner.cpp
     Utility/textfilefunctions.cpp
     MissionSystem/Reward.cpp
     MissionSystem/ResourceGoal.cpp

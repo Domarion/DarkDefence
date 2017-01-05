@@ -7,7 +7,7 @@
 
 #pragma once
 #include "../Grouping/Scene.h"
-#include "../Mob/MobSpawner.h"
+#include "../Mob/Spawner.h"
 #include "../Grouping/SceneObjectFabric.h"
 #include "../GraphicsSystem/newSystem/UIElement/UILabel.h"
 #include "../GraphicsSystem/newSystem/UIElement/UIProgressBar.h"
@@ -42,6 +42,8 @@ public:
     void sendMessage(string msgText);
 
     std::shared_ptr<ManaGlobal> getManaModel() const;
+    void processWaveInfo(std::string aInfo);
+
 private:
 
     void loadData();
@@ -57,6 +59,7 @@ private:
 
     void applyArtefactEffects();
 
+
     std::shared_ptr<Gates> gates;
     std::shared_ptr<UIProgressBar> gatesHealthBar, manaBar;
     std::shared_ptr<UILabel> pointsLabel;
@@ -68,7 +71,7 @@ private:
     vector<std::shared_ptr<UILabel> > resourceLabels;
 
     TowerFabric towerFabric;
-	MobSpawner monsterSpawner;
+    std::shared_ptr<Spawner> monsterSpawner;
 
 
     Mission currentMission;

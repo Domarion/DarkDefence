@@ -6,15 +6,14 @@
  */
 
 #include "MobSpawner.h"
+#include "GlobalScripts/GameModel.h"
 #include "../Utility/textfilefunctions.h"
-#include "../GlobalScripts/GameModel.h"
 #include <fstream>
 #include <sstream>
 using std::stringstream;
 
-MobSpawner::MobSpawner(std::shared_ptr<RenderingSystem> &aRenderingContext)
-    : renderer(aRenderingContext)
-    , period(5000)
+MobSpawner::MobSpawner()
+    : period(5000)
     , currentTime(period)
     , waveNumber(0)
     , waveCount(0)
@@ -22,7 +21,6 @@ MobSpawner::MobSpawner(std::shared_ptr<RenderingSystem> &aRenderingContext)
 
 {
 }
-
 
 void MobSpawner::loadWavesInfo(string filename)
 {
@@ -74,62 +72,6 @@ bool MobSpawner::canSpawn(double timestep)
 
 
 
-std::unique_ptr<list<std::shared_ptr<Mob>>> MobSpawner::doSpawn(std::shared_ptr<TileMapManager> aTileMap)
-{
-    auto some = std::make_unique<std::list<shared_ptr<Mob>>>();
-    size_t n = wavesInfo[waveNumber - 1].size();
-    std::cout << n << std::endl;
-    if (aTileMap == nullptr)
-    {
-        std::cout << "doSpawn aTileMap nullptr" << std::endl;
-    }
-    for(size_t i = 0; i < n; ++i)
-    {
-        string monsterName = (wavesInfo[waveNumber - 1])[i].first;
-        int monsterCount = (wavesInfo[waveNumber - 1])[i].second;
-
-        for(int index = 0; index < monsterCount; ++index)
-        {
-            auto someMob = std::make_shared<Mob>(GameModel::getInstance()->getMonsterByName(monsterName), aTileMap);
-
-
-            if (someMob->getTileMapManager() == nullptr)
-            {
-                std::cout << "someMob->getTileMapManager = nullptr" << std::endl;
-            }
-            auto someSprite = std::make_shared<AnimationSceneSprite>(renderer);
-
-
-            someSprite->setSize(Size( 50, 80));
-            someSprite->loadTexture("GameData/textures/Monsters/" + monsterName + "Sheet.png");
-
-
-
-            map<string, vector<SDL_Rect> > anims;
-
-            std::string filename = "GameData/anims/Monsters/" + monsterName + ".anim";
-            androidText::setRelativePath(filename);
-            androidText::loadAnimFromFile(filename, anims);
-
-            for(auto& anim : anims)
-            {
-                someSprite->setAnimRects(anim.first, anim.second);
-            }
-
-            someMob->setSprite(someSprite);
-            some->push_back(someMob);
-
-            if (someMob->getTileMapManager() == nullptr)
-            {
-                std::cout << "someMob->getTileMapManager = nullptr1" << std::endl;
-            }
-        }
-    }
-
-    return some;
-
-}
-
 bool MobSpawner::noMoreWaves() const
 {
     return (waveNumber == waveCount) && GameModel::getInstance()->canSpawn();
@@ -138,6 +80,11 @@ bool MobSpawner::noMoreWaves() const
 double MobSpawner::getCurrentTime() const
 {
     return currentTime;
+}
+
+bool MobSpawner::isSpawned() const
+{
+    return !GameModel::getInstance()->canSpawn();
 }
 
 
@@ -174,6 +121,11 @@ string MobSpawner::getWaveStringInfo()
         }
     }
 
+    if (mInfoProcesser && previousValue != s && s != "none")
+    {
+        mInfoProcesser(s);
+        previousValue = s;
+    }
    return s;
 
 }
@@ -183,6 +135,59 @@ void MobSpawner::reset()
     waveNumber = waveCount = 0;
     currentTime = period;
     wavesInfo.clear();
+}
+
+
+std::vector<std::pair<string, int> > MobSpawner::getCurrentWaveInfo()
+{
+    return wavesInfo[waveNumber - 1];
+}
+
+void MobSpawner::connectInfoProcesser(std::function<void (std::string)> aInfoProcesser)
+{
+    mInfoProcesser = aInfoProcesser;
+}
+
+void MobSpawner::update(double timestep)
+{
+    if (GameModel::getInstance()->canSpawn())
+    {
+        std::string info{"none"};
+
+        if (waveNumber != waveCount)
+        {
+            if (currentTime > 1e-3)
+            {
+                int i = static_cast<int>(currentTime)/1000;
+                info = "Wave in: " + std::to_string(i);
+                currentTime -= timestep;
+            }
+            else
+            {
+                ++waveNumber;
+
+                currentTime = period;
+                GameModel::getInstance()->calculatePointsPerWave();
+
+
+                info = std::to_string(waveNumber) + " / " + std::to_string(waveCount);
+
+
+            }
+        }
+        else
+            info = "No more waves";
+
+        if (mInfoProcesser)
+        {
+            mInfoProcesser(info);
+        }
+    }
+}
+
+void MobSpawner::disconnectInfoProcesser()
+{
+    mInfoProcesser = nullptr;
 }
 
 

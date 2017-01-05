@@ -11,8 +11,6 @@
 #include <cmath>
 #include "../GlobalScripts/GameModel.h"
 #include <iostream>
-#include <cstdlib>
-#include <ctime>
 #include "../Input/InputDispatcher.h"
 #include "../Utility/textfilefunctions.h"
 #include "../GraphicsSystem/newSystem/UIElement/UIImageButton.h"
@@ -29,14 +27,13 @@ GameScene::GameScene(std::shared_ptr<RenderingSystem> &aRenderer, std::shared_pt
 , manaBar(nullptr)
 , pointsLabel(nullptr)
 , waveLabel(nullptr)
-, monsterSpawner(aRenderer)
+, monsterSpawner()
 , itemAbilitiesStorage()
 , towerUpgradeController(std::make_shared<TowerUpgradeController>())
 , tileMap(nullptr)
 , mManaModel(nullptr)
 
 {
-    srand (static_cast<unsigned int>(time(NULL)));
 }
 
 GameScene::~GameScene()
@@ -104,45 +101,7 @@ void GameScene::startUpdate(double timestep)
     }
     }
 
-    if (waveLabel != nullptr)
-    {
-    waveLabel->setText(monsterSpawner.getWaveStringInfo());
-    if (monsterSpawner.canSpawn(timestep))
-	{
-        if (tileMap == nullptr)
-        {
-            std::cout << "TileIsNullinGameScene" << std::endl;
-        }
 
-        auto some = monsterSpawner.doSpawn(tileMap);
-
-        for(auto ptr = some->begin(); ptr != some->end(); ++ptr)
-        {
-            int x = rand() % 5 +3;
-            int y = rand() % 5 +3;
-            if ((*ptr)->getTileMapManager() == nullptr)
-            {
-                std::cout << "ptr->getTileMapManager = nullptr1" << std::endl;
-            }
-            spawnObject(x*70,y*50,*ptr);
-            if ((*ptr)->getTileMapManager() == nullptr)
-            {
-                std::cout << "afterspqn->getTileMapManager = nullptr1" << std::endl;
-            }
-
-
-        }
-    }
-    else
-        if(monsterSpawner.noMoreWaves())
-        {
-             waveLabel->setText(monsterSpawner.getWaveStringInfo());
-            GameModel::getInstance()->setGameStatus(Enums::GameStatuses::gsWON);
-            GameModel::getInstance()->setMissionReward(currentMission.getReward());
-            std::string s2 = "ScoreScene";
-            getParentSceneManager()->setCurrentSceneByName(s2);
-        }
-    }
     if (pointsLabel != nullptr)
         pointsLabel->setText(std::to_string(GameModel::getInstance()->getPointsPerWave()));
 
@@ -217,7 +176,6 @@ void GameScene::loadData()
     GameModel::getInstance()->loadMonsterList("GameData/MonsterList.xml");
 
     GameModel::getInstance()->loadTowerUpgrades("GameData/TowerTree.xml");
-    monsterSpawner.loadWavesInfo("GameData/wavesInfo.txt");
 
     GameModel::getInstance()->loadAbilitiesNames("GameData/abilities.txt");
 
@@ -487,6 +445,23 @@ void GameScene::placeSceneObjects()//TODO: Найти лучшее решени�
                         resPlace->setTag("ResourcePlace");
                         spawnObject(item.ImagePosition.x, item.ImagePosition.y, resPlace);
                     }
+                    else
+                        if (item.Name == "Spawner")
+                        {
+                            auto spawnerSprite = std::make_shared<AnimationSceneSprite>(renderer);
+
+                            spawnerSprite->setSize(item.ImageSize);
+
+                            string spawnertexturePath = "GameData/textures/spawner.png";
+                            spawnerSprite->loadTexture(spawnertexturePath);
+                            monsterSpawner = std::make_shared<Spawner>();
+                            monsterSpawner->setSprite(spawnerSprite);
+                            monsterSpawner->setName("Spawner");
+                            monsterSpawner->setTag("Spawner");
+                            monsterSpawner->loadWavesInfo();
+                            spawnObject(item.ImagePosition.x, item.ImagePosition.y, monsterSpawner);
+                            monsterSpawner->connectInfoProcesser(std::bind(&GameScene::processWaveInfo, this, std::placeholders::_1));
+                        }
         }
 //    placeResourcesPlaces();
 //    placeTowers();
@@ -507,7 +482,37 @@ void GameScene::applyArtefactEffects()
             temp->init(shared_from_this(), mManaModel);
     }
 
-      std::cout << "productionOfMine AfterItemApplyis = " << (GameModel::getInstance()->getMineModelFromListByRes(Enums::ResourceTypes::WOOD)->getProduction()) << std::endl;
+    std::cout << "productionOfMine AfterItemApplyis = " << (GameModel::getInstance()->getMineModelFromListByRes(Enums::ResourceTypes::WOOD)->getProduction()) << std::endl;
+}
+
+void GameScene::processWaveInfo(std::string aInfo)
+{
+    if (waveLabel == nullptr || aInfo == "none")
+    {
+        return;
+    }
+    waveLabel->setText(aInfo);
+
+    if (aInfo.find(" / ") != std::string::npos)
+    {
+        if (tileMap == nullptr)
+        {
+            std::cout << "TileIsNullinGameScene" << std::endl;
+        }
+        monsterSpawner->doSpawn(renderer, tileMap);
+        return;
+    }
+
+    if ("No more waves" == aInfo)
+    {
+        monsterSpawner->disconnectInfoProcesser();
+        GameModel::getInstance()->setGameStatus(Enums::GameStatuses::gsWON);
+        GameModel::getInstance()->setMissionReward(currentMission.getReward());
+        std::string s2 = "ScoreScene";
+        getParentSceneManager()->setCurrentSceneByName(s2);
+    }
+
+
 }
 
 
@@ -520,7 +525,11 @@ void GameScene::clear()
     gatesHealthBar = nullptr;
     gates = nullptr;
     currentMission.reset();
-    monsterSpawner.reset();
+    if (monsterSpawner)
+    {
+        monsterSpawner->disconnectInfoProcesser();
+        monsterSpawner.reset();
+    }
     mManaModel = nullptr;
     GameModel::getInstance()->getResourcesModel()->loadFromFile("GameData/resources.txt");
     Scene::clear();
