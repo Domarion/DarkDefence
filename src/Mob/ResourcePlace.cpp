@@ -48,7 +48,9 @@ bool ResourcePlace::onClick(Position point)
            //std::cout << "resType =" << resourceType << std::endl;
         std::unique_ptr<MineModel> tempMineModel = GameModel::getInstance()->getMineModelByRes(resourceType);
         tempMineModel->setLimit(this->limit);
-        auto tempMine = std::make_shared<Mine>();
+
+        Size resourcePlaceSize =  getSprite()->getSize();
+        auto tempMine = std::make_shared<Mine>(resourcePlaceSize);
 
         std::string mineName = tempMineModel->getName();
 

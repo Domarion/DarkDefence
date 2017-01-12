@@ -2,10 +2,11 @@
 #include "ResourcePlace.h"
 #include "../GlobalScripts/GameModel.h"
 
-Mine::Mine()
+Mine::Mine(Size aResourcePlaceSize)
     : model(nullptr)
     , mineEffectReceiver(std::make_shared<DestructibleObjectEffectReceiver>())
     , destructionLoss(300)
+    , mResourcePlaceSize(aResourcePlaceSize)
 {
 
 }
@@ -30,7 +31,7 @@ bool Mine::update(double timestep)
 
             auto resPlace = std::make_shared<ResourcePlace>(resPlaceLimit, model->getProductionType());
             auto resSprite = std::make_shared<AnimationSceneSprite>(parentScenePtr.lock()->getRenderer());
-            resSprite->setSize(Size(200, 200));
+            resSprite->setSize(mResourcePlaceSize);
 
             std::string resourceName = GameModel::getInstance()->getResourcesModel()->getResourceNameFromIndex(static_cast<size_t>(model->getProductionType()));
             resSprite->loadTexture("GameData/textures/Resources/" + resourceName + "Resource.png");
@@ -63,7 +64,7 @@ std::shared_ptr<EffectReceiver> Mine::getEffectReceiver() const
     return mineEffectReceiver;
 }
 
-std::shared_ptr<MineModel>  Mine::getMineModel()
+std::shared_ptr<MineModel> Mine::getMineModel()
 {
     return model;
 }

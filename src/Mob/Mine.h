@@ -6,7 +6,7 @@
 class Mine: public SceneObject
 {
 public:
-    Mine();
+    Mine(Size aResourcePlaceSize);
 
     // SceneObject interface
 public:
@@ -21,5 +21,6 @@ private:
     std::shared_ptr<MineModel> model;
     std::shared_ptr<DestructibleObjectEffectReceiver> mineEffectReceiver;
     int destructionLoss;
+    Size mResourcePlaceSize;
 };
 
