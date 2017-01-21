@@ -39,7 +39,7 @@ protected:
     weak_ptr<IComposite> parent;
     Position localPosition{0, 0};
     double mScaleFactor = 0.0;
-    Size mScaledSize;
+    Size mScaledSize{0, 0};
     // IComposite interface
 public:
     virtual Position getLocalPosition() const override;
