@@ -14,6 +14,9 @@ using std::list;
 #include "../GraphicsSystem/newSystem/UIElement/UITextButton.h"
 #include "../GlobalScripts/GameModel.h"
 #include <iostream>
+#include <algorithm>
+
+
 Scene::Scene(std::shared_ptr<RenderingSystem> &aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher)
 : renderer(aRenderer)
 , mInputDispatcher(aInputDispatcher)
@@ -126,6 +129,46 @@ void Scene::removeFromUIList(const std::shared_ptr<IComposite> &item)
 
     if (handler != nullptr)
         mInputDispatcher->removeHandler(handler);
+}
+
+void Scene::replaceObject(std::shared_ptr<SceneObject> aObject, std::shared_ptr<SceneObject> aReplacement)
+{
+
+    auto comparator = [&aObject](std::shared_ptr<SceneObject>& aRight)
+        {
+           return aObject->getTag() == aRight->getTag() && aObject->getPosition() == aRight->getPosition();//TODO: нужно нормальное сравнение объёектов сцены
+        };
+
+    auto obj = std::find_if(sceneObjects.begin(), sceneObjects.end(), comparator);
+    if (obj != sceneObjects.cend())
+    {
+        *obj = aReplacement;
+
+        int x = aObject->getPosition().x;
+        int y = aObject->getPosition().y;
+
+
+
+        (*obj)->setParentScene(shared_from_this());
+
+
+        (*obj)->init(x, y);
+
+        auto handler = std::dynamic_pointer_cast<InputHandler>(*obj);
+
+        if (handler != nullptr)
+            mInputDispatcher->addHandler(handler);
+
+
+        auto handler1 = std::dynamic_pointer_cast<InputHandler>(aObject);
+
+        if (handler1 != nullptr)
+            mInputDispatcher->removeHandler(handler1);
+
+        aObject->finalize();
+
+    }
+
 }
 
 void Scene::addAsInputHandler(std::shared_ptr<InputHandler> item)

@@ -5,7 +5,7 @@
 Mine::Mine(Size aResourcePlaceSize)
     : model(nullptr)
     , mineEffectReceiver(std::make_shared<DestructibleObjectEffectReceiver>())
-    , destructionLoss(300)
+    , destructionLoss(300) //TODO: Перенести в конфиг для MineModel
     , mResourcePlaceSize(aResourcePlaceSize)
 {
 

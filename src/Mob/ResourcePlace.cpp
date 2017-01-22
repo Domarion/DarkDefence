@@ -70,10 +70,11 @@ bool ResourcePlace::onClick(Position point)
         tempMine->setName(mineName);
         tempMine->setTag("Mine");
         tempMine->setSprite(sprt);
-         std::cout << "x = " << (this->getX()) << " y = " << (this->getY()) << std::endl;
-        parentScenePtr.lock()->spawnObject(this->getX(), this->getY(), tempMine);
+//         std::cout << "x = " << (this->getX()) << " y = " << (this->getY()) << std::endl;
 
-        parentScenePtr.lock()->destroyObject(shared_from_this());
+
+        parentScenePtr.lock()->replaceObject(shared_from_this(), tempMine);
+
         return true;
     }
     return false;
