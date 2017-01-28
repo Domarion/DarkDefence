@@ -25,7 +25,7 @@ bool UIScrollList::onDrag(int direction)
     if (direction == 0 || children.empty())
         return false;
 
-    size_t points = abs(direction);
+    size_t points = abs(direction)/3 + 1;
     if (direction > 0)
         scrollUp(points);
     else
