@@ -65,11 +65,11 @@ void Spawner::doSpawn(std::shared_ptr<RenderingSystem>& aRenderingContext, std::
                 someSprite->setAnimRects(anim.first, anim.second);
             }
 
-            int x = rand() % 10 + 1;
-            int y = rand() % 7 + 1;
+//            int x = rand() % 10 + 1;
+//            int y = rand() % 7 + 1;
 
             someMob->setSprite(someSprite);
-            getParentScene()->spawnObject(getPosition().x - x * 15, getPosition().y - y * 10, someMob);
+            getParentScene()->spawnObject(getPosition().x - /*x **/ 15, getPosition().y /*- y * 10*/, someMob);
 
         }
     }

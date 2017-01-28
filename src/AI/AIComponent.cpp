@@ -157,7 +157,7 @@ void AIComponent::Reload(double timestep)
 void AIComponent::MovetoTile(double timestep)
 {
 
-   const static pair<int, int> emptyCell = std::make_pair<int, int>(-1, -1);
+   const static pair<int, int> emptyCell = std::make_pair(TileMapManager::EmptyCell, TileMapManager::EmptyCell);
     static pair<int, int> nextCell = emptyCell;
     if (currentTarget == nullptr)
     {
@@ -187,7 +187,12 @@ void AIComponent::MovetoTile(double timestep)
     }
 
     if ((MobPtr.lock()->getTag() == "Tower"))
+    {
         return;
+    }
+    std::cout << "MOBPOS = {" << mobPos.first << ", " << mobPos.second
+              << "} TARGETPOS {" << targetPos.first << ", " << targetPos.second << std::endl;
+
 
     if ((nextCell == emptyCell)|| (nextCell == mobPos))
     {

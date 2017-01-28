@@ -2,6 +2,7 @@
 #include "SDL_Engine.h"
 #include "Utility/textfilefunctions.h"
 #include <SDL_image.h>
+#include <fstream>
 
 void saveTerrain(std::string filename, std::string outputFilePath);
 
@@ -27,7 +28,27 @@ void saveTerrain(std::string filename, std::string outputFilePath)
         std::cerr << "SDL has error " << IMG_GetError() << std::endl;
     }
 
+    Size tileSize =  tileCollection.getTileSize();
 
+    auto pathMatrix = tileCollection.getPathMatrix();
+
+    std::ofstream pathFile(outputFilePath + ".txt");
+
+    pathFile << pathMatrix.size() << '\t' << pathMatrix[0].length() << std::endl;
+    for(const auto& line : pathMatrix)
+    {
+        pathFile << line[0];
+
+        for(size_t index = 1; index < line.length(); ++index)
+        {
+            pathFile << '\t' << line[index];
+        }
+
+        pathFile << std::endl;
+    }
+    pathFile << tileSize.width << '\t' << tileSize.height;
+
+    pathFile.close();
 //    renderer->renderClear();
 //    targetTexture.drawAtPosition(Position());
 //    renderer->renderPresent();
@@ -37,6 +58,12 @@ void saveTerrain(std::string filename, std::string outputFilePath)
 
 int main(int argc, char** argv)
 {
+    if (argc == 1 && argv[1] == "help")
+    {
+        std::cout << "HELP: First argument is full path to config file second - full path to output png image" << std::endl;
+        return 0;
+    }
+
     if (argc != 3)
     {
         std::cerr << "wrong argument count. Expected 2" << std::endl;

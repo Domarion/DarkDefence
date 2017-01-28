@@ -41,15 +41,15 @@
 			<Name>Spawner</Name>
 			<Width>70</Width>
 			<Height>70</Height>
-			<PositionX>350</PositionX>
-			<PositionY>200</PositionY>
+			<PositionX>600</PositionX>
+			<PositionY>288</PositionY>
 		</value5>
 		<value6>
 			<Name>Gates</Name>
 			<Width>90</Width>
 			<Height>90</Height>
-			<PositionX>50</PositionX>
-			<PositionY>150</PositionY>
+			<PositionX>48</PositionX>
+			<PositionY>288</PositionY>
 		</value6>
 		<value7>
 			<Name>ResourceStone</Name>

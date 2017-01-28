@@ -41,22 +41,22 @@
 			<Name>Spawner</Name>
 			<Width>70</Width>
 			<Height>70</Height>
-			<PositionX>350</PositionX>
-			<PositionY>200</PositionY>
+			<PositionX>620</PositionX>
+			<PositionY>288</PositionY>
 		</value5>
 		<value6>
 			<Name>Gates</Name>
 			<Width>80</Width>
 			<Height>80</Height>
 			<PositionX>20</PositionX>
-			<PositionY>150</PositionY>
+			<PositionY>288</PositionY>
 		</value6>
 		<value7>
 			<Name>ResourceStone</Name>
 			<Width>60</Width>
 			<Height>50</Height>
-			<PositionX>200</PositionX>
-			<PositionY>100</PositionY>
+			<PositionX>300</PositionX>
+			<PositionY>288</PositionY>
 		</value7>
 	</Positions>
 </cereal>
