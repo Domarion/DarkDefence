@@ -67,7 +67,7 @@ void TileLegendCollection::parseString(const std::string &aLegend)
     {
         std::string str = "";
 
-        pathMatrix[row] = "";
+        pathMatrix[row].resize(columns);
         for(size_t column = 0; column < columns; ++column)
         {
             char symbol = legendTokens.get();
@@ -76,8 +76,8 @@ void TileLegendCollection::parseString(const std::string &aLegend)
                symbol = legendTokens.get();
             }
             str += symbol;
-            std::string temp = std::to_string(tileLetterPathCostMapping.at(symbol));
-            pathMatrix[row] += temp[0];
+
+            pathMatrix[row][column] = tileLetterPathCostMapping.at(symbol);
         }
         std::cout << "string in matrix" << str << std::endl;
         matrix[row] = str;
@@ -149,7 +149,7 @@ Texture2D TileLegendCollection::constructTextureByMap(std::unique_ptr<SDL_Surfac
     return targetTexture;
 }
 
-std::vector<std::string> TileLegendCollection::getPathMatrix() const
+std::vector<std::vector<int> > TileLegendCollection::getPathMatrix() const
 {
     return pathMatrix;
 }

@@ -42,14 +42,14 @@
 			<Width>70</Width>
 			<Height>70</Height>
 			<PositionX>620</PositionX>
-			<PositionY>288</PositionY>
+			<PositionY>240</PositionY>
 		</value5>
 		<value6>
 			<Name>Gates</Name>
 			<Width>80</Width>
 			<Height>80</Height>
 			<PositionX>20</PositionX>
-			<PositionY>288</PositionY>
+			<PositionY>240</PositionY>
 		</value6>
 		<value7>
 			<Name>ResourceStone</Name>

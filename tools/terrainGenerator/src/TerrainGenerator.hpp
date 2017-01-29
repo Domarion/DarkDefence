@@ -15,7 +15,7 @@ public:
     size_t size() const;
     Texture2D& getTextureByTag(const std::string& aTag);
     Texture2D constructTextureByMap(std::unique_ptr<SDL_Surface, void (*)(SDL_Surface *)>& out);
-    std::vector<std::string> getPathMatrix() const;
+    std::vector<std::vector<int>> getPathMatrix() const;
     Size getTileSize() const;
 
 
@@ -30,7 +30,7 @@ private:
     Texture2D atlasTexture;
     std::unordered_map<char, Texture2D> tiles;
     std::vector<std::string> matrix;
-    std::vector<std::string> pathMatrix;
+    std::vector<std::vector<int>> pathMatrix;
     size_t rows{};
     size_t columns{};
     Size tileSize{};

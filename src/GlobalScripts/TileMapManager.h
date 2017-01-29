@@ -7,6 +7,8 @@ using std::list;
 using std::vector;
 #include <SDL_rect.h>
 #include <memory>
+#include "../GraphicsSystem/newSystem/UtilityStructs.h"
+
 class TileMapManager
 {
     using Path = std::unique_ptr<list<pair<int, int>>>;
@@ -19,13 +21,13 @@ public:
     int getRowCount() const;
     int getColumnCount() const;
 
-     pair<int, int> getPosFromGlobalCoords(SDL_Point pos);
+     pair<int, int> getPosFromGlobalCoords(Position pos);
 
-     SDL_Point getGlobalPosFromLocalCoords(pair<int, int> localPos);
+     Position getGlobalPosFromLocalCoords(pair<int, int> localPos);
 
-     const static int FilledCell = 0;
-     const static int StartingCell = -1;
-     const static int EmptyCell = 1;
+     const static int FilledCell = -2;
+     const static int StartingCell = 0;
+     const static int EmptyCell = -1;
 
 private:
 
@@ -35,7 +37,7 @@ private:
     list<pair<int, int> > oldFront;
     list<pair<int, int> > newFront;
 
-
     const static int columnSize = 48;
     const static int rowSize = 48;
+
 };

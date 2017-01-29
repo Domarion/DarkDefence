@@ -21,23 +21,28 @@ bool TileMapManager::waveAlgo(pair<int, int> startVertex, pair<int, int> endVert
 
     while (!oldFront.empty())
     {
-        for(auto currentVertex: oldFront)
+        for(const auto& currentVertex: oldFront)
         {
-            TileMapManager::Path vertexNeightbours = getAvaliableNeightbours(currentVertex.first, currentVertex.second);
+            TileMapManager::Path vertexNeightbours = getAvaliableNeightbours(
+                currentVertex.first,
+                currentVertex.second);
 
-            if (!vertexNeightbours->empty())
-                 for(auto neightbour: *vertexNeightbours)
-                    if (EmptyCell == waveZone[neightbour.first][neightbour.second])
-                    {
-                        waveZone[neightbour.first][neightbour.second] = startVertexDistance + 1;
-                        newFront.push_back(neightbour);
-                    }
+            for(const auto& neightbour: *vertexNeightbours)
+            {
+                if (EmptyCell == waveZone[neightbour.first][neightbour.second])
+                {
+                    waveZone[neightbour.first][neightbour.second] = startVertexDistance + 1;
+                    newFront.push_back(neightbour);
+                }
+            }
         }
 
         if (newFront.empty())
+        {
             return false;
+        }
 
-        if (find(newFront.begin(), newFront.end(), endVertex) != newFront.end())
+        if (find(newFront.cbegin(), newFront.cend(), endVertex) != newFront.cend())
         {
             return true;
         }
@@ -69,24 +74,23 @@ TileMapManager::Path TileMapManager::getPath(pair<int, int> endVertex)
     {
         TileMapManager::Path vertexNeightbours = getAvaliableNeightbours(currentVertex.first, currentVertex.second);
 
-        if (!vertexNeightbours->empty())
-             for(auto neightbour: *vertexNeightbours)
-             {
-                 size_t startPointDistance = waveZone[neightbour.first][neightbour.second];
+        for(const auto& neightbour: *vertexNeightbours)
+        {
+            size_t startPointDistance = waveZone[neightbour.first][neightbour.second];
 
-                 if (0 == startPointDistance)
+             if (0 == startPointDistance)
+             {
+                 path->push_back(neightbour);
+                 break;
+             }
+             else
+                 if (startVertexDistance - 1 == startPointDistance)
                  {
                      path->push_back(neightbour);
+                     currentVertex = neightbour;
                      break;
                  }
-                 else
-                     if (startVertexDistance - 1 == startPointDistance)
-                     {
-                         path->push_back(neightbour);
-                         currentVertex = neightbour;
-                         break;
-                     }
-             }
+        }
     }
 
     return path;
@@ -106,27 +110,36 @@ int TileMapManager::getColumnCount() const
 
 
 
-pair<int,int> TileMapManager::getPosFromGlobalCoords(SDL_Point pos)
+pair<int,int> TileMapManager::getPosFromGlobalCoords(Position pos)
 {
     pair<int, int> localPoint = std::make_pair(0, 0);
+
     if (columnSize > 0 && rowSize > 0)
     {
-        if (pos.x >= columnSize)
-        localPoint.first = pos.x/columnSize + (pos.x % columnSize == 0) - 1;
         if (pos.y >= rowSize)
-        localPoint.second = pos.y/rowSize + (pos.x % rowSize == 0) - 1;
+        {
+            localPoint.first = pos.y/rowSize;
+        }
+
+        if (pos.x >= columnSize)
+        {
+            localPoint.second = pos.x/columnSize;
+        }
     }
+
     return localPoint;
 }
 
-SDL_Point TileMapManager::getGlobalPosFromLocalCoords(pair<int,int> localPos)
+Position TileMapManager::getGlobalPosFromLocalCoords(pair<int,int> localPos)
 {
-    SDL_Point globalPos = {0,0};
+    Position globalPos{};
+
     if (columnSize > 0 && rowSize > 0)
     {
-            globalPos.x = localPos.first*columnSize;
-            globalPos.y = (localPos.second + 1)*rowSize;
+        globalPos.x = localPos.second * columnSize;
+        globalPos.y = localPos.first * rowSize;
     }
+
     return globalPos;
 }
 

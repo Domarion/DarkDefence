@@ -34,12 +34,12 @@ void saveTerrain(std::string filename, std::string outputFilePath)
 
     std::ofstream pathFile(outputFilePath + ".txt");
 
-    pathFile << pathMatrix.size() << '\t' << pathMatrix[0].length() << std::endl;
+    pathFile << pathMatrix.size() << '\t' << pathMatrix[0].size() << std::endl;
     for(const auto& line : pathMatrix)
     {
         pathFile << line[0];
 
-        for(size_t index = 1; index < line.length(); ++index)
+        for(size_t index = 1; index < line.size(); ++index)
         {
             pathFile << '\t' << line[index];
         }

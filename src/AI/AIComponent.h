@@ -46,7 +46,7 @@ private:
 	void Reload(double timestep);
     void MovetoTile(double timestep);
 
-    void MoveToPos(double timestep, SDL_Point targetPoint);
+    void MoveToPos(double timestep, Position targetPoint);
     bool Cast(std::shared_ptr<SceneObject> target);
 
     bool distanceInRange(const pair<int, int>& firstPoint, const pair<int, int>& secondPoint);
