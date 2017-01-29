@@ -169,3 +169,13 @@ void SceneObject::setPos(SDL_Point aPos)
 {
     setPos(aPos.x, aPos.y);
 }
+
+void SceneObject::setPosition(Position aPos)
+{
+    this->x = aPos.x;
+    this->y = aPos.y;
+    if (spriteModel != nullptr)
+    {
+        spriteModel->setPosition(aPos);
+    }
+}

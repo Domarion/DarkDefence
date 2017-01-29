@@ -38,7 +38,7 @@ void loadTextFileToString(string filename, string& destString, bool aSetRelative
 void setRelativePath(string &filename)
 {
    #ifndef __ANDROID__
-   filename = "/home/kostya_hm/Projects/DarkDefence/"+ filename;
+   filename = "/home/kostya_hm/Projects/DarkDefence/"+ filename; //TODO: Заманить на относительный путь
    #endif
 }
 

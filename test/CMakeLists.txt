@@ -10,3 +10,4 @@ include_directories (${SDL2_INCLUDE_DIRS}
 add_definitions (-DBOOST_TEST_DYN_LINK)
 
 add_subdirectory(GraphicsSystem/newSystem)
+add_subdirectory(GlobalScripts)

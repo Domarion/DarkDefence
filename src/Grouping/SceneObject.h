@@ -31,6 +31,7 @@ public:
     SDL_Point getPos() const;
     Position getPosition() const;
     void setPos(SDL_Point aPos);
+    void setPosition(Position aPos);
 
     virtual string getName() const;
     virtual void setName(const string &value);

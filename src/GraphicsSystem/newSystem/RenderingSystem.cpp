@@ -22,11 +22,11 @@ void RenderingSystem::renderTexture(SDL_Texture* texturePtr, Position aDestPosit
     {
         SDL_Rect destRect = {aDestPosition.x, aDestPosition.y, clipRect->w, clipRect->h};
 
-        std::cout << "DEST Rect = " << destRect.x  << "\t" << destRect.y
-                  << "\t" << destRect.w << "\t" << destRect.h << std::endl;
+//        std::cout << "DEST Rect = " << destRect.x  << "\t" << destRect.y
+//                  << "\t" << destRect.w << "\t" << destRect.h << std::endl;
 
-        std::cout << "Clip Rect = " << clipRect->x  << "\t" << clipRect->y
-                  << "\t" << clipRect->w << "\t" << clipRect->h << std::endl;
+//        std::cout << "Clip Rect = " << clipRect->x  << "\t" << clipRect->y
+//                  << "\t" << clipRect->w << "\t" << clipRect->h << std::endl;
 
 
         SDL_RenderCopy(renderer.get(), texturePtr, clipRect, &destRect);

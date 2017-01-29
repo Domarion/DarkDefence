@@ -32,12 +32,19 @@ void TileLegendCollection::parseString(const std::string &aLegend)
     std::string tilename;
     std::string tileletter;
 
+    std::map<char, int> tileLetterPathCostMapping;
+
     for(size_t index = 0; index < collection_size; ++index)
     {
         legendTokens >> tileletter;
         std::cout << "tileletter is = " << tileletter << std::endl;
         legendTokens >> tilename;
         std::cout << "tilename is = " << tilename << std::endl;
+
+        int pathCost{};
+        legendTokens >> pathCost;
+
+        tileLetterPathCostMapping[tileletter[0]] = pathCost;
 
         if (mIsAtlas)
         {
@@ -55,11 +62,12 @@ void TileLegendCollection::parseString(const std::string &aLegend)
 
     legendTokens >> rows >> columns;
     matrix.resize(rows);
-
+    pathMatrix.resize(rows);
     for(size_t row = 0; row < rows; ++row)
     {
         std::string str = "";
 
+        pathMatrix[row].resize(columns);
         for(size_t column = 0; column < columns; ++column)
         {
             char symbol = legendTokens.get();
@@ -68,6 +76,8 @@ void TileLegendCollection::parseString(const std::string &aLegend)
                symbol = legendTokens.get();
             }
             str += symbol;
+
+            pathMatrix[row][column] = tileLetterPathCostMapping.at(symbol);
         }
         std::cout << "string in matrix" << str << std::endl;
         matrix[row] = str;
@@ -137,6 +147,16 @@ Texture2D TileLegendCollection::constructTextureByMap(std::unique_ptr<SDL_Surfac
 
     targetTexture.unSetAsRenderTarget();
     return targetTexture;
+}
+
+std::vector<std::vector<int> > TileLegendCollection::getPathMatrix() const
+{
+    return pathMatrix;
+}
+
+Size TileLegendCollection::getTileSize() const
+{
+    return tileSize;
 }
 
 Texture2D& TileLegendCollection::getTextureByTag(const std::string &aTag)

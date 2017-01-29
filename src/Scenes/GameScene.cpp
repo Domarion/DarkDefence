@@ -179,6 +179,7 @@ void GameScene::loadData()
 
     GameModel::getInstance()->loadAbilitiesNames("GameData/abilities.txt");
 
+    //TODO: Считывать размер ячейки матрицы из файла путей
     string tileMapMatrixPath = "GameData/Missions/" + std::to_string(curIndex) + "/map.txt";
     vector<vector<int> > aMapTemplate = androidText::loadMatrixFromFile(tileMapMatrixPath);
     tileMap = std::make_shared<TileMapManager>(aMapTemplate);

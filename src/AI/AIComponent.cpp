@@ -157,7 +157,7 @@ void AIComponent::Reload(double timestep)
 void AIComponent::MovetoTile(double timestep)
 {
 
-   const static pair<int, int> emptyCell = std::make_pair<int, int>(-1, -1);
+   const static pair<int, int> emptyCell = std::make_pair(TileMapManager::EmptyCell, TileMapManager::EmptyCell);
     static pair<int, int> nextCell = emptyCell;
     if (currentTarget == nullptr)
     {
@@ -175,8 +175,8 @@ void AIComponent::MovetoTile(double timestep)
         return;
     }
 
-    pair<int, int> mobPos = tilemapPtr->getPosFromGlobalCoords(MobPtr.lock()->getPos());
-    pair<int, int> targetPos = tilemapPtr->getPosFromGlobalCoords(currentTarget->getPos());
+    pair<int, int> mobPos = tilemapPtr->getPosFromGlobalCoords(MobPtr.lock()->getPosition());
+    pair<int, int> targetPos = tilemapPtr->getPosFromGlobalCoords(currentTarget->getPosition());
 
     if (distanceInRange(mobPos, targetPos))
     {
@@ -187,7 +187,12 @@ void AIComponent::MovetoTile(double timestep)
     }
 
     if ((MobPtr.lock()->getTag() == "Tower"))
+    {
         return;
+    }
+    std::cout << "MOBPOS = {" << mobPos.first << ", " << mobPos.second
+              << "} TARGETPOS {" << targetPos.first << ", " << targetPos.second << std::endl;
+
 
     if ((nextCell == emptyCell)|| (nextCell == mobPos))
     {
@@ -209,12 +214,12 @@ void AIComponent::MovetoTile(double timestep)
 
 }
 
-void AIComponent::MoveToPos(double timestep, SDL_Point targetPoint)
+void AIComponent::MoveToPos(double timestep, Position targetPoint)
 {
-    double spd = MobPtr.lock()->getModel()->getMoveSpeed().first * timestep*0.002;
-
-    int diffX =  MobPtr.lock()->getX() +static_cast<int>((targetPoint.x - MobPtr.lock()->getX())*spd);
-    int diffY = MobPtr.lock()->getY()+ static_cast<int>((targetPoint.y  - MobPtr.lock()->getY())*spd);
+    double spd = MobPtr.lock()->getModel()->getMoveSpeed().first * timestep*0.003;
+    //TODO: понять какая погрешность может быть
+    int diffX =  static_cast<int>(MobPtr.lock()->getX() +(targetPoint.x - MobPtr.lock()->getX())*spd);
+    int diffY = static_cast<int>(MobPtr.lock()->getY() + (targetPoint.y  - MobPtr.lock()->getY())*spd);
 
     MobPtr.lock()->setPos(diffX, diffY);
 }
