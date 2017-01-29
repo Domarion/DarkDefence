@@ -204,8 +204,12 @@ void GameScene::loadData()
 void GameScene::initResourceView()
 {
     auto resourcePanel = std::make_shared<ConcreteComposite>(renderer);
-    resourcePanel->setSize(Size(MainRect->getSize().width/3, 50));
+    //resourcePanel->setSize(Size(MainRect->getSize().width/3, 50));
     resourcePanel->setPosition(MainRect->getNextHorizontalPosition());
+
+    const Size iconSize{48, 48};
+
+    int resourcePanelWidth = iconSize.width * GlobalConstants::resourceTypeCount;
 
     Font labelFont = FontManager::getInstance()->getFontByKind2("TextFont");
     resourceLabels.resize(GlobalConstants::resourceTypeCount);
@@ -222,20 +226,26 @@ void GameScene::initResourceView()
 
         string labelText = GameModel::getInstance()->getResourcesModel()->printResourceFromIndex(i);
         resourceLabels[i] = std::make_shared<UILabel>(labelText, labelFont, renderer);
-        resourceLabels[i]->setSize(Size(30, 25));
         resourceLabels[i]->setPosition(resourcePanel->getNextHorizontalPosition());
 
+
         resourcePanel->addChild(resourceLabels[i]);
+        resourcePanelWidth += resourceLabels[i]->getSize().width;
     }
+
     MainRect->addChild(resourcePanel);
+
+    resourcePanel->setSize(Size(resourcePanelWidth + 5, iconSize.height));
+
 
 }
 
 void GameScene::initProgressBars()
 {
+    const Size progressBarSize{72, 16};
 
     auto progressBarGroup = std::make_shared<ConcreteComposite>(renderer);
-    progressBarGroup->setSize(Size(100, 50));
+//    progressBarGroup->setSize(Size(100, 50));
     progressBarGroup->setPosition(MainRect->getNextHorizontalPosition());
 
     Texture2D gatesHealthBarBack(renderer);
@@ -244,7 +254,7 @@ void GameScene::initProgressBars()
     gatesHealthBarFront.loadTexture("GameData/textures/HealthBarFull.png");
 
     gatesHealthBar = std::make_shared<UIProgressBar>(renderer, gatesHealthBarBack, gatesHealthBarFront);
-    gatesHealthBar->setSize(Size(progressBarGroup->getSize().width, progressBarGroup->getSize().height/2));
+    gatesHealthBar->setSize(progressBarSize);
     gatesHealthBar->calculateProgress(5000, 5000);
     progressBarGroup->addChild(gatesHealthBar);
 
@@ -254,11 +264,12 @@ void GameScene::initProgressBars()
     manaBarFront.loadTexture("GameData/textures/ManaBarFull.png");
 
     manaBar = std::make_shared<UIProgressBar>(renderer, manaBarBack, manaBarFront);
-    manaBar->setSize(Size(progressBarGroup->getSize().width, progressBarGroup->getSize().height/2));
+    manaBar->setSize(progressBarSize);
     manaBar->setPosition(progressBarGroup->getNextVerticalPosition());
     manaBar->calculateProgress(100, 100);
     progressBarGroup->addChild(manaBar);
 
+    progressBarGroup->setSize(Size(manaBar->getSize().width, 2 * progressBarSize.height));
     MainRect->addChild(progressBarGroup);
 }
 
@@ -268,21 +279,23 @@ void GameScene::initTopPanel()
     initResourceView();
 
     auto miniGroup = std::make_shared<ConcreteComposite>(renderer);
-    miniGroup->setSize(Size(MainRect->getSize().width/4, 50));
+//    miniGroup->setSize(Size(MainRect->getSize().width/4, 50));
     miniGroup->setPosition(MainRect->getNextHorizontalPosition());
 
     Font aFont = FontManager::getInstance()->getFontByKind2("TextFont");
+
     pointsLabel = std::make_shared<UILabel>("none", aFont, renderer);
-    pointsLabel->setSize(Size(50, 50));
+    pointsLabel->setPosition(miniGroup->getNextHorizontalPosition());
 
     miniGroup->addChild(pointsLabel);
 
-    waveLabel = std::make_shared<UILabel>("none", aFont, renderer);
-    waveLabel->setSize(Size(100, 50));
+    waveLabel = std::make_shared<UILabel>("nonenonenone", aFont, renderer);
     waveLabel->setPosition(miniGroup->getNextHorizontalPosition());
     miniGroup->addChild(waveLabel);
 
     MainRect->addChild(miniGroup);
+
+    miniGroup->setSize(Size(pointsLabel->getSize().width + waveLabel->getSize().width + 50, waveLabel->getSize().height));
 }
 
 void GameScene::initAbilitiesButtons()
@@ -335,16 +348,17 @@ void GameScene::initUILayer()
 
     Size buttonSize(72, 72);
     auto pauseButton = std::make_shared<UIImageButton>(renderer);
-    pauseButton->loadTexture("GameData/textures/pause-button.png");
     pauseButton->setSize(buttonSize);
     pauseButton->setPosition(MainRect->getNextHorizontalPosition());
+    pauseButton->loadTexture("GameData/textures/pause-button.png");
     pauseButton->ConnectMethod(std::bind(&GameScene::sendMessage, this, GlobalConstants::Paused));
     MainRect->addChild(pauseButton);
 
     auto resumeButton = std::make_shared<UIImageButton>(renderer);
-    resumeButton->loadTexture("GameData/textures/resume-button.png");
     resumeButton->setSize(buttonSize);
     resumeButton->setPosition(MainRect->getNextHorizontalPosition());
+
+    resumeButton->loadTexture("GameData/textures/resume-button.png");
     resumeButton->ConnectMethod(std::bind(&GameScene::sendMessage, this, GlobalConstants::Resumed));
     MainRect->addChild(resumeButton);
 

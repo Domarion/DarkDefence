@@ -32,7 +32,7 @@ public:
 
 private:
     shared_ptr<SDL_Texture> texturePtr;
-    Size textureSize{};
+    Size textureSize{0,0};
     std::shared_ptr<RenderingSystem> renderer;
 };
 

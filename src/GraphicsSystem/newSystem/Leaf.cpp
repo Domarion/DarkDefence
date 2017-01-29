@@ -78,7 +78,7 @@ void Leaf::setScalingFactor(double aScaleFactor)
     mScaleFactor = aScaleFactor;
     mScaledSize = getSize();
     mScaledSize.multiplyBy(mScaleFactor);
-    setSize(mScaledSize);
+    this->setSize(mScaledSize);
 }
 
 double Leaf::getScalingFactor() const
