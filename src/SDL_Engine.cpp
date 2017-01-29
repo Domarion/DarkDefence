@@ -12,6 +12,8 @@ SDL2::SDL2(uint32_t flags)
         int imgFlags = IMG_INIT_PNG;
         IMG_Init(imgFlags);
         TTF_Init();
+        // Flag for separate mouse and touch handle
+        SDL_SetHint(SDL_HINT_ANDROID_SEPARATE_MOUSE_AND_TOUCH, "1");
     }
 }
 

@@ -70,7 +70,7 @@ void InputDispatcher::sendEventTouch(const SDL_Event &inputEvent)
         int y = static_cast<int>(inputEvent.tfinger.y * mSize.height);
 
         int yDiff = - static_cast<int>(inputEvent.tfinger.dy * mSize.height);
-        std:: cout << "Mouse yDiff = " << yDiff << std::endl;
+        std:: cout << "Touch yDiff = " << yDiff << std::endl;
         for(unsigned int i = 0; i != handlers.size(); ++i)
         {
             if(handlers[i] != nullptr && handlers[i]->canDrag() && handlers[i]->containsPoint(x, y))
