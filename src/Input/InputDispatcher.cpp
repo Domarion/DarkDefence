@@ -65,7 +65,7 @@ void InputDispatcher::sendEventTouch(const SDL_Event &inputEvent)
     }
     else if (inputEvent.type == SDL_FINGERMOTION && (previousEventType == SDL_FINGERDOWN) )
     {
-        int yDiff = - static_cast<int>(inputEvent.tfinger.dy * mSize.height);
+        int yDiff = static_cast<int>(inputEvent.tfinger.dy * mSize.height);
 
         std:: cout << "Touch yDiff = " << yDiff << std::endl;
 //        if (inputEvent.type == SDL_MOUSEMOTION)
@@ -106,7 +106,7 @@ void InputDispatcher::sendEventMouse(const SDL_Event &inputEvent)
             SDL_GetMouseState(&(point.x), &(point.y));
 
 
-            int yDiff = - inputEvent.motion.yrel;
+            int yDiff = inputEvent.motion.yrel;
             std:: cout << "Mouse yDiff = " << yDiff << std::endl;
             for(unsigned int i = 0; i != handlers.size(); ++i)
             {
