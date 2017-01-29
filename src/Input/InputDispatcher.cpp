@@ -47,15 +47,15 @@ void InputDispatcher::clearHandlers()
 
 void InputDispatcher::sendEventTouch(const SDL_Event &inputEvent)
 {
-    if (inputEvent.type == SDL_FINGERUP || inputEvent.type == SDL_FINGERDOWN)
-    {
 
-        int x = static_cast<int>(inputEvent.tfinger.x * mSize.width);
-        int y = static_cast<int>(inputEvent.tfinger.y * mSize.height);
+    int x = static_cast<int>(inputEvent.tfinger.x * mSize.width);
+    int y = static_cast<int>(inputEvent.tfinger.y * mSize.height);
+
+    if (inputEvent.type == SDL_FINGERUP)
+    {
 
         Position point{x, y};
 
-        if (inputEvent.type == SDL_FINGERUP)
         for(unsigned int i = 0; i != handlers.size(); ++i)
         {
             if(handlers[i] != nullptr && handlers[i]->onClick(point))
@@ -65,12 +65,14 @@ void InputDispatcher::sendEventTouch(const SDL_Event &inputEvent)
     }
     else if (inputEvent.type == SDL_FINGERMOTION && (previousEventType == SDL_FINGERDOWN) )
     {
-
-        int x = static_cast<int>(inputEvent.tfinger.x * mSize.width);
-        int y = static_cast<int>(inputEvent.tfinger.y * mSize.height);
-
         int yDiff = - static_cast<int>(inputEvent.tfinger.dy * mSize.height);
+
         std:: cout << "Touch yDiff = " << yDiff << std::endl;
+//        if (inputEvent.type == SDL_MOUSEMOTION)
+//        {
+//           yDiff =- inputEvent.motion.yrel/3;
+//        } 
+
         for(unsigned int i = 0; i != handlers.size(); ++i)
         {
             if(handlers[i] != nullptr && handlers[i]->canDrag() && handlers[i]->containsPoint(x, y))
