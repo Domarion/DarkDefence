@@ -33,8 +33,6 @@ BOOST_FIXTURE_TEST_CASE(ShouldFindLinePathAndBuildIt, TileMapManagerTestFixture)
         expectedPath.emplace_back(std::make_pair(i, j++));
     }
 
-    TileMapManager manager{mapTemplate};
-
     bool result = manager.waveAlgo(start, end);
     BOOST_CHECK_EQUAL(true, result);
     auto path = manager.getPath(end);
@@ -88,4 +86,61 @@ BOOST_FIXTURE_TEST_CASE(ShouldLocalPosToGlobal, TileMapManagerTestFixture)
     BOOST_CHECK_EQUAL(48, globalPos.y);
 }
 
+BOOST_FIXTURE_TEST_CASE(ShouldFindRectPathAndBuildIt, TileMapManagerTestFixture)
+{
+    vector<vector<int>> mapTemplate =
+    {
+        {-2, -2, -2, -2, -2, -2, -2, -2},
+        {-2, -2, -2, -2, -2, -2, -2, -2},
+        {-2, -1, -1, -1, -1, -1, -2, -2},
+        {-2, -1, -2, -2, -2, -1, -2, -2},
+        {-2, -1, -2, -2, -2, -1, -2, -2},
+        {-2, -1, -2, -2, -2, -1, -2, -2},
+        {-2, -1, -1, -1, -1, -1, -2, -2},
+        {-2, -2, -2, -2, -2, -2, -2, -2},
+        {-2, -2, -2, -2, -2, -2, -2, -2},
+        {-2, -2, -2, -2, -2, -2, -2, -2}
+    };
+
+    TileMapManager manager{mapTemplate};
+    // Format (y, x) or (i, j) in other words
+    std::pair<int, int> start{4, 1};
+    std::pair<int, int> end{4, 5};
+
+    list<pair<int, int>> expectedPath;
+    int i = 4;
+    int j = 5;
+    expectedPath.emplace_back(std::make_pair(i--, j));
+    expectedPath.emplace_back(std::make_pair(i--, j));
+
+    const size_t linePathSize = 5;
+
+    for(size_t counter = 0; counter < linePathSize; ++counter)
+    {
+        expectedPath.emplace_back(std::make_pair(i, j--));
+    }
+
+    expectedPath.emplace_back(std::make_pair(++i, ++j));
+    expectedPath.emplace_back(std::make_pair(++i, j));
+
+
+    bool result = manager.waveAlgo(start, end);
+    BOOST_CHECK_EQUAL(true, result);
+    auto path = manager.getPath(end);
+
+    auto expectedPathIterator = expectedPath.begin();
+    auto expectedPathIteratorEnd = expectedPath.end();
+
+    auto pathIterator = path->begin();
+    auto pathIteratorEnd = path->end();
+
+    BOOST_REQUIRE_EQUAL(expectedPath.size(), path->size());
+
+    for(; expectedPathIterator != expectedPathIteratorEnd && pathIterator != pathIteratorEnd;
+        ++expectedPathIterator, ++pathIterator)
+    {
+        BOOST_CHECK_EQUAL(expectedPathIterator->first, pathIterator->first);
+        BOOST_CHECK_EQUAL(expectedPathIterator->second, pathIterator->second);
+    }
+}
 BOOST_AUTO_TEST_SUITE_END()
