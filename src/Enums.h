@@ -19,6 +19,7 @@ namespace Enums
         UseAbilities
     };
     enum class AIMobStates{aiSEARCH = 0, aiSELECT, aiMOVE, aiATTACK, aiRELOAD};
+    enum class GameSceneStatuses{Default = 0, SpellCasting = 1, Menu = 2};
 }
 
 

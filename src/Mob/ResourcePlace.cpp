@@ -3,6 +3,8 @@
 #include "../Mob/Mine.h"
 #include <iostream>
 #include "../Input/InputDispatcher.h"
+#include "../Scenes/GameScene.h"
+
 ResourcePlace::ResourcePlace()
     :limit(1000), resourceType(Enums::ResourceTypes::WHEAT)
 {
@@ -34,6 +36,13 @@ bool ResourcePlace::onClick(Position point)
 {
     if (getSprite() == nullptr)
         return false;
+
+    auto gameScene = std::dynamic_pointer_cast<GameScene>(parentScenePtr.lock());
+    if (gameScene != nullptr && gameScene->getGameSceneStatus() != Enums::GameSceneStatuses::Default)
+    {
+        return false;
+    }
+
 
     SDL_Point sPoint{point.x, point.y};
 

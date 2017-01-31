@@ -6,6 +6,7 @@
 #include "../GraphicsSystem/newSystem/UIElement/UILabel.h"
 #include "../GraphicsSystem/newSystem/UIElement/UIImageButton.h"
 #include "../GraphicsSystem/newSystem/UIElement/UITextButton.h"
+#include "../Scenes/GameScene.h"
 
 TowerUpgradeController::TowerUpgradeController()
     : parentGameScene(nullptr)
@@ -32,8 +33,15 @@ void TowerUpgradeController::init(std::shared_ptr<Scene> parent, std::shared_ptr
 void TowerUpgradeController::receiveTowerUpgrade(std::shared_ptr<Tower> tower)
 {
     if (tower == nullptr || parentGameScene == nullptr)
+    {
         return;
+    }
 
+    auto gameScene = std::dynamic_pointer_cast<GameScene>(parentGameScene);
+    if (gameScene != nullptr && gameScene->getGameSceneStatus() != Enums::GameSceneStatuses::Default)
+    {
+        return;
+    }
 
     Font arial1Font(FontManager::getInstance()->getFontByKind2("TextFont"));
     cachedTower = tower;
@@ -47,14 +55,14 @@ void TowerUpgradeController::receiveTowerUpgrade(std::shared_ptr<Tower> tower)
     Size parentSize = parentGameScene->getMainRect()->getSize();
 
     upgradeGroup = std::make_shared<ConcreteComposite>(renderer);
-    upgradeGroup->setSize(Size(300, 400));
+    upgradeGroup->setSize(Size(150, 400));
     upgradeGroup->setPosition(Position(parentSize.width/2 - 150, 50));
 
     currentTowerChildrenNames = currentGrade->getChildrenNames();
 
     auto currentTowerChildren = currentGrade->getChildren();
     towerMenu = std::make_shared<UIScrollList>(currentTowerChildrenNames.size() + 1, renderer);
-    towerMenu->setSize(Size(300, 350));
+    towerMenu->setSize(Size(100, 350));
 
     const int iconWidth = 48;
     const int iconWidthSmall = 22;
@@ -64,7 +72,7 @@ void TowerUpgradeController::receiveTowerUpgrade(std::shared_ptr<Tower> tower)
         auto childModel = currentTowerChildren.at(childrenName)->getData();
 
         auto menuItemGroup = std::make_shared<ConcreteComposite>(renderer);
-        menuItemGroup->setSize(Size(200, 100));
+        menuItemGroup->setSize(Size(100, 100));
         string iconPath = "GameData/textures/Towers/UpgradeIcons/" + childrenName +".jpg";
 
 
@@ -129,6 +137,10 @@ void TowerUpgradeController::receiveTowerUpgrade(std::shared_ptr<Tower> tower)
 
         parentGameScene->getMainRect()->addChild(upgradeGroup);
     }
+
+    if (gameScene != nullptr)
+        gameScene->setGameSceneStatus(Enums::GameSceneStatuses::Menu);
+
 }
 
 bool TowerUpgradeController::closeHandler(size_t /*itemIndex*/)
@@ -139,6 +151,12 @@ bool TowerUpgradeController::closeHandler(size_t /*itemIndex*/)
 
     parentGameScene->getMainRect()->removeChild(upgradeGroup);
 
+    auto gameScene = std::dynamic_pointer_cast<GameScene>(parentGameScene);
+    if (gameScene != nullptr)
+    {
+        gameScene->setGameSceneStatus(Enums::GameSceneStatuses::Default);
+    }
+
     return true;
 }
 
@@ -148,8 +166,15 @@ bool TowerUpgradeController::menuClickHandler(size_t itemIndex)
     if (parentGameScene == nullptr || cachedTower == nullptr)
         return false;
 
+    auto gameScene = std::dynamic_pointer_cast<GameScene>(parentGameScene);
+
     if (itemIndex == currentTowerChildrenNames.size())
     {
+        if (gameScene != nullptr)
+        {
+            gameScene->setGameSceneStatus(Enums::GameSceneStatuses::Default);
+        }
+
 //        parentGameScene->removeFromUIList(&towerMenu);
         return false;
     }
@@ -173,9 +198,6 @@ bool TowerUpgradeController::menuClickHandler(size_t itemIndex)
     }
     MobModel model(*searchresult->getData());
 
-
-
-
     if (GameModel::getInstance()->getResourcesModel()->canBuy(model.getPrice()))
     {
 
@@ -193,6 +215,11 @@ bool TowerUpgradeController::menuClickHandler(size_t itemIndex)
         parentGameScene->spawnObject(x, y, cachedTower);
 
         cachedTower = nullptr;
+
+        if (gameScene != nullptr)
+        {
+            gameScene->setGameSceneStatus(Enums::GameSceneStatuses::Default);
+        }
 
         return true;
 

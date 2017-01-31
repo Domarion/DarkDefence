@@ -43,7 +43,8 @@ public:
 
     std::shared_ptr<ManaGlobal> getManaModel() const;
     void processWaveInfo(std::string aInfo);
-
+    void setGameSceneStatus(Enums::GameSceneStatuses aStatus);
+    Enums::GameSceneStatuses getGameSceneStatus() const;
 private:
 
     void loadData();
@@ -58,7 +59,9 @@ private:
     void placeSceneObjects();
 
     void applyArtefactEffects();
-
+    void initResourceView();
+    void initProgressBars();
+    void setActiveMstones(string s);
 
     std::shared_ptr<Gates> gates;
     std::shared_ptr<UIProgressBar> gatesHealthBar, manaBar;
@@ -82,12 +85,10 @@ private:
     std::shared_ptr<TowerUpgradeController> towerUpgradeController;
 
 
-    void setActiveMstones(string s);
     std::function<void(string)> method;
 
     std::shared_ptr<TileMapManager> tileMap;
     std::shared_ptr<ManaGlobal> mManaModel;
     vector<StructureData> mPositionsVector;
-    void initResourceView();
-    void initProgressBars();
+    Enums::GameSceneStatuses mGameSceneCurrentStatus = Enums::GameSceneStatuses::Default;
 };

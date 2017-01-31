@@ -1,4 +1,6 @@
 #include "AbilityPrick.h"
+//#include "Scenes/GameScene.h"
+
 AbilityPrick::AbilityPrick(std::shared_ptr<ManaGlobal> aManaModel)
     : AbilityModel(aManaModel)
     , damage(0)
@@ -30,6 +32,18 @@ bool AbilityPrick::onReady(double timestep)
     }
     else
     {
+//        auto gameScene = std::dynamic_pointer_cast<GameScene>(parentScenePtr);
+//        if (gameScene == nullptr)
+//            return false;
+
+//        if (gameScene->getGameSceneStatus() != Enums::GameSceneStatuses::Default)
+//        {
+//            return false;
+//        }
+//        else
+//        {
+//            gameScene->setGameSceneStatus(Enums::GameSceneStatuses::SpellCasting);
+//        }
         abilityState =Enums::AbilityStates::asWorking;
     }
 
@@ -117,10 +131,21 @@ bool AbilityPrick::onClick(Position point)
 {
     if (abilityState == Enums::AbilityStates::asWorking)
     {
+//        auto gameScene = std::dynamic_pointer_cast<GameScene>(parentScenePtr);
+//        if (gameScene != nullptr && gameScene->getGameSceneStatus() != Enums::GameSceneStatuses::SpellCasting)
+//        {
+//            return false;
+//        }
+//        else
+//        {
+//            gameScene->setGameSceneStatus(Enums::GameSceneStatuses::Default);
+
+//        }
         coordX = point.x;
         coordY = point.y;
 
         return true;
     }
+
     return false;
 }

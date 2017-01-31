@@ -273,6 +273,16 @@ void GameScene::initProgressBars()
     MainRect->addChild(progressBarGroup);
 }
 
+void GameScene::setGameSceneStatus(Enums::GameSceneStatuses aStatus)
+{
+    mGameSceneCurrentStatus = aStatus;
+}
+
+Enums::GameSceneStatuses GameScene::getGameSceneStatus() const
+{
+    return mGameSceneCurrentStatus;
+}
+
 void GameScene::initTopPanel()
 {
     initProgressBars();
@@ -547,6 +557,7 @@ void GameScene::clear()
     }
     mManaModel = nullptr;
     GameModel::getInstance()->getResourcesModel()->loadFromFile("GameData/resources.txt");
+    mGameSceneCurrentStatus = Enums::GameSceneStatuses::Default;
     Scene::clear();
 }
 
