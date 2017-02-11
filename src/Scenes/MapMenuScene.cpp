@@ -22,10 +22,26 @@ MapMenuScene::~MapMenuScene()
 void MapMenuScene::init(std::shared_ptr<SceneManager> sceneManagerPtr)
 {
      Scene::init(sceneManagerPtr);
-     renderer->setRendererDrawColor(255, 255, 255, 255);
+     renderer->setRendererDrawColor(0, 0, 0, 0);
+
+
+     auto mapPicture =  std::make_shared<UIImage>(renderer);
+     Size mapPictureSize = MainRect->getSize();
+//     mapPictureSize.width /= 4;
+//     mapPictureSize.height -= 100;
+     mapPicture->setSize(mapPictureSize);
+     string mapImagePath = "GameData/textures/mos.jpg";
+     mapPicture->loadTexture(mapImagePath);
+     MainRect->addChild(mapPicture);
+
      loadMissionView();
-     loadMapPicture();
+//     loadMapPicture();
 //     initMapIndicators();
+
+
+
+
+
      initNavigationButtons();
 
      Scene::addToUIList(MainRect);
@@ -40,10 +56,10 @@ void MapMenuScene::clear()
 
 void MapMenuScene::initNavigationButtons()
 {
-    Scene::addLoadSceneButton("Назад", "ButtonFont", "MainScene",
+    Scene::addLoadSceneButton("Назад", "TextFontButton", "MainScene",
                 0, MainRect->getSize().height - 50 , 100, 50);
 
-    Scene::addLoadSceneButton("Начать", "ButtonFont", "GameScene",
+    Scene::addLoadSceneButton("Начать", "TextFontButton", "GameScene",
                 MainRect->getSize().width - 150, MainRect->getSize().height - 50 , 100, 50);
 }
 
@@ -61,7 +77,7 @@ void MapMenuScene::loadMissionView()
 
     currentMissionView->setSize(Size(MainRect->getSize().width/4*3, MainRect->getSize().height - 100));
     currentMissionView->setScalingFactor(MainRect->getScalingFactor());
-    currentMissionView->init(currentMission, FontManager::getInstance()->getFontByKind2("ButtonFont"));
+    currentMissionView->init(currentMission, FontManager::getInstance()->getFontByKind2("TextFontBig"));
     MainRect->addChild(currentMissionView);
 
 }

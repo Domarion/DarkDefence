@@ -13,10 +13,10 @@ UIMissionView::UIMissionView(std::shared_ptr<RenderingSystem> &aRenderingContext
 void UIMissionView::init(Mission &aMission, Font &aFont)
 {
 
-    auto missionBackGroundImage = std::make_shared<UIImage>(renderer);
-    missionBackGroundImage->loadTexture("GameData/textures/mosaic.png");
-    missionBackGroundImage->setSize(this->getSize());
-    addChild(missionBackGroundImage);
+//    auto missionBackGroundImage = std::make_shared<UIImage>(renderer);
+//    missionBackGroundImage->loadTexture("GameData/textures/mosaic.png");
+//    missionBackGroundImage->setSize(this->getSize());
+//    addChild(missionBackGroundImage);
 
 
     auto missionNameLabel = std::make_shared<UILabel>(aMission.getCaption(), aFont, renderer);
