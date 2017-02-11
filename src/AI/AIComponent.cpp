@@ -190,8 +190,8 @@ void AIComponent::MovetoTile(double timestep)
     {
         return;
     }
-    std::cout << "MOBPOS = {" << mobPos.first << ", " << mobPos.second
-              << "} TARGETPOS {" << targetPos.first << ", " << targetPos.second << std::endl;
+//    std::cout << "MOBPOS = {" << mobPos.first << ", " << mobPos.second
+//              << "} TARGETPOS {" << targetPos.first << ", " << targetPos.second << std::endl;
 
 
     if ((nextCell == emptyCell)|| (nextCell == mobPos))

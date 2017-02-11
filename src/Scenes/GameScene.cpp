@@ -486,7 +486,7 @@ void GameScene::placeSceneObjects()//TODO: Найти лучшее решени�
 void GameScene::applyArtefactEffects()
 {
 
-    std::cout << "productionOfMine beforeItemApply is = " << (GameModel::getInstance()->getMineModelFromListByRes(Enums::ResourceTypes::WOOD)->getProduction()) << std::endl;
+//    std::cout << "productionOfMine beforeItemApply is = " << (GameModel::getInstance()->getMineModelFromListByRes(Enums::ResourceTypes::WOOD)->getProduction()) << std::endl;
 
     vector<string> itemNames = GameModel::getInstance()->getHeroInventory()->getItemNames();
     itemAbilitiesStorage.loadItemAbilities();
@@ -497,7 +497,7 @@ void GameScene::applyArtefactEffects()
             temp->init(shared_from_this(), mManaModel);
     }
 
-    std::cout << "productionOfMine AfterItemApplyis = " << (GameModel::getInstance()->getMineModelFromListByRes(Enums::ResourceTypes::WOOD)->getProduction()) << std::endl;
+//    std::cout << "productionOfMine AfterItemApplyis = " << (GameModel::getInstance()->getMineModelFromListByRes(Enums::ResourceTypes::WOOD)->getProduction()) << std::endl;
 }
 
 void GameScene::processWaveInfo(std::string aInfo)
