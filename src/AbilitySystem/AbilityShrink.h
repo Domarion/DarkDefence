@@ -1,6 +1,7 @@
 #pragma once
 #include "AbilityModel.h"
 #include "EffectModel.h"
+#include "AbilityAnims/AbilityAnimObject.hpp"
 
 class AbilityShrink: public AbilityModel
 {
@@ -18,5 +19,8 @@ public:
 private:
     double damagePerSecond;
     SceneObjectList affectedMobs;
+    std::shared_ptr<AbilityAnimObject> spellAnimationObject;
+
+    void spawnEffect(double timeToLive);
 };
 

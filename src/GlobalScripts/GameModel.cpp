@@ -97,11 +97,11 @@ void GameModel::loadMonsterList(string filename)
         monstersModelsMap.insert(std::make_pair(i->getName(), *i));
 	}
 
-	for(auto i = monstersModelsMap.begin(); i != monstersModelsMap.end(); ++i)
-	{
+//	for(auto i = monstersModelsMap.begin(); i != monstersModelsMap.end(); ++i)
+//	{
 
-		std::cout << monstersModelsMap[i->first].getName() << std::endl;
-    }
+//		std::cout << monstersModelsMap[i->first].getName() << std::endl;
+//    }
 }
 
 void GameModel::loadMonsterPointsList(string filename)
@@ -189,10 +189,10 @@ void GameModel::loadMinesList(string filename)
         mineResMapping[static_cast<int>(i->getProductionType())] = i->getName();
     }
 
-    for(auto i = minesModelsMap.begin(); i != minesModelsMap.end(); ++i)
-    {
-        std::cout << minesModelsMap[i->first].getName() << std::endl;
-    }
+//    for(auto i = minesModelsMap.begin(); i != minesModelsMap.end(); ++i)
+//    {
+//        std::cout << minesModelsMap[i->first].getName() << std::endl;
+//    }
 }
 
 void GameModel::deserialize(Mission &obj, string filename)
@@ -293,7 +293,7 @@ void GameModel::setPointsRefundModifier(double value)
 
 std::unique_ptr<MobAbility> GameModel::getMobAbilityByName(string name)
 {
-    std::cout << "MobAbility Name = " << name << std::endl;
+//    std::cout << "MobAbility Name = " << name << std::endl;
     if (name == "MobAbilityArson")
         return std::make_unique<MobAbilityArson>();
     if (name == "MobAbilityRegeneration")
@@ -417,7 +417,7 @@ void GameModel::loadAbilitiesNames(string filename)
             for(int i = 0; i < n; ++i)
             {
                 abilityStream >> abilitiesNames[ i ];
-                std::cout << abilitiesNames[i] << std::endl;
+//                std::cout << abilitiesNames[i] << std::endl;
             }
         }
     }

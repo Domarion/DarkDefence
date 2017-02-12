@@ -1,10 +1,11 @@
 #include "AbilityShrink.h"
 #include "../GlobalScripts/GameModel.h"
-
+#include "Utility/textfilefunctions.h"
 AbilityShrink::AbilityShrink(std::shared_ptr<ManaGlobal> aManaModel)
     : AbilityModel(aManaModel)
     , damagePerSecond(0.0)
     , affectedMobs( nullptr )
+    , spellAnimationObject(nullptr)
 {
 
 }
@@ -34,7 +35,9 @@ bool AbilityShrink::onReady(double timestep)
 
     if (affectedMobs != nullptr)
     {
+        std::cout << "Shrink working" << std::endl;
         abilityState = Enums::AbilityStates::asWorking;
+        spawnEffect(10000);
     }
     else
         abilityState = Enums::AbilityStates::asNotAvaliable;
@@ -97,6 +100,31 @@ void AbilityShrink::setDamagePerSecond(double value)
 double AbilityShrink::getDamagePerSecond() const
 {
     return damagePerSecond;
+}
+
+void AbilityShrink::spawnEffect(double timeToLive)
+{
+    spellAnimationObject = std::make_shared<AbilityAnimObject>(timeToLive);
+    auto someSprite = std::make_shared<AnimationSceneSprite>(parentScenePtr->getRenderer());
+
+
+    someSprite->setSize(Size( 300, 300));
+    someSprite->loadTexture("GameData/textures/SpellAnims/AbilityShrink.png");
+
+    std::map<std::string, std::vector<SDL_Rect> > anims;
+
+    std::string filename = "GameData/anims/Spells/AbilityShrink.anim";
+    androidText::setRelativePath(filename);
+    androidText::loadAnimFromFile(filename, anims);
+
+    for(auto& anim : anims)
+    {
+        someSprite->setAnimRects(anim.first, anim.second);
+    }
+    spellAnimationObject->setSprite(someSprite);
+    parentScenePtr->spawnObject(100, 100, spellAnimationObject);
+    someSprite->setCurrentState("cast");
+
 }
 
 
