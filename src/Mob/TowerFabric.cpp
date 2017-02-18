@@ -1,6 +1,6 @@
 #include "TowerFabric.hpp"
 #include "../GlobalScripts/GameModel.h"
-
+#include "../GlobalScripts/ResourceManager.h"
 std::shared_ptr<Tower> TowerFabric::produceTower(
         std::string towerName,
         std::shared_ptr<RenderingSystem>& aRenderingContext,
@@ -14,8 +14,9 @@ std::shared_ptr<Tower> TowerFabric::produceTower(
     auto someSprite = std::make_shared<AnimationSceneSprite>(aRenderingContext);
 
 
-    someSprite->setSize(Size(50, 80));
-    someSprite->loadTexture("GameData/textures/Towers/" + towerName + ".png");
+    someSprite->setTexture(ResourceManager::getInstance()->getTexture(towerName));
+//    someSprite->setSize(Size(50, 80));
+//    someSprite->loadTexture("GameData/textures/Towers/" + towerName + ".png");
 
     someMob->setSprite(someSprite);
 

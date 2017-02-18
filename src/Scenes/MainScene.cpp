@@ -10,6 +10,7 @@
 #include <sstream>
 #include "../GlobalScripts/GameModel.h"
 #include "../GraphicsSystem/newSystem/UIElement/UIImage.h"
+#include "../GlobalScripts/ResourceManager.h"
 
 MainScene::MainScene(std::shared_ptr<RenderingSystem> &aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher)
     :Scene(aRenderer, aInputDispatcher)
@@ -32,6 +33,8 @@ void MainScene::init(std::shared_ptr<SceneManager> sceneManagerPtr)
     initBackground();
     initUIMenuItems();
     Scene::addToUIList(MainRect);
+
+    ResourceManager::getInstance()->loadConfigFromFile("GameData/TexturePaths.xml", getRenderer());
 }
 
 void MainScene::ConnectMethod(std::function<void (std::string)> handler)
