@@ -50,6 +50,12 @@
 			<value2>80</value2>
 			<value3>GameData/textures/Towers/CloudTower.png</value3>
 		</value7>
+        <value8>
+			<value0>Necromant</value0>
+			<value1>50</value1>
+			<value2>80</value2>
+			<value3>GameData/textures/Monsters/NecromantSheet.png</value3>
+		</value8>
 	</TexturePaths>
 </cereal>
 
