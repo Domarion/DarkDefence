@@ -287,7 +287,7 @@ void DataGenerator::savePositions()
                                          {"WatcherTower", Size{50, 80}, Position{160, 300}},
                                          {"WatcherTower", Size{50, 80}, Position{210, 300}},
                                          {"Spawner", Size{70, 70}, Position{350, 200}},
-                                         {"Gates", Size{80, 80}, Position{20, 150}},
+                                         {"Gates", Size{80, 80}, Position{20, 150}, Enums::AnchorCoordTypes::Min, Enums::AnchorCoordTypes::Middle},
                                          {"ResourceStone", Size{60, 50}, Position{200, 100}}
                                         };
 

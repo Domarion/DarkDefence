@@ -21,12 +21,14 @@ void AnimationSceneSprite::drawAtPosition(Position pos) const
     if (!visible)
         return;
 
+    Position image_position = getRealPosFromLogicPos(pos);
+
     if (animationStates.size() > 0)
     {
-        frame.drawPartAtPosition(pos, &animationStates.at(currentState).at(frameNumber));
+        frame.drawPartAtPosition(image_position, &animationStates.at(currentState).at(frameNumber));
     }
     else
-        frame.drawAtPosition(pos);
+        frame.drawAtPosition(image_position);
 }
 
 
@@ -92,4 +94,23 @@ void AnimationSceneSprite::loadTexture(const std::string &path)
 void AnimationSceneSprite::setSizeFromTexture()
 {
     frame.scaleToTexture();
+}
+
+void AnimationSceneSprite::setAnchorPointPlace(Enums::AnchorCoordTypes aXCoordAnchorType, Enums::AnchorCoordTypes aYCoordAnchorType)
+{
+    xCoordAnchorType = aXCoordAnchorType;
+    yCoordAnchorType = aYCoordAnchorType;
+}
+
+Position AnimationSceneSprite::getRealPosition() const
+{
+    return getRealPosFromLogicPos(getPosition());
+}
+
+Position AnimationSceneSprite::getRealPosFromLogicPos(Position aLogicPos) const
+{
+    int x = aLogicPos.x - Enums::toIntegralType(xCoordAnchorType) / 2 * getSize().width;
+    int y = aLogicPos.y - Enums::toIntegralType(yCoordAnchorType) / 2 * getSize().height;
+
+    return Position{x, y};
 }

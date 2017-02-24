@@ -438,6 +438,8 @@ void GameScene::placeSceneObjects()//TODO: Найти лучшее решени�
         if (item.Name.find("Tower") != std::string::npos)
         {
             std::shared_ptr<Tower> tower= towerFabric.produceTower(item.Name, renderer, towerUpgradeController, tileMap);
+            tower->getSprite()->setAnchorPointPlace(item.xCoordAnchorType, item.yCoordAnchorType);
+
             spawnObject(item.ImagePosition.x, item.ImagePosition.y, tower);
         }
         else
@@ -447,6 +449,9 @@ void GameScene::placeSceneObjects()//TODO: Найти лучшее решени�
 
                      newView->setSize(item.ImageSize);
                      newView->loadTexture("GameData/textures/Castle2.png");
+
+                     newView->setAnchorPointPlace(item.xCoordAnchorType, item.yCoordAnchorType);
+
                      gates = std::make_shared<Gates>();
                      gates->setSprite(newView);
                      gates->setTag("Gates");
@@ -462,6 +467,8 @@ void GameScene::placeSceneObjects()//TODO: Найти лучшее решени�
 
                         resSprite->setSize(item.ImageSize);
 
+                        resSprite->setAnchorPointPlace(item.xCoordAnchorType, item.yCoordAnchorType);
+
                         string resourceName = GameModel::getInstance()->getResourcesModel()->getResourceNameFromIndex(static_cast<int> (resPlace->getResourceType()));
                         string texturePath = "GameData/textures/Resources/" + resourceName + "Resource.png";
                         resSprite->loadTexture(texturePath);
@@ -476,6 +483,8 @@ void GameScene::placeSceneObjects()//TODO: Найти лучшее решени�
                             auto spawnerSprite = std::make_shared<AnimationSceneSprite>(renderer);
 
                             spawnerSprite->setSize(item.ImageSize);
+                            spawnerSprite->setAnchorPointPlace(item.xCoordAnchorType, item.yCoordAnchorType);
+
 
                             string spawnertexturePath = "GameData/textures/spawner.png";
                             spawnerSprite->loadTexture(spawnertexturePath);

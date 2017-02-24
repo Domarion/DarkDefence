@@ -6,6 +6,7 @@
  */
 
 #pragma once
+#include <type_traits>
 namespace Enums
 {
     enum class ItemTypes {DEFAULT = 0, HELM, AMULET, WEAPON, CUIRASS, SHIELD, RING, BOOTS,CONSUMABLE};
@@ -20,7 +21,11 @@ namespace Enums
     };
     enum class AIMobStates{aiSEARCH = 0, aiSELECT, aiMOVE, aiATTACK, aiRELOAD};
     enum class GameSceneStatuses{Default = 0, SpellCasting = 1, Menu = 2};
+    enum class AnchorCoordTypes { Min = 0, Middle = 1, Max = 2};
+
+    template<typename EnumType>
+    constexpr auto toIntegralType(EnumType aEnumVar) -> typename std::underlying_type_t<EnumType>
+    {
+        return static_cast<typename std::underlying_type_t<EnumType>>(aEnumVar);
+    }
 }
-
-
-

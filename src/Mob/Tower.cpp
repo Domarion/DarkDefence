@@ -8,8 +8,8 @@ void Tower::connectMethod(std::function<void(std::shared_ptr<Tower>, int, int)> 
 bool Tower::onClick(Position point)
 {
 
-    SDL_Rect rect = {this->getSprite()->getPosition().x
-                     , this->getSprite()->getPosition().y
+    SDL_Rect rect = {this->getSprite()->getRealPosition().x
+                     , this->getSprite()->getRealPosition().y
                      , this->getSprite()->getSize().width
                      , this->getSprite()->getSize().height};
     SDL_Point sPoint{point.x, point.y};

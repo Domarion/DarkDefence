@@ -46,8 +46,8 @@ bool ResourcePlace::onClick(Position point)
 
     SDL_Point sPoint{point.x, point.y};
 
-    SDL_Rect rect = {this->getSprite()->getPosition().x
-                     , this->getSprite()->getPosition().y
+    SDL_Rect rect = {this->getSprite()->getRealPosition().x
+                     , this->getSprite()->getRealPosition().y
                      , this->getSprite()->getSize().width
                      , this->getSprite()->getSize().height
                     };
