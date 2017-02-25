@@ -132,6 +132,8 @@ set(SRC_LIST
     AbilitySystem/ItemAbilities/HelmOfLigofglass.h
     AbilitySystem/ItemAbilities/GulakiAmulet.h
     AbilitySystem/ItemAbilities/CorruptedPineApple.h
+    AbilitySystem/ItemAbilities/MonolithShard.h
+
 
     AbilitySystem/DestructibleObjectEffectReceiver.h
     AbilitySystem/AbilityMagicStones.h
@@ -257,7 +259,7 @@ set(SRC_LIST
     AbilitySystem/ItemAbilities/ItemAbility.cpp
     AbilitySystem/ItemAbilities/GulakiAmulet.cpp
     AbilitySystem/ItemAbilities/CorruptedPineApple.cpp
-
+    AbilitySystem/ItemAbilities/MonolithShard.cpp
 
     AbilitySystem/AbilityShrink.cpp
     AbilitySystem/MobEffectReceiver.cpp
