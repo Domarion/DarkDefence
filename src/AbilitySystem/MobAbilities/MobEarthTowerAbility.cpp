@@ -7,8 +7,8 @@ MobEarthTowerAbility::MobEarthTowerAbility()
     , gates(nullptr)
     , effect(std::make_shared<EffectModel>())
 {
-    pair<string, double> miniProtection = std::make_pair("Protection", +50);
-    pair<string, double> miniHealth = std::make_pair("Health", +50);
+    pair<string, double> miniProtection = std::make_pair("ProtectionPercent", 0.25);
+    pair<string, double> miniHealth = std::make_pair("HealthPercent", 0.25);
 
     effect->addMiniEffect(miniProtection);
     effect->addMiniEffect(miniHealth);
@@ -46,10 +46,6 @@ bool MobEarthTowerAbility::onWorking(double timestep)
         currentWorkTime = workTime;
         if (gates != nullptr)
         {
-            auto destrObj = gates->getDestructibleObject();
-
-            destrObj->addHealth(5);
-
             int resType = static_cast<int>(Enums::ResourceTypes::WHEAT);
             GameModel::getInstance()->getResourcesModel()->addResource(resType,10);
 
