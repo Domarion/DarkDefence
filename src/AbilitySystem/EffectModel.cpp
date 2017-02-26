@@ -1,15 +1,5 @@
 #include "EffectModel.h"
 
-EffectModel::EffectModel()
-    :runningTime(0.0)
-{
-
-}
-
-EffectModel::~EffectModel()
-{
-
-}
 
 bool EffectModel::addMiniEffect(pair<string, double> &mini)
 {

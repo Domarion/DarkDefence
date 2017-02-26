@@ -103,7 +103,7 @@ void AIComponent::Select()
 
 void AIComponent::Attack()
 {
-     std::cout << (MobPtr.lock()->getModel()->getName()) << std::endl;
+//     std::cout << (MobPtr.lock()->getModel()->getName()) << std::endl;
     if (currentTarget == nullptr)
 		aiMobState = AIMobStates::aiSELECT;
 	else
@@ -275,7 +275,7 @@ void AIComponent::initMobAbilities()
     for(auto ptr = mobAbilitiesNames.begin(); ptr != mobAbilitiesNames.end(); ++ptr)
     {
 
-        std::cout << *ptr << std::endl;
+//        std::cout << *ptr << std::endl;
         mobAbilities.emplace_back(std::move(GameModel::getInstance()->getMobAbilityByName(*ptr)));
         mobAbilities.back()->setWorkTime(4000);
         mobAbilities.back()->setCooldownTime(4000);

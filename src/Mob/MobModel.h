@@ -97,6 +97,8 @@ public:
     std::array<int, GlobalConstants::resourceTypeCount> getPrice();
     int getDamageArea() const;
     void setDamageArea(int value);
+    bool getIsStunned() const;
+    void setIsStunned(bool value);
 
 private:
 
@@ -109,6 +111,7 @@ private:
     int damageArea;
     list<EnemyInfo> enemiesInfo;
     bool isVisible;
+    bool isStunned;
 	//int x, y;
 
     list<string> mobAbilitiesNames;

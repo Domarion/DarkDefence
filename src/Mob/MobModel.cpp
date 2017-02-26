@@ -9,8 +9,13 @@
 #include "../GlobalScripts/GameModel.h"
 
 MobModel::MobModel()
-:DestructibleObject(), attackDistance(0.0, 0.0),
-  moveSpeed(0.0, 0.0), reloadTimeMaximum(0.0, 0.0), reloadTime(0.0), damageArea(0), isVisible(true)
+: DestructibleObject(), attackDistance(0.0, 0.0)
+, moveSpeed(0.0, 0.0)
+, reloadTimeMaximum(0.0, 0.0)
+, reloadTime(0.0)
+, damageArea(0)
+, isVisible(true)
+, isStunned(false)
 {
 
 	// TODO Auto-generated constructor stub
@@ -59,8 +64,14 @@ void MobModel::setMoveSpeed(const pair<double, double>& moveSpeed)
 
 MobModel::MobModel(string aName, string aTag, int aMaxHealth,
         int aProtection[], int damage[], double distance, double speed, double aReloadTime, int aDamageArea, list<EnemyInfo> enemiesTags)
-:DestructibleObject(aName, aTag, aMaxHealth, aProtection), attackDistance(distance, 0.0),
- moveSpeed(speed, 0.0), reloadTimeMaximum(aReloadTime, 0.0), reloadTime(aReloadTime), damageArea(aDamageArea), enemiesInfo(enemiesTags), isVisible(true)
+: DestructibleObject(aName, aTag, aMaxHealth, aProtection), attackDistance(distance, 0.0)
+, moveSpeed(speed, 0.0)
+, reloadTimeMaximum(aReloadTime, 0.0)
+, reloadTime(aReloadTime)
+, damageArea(aDamageArea)
+, enemiesInfo(enemiesTags)
+, isVisible(true)
+, isStunned(false)
 {
 	for(int i = 0; i < DestructibleObject::damageTypesCount; ++i)
 	{
@@ -77,29 +88,23 @@ MobModel::MobModel(string aName, string aTag, int aMaxHealth,
 MobModel::MobModel(const MobModel& right)
     :DestructibleObject(right)
 {
-    /*name = right.name;
-    tag = right.tag;
-	maximumHealth = right.maximumHealth;
-	currentHealth = right.currentHealth;
-	for(int i = 0; i < DestructibleObject::damageTypesCount; ++i)
-		attackProtection[i] = right.attackProtection[i];
-    */
     if (this != &right)
     {
-	for(int i = 0; i < DestructibleObject::damageTypesCount; ++i)
-		attackDamage[i] = right.attackDamage[i];
-	attackDistance = right.attackDistance;
-	moveSpeed = right.moveSpeed;
-    enemiesInfo = right.enemiesInfo;
-    reloadTimeMaximum = right.reloadTimeMaximum;
-    mobAbilitiesNames = right.mobAbilitiesNames;
-    for(int i = 0; i < DestructibleObject::damageTypesCount; ++i)
-        price[i] = right.price[i];
+        for(int i = 0; i < DestructibleObject::damageTypesCount; ++i)
+            attackDamage[i] = right.attackDamage[i];
 
-    isVisible = right.isVisible;
+        attackDistance = right.attackDistance;
+        moveSpeed = right.moveSpeed;
+        enemiesInfo = right.enemiesInfo;
+        reloadTimeMaximum = right.reloadTimeMaximum;
+        mobAbilitiesNames = right.mobAbilitiesNames;
 
+        for(int i = 0; i < DestructibleObject::damageTypesCount; ++i)
+            price[i] = right.price[i];
+
+        isVisible = right.isVisible;
+        isStunned = right.isStunned;
     }
-
 }
 
 const list<EnemyInfo>& MobModel::getEnemyTags() const
@@ -226,5 +231,15 @@ int MobModel::getDamageArea() const
 void MobModel::setDamageArea(int value)
 {
     damageArea = value;
+}
+
+bool MobModel::getIsStunned() const
+{
+    return isStunned;
+}
+
+void MobModel::setIsStunned(bool value)
+{
+    isStunned = value;
 }
 

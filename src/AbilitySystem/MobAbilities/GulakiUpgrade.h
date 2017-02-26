@@ -19,7 +19,7 @@ public:
 public:
     virtual bool canTrigger(std::shared_ptr<SceneObject> targ, Enums::AIMobStates aistate) override;
     SceneObjectList affectedMobs;
-    std::shared_ptr<EffectModel> snowEffect;
+    std::shared_ptr<EffectModel> stunEffect;
 
 private:
     void releaseDamage(std::shared_ptr<SceneObject> aTarget);

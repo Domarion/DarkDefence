@@ -10,8 +10,8 @@ using std::pair;
 class EffectModel
 {
 public:
-    EffectModel();
-    virtual ~EffectModel();
+    EffectModel() = default;
+    virtual ~EffectModel() = default;
     bool addMiniEffect(pair<string, double> & mini);
     bool removeMiniEffect(pair<string, double> & mini);
     const list<pair<string, double> > & getAffectedAttributes() const;
@@ -26,7 +26,7 @@ public:
 
 private:
     list< pair<string, double> > affectedAttributes;
-    pair<double, double> duration;
-    double runningTime;
+    pair<double, double> duration {0, 0};
+    double runningTime{0};
     string caption;
 };
