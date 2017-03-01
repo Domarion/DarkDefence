@@ -12,11 +12,12 @@ GulakiUpgrade::GulakiUpgrade(std::shared_ptr<ManaGlobal> aManaModel)
     stunEffect->setCaption("Stun");
     stunEffect->setDuration(2000);
 //    snowEffect->addMiniEffect(rt);
+    srand(time(0));
 }
 
 void GulakiUpgrade::releaseDamage(std::shared_ptr<SceneObject> aTarget)
 {
-    if (!aTarget->getEffectReceiver()->hasEffect(stunEffect))
+    if (!aTarget->getEffectReceiver()->hasEffect(stunEffect) && (rand() % 3 == 1))
     {
         aTarget->getEffectReceiver()->applyEffect(stunEffect);
     }
