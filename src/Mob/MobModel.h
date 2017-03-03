@@ -92,6 +92,7 @@ public:
     void setMobVisiblity(bool flag);
     void setAbilitiesNames(list<string> abNames);
     void addAbilityName(string name);
+    void replaceAbilityWithName(const string& oldName, const string& newName);
     list<string>& getAbilitiesNames();
 
     std::array<int, GlobalConstants::resourceTypeCount> getPrice();

@@ -7,6 +7,7 @@
 
 #include "MobModel.h"
 #include "../GlobalScripts/GameModel.h"
+#include <algorithm>
 
 MobModel::MobModel()
 : DestructibleObject(), attackDistance(0.0, 0.0)
@@ -211,6 +212,17 @@ void MobModel::setAbilitiesNames(list<string> abNames)
 void MobModel::addAbilityName(std::string name)
 {
     mobAbilitiesNames.push_back(name);
+}
+
+void MobModel::replaceAbilityWithName(const std::string& oldName, const std::string& newName)
+{
+    auto iter = std::find(mobAbilitiesNames.begin(), mobAbilitiesNames.end(), oldName);
+
+    if (iter != mobAbilitiesNames.end())
+    {
+        *iter = newName;
+    }
+
 }
 
 list<string> &MobModel::getAbilitiesNames()

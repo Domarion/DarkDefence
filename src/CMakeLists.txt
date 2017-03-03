@@ -156,6 +156,9 @@ set(SRC_LIST
     AbilitySystem/MobAbilities/GulakiUpgrade.h
     AbilitySystem/MobAbilities/MobEarthTowerAbility.h
     AbilitySystem/MobAbilities/MobMageTowerAbility.h
+    AbilitySystem/MobAbilities/MobCloudTowerAbility.h
+    AbilitySystem/MobAbilities/TitanChockUpgrade.h
+
     AbilitySystem/EffectModel.h
     GlobalScripts/AccountModel.h
     GlobalScripts/ResourcesModel.h
@@ -282,6 +285,8 @@ set(SRC_LIST
     AbilitySystem/MobAbilities/MobEarthTowerAbility.cpp
     AbilitySystem/MobAbilities/MobMageTowerAbility.cpp
     AbilitySystem/MobAbilities/MobAbilityFog.cpp
+    AbilitySystem/MobAbilities/MobCloudTowerAbility.cpp
+    AbilitySystem/MobAbilities/TitanChockUpgrade.cpp
 
     GlobalScripts/ManaGlobal.cpp
     GlobalScripts/ResourcesModel.cpp

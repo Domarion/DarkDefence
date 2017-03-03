@@ -16,7 +16,6 @@ void TitanChock::init(std::shared_ptr<Scene> /*scenePtr*/, std::shared_ptr<ManaG
     auto tower = GameModel::getInstance()->getRootTower()->recursiveSearch(towerName);
     if (tower != nullptr)
     {
-        int dmg = tower->getData()->getAttackDamageWithIndex(static_cast<int>(Enums::DamageTypes::dtCOLD)) + 5;
-        tower->getData()->setAttackDamageWithIndex(static_cast<int>(Enums::DamageTypes::dtCOLD), dmg);
+        tower->getData()->replaceAbilityWithName("MobCloudTowerAbility", "TitanChockUpgrade");
     }
 }

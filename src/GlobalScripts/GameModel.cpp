@@ -25,6 +25,8 @@ using std::ifstream;
 #include "../AbilitySystem/MobAbilities/GulakiUpgrade.h"
 #include "../AbilitySystem/MobAbilities/MobEarthTowerAbility.h"
 #include "../AbilitySystem/MobAbilities/MobMageTowerAbility.h"
+#include "../AbilitySystem/MobAbilities/MobCloudTowerAbility.h"
+#include "../AbilitySystem/MobAbilities/TitanChockUpgrade.h"
 
 #include "../Utility/textfilefunctions.h"
 #include <sstream>
@@ -321,6 +323,13 @@ std::unique_ptr<MobAbility> GameModel::getMobAbilityByName(string name)
 
      if (name == "MobMageTowerAbility")
          return std::make_unique<MobMageTowerAbility>();
+
+     if (name == "MobCloudTowerAbility")
+         return std::make_unique<MobCloudTowerAbility>();
+
+     if (name == "TitanChockUpgrade")
+         return std::make_unique<TitanChockUpgrade>();
+
 
     return nullptr;
 }
