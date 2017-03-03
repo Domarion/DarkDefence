@@ -11,5 +11,6 @@ public:
     void saveItems();
     void saveAnim();
     void savePositions();
+    void saveAnim2();
 };
 

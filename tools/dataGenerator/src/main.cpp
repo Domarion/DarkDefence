@@ -4,12 +4,14 @@ int main()
 {
     DataGenerator dataGenerator;
     dataGenerator.saveAnim();
-    dataGenerator.saveTowerTree();
-    dataGenerator.saveItems();
-    dataGenerator.saveMission();
-    dataGenerator.saveMonsterCollection();
+    dataGenerator.saveAnim2();
 
-    dataGenerator.saveMineCollection();
-    dataGenerator.savePositions();
+//    dataGenerator.saveTowerTree();
+//    dataGenerator.saveItems();
+//    dataGenerator.saveMission();
+//    dataGenerator.saveMonsterCollection();
+
+//    dataGenerator.saveMineCollection();
+//    dataGenerator.savePositions();
     return 0;
 }

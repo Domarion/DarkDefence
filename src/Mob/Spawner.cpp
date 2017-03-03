@@ -48,15 +48,14 @@ void Spawner::doSpawn(std::shared_ptr<RenderingSystem>& aRenderingContext, std::
             }
             auto someSprite = std::make_shared<AnimationSceneSprite>(aRenderingContext);
 
+            std::string temp = "Spider";
 
-            someSprite->setSize(Size( 50, 80));
-            someSprite->loadTexture("GameData/textures/Monsters/" + monsterName + "Sheet.png");
-
-
+            someSprite->setSize(Size(208, 180));
+            someSprite->loadTexture("GameData/textures/Monsters/" + temp + ".png");
 
             map<string, vector<SDL_Rect> > anims;
 
-            std::string filename = "GameData/anims/Monsters/" + monsterName + ".anim";
+            std::string filename = "GameData/anims/Monsters/" + temp + ".anim";
             androidText::setRelativePath(filename);
             androidText::loadAnimFromFile(filename, anims);
 

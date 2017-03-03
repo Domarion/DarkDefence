@@ -302,3 +302,57 @@ void DataGenerator::savePositions()
     }
     outputXMLFile.close();
 }
+
+void DataGenerator::saveAnim2()
+{
+    vector<SDL_Rect> walkRects;
+    walkRects.reserve(62);
+
+    int x = 0;
+    int y = 0;
+    const int width = 208;
+    const int height = 180;
+
+    for (size_t i = 0; i < 62; ++i)
+    {
+        SDL_Rect rect0 = {x, y, width, height};
+        walkRects.push_back(rect0);
+
+        if (y + height >= 1970)
+        {
+            walkRects[i].h = 1970 - y;
+        }
+
+        if (x + width >= 1245)
+        {
+            walkRects[i].w = 1245 - x;
+            x = 0;
+            y += height;
+
+        }
+        else
+        {
+            x += width;
+        }
+
+
+    }
+
+    for (auto& item : walkRects)
+    {
+        std::cout << item.x << "\t" << item.y << std::endl;
+    }
+
+    map<string, vector<SDL_Rect>> anims;
+    anims["Walk"] = walkRects;
+
+    std::string MobAnim = "/home/kostya_hm/Spider.anim";
+
+
+    SDL_RWops* binaryDataFile = SDL_RWFromFile(MobAnim.c_str(),"w+b");
+    if (binaryDataFile != nullptr)
+    {
+        androidText::saveAnimsToFile(binaryDataFile, anims);
+        SDL_RWclose(binaryDataFile);
+    }
+}
