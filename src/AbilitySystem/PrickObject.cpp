@@ -28,14 +28,14 @@ void PrickObject::init(int x, int y)
         list<std::shared_ptr<SceneObject>> affectedMobs;
         for(auto mobWithTag =mobListWithTag->begin(); mobWithTag != mobListWithTag->end(); ++mobWithTag)
         {
-            SDL_Rect prickRect = {this->getSprite()->getPosition().x
-                                  , this->getSprite()->getPosition().y
+            SDL_Rect prickRect = {this->getSprite()->getRealPosition().x
+                                  , this->getSprite()->getRealPosition().y
                                   , this->getSprite()->getSize().width
                                   , this->getSprite()->getSize().height
                                   };
 
-            SDL_Rect mobRect = {(*mobWithTag)->getSprite()->getPosition().x
-                                  , (*mobWithTag)->getSprite()->getPosition().y
+            SDL_Rect mobRect = {(*mobWithTag)->getSprite()->getRealPosition().x
+                                  , (*mobWithTag)->getSprite()->getRealPosition().y
                                   , (*mobWithTag)->getSprite()->getSize().width
                                   , (*mobWithTag)->getSprite()->getSize().height
                                   };

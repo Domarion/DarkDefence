@@ -109,8 +109,8 @@ Position AnimationSceneSprite::getRealPosition() const
 
 Position AnimationSceneSprite::getRealPosFromLogicPos(Position aLogicPos) const
 {
-    int x = aLogicPos.x - Enums::toIntegralType(xCoordAnchorType) / 2 * getSize().width;
-    int y = aLogicPos.y - Enums::toIntegralType(yCoordAnchorType) / 2 * getSize().height;
+    int x = aLogicPos.x - static_cast<int>(Enums::toIntegralType(xCoordAnchorType) / 2.0 * getSize().width);
+    int y = aLogicPos.y - static_cast<int>(Enums::toIntegralType(yCoordAnchorType) / 2.0 * getSize().height);
 
     return Position{x, y};
 }

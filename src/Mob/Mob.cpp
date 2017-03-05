@@ -41,8 +41,6 @@ void Mob::init(int x, int y)
 
 bool Mob::update(double timestep)
 {
-
-
     if (!mobModel->IsAlive())
     {
         std::cout << "Destructing " << this->getName() << std::endl;
@@ -61,22 +59,17 @@ bool Mob::update(double timestep)
         return true;
     }
 
-
-
-
-
     SceneObject::update(timestep);
 
     mobAI->MakeDecision(timestep);
+
     return true;
 }
 
 void Mob::finalize()
 {
-
     if (mobModel->getTag() == "Monster")
         GameModel::getInstance()->decMonsterCount(mobModel->getName());
-
 }
 
 Mob::~Mob()
@@ -88,6 +81,7 @@ string Mob::getName() const
 {
     return mobModel->getName();
 }
+
 void Mob::setName(const string &value)
 {
     mobModel->setName(value);
@@ -97,6 +91,7 @@ string Mob::getTag() const
 {
     return mobModel->getTag();
 }
+
 void Mob::setTag(const string &value)
 {
     mobModel->setTag(value);
