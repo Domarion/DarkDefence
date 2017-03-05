@@ -15,4 +15,6 @@ public:
 private:
     int damagePerSecond;
     SceneObjectList affectedMobs;
+    std::shared_ptr<EffectModel> stunEffect;
+
 };
