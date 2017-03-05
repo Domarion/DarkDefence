@@ -282,6 +282,11 @@ void GameModel::setPointsRefundModifier(double value)
     pointsRefundModifier = value;
 }
 
+void GameModel::addPoints(int aAmount)
+{
+    pointsPerMap += aAmount;
+}
+
 
 
 /*void GameModel::loadMobAbilities()

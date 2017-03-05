@@ -13,8 +13,8 @@ public:
     virtual void update(double timestep) override;
 
 private:
-    int goldAmount;
-    double period;
-    double currentTime;
+    int pointsAmount = 0;
+    double period = 0;
+    double currentTime = 0;
 };
 

@@ -89,6 +89,8 @@ public:
     double getPointsRefundModifier() const;
     void setPointsRefundModifier(double value);
 
+    void addPoints(int aAmount);
+
    // void loadMobAbilities();
 
     std::unique_ptr<MobAbility> getMobAbilityByName(string name);
