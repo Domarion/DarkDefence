@@ -53,7 +53,7 @@ bool MobEffectReceiver::parseMethod(list<pair<string, double> > &attributes, int
                             if (attrib->first == "MoveSpeed")
                             {
                                 double newAmount = mobModelPtr->getMoveSpeedModifier() + amount;
-                                 mobModelPtr->setMoveSpeedModifier( newAmount );
+                                mobModelPtr->setMoveSpeedModifier( newAmount );
                             }
                             else
                                 if (attrib->first == "AttackDistance")

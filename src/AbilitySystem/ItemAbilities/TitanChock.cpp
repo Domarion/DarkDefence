@@ -17,5 +17,7 @@ void TitanChock::init(std::shared_ptr<Scene> /*scenePtr*/, std::shared_ptr<ManaG
     if (tower != nullptr)
     {
         tower->getData()->replaceAbilityWithName("MobCloudTowerAbility", "TitanChockUpgrade");
+        tower->getData()->addAbilityName( "TitanChockMassSlow");
+
     }
 }

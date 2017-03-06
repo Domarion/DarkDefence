@@ -27,6 +27,7 @@ using std::ifstream;
 #include "../AbilitySystem/MobAbilities/MobMageTowerAbility.h"
 #include "../AbilitySystem/MobAbilities/MobCloudTowerAbility.h"
 #include "../AbilitySystem/MobAbilities/TitanChockUpgrade.h"
+#include "../AbilitySystem/MobAbilities/TitanChockMassSlow.h"
 
 #include "../Utility/textfilefunctions.h"
 #include <sstream>
@@ -334,6 +335,9 @@ std::unique_ptr<MobAbility> GameModel::getMobAbilityByName(string name)
 
      if (name == "TitanChockUpgrade")
          return std::make_unique<TitanChockUpgrade>();
+
+     if (name == "TitanChockMassSlow")
+         return std::make_unique<TitanChockMassSlow>();
 
 
     return nullptr;

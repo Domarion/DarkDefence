@@ -216,7 +216,7 @@ void AIComponent::MovetoTile(double timestep)
 
 void AIComponent::MoveToPos(double timestep, Position targetPoint)
 {
-    double spd = MobPtr.lock()->getModel()->getMoveSpeed().first * timestep*0.003;
+    double spd = (MobPtr.lock()->getModel()->getMoveSpeed().first + MobPtr.lock()->getModel()->getMoveSpeed().second)* timestep*0.003;
     //TODO: понять какая погрешность может быть
     int diffX =  static_cast<int>(MobPtr.lock()->getX() +(targetPoint.x - MobPtr.lock()->getX())*spd);
     int diffY = static_cast<int>(MobPtr.lock()->getY() + (targetPoint.y  - MobPtr.lock()->getY())*spd);
