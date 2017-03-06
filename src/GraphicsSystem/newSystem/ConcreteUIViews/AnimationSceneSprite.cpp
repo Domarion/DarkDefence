@@ -5,7 +5,7 @@ AnimationSceneSprite::AnimationSceneSprite(std::shared_ptr<RenderingSystem> &aRe
     , frame(aRenderingContext)
     , frameNumber(0)
     , oldFrameTime(0)
-    , msCount(64)
+    , msCount(16)//Откуда 64?
     , visible(true)
 {
 

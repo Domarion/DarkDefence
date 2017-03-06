@@ -305,27 +305,32 @@ void DataGenerator::savePositions()
 
 void DataGenerator::saveAnim2()
 {
+    const size_t frameCount = 24;
+
     vector<SDL_Rect> walkRects;
-    walkRects.reserve(62);
+    walkRects.reserve(frameCount);
 
     int x = 0;
     int y = 0;
-    const int width = 208;
-    const int height = 180;
+    const int width = 150;
+    const int height = 125;
+    const int sheetWidth = 900;
+    const int sheetHeight = 501;
 
-    for (size_t i = 0; i < 62; ++i)
+
+    for (size_t i = 0; i < frameCount; ++i)
     {
         SDL_Rect rect0 = {x, y, width, height};
         walkRects.push_back(rect0);
 
-        if (y + height >= 1970)
+        if (y + height >= sheetHeight)
         {
-            walkRects[i].h = 1970 - y;
+            walkRects[i].h = sheetHeight - y;
         }
 
-        if (x + width >= 1245)
+        if (x + width >= sheetWidth)
         {
-            walkRects[i].w = 1245 - x;
+            walkRects[i].w = sheetWidth - x;
             x = 0;
             y += height;
 
@@ -346,7 +351,7 @@ void DataGenerator::saveAnim2()
     map<string, vector<SDL_Rect>> anims;
     anims["Walk"] = walkRects;
 
-    std::string MobAnim = "/home/kostya_hm/Spider.anim";
+    std::string MobAnim = "/home/kostya_hm/Spider2.anim";
 
 
     SDL_RWops* binaryDataFile = SDL_RWFromFile(MobAnim.c_str(),"w+b");

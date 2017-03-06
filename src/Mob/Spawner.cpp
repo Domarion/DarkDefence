@@ -48,9 +48,9 @@ void Spawner::doSpawn(std::shared_ptr<RenderingSystem>& aRenderingContext, std::
             }
             auto someSprite = std::make_shared<AnimationSceneSprite>(aRenderingContext);
 
-            std::string temp = "Spider";
+            std::string temp = "Spider2";
 
-            someSprite->setSize(Size(208, 180));
+            someSprite->setSize(Size(150, 125));
             someSprite->loadTexture("GameData/textures/Monsters/" + temp + ".png");
 
             map<string, vector<SDL_Rect> > anims;
