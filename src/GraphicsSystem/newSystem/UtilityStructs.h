@@ -4,7 +4,13 @@
 #include <iostream>
 struct Size
 {
-    explicit Size(int aWidth = 0, int aHeight = 0)
+    Size()
+        : width{0}
+        , height{0}
+    {
+    }
+
+    explicit Size(int aWidth, int aHeight)
         :width(aWidth), height(aHeight)
     {
     }
@@ -19,6 +25,10 @@ struct Size
         return !(*this == right);
     }
 
+    bool isZero() const
+    {
+        return width == 0 && height == 0;
+    }
 
     void multiplyBy(double aValue)
     {
