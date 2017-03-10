@@ -356,6 +356,18 @@ void GameScene::initAbilitiesButtons()
                 )
             );
 
+
+        auto ability = spellStorage.getAbilityModelWithName(GameModel::getInstance()->getAbilityNameFromIndex(i));
+        ability->connectCooldownListener
+                (
+                    std::bind
+                    (
+                        &UIProgressBar::calculateProgress,
+                        abilityButton.get(),
+                        std::placeholders::_1,
+                        std::placeholders::_2
+                    )
+                );
         abilityButtonsGroup->addChild(abilityButton);
     }
     MainRect->addChild(abilityButtonsGroup);

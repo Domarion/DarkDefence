@@ -88,6 +88,11 @@ double AbilityModel::getCooldownTime() const
     return cooldownTime;
 }
 
+double AbilityModel::getCurrentCooldownTime() const
+{
+    return currentCooldownTime;
+}
+
 void AbilityModel::setCooldownTime(double value)
 {
     cooldownTime = value;
@@ -102,4 +107,9 @@ string AbilityModel::getAbilityName() const
 void AbilityModel::setAbilityName(const string &value)
 {
     abilityName = value;
+}
+
+void AbilityModel::connectCooldownListener(std::function<void (int, int)> aMethod)
+{
+    cooldownListener =  aMethod;
 }

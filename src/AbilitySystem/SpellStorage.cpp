@@ -73,12 +73,12 @@ void SpellStorage::loadWithScene(std::shared_ptr<Scene> scenePtr, std::shared_pt
 
 std::shared_ptr<AbilityModel> SpellStorage::getAbilityModelWithName(string name)
 {
-    return abilityModelsMap[name];
+    return abilityModelsMap.at(name);
 }
 
 void SpellStorage::setAbilityReady(string s)
 {
-    abilityModelsMap[s]->setAsReady();
+    abilityModelsMap.at(s)->setAsReady();
 
 }
 

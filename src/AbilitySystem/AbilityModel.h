@@ -5,6 +5,7 @@ using std::string;
 #include "../Grouping/Scene.h"
 #include <memory>
 #include "../GlobalScripts/ManaGlobal.h"
+#include <functional>
 
 class AbilityModel
 {
@@ -24,11 +25,13 @@ public:
     void setWorkTime(double value);
 
     double getCooldownTime() const;
+    double getCurrentCooldownTime() const;
     void setCooldownTime(double value);
 
     string getAbilityName() const;
     void setAbilityName(const string &value);
 
+    void connectCooldownListener(std::function<void(int, int)> aMethod);
 protected:
     Enums::AbilityStates abilityState;
     string abilityName;
@@ -39,5 +42,6 @@ protected:
     double currentCooldownTime;
     std::shared_ptr<Scene> parentScenePtr;
     std::shared_ptr<ManaGlobal> mManaModel;
+    std::function<void(int, int)> cooldownListener;
 };
 
