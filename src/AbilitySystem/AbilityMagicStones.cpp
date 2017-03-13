@@ -58,33 +58,3 @@ bool AbilityMagicStones::onWorking(double timestep)
 
     return true;
 }
-
-bool AbilityMagicStones::onCooldown(double timestep)
-{
-    static double currentDelta = 0; //чтобы не спамить
-    const double spamDelta = 250; // интервал передачи значений
-
-    if (currentCooldownTime <= 0)
-    {
-        currentCooldownTime = cooldownTime;
-        abilityState = Enums::AbilityStates::asNotAvaliable;
-    }
-    else
-    {
-        currentCooldownTime -= timestep;
-
-        currentDelta += timestep;
-
-        if (currentDelta > spamDelta && cooldownListener != nullptr)
-        {
-
-            currentDelta = 0;
-            int current = static_cast<int>(cooldownTime - currentCooldownTime);
-            int max = static_cast<int>(cooldownTime);
-
-            cooldownListener(current, max);
-        }
-    }
-
-    return true;
-}

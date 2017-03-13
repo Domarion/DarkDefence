@@ -73,18 +73,13 @@ bool AbilityPrick::onWorking(double /*timestep*/)
 
 bool AbilityPrick::onCooldown(double timestep)
 {
-    if (currentCooldownTime <= 0)
-    {
-        currentCooldownTime = cooldownTime;
-        abilityState = Enums::AbilityStates::asNotAvaliable;
-    }
-    else
-        currentCooldownTime -= timestep;
+    AbilityModel::onCooldown(timestep);
 
     if (cooldownTime - currentCooldownTime < 100 && cooldownTime - currentCooldownTime > 80)
     {
         parentScenePtr->destroyObject(somePrick);
     }
+
     return true;
 }
 

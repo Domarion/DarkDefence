@@ -15,7 +15,7 @@ public:
     virtual void init(std::shared_ptr<Scene> scenePtr);
     virtual bool onReady(double timestep);
     virtual bool onWorking(double timestep) = 0;
-    virtual bool onCooldown(double timestep) = 0;
+    virtual bool onCooldown(double timestep);
     virtual bool update(double timestep);
     void setAsReady();
     int getManaCost() const;
@@ -33,6 +33,7 @@ public:
 
     void connectCooldownListener(std::function<void(int, int)> aMethod);
 protected:
+
     Enums::AbilityStates abilityState;
     string abilityName;
     int manaCost;
@@ -43,5 +44,7 @@ protected:
     std::shared_ptr<Scene> parentScenePtr;
     std::shared_ptr<ManaGlobal> mManaModel;
     std::function<void(int, int)> cooldownListener;
+    double currentDelta{0};
+    const double spamDelta = 250; // интервал передачи значений
 };
 

@@ -325,7 +325,7 @@ void GameScene::initAbilitiesButtons()
     abilityButtonsGroup->setPosition(abilityButtonPos);
     abilityButtonsGroup->setScalingFactor(MainRect->getScalingFactor());
 
-    size_t abilityButtonCount = 1;//GameModel::getInstance()->getAbilityCount();
+    size_t abilityButtonCount = GameModel::getInstance()->getAbilityCount();
 
     for(size_t i = 0; i < abilityButtonCount; ++i)
     {

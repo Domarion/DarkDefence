@@ -67,27 +67,13 @@ bool AbilityShrink::onWorking(double timestep)
     {
         currentWorkTime = workTime;
         abilityState = Enums::AbilityStates::asOnCooldown;
+        affectedMobs->clear();
     }
     else
     {
         currentWorkTime -= timestep;
         counter+= timestep;
     }
-
-    return true;
-}
-
-bool AbilityShrink::onCooldown(double timestep)
-{
-    if (currentCooldownTime <= 0)
-    {
-        affectedMobs->clear();
-
-        currentCooldownTime = cooldownTime;
-        abilityState = Enums::AbilityStates::asNotAvaliable;
-    }
-    else
-        currentCooldownTime -= timestep;
 
     return true;
 }
