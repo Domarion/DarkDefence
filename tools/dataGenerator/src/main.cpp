@@ -11,5 +11,7 @@ int main()
 
     dataGenerator.saveMineCollection();
     dataGenerator.savePositions();
+    dataGenerator.saveTextureData();
+
     return 0;
 }

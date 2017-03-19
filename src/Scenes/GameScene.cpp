@@ -14,7 +14,7 @@
 #include "../Input/InputDispatcher.h"
 #include "../Utility/textfilefunctions.h"
 #include "../GraphicsSystem/newSystem/UIElement/UIImageButton.h"
-
+#include "../GlobalScripts/ResourceManager.h"
 
 #include "../GlobalConstants.h"
 #include <sstream>
@@ -399,15 +399,13 @@ void GameScene::placeCastle()
 {
     auto newView = std::make_shared<AnimationSceneSprite>(renderer);
 
-
-     newView->setSize(Size(120, 120));
-     newView->loadTexture("GameData/textures/Castle2.png");
+     newView->setTexture(ResourceManager::getInstance()->getTexture("Castle"));
      gates = std::make_shared<Gates>();
      gates->setSprite(newView);
      gates->setTag("Gates");
      gates->getDestructibleObject()->connectMethod(std::bind(&UIProgressBar::calculateProgress, gatesHealthBar, std::placeholders::_1, std::placeholders::_2));
      gates->getDestructibleObject()->setMaximumHealth(5000);
-     spawnObject(40,100, gates);
+     spawnObject(40, 100, gates);
 }
 
 void GameScene::placeTowers()
@@ -448,7 +446,7 @@ void GameScene::placeSceneObjects()//TODO: Найти лучшее решени�
                     auto newView = std::make_shared<AnimationSceneSprite>(renderer);
 
                      newView->setSize(item.ImageSize);
-                     newView->loadTexture("GameData/textures/Castle2.png");
+					 newView->setTexture(ResourceManager::getInstance()->getTexture("Castle"));
 
                      newView->setAnchorPointPlace(item.xCoordAnchorType, item.yCoordAnchorType);
 

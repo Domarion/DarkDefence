@@ -29,6 +29,7 @@ public:
     bool isVisible() const;
     void setVisible(bool aVisible);
     void loadTexture(const std::string& path);
+    void setTexture(const Texture2D& aTexture);
     void setSizeFromTexture();
     void setAnchorPointPlace(Enums::AnchorCoordTypes aXCoordAnchorType, Enums::AnchorCoordTypes aYCoordAnchorType);
     Position getRealPosition() const;

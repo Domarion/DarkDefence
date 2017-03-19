@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cereal>
+	<TexturePaths size="dynamic">
+		<value0>
+			<cereal_class_version>0</cereal_class_version>
+			<value0>WatcherTower</value0>
+			<value1>50</value1>
+			<value2>80</value2>
+			<value3>GameData/textures/Towers/WatcherTower.png</value3>
+		</value0>
+		<value1>
+			<value0>BallistaTower</value0>
+			<value1>50</value1>
+			<value2>80</value2>
+			<value3>GameData/textures/Towers/BallistaTower.png</value3>
+		</value1>
+		<value2>
+			<value0>CatapultTower</value0>
+			<value1>50</value1>
+			<value2>80</value2>
+			<value3>GameData/textures/Towers/CatapultTower.png</value3>
+		</value2>
+		<value3>
+			<value0>ProductivityTower</value0>
+			<value1>50</value1>
+			<value2>80</value2>
+			<value3>GameData/textures/Towers/ProductivityTower.png</value3>
+		</value3>
+		<value4>
+			<value0>MageTower</value0>
+			<value1>50</value1>
+			<value2>80</value2>
+			<value3>GameData/textures/Towers/MageTower.png</value3>
+		</value4>
+		<value5>
+			<value0>WindTower</value0>
+			<value1>50</value1>
+			<value2>80</value2>
+			<value3>GameData/textures/Towers/WindTower.png</value3>
+		</value5>
+		<value6>
+			<value0>EarthTower</value0>
+			<value1>50</value1>
+			<value2>80</value2>
+			<value3>GameData/textures/Towers/EarthTower.png</value3>
+		</value6>
+		<value7>
+			<value0>CloudTower</value0>
+			<value1>50</value1>
+			<value2>80</value2>
+			<value3>GameData/textures/Towers/CloudTower.png</value3>
+		</value7>
+        <value8>
+			<value0>Necromant</value0>
+			<value1>50</value1>
+			<value2>80</value2>
+			<value3>GameData/textures/Monsters/NecromantSheet.png</value3>
+		</value8>
+		<value9>
+			<value0>Castle</value0>
+			<value1>120</value1>
+			<value2>120</value2>
+			<value3>GameData/textures/Castle2.png</value3>
+		</value9>
+	</TexturePaths>
+</cereal>
+
