@@ -3,6 +3,7 @@
 #include "../Utility/textfilefunctions.h"
 #include <cstdlib>
 #include <ctime>
+#include "GlobalScripts/ResourceManager.h"
 
 Spawner::Spawner()
     : SceneObject()
@@ -49,8 +50,10 @@ void Spawner::doSpawn(std::shared_ptr<RenderingSystem>& aRenderingContext, std::
             auto someSprite = std::make_shared<AnimationSceneSprite>(aRenderingContext);
 
 
-            someSprite->setSize(Size( 50, 80));
-            someSprite->loadTexture("GameData/textures/Monsters/" + monsterName + "Sheet.png");
+            someSprite->setTexture(ResourceManager::getInstance()->getTexture(monsterName));
+//            std::cout << monsterName << std::endl;
+//            someSprite->setSize(Size( 50, 80));
+//            someSprite->loadTexture("GameData/textures/Monsters/" + monsterName + "Sheet.png");
 
 
 

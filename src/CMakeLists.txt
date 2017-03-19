@@ -160,6 +160,7 @@ set(SRC_LIST
     GlobalScripts/ManaGlobal.h
     GlobalScripts/TileMapManager.h
     GlobalScripts/GameModel.h
+    GlobalScripts/ResourceManager.h
 
     AI/AIComponent.h
     ItemSystem/Inventory.h
@@ -179,6 +180,7 @@ set(SRC_LIST
     GraphicsSystem/newSystem/UIElement/UIProgressBar.h
     GraphicsSystem/newSystem/UtilityStructs.h
     Utility/StructData.hpp
+    Utility/TextureData.hpp
     GraphicsSystem/newSystem/Texture2D.h
     GraphicsSystem/newSystem/Leaf.h
     Enums.h
@@ -284,6 +286,8 @@ set(SRC_LIST
     GlobalScripts/AccountModel.cpp
     GlobalScripts/GameModel.cpp
     GlobalScripts/TileMapManager.cpp
+    GlobalScripts/ResourceManager.cpp
+
     main.cpp
     AI/AIComponent.cpp
     ItemSystem/HeroInventory.cpp

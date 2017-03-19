@@ -11,6 +11,7 @@ using std::shared_ptr;
 class Texture2D final
 {
 public:
+    Texture2D() = default;
     Texture2D(std::shared_ptr<RenderingSystem> &renderingContext);
     Texture2D(const Texture2D& right);
     virtual ~Texture2D() = default;

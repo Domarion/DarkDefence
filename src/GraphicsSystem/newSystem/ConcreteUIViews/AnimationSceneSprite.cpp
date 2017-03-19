@@ -91,6 +91,11 @@ void AnimationSceneSprite::loadTexture(const std::string &path)
     frame.loadTexture(path);
 }
 
+void AnimationSceneSprite::setTexture(const Texture2D& aTexture)
+{
+    frame = aTexture;
+}
+
 void AnimationSceneSprite::setSizeFromTexture()
 {
     frame.scaleToTexture();
