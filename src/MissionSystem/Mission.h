@@ -25,7 +25,7 @@ class Mission
     template <typename Archive>
      void serialize(Archive &ar)
     {
-        ar(caption, description, goals, reward, cereal::make_nvp("status", missionStatus));
+        ar(CEREAL_NVP(caption), CEREAL_NVP(description), CEREAL_NVP(goals), CEREAL_NVP(reward), CEREAL_NVP(missionStatus));
     }
 public:
 	Mission();

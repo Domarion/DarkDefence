@@ -7,46 +7,46 @@
 			<data>
 				<ArtifactList size="dynamic">
 					<value0>
-						<value0>GulakiAmulet</value0>
-						<value1>Some</value1>
-						<value2>2</value2>
-						<value3>100</value3>
+						<caption>GulakiAmulet</caption>
+						<description>Some</description>
+						<itemType>2</itemType>
+						<price>100</price>
 					</value0>
 					<value1>
-						<value0>ChoppersHat</value0>
-						<value1>Some</value1>
-						<value2>1</value2>
-						<value3>50</value3>
+						<caption>ChoppersHat</caption>
+						<description>Some</description>
+						<itemType>1</itemType>
+						<price>50</price>
 					</value1>
                     <value2>
-						<value0>CaftanOfGold</value0>
-						<value1>Some</value1>
-						<value2>4</value2>
-						<value3>100</value3>
+						<caption>CaftanOfGold</caption>
+						<description>Some</description>
+						<itemType>4</itemType>
+						<price>100</price>
 					</value2>
                     <value3>
-						<value0>FeatherOfChap</value0>
-						<value1>Some</value1>
-						<value2>2</value2>
-						<value3>100</value3>
+						<caption>FeatherOfChap</caption>
+						<description>Some</description>
+						<itemType>2</itemType>
+						<price>100</price>
 					</value3>
                     <value4>
-						<value0>HelmOfLigofglass</value0>
-						<value1>Some</value1>
-						<value2>1</value2>
-						<value3>100</value3>
+						<caption>HelmOfLigofglass</caption>
+						<description>Some</description>
+						<itemType>1</itemType>
+						<price>100</price>
 					</value4>
                     <value5>
-						<value0>ScabblerHat</value0>
-						<value1>Some</value1>
-						<value2>1</value2>
-						<value3>100</value3>
+						<caption>ScabblerHat</caption>
+						<description>Some</description>
+						<itemType>1</itemType>
+						<price>100</price>
 					</value5>
                     <value6>
-						<value0>TitanChock</value0>
-						<value1>Some</value1>
-						<value2>3</value2>
-						<value3>100</value3>
+						<caption>TitanChock</caption>
+						<description>Some</description>
+						<itemType>3</itemType>
+						<price>100</price>
 					</value6>
 				</ArtifactList>
 			</data>

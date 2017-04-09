@@ -20,7 +20,7 @@ class Reward
      template <typename Archive>
      void serialize(Archive &ar, const unsigned int /*version*/)
      {
-         ar(itemNames, goldCoins);
+         ar(CEREAL_NVP(itemNames), CEREAL_NVP(goldCoins));
      }
 public:
 	Reward();

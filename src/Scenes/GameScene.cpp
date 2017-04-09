@@ -198,7 +198,6 @@ void GameScene::loadData()
         cereal::XMLInputArchive xmlinp(str);
         xmlinp(cereal::make_nvp("Positions", mPositionsVector));
     }
-
 }
 
 void GameScene::initResourceView()
@@ -426,7 +425,11 @@ void GameScene::placeTowers()
 
 void GameScene::placeSceneObjects()//TODO: Найти лучшее решение для считывания и хранения позиций объектов
 {
-    std::shared_ptr<SceneObject> Terrain = objectFabric.produce("Terrain", "none", "GameData/textures/terrain.png", 0 , 0, renderer );
+
+    int curMissionIndex =  GameModel::getInstance()->getCurrentMissionIndex();
+
+    std::string terrainPath = "GameData/textures/Missions/" + std::to_string(curMissionIndex) + ".png";
+    std::shared_ptr<SceneObject> Terrain = objectFabric.produce("Terrain", "none", terrainPath, 0 , 0, renderer );
     spawnObject(0,0, Terrain);
 
     towerUpgradeController->init(shared_from_this(), renderer);

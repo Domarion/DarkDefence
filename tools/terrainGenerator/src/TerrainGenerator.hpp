@@ -21,7 +21,7 @@ public:
 
 private:
     void loadTile(const std::string tileMapping, const std::string &aTileName, Size aTileSize);
-
+//    void skipCommentLines(std::istringstream& aStream);
     std::shared_ptr<RenderingSystem> mRenderer;
 
     bool mIsAtlas;

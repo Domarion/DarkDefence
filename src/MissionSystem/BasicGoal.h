@@ -24,7 +24,7 @@ class BasicGoal
     template <typename Archive>
     void serialize(Archive &ar, const unsigned int /*version*/)
     {
-        ar(description, goalStatus, needed);
+        ar(CEREAL_NVP(description), CEREAL_NVP(goalStatus), CEREAL_NVP(needed));
     }
 public:
 	BasicGoal();

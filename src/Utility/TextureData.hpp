@@ -19,7 +19,11 @@ private:
     template <typename Archive>
     void serialize(Archive &ar, const unsigned int /*version*/)
     {
-        ar(Caption, ImageSize.width, ImageSize.height, ImagePath);
+        ar(
+           CEREAL_NVP(Caption),
+           cereal::make_nvp("ImageWidth", ImageSize.width),
+           cereal::make_nvp("ImageHeight", ImageSize.height),
+           CEREAL_NVP(ImagePath));
     }
 };
 } 

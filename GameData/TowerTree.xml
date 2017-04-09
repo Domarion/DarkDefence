@@ -14,12 +14,12 @@
 						<data>
 							<value0>
 								<cereal_class_version>0</cereal_class_version>
-								<value0>WatcherTower</value0>
-								<value1>Tower</value1>
-								<value2>
+								<name>WatcherTower</name>
+								<tag>Tower</tag>
+								<maximumHealth>
 									<first>100</first>
 									<second>0</second>
-								</value2>
+								</maximumHealth>
 								<protection>
 									<value0>
 										<first>10</first>
@@ -39,7 +39,7 @@
 									</value3>
 								</protection>
 							</value0>
-							<value1>
+							<attackDamage>
 								<value0>
 									<first>20</first>
 									<second>0</second>
@@ -56,20 +56,20 @@
 									<first>5</first>
 									<second>0</second>
 								</value3>
-							</value1>
-							<value2>
+							</attackDamage>
+							<attackDistance>
 								<first>100</first>
 								<second>0</second>
-							</value2>
-							<value3>
+							</attackDistance>
+							<moveSpeed>
 								<first>0</first>
 								<second>0</second>
-							</value3>
-							<value4>
+							</moveSpeed>
+							<reloadTimeMaximum>
 								<first>1000</first>
 								<second>0</second>
-							</value4>
-							<value5>0</value5>
+							</reloadTimeMaximum>
+							<damageArea>0</damageArea>
 							<enemyTags size="dynamic">
 								<value0>
 									<cereal_class_version>0</cereal_class_version>
@@ -79,11 +79,11 @@
 								</value0>
 							</enemyTags>
 							<Abilities size="dynamic"/>
-							<value6>
+							<price>
 								<value0>0</value0>
 								<value1>0</value1>
 								<value2>0</value2>
-							</value6>
+							</price>
 						</data>
 					</ptr_wrapper>
 				</value2>
@@ -102,12 +102,12 @@
 											<id>2147483652</id>
 											<data>
 												<value0>
-													<value0>BallistaTower</value0>
-													<value1>Tower</value1>
-													<value2>
+													<name>BallistaTower</name>
+													<tag>Tower</tag>
+													<maximumHealth>
 														<first>100</first>
 														<second>0</second>
-													</value2>
+													</maximumHealth>
 													<protection>
 														<value0>
 															<first>10</first>
@@ -127,7 +127,7 @@
 														</value3>
 													</protection>
 												</value0>
-												<value1>
+												<attackDamage>
 													<value0>
 														<first>20</first>
 														<second>0</second>
@@ -144,20 +144,20 @@
 														<first>5</first>
 														<second>0</second>
 													</value3>
-												</value1>
-												<value2>
+												</attackDamage>
+												<attackDistance>
 													<first>100</first>
 													<second>0</second>
-												</value2>
-												<value3>
+												</attackDistance>
+												<moveSpeed>
 													<first>0</first>
 													<second>0</second>
-												</value3>
-												<value4>
+												</moveSpeed>
+												<reloadTimeMaximum>
 													<first>1000</first>
 													<second>0</second>
-												</value4>
-												<value5>0</value5>
+												</reloadTimeMaximum>
+												<damageArea>0</damageArea>
 												<enemyTags size="dynamic">
 													<value0>
 														<enemyTag>Monster</enemyTag>
@@ -166,11 +166,11 @@
 													</value0>
 												</enemyTags>
 												<Abilities size="dynamic"/>
-												<value6>
+												<price>
 													<value0>0</value0>
 													<value1>0</value1>
 													<value2>0</value2>
-												</value6>
+												</price>
 											</data>
 										</ptr_wrapper>
 									</value2>
@@ -193,12 +193,12 @@
 											<id>2147483654</id>
 											<data>
 												<value0>
-													<value0>CatapultTower</value0>
-													<value1>Tower</value1>
-													<value2>
+													<name>CatapultTower</name>
+													<tag>Tower</tag>
+													<maximumHealth>
 														<first>100</first>
 														<second>0</second>
-													</value2>
+													</maximumHealth>
 													<protection>
 														<value0>
 															<first>10</first>
@@ -218,7 +218,7 @@
 														</value3>
 													</protection>
 												</value0>
-												<value1>
+												<attackDamage>
 													<value0>
 														<first>20</first>
 														<second>0</second>
@@ -235,20 +235,20 @@
 														<first>5</first>
 														<second>0</second>
 													</value3>
-												</value1>
-												<value2>
+												</attackDamage>
+												<attackDistance>
 													<first>100</first>
 													<second>0</second>
-												</value2>
-												<value3>
+												</attackDistance>
+												<moveSpeed>
 													<first>0</first>
 													<second>0</second>
-												</value3>
-												<value4>
+												</moveSpeed>
+												<reloadTimeMaximum>
 													<first>1000</first>
 													<second>0</second>
-												</value4>
-												<value5>0</value5>
+												</reloadTimeMaximum>
+												<damageArea>0</damageArea>
 												<enemyTags size="dynamic">
 													<value0>
 														<enemyTag>Monster</enemyTag>
@@ -257,11 +257,11 @@
 													</value0>
 												</enemyTags>
 												<Abilities size="dynamic"/>
-												<value6>
+												<price>
 													<value0>0</value0>
 													<value1>0</value1>
 													<value2>0</value2>
-												</value6>
+												</price>
 											</data>
 										</ptr_wrapper>
 									</value2>
@@ -284,12 +284,12 @@
 											<id>2147483656</id>
 											<data>
 												<value0>
-													<value0>MageTower</value0>
-													<value1>Tower</value1>
-													<value2>
+													<name>MageTower</name>
+													<tag>Tower</tag>
+													<maximumHealth>
 														<first>100</first>
 														<second>0</second>
-													</value2>
+													</maximumHealth>
 													<protection>
 														<value0>
 															<first>10</first>
@@ -309,7 +309,7 @@
 														</value3>
 													</protection>
 												</value0>
-												<value1>
+												<attackDamage>
 													<value0>
 														<first>20</first>
 														<second>0</second>
@@ -326,20 +326,20 @@
 														<first>5</first>
 														<second>0</second>
 													</value3>
-												</value1>
-												<value2>
+												</attackDamage>
+												<attackDistance>
 													<first>100</first>
 													<second>0</second>
-												</value2>
-												<value3>
+												</attackDistance>
+												<moveSpeed>
 													<first>0</first>
 													<second>0</second>
-												</value3>
-												<value4>
+												</moveSpeed>
+												<reloadTimeMaximum>
 													<first>1000</first>
 													<second>0</second>
-												</value4>
-												<value5>0</value5>
+												</reloadTimeMaximum>
+												<damageArea>0</damageArea>
 												<enemyTags size="dynamic">
 													<value0>
 														<enemyTag>Monster</enemyTag>
@@ -350,11 +350,11 @@
 												<Abilities size="dynamic">
                                                     <value0>MobMageTowerAbility</value0>
                                                 </Abilities>    
-												<value6>
+												<price>
 													<value0>0</value0>
 													<value1>0</value1>
 													<value2>0</value2>
-												</value6>
+												</price>
 											</data>
 										</ptr_wrapper>
 									</value2>
@@ -373,12 +373,12 @@
 																<id>2147483658</id>
 																<data>
 																	<value0>
-																		<value0>CloudTower</value0>
-																		<value1>Tower</value1>
-																		<value2>
+																		<name>CloudTower</name>
+																		<tag>Tower</tag>
+																		<maximumHealth>
 																			<first>100</first>
 																			<second>0</second>
-																		</value2>
+																		</maximumHealth>
 																		<protection>
 																			<value0>
 																				<first>10</first>
@@ -398,7 +398,7 @@
 																			</value3>
 																		</protection>
 																	</value0>
-																	<value1>
+																	<attackDamage>
 																		<value0>
 																			<first>20</first>
 																			<second>0</second>
@@ -415,20 +415,20 @@
 																			<first>5</first>
 																			<second>0</second>
 																		</value3>
-																	</value1>
-																	<value2>
+																	</attackDamage>
+																	<attackDistance>
 																		<first>100</first>
 																		<second>0</second>
-																	</value2>
-																	<value3>
+																	</attackDistance>
+																	<moveSpeed>
 																		<first>0</first>
 																		<second>0</second>
-																	</value3>
-																	<value4>
+																	</moveSpeed>
+																	<reloadTimeMaximum>
 																		<first>1000</first>
 																		<second>0</second>
-																	</value4>
-																	<value5>0</value5>
+																	</reloadTimeMaximum>
+																	<damageArea>0</damageArea>
 																	<enemyTags size="dynamic">
 																		<value0>
 																			<enemyTag>Monster</enemyTag>
@@ -437,11 +437,11 @@
 																		</value0>
 																	</enemyTags>
 																	<Abilities size="dynamic"/>
-																	<value6>
+																	<price>
 																		<value0>0</value0>
 																		<value1>0</value1>
 																		<value2>0</value2>
-																	</value6>
+																	</price>
 																</data>
 															</ptr_wrapper>
 														</value2>
@@ -464,12 +464,12 @@
 																<id>2147483660</id>
 																<data>
 																	<value0>
-																		<value0>EarthTower</value0>
-																		<value1>Tower</value1>
-																		<value2>
+																		<name>EarthTower</name>
+																		<tag>Tower</tag>
+																		<maximumHealth>
 																			<first>100</first>
 																			<second>0</second>
-																		</value2>
+																		</maximumHealth>
 																		<protection>
 																			<value0>
 																				<first>10</first>
@@ -489,7 +489,7 @@
 																			</value3>
 																		</protection>
 																	</value0>
-																	<value1>
+																	<attackDamage>
 																		<value0>
 																			<first>20</first>
 																			<second>0</second>
@@ -506,20 +506,20 @@
 																			<first>5</first>
 																			<second>0</second>
 																		</value3>
-																	</value1>
-																	<value2>
+																	</attackDamage>
+																	<attackDistance>
 																		<first>100</first>
 																		<second>0</second>
-																	</value2>
-																	<value3>
+																	</attackDistance>
+																	<moveSpeed>
 																		<first>0</first>
 																		<second>0</second>
-																	</value3>
-																	<value4>
+																	</moveSpeed>
+																	<reloadTimeMaximum>
 																		<first>1000</first>
 																		<second>0</second>
-																	</value4>
-																	<value5>0</value5>
+																	</reloadTimeMaximum>
+																	<damageArea>0</damageArea>
 																	<enemyTags size="dynamic">
 																		<value0>
 																			<enemyTag>Monster</enemyTag>
@@ -530,11 +530,11 @@
 																	<Abilities size="dynamic">
                                                                         <value0>MobEarthTowerAbility</value0>
                                                                     </Abilities>
-																	<value6>
+																	<price>
 																		<value0>0</value0>
 																		<value1>0</value1>
 																		<value2>0</value2>
-																	</value6>
+																	</price>
 																</data>
 															</ptr_wrapper>
 														</value2>
@@ -557,12 +557,12 @@
 																<id>2147483662</id>
 																<data>
 																	<value0>
-																		<value0>WindTower</value0>
-																		<value1>Tower</value1>
-																		<value2>
+																		<name>WindTower</name>
+																		<tag>Tower</tag>
+																		<maximumHealth>
 																			<first>100</first>
 																			<second>0</second>
-																		</value2>
+																		</maximumHealth>
 																		<protection>
 																			<value0>
 																				<first>10</first>
@@ -582,7 +582,7 @@
 																			</value3>
 																		</protection>
 																	</value0>
-																	<value1>
+																	<attackDamage>
 																		<value0>
 																			<first>20</first>
 																			<second>0</second>
@@ -599,20 +599,20 @@
 																			<first>5</first>
 																			<second>0</second>
 																		</value3>
-																	</value1>
-																	<value2>
+																	</attackDamage>
+																	<attackDistance>
 																		<first>100</first>
 																		<second>0</second>
-																	</value2>
-																	<value3>
+																	</attackDistance>
+																	<moveSpeed>
 																		<first>0</first>
 																		<second>0</second>
-																	</value3>
-																	<value4>
+																	</moveSpeed>
+																	<reloadTimeMaximum>
 																		<first>1000</first>
 																		<second>0</second>
-																	</value4>
-																	<value5>0</value5>
+																	</reloadTimeMaximum>
+																	<damageArea>0</damageArea>
 																	<enemyTags size="dynamic">
 																		<value0>
 																			<enemyTag>Monster</enemyTag>
@@ -621,11 +621,11 @@
 																		</value0>
 																	</enemyTags>
 																	<Abilities size="dynamic"/>
-																	<value6>
+																	<price>
 																		<value0>0</value0>
 																		<value1>0</value1>
 																		<value2>0</value2>
-																	</value6>
+																	</price>
 																</data>
 															</ptr_wrapper>
 														</value2>
@@ -653,12 +653,12 @@
 											<id>2147483664</id>
 											<data>
 												<value0>
-													<value0>ProductivityTower</value0>
-													<value1>Tower</value1>
-													<value2>
+													<name>ProductivityTower</name>
+													<tag>Tower</tag>
+													<maximumHealth>
 														<first>100</first>
 														<second>0</second>
-													</value2>
+													</maximumHealth>
 													<protection>
 														<value0>
 															<first>10</first>
@@ -678,7 +678,7 @@
 														</value3>
 													</protection>
 												</value0>
-												<value1>
+												<attackDamage>
 													<value0>
 														<first>20</first>
 														<second>0</second>
@@ -695,20 +695,20 @@
 														<first>5</first>
 														<second>0</second>
 													</value3>
-												</value1>
-												<value2>
+												</attackDamage>
+												<attackDistance>
 													<first>100</first>
 													<second>0</second>
-												</value2>
-												<value3>
+												</attackDistance>
+												<moveSpeed>
 													<first>0</first>
 													<second>0</second>
-												</value3>
-												<value4>
+												</moveSpeed>
+												<reloadTimeMaximum>
 													<first>1000</first>
 													<second>0</second>
-												</value4>
-												<value5>0</value5>
+												</reloadTimeMaximum>
+												<damageArea>0</damageArea>
 												<enemyTags size="dynamic">
 													<value0>
 														<enemyTag>Monster</enemyTag>
@@ -719,11 +719,11 @@
 												<Abilities size="dynamic">
                                                     <value0>MobAbilityWheat</value0>
                                                 </Abilities>
-												<value6>
+												<price>
 													<value0>0</value0>
 													<value1>0</value1>
 													<value2>0</value2>
-												</value6>
+												</price>
 											</data>
 										</ptr_wrapper>
 									</value2>

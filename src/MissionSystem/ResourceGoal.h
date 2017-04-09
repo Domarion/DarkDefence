@@ -11,7 +11,7 @@ class ResourceGoal: public BasicGoal
     template <typename Archive>
     void serialize(Archive &ar)
     {
-        ar(cereal::base_class<BasicGoal>(this), resourceType);
+        ar(cereal::base_class<BasicGoal>(this), CEREAL_NVP(resourceType));
     }
 
 public:

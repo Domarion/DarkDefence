@@ -22,7 +22,7 @@ class DestructibleObject
     template <typename Archive>
     void serialize(Archive &ar, const unsigned int /*version*/)
     {
-        ar(name, tag, maximumHealth, cereal::make_nvp("protection", attackProtection));
+        ar(CEREAL_NVP(name), CEREAL_NVP(tag), CEREAL_NVP(maximumHealth), cereal::make_nvp("protection", attackProtection));
 
         currentHealth = maximumHealth.first;
         Alive = true;

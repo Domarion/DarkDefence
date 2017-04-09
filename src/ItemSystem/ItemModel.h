@@ -17,7 +17,7 @@ class ItemModel
     template <typename Archive>
     void serialize(Archive &ar)
 	{
-        ar(caption, description, itemType, price);
+        ar(CEREAL_NVP(caption), CEREAL_NVP(description), CEREAL_NVP(itemType), CEREAL_NVP(price));
 	}
 public:
 	ItemModel();

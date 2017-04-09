@@ -4,12 +4,12 @@
 		<value0>
 			<value0>
 				<cereal_class_version>0</cereal_class_version>
-				<value0>Necromant</value0>
-				<value1>Monster</value1>
-				<value2>
+				<name>Necromant</name>
+				<tag>Monster</tag>
+				<maximumHealth>
 					<first>100</first>
 					<second>0</second>
-				</value2>
+				</maximumHealth>
 				<protection>
 					<value0>
 						<first>10</first>
@@ -29,7 +29,7 @@
 					</value3>
 				</protection>
 			</value0>
-			<value1>
+			<attackDamage>
 				<value0>
 					<first>20</first>
 					<second>0</second>
@@ -46,20 +46,20 @@
 					<first>5</first>
 					<second>0</second>
 				</value3>
-			</value1>
-			<value2>
+			</attackDamage>
+			<attackDistance>
 				<first>1</first>
 				<second>0</second>
-			</value2>
-			<value3>
-				<first>0.2</first>
+			</attackDistance>
+			<moveSpeed>
+				<first>2</first>
 				<second>0</second>
-			</value3>
-			<value4>
+			</moveSpeed>
+			<reloadTimeMaximum>
 				<first>3000</first>
 				<second>0</second>
-			</value4>
-			<value5>0</value5>
+			</reloadTimeMaximum>
+			<damageArea>0</damageArea>
 			<enemyTags size="dynamic">
 				<value0>
 					<cereal_class_version>0</cereal_class_version>
@@ -76,11 +76,11 @@
 			<Abilities size="dynamic">
 				<value0>MobAbilityArson</value0>
 			</Abilities>
-			<value6>
+			<price>
 				<value0>0</value0>
 				<value1>0</value1>
 				<value2>0</value2>
-			</value6>
+			</price>
 		</value0>
 	</Monsters>
 </cereal>

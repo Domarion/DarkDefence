@@ -4,12 +4,12 @@
 		<value0>
 			<value0>
 				<cereal_class_version>0</cereal_class_version>
-				<value0>StoneMine</value0>
-				<value1>Mine</value1>
-				<value2>
+				<name>StoneMine</name>
+				<tag>Mine</tag>
+				<maximumHealth>
 					<first>100</first>
 					<second>0</second>
-				</value2>
+				</maximumHealth>
 				<protection>
 					<value0>
 						<first>10</first>
@@ -29,24 +29,24 @@
 					</value3>
 				</protection>
 			</value0>
-			<value1>0</value1>
-			<value2>
+			<productionType>0</productionType>
+			<production>
 				<first>20</first>
 				<second>0</second>
-			</value2>
-			<value3>
+			</production>
+			<productionPeriod>
 				<first>5000</first>
 				<second>0</second>
-			</value3>
+			</productionPeriod>
 		</value0>
 		<value1>
 			<value0>
-				<value0>SawMill</value0>
-				<value1>Mine</value1>
-				<value2>
+				<name>SawMill</name>
+				<tag>Mine</tag>
+				<maximumHealth>
 					<first>100</first>
 					<second>0</second>
-				</value2>
+				</maximumHealth>
 				<protection>
 					<value0>
 						<first>10</first>
@@ -66,24 +66,24 @@
 					</value3>
 				</protection>
 			</value0>
-			<value1>1</value1>
-			<value2>
+			<productionType>1</productionType>
+			<production>
 				<first>20</first>
 				<second>0</second>
-			</value2>
-			<value3>
+			</production>
+			<productionPeriod>
 				<first>5000</first>
 				<second>0</second>
-			</value3>
+			</productionPeriod>
 		</value1>
 		<value2>
 			<value0>
-				<value0>WindMill</value0>
-				<value1>Mine</value1>
-				<value2>
+				<name>WindMill</name>
+				<tag>Mine</tag>
+				<maximumHealth>
 					<first>100</first>
 					<second>0</second>
-				</value2>
+				</maximumHealth>
 				<protection>
 					<value0>
 						<first>10</first>
@@ -103,15 +103,15 @@
 					</value3>
 				</protection>
 			</value0>
-			<value1>2</value1>
-			<value2>
+			<productionType>2</productionType>
+			<production>
 				<first>20</first>
 				<second>0</second>
-			</value2>
-			<value3>
+			</production>
+			<productionPeriod>
 				<first>5000</first>
 				<second>0</second>
-			</value3>
+			</productionPeriod>
 		</value2>
 	</Mines>
 </cereal>

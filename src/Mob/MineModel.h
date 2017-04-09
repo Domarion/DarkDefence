@@ -20,7 +20,7 @@ class MineModel: public DestructibleObject
     void serialize(Archive &ar)
     {
 
-       ar(cereal::base_class<DestructibleObject>(this), productionType, production, productionPeriod);
+       ar(cereal::base_class<DestructibleObject>(this), CEREAL_NVP(productionType), CEREAL_NVP(production), CEREAL_NVP(productionPeriod));
 
         currentTime = productionPeriod.first;
     }

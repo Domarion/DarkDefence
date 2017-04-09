@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <cereal>
 	<Mission>
-		<value0>First Mission</value0>
-		<value1>Very simple mission</value1>
-		<value2 size="dynamic">
+		<caption>First Mission</caption>
+		<description>Very simple mission</description>
+		<goals size="dynamic">
 			<value0>
 				<polymorphic_id>2147483649</polymorphic_id>
 				<polymorphic_name>ResourceGoal</polymorphic_name>
@@ -12,22 +12,22 @@
 					<data>
 						<value0>
 							<cereal_class_version>0</cereal_class_version>
-							<value0>yet another resource goal</value0>
-							<value1>0</value1>
-							<value2>2000</value2>
+							<description>yet another resource goal</description>
+							<goalStatus>0</goalStatus>
+							<needed>2000</needed>
 						</value0>
-						<value1>2</value1>
+						<resourceType>2</resourceType>
 					</data>
 				</ptr_wrapper>
 			</value0>
-		</value2>
-		<value3>
+		</goals>
+		<reward>
 			<cereal_class_version>0</cereal_class_version>
-			<value0 size="dynamic">
+			<itemNames size="dynamic">
 				<value0>CaftanOfGold</value0>
-			</value0>
-			<value1>15</value1>
-		</value3>
-		<status>0</status>
+			</itemNames>
+			<goldCoins>15</goldCoins>
+		</reward>
+		<missionStatus>0</missionStatus>
 	</Mission>
 </cereal>

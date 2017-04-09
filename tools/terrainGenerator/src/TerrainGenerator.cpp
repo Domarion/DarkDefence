@@ -10,7 +10,6 @@ void TileLegendCollection::parseString(const std::string &aLegend)
 
     std::string atlasCommand;
 
-
     legendTokens >> atlasCommand;
 
     if (atlasCommand == "atlas")
@@ -27,8 +26,11 @@ void TileLegendCollection::parseString(const std::string &aLegend)
             atlasTexture.scaleToTexture();
         }
     }
+
     size_t collection_size{0};
+
     legendTokens >> collection_size;
+
     std::string tilename;
     std::string tileletter;
 
@@ -54,13 +56,14 @@ void TileLegendCollection::parseString(const std::string &aLegend)
             int y = std::stoi(posY);
 
             std::cout << "TilePos is = " << x << ", " << y << std::endl;
-            tileAtlasPositions.emplace(tileletter[0], std::move(Position(x, y)));
+            tileAtlasPositions.emplace(tileletter[0], Position(x, y));
         }
         else
             loadTile(tileletter, tilename, tileSize);
     }
 
     legendTokens >> rows >> columns;
+
     matrix.resize(rows);
     pathMatrix.resize(rows);
     for(size_t row = 0; row < rows; ++row)
@@ -109,6 +112,27 @@ void TileLegendCollection::loadTile(const std::string tileMapping, const std::st
     texture.loadTexture(tempPath, false);
     tiles.emplace(tileMapping[0], texture);//[aTileName]=texture;
 }
+
+//void TileLegendCollection::skipCommentLines(std::istringstream& aStream) TODO: Why not working?
+//{
+//    auto commentLineChecker = [=](std::istringstream& aStream)
+//        {
+//            auto str = aStream.str();
+
+//            if (str.empty() || str.length() < 2)
+//            {
+//                return false;
+//            }
+
+//            return str[0] == '-' && str[1] == '-';
+//        };
+
+//    while(commentLineChecker(aStream))
+//    {
+//        std::string uselessString;
+//        std::getline(aStream, uselessString);
+//    }
+//}
 
 Texture2D TileLegendCollection::constructTextureByMap(std::unique_ptr<SDL_Surface, void (*)(SDL_Surface *)>& out)
 {

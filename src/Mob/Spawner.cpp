@@ -40,7 +40,9 @@ void Spawner::doSpawn(std::shared_ptr<RenderingSystem>& aRenderingContext, std::
 
         for(int index = 0; index < monsterCount; ++index)
         {
-            auto someMob = std::make_shared<Mob>(GameModel::getInstance()->getMonsterByName(monsterName), aTileMap);
+
+            auto tileMapCopy = std::make_shared<TileMapManager>(*aTileMap);
+            auto someMob = std::make_shared<Mob>(GameModel::getInstance()->getMonsterByName(monsterName), tileMapCopy);
 
 
             if (someMob->getTileMapManager() == nullptr)

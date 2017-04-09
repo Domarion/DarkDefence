@@ -24,15 +24,17 @@ class MobModel: public DestructibleObject
     void serialize(Archive &ar)
 	{
 
-        ar(cereal::base_class<DestructibleObject>(this),
-            attackDamage,
-            attackDistance,
-            moveSpeed,
-            reloadTimeMaximum,
-            damageArea,
+        ar(
+            cereal::base_class<DestructibleObject>(this),
+            CEREAL_NVP(attackDamage),
+            CEREAL_NVP(attackDistance),
+            CEREAL_NVP(moveSpeed),
+            CEREAL_NVP(reloadTimeMaximum),
+            CEREAL_NVP(damageArea),
             cereal::make_nvp("enemyTags", enemiesInfo),
             cereal::make_nvp("Abilities", mobAbilitiesNames),
-            price);
+            CEREAL_NVP(price)
+           );
 
         reloadTime = reloadTimeMaximum.first + reloadTimeMaximum.second;
 

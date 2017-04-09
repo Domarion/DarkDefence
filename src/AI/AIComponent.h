@@ -50,8 +50,11 @@ private:
     bool Cast(std::shared_ptr<SceneObject> target);
 
     bool distanceInRange(const pair<int, int>& firstPoint, const pair<int, int>& secondPoint);
+    int signum(int aValue) const;
     int getPriorityFromTag(const string& aTag);
     Enums::EReaction getReactionByTag(const string& aTag);
+    pair<int, int> currentTargetPosition;
+    std::unique_ptr<std::list<std::pair<int, int>>> currentPath;
 
 };
 

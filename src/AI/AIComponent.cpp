@@ -7,6 +7,7 @@
 
 #include "AIComponent.h"
 #include "../GlobalScripts/GameModel.h"
+#include <cassert>
 
 AIComponent::AIComponent(std::weak_ptr<Mob> aMob)
 :MobPtr(aMob), aiMobState(AIMobStates::aiSEARCH), currentTarget(nullptr)
@@ -194,34 +195,85 @@ void AIComponent::MovetoTile(double timestep)
 //              << "} TARGETPOS {" << targetPos.first << ", " << targetPos.second << std::endl;
 
 
-    if ((nextCell == emptyCell)|| (nextCell == mobPos))
+    if (currentTargetPosition != targetPos)
     {
+        nextCell = emptyCell;
+        currentTargetPosition = targetPos;
         bool canBuildPath = tilemapPtr->waveAlgo(mobPos, targetPos);
-
         if (canBuildPath)
         {
-            auto path = tilemapPtr->getPath(targetPos);
-            nextCell = path->back();
+            currentPath = tilemapPtr->getPath(targetPos);
+
+            std::cout << "Path {" << std::endl;
+            int index = 0;
+            for(const auto& item : *currentPath)
+            {
+                std::cout << index << "\t" << item.first << "\t" << item.second << std::endl;
+                index++;
+            }
+
         }
         else
         {
-            nextCell = emptyCell;
             aiMobState = AIMobStates::aiSELECT;
+            return;
         }
     }
+
+    if (nextCell == emptyCell || nextCell == mobPos)
+    {
+        if (currentPath == nullptr)
+        {
+            return;
+        }
+
+        std::cout << "Path {" << std::endl;
+        int index = 0;
+        for(const auto& item : *currentPath)
+        {
+            std::cout << index << "\t" << item.first << "\t" << item.second << std::endl;
+            index++;
+        }
+
+        nextCell = currentPath->back();
+        currentPath->pop_back();
+//        bool canBuildPath = tilemapPtr->waveAlgo(mobPos, targetPos);
+
+//        if (canBuildPath)
+//        {
+//            nextCell = path->back();
+//        }
+//        else
+//        {
+//            nextCell = emptyCell;
+//            aiMobState = AIMobStates::aiSELECT;
+//        }
+    }
     else
-        MoveToPos(timestep, tilemapPtr->getGlobalPosFromLocalCoords(nextCell));
+    {
+        std::cout << "Current pos " << mobPos.first << "\t" << mobPos.second
+            << "next cell" << nextCell.first << "\t" << nextCell.second << std::endl;
+        auto globalCoords = tilemapPtr->getGlobalPosFromLocalCoords(nextCell);
+        std::cout << "Global coords next cell " << globalCoords << std::endl;
+
+        MoveToPos(timestep, globalCoords);
+    }
 
 }
 
-void AIComponent::MoveToPos(double timestep, Position targetPoint)
+void AIComponent::MoveToPos(double /*timestep*/, Position targetPoint)
 {
-    double spd = MobPtr.lock()->getModel()->getMoveSpeed().first * timestep*0.003;
-    //TODO: понять какая погрешность может быть
-    int diffX =  static_cast<int>(MobPtr.lock()->getX() +(targetPoint.x - MobPtr.lock()->getX())*spd);
-    int diffY = static_cast<int>(MobPtr.lock()->getY() + (targetPoint.y  - MobPtr.lock()->getY())*spd);
+    // Примем, что timestep = 1 вместо 16 для удобной записи скорости.
 
-    MobPtr.lock()->setPos(diffX, diffY);
+    assert(MobPtr.lock()->getModel() != nullptr);
+    auto speedWithModifier = MobPtr.lock()->getModel()->getMoveSpeed();
+    int speed = static_cast<int>(speedWithModifier.first + speedWithModifier.second);
+    Position newMobPos{MobPtr.lock()->getPosition()};
+
+    newMobPos.x += signum(targetPoint.x  - newMobPos.x) * speed;
+    newMobPos.y += signum(targetPoint.y  - newMobPos.y) * speed;
+
+    MobPtr.lock()->setPosition(newMobPos);
 }
 
 
@@ -233,6 +285,14 @@ bool AIComponent::distanceInRange(const pair<int, int> &firstPoint, const pair<i
     int attackDistance = static_cast<int>(MobPtr.lock()->getModel()->getAttackDistance().first);
 
     return current_distance <= attackDistance;
+}
+
+int AIComponent::signum(int aValue) const
+{
+    if (aValue == 0)
+        return 0;
+
+    return aValue > 0 ? 1 : -1;
 }
 
 int AIComponent::getPriorityFromTag(const string &aTag)
