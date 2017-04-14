@@ -8,6 +8,7 @@
 #include "AIComponent.h"
 #include "../GlobalScripts/GameModel.h"
 #include <cassert>
+#include <algorithm>
 
 AIComponent::AIComponent(std::weak_ptr<Mob> aMob)
 :MobPtr(aMob), aiMobState(AIMobStates::aiSEARCH), currentTarget(nullptr)
@@ -183,7 +184,7 @@ void AIComponent::MovetoTile(double timestep)
     {
         aiMobState = AIMobStates::aiATTACK;
         nextCell = emptyCell;
-
+        currentPath.reset();
         return;
     }
 
@@ -195,7 +196,7 @@ void AIComponent::MovetoTile(double timestep)
 //              << "} TARGETPOS {" << targetPos.first << ", " << targetPos.second << std::endl;
 
 
-    if (currentTargetPosition != targetPos)
+    if (currentTargetPosition != targetPos || currentPath == nullptr || currentPath->empty())
     {
         nextCell = emptyCell;
         currentTargetPosition = targetPos;
@@ -204,7 +205,7 @@ void AIComponent::MovetoTile(double timestep)
         {
             currentPath = tilemapPtr->getPath(targetPos);
 
-            std::cout << "Path {" << std::endl;
+            std::cout << "New Path {" << std::endl;
             int index = 0;
             for(const auto& item : *currentPath)
             {
@@ -220,23 +221,42 @@ void AIComponent::MovetoTile(double timestep)
         }
     }
 
-    if (nextCell == emptyCell || nextCell == mobPos)
+
+    if (nextCell == emptyCell)
+    {
+        std::cout << "nextCell" << std::endl;
+        nextCell = currentPath->back();
+        currentPath->pop_back();
+        return;
+    }
+
+    if (nextCell == mobPos)
     {
         if (currentPath == nullptr)
         {
             return;
         }
 
-        std::cout << "Path {" << std::endl;
-        int index = 0;
-        for(const auto& item : *currentPath)
+//        std::cout << "Path {" << std::endl;
+//        int index = 0;
+//        for(const auto& item : *currentPath)
+//        {
+//            std::cout << index << "\t" << item.first << "\t" << item.second << std::endl;
+//            index++;
+//        }
+
+
+        auto it = std::find(currentPath->begin(), currentPath->end(), mobPos);
+
+        while (it != currentPath->end())
         {
-            std::cout << index << "\t" << item.first << "\t" << item.second << std::endl;
-            index++;
+            currentPath->erase(it++);
         }
 
-        nextCell = currentPath->back();
-        currentPath->pop_back();
+        if (!currentPath->empty())
+        {
+            nextCell = currentPath->back();
+        }
 //        bool canBuildPath = tilemapPtr->waveAlgo(mobPos, targetPos);
 
 //        if (canBuildPath)
@@ -252,7 +272,7 @@ void AIComponent::MovetoTile(double timestep)
     else
     {
         std::cout << "Current pos " << mobPos.first << "\t" << mobPos.second
-            << "next cell" << nextCell.first << "\t" << nextCell.second << std::endl;
+            << " next cell " << nextCell.first << "\t" << nextCell.second << std::endl;
         auto globalCoords = tilemapPtr->getGlobalPosFromLocalCoords(nextCell);
         std::cout << "Global coords next cell " << globalCoords << std::endl;
 

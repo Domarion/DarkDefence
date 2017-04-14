@@ -22,7 +22,7 @@ bool Mine::update(double timestep)
         if (model->getLimit() <= 0)
             return false;
 
-        std::cout << "current mine health = " << (model->getCurrentHealth()) << std::endl;
+//        std::cout << "current mine health = " << (model->getCurrentHealth()) << std::endl;
         if (model->getCurrentHealth() <= 0)
         {
             int resPlaceLimit = model->getLimit() - destructionLoss;

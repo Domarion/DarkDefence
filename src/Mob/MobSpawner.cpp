@@ -40,9 +40,10 @@ void MobSpawner::loadWavesInfo(string filename)
             string mobName;
             int mobCount{};
             file0 >> waveNum >> mobName >> mobCount;
-            if (waveNum <= 0)
-                throw std::logic_error("WaveNum shold be greater than zero");
-            wavesInfo[waveNum - 1].push_back(std::make_pair(mobName, mobCount));
+            if (waveNum != 0)
+            {
+                wavesInfo[waveNum - 1].push_back(std::make_pair(mobName, mobCount));
+            }
         }
     }
 

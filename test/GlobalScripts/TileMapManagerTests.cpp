@@ -143,4 +143,101 @@ BOOST_FIXTURE_TEST_CASE(ShouldFindRectPathAndBuildIt, TileMapManagerTestFixture)
         BOOST_CHECK_EQUAL(expectedPathIterator->second, pathIterator->second);
     }
 }
+
+BOOST_FIXTURE_TEST_CASE(ShouldBuildRightPathTwice, TileMapManagerTestFixture)
+{
+
+    vector<vector<int>> mapTemplate =
+    {
+        {-2, -2, -2, -2, -2, -2, -2, -2},
+        {-2, -2, -2, -2, -2, -2, -2, -2},
+        {-2, -2, -2, -2, -2, -2, -2, -2},
+        {-2, -2, -2, -1, -2, -2, -1, -2},
+        {-2, -2, -2, -1, -2, -2, -1, -2},
+        {-2, -1, -2, -1, -1, -1, -1, -2},
+        {-2, -1, -2, -2, -1, -2, -2, -2},
+        {-2, -1, -1, -1, -1, -2, -2, -2},
+        {-2, -2, -2, -2, -2, -2, -2, -2},
+        {-2, -2, -2, -2, -2, -2, -2, -2}
+    };
+
+    TileMapManager manager{mapTemplate};
+
+    {
+        // Format (y, x) or (i, j) in other words
+        std::pair<int, int> start{3, 6};
+        std::pair<int, int> end{3, 3};
+
+        list<pair<int, int>> expectedPath1
+            {
+                {3, 3},
+                {4, 3},
+                {5, 3},
+                {5, 4},
+                {5, 5},
+                {5, 6},
+                {4, 6},
+                {3, 6},
+            };
+        bool result = manager.waveAlgo(start, end);
+        BOOST_CHECK_EQUAL(true, result);
+        auto path = manager.getPath(end);
+
+        auto expectedPathIterator = expectedPath1.begin();
+        auto expectedPathIteratorEnd = expectedPath1.end();
+
+        auto pathIterator = path->begin();
+        auto pathIteratorEnd = path->end();
+
+        BOOST_REQUIRE_EQUAL(expectedPath1.size(), path->size());
+
+        for(; expectedPathIterator != expectedPathIteratorEnd && pathIterator != pathIteratorEnd;
+            ++expectedPathIterator, ++pathIterator)
+        {
+            BOOST_CHECK_EQUAL(expectedPathIterator->first, pathIterator->first);
+            BOOST_CHECK_EQUAL(expectedPathIterator->second, pathIterator->second);
+        }
+    }
+
+    {
+
+        std::pair<int, int> start{3, 3};
+        std::pair<int, int> end{5, 1};
+
+        list<pair<int, int>> expectedPath2
+            {
+                {5, 1},
+                {6, 1},
+                {7, 1},
+                {7, 2},
+                {7, 3},
+                {7, 4},
+                {6, 4},
+                {5, 4},
+                {5, 3},
+                {4, 3},
+                {3, 3},
+            };
+        bool result = manager.waveAlgo(start, end);
+        BOOST_CHECK_EQUAL(true, result);
+        auto path = manager.getPath(end);
+
+        auto expectedPathIterator = expectedPath2.begin();
+        auto expectedPathIteratorEnd = expectedPath2.end();
+
+        auto pathIterator = path->begin();
+        auto pathIteratorEnd = path->end();
+
+        BOOST_REQUIRE_EQUAL(expectedPath2.size(), path->size());
+
+        for(; expectedPathIterator != expectedPathIteratorEnd && pathIterator != pathIteratorEnd;
+            ++expectedPathIterator, ++pathIterator)
+        {
+            BOOST_CHECK_EQUAL(expectedPathIterator->first, pathIterator->first);
+            BOOST_CHECK_EQUAL(expectedPathIterator->second, pathIterator->second);
+        }
+    }
+}
+
+
 BOOST_AUTO_TEST_SUITE_END()
