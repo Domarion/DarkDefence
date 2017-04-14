@@ -25,9 +25,9 @@ public:
 
      Position getGlobalPosFromLocalCoords(pair<int, int> localPos);
 
-     const static int FilledCell = -2;
-     const static int StartingCell = 0;
-     const static int EmptyCell = -1;
+     const constexpr static int FilledCell = -2;
+     const constexpr static int StartingCell = 0;
+     const constexpr static int EmptyCell = -1;
 
 private:
 
@@ -37,7 +37,7 @@ private:
     list<pair<int, int> > oldFront;
     list<pair<int, int> > newFront;
 
-    const static int columnSize = 48;
-    const static int rowSize = 48;
+    const constexpr static int columnSize = 48;
+    const constexpr static int rowSize = 48;
 
 };

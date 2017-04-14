@@ -39,11 +39,14 @@ bool TileMapManager::waveAlgo(pair<int, int> startVertex, pair<int, int> endVert
 
         if (newFront.empty())
         {
+            oldFront.clear();
             return false;
         }
 
         if (find(newFront.cbegin(), newFront.cend(), endVertex) != newFront.cend())
         {
+            oldFront.clear();
+            newFront.clear();
             return true;
         }
 
