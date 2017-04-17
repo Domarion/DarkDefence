@@ -46,9 +46,17 @@ void Texture2D::drawAtPosition(Position pos) const
     renderer->renderTexture(texturePtr.get(), getSize(), pos);
 }
 
-void Texture2D::drawPartAtPosition(Position pos, const SDL_Rect *clip) const
+void Texture2D::drawPartAtPosition(Position pos, const SDL_Rect *clip, int aFlipFlags) const
 {
-    renderer->renderTexture(texturePtr.get(), pos, clip);
+    if (aFlipFlags == SDL_FLIP_NONE)
+    {
+        renderer->renderTexture(texturePtr.get(), pos, clip);
+    }
+    else
+    {
+        SDL_RendererFlip flags = static_cast<SDL_RendererFlip>(aFlipFlags);
+        renderer->renderTextureFlipping(texturePtr.get(), pos, clip, flags);
+    }
 }
 
 Size Texture2D::getSize() const

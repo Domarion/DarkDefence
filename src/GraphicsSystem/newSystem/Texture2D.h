@@ -21,7 +21,7 @@ public:
     const shared_ptr<SDL_Texture> &getTexture() const;
     void loadTexture(const string& filename, bool aRelativePath = true);
     void drawAtPosition(Position pos) const;
-    void drawPartAtPosition(Position pos, const SDL_Rect *clip) const;
+    void drawPartAtPosition(Position pos, const SDL_Rect *clip, int aFlipFlags = SDL_FLIP_NONE) const;
     Size getSize() const;
     void setSize(Size size);
     void scaleToTexture();

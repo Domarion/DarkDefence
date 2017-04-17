@@ -289,12 +289,25 @@ void AIComponent::MoveToPos(double /*timestep*/, Position targetPoint)
     // Примем, что timestep = 1 вместо 16 для удобной записи скорости.
 
     assert(MobPtr.lock()->getModel() != nullptr);
+
     auto speedWithModifier = MobPtr.lock()->getModel()->getMoveSpeed();
     int speed = static_cast<int>(speedWithModifier.first + speedWithModifier.second);
     Position newMobPos{MobPtr.lock()->getPosition()};
 
-    newMobPos.x += signum(targetPoint.x  - newMobPos.x) * speed;
+    int signumX = signum(targetPoint.x  - newMobPos.x);
+    newMobPos.x += signumX * speed;
     newMobPos.y += signum(targetPoint.y  - newMobPos.y) * speed;
+
+    auto spritePtr = MobPtr.lock()->getModifiableSprite();
+
+    if (signumX <= 0)
+    {
+        spritePtr->setFlipping(SDL_FLIP_HORIZONTAL);
+    }
+    else
+    {
+        spritePtr->setFlipping(SDL_FLIP_NONE);
+    }
 
     MobPtr.lock()->setPosition(newMobPos);
 }

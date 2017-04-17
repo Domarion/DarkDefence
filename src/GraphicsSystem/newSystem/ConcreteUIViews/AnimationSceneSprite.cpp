@@ -7,6 +7,7 @@ AnimationSceneSprite::AnimationSceneSprite(std::shared_ptr<RenderingSystem> &aRe
     , oldFrameTime(0)
     , msCount(64)
     , visible(true)
+    , flippingFlags(SDL_FLIP_NONE)
 {
 
 }
@@ -25,7 +26,7 @@ void AnimationSceneSprite::drawAtPosition(Position pos) const
 
     if (animationStates.size() > 0)
     {
-        frame.drawPartAtPosition(image_position, &animationStates.at(currentState).at(frameNumber));
+        frame.drawPartAtPosition(image_position, &animationStates.at(currentState).at(frameNumber), flippingFlags);
     }
     else
         frame.drawAtPosition(image_position);
@@ -110,6 +111,11 @@ void AnimationSceneSprite::setAnchorPointPlace(Enums::AnchorCoordTypes aXCoordAn
 Position AnimationSceneSprite::getRealPosition() const
 {
     return getRealPosFromLogicPos(getPosition());
+}
+
+void AnimationSceneSprite::setFlipping(int aFlipFlags)
+{
+    flippingFlags = aFlipFlags;
 }
 
 Position AnimationSceneSprite::getRealPosFromLogicPos(Position aLogicPos) const

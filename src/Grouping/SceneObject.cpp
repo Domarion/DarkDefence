@@ -142,6 +142,12 @@ const std::shared_ptr<AnimationSceneSprite> &SceneObject::getSprite() const
 	return spriteModel;
 }
 
+std::shared_ptr<AnimationSceneSprite> SceneObject::getModifiableSprite() const
+{
+    return spriteModel;
+}
+
+
 void SceneObject::setSprite(std::shared_ptr<AnimationSceneSprite> & value)
 {
     spriteModel = value;

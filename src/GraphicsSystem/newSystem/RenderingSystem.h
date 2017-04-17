@@ -17,8 +17,10 @@ public:
     RenderingSystem() = delete;
     RenderingSystem(const RenderingSystem&) = delete;
     RenderingSystem& operator=(const RenderingSystem&) = delete;
-    void renderTexture(SDL_Texture *texturePtr, Size aTextureSize,  Position aDestPosition);
-    void renderTexture(SDL_Texture *texturePtr, Position aDestPosition, const SDL_Rect *clipRect);
+    void renderTexture(SDL_Texture* texturePtr, Size aTextureSize, Position aDestPosition);
+    void renderTexture(SDL_Texture* texturePtr, Position aDestPosition, const SDL_Rect* clipRect);
+    void renderTextureFlipping(
+        SDL_Texture* texturePtr, Position aDestPosition, const SDL_Rect* clipRect, SDL_RendererFlip aFlipFlags);
 
 
     std::unique_ptr<SDL_Texture, TTextureDeleter>  loadTextureFromFile(const string& filename);
@@ -28,10 +30,13 @@ public:
     std::unique_ptr<SDL_Texture, TTextureDeleter> getTextureFromSurface(SDL_Surface* surface);
 
     std::unique_ptr<SDL_Texture, TTextureDeleter> createBlankTexture(Size aSize, SDL_TextureAccess aAccess);
-    std::unique_ptr<SDL_Texture, TTextureDeleter> textToTexture(TTF_Font* aFont, const string& aText, SDL_Color&& color);
-    std::unique_ptr<SDL_Texture, TTextureDeleter> textToTexture(TTF_Font* aFont, const string& aText, Uint8 red, Uint8 green, Uint8 blue, Uint8 alpha);
+    std::unique_ptr<SDL_Texture, TTextureDeleter> textToTexture(
+        TTF_Font* aFont, const string& aText, SDL_Color&& color);
+    std::unique_ptr<SDL_Texture, TTextureDeleter> textToTexture(
+        TTF_Font* aFont, const string& aText, Uint8 red, Uint8 green, Uint8 blue, Uint8 alpha);
 
-    std::unique_ptr<SDL_Surface, TSurfaceDeleter> createSurfaceFromRenderingTarget(Size aTextureSize, Position aTexturePosition);
+    std::unique_ptr<SDL_Surface, TSurfaceDeleter> createSurfaceFromRenderingTarget(
+        Size aTextureSize, Position aTexturePosition);
     void renderToTarget(SDL_Texture *texturePtr);
 
     void setRendererDrawColor(Uint8 red, Uint8 green, Uint8 blue, Uint8 alpha);

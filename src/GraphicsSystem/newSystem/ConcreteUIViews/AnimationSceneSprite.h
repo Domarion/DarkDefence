@@ -33,7 +33,7 @@ public:
     void setSizeFromTexture();
     void setAnchorPointPlace(Enums::AnchorCoordTypes aXCoordAnchorType, Enums::AnchorCoordTypes aYCoordAnchorType);
     Position getRealPosition() const;
-
+    void setFlipping(int aFlipFlags);
 private:
     Position getRealPosFromLogicPos(Position aLogicPos) const;
     Texture2D frame;
@@ -43,6 +43,8 @@ private:
     std::map<string, vector<SDL_Rect> > animationStates;
     string currentState;
     bool visible;
+    int flippingFlags;
     Enums::AnchorCoordTypes xCoordAnchorType = Enums::AnchorCoordTypes::Min;
     Enums::AnchorCoordTypes yCoordAnchorType = Enums::AnchorCoordTypes::Min;
+
 };

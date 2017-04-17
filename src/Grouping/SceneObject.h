@@ -56,6 +56,7 @@ public:
 
 //    void setY(int value);
 
+    std::shared_ptr<AnimationSceneSprite> getModifiableSprite() const;
 protected:
 
 
