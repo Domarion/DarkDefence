@@ -526,9 +526,13 @@ void GameScene::processWaveInfo(std::string aInfo)
     {
         return;
     }
-    waveLabel->setText(aInfo);
 
-    if (aInfo.find(" / ") != std::string::npos)
+    if (aInfo != "InProgress")
+    {
+        waveLabel->setText(aInfo);
+    }
+
+    if (aInfo == "InProgress" || aInfo != "No more waves")
     {
         if (tileMap == nullptr)
         {
@@ -538,16 +542,11 @@ void GameScene::processWaveInfo(std::string aInfo)
         return;
     }
 
-    if ("No more waves" == aInfo)
-    {
-        monsterSpawner->disconnectInfoProcesser();
-        GameModel::getInstance()->setGameStatus(Enums::GameStatuses::gsWON);
-        GameModel::getInstance()->setMissionReward(currentMission.getReward());
-        std::string s2 = "ScoreScene";
-        getParentSceneManager()->setCurrentSceneByName(s2);
-    }
-
-
+    monsterSpawner->disconnectInfoProcesser();
+    GameModel::getInstance()->setGameStatus(Enums::GameStatuses::gsWON);
+    GameModel::getInstance()->setMissionReward(currentMission.getReward());
+    std::string s2 = "ScoreScene";
+    getParentSceneManager()->setCurrentSceneByName(s2);
 }
 
 

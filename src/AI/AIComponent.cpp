@@ -11,7 +11,11 @@
 #include <algorithm>
 
 AIComponent::AIComponent(std::weak_ptr<Mob> aMob)
-:MobPtr(aMob), aiMobState(AIMobStates::aiSEARCH), currentTarget(nullptr)
+    : MobPtr(aMob)
+    , aiMobState(AIMobStates::aiSEARCH)
+    , currentTarget(nullptr)
+    , currentTargetPosition{-1, -1}
+    , nextCell{-1, -1}
 
 {
     initMobAbilities();
@@ -105,7 +109,7 @@ void AIComponent::Select()
 
 void AIComponent::Attack()
 {
-     std::cout << (MobPtr.lock()->getModel()->getName()) << std::endl;
+//     std::cout << (MobPtr.lock()->getModel()->getName()) << std::endl;
     if (currentTarget == nullptr)
 		aiMobState = AIMobStates::aiSELECT;
 	else
@@ -160,7 +164,6 @@ void AIComponent::MovetoTile(double timestep)
 {
 
    const static pair<int, int> emptyCell = std::make_pair(TileMapManager::EmptyCell, TileMapManager::EmptyCell);
-    static pair<int, int> nextCell = emptyCell;
     if (currentTarget == nullptr)
     {
         aiMobState = AIMobStates::aiSELECT;
@@ -205,13 +208,13 @@ void AIComponent::MovetoTile(double timestep)
         {
             currentPath = tilemapPtr->getPath(targetPos);
 
-            std::cout << "New Path {" << std::endl;
-            int index = 0;
-            for(const auto& item : *currentPath)
-            {
-                std::cout << index << "\t" << item.first << "\t" << item.second << std::endl;
-                index++;
-            }
+//            std::cout << "New Path {" << std::endl;
+//            int index = 0;
+//            for(const auto& item : *currentPath)
+//            {
+//                std::cout << index << "\t" << item.first << "\t" << item.second << std::endl;
+//                index++;
+//            }
 
         }
         else
@@ -224,10 +227,9 @@ void AIComponent::MovetoTile(double timestep)
 
     if (nextCell == emptyCell)
     {
-        std::cout << "nextCell" << std::endl;
+//        std::cout << "nextCell" << std::endl;
         nextCell = currentPath->back();
         currentPath->pop_back();
-        return;
     }
 
     if (nextCell == mobPos)
@@ -269,12 +271,13 @@ void AIComponent::MovetoTile(double timestep)
 //            aiMobState = AIMobStates::aiSELECT;
 //        }
     }
-    else
+
+    if (nextCell != mobPos && nextCell != emptyCell)
     {
-        std::cout << "Current pos " << mobPos.first << "\t" << mobPos.second
-            << " next cell " << nextCell.first << "\t" << nextCell.second << std::endl;
+//        std::cout << "Current pos " << mobPos.first << "\t" << mobPos.second
+//            << " next cell " << nextCell.first << "\t" << nextCell.second << std::endl;
         auto globalCoords = tilemapPtr->getGlobalPosFromLocalCoords(nextCell);
-        std::cout << "Global coords next cell " << globalCoords << std::endl;
+//        std::cout << "Global coords next cell " << globalCoords << std::endl;
 
         MoveToPos(timestep, globalCoords);
     }

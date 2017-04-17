@@ -237,6 +237,7 @@ bool GameModel::canSpawn() const
 void GameModel::incMonsterCount()
 {
     ++MonsterCountOnMap;
+    std::cout << "MonsterCountOnMap = " << MonsterCountOnMap << std::endl;
 }
 
 void GameModel::decMonsterCount(string monsterName)

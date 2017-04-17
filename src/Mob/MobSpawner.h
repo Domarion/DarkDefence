@@ -16,6 +16,14 @@ using std::string;
 class MobSpawner
 {
 public:
+    enum class SpawnStatusT
+    {
+        NoSpawn = 0,
+        InProgress,
+        Done
+    };
+
+public:
     MobSpawner();
     virtual ~MobSpawner() = default;
     void loadWavesInfo(std::string filename);
@@ -25,12 +33,13 @@ public:
     bool isSpawned() const;
     int getWaveNumber() const;
     int getWaveCount() const;
-    string getWaveStringInfo();
+//    string getWaveStringInfo();
     void reset();
     std::vector<std::pair<string, int> > getCurrentWaveInfo();
     void connectInfoProcesser(std::function<void(string)> aInfoProcesser);
     void update(double timestep);
     void disconnectInfoProcesser();
+    string getNextMobName();
 private:
     double period;
     double currentTime;
@@ -38,5 +47,6 @@ private:
     std::vector<std::vector<std::pair<string, int> > > wavesInfo;
     std::function<void(string)> mInfoProcesser;
     std::string previousValue{};
-
+    SpawnStatusT currentSpawnStatus;
+    std::tuple<int, string, int> nextInfo;
 };

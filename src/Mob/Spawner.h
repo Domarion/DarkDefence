@@ -16,4 +16,6 @@ public:
 
 private:
     MobSpawner mSpawnerModel;
+    int timePeriod;
+    int currentTime;
 };

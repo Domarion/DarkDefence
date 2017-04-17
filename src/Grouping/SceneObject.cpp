@@ -6,6 +6,7 @@
  */
 
 #include "SceneObject.h"
+#include <cassert>
 
 SceneObject::SceneObject()
 :spriteModel(nullptr), x(0), y(0)
@@ -163,6 +164,12 @@ SDL_Point SceneObject::getPos() const
 Position SceneObject::getPosition() const
 {
     return Position(getX(), getY());
+}
+
+Position SceneObject::getRealPosition() const
+{
+    assert(spriteModel != nullptr);
+    return spriteModel->getRealPosition();
 }
 
 void SceneObject::setPos(SDL_Point aPos)

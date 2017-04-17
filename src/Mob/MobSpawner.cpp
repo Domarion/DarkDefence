@@ -10,6 +10,7 @@
 #include "../Utility/textfilefunctions.h"
 #include <fstream>
 #include <sstream>
+#include <cassert>
 using std::stringstream;
 
 MobSpawner::MobSpawner()
@@ -18,6 +19,8 @@ MobSpawner::MobSpawner()
     , waveNumber(0)
     , waveCount(0)
     , wavesInfo()
+    , currentSpawnStatus(SpawnStatusT::NoSpawn)
+    , nextInfo{-1, "none", 0}
 
 {
 }
@@ -75,7 +78,9 @@ bool MobSpawner::canSpawn(double timestep)
 
 bool MobSpawner::noMoreWaves() const
 {
-    return (waveNumber == waveCount) && GameModel::getInstance()->canSpawn();
+    return (waveNumber == waveCount)
+        && GameModel::getInstance()->canSpawn()
+        && currentSpawnStatus == SpawnStatusT::NoSpawn;
 }
 
 double MobSpawner::getCurrentTime() const
@@ -85,9 +90,8 @@ double MobSpawner::getCurrentTime() const
 
 bool MobSpawner::isSpawned() const
 {
-    return !GameModel::getInstance()->canSpawn();
+    return currentSpawnStatus != SpawnStatusT::InProgress;
 }
-
 
 
 int MobSpawner::getWaveNumber() const
@@ -100,48 +104,112 @@ int MobSpawner::getWaveCount() const
     return waveCount;
 }
 
-string MobSpawner::getWaveStringInfo()
-{
-    string s = "none";
+//string MobSpawner::getWaveStringInfo()
+//{
+//    string s = "none";
 
-    if (noMoreWaves())
-        s = "No More Waves";
-    else
-    {
-        if (!GameModel::getInstance()->canSpawn())
-        {
-            s = std::to_string(waveNumber) + " / " + std::to_string(waveCount);
+//    if (noMoreWaves())
+//        s = "No More Waves";
+//    else
+//    {
+//        if (!GameModel::getInstance()->canSpawn())
+//        {
+//            s = std::to_string(waveNumber) + " / " + std::to_string(waveCount);
 
-        }
-        else
-        if (currentTime > 0.0)
-        {
-            int i = static_cast<int>(currentTime)/1000;
-            s = "Wave in: " + std::to_string(i);
+//        }
+//        else
+//        if (currentTime > 0.0)
+//        {
+//            int i = static_cast<int>(currentTime)/1000;
+//            s = "Wave in: " + std::to_string(i);
 
-        }
-    }
+//        }
+//    }
 
-    if (mInfoProcesser && previousValue != s && s != "none")
-    {
-        mInfoProcesser(s);
-        previousValue = s;
-    }
-   return s;
+//    if (mInfoProcesser
+//            && (currentSpawnStatus == SpawnStatusT::InProgress
+//                || (previousValue != s && s != "none")))
+//    {
+//        mInfoProcesser(s);
+//        previousValue = s;
+//    }
+//   return s;
 
-}
+//}
 
 void MobSpawner::reset()
 {
     waveNumber = waveCount = 0;
     currentTime = period;
     wavesInfo.clear();
+    previousValue.clear();
+    nextInfo = std::make_tuple(-1, "none", 0);
+    currentSpawnStatus = SpawnStatusT::NoSpawn;
 }
 
 
-std::vector<std::pair<string, int> > MobSpawner::getCurrentWaveInfo()
+std::vector<std::pair<string, int> > MobSpawner::getCurrentWaveInfo() // deprecated
 {
     return wavesInfo[waveNumber - 1];
+}
+
+string MobSpawner::getNextMobName()
+{
+    if (waveNumber == 0 || currentSpawnStatus == SpawnStatusT::Done)
+    {
+        return std::string{"none"};
+    }
+
+    const auto& currentWaveInfo = wavesInfo[waveNumber - 1];
+    assert(!currentWaveInfo.empty() && "!currentWaveInfo.empty()");
+
+    int index = std::get<0>(nextInfo);
+    if (index < 0)
+    {
+        index = 0;
+        int count = currentWaveInfo[index].second;
+        std::cout << "0Count = " << count << std::endl;
+        nextInfo = std::make_tuple(index, currentWaveInfo[index].first, count - 1);
+        return currentWaveInfo[index].first;
+    }
+
+    if (index < currentWaveInfo.size())
+    {
+        std::string nextMobName = std::get<1>(nextInfo);
+        assert(!nextMobName.empty() && nextMobName != "none");
+        assert(currentWaveInfo[index].first == nextMobName && "nextMobName is not equal to waveInfo");
+        int leavesCount = std::get<2>(nextInfo);
+        if (leavesCount == 0 && currentWaveInfo.size() > index + 1)
+        {
+            ++index;
+            int count = currentWaveInfo[index].second;
+            std::cout << "1Count = " << count << std::endl;
+
+            nextInfo = std::make_tuple(index, currentWaveInfo[index].first, count);
+
+            return currentWaveInfo[index].first;
+        }
+
+        if (leavesCount <= 0 && currentWaveInfo.size() <= index + 1)
+        {
+
+            nextInfo = std::make_tuple(-1, "none", 0);
+            currentSpawnStatus = SpawnStatusT::Done;
+            return std::string{"none"};
+        }
+
+        std::cout << "2Count = " << (leavesCount - 1) << " index = " << index << " MobName = " << nextMobName << std::endl;
+
+        nextInfo = std::make_tuple(index, nextMobName, --leavesCount);
+        return nextMobName;
+    }
+
+    if (index >= currentWaveInfo.size())
+    {
+        nextInfo = std::make_tuple(-1, "none", 0);
+    }
+
+    return std::string{"none"};
 }
 
 void MobSpawner::connectInfoProcesser(std::function<void (std::string)> aInfoProcesser)
@@ -151,39 +219,61 @@ void MobSpawner::connectInfoProcesser(std::function<void (std::string)> aInfoPro
 
 void MobSpawner::update(double timestep)
 {
-    if (GameModel::getInstance()->canSpawn())
-    {
-        std::string info{"none"};
+    const double Eps = 1e-3;
+    std::string info {"none"};
 
-        if (waveNumber != waveCount)
+    switch (currentSpawnStatus)
+    {
+    case SpawnStatusT::NoSpawn:
+        if (GameModel::getInstance()->canSpawn())
         {
-            if (currentTime > 1e-3)
+
+            if (waveNumber != waveCount)
             {
-                int i = static_cast<int>(currentTime)/1000;
-                info = "Wave in: " + std::to_string(i);
-                currentTime -= timestep;
+                if (currentTime > Eps)
+                {
+                    int i = static_cast<int>(currentTime)/1000;
+                    info = "Wave in: " + std::to_string(i);
+                    currentTime -= timestep;
+                }
+                else
+                {
+                    ++waveNumber;
+
+                    currentTime = period;
+
+                    GameModel::getInstance()->calculatePointsPerWave();
+
+
+                    info = std::to_string(waveNumber) + " / " + std::to_string(waveCount);
+
+                    currentSpawnStatus = SpawnStatusT::InProgress;
+                }
             }
             else
             {
-                ++waveNumber;
-
-                currentTime = period;
-                GameModel::getInstance()->calculatePointsPerWave();
-
-
-                info = std::to_string(waveNumber) + " / " + std::to_string(waveCount);
-
-
+                info = "No more waves";
             }
         }
-        else
-            info = "No more waves";
+        break;
 
-        if (mInfoProcesser)
-        {
-            mInfoProcesser(info);
-        }
+    case SpawnStatusT::InProgress:
+        info = "InProgress";
+        break;
+
+    case SpawnStatusT::Done:
+        currentSpawnStatus = SpawnStatusT::NoSpawn;
+        break;
+
+    default:
+        break;
     }
+
+    if (mInfoProcesser && info != "none")
+    {
+        mInfoProcesser(info);
+    }
+
 }
 
 void MobSpawner::disconnectInfoProcesser()

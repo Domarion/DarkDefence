@@ -55,7 +55,7 @@ private:
     Enums::EReaction getReactionByTag(const string& aTag);
     pair<int, int> currentTargetPosition;
     std::unique_ptr<std::list<std::pair<int, int>>> currentPath;
-
+    std::pair<int, int> nextCell;
 };
 
 
