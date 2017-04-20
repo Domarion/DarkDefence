@@ -52,6 +52,7 @@ void AnimationSceneSprite::calculateFrameNumber()
 
     ++frameNumber;
 
+//    std::cout << "currentState = " << currentState << std::endl;
     if (frameNumber >= animationStates.at(currentState).size())
     {
         frameNumber = 0;
@@ -61,19 +62,17 @@ void AnimationSceneSprite::calculateFrameNumber()
 std::string AnimationSceneSprite::getCurrentState() const
 {
     return currentState;
-
 }
 
-void AnimationSceneSprite::setCurrentState(const std::string &value)
+void AnimationSceneSprite::setCurrentState(const std::string& aStateName)
 {
-    currentState = value;
-
+    currentState = aStateName;
 }
 
 void AnimationSceneSprite::setAnimRects(std::string state, vector<SDL_Rect> rects)
 {
-    setCurrentState(state);
     animationStates[state] = rects;
+    setCurrentState(state);
 }
 
 bool AnimationSceneSprite::isVisible() const

@@ -9,6 +9,8 @@
 #include "../GlobalScripts/GameModel.h"
 #include <cassert>
 #include <algorithm>
+#include "../Utility/textfilefunctions.h"
+#include "../Mob/ArrowAnim.h"
 
 AIComponent::AIComponent(std::weak_ptr<Mob> aMob)
     : MobPtr(aMob)
@@ -127,6 +129,30 @@ void AIComponent::Attack()
        else
        {
            int* damage = MobPtr.lock()->getModel()->getAttackDamage();
+
+           if (MobPtr.lock()->getTag() == "Tower")
+           {
+               auto sprite = std::make_shared<AnimationSceneSprite>(MobPtr.lock()->getParentScene()->getRenderer());
+               sprite->loadTexture("GameData/textures/Arrows/arrowSheet.png");
+               sprite->setSize(Size{123, 47});
+               map<string, vector<SDL_Rect> > anims;
+
+               std::string filename = "GameData/anims/Arrows/arrow.anim";
+               androidText::setRelativePath(filename);
+               androidText::loadAnimFromFile(filename, anims);
+
+               for(auto& anim : anims)
+               {
+//                   std::cout << "anim Name = " << anim.first << std::endl;
+                   sprite->setAnimRects(anim.first, anim.second);
+               }
+
+               auto miniObject = std::make_shared<ArrowAnim>(currentTarget->getRealPosition());
+               miniObject->setSprite(sprite);
+               MobPtr.lock()->getParentScene()->spawnObject(MobPtr.lock()->getRealPosition().x, MobPtr.lock()->getRealPosition().y, miniObject);
+
+//                MobPtr.lock()->getSprite()->setCurrentState("towerAttack");
+           }
 
            if (currentTarget->getDestructibleObject()->receiveDamage(damage))
            {
@@ -294,9 +320,27 @@ void AIComponent::MoveToPos(double /*timestep*/, Position targetPoint)
     int speed = static_cast<int>(speedWithModifier.first + speedWithModifier.second);
     Position newMobPos{MobPtr.lock()->getPosition()};
 
-    int signumX = signum(targetPoint.x  - newMobPos.x);
-    newMobPos.x += signumX * speed;
-    newMobPos.y += signum(targetPoint.y  - newMobPos.y) * speed;
+    int diffX = targetPoint.x  - newMobPos.x;
+    int signumX = signum(diffX);
+    if (abs(diffX) < speed)
+    {
+        newMobPos.x += signumX * diffX;
+    }
+    else
+    {
+        newMobPos.x += signumX * speed;
+    }
+    int diffY = targetPoint.y  - newMobPos.y;
+    int signumY = signum(diffY);
+
+    if (abs(diffY) < speed)
+    {
+        newMobPos.y += signumY * diffY;
+    }
+    else
+    {
+        newMobPos.y += signumY * speed;
+    }
 
     auto spritePtr = MobPtr.lock()->getModifiableSprite();
 

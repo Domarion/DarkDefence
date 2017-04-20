@@ -11,7 +11,7 @@ public:
     virtual bool update(double timestep) override;
 
 private:
-    double mTimeToLive;
+    double mTimeToLive = 0.0;
 
 
 };
