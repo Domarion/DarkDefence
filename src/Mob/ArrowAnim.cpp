@@ -31,23 +31,9 @@ bool ArrowAnim::ReachedPos()
     int signumY = signum(diffY);
     std::cout << "signX " << signumX << " signY " << signumY << std::endl;
 
-    if (abs(diffX) < speed)
-    {
-        newMobPos.x += signumX * diffX;
-    }
-    else
-    {
-        newMobPos.x += signumX * speed;
-    }
+    newMobPos.x += (abs(diffX) < speed)? diffX : signumX * speed;
+    newMobPos.y += (abs(diffY) < speed)? diffY : signumY * speed;
 
-    if (abs(diffY) < speed)
-    {
-        newMobPos.y += signumY * diffY;
-    }
-    else
-    {
-        newMobPos.y += signumY * speed;
-    }
 
     setPosition(newMobPos);
     return false;

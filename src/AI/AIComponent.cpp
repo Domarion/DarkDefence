@@ -321,26 +321,13 @@ void AIComponent::MoveToPos(double /*timestep*/, Position targetPoint)
     Position newMobPos{MobPtr.lock()->getPosition()};
 
     int diffX = targetPoint.x  - newMobPos.x;
-    int signumX = signum(diffX);
-    if (abs(diffX) < speed)
-    {
-        newMobPos.x += signumX * diffX;
-    }
-    else
-    {
-        newMobPos.x += signumX * speed;
-    }
     int diffY = targetPoint.y  - newMobPos.y;
+
+    int signumX = signum(diffX);
     int signumY = signum(diffY);
 
-    if (abs(diffY) < speed)
-    {
-        newMobPos.y += signumY * diffY;
-    }
-    else
-    {
-        newMobPos.y += signumY * speed;
-    }
+    newMobPos.x += (abs(diffX) < speed)? diffX : signumX * speed;
+    newMobPos.y += (abs(diffY) < speed)? diffY : signumY * speed;
 
     auto spritePtr = MobPtr.lock()->getModifiableSprite();
 
