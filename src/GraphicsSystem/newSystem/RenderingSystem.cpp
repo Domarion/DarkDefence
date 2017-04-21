@@ -63,6 +63,17 @@ void RenderingSystem::renderTextureFlipping(
     }
 }
 
+void RenderingSystem::renderTextureRotate(
+    SDL_Texture* texturePtr, Position aDestPosition, const SDL_Rect* clipRect, double anAngle)
+{
+    if (texturePtr != nullptr && clipRect != nullptr)
+    {
+        SDL_Rect destRect = {aDestPosition.x, aDestPosition.y, clipRect->w, clipRect->h};
+        SDL_RendererFlip flipFlagNone = static_cast<SDL_RendererFlip>(SDL_FLIP_NONE);
+        SDL_RenderCopyEx(renderer.get(), texturePtr, clipRect, &destRect, anAngle, nullptr, flipFlagNone);
+    }
+}
+
 std::unique_ptr<SDL_Texture, RenderingSystem::TTextureDeleter> RenderingSystem::loadTextureFromFile(
         const std::string& filename)
 {
