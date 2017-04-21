@@ -25,6 +25,8 @@ public:
     virtual bool canTrigger(std::shared_ptr<SceneObject>, AIMobStates aistate) override;
 private:
     std::shared_ptr<EffectModel> arsonEffect;
+    double counter = 0.0;
+
 };
 
 

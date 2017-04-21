@@ -20,15 +20,8 @@ void AbilityMagicStones::init(std::shared_ptr<Scene> scenePtr)
     StoneEffect->addMiniEffect(miniProtection);
 }
 
-bool AbilityMagicStones::onReady(double timestep)
+bool AbilityMagicStones::onReady(double /*timestep*/)
 {
-    if (AbilityModel::onReady(timestep) == false)
-    {
-        abilityState = Enums::AbilityStates::asNotAvaliable;
-
-        return false;
-    }
-
     if (gatesSceneObject == nullptr && parentScenePtr != nullptr)
         gatesSceneObject = parentScenePtr->findObjectByTag("Gates");
 

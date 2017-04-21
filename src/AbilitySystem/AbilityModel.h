@@ -5,18 +5,21 @@ using std::string;
 #include "../Grouping/Scene.h"
 #include <memory>
 #include "../GlobalScripts/ManaGlobal.h"
-
+#include <functional>
 class AbilityModel
 {
 public:
     AbilityModel(std::shared_ptr<ManaGlobal> aManaModel);
-    virtual ~AbilityModel();
+    virtual ~AbilityModel() = default;
+
     virtual void init(std::shared_ptr<Scene> scenePtr);
-    virtual bool onReady(double timestep);
+    virtual bool onReady(double timestep) = 0;
     virtual bool onWorking(double timestep) = 0;
     virtual bool onCooldown(double timestep) = 0;
     virtual bool update(double timestep);
-    void setAsReady();
+    virtual bool canPlaceObject() const;
+
+    bool trySetAsReady();
     int getManaCost() const;
     void setManaCost(int value);
 
@@ -28,6 +31,7 @@ public:
 
     string getAbilityName() const;
     void setAbilityName(const string &value);
+    void setPlacingCallback(std::function<void()> aPlacingEndedCallBack);
 
 protected:
     Enums::AbilityStates abilityState;
@@ -39,5 +43,6 @@ protected:
     double currentCooldownTime;
     std::shared_ptr<Scene> parentScenePtr;
     std::shared_ptr<ManaGlobal> mManaModel;
+    std::function<void()> placingEndedCallBack;
 };
 

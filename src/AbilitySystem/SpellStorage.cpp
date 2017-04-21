@@ -6,16 +6,6 @@
 #include "../AbilitySystem/AbilityEarthquake.h"
 #include "../AbilitySystem/AbilityMagicBlink.h"
 
-SpellStorage::SpellStorage()
-{
-
-}
-
-SpellStorage::~SpellStorage()
-{
-    free();
-}
-
 void SpellStorage::loadWithScene(std::shared_ptr<Scene> scenePtr, std::shared_ptr<ManaGlobal> aManaModel)
 {
     auto magicStones = std::make_unique<AbilityMagicStones>(aManaModel);
@@ -71,15 +61,14 @@ void SpellStorage::loadWithScene(std::shared_ptr<Scene> scenePtr, std::shared_pt
 
 }
 
-std::shared_ptr<AbilityModel> SpellStorage::getAbilityModelWithName(string name)
+std::shared_ptr<AbilityModel> SpellStorage::getAbilityModelWithName(const std::string& aName)
 {
-    return abilityModelsMap[name];
+    return abilityModelsMap.at(aName);
 }
 
-void SpellStorage::setAbilityReady(string s)
+bool SpellStorage::setAbilityReady(const string& aAbilityName)
 {
-    abilityModelsMap[s]->setAsReady();
-
+    return abilityModelsMap.at(aAbilityName)->trySetAsReady();
 }
 
 void SpellStorage::updateAbilities(double timestep)
@@ -93,7 +82,7 @@ map<std::string, std::shared_ptr<AbilityModel> > &SpellStorage::getAbilityModelL
      return abilityModelsMap;
 }
 
-void SpellStorage::free()
+bool SpellStorage::canPlaceObjectAbility(const std::string& aAbilityName) const
 {
-    abilityModelsMap.clear();
+    return abilityModelsMap.at(aAbilityName)->canPlaceObject();
 }

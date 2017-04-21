@@ -20,14 +20,15 @@ public:
     Path getPath(pair<int, int> endVertex);
     int getRowCount() const;
     int getColumnCount() const;
+    Size getCellSize() const;
+    Size getMapSize() const;
+    pair<int, int> getPosFromGlobalCoords(Position pos);
 
-     pair<int, int> getPosFromGlobalCoords(Position pos);
+    Position getGlobalPosFromLocalCoords(pair<int, int> localPos);
 
-     Position getGlobalPosFromLocalCoords(pair<int, int> localPos);
-
-     const constexpr static int FilledCell = -2;
-     const constexpr static int StartingCell = 0;
-     const constexpr static int EmptyCell = -1;
+    const constexpr static int FilledCell = -2;
+    const constexpr static int StartingCell = 0;
+    const constexpr static int EmptyCell = -1;
 
 private:
 

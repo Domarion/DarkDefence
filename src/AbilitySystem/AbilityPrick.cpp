@@ -11,41 +11,14 @@ AbilityPrick::AbilityPrick(std::shared_ptr<ManaGlobal> aManaModel)
 
 }
 
-AbilityPrick::~AbilityPrick()
-{
-
-}
-
 void AbilityPrick::init(std::shared_ptr<Scene> scenePtr)
 {
     AbilityModel::init(scenePtr);
 }
 
-bool AbilityPrick::onReady(double timestep)
+bool AbilityPrick::onReady(double /*timestep*/)
 {
-    if (AbilityModel::onReady(timestep) == false)
-    {
-
-        abilityState = Enums::AbilityStates::asNotAvaliable;
-
-        return false;
-    }
-    else
-    {
-//        auto gameScene = std::dynamic_pointer_cast<GameScene>(parentScenePtr);
-//        if (gameScene == nullptr)
-//            return false;
-
-//        if (gameScene->getGameSceneStatus() != Enums::GameSceneStatuses::Default)
-//        {
-//            return false;
-//        }
-//        else
-//        {
-//            gameScene->setGameSceneStatus(Enums::GameSceneStatuses::SpellCasting);
-//        }
-        abilityState =Enums::AbilityStates::asWorking;
-    }
+    abilityState = Enums::AbilityStates::asWorking;
 
     return true;
 }
@@ -55,14 +28,21 @@ bool AbilityPrick::onWorking(double /*timestep*/)
     if (parentScenePtr != nullptr && coordX > 0 && coordY > 0)
     {
         abilityState = Enums::AbilityStates::asOnCooldown;
-        somePrick = std::make_shared<PrickObject>(damage);
+        const int timeToLive = 200;
+        somePrick = std::make_shared<PrickObject>(timeToLive, damage);
 
         auto spritePrick = std::make_shared<AnimationSceneSprite>(parentScenePtr->getRenderer());
         spritePrick->setSize(Size(200, 200));
         spritePrick->loadTexture("GameData/textures/EmptySlot.png");
         somePrick->setSprite(spritePrick);
 
-        parentScenePtr->spawnObject(coordX,coordY, somePrick);
+        parentScenePtr->spawnObject(coordX, coordY, somePrick);
+
+        if (placingEndedCallBack)
+        {
+            placingEndedCallBack();
+        }
+
         coordX = 0;
         coordY = 0;
 
@@ -81,10 +61,6 @@ bool AbilityPrick::onCooldown(double timestep)
     else
         currentCooldownTime -= timestep;
 
-    if (cooldownTime - currentCooldownTime < 100 && cooldownTime - currentCooldownTime > 80)
-    {
-        parentScenePtr->destroyObject(somePrick);
-    }
     return true;
 }
 
@@ -123,7 +99,12 @@ bool AbilityPrick::update(double timestep)
             break;
         }
     }
-     return true;
+    return true;
+}
+
+bool AbilityPrick::canPlaceObject() const
+{
+    return true;
 }
 
 

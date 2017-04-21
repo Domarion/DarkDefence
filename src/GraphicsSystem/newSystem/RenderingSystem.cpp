@@ -63,6 +63,17 @@ void RenderingSystem::renderTextureFlipping(
     }
 }
 
+void RenderingSystem::renderTextureRotate(
+    SDL_Texture* texturePtr, Position aDestPosition, const SDL_Rect* clipRect, double anAngle)
+{
+    if (texturePtr != nullptr && clipRect != nullptr)
+    {
+        SDL_Rect destRect = {aDestPosition.x, aDestPosition.y, clipRect->w, clipRect->h};
+        SDL_RendererFlip flipFlagNone = static_cast<SDL_RendererFlip>(SDL_FLIP_NONE);
+        SDL_RenderCopyEx(renderer.get(), texturePtr, clipRect, &destRect, anAngle, nullptr, flipFlagNone);
+    }
+}
+
 std::unique_ptr<SDL_Texture, RenderingSystem::TTextureDeleter> RenderingSystem::loadTextureFromFile(
         const std::string& filename)
 {
@@ -152,6 +163,38 @@ void RenderingSystem::setRendererDrawColor(Uint8 red, Uint8 green, Uint8 blue, U
 
 }
 
+void RenderingSystem::drawLine(Position aFirstPoint, Position aLastPoint)
+{
+    SDL_RenderDrawLine(renderer.get(), aFirstPoint.x, aFirstPoint.y, aLastPoint.x, aLastPoint.y);
+}
+
+void RenderingSystem::drawGrid(Size aGridSize, Size aCellSize)
+{
+    int linesCount = (aGridSize.height + 1) / aCellSize.height;
+    int columnsCount = (aGridSize.width + 1) / aCellSize.width;
+
+    Position first{0, 0};
+    Position last{aGridSize.width, 0};
+    for(int line = 0; line < linesCount; ++line)
+    {
+        drawLine(first, last);
+        first.y += aCellSize.height;
+        last.y += aCellSize.height;
+    }
+
+    first.x = 0;
+    first.y = 0;
+    last.x = 0;
+    last.y = aGridSize.height;
+
+    for(int column = 0; column < columnsCount; ++column)
+    {
+        drawLine(first, last);
+        first.x += aCellSize.width;
+        last.x += aCellSize.width;
+    }
+}
+
 void RenderingSystem::renderClear()
 {
     SDL_RenderClear(renderer.get());
@@ -160,7 +203,6 @@ void RenderingSystem::renderClear()
 void RenderingSystem::renderPresent()
 {
     SDL_RenderPresent(renderer.get());
-
 }
 
 Size RenderingSystem::getScreenSize() const

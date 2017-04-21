@@ -2,16 +2,13 @@
 #include "../Enums.h"
 #include <iostream>
 
-PrickObject::PrickObject(int aDamage)
-    :notDid(true), damage(aDamage)
+PrickObject::PrickObject(int aTimeToLive, int aDamage)
+    : AbilityAnimObject(aTimeToLive)
+    , damage(aDamage)
 {
 
 }
 
-PrickObject::~PrickObject()
-{
-
-}
 
 void PrickObject::init(int x, int y)
 {
@@ -51,20 +48,10 @@ void PrickObject::init(int x, int y)
            auto temp = (*affectedMob)->getDestructibleObject();
            if (temp != nullptr)
            {
-               std::cout << "Damage to" << temp->getName() << std::endl;
+//               std::cout << "Damage to" << temp->getName() << std::endl;
                temp->receiveDamageOneType(static_cast<int>(Enums::DamageTypes::dtPHYSICAL), damage);
            }
         }
-        notDid = false;
     }
 }
 
-bool PrickObject::update(double /*timestep*/)
-{
-    return notDid;
-}
-
-void PrickObject::finalize()
-{
-
-}

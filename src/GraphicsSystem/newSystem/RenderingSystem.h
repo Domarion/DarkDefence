@@ -21,6 +21,8 @@ public:
     void renderTexture(SDL_Texture* texturePtr, Position aDestPosition, const SDL_Rect* clipRect);
     void renderTextureFlipping(
         SDL_Texture* texturePtr, Position aDestPosition, const SDL_Rect* clipRect, SDL_RendererFlip aFlipFlags);
+    void renderTextureRotate(
+        SDL_Texture* texturePtr, Position aDestPosition, const SDL_Rect* clipRect, double anAngle);
 
 
     std::unique_ptr<SDL_Texture, TTextureDeleter>  loadTextureFromFile(const string& filename);
@@ -40,7 +42,11 @@ public:
     void renderToTarget(SDL_Texture *texturePtr);
 
     void setRendererDrawColor(Uint8 red, Uint8 green, Uint8 blue, Uint8 alpha);
+    void drawLine(Position aFirstPoint, Position aLastPoint);
+    void drawGrid(Size aGridSize, Size aCellSize);
+
     void renderClear();
+
     void renderPresent();
 
     Size getScreenSize() const;

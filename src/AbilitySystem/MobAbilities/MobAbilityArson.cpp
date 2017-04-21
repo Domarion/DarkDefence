@@ -16,27 +16,19 @@ MobAbilityArson::~MobAbilityArson()
 
 bool MobAbilityArson::onReady(double /*timestep*/)
 {
-    //std::cout << "WTFArson000" << std::endl;
+    if (target == nullptr)
+    {
+        abilityState = Enums::AbilityStates::asNotAvaliable;
+        return true;
+    }
 
-
-       if (target != nullptr)
-       {
-      //   std::cout << "WTFArson" << std::endl;
-           target->getEffectReceiver()->applyEffect(arsonEffect);
-           abilityState = Enums::AbilityStates::asWorking;
-       }
-       else
-             abilityState = Enums::AbilityStates::asNotAvaliable;
-
-
-   return true;
+    target->getEffectReceiver()->applyEffect(arsonEffect);
+    abilityState = Enums::AbilityStates::asWorking;
+    return true;
 }
 
 bool MobAbilityArson::onWorking(double timestep)
 {
-    static double counter = 0.0;
-
-
     if (target == nullptr)
     {
         abilityState = Enums::AbilityStates::asOnCooldown;
@@ -49,7 +41,6 @@ bool MobAbilityArson::onWorking(double timestep)
         int damage = 30;
         target->getDestructibleObject()->receiveDamageOneType(static_cast<int>(Enums::DamageTypes::dtFIRE), damage);
 
-        //std::cout << "AbilityArson Working" << std::endl;
         counter = 0;
     }
 

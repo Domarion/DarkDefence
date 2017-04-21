@@ -370,7 +370,7 @@ int AIComponent::getPriorityFromTag(const string &aTag)
     return -1;
 }
 
-Enums::EReaction AIComponent::getReactionByTag(const string &aTag)
+Enums::EReaction AIComponent::getReactionByTag(const string& aTag)
 {
     for(const auto& enemyInfo: enemiesInfoList)
         if (enemyInfo.getTag() == aTag)
@@ -379,17 +379,14 @@ Enums::EReaction AIComponent::getReactionByTag(const string &aTag)
     return Enums::EReaction::Attack;
 }
 
-
 bool AIComponent::Cast(std::shared_ptr<SceneObject> target)
 {
     for(auto& abilityPtr : mobAbilities)
         if (abilityPtr != nullptr &&
-                abilityPtr->canTrigger(target, aiMobState))
+            abilityPtr->canTrigger(target, aiMobState))
         {
-            abilityPtr->setAsReady();
-            return true;
+            return abilityPtr->trySetAsReady();
         }
-
 
     return false;
 }

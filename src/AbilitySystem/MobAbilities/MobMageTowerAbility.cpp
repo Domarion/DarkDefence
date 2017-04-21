@@ -1,5 +1,6 @@
 #include "MobMageTowerAbility.h"
 #include "Scenes/GameScene.h"
+
 bool MobMageTowerAbility::onReady(double /*timestep*/)
 {
     auto gameScene = std::static_pointer_cast<GameScene>(parentScenePtr);

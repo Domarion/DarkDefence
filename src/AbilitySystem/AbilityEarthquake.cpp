@@ -10,15 +10,8 @@ AbilityEarthquake::AbilityEarthquake(std::shared_ptr<ManaGlobal> aManaModel)
 }
 
 
-bool AbilityEarthquake::onReady(double timestep)
+bool AbilityEarthquake::onReady(double /*timestep*/)
 {
-    if (AbilityModel::onReady(timestep) == false)
-    {
-        abilityState = Enums::AbilityStates::asNotAvaliable;
-
-        return false;
-    }
-
     if (affectedMobs == nullptr && parentScenePtr != nullptr && GameModel::getInstance()->getMonsterCount() > 0)
         affectedMobs = parentScenePtr->findObjectsByTag("Monster");
 
@@ -27,7 +20,7 @@ bool AbilityEarthquake::onReady(double timestep)
 
 
         abilityState = Enums::AbilityStates::asWorking;
-        std::cout << "worked" << std::endl;
+//        std::cout << "worked" << std::endl;
     }
     else
         abilityState = Enums::AbilityStates::asNotAvaliable;

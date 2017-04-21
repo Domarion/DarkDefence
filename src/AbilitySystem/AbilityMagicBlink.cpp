@@ -13,16 +13,8 @@ void AbilityMagicBlink::init(std::shared_ptr<Scene> scenePtr)
     AbilityModel::init(scenePtr);
 }
 
-bool AbilityMagicBlink::onReady(double timestep)
+bool AbilityMagicBlink::onReady(double /*timestep*/)
 {
-    if (AbilityModel::onReady(timestep) == false)
-    {
-        abilityState = Enums::AbilityStates::asNotAvaliable;
-
-        return false;
-    }
-
-
     if (affectedMobs == nullptr && parentScenePtr != nullptr && GameModel::getInstance()->getMonsterCount() > 0)
         affectedMobs = parentScenePtr->findObjectsByTag("Monster");
 
