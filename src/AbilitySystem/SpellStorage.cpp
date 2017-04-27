@@ -73,8 +73,13 @@ bool SpellStorage::setAbilityReady(const string& aAbilityName)
 
 void SpellStorage::updateAbilities(double timestep)
 {
-    for(auto ptr0 = abilityModelsMap.begin(); ptr0 != abilityModelsMap.end(); ++ptr0)
-        ptr0->second->update(timestep);
+    for(auto& abilityPair : abilityModelsMap)
+    {
+        if (abilityPair.second != nullptr)
+        {
+            (abilityPair.second)->update(timestep);
+        }
+    }
 }
 
 map<std::string, std::shared_ptr<AbilityModel> > &SpellStorage::getAbilityModelList()

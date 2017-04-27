@@ -94,10 +94,10 @@ vector<vector<int> > loadMatrixFromFile(string filename)
         for(size_t row = 0; row < n; ++row)
             for(size_t column = 0; column < m; ++column)
             {
-                std::cout << "row = " << row << " column= " << column;
+//                std::cout << "row = " << row << " column= " << column;
                 int res;
                 stream >> res;
-                std::cout << "result = " << res << std::endl;
+//                std::cout << "result = " << res << std::endl;
                 resultingMap[row][column] = res;
             }
     }
