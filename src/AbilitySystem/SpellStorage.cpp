@@ -49,8 +49,8 @@ void SpellStorage::loadWithScene(std::shared_ptr<Scene> scenePtr, std::shared_pt
     magicBlink->init(scenePtr);
     magicBlink->setManaCost(50);
     magicBlink->setCooldownTime(10000);
-    magicBlink->setWorkTime(10000);
-    magicBlink->setDamage(20);
+    magicBlink->setWorkTime(0);
+    magicBlink->setDamage(30);
 
     abilityModelsMap["MagicStones"] = std::move(magicStones);
     abilityModelsMap["SnowStorm"] = std::move(snowStorm);

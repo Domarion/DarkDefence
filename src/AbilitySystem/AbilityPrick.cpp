@@ -11,11 +11,6 @@ AbilityPrick::AbilityPrick(std::shared_ptr<ManaGlobal> aManaModel)
 
 }
 
-void AbilityPrick::init(std::shared_ptr<Scene> scenePtr)
-{
-    AbilityModel::init(scenePtr);
-}
-
 bool AbilityPrick::onReady(double /*timestep*/)
 {
     abilityState = Enums::AbilityStates::asWorking;
