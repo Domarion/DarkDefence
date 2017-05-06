@@ -1,12 +1,12 @@
 #pragma once
+
 #include <functional>
 #include "../UIElement/ConcreteComposite.h"
 
 class UIScrollList final: public ConcreteComposite
 {
 public:
-    explicit UIScrollList(int aItemsToShow
-                          , std::shared_ptr<RenderingSystem>& aRenderingContext);
+    explicit UIScrollList(int aItemsToShow, std::shared_ptr<RenderingSystem>& aRenderingContext);
     virtual ~UIScrollList() = default;
 
     virtual void ConnectMethod(std::function<bool(int)> method);
@@ -22,24 +22,19 @@ public:
     void scrollUp(size_t amount);
     void scrollDown(size_t amount);
 
+    // IComposite interface
+    void addChild(const shared_ptr<IComposite>& child) override;
+    void removeChild(const shared_ptr<IComposite>& child) override;
+    void draw() const override;
+
+    // InputHandler interface
+    bool onClick(Position point) override;
+    bool containsPoint(int x, int y) const override;
+
 private:
     size_t itemCountToShow;
     std::list<shared_ptr<IComposite> >::iterator toFirst, toLast;
 
     std::function<bool(int)> connectedMethod;
     void recalcItemPositions();
-
-    // IComposite interface
-public:
-    virtual void addChild(const shared_ptr<IComposite>& child) override;
-    virtual void removeChild(const shared_ptr<IComposite> &child) override;
-    virtual void draw() const override;
-
-    // InputHandler interface
-public:
-    virtual bool onClick(Position point) override;
-
-    // InputHandler interface
-public:
-    virtual bool containsPoint(int x, int y) const override;
 };

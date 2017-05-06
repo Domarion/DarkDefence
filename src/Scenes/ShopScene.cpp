@@ -16,7 +16,6 @@ ShopScene::ShopScene(std::shared_ptr<RenderingSystem> &aRenderer, std::shared_pt
     , goldCoinsLabel(nullptr)
     , shopController(nullptr)
 {
-
 }
 
 ShopScene::~ShopScene()
@@ -32,42 +31,36 @@ void ShopScene::init(std::shared_ptr<SceneManager> sceneManagerPtr)
 
     initBackGroundUI();
     initShopItemsUI();
-    std::cout << "KU-KU" << std::endl;
     Scene::addToUIList(MainRect);
 }
 
 void ShopScene::clear()
 {
-
     Scene::clear();
     shopController.reset();
     goldCoinsLabel.reset();
 
     GameModel::getInstance()->getShopInventory()->clearControllerReceivers();
-
 }
-
 
 void ShopScene::startUpdate(double timestep)
 {
     if (goldCoinsLabel != nullptr)
     {
         Scene::startUpdate(timestep);
-        string sss1 = std::to_string(AccountModel::getInstance()->getGoldAmount());
-        goldCoinsLabel->setText(sss1);
+        string goldAmountText = std::to_string(AccountModel::getInstance()->getGoldAmount());
+        goldCoinsLabel->setText(goldAmountText);
     }
 }
 
 void ShopScene::initControlButton()
 {
-    Scene::addLoadSceneButton("Назад", "ButtonFont", "MainScene",
-                MainRect->getSize().width - 100, MainRect->getSize().height - 50,
-                              100, 50);
+    Scene::addLoadSceneButton(
+        "Назад", "ButtonFont", "MainScene", MainRect->getSize().width - 100, MainRect->getSize().height - 50, 100, 50);
 }
 
 void ShopScene::initBackGroundUI()
 {
-
     auto backGroundImage = std::make_shared<UIImage>(renderer);
     backGroundImage->loadTexture("GameData/textures/shopBackground.jpg");
     backGroundImage->setSize(Size(MainRect->getSize().width*3/5, MainRect->getSize().height - 50));
@@ -75,49 +68,46 @@ void ShopScene::initBackGroundUI()
 
     Font aFont = FontManager::getInstance()->getFontByKind2("ButtonFont");
 
+//    class UIClickLabel : public UILabel, public InputHandler
+//    {
+//    public:
+//        UIClickLabel(const string& ltext, const Font& lfont, std::shared_ptr<RenderingSystem>& aRenderingContext)
+//            :UILabel(ltext, lfont, aRenderingContext)
+//        {
+//        }
+//        ~UIClickLabel() = default;
 
-    class UIClickLabel : public UILabel, public InputHandler
-    {
-    public:
-        UIClickLabel(const string& ltext, const Font& lfont, std::shared_ptr<RenderingSystem>& aRenderingContext)
-            :UILabel(ltext, lfont, aRenderingContext)
-        {
+//        UIClickLabel() = default;
 
-        }
-        ~UIClickLabel() = default;
+//        bool onClick(Position point) override
+//        {
+//            auto pointCoords = "OnClick pount Coords = " + std::to_string(point.x) + ";" + std::to_string(point.y);
+//            setText(pointCoords);
+//            return false;
+//        }
 
-        UIClickLabel() = default;
+//        bool canDrag() const override
+//        {
+//            return true;
+//        }
 
-        bool onClick(Position point) override
-        {
-            auto pointCoords = "OnClick pount Coords = " + std::to_string(point.x) + ";" + std::to_string(point.y);
-            setText(pointCoords);
-            return false;
-        }
+//        virtual bool onDrag(int dy) override
+//        {
+//            auto pointCoords = "OnDrag value = " +  std::to_string(dy);
+//            setText(pointCoords);
 
-        bool canDrag() const override
-        {
-            return true;
-        }
+//            return false;
+//        }
 
-        virtual bool onDrag(int dy) override
-        {
-            auto pointCoords = "OnDrag value = " +  std::to_string(dy);
-            setText(pointCoords);
+//        bool containsPoint(int, int) const override
+//        {
+//            return true;
+//        }
+//    };
 
-            return false;
-        }
-
-        bool containsPoint(int, int) const override
-        {
-            return true;
-        }
-    };
-
-    auto touchLabel = std::make_shared<UIClickLabel>("XXXXX", aFont, renderer);
-    touchLabel->setPosition(Position(0, MainRect->getSize().height - 25));
-    MainRect->addChild(touchLabel);
-
+//    auto touchLabel = std::make_shared<UIClickLabel>("XXXXX", aFont, renderer);
+//    touchLabel->setPosition(Position(0, MainRect->getSize().height - 25));
+//    MainRect->addChild(touchLabel);
 
     auto sceneNameLabel = std::make_shared<UILabel>("Мистическая лавка", aFont, renderer);
     sceneNameLabel->setPosition(MainRect->getNextVerticalPosition());
@@ -129,24 +119,12 @@ void ShopScene::initBackGroundUI()
     goldCoinsLabel->setPosition(Position(MainRect->getNextHorizontalPosition().x, sceneNameLabel->getPosition().y));
     MainRect->addChild(goldCoinsLabel);
 
-
-//    goldCoins = new Label();
-//    goldCoins->setFont(FontManager::getInstance()->getFontByKind("ButtonFont"));
-//    string goldAmount = std::to_string(AccountModel::getInstance()->getGoldAmount());
-//    goldCoins->setText(goldAmount);
-//    goldCoins->setPos(Renderer::getInstance()->getScreenWidth() - 310, Renderer::getInstance()->getScreenHeight() - 50);
-
-//    Scene::addToUIList(goldCoins);
-
-
     initControlButton();
 }
 
 void ShopScene::initShopItemsUI()
 {
-
-//    GameModel::getInstance()->loadShopItems("GameData/Items.xml");
-    const int showItems = 3;
+    const int showItems = 5;
 
     auto scroll = std::make_shared<UIScrollList>(showItems, renderer);
 
