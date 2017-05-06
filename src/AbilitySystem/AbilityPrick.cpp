@@ -1,5 +1,4 @@
 #include "AbilityPrick.h"
-//#include "Scenes/GameScene.h"
 
 AbilityPrick::AbilityPrick(std::shared_ptr<ManaGlobal> aManaModel)
     : AbilityModel(aManaModel)
@@ -29,7 +28,7 @@ bool AbilityPrick::onWorking(double /*timestep*/)
         auto spritePrick = std::make_shared<AnimationSceneSprite>(parentScenePtr->getRenderer());
         spritePrick->setSize(Size(200, 200));
         spritePrick->loadTexture("GameData/textures/EmptySlot.png");
-        somePrick->setSprite(spritePrick);
+        spritePrick->setAnchorPointPlace(Enums::AnchorCoordTypes::Middle, Enums::AnchorCoordTypes::Middle);
 
         parentScenePtr->spawnObject(coordX, coordY, somePrick);
 
@@ -48,13 +47,7 @@ bool AbilityPrick::onWorking(double /*timestep*/)
 
 bool AbilityPrick::onCooldown(double timestep)
 {
-    if (currentCooldownTime <= 0)
-    {
-        currentCooldownTime = cooldownTime;
-        abilityState = Enums::AbilityStates::asNotAvaliable;
-    }
-    else
-        currentCooldownTime -= timestep;
+    AbilityModel::onCooldown(timestep);
 
     return true;
 }

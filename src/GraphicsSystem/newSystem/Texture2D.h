@@ -22,6 +22,8 @@ public:
     void loadTexture(const string& filename, bool aRelativePath = true);
     void drawAtPosition(Position pos) const;
     void drawPartAtPosition(Position pos, const SDL_Rect *clip, int aFlipFlags = SDL_FLIP_NONE) const;
+    void drawScaledPartAtPosition(Position pos, Size aTextureSize, const SDL_Rect *clip) const;
+
     Size getSize() const;
     void setSize(Size size);
     void scaleToTexture();
@@ -30,10 +32,14 @@ public:
     void setAsRenderTarget();
     void unSetAsRenderTarget();
     void createBlankTexture(SDL_TextureAccess aAccess = SDL_TEXTUREACCESS_TARGET);
+    Size getOriginalTextureSize() const;
 
 private:
+
+    void setOriginalTextureSize();
     shared_ptr<SDL_Texture> texturePtr;
-    Size textureSize{0,0};
+    Size textureSize; // логический размер
     std::shared_ptr<RenderingSystem> renderer;
+    Size originalTextureSize; // реальный размер загруженной текстуры
 };
 

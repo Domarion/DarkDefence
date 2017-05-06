@@ -9,15 +9,14 @@ class AbilitySnowStorm: public AbilityModel
 public:
     AbilitySnowStorm(std::shared_ptr<ManaGlobal> aManaModel);
     virtual ~AbilitySnowStorm() = default;
-    virtual void init(std::shared_ptr<Scene> scenePtr);
-    virtual bool onReady(double timestep);
-    virtual bool onWorking(double timestep);
-    virtual bool onCooldown(double timestep);
+    void init(std::shared_ptr<Scene> scenePtr) override;
+    bool onReady(double timestep) override;
+    bool onWorking(double timestep) override;
     void setDamagePerSecond(int value);
+
 private:
     std::shared_ptr<EffectModel> snowEffect;
     int damagePerSecond;
     SceneObjectList affectedMobs;
-
 };
 

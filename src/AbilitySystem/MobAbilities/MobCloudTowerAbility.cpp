@@ -1,6 +1,7 @@
-#include "GulakiUpgrade.h"
+#include "MobCloudTowerAbility.h"
+#include "Scenes/GameScene.h"
 
-GulakiUpgrade::GulakiUpgrade(std::shared_ptr<ManaGlobal> aManaModel)
+MobCloudTowerAbility::MobCloudTowerAbility(std::shared_ptr<ManaGlobal> aManaModel)
     : MobAbility(aManaModel)
     , affectedMobs(std::make_unique<std::list<std::shared_ptr<SceneObject> > >())
     , stunEffect(std::make_shared<EffectModel>())
@@ -15,9 +16,9 @@ GulakiUpgrade::GulakiUpgrade(std::shared_ptr<ManaGlobal> aManaModel)
     srand(time(0));
 }
 
-void GulakiUpgrade::releaseDamage(std::shared_ptr<SceneObject> aTarget)
+void MobCloudTowerAbility::releaseDamage(std::shared_ptr<SceneObject> aTarget)
 {
-    if (!aTarget->getEffectReceiver()->hasEffect(stunEffect) && (rand() % 3 == 1))
+    if (!aTarget->getEffectReceiver()->hasEffect(stunEffect) && (rand() % 10 == 1))
     {
         aTarget->getEffectReceiver()->applyEffect(stunEffect);
     }
@@ -26,7 +27,24 @@ void GulakiUpgrade::releaseDamage(std::shared_ptr<SceneObject> aTarget)
     affectedMobs->push_back(aTarget);
 }
 
-bool GulakiUpgrade::onReady(double /*timestep*/)
+void MobCloudTowerAbility::init(std::shared_ptr<Scene> scenePtr)
+{
+    AbilityModel::init(scenePtr);
+
+    auto gameScene = std::static_pointer_cast<GameScene>(scenePtr);
+
+    if (gameScene != nullptr)
+    {
+       auto manaModel = gameScene->getManaModel();
+       if (manaModel != nullptr)
+       {
+            auto regenValue = manaModel->getRegenValue() + 5;// учесть необходимость сброса в будущем
+            manaModel->setRegenValue(regenValue);
+       }
+    }
+}
+
+bool MobCloudTowerAbility::onReady(double /*timestep*/)
 {
     if (target != nullptr)
     {
@@ -41,7 +59,7 @@ bool GulakiUpgrade::onReady(double /*timestep*/)
         }
 
         int counter = 0;
-        int counterMax = 2;
+        int counterMax = 5;
 
         for(auto& monster : *monsters)
         {
@@ -63,18 +81,18 @@ bool GulakiUpgrade::onReady(double /*timestep*/)
 
 }
 
-bool GulakiUpgrade::onWorking(double /*timestep*/)
+bool MobCloudTowerAbility::onWorking(double /*timestep*/)
 {
     return true;
 
 }
 
-bool GulakiUpgrade::onCooldown(double /*timestep*/)
+bool MobCloudTowerAbility::onCooldown(double /*timestep*/)
 {
     return true;
 }
 
-bool GulakiUpgrade::canTrigger(std::shared_ptr<SceneObject> targ, Enums::AIMobStates aistate)
+bool MobCloudTowerAbility::canTrigger(std::shared_ptr<SceneObject> targ, Enums::AIMobStates aistate)
 {
     MobAbility::setTarget(targ);
     return (targ != nullptr && targ->getTag() == "Monster" && aistate == Enums::AIMobStates::aiATTACK);

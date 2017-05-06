@@ -29,6 +29,16 @@ RenderingSystem::RenderingSystem(const Size &aScreenSize)
     SDL_GetDisplayDPI(0, &mDdpi, nullptr, nullptr);
 }
 
+void RenderingSystem::renderTexture(
+    SDL_Texture* texturePtr,
+    Size aTextureSize,
+    Position aDestPosition,
+    const SDL_Rect *clipRect)
+{
+    SDL_Rect destRect = {aDestPosition.x, aDestPosition.y, aTextureSize.width, aTextureSize.height};
+    SDL_RenderCopy(renderer.get(), texturePtr, clipRect, &destRect);
+}
+
 void RenderingSystem::renderTexture(SDL_Texture* texturePtr, Size aTextureSize,  Position aDestPosition)
 {
     SDL_Rect destRect = {aDestPosition.x, aDestPosition.y, aTextureSize.width, aTextureSize.height};

@@ -133,6 +133,9 @@ set(SRC_LIST
     AbilitySystem/ItemAbilities/RockSpike.h
     AbilitySystem/ItemAbilities/HelmOfLigofglass.h
     AbilitySystem/ItemAbilities/GulakiAmulet.h
+    AbilitySystem/ItemAbilities/CorruptedPineApple.h
+    AbilitySystem/ItemAbilities/MonolithShard.h
+
 
     AbilitySystem/DestructibleObjectEffectReceiver.h
     AbilitySystem/AbilityMagicStones.h
@@ -155,6 +158,10 @@ set(SRC_LIST
     AbilitySystem/MobAbilities/GulakiUpgrade.h
     AbilitySystem/MobAbilities/MobEarthTowerAbility.h
     AbilitySystem/MobAbilities/MobMageTowerAbility.h
+    AbilitySystem/MobAbilities/MobCloudTowerAbility.h
+    AbilitySystem/MobAbilities/TitanChockUpgrade.h
+    AbilitySystem/MobAbilities/TitanChockMassSlow.h
+
     AbilitySystem/EffectModel.h
     GlobalScripts/AccountModel.h
     GlobalScripts/ResourcesModel.h
@@ -261,6 +268,8 @@ set(SRC_LIST
     AbilitySystem/ItemAbilities/SteelShield.cpp
     AbilitySystem/ItemAbilities/ItemAbility.cpp
     AbilitySystem/ItemAbilities/GulakiAmulet.cpp
+    AbilitySystem/ItemAbilities/CorruptedPineApple.cpp
+    AbilitySystem/ItemAbilities/MonolithShard.cpp
 
     AbilitySystem/AbilityShrink.cpp
     AbilitySystem/MobEffectReceiver.cpp
@@ -283,6 +292,9 @@ set(SRC_LIST
     AbilitySystem/MobAbilities/MobEarthTowerAbility.cpp
     AbilitySystem/MobAbilities/MobMageTowerAbility.cpp
     AbilitySystem/MobAbilities/MobAbilityFog.cpp
+    AbilitySystem/MobAbilities/MobCloudTowerAbility.cpp
+    AbilitySystem/MobAbilities/TitanChockUpgrade.cpp
+    AbilitySystem/MobAbilities/TitanChockMassSlow.cpp
 
     GlobalScripts/ManaGlobal.cpp
     GlobalScripts/ResourcesModel.cpp

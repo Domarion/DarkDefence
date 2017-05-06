@@ -364,18 +364,40 @@ void GameScene::initAbilitiesButtons()
 
     for(size_t i = 0; i < abilityButtonCount; ++i)
     {
-        auto abilityButton = std::make_shared<UIImageButton>(renderer);
         std::string abilityName = GameModel::getInstance()->getAbilityNameFromIndex(i);
-        string imgPath = "GameData/textures/Abilities/Ability" + abilityName + ".png";
+        string imgPath = "GameData/textures/Abilities/Ability" + abilityName;
 
-        abilityButton->loadTexture(imgPath);
+        string backPath = imgPath + "_back.png";
+        string frontPath = imgPath + "_front.png";
+
+        Texture2D background{renderer};
+        Texture2D foreground{renderer};
+
+        background.loadTexture(backPath);
+        foreground.loadTexture(frontPath);
+
+        const constexpr bool isVertical = true;
+        auto abilityButton = std::make_shared<UIProgressBar>(renderer, background, foreground, isVertical);
         abilityButton->setSize(abilityButtonSize);
         abilityButton->setPosition(abilityButtonsGroup->getNextHorizontalPosition());
+
         abilityButton->ConnectMethod(std::bind(&GameScene::setAbilityPlacingMode, this, abilityName));
 
         abilityButtonsGroup->addChild(abilityButton);
 
         initAbilityCallBacks(abilityName);
+
+        auto ability = spellStorage.getAbilityModelWithName(GameModel::getInstance()->getAbilityNameFromIndex(i));
+        ability->connectCooldownListener
+                (
+                    std::bind
+                    (
+                        &UIProgressBar::calculateProgress,
+                        abilityButton.get(),
+                        std::placeholders::_1,
+                        std::placeholders::_2
+                    )
+                );
     }
 
     MainRect->addChild(abilityButtonsGroup);

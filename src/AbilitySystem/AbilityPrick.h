@@ -10,7 +10,6 @@ public:
     int getDamage() const;
     void setDamage(int value);
 
-public:
     // AbilityModel interface
     bool onReady(double timestep) override;
     bool onWorking(double timestep) override;
@@ -26,4 +25,3 @@ private:
     std::shared_ptr<PrickObject> somePrick;
     int coordX, coordY;
 };
-

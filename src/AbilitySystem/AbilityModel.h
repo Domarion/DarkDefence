@@ -6,6 +6,7 @@ using std::string;
 #include <memory>
 #include "../GlobalScripts/ManaGlobal.h"
 #include <functional>
+
 class AbilityModel
 {
 public:
@@ -15,7 +16,7 @@ public:
     virtual void init(std::shared_ptr<Scene> scenePtr);
     virtual bool onReady(double timestep) = 0;
     virtual bool onWorking(double timestep) = 0;
-    virtual bool onCooldown(double timestep) = 0;
+    virtual bool onCooldown(double timestep);
     virtual bool update(double timestep);
     virtual bool canPlaceObject() const;
 
@@ -27,11 +28,14 @@ public:
     void setWorkTime(double value);
 
     double getCooldownTime() const;
+    double getCurrentCooldownTime() const;
     void setCooldownTime(double value);
 
     string getAbilityName() const;
     void setAbilityName(const string &value);
     void setPlacingCallback(std::function<void()> aPlacingEndedCallBack);
+
+    void connectCooldownListener(std::function<void(int, int)> aMethod);
 
 protected:
     Enums::AbilityStates abilityState;
@@ -43,6 +47,10 @@ protected:
     double currentCooldownTime;
     std::shared_ptr<Scene> parentScenePtr;
     std::shared_ptr<ManaGlobal> mManaModel;
+
     std::function<void()> placingEndedCallBack;
+    std::function<void(int, int)> cooldownListener;
+    double currentDelta{0};
+    const double spamDelta = 250; // интервал передачи значений
 };
 

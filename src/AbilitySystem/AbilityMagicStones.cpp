@@ -51,16 +51,3 @@ bool AbilityMagicStones::onWorking(double timestep)
 
     return true;
 }
-
-bool AbilityMagicStones::onCooldown(double timestep)
-{
-    if (currentCooldownTime <= 0)
-    {
-        currentCooldownTime = cooldownTime;
-        abilityState = Enums::AbilityStates::asNotAvaliable;
-    }
-    else
-        currentCooldownTime -= timestep;
-
-    return true;
-}

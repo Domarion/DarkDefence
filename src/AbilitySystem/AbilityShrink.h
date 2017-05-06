@@ -10,10 +10,10 @@ class AbilityShrink: public AbilityModel
 public:
     AbilityShrink(std::shared_ptr<ManaGlobal> aManaModel);
     virtual ~AbilityShrink();
-    virtual void init(std::shared_ptr<Scene> scenePtr);
-    virtual bool onReady(double timestep);
-    virtual bool onWorking(double timestep);
-    virtual bool onCooldown(double timestep);
+
+    void init(std::shared_ptr<Scene> scenePtr) override;
+    bool onReady(double timestep) override;
+    bool onWorking(double timestep) override;
     void setDamagePerSecond(double value);
     double getDamagePerSecond() const;
 private:

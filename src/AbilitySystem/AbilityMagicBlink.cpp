@@ -57,22 +57,7 @@ bool AbilityMagicBlink::onWorking(double /*timestep*/)
 
         coordX = 0;
         coordY = 0;
-
-
     }
-    return true;
-}
-
-bool AbilityMagicBlink::onCooldown(double timestep)
-{
-    if (currentCooldownTime <= 0)
-    {
-        currentCooldownTime = cooldownTime;
-        abilityState = Enums::AbilityStates::asNotAvaliable;
-    }
-    else
-        currentCooldownTime -= timestep;
-
     return true;
 }
 

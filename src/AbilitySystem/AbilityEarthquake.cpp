@@ -5,7 +5,12 @@ AbilityEarthquake::AbilityEarthquake(std::shared_ptr<ManaGlobal> aManaModel)
  : AbilityModel(aManaModel)
  , damagePerSecond(0)
  , affectedMobs(nullptr)
+ , stunEffect(std::make_shared<EffectModel>())
 {
+    pair<string, double> imbalizing = std::make_pair("Stun", 1);
+    stunEffect->addMiniEffect(imbalizing);
+    stunEffect->setCaption("Stun");
+    stunEffect->setDuration(workTime);
 
 }
 
@@ -17,7 +22,11 @@ bool AbilityEarthquake::onReady(double /*timestep*/)
 
     if (affectedMobs != nullptr)
     {
-
+        for(auto affectedMob = affectedMobs->begin(); affectedMob != affectedMobs->end(); ++affectedMob)
+        {
+            if (*affectedMob != nullptr)
+                (*affectedMob)->getEffectReceiver()->applyEffect(stunEffect);
+        }
 
         abilityState = Enums::AbilityStates::asWorking;
 //        std::cout << "worked" << std::endl;
@@ -48,27 +57,13 @@ bool AbilityEarthquake::onWorking(double timestep)
 
         currentWorkTime = workTime;
         abilityState = Enums::AbilityStates::asOnCooldown;
+        affectedMobs->clear();
     }
     else
     {
         currentWorkTime -= timestep;
         counter+= timestep;
     }
-    return true;
-}
-
-bool AbilityEarthquake::onCooldown(double timestep)
-{
-    if (currentCooldownTime <= 0)
-    {
-        affectedMobs->clear();
-
-        currentCooldownTime = cooldownTime;
-        abilityState = Enums::AbilityStates::asNotAvaliable;
-    }
-    else
-        currentCooldownTime -= timestep;
-
     return true;
 }
 

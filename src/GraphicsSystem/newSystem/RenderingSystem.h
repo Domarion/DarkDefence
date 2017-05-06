@@ -19,10 +19,16 @@ public:
     RenderingSystem& operator=(const RenderingSystem&) = delete;
     void renderTexture(SDL_Texture* texturePtr, Size aTextureSize, Position aDestPosition);
     void renderTexture(SDL_Texture* texturePtr, Position aDestPosition, const SDL_Rect* clipRect);
+    void renderTexture(
+        SDL_Texture* texturePtr,
+        Size aTextureSize,
+        Position aDestPosition,
+        const SDL_Rect *clipRect);
     void renderTextureFlipping(
         SDL_Texture* texturePtr, Position aDestPosition, const SDL_Rect* clipRect, SDL_RendererFlip aFlipFlags);
     void renderTextureRotate(
         SDL_Texture* texturePtr, Position aDestPosition, const SDL_Rect* clipRect, double anAngle);
+
 
 
     std::unique_ptr<SDL_Texture, TTextureDeleter>  loadTextureFromFile(const string& filename);
