@@ -80,28 +80,13 @@ bool AbilitySnowStorm::onWorking(double timestep)
 
         currentWorkTime = workTime;
         abilityState = Enums::AbilityStates::asOnCooldown;
+        affectedMobs->clear();
     }
     else
     {
         currentWorkTime -= timestep;
         counter += timestep;
     }
-
-    //std::cout << "worked" << std::endl;
-    return true;
-}
-
-bool AbilitySnowStorm::onCooldown(double timestep)
-{
-    if (currentCooldownTime <= 0)
-    {
-        affectedMobs->clear();
-
-        currentCooldownTime = cooldownTime;
-        abilityState = Enums::AbilityStates::asNotAvaliable;
-    }
-    else
-        currentCooldownTime -= timestep;
 
     return true;
 }

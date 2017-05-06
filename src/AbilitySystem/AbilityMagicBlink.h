@@ -15,7 +15,6 @@ public:
     void init(std::shared_ptr<Scene> scenePtr) override;
     bool onReady(double timestep) override;
     bool onWorking(double timestep) override;
-    bool onCooldown(double timestep) override;
     int getDamage() const;
     void setDamage(int value);
     bool update(double timestep) override;

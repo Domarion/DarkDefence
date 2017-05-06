@@ -7,10 +7,10 @@ class AbilityMagicStones: public AbilityModel
 public:
     AbilityMagicStones(std::shared_ptr<ManaGlobal> aManaModel);
     virtual ~AbilityMagicStones();
-    virtual void init(std::shared_ptr<Scene> scenePtr) override;
-    virtual bool onReady(double timestep);
-    virtual bool onWorking(double timestep);
-    virtual bool onCooldown(double timestep);
+    void init(std::shared_ptr<Scene> scenePtr) override;
+    bool onReady(double timestep) override;
+    bool onWorking(double timestep) override;
+
 private:
     std::shared_ptr<EffectModel> StoneEffect;
     std::shared_ptr<SceneObject> gatesSceneObject;

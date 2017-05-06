@@ -38,6 +38,7 @@ bool AbilityMagicBlink::onReady(double timestep)
                 }
             }
         abilityState = Enums::AbilityStates::asOnCooldown;
+        affectedMobs->clear();
     }
     else
         abilityState = Enums::AbilityStates::asNotAvaliable;
@@ -47,21 +48,6 @@ bool AbilityMagicBlink::onReady(double timestep)
 
 bool AbilityMagicBlink::onWorking(double /*timestep*/)
 {
-    return true;
-}
-
-bool AbilityMagicBlink::onCooldown(double timestep)
-{
-    if (currentCooldownTime <= 0)
-    {
-        affectedMobs->clear();
-
-        currentCooldownTime = cooldownTime;
-        abilityState = Enums::AbilityStates::asNotAvaliable;
-    }
-    else
-        currentCooldownTime -= timestep;
-
     return true;
 }
 

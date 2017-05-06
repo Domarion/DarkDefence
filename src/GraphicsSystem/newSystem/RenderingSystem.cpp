@@ -4,10 +4,31 @@
 
 
 RenderingSystem::RenderingSystem(const Size &aScreenSize)
-    :   window(SDL_CreateWindow("GameApp", 0, 0, aScreenSize.width, aScreenSize.height, SDL_WINDOW_SHOWN), [](SDL_Window* aWindow){SDL_DestroyWindow(aWindow);})
-,   renderer(SDL_CreateRenderer(window.get(), -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC), [](SDL_Renderer* aRenderer){SDL_DestroyRenderer(aRenderer);})
+    :   window(SDL_CreateWindow(
+                   "GameApp"
+                   , 0
+                   , 0
+                   , aScreenSize.width
+                   , aScreenSize.height
+                   , SDL_WINDOW_SHOWN)
+               , [](SDL_Window* aWindow){SDL_DestroyWindow(aWindow);})
+,   renderer(SDL_CreateRenderer(
+                 window.get()
+                 , -1
+                 , SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC)
+             , [](SDL_Renderer* aRenderer){SDL_DestroyRenderer(aRenderer);})
 {
     SDL_GetDisplayDPI(0, &mDdpi, nullptr, nullptr);
+}
+
+void RenderingSystem::renderTexture(
+    SDL_Texture* texturePtr,
+    Size aTextureSize,
+    Position aDestPosition,
+    const SDL_Rect *clipRect)
+{
+    SDL_Rect destRect = {aDestPosition.x, aDestPosition.y, aTextureSize.width, aTextureSize.height};
+    SDL_RenderCopy(renderer.get(), texturePtr, clipRect, &destRect);
 }
 
 void RenderingSystem::renderTexture(SDL_Texture* texturePtr, Size aTextureSize,  Position aDestPosition)

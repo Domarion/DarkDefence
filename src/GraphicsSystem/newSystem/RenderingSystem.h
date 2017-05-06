@@ -17,6 +17,11 @@ public:
     RenderingSystem() = delete;
     RenderingSystem(const RenderingSystem&) = delete;
     RenderingSystem& operator=(const RenderingSystem&) = delete;
+    void renderTexture(
+        SDL_Texture* texturePtr,
+        Size aTextureSize,
+        Position aDestPosition,
+        const SDL_Rect *clipRect);
     void renderTexture(SDL_Texture *texturePtr, Size aTextureSize,  Position aDestPosition);
     void renderTexture(SDL_Texture *texturePtr, Position aDestPosition, const SDL_Rect *clipRect);
 

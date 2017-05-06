@@ -9,13 +9,15 @@ public:
     virtual ~AbilityPrick();
     // AbilityModel interface
 public:
-    virtual void init(std::shared_ptr<Scene> scenePtr) override;
-    virtual bool onReady(double timestep) override;
-    virtual bool onWorking(double timestep) override;
-    virtual bool onCooldown(double timestep) override;
+    void init(std::shared_ptr<Scene> scenePtr) override;
+    bool onReady(double timestep) override;
+    bool onWorking(double timestep) override;
+    bool onCooldown(double timestep) override;
+
     int getDamage() const;
     void setDamage(int value);
-bool update(double timestep) override;
+
+    bool update(double timestep) override;
 private:
     int damage;
     std::shared_ptr<PrickObject> somePrick;

@@ -26,6 +26,34 @@ bool AbilityModel::onReady(double /*timestep*/)
     return mManaModel->payMana(getManaCost());
 }
 
+bool AbilityModel::onCooldown(double timestep)
+{
+    if (currentCooldownTime <= 0)
+    {
+        currentCooldownTime = cooldownTime;
+        abilityState = Enums::AbilityStates::asNotAvaliable;
+        currentDelta = 0;
+        return true;
+    }
+
+    currentCooldownTime -= timestep;
+
+    currentDelta += timestep;
+
+    if (currentDelta > spamDelta && cooldownListener != nullptr)
+    {
+
+        currentDelta = 0;
+        int current = static_cast<int>(cooldownTime - currentCooldownTime);
+        int max = static_cast<int>(cooldownTime);
+
+        cooldownListener(current, max);
+    }
+
+    return false;
+
+}
+
 bool AbilityModel::update(double timestep)
 {
     switch(abilityState)
@@ -88,6 +116,11 @@ double AbilityModel::getCooldownTime() const
     return cooldownTime;
 }
 
+double AbilityModel::getCurrentCooldownTime() const
+{
+    return currentCooldownTime;
+}
+
 void AbilityModel::setCooldownTime(double value)
 {
     cooldownTime = value;
@@ -102,4 +135,9 @@ string AbilityModel::getAbilityName() const
 void AbilityModel::setAbilityName(const string &value)
 {
     abilityName = value;
+}
+
+void AbilityModel::connectCooldownListener(std::function<void (int, int)> aMethod)
+{
+    cooldownListener =  aMethod;
 }
