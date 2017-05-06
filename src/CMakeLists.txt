@@ -121,9 +121,9 @@ set(SRC_LIST
     AbilitySystem/ItemAbilities/GoldPick.h
     AbilitySystem/ItemAbilities/IceTalisman.h
     AbilitySystem/ItemAbilities/BurningStick.h
-    AbilitySystem/ItemAbilities/HelmOfGold.h
+    AbilitySystem/ItemAbilities/MerchantsHat.h
     AbilitySystem/ItemAbilities/FeatherOfChap.h
-    AbilitySystem/ItemAbilities/CaftanOfGold.h
+    AbilitySystem/ItemAbilities/MerchantsCaftan.h
     AbilitySystem/ItemAbilities/TitanChock.h
     AbilitySystem/ItemAbilities/ItemAbilitiesStorage.h
     AbilitySystem/ItemAbilities/UberionsCloak.h
@@ -135,7 +135,8 @@ set(SRC_LIST
     AbilitySystem/ItemAbilities/GulakiAmulet.h
     AbilitySystem/ItemAbilities/CorruptedPineApple.h
     AbilitySystem/ItemAbilities/MonolithShard.h
-
+    AbilitySystem/ItemAbilities/MagicWheat.h
+    AbilitySystem/ItemAbilities/BurningAxe.h
 
     AbilitySystem/DestructibleObjectEffectReceiver.h
     AbilitySystem/AbilityMagicStones.h
@@ -251,11 +252,11 @@ set(SRC_LIST
     AbilitySystem/PrickObject.cpp
     AbilitySystem/BlinkObject.cpp
     AbilitySystem/AbilityPrick.cpp
-    AbilitySystem/ItemAbilities/CaftanOfGold.cpp
+    AbilitySystem/ItemAbilities/MerchantsCaftan.cpp
     AbilitySystem/ItemAbilities/ItemAbilitiesStorage.cpp
     AbilitySystem/ItemAbilities/VampsRod.cpp
     AbilitySystem/ItemAbilities/FeatherOfChap.cpp
-    AbilitySystem/ItemAbilities/HelmOfGold.cpp
+    AbilitySystem/ItemAbilities/MerchantsHat.cpp
     AbilitySystem/ItemAbilities/GoldPick.cpp
     AbilitySystem/ItemAbilities/IceTalisman.cpp
     AbilitySystem/ItemAbilities/IceBoots.cpp
@@ -270,6 +271,8 @@ set(SRC_LIST
     AbilitySystem/ItemAbilities/GulakiAmulet.cpp
     AbilitySystem/ItemAbilities/CorruptedPineApple.cpp
     AbilitySystem/ItemAbilities/MonolithShard.cpp
+    AbilitySystem/ItemAbilities/MagicWheat.cpp
+    AbilitySystem/ItemAbilities/BurningAxe.cpp
 
     AbilitySystem/AbilityShrink.cpp
     AbilitySystem/MobEffectReceiver.cpp

@@ -19,7 +19,7 @@
 						<price>50</price>
 					</value1>
                     <value2>
-						<caption>CaftanOfGold</caption>
+						<caption>MerchantsCaftan</caption>
 						<description>Some</description>
 						<itemType>4</itemType>
 						<price>100</price>
@@ -48,6 +48,48 @@
 						<itemType>3</itemType>
 						<price>100</price>
 					</value6>
+                    <value7>
+						<caption>SteelShield</caption>
+						<description>Some</description>
+						<itemType>5</itemType>
+						<price>50</price>
+					</value7>
+                    <value8>
+						<caption>MonolithShard</caption>
+						<description>Some</description>
+						<itemType>2</itemType>
+						<price>100</price>
+					</value8>
+                    <value9>
+						<caption>UberionsCloak</caption>
+						<description>Some</description>
+						<itemType>4</itemType>
+						<price>100</price>
+					</value9>
+                    <value10>
+						<caption>VampsRod</caption>
+						<description>Some</description>
+						<itemType>3</itemType>
+						<price>50</price>
+					</value10>
+                    <value11>
+						<caption>MerchantsHat</caption>
+						<description>Some</description>
+						<itemType>1</itemType>
+						<price>50</price>
+					</value11>
+                    <value12>
+						<caption>MagicWheat</caption>
+						<description>Some</description>
+						<itemType>2</itemType>
+						<price>100</price>
+					</value12>
+                    <value13>
+						<caption>BurningAxe</caption>
+						<description>Some</description>
+						<itemType>3</itemType>
+						<price>50</price>
+					</value13>
 				</ArtifactList>
 			</data>
 		</ptr_wrapper>

@@ -16,15 +16,12 @@
 ShopController::ShopController()
 : model(nullptr), view(nullptr)
 {
-	// TODO Auto-generated constructor stub
-
 }
 
 void ShopController::setView(std::shared_ptr<UIScrollList>&& newView)
 {
     view = std::move(newView);
 }
-
 
 void ShopController::setModel(std::shared_ptr<ShopInventory> newModel)
 {
@@ -40,7 +37,7 @@ void ShopController::initView(std::shared_ptr<RenderingSystem>& aRenderer)
 {
 
 	int count = model->getItemCount();
-	std::cout << "ItemCount = " << count << std::endl;
+//	std::cout << "ItemCount = " << count << std::endl;
 
     Font aFont =  FontManager::getInstance()->getFontByKind2("ButtonFont");
 

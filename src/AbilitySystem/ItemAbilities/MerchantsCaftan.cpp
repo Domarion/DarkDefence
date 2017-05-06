@@ -1,16 +1,6 @@
-#include "CaftanOfGold.h"
+#include "MerchantsCaftan.h"
 
-CaftanOfGold::CaftanOfGold()
-{
-
-}
-
-CaftanOfGold::~CaftanOfGold()
-{
-
-}
-
-void CaftanOfGold::init(std::shared_ptr<Scene>, std::shared_ptr<ManaGlobal> aManaModel)
+void MerchantsCaftan::init(std::shared_ptr<Scene>, std::shared_ptr<ManaGlobal> aManaModel)
 {
     pointsAmount = 2;
     currentTime = period = 3000;
@@ -19,7 +9,7 @@ void CaftanOfGold::init(std::shared_ptr<Scene>, std::shared_ptr<ManaGlobal> aMan
     aManaModel->setRegenValue(newRegenValue);
 }
 
-void CaftanOfGold::update(double timestep)
+void MerchantsCaftan::update(double timestep)
 {
     if (currentTime <= 0.0)
     {

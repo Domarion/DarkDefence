@@ -1,16 +1,6 @@
-#include "HelmOfGold.h"
+#include "MerchantsHat.h"
 
-HelmOfGold::HelmOfGold()
-{
-
-}
-
-HelmOfGold::~HelmOfGold()
-{
-
-}
-
-void HelmOfGold::init(std::shared_ptr<Scene> /*scenePtr*/, std::shared_ptr<ManaGlobal> aManaModel)
+void MerchantsHat::init(std::shared_ptr<Scene> /*scenePtr*/, std::shared_ptr<ManaGlobal> aManaModel)
 {
     pointsAmount = 1;
     currentTime = period = 3000;
@@ -19,7 +9,7 @@ void HelmOfGold::init(std::shared_ptr<Scene> /*scenePtr*/, std::shared_ptr<ManaG
     aManaModel->setLimit(newMaxMana);
 }
 
-void HelmOfGold::update(double timestep)
+void MerchantsHat::update(double timestep)
 {
     if (currentTime <= 0.0)
     {
