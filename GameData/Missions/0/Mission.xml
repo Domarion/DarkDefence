@@ -24,7 +24,7 @@
 		<reward>
 			<cereal_class_version>0</cereal_class_version>
 			<itemNames size="dynamic">
-				<value0>CaftanOfGold</value0>
+				<value0>MerchantsCaftan</value0>
 			</itemNames>
 			<goldCoins>15</goldCoins>
 		</reward>
