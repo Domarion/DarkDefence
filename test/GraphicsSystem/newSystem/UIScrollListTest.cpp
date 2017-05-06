@@ -369,4 +369,65 @@ BOOST_FIXTURE_TEST_CASE(ScrollUpAfterScrollDown, UIScrollListFixture)
     BOOST_CHECK(scroll->getIteratorToFirst() == scroll->getBeginIterator());
     BOOST_CHECK(scroll->getIteratorToLast() == last_iterator);
 }
+
+BOOST_FIXTURE_TEST_CASE(ItemPositionsShouldBeTheSameAfterScroll, UIScrollListFixture)
+{
+    auto child1 = std::make_shared<ConcreteComposite>(nullrendering);
+    auto child2 = std::make_shared<ConcreteComposite>(nullrendering);
+    auto child3 = std::make_shared<ConcreteComposite>(nullrendering);
+    auto child4 = std::make_shared<ConcreteComposite>(nullrendering);
+    auto child5 = std::make_shared<ConcreteComposite>(nullrendering);
+
+    auto scroll = std::make_shared<UIScrollList>(ItemsToShow, nullrendering);
+    scroll->addChild(child1);
+    scroll->addChild(child2);
+    scroll->addChild(child3);
+    scroll->addChild(child4);
+    scroll->addChild(child5);
+
+    std::vector<Position> childPositions
+    {
+        child1->getPosition(),
+        child2->getPosition(),
+        child3->getPosition(),
+    };
+
+    std::vector<Size> childSizes
+    {
+        child1->getSize(),
+        child2->getSize(),
+        child3->getSize(),
+    };
+    scroll->scrollDown(3);
+
+    auto checkbegin = scroll->getBeginIterator();
+    std::advance(checkbegin, 2);
+    BOOST_CHECK(scroll->getIteratorToFirst() == checkbegin);
+    BOOST_CHECK(scroll->getIteratorToLast() == scroll->getEndIterator());
+
+    scroll->scrollUp(3);
+
+    std::vector<Position> childPositionsNew
+    {
+        child1->getPosition(),
+        child2->getPosition(),
+        child3->getPosition(),
+    };
+
+    std::vector<Size> childSizesNew
+    {
+        child1->getSize(),
+        child2->getSize(),
+        child3->getSize(),
+    };
+
+    BOOST_CHECK(std::equal(childPositions.cbegin(), childPositions.cend(), childPositionsNew.cbegin(), childPositionsNew.cend()));
+    BOOST_CHECK(std::equal(childSizes.cbegin(), childSizes.cend(), childSizesNew.cbegin(), childSizesNew.cend()));
+
+    auto last_iterator = scroll->getBeginIterator();
+    std::advance(last_iterator, 3);
+
+    BOOST_CHECK(scroll->getIteratorToFirst() == scroll->getBeginIterator());
+    BOOST_CHECK(scroll->getIteratorToLast() == last_iterator);
+}
 BOOST_AUTO_TEST_SUITE_END()

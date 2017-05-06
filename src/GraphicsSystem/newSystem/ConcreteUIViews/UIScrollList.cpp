@@ -69,13 +69,12 @@ void UIScrollList::scrollUp(size_t amount)//TODO::Crash
     if (toFirst != children.begin())
     {
         size_t distance = std::distance(children.begin(), toFirst);
-
-        if (distance > amount)
-            distance = amount;
-
         size_t lastDistance = std::distance(toFirst, toLast);
         toFirst = children.begin();
-        std::advance(toFirst, distance - 1);
+        if (distance > amount)
+        {
+            std::advance(toFirst, distance - amount);
+        }
         toLast = toFirst;
 
         std::advance(toLast, lastDistance);
@@ -109,7 +108,7 @@ void UIScrollList::recalcItemPositions()
 
     for(auto firstIter = toFirst; firstIter != toLast; ++firstIter)
     {
-        (*firstIter)->setPosition(Position(xPos, yPos));
+        (*firstIter)->setLocalPosition(Position(xPos, yPos));
 
         yPos += (*firstIter)->getSize().height;
     }

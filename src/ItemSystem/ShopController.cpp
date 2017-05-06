@@ -75,7 +75,6 @@ void ShopController::initView(std::shared_ptr<RenderingSystem>& aRenderer)
 
         auto shopItemBuyButton = std::make_shared<UITextButton>("Купить" , aFont, aRenderer);
         shopItemBuyButton->setPosition(Position(shopItem->getNextHorizontalPosition().x, shopItemPrice->getPosition().y));
-
         shopItem->addChild(shopItemBuyButton);
 
         view->addChild(shopItem);

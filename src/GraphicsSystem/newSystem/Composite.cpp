@@ -19,6 +19,7 @@ void Composite::addChild(const shared_ptr<IComposite> &child)
         else
         {
             child->setParent(weak_this);
+            // Потомок может полностью перекрывать родителя. В этом случае масштабирование не нужно.
             if (child->getSize() != getSize())
                 child->setScalingFactor(this->getScalingFactor());
             children.push_back(child);
