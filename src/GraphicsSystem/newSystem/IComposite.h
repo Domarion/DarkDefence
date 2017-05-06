@@ -1,10 +1,10 @@
 #pragma once
+
 #include "UtilityStructs.h"
 #include <memory>
+
 using std::shared_ptr;
 using std::weak_ptr;
-
-
 
 class IComposite
 {
@@ -26,4 +26,3 @@ public:
     virtual void setScalingFactor(double aScaleFactor) = 0;
     virtual double getScalingFactor() const  = 0;
 };
-

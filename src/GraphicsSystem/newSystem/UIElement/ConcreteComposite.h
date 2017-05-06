@@ -1,4 +1,5 @@
 #pragma once
+
 #include "../Composite.h"
 
 class ConcreteComposite: public Composite
@@ -10,7 +11,6 @@ public:
     virtual ~ConcreteComposite() = default;
 
     // IComposite interface
-public:
-    virtual Size getSize() const override;
-    virtual void setSize(Size size) override;
+    Size getSize() const override;
+    void setSize(Size size) override;
 };

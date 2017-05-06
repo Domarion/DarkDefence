@@ -1,12 +1,12 @@
 #include "UIScrollList.h"
 #include <algorithm>
-UIScrollList::UIScrollList(int aItemsToShow, std::shared_ptr<RenderingSystem> &aRenderingContext)
-    :ConcreteComposite(aRenderingContext)
+
+UIScrollList::UIScrollList(int aItemsToShow, std::shared_ptr<RenderingSystem>& aRenderingContext)
+    : ConcreteComposite(aRenderingContext)
     , itemCountToShow(aItemsToShow)
     , toFirst(children.begin())
     , toLast(children.end())
 {
-
 }
 
 void UIScrollList::ConnectMethod(std::function<bool (int)> method)
@@ -21,11 +21,11 @@ bool UIScrollList::canDrag() const
 
 bool UIScrollList::onDrag(int direction)
 {
-
     if (direction == 0 || children.empty())
         return false;
 
     size_t points = abs(direction)/3 + 1;
+
     if (direction > 0)
         scrollUp(points);
     else
@@ -66,12 +66,9 @@ std::list<shared_ptr<IComposite> >::iterator &UIScrollList::getIteratorToLast()
 
 void UIScrollList::scrollUp(size_t amount)//TODO::Crash
 {
-
     if (toFirst != children.begin())
     {
-
         size_t distance = std::distance(children.begin(), toFirst);
-        std::cout << "Updistance is" << distance << "amount = " << amount << std::endl;
 
         if (distance > amount)
             distance = amount;
@@ -92,7 +89,7 @@ void UIScrollList::scrollDown(size_t amount)
         return;
 
     size_t distance = std::distance(toLast, children.end());
-    std::cout << "Downdistance is" << distance << "amount = " << amount << std::endl;
+
     if (distance > amount)
         distance = amount;
 
@@ -107,11 +104,9 @@ void UIScrollList::scrollDown(size_t amount)
 
 void UIScrollList::recalcItemPositions()
 {
-
     const int xPos{0};
     int yPos{0};
 
-    std::cout << "ToLast is End?" << std::boolalpha << (toLast == children.end()) << std::endl;
     for(auto firstIter = toFirst; firstIter != toLast; ++firstIter)
     {
         (*firstIter)->setPosition(Position(xPos, yPos));
@@ -120,7 +115,7 @@ void UIScrollList::recalcItemPositions()
     }
 }
 
-void UIScrollList::addChild(const shared_ptr<IComposite> &child)
+void UIScrollList::addChild(const shared_ptr<IComposite>& child)
 {
     ConcreteComposite::addChild(child);
     if (children.size() == 1)
@@ -185,20 +180,7 @@ void UIScrollList::removeChild(const shared_ptr<IComposite> &child)//TODO::Wrong
                     toLast = children.end();
 
             }
-//            else
-//            {
-//                children.remove(child);
-//            }
-
-
-
         }
-
-        //            if (children.size() <= itemCountToShow)
-        //            {
-        //                toFirst = children.begin();
-        //                toLast = children.end();
-        //            }
 
         int fistLastDistance = std::distance(toFirst, toLast);
         if (fistLastDistance < itemCountToShow)
@@ -217,17 +199,18 @@ void UIScrollList::removeChild(const shared_ptr<IComposite> &child)//TODO::Wrong
 void UIScrollList::draw() const
 {
     for(auto firstIter = toFirst; firstIter != toLast; ++firstIter)
+    {
         (*firstIter)->draw();
+    }
 }
 
 bool UIScrollList::onClick(Position point)
 {
-
     auto clickedItemIter = toLast;
     bool isSuccess = false;
+
     for(auto childIter = toFirst; childIter != toLast; ++childIter)
     {
-
         InputHandler* inputHandler = dynamic_cast<InputHandler*>(childIter->get());
         if (inputHandler != nullptr && inputHandler->onClick(point))
         {
@@ -253,9 +236,11 @@ bool UIScrollList::onClick(Position point)
     }
 
     if (clickedItemIter != toLast
-            && connectedMethod != nullptr
-            && connectedMethod(std::distance(children.begin(), clickedItemIter)))
+        && connectedMethod != nullptr
+        && connectedMethod(std::distance(children.begin(), clickedItemIter)))
+    {
         removeChild(*clickedItemIter);
+    }
 
     return isSuccess;
 }
@@ -265,7 +250,5 @@ bool UIScrollList::containsPoint(int x, int y) const
    Position pos = getPosition();
    Size size = getSize();
 
-   if (x >= pos.x && x <= (pos.x + size.width) && y >= pos.y && y <= (pos.y + size.height))
-       return true;
-   return false;
+   return x >= pos.x && x <= (pos.x + size.width) && y >= pos.y && y <= (pos.y + size.height);
 }
