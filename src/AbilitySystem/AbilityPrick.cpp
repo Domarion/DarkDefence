@@ -4,16 +4,12 @@ AbilityPrick::AbilityPrick(std::shared_ptr<ManaGlobal> aManaModel)
     : AbilityModel(aManaModel)
     , damage(0)
     , somePrick(nullptr)
-    , coordX(0)
-    , coordY(0)
 {
-
 }
 
 bool AbilityPrick::onReady(double /*timestep*/)
 {
     abilityState = Enums::AbilityStates::asWorking;
-
     return true;
 }
 
@@ -30,6 +26,8 @@ bool AbilityPrick::onWorking(double /*timestep*/)
         spritePrick->loadTexture("GameData/textures/EmptySlot.png");
         spritePrick->setAnchorPointPlace(Enums::AnchorCoordTypes::Middle, Enums::AnchorCoordTypes::Middle);
 
+        somePrick->setSprite(spritePrick);
+
         parentScenePtr->spawnObject(coordX, coordY, somePrick);
 
         if (placingEndedCallBack)
@@ -39,16 +37,7 @@ bool AbilityPrick::onWorking(double /*timestep*/)
 
         coordX = 0;
         coordY = 0;
-
-
     }
-    return true;
-}
-
-bool AbilityPrick::onCooldown(double timestep)
-{
-    AbilityModel::onCooldown(timestep);
-
     return true;
 }
 
@@ -71,7 +60,6 @@ bool AbilityPrick::update(double timestep)
             onReady(timestep);
             break;
         }
-
         case Enums::AbilityStates::asWorking:
         {
             onWorking(timestep);
@@ -95,21 +83,10 @@ bool AbilityPrick::canPlaceObject() const
     return true;
 }
 
-
 bool AbilityPrick::onClick(Position point)
 {
     if (abilityState == Enums::AbilityStates::asWorking)
     {
-//        auto gameScene = std::dynamic_pointer_cast<GameScene>(parentScenePtr);
-//        if (gameScene != nullptr && gameScene->getGameSceneStatus() != Enums::GameSceneStatuses::SpellCasting)
-//        {
-//            return false;
-//        }
-//        else
-//        {
-//            gameScene->setGameSceneStatus(Enums::GameSceneStatuses::Default);
-
-//        }
         coordX = point.x;
         coordY = point.y;
 

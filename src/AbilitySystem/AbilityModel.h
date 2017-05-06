@@ -34,7 +34,6 @@ public:
     string getAbilityName() const;
     void setAbilityName(const string &value);
     void setPlacingCallback(std::function<void()> aPlacingEndedCallBack);
-
     void connectCooldownListener(std::function<void(int, int)> aMethod);
 
 protected:

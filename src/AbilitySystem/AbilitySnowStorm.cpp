@@ -13,13 +13,11 @@ void AbilitySnowStorm::init(std::shared_ptr<Scene> scenePtr)
 {
     AbilityModel::init(scenePtr);
 
-
     pair<string, double> mv = std::make_pair("MoveSpeed", -2.0);
     pair<string, double> rt = std::make_pair("ReloadTime", +5.0e+3);
     snowEffect = std::make_shared<EffectModel>();
     snowEffect->addMiniEffect(mv);
     snowEffect->addMiniEffect(rt);
-
 }
 
 bool AbilitySnowStorm::onReady(double /*timestep*/)

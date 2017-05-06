@@ -10,16 +10,6 @@ AbilityShrink::AbilityShrink(std::shared_ptr<ManaGlobal> aManaModel)
 
 }
 
-AbilityShrink::~AbilityShrink()
-{
-
-}
-
-void AbilityShrink::init(std::shared_ptr<Scene> scenePtr)
-{
-    AbilityModel::init(scenePtr);
-}
-
 bool AbilityShrink::onReady(double /*timestep*/)
 {
     if (affectedMobs == nullptr && parentScenePtr != nullptr && GameModel::getInstance()->getMonsterCount() > 0)

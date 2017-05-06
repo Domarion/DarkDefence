@@ -6,9 +6,7 @@ PrickObject::PrickObject(int aTimeToLive, int aDamage)
     : AbilityAnimObject(aTimeToLive)
     , damage(aDamage)
 {
-
 }
-
 
 void PrickObject::init(int x, int y)
 {

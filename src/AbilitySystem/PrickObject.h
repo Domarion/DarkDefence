@@ -12,5 +12,5 @@ public:
     virtual void init(int x, int y) override;
 
 private:
-    int damage;
+    int damage = 0;
 };

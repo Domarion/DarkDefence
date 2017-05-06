@@ -11,9 +11,7 @@ AbilityModel::AbilityModel(std::shared_ptr<ManaGlobal> aManaModel)
     , parentScenePtr(nullptr)
     , mManaModel(aManaModel)
 {
-
 }
-
 
 void AbilityModel::init(std::shared_ptr<Scene> scenePtr)
 {
@@ -55,7 +53,6 @@ bool AbilityModel::update(double timestep)
             onReady(timestep);
             break;
         }
-
         case Enums::AbilityStates::asWorking:
         {
             onWorking(timestep);
