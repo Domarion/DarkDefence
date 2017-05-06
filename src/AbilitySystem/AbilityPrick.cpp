@@ -60,9 +60,10 @@ bool AbilityPrick::onWorking(double /*timestep*/)
         auto spritePrick = std::make_shared<AnimationSceneSprite>(parentScenePtr->getRenderer());
         spritePrick->setSize(Size(200, 200));
         spritePrick->loadTexture("GameData/textures/EmptySlot.png");
-        somePrick->setSprite(spritePrick);
+        spritePrick->setAnchorPointPlace(Enums::AnchorCoordTypes::Middle, Enums::AnchorCoordTypes::Middle);
 
-        parentScenePtr->spawnObject(coordX,coordY, somePrick);
+        somePrick->setSprite(spritePrick);
+        parentScenePtr->spawnObject(coordX, coordY, somePrick);
         coordX = 0;
         coordY = 0;
 

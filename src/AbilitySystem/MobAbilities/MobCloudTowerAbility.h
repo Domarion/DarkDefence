@@ -1,15 +1,15 @@
 #pragma once
 #include "MobAbility.h"
 
-class GulakiUpgrade: public MobAbility
+class MobCloudTowerAbility: public MobAbility
 {
 
     using SceneObjectList = std::unique_ptr<std::list<std::shared_ptr<SceneObject> > >;
 
     // AbilityModel interface
 public:
-    GulakiUpgrade(std::shared_ptr<ManaGlobal> aManaModel = nullptr);
-    virtual ~GulakiUpgrade() = default;
+    MobCloudTowerAbility(std::shared_ptr<ManaGlobal> aManaModel = nullptr);
+    virtual ~MobCloudTowerAbility() = default;
     virtual bool onReady(double timestep) override;
 
     virtual bool onWorking(double timestep) override;
@@ -23,4 +23,8 @@ public:
 
 private:
     void releaseDamage(std::shared_ptr<SceneObject> aTarget);
+
+    // AbilityModel interface
+public:
+    virtual void init(std::shared_ptr<Scene> scenePtr) override;
 };

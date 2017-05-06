@@ -25,6 +25,9 @@ using std::ifstream;
 #include "../AbilitySystem/MobAbilities/GulakiUpgrade.h"
 #include "../AbilitySystem/MobAbilities/MobEarthTowerAbility.h"
 #include "../AbilitySystem/MobAbilities/MobMageTowerAbility.h"
+#include "../AbilitySystem/MobAbilities/MobCloudTowerAbility.h"
+#include "../AbilitySystem/MobAbilities/TitanChockUpgrade.h"
+#include "../AbilitySystem/MobAbilities/TitanChockMassSlow.h"
 
 #include "../Utility/textfilefunctions.h"
 #include <sstream>
@@ -280,6 +283,11 @@ void GameModel::setPointsRefundModifier(double value)
     pointsRefundModifier = value;
 }
 
+void GameModel::addPoints(int aAmount)
+{
+    pointsPerMap += aAmount;
+}
+
 
 
 /*void GameModel::loadMobAbilities()
@@ -321,6 +329,16 @@ std::unique_ptr<MobAbility> GameModel::getMobAbilityByName(string name)
 
      if (name == "MobMageTowerAbility")
          return std::make_unique<MobMageTowerAbility>();
+
+     if (name == "MobCloudTowerAbility")
+         return std::make_unique<MobCloudTowerAbility>();
+
+     if (name == "TitanChockUpgrade")
+         return std::make_unique<TitanChockUpgrade>();
+
+     if (name == "TitanChockMassSlow")
+         return std::make_unique<TitanChockMassSlow>();
+
 
     return nullptr;
 }

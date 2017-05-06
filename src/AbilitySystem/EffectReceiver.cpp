@@ -44,3 +44,8 @@ bool EffectReceiver::hasEffect(std::shared_ptr<EffectModel> effect) const
     auto findIter = std::find(effectsList.begin(), effectsList.end(), effect);
     return findIter != effectsList.end();
 }
+
+void EffectReceiver::processTemporaryEffects(double /*deltaTime*/)
+{
+
+}

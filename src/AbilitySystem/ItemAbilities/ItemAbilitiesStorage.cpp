@@ -6,8 +6,8 @@
 #include "TitanChock.h"
 #include "FeatherOfChap.h"
 #include "GulakiAmulet.h"
-
-
+#include "CorruptedPineApple.h"
+#include "MonolithShard.h"
 
 void ItemAbilitiesStorage::loadItemAbilities()
 {
@@ -18,6 +18,9 @@ void ItemAbilitiesStorage::loadItemAbilities()
     itemAbilitiesMap["TitanChock"] = std::make_shared<TitanChock>();
     itemAbilitiesMap["FeatherOfChap"] = std::make_shared<FeatherOfChap>();
     itemAbilitiesMap["GulakiAmulet"] = std::make_shared<GulakiAmulet>();
+    itemAbilitiesMap["CorruptedPineApple"] = std::make_shared<CorruptedPineApple>();
+    itemAbilitiesMap["MonolithShard"] = std::make_shared<MonolithShard>();
+
 
 }
 

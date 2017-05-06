@@ -8,7 +8,7 @@
 #include "DestructibleObject.h"
 
 DestructibleObject::DestructibleObject()
-:Alive( true ), currentHealth(0)
+    :Alive( true ), currentHealth(0), maximumHealth{0, 0}
 {
 	// TODO Auto-generated constructor stub
 
@@ -51,7 +51,7 @@ bool DestructibleObject::IsAlive() const
 
 DestructibleObject::DestructibleObject(string aName, string aTag,
 		int aMaxHealth, int aProtection[])
-:name(aName), tag(aTag), Alive(true), maximumHealth(aMaxHealth, 0), currentHealth(aMaxHealth)//, worldX ( 0 ), worldY ( 0 )
+:name(aName), tag(aTag), Alive(true), currentHealth(aMaxHealth), maximumHealth(aMaxHealth, 0)//, worldX ( 0 ), worldY ( 0 )
 {
 	for(int i = 0; i < DestructibleObject::damageTypesCount; ++i)
 	{
@@ -85,9 +85,13 @@ void DestructibleObject::setMaximumHealth(int hp)
 	if (hp < 0)
 		return;
 
-	maximumHealth.first = hp;
-	if (currentHealth != maximumHealth.first)
+    if (currentHealth == maximumHealth.first)
+    {
+        maximumHealth.first = hp;
 		setCurrentHealth(hp);
+    }
+    else
+        maximumHealth.first = hp;
 }
 
 int DestructibleObject::getCurrentHealth() const
@@ -129,8 +133,6 @@ void DestructibleObject::setCurrentHealth(int hp)
 		return;
 
 	currentHealth = hp;
-
-
 }
 
 void DestructibleObject::setIsAlive(bool alive)

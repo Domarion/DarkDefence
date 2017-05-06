@@ -103,7 +103,7 @@ void AIComponent::Select()
 
 void AIComponent::Attack()
 {
-     std::cout << (MobPtr.lock()->getModel()->getName()) << std::endl;
+//     std::cout << (MobPtr.lock()->getModel()->getName()) << std::endl;
     if (currentTarget == nullptr)
 		aiMobState = AIMobStates::aiSELECT;
 	else
@@ -216,7 +216,7 @@ void AIComponent::MovetoTile(double timestep)
 
 void AIComponent::MoveToPos(double timestep, Position targetPoint)
 {
-    double spd = MobPtr.lock()->getModel()->getMoveSpeed().first * timestep*0.003;
+    double spd = (MobPtr.lock()->getModel()->getMoveSpeed().first + MobPtr.lock()->getModel()->getMoveSpeed().second)* timestep*0.003;
     //TODO: понять какая погрешность может быть
     int diffX =  static_cast<int>(MobPtr.lock()->getX() +(targetPoint.x - MobPtr.lock()->getX())*spd);
     int diffY = static_cast<int>(MobPtr.lock()->getY() + (targetPoint.y  - MobPtr.lock()->getY())*spd);
@@ -275,7 +275,7 @@ void AIComponent::initMobAbilities()
     for(auto ptr = mobAbilitiesNames.begin(); ptr != mobAbilitiesNames.end(); ++ptr)
     {
 
-        std::cout << *ptr << std::endl;
+//        std::cout << *ptr << std::endl;
         mobAbilities.emplace_back(std::move(GameModel::getInstance()->getMobAbilityByName(*ptr)));
         mobAbilities.back()->setWorkTime(4000);
         mobAbilities.back()->setCooldownTime(4000);

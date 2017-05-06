@@ -12,8 +12,8 @@ public:
     virtual void init(std::shared_ptr<Scene>, std::shared_ptr<ManaGlobal> aManaModel) override;
     virtual void update(double timestep) override;
 private:
-    int goldAmount;
-    double period;
-    double currentTime;
+    int pointsAmount = 0;
+    double period = 0;
+    double currentTime = 0;
 };
 

@@ -1,20 +1,19 @@
 #pragma once
 #include "ItemAbility.h"
 
-class HelmOfGold: public ItemAbility
+class MonolithShard: public ItemAbility
 {
 public:
-    HelmOfGold();
-    virtual ~HelmOfGold();
-
+    MonolithShard() = default;
+    virtual ~MonolithShard() = default;
     // ItemAbility interface
 public:
     virtual void init(std::shared_ptr<Scene> scenePtr, std::shared_ptr<ManaGlobal> aManaModel) override;
     virtual void update(double timestep) override;
-
 private:
-    int pointsAmount = 0;
-    double period = 0;
-    double currentTime = 0;
+    double currentTime = 0.0;
+    double period = 5000.0;
+
+    std::shared_ptr<DestructibleObject> gatesDestructible = nullptr;
 };
 

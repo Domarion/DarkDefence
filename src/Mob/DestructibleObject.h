@@ -60,8 +60,8 @@ protected:
 	string name;
 	string tag;
 	bool Alive;
+    int currentHealth;
 	pair<int, int> maximumHealth;
-	int currentHealth;
     std::array<pair<int, int>, damageTypesCount> attackProtection;
 
 
