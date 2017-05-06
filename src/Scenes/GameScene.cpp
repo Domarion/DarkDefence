@@ -234,34 +234,31 @@ void GameScene::initResourceView()
 
 void GameScene::initProgressBars()
 {
-    const Size progressBarSize{72, 16};
-
     auto progressBarGroup = std::make_shared<ConcreteComposite>(renderer);
-//    progressBarGroup->setSize(Size(100, 50));
     progressBarGroup->setPosition(MainRect->getNextHorizontalPosition());
 
-    Texture2D gatesHealthBarBack(renderer);
-    gatesHealthBarBack.loadTexture("GameData/textures/HealthBarEmpty.png");
-    Texture2D gatesHealthBarFront(renderer);
-    gatesHealthBarFront.loadTexture("GameData/textures/HealthBarFull.png");
+    Texture2D emptyBar(renderer);
+    emptyBar.loadTexture("GameData/textures/EmptyBar.png");
+    emptyBar.scaleToTexture();
 
-    gatesHealthBar = std::make_shared<UIProgressBar>(renderer, gatesHealthBarBack, gatesHealthBarFront);
-    gatesHealthBar->setSize(progressBarSize);
+    Texture2D gatesHealthBarFront(renderer);
+    gatesHealthBarFront.loadTexture("GameData/textures/RedBar.png");
+    gatesHealthBarFront.scaleToTexture();
+
+    gatesHealthBar = std::make_shared<UIProgressBar>(renderer, emptyBar, gatesHealthBarFront);
     gatesHealthBar->calculateProgress(5000, 5000);
     progressBarGroup->addChild(gatesHealthBar);
 
-    Texture2D manaBarBack(renderer);
-    manaBarBack.loadTexture("GameData/textures/ManaBarEmpty.png");
     Texture2D manaBarFront(renderer);
-    manaBarFront.loadTexture("GameData/textures/ManaBarFull.png");
+    manaBarFront.loadTexture("GameData/textures/BlueBar.png");
+    manaBarFront.scaleToTexture();
 
-    manaBar = std::make_shared<UIProgressBar>(renderer, manaBarBack, manaBarFront);
-    manaBar->setSize(progressBarSize);
+    manaBar = std::make_shared<UIProgressBar>(renderer, emptyBar, manaBarFront);
     manaBar->setPosition(progressBarGroup->getNextVerticalPosition());
     manaBar->calculateProgress(100, 100);
     progressBarGroup->addChild(manaBar);
 
-    progressBarGroup->setSize(Size(manaBar->getSize().width, 2 * progressBarSize.height));
+    progressBarGroup->setSize(Size(manaBar->getSize().width, 2 * gatesHealthBar->getSize().height));
     MainRect->addChild(progressBarGroup);
 }
 

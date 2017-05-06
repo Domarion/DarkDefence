@@ -130,35 +130,48 @@ void AIComponent::Attack()
        {
            int* damage = MobPtr.lock()->getModel()->getAttackDamage();
 
-           if (MobPtr.lock()->getTag() == "Tower")
+           if (damage == nullptr)
            {
-               auto sprite = std::make_shared<AnimationSceneSprite>(MobPtr.lock()->getParentScene()->getRenderer());
-               sprite->loadTexture("GameData/textures/Arrows/arrowSheet.png");
-               sprite->setSize(Size{123, 47});
-               map<string, vector<SDL_Rect> > anims;
+               return;
+           }
 
-               std::string filename = "GameData/anims/Arrows/arrow.anim";
-               androidText::setRelativePath(filename);
-               androidText::loadAnimFromFile(filename, anims);
+           bool hasDamage = false;
 
-               for(auto& anim : anims)
+           for(int i = 0; i < DestructibleObject::damageTypesCount; ++i)
+           {
+               if (damage[i] > 0)
                {
-//                   std::cout << "anim Name = " << anim.first << std::endl;
-                   sprite->setAnimRects(anim.first, anim.second);
+                   hasDamage = true;
+                   break;
                }
+           }
 
-               auto miniObject = std::make_shared<ArrowAnim>(currentTarget->getRealPosition());
-               miniObject->setSprite(sprite);
-               MobPtr.lock()->getParentScene()->spawnObject(MobPtr.lock()->getRealPosition().x, MobPtr.lock()->getRealPosition().y, miniObject);
+           if (hasDamage && MobPtr.lock()->getTag() == "Tower")
+           {
+                auto sprite = std::make_shared<AnimationSceneSprite>(MobPtr.lock()->getParentScene()->getRenderer());
+                sprite->loadTexture("GameData/textures/Arrows/arrowSheet.png");
+                sprite->setSize(Size{123, 47});
+                map<string, vector<SDL_Rect> > anims;
 
-//                MobPtr.lock()->getSprite()->setCurrentState("towerAttack");
+                std::string filename = "GameData/anims/Arrows/arrow.anim";
+                androidText::setRelativePath(filename);
+                androidText::loadAnimFromFile(filename, anims);
+
+                for(auto& anim : anims)
+                {
+                sprite->setAnimRects(anim.first, anim.second);
+                }
+
+                auto miniObject = std::make_shared<ArrowAnim>(currentTarget->getRealPosition());
+                miniObject->setSprite(sprite);
+                MobPtr.lock()->getParentScene()->spawnObject(
+                    MobPtr.lock()->getRealPosition().x, MobPtr.lock()->getRealPosition().y, miniObject);
            }
 
            if (currentTarget->getDestructibleObject()->receiveDamage(damage))
            {
                avaliableTargets.remove(currentTarget);
                currentTarget = nullptr;
-
            }
            else
            {
@@ -166,11 +179,9 @@ void AIComponent::Attack()
            }
            delete[] damage;
 
-
            MobPtr.lock()->getModel()->reload();
            aiMobState = AIMobStates::aiRELOAD;
        }
-
 	}
 }
 
