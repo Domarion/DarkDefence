@@ -8,12 +8,7 @@ using std::stringstream;
 
 FontManager* FontManager::instance_ = nullptr;
 
-FontManager::FontManager()
-{
-
-}
-
-FontManager *FontManager::getInstance()
+FontManager* FontManager::getInstance()
 {
     if (instance_ == nullptr)
         instance_ = new FontManager();
@@ -23,7 +18,6 @@ FontManager *FontManager::getInstance()
 
 void FontManager::loadFontList(string filename, std::shared_ptr<RenderingSystem>& aRenderer)
 {
-
     string textString;
     androidText::loadTextFileToString(filename, textString);
 
@@ -40,21 +34,16 @@ void FontManager::loadFontList(string filename, std::shared_ptr<RenderingSystem>
             int fontSize;
             int r, g, b;
             fontConf >> key >> fontPath >> fontSize >> r >> g >> b;
-            fontList2[key]= Font(fontPath,fontSize, r, g, b, aRenderer);
+            fontList2[key] = Font(fontPath, fontSize, r, g, b, aRenderer);
         }
-        std::cout << "FontsLoaded:" << std::endl;
     }
-    else
-        std::cout << "WhatTheFuck in font manager:" << filename << std::endl;
-
-
-    std::cout << textString << std::endl;
-
 }
 
-Font &FontManager::getFontByKind2(std::string kind)
+Font& FontManager::getFontByKind2(std::string kind)
 {
     if (fontList2.at( kind ).getFont() == nullptr)
-          std::cout << "FontManager::getFontByKind2: font null" << std::endl;
+    {
+        std::cout << "FontManager::getFontByKind2: font null" << std::endl;
+    }
     return fontList2.at( kind );
 }

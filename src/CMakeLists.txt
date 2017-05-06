@@ -114,6 +114,7 @@ set(SRC_LIST
     AbilitySystem/MobEffectReceiver.h
     AbilitySystem/EffectReceiver.h
     AbilitySystem/PrickObject.h
+    AbilitySystem/BlinkObject.h
     AbilitySystem/SpellStorage.h
     AbilitySystem/ItemAbilities/ChoppersHat.h
     AbilitySystem/ItemAbilities/ItemAbility.h
@@ -241,6 +242,7 @@ set(SRC_LIST
     AbilitySystem/DestructibleObjectEffectReceiver.cpp
     AbilitySystem/AbilitySnowStorm.cpp
     AbilitySystem/PrickObject.cpp
+    AbilitySystem/BlinkObject.cpp
     AbilitySystem/AbilityPrick.cpp
     AbilitySystem/ItemAbilities/CaftanOfGold.cpp
     AbilitySystem/ItemAbilities/ItemAbilitiesStorage.cpp

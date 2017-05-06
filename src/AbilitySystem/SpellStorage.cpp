@@ -6,16 +6,6 @@
 #include "../AbilitySystem/AbilityEarthquake.h"
 #include "../AbilitySystem/AbilityMagicBlink.h"
 
-SpellStorage::SpellStorage()
-{
-
-}
-
-SpellStorage::~SpellStorage()
-{
-    free();
-}
-
 void SpellStorage::loadWithScene(std::shared_ptr<Scene> scenePtr, std::shared_ptr<ManaGlobal> aManaModel)
 {
     auto magicStones = std::make_unique<AbilityMagicStones>(aManaModel);
@@ -59,8 +49,8 @@ void SpellStorage::loadWithScene(std::shared_ptr<Scene> scenePtr, std::shared_pt
     magicBlink->init(scenePtr);
     magicBlink->setManaCost(50);
     magicBlink->setCooldownTime(10000);
-    magicBlink->setWorkTime(10000);
-    magicBlink->setDamage(20);
+    magicBlink->setWorkTime(0);
+    magicBlink->setDamage(30);
 
     abilityModelsMap["MagicStones"] = std::move(magicStones);
     abilityModelsMap["SnowStorm"] = std::move(snowStorm);
@@ -71,21 +61,25 @@ void SpellStorage::loadWithScene(std::shared_ptr<Scene> scenePtr, std::shared_pt
 
 }
 
-std::shared_ptr<AbilityModel> SpellStorage::getAbilityModelWithName(string name)
+std::shared_ptr<AbilityModel> SpellStorage::getAbilityModelWithName(const std::string& aName)
 {
-    return abilityModelsMap[name];
+    return abilityModelsMap.at(aName);
 }
 
-void SpellStorage::setAbilityReady(string s)
+bool SpellStorage::setAbilityReady(const string& aAbilityName)
 {
-    abilityModelsMap[s]->setAsReady();
-
+    return abilityModelsMap.at(aAbilityName)->trySetAsReady();
 }
 
 void SpellStorage::updateAbilities(double timestep)
 {
-    for(auto ptr0 = abilityModelsMap.begin(); ptr0 != abilityModelsMap.end(); ++ptr0)
-        ptr0->second->update(timestep);
+    for(auto& abilityPair : abilityModelsMap)
+    {
+        if (abilityPair.second != nullptr)
+        {
+            (abilityPair.second)->update(timestep);
+        }
+    }
 }
 
 map<std::string, std::shared_ptr<AbilityModel> > &SpellStorage::getAbilityModelList()
@@ -93,7 +87,7 @@ map<std::string, std::shared_ptr<AbilityModel> > &SpellStorage::getAbilityModelL
      return abilityModelsMap;
 }
 
-void SpellStorage::free()
+bool SpellStorage::canPlaceObjectAbility(const std::string& aAbilityName) const
 {
-    abilityModelsMap.clear();
+    return abilityModelsMap.at(aAbilityName)->canPlaceObject();
 }

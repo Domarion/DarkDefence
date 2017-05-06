@@ -13,16 +13,14 @@ using std::string;
 
 class FontManager
 {
-
 public:
-
     static FontManager* getInstance();
     void loadFontList(string filename, std::shared_ptr<RenderingSystem> &aRenderer);
-    Font & getFontByKind2(string kind);
+    Font& getFontByKind2(string kind);
 
 private:
-    FontManager();
-    ~FontManager();
+    FontManager() = default;
+    ~FontManager() = default;
     map<string, Font > fontList2;
 
     static FontManager* instance_;

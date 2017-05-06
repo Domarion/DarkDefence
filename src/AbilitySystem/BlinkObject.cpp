@@ -1,16 +1,13 @@
-#include "PrickObject.h"
-#include "../Enums.h"
-#include <iostream>
+#include "BlinkObject.h"
 
-PrickObject::PrickObject(int aTimeToLive, int aDamage)
+BlinkObject::BlinkObject(int aTimeToLive, int aDamage)
     : AbilityAnimObject(aTimeToLive)
     , damage(aDamage)
 {
 
 }
 
-
-void PrickObject::init(int x, int y)
+void BlinkObject::init(int x, int y)
 {
     SceneObject::init(x, y);
 
@@ -48,10 +45,9 @@ void PrickObject::init(int x, int y)
            auto temp = (*affectedMob)->getDestructibleObject();
            if (temp != nullptr)
            {
-//               std::cout << "Damage to" << temp->getName() << std::endl;
-               temp->receiveDamageOneType(static_cast<int>(Enums::DamageTypes::dtPHYSICAL), damage);
+               (*affectedMob)->setVisible(true);
+               temp->receiveDamageOneType(static_cast<int>(Enums::DamageTypes::dtFIRE), damage);
            }
         }
     }
 }
-

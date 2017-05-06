@@ -68,7 +68,8 @@ protected:
 
      void addLoadSceneButton(string aButtonName, string aFontName, string aSceneName, int posX, int posY, int, int);
      void addSceneButton(string aButtonName, string aFontName, int posX, int posY, int width, int height, std::function<void (string)> handler, std::string aMsg);
-
+     void drawSceneObjects() const;
+     void drawUI() const;
 private:
 
 

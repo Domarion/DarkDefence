@@ -1,19 +1,16 @@
 #pragma once
-#include "../Grouping/SceneObject.h"
 
-class PrickObject: public SceneObject
+#include "../AbilitySystem/AbilityAnims/AbilityAnimObject.hpp"
+
+class PrickObject: public AbilityAnimObject
 {
 public:
-    PrickObject(int aDamage);
-    virtual ~PrickObject();
+    PrickObject(int aTimeToLive, int aDamage);
+    virtual ~PrickObject() = default;
 
     // SceneObject interface
-public:
     virtual void init(int x, int y) override;
-    virtual bool update(double timestep) override;
-    virtual void finalize() override;
 
 private:
-    bool notDid;
     int damage;
 };

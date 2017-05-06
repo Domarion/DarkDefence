@@ -1,30 +1,25 @@
 #include "AbilityModel.h"
 
 AbilityModel::AbilityModel(std::shared_ptr<ManaGlobal> aManaModel)
-    :abilityState(Enums::AbilityStates::asNotAvaliable),
-      abilityName("none"), manaCost(0), workTime(0.0),
-      currentWorkTime(0.0), cooldownTime(0.0), currentCooldownTime(0.0),
-      parentScenePtr(nullptr), mManaModel(aManaModel)
+    : abilityState(Enums::AbilityStates::asNotAvaliable)
+    , abilityName("none")
+    , manaCost(0)
+    , workTime(0.0)
+    , currentWorkTime(0.0)
+    , cooldownTime(0.0)
+    , currentCooldownTime(0.0)
+    , parentScenePtr(nullptr)
+    , mManaModel(aManaModel)
 {
 
 }
 
-AbilityModel::~AbilityModel()
-{
-
-}
 
 void AbilityModel::init(std::shared_ptr<Scene> scenePtr)
 {
     parentScenePtr = scenePtr;
 }
 
-
-
-bool AbilityModel::onReady(double /*timestep*/)
-{
-    return mManaModel->payMana(getManaCost());
-}
 
 bool AbilityModel::update(double timestep)
 {
@@ -54,12 +49,15 @@ bool AbilityModel::update(double timestep)
      return true;
 }
 
-void AbilityModel::setAsReady()
+bool AbilityModel::trySetAsReady()
 {
-    if (abilityState == Enums::AbilityStates::asNotAvaliable)
+    if (abilityState == Enums::AbilityStates::asNotAvaliable && mManaModel->payMana(getManaCost()))
     {
         abilityState = Enums::AbilityStates::asReady;
+        return true;
     }
+
+    return false;
 }
 
 int AbilityModel::getManaCost() const
@@ -102,4 +100,14 @@ string AbilityModel::getAbilityName() const
 void AbilityModel::setAbilityName(const string &value)
 {
     abilityName = value;
+}
+
+bool AbilityModel::canPlaceObject() const
+{
+    return false;
+}
+
+void AbilityModel::setPlacingCallback(std::function<void ()> aPlacingEndedCallBack)
+{
+    placingEndedCallBack = aPlacingEndedCallBack;
 }

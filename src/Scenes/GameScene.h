@@ -6,6 +6,7 @@
  */
 
 #pragma once
+
 #include "../Grouping/Scene.h"
 #include "../Mob/Spawner.h"
 #include "../Grouping/SceneObjectFabric.h"
@@ -27,14 +28,18 @@ using std::vector;
 #include "../GlobalScripts/ManaGlobal.h"
 #include "Utility/StructData.hpp"
 
-class GameScene: public Scene
+class GameScene : public Scene
 {
 public:
-    GameScene(std::shared_ptr<RenderingSystem> &aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher);
-	virtual ~GameScene();
-    virtual void init(std::shared_ptr<SceneManager> sceneManagerPtr) override;
-    virtual void clear() override;
-	virtual void startUpdate(double timestep) override;
+    enum class SceneModeT
+    {
+        StandardMode = 0,
+        PlacingMode = 1
+    };
+
+    GameScene(std::shared_ptr<RenderingSystem>& aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher);
+    virtual ~GameScene() = default;
+
 
     map<std::string, std::shared_ptr<AbilityModel> > &getAbilityModelList();
     void ConnectMethod(std::function<void(string)> handler);
@@ -45,6 +50,17 @@ public:
     void processWaveInfo(std::string aInfo);
     void setGameSceneStatus(Enums::GameSceneStatuses aStatus);
     Enums::GameSceneStatuses getGameSceneStatus() const;
+    void setAbilityPlacingMode(const std::string& aAbilityName);
+
+    void placingCallBack();
+
+    // Scene interface
+    void init(std::shared_ptr<SceneManager> sceneManagerPtr) override;
+    void clear() override;
+    void startUpdate(double timestep) override;
+    void copyToRender() const override;
+
+
 private:
 
     void loadData();
@@ -53,15 +69,16 @@ private:
     void initAbilitiesButtons();
     void initUILayer();
 
-    void placeResourcesPlaces();
-    void placeCastle();
-    void placeTowers();
+//    void placeResourcesPlaces();
+//    void placeCastle();
+//    void placeTowers();
     void placeSceneObjects();
 
     void applyArtefactEffects();
     void initResourceView();
     void initProgressBars();
     void setActiveMstones(string s);
+    void initAbilityCallBacks(const std::string& aAbilityName);
 
     std::shared_ptr<Gates> gates;
     std::shared_ptr<UIProgressBar> gatesHealthBar, manaBar;
@@ -91,4 +108,6 @@ private:
     std::shared_ptr<ManaGlobal> mManaModel;
     vector<StructureData> mPositionsVector;
     Enums::GameSceneStatuses mGameSceneCurrentStatus = Enums::GameSceneStatuses::Default;
+    SceneModeT mSceneMode = SceneModeT::StandardMode;
+
 };

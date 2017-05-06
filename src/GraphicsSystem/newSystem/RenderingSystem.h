@@ -42,7 +42,11 @@ public:
     void renderToTarget(SDL_Texture *texturePtr);
 
     void setRendererDrawColor(Uint8 red, Uint8 green, Uint8 blue, Uint8 alpha);
+    void drawLine(Position aFirstPoint, Position aLastPoint);
+    void drawGrid(Size aGridSize, Size aCellSize);
+
     void renderClear();
+
     void renderPresent();
 
     Size getScreenSize() const;

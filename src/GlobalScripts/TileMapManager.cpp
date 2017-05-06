@@ -111,7 +111,19 @@ int TileMapManager::getColumnCount() const
     return mapTemplate[0].size();
 }
 
+Size TileMapManager::getCellSize() const
+{
+    return Size{TileMapManager::columnSize, TileMapManager::rowSize};
+}
 
+Size TileMapManager::getMapSize() const
+{
+    return Size
+        {
+            TileMapManager::columnSize * this->getColumnCount(),
+            TileMapManager::rowSize * this->getRowCount()
+        };
+}
 
 pair<int,int> TileMapManager::getPosFromGlobalCoords(Position pos)
 {

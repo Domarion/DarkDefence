@@ -7,11 +7,6 @@ MobAbility::MobAbility(std::shared_ptr<ManaGlobal> aManaModel)
 
 }
 
-MobAbility::~MobAbility()
-{
-
-}
-
 void MobAbility::setTarget(std::shared_ptr<SceneObject> targ)
 {
     target = targ;

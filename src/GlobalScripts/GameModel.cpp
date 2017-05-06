@@ -417,8 +417,7 @@ void GameModel::loadAbilitiesNames(string filename)
             abilitiesNames.resize(n);
             for(int i = 0; i < n; ++i)
             {
-                abilityStream >> abilitiesNames[ i ];
-//                std::cout << abilitiesNames[i] << std::endl;
+                abilityStream >> abilitiesNames[i];
             }
         }
     }
@@ -427,7 +426,7 @@ void GameModel::loadAbilitiesNames(string filename)
 
 string GameModel::getAbilityNameFromIndex(int index)
 {
-    return abilitiesNames[ index ];
+    return abilitiesNames.at(index);
 }
 
 size_t GameModel::getAbilityCount() const

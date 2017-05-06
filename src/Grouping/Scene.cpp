@@ -46,18 +46,8 @@ Scene::~Scene()
 
 void Scene::copyToRender() const
 {
-    for(auto sceneObject : sceneObjects)
-        if (sceneObject != nullptr && sceneObject->getSprite() != nullptr )
-        {
-            Position sceneObjectPosition = sceneObject->getPosition();
-            Size sceneObjectSize = sceneObject->getSprite()->getSize();
-            if (mCamera.hasIntersection(sceneObjectPosition, sceneObjectSize))
-                sceneObject->getSprite()->drawAtPosition(mCamera.worldToCameraPosition(sceneObjectPosition));
-        }
-
-    for(const auto& guiItem : listGUI)
-        if (guiItem != nullptr)
-            guiItem->draw();
+    drawSceneObjects();
+    drawUI();
 }
 
 void Scene::startUpdate(double timestep)
@@ -310,6 +300,25 @@ void Scene::addSceneButton(string aButtonName,
 
       MainRect->addChild(textButton);
 
+}
+
+void Scene::drawSceneObjects() const
+{
+    for(auto& sceneObject : sceneObjects)
+        if (sceneObject != nullptr && sceneObject->getSprite() != nullptr )
+        {
+            Position sceneObjectPosition = sceneObject->getPosition();
+            Size sceneObjectSize = sceneObject->getSprite()->getSize();
+            if (mCamera.hasIntersection(sceneObjectPosition, sceneObjectSize))
+                sceneObject->getSprite()->drawAtPosition(mCamera.worldToCameraPosition(sceneObjectPosition));
+        }
+}
+
+void Scene::drawUI() const
+{
+    for(const auto& guiItem : listGUI)
+        if (guiItem != nullptr)
+            guiItem->draw();
 }
 
 void Scene::clear()

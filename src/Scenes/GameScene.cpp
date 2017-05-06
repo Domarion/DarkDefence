@@ -20,23 +20,18 @@
 #include <sstream>
 #include <cereal/archives/xml.hpp>
 
-GameScene::GameScene(std::shared_ptr<RenderingSystem> &aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher)
-: Scene(aRenderer, aInputDispatcher)
-, gates(nullptr)
-, gatesHealthBar(nullptr)
-, manaBar(nullptr)
-, pointsLabel(nullptr)
-, waveLabel(nullptr)
-, monsterSpawner()
-, itemAbilitiesStorage()
-, towerUpgradeController(std::make_shared<TowerUpgradeController>())
-, tileMap(nullptr)
-, mManaModel(nullptr)
-
-{
-}
-
-GameScene::~GameScene()
+GameScene::GameScene(std::shared_ptr<RenderingSystem>& aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher)
+    : Scene(aRenderer, aInputDispatcher)
+    , gates(nullptr)
+    , gatesHealthBar(nullptr)
+    , manaBar(nullptr)
+    , pointsLabel(nullptr)
+    , waveLabel(nullptr)
+    , monsterSpawner()
+    , itemAbilitiesStorage()
+    , towerUpgradeController(std::make_shared<TowerUpgradeController>())
+    , tileMap(nullptr)
+    , mManaModel(nullptr)
 {
 }
 
@@ -85,7 +80,6 @@ void GameScene::startUpdate(double timestep)
     {
         GameModel::getInstance()->setGameStatus(Enums::GameStatuses::gsWON);
         std::string s1 = "ScoreScene";
-        //std::cout << "fuckThemAll" << std::endl;
 
         GameModel::getInstance()->setMissionReward(currentMission.getReward());
         getParentSceneManager()->setCurrentSceneByName(s1);
@@ -95,7 +89,6 @@ void GameScene::startUpdate(double timestep)
     {
         GameModel::getInstance()->setGameStatus(Enums::GameStatuses::gsLOST);
         std::string s2 = "ScoreScene";
-        // std::cout << "idiot" << std::endl;
         getParentSceneManager()->setCurrentSceneByName(s2);
         break;
     }
@@ -272,6 +265,18 @@ void GameScene::initProgressBars()
     MainRect->addChild(progressBarGroup);
 }
 
+void GameScene::copyToRender() const
+{
+    drawSceneObjects();
+    if (SceneModeT::PlacingMode == mSceneMode)
+    {
+        renderer->setRendererDrawColor(0, 0, 255, 255);
+
+        renderer->drawGrid(tileMap->getMapSize(), tileMap->getCellSize());
+    }
+    drawUI();
+}
+
 void GameScene::setGameSceneStatus(Enums::GameSceneStatuses aStatus)
 {
     mGameSceneCurrentStatus = aStatus;
@@ -280,6 +285,22 @@ void GameScene::setGameSceneStatus(Enums::GameSceneStatuses aStatus)
 Enums::GameSceneStatuses GameScene::getGameSceneStatus() const
 {
     return mGameSceneCurrentStatus;
+}
+
+void GameScene::setAbilityPlacingMode(const std::string& aAbilityName)
+{
+    if (mSceneMode == SceneModeT::StandardMode && spellStorage.setAbilityReady(aAbilityName))
+    {
+        if (spellStorage.canPlaceObjectAbility(aAbilityName))
+        {
+            mSceneMode = SceneModeT::PlacingMode;
+        }
+    }
+}
+
+void GameScene::placingCallBack()
+{
+    mSceneMode = SceneModeT::StandardMode;
 }
 
 void GameScene::initTopPanel()
@@ -307,6 +328,21 @@ void GameScene::initTopPanel()
     miniGroup->setSize(Size(pointsLabel->getSize().width + waveLabel->getSize().width + 50, waveLabel->getSize().height));
 }
 
+void GameScene::initAbilityCallBacks(const std::string& aAbilityName)
+{
+    auto abilityPtr = spellStorage.getAbilityModelWithName(aAbilityName);
+
+    if (abilityPtr != nullptr)
+    {
+        abilityPtr->setPlacingCallback(std::bind(&GameScene::placingCallBack, this));
+        auto abilityInputHandler = std::dynamic_pointer_cast<InputHandler>(abilityPtr);
+        if (abilityInputHandler != nullptr)
+        {
+            mInputDispatcher->addHandler(abilityInputHandler);
+        }
+    }
+}
+
 void GameScene::initAbilitiesButtons()
 {
 
@@ -329,31 +365,26 @@ void GameScene::initAbilitiesButtons()
     for(size_t i = 0; i < abilityButtonCount; ++i)
     {
         auto abilityButton = std::make_shared<UIImageButton>(renderer);
-        string imgPath = "GameData/textures/Abilities/Ability" + GameModel::getInstance()->getAbilityNameFromIndex(i) + ".png";
+        std::string abilityName = GameModel::getInstance()->getAbilityNameFromIndex(i);
+        string imgPath = "GameData/textures/Abilities/Ability" + abilityName + ".png";
 
         abilityButton->loadTexture(imgPath);
         abilityButton->setSize(abilityButtonSize);
         abilityButton->setPosition(abilityButtonsGroup->getNextHorizontalPosition());
-        abilityButton->ConnectMethod(std::bind(&SpellStorage::setAbilityReady, &spellStorage, GameModel::getInstance()->getAbilityNameFromIndex(i)));
+        abilityButton->ConnectMethod(std::bind(&GameScene::setAbilityPlacingMode, this, abilityName));
+
         abilityButtonsGroup->addChild(abilityButton);
 
+        initAbilityCallBacks(abilityName);
     }
+
     MainRect->addChild(abilityButtonsGroup);
 
-    auto prickhandler = std::dynamic_pointer_cast<InputHandler>(spellStorage.getAbilityModelWithName("Prick"));
-    if(prickhandler != nullptr)
-    {
-        mInputDispatcher->addHandler(prickhandler);
-    }
-    else
-        std::cout << "WTF_prick" << std::endl;
 }
 
 void GameScene::initUILayer()
 {
     initTopPanel();
-
-
 
     Size buttonSize(72, 72);
     auto pauseButton = std::make_shared<UIImageButton>(renderer);
@@ -376,52 +407,50 @@ void GameScene::initUILayer()
     initAbilitiesButtons();
 }
 
-void GameScene::placeResourcesPlaces()
-{
+//void GameScene::placeResourcesPlaces()
+//{
+//    auto resPlace = std::make_shared<ResourcePlace>(700, Enums::ResourceTypes::STONE);
+//    auto resSprite = std::make_shared<AnimationSceneSprite>(renderer);
 
+//    resSprite->setSize(Size(100, 100));
 
-    auto resPlace = std::make_shared<ResourcePlace>(700, Enums::ResourceTypes::STONE);
-    auto resSprite = std::make_shared<AnimationSceneSprite>(renderer);
+//    string resourceName = GameModel::getInstance()->getResourcesModel()->getResourceNameFromIndex(static_cast<int> (resPlace->getResourceType()));
+//    string texturePath = "GameData/textures/Resources/" + resourceName + "Resource.png";
+//    resSprite->loadTexture(texturePath);
+//    resPlace->setSprite(resSprite);
+//    resPlace->setName("ResourcePlace");
+//    resPlace->setTag("ResourcePlace");
+//    spawnObject(400, 100, resPlace);
+//}
 
-    resSprite->setSize(Size(100, 100));
+//void GameScene::placeCastle()
+//{
+//    auto newView = std::make_shared<AnimationSceneSprite>(renderer);
 
-    string resourceName = GameModel::getInstance()->getResourcesModel()->getResourceNameFromIndex(static_cast<int> (resPlace->getResourceType()));
-    string texturePath = "GameData/textures/Resources/" + resourceName + "Resource.png";
-    resSprite->loadTexture(texturePath);
-    resPlace->setSprite(resSprite);
-    resPlace->setName("ResourcePlace");
-    resPlace->setTag("ResourcePlace");
-    spawnObject(400, 100, resPlace);
-}
+//     newView->setTexture(ResourceManager::getInstance()->getTexture("Castle"));
+//     gates = std::make_shared<Gates>();
+//     gates->setSprite(newView);
+//     gates->setTag("Gates");
+//     gates->getDestructibleObject()->connectMethod(std::bind(&UIProgressBar::calculateProgress, gatesHealthBar, std::placeholders::_1, std::placeholders::_2));
+//     gates->getDestructibleObject()->setMaximumHealth(5000);
+//     spawnObject(40, 100, gates);
+//}
 
-void GameScene::placeCastle()
-{
-    auto newView = std::make_shared<AnimationSceneSprite>(renderer);
+//void GameScene::placeTowers()
+//{
+//    towerUpgradeController->init(shared_from_this(), renderer);
 
-     newView->setTexture(ResourceManager::getInstance()->getTexture("Castle"));
-     gates = std::make_shared<Gates>();
-     gates->setSprite(newView);
-     gates->setTag("Gates");
-     gates->getDestructibleObject()->connectMethod(std::bind(&UIProgressBar::calculateProgress, gatesHealthBar, std::placeholders::_1, std::placeholders::_2));
-     gates->getDestructibleObject()->setMaximumHealth(5000);
-     spawnObject(40, 100, gates);
-}
+//    list<string> towerNames = {"WatcherTower","BallistaTower", "CatapultTower", "MageTower", "ProductivityTower",
+//                               "WindTower", "EarthTower","CloudTower"};
+//    int x = 10;
+//    for(const auto& towerName : towerNames)
+//    {
+//        std::shared_ptr<Tower> tower= towerFabric.produceTower(towerName, renderer, towerUpgradeController, tileMap);
+//        spawnObject(x, 300, tower);
+//        x+= 60;
+//    }
 
-void GameScene::placeTowers()
-{
-    towerUpgradeController->init(shared_from_this(), renderer);
-
-    list<string> towerNames = {"WatcherTower","BallistaTower", "CatapultTower", "MageTower", "ProductivityTower",
-                               "WindTower", "EarthTower","CloudTower"};
-    int x = 10;
-    for(const auto& towerName : towerNames)
-    {
-        std::shared_ptr<Tower> tower= towerFabric.produceTower(towerName, renderer, towerUpgradeController, tileMap);
-        spawnObject(x, 300, tower);
-        x+= 60;
-    }
-
-}
+//}
 
 void GameScene::placeSceneObjects()//TODO: Найти лучшее решение для считывания и хранения позиций объектов
 {
@@ -505,19 +534,16 @@ void GameScene::placeSceneObjects()//TODO: Найти лучшее решени�
 
 void GameScene::applyArtefactEffects()
 {
-
-//    std::cout << "productionOfMine beforeItemApply is = " << (GameModel::getInstance()->getMineModelFromListByRes(Enums::ResourceTypes::WOOD)->getProduction()) << std::endl;
-
     vector<string> itemNames = GameModel::getInstance()->getHeroInventory()->getItemNames();
     itemAbilitiesStorage.loadItemAbilities();
-    for(auto itemNamePtr = itemNames.begin(); itemNamePtr != itemNames.end(); ++itemNamePtr)
+
+    for(const auto& itemName : itemNames)
     {
-        auto temp = itemAbilitiesStorage.getItemAbilityByName(*itemNamePtr);
+        auto temp = itemAbilitiesStorage.getItemAbilityByName(itemName);
         if (temp != nullptr)
             temp->init(shared_from_this(), mManaModel);
     }
 
-//    std::cout << "productionOfMine AfterItemApplyis = " << (GameModel::getInstance()->getMineModelFromListByRes(Enums::ResourceTypes::WOOD)->getProduction()) << std::endl;
 }
 
 void GameScene::processWaveInfo(std::string aInfo)
@@ -567,6 +593,7 @@ void GameScene::clear()
     mManaModel = nullptr;
     GameModel::getInstance()->getResourcesModel()->loadFromFile("GameData/resources.txt");
     mGameSceneCurrentStatus = Enums::GameSceneStatuses::Default;
+    mSceneMode = SceneModeT::StandardMode;
     Scene::clear();
 }
 
