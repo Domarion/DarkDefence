@@ -5,7 +5,6 @@
 namespace androidText
 {
 
-
 void loadTextFileToString(string filename, string& destString, bool aSetRelativePath)
 {
 
@@ -65,7 +64,7 @@ void loadStringsFromfile(SDL_RWops* filetoRead, vector<string> &strings)
         SDL_RWread(filetoRead, &stringCount, sizeof(int), 1);
         strings.resize(stringCount);
         for(int i = 0; i < stringCount; ++i)
-            strings[i].assign(loadStringFromFile(filetoRead));
+            strings[i] = loadCharStringFromFile(filetoRead);
 
     }
 }
@@ -114,7 +113,7 @@ void loadAnimFromFile(SDL_RWops *filetoRead, map<string, vector<SDL_Rect> > &ani
 
         for(int animStateIndex = 0; animStateIndex < animationStatesCount; ++animStateIndex)
         {
-            string animationStateName(loadStringFromFile(filetoRead));
+            string animationStateName(loadCharStringFromFile(filetoRead));
             int animationStateFrameCount = 0;
             SDL_RWread(filetoRead, &animationStateFrameCount, sizeof(int), 1);
             vector<SDL_Rect> stateRects(animationStateFrameCount);
@@ -138,20 +137,32 @@ void loadAnimFromFile(const std::string& filename, map<string, vector<SDL_Rect> 
     SDL_RWclose(binaryDataFile);
 }
 
-char* loadStringFromFile(SDL_RWops *filetoRead)
+std::string loadCharStringFromFile(SDL_RWops* filetoRead)
 {
     if (filetoRead != nullptr)
     {
         int stringByteLength{};
         SDL_RWread(filetoRead, &stringByteLength, sizeof(int), 1);
 
-        char* char_string =  new char[stringByteLength + 1];
-        SDL_RWread(filetoRead, char_string, 1, stringByteLength);
-        char_string[stringByteLength] = '\0';
-        return char_string;
+        char* char_string = new char[stringByteLength + 1];
+        try
+        {
+            SDL_RWread(filetoRead, char_string, 1, stringByteLength);
+            char_string[stringByteLength] = '\0';
+        }
+        catch(const std::exception&)
+        {
+            delete[] char_string;
+            return std::string{};
+        }
+
+        std::string result{char_string};
+        delete[] char_string;
+
+        return result;
     }
 
-    return nullptr;
+    return std::string{};
 }
 
 void saveAnimsToFile(SDL_RWops *filetoWrite, const map<string, vector<SDL_Rect> > &anims)
