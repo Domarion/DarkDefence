@@ -8,8 +8,7 @@ class MobAbility: public AbilityModel
 {
 public:
     MobAbility(std::shared_ptr<ManaGlobal> aManaModel = nullptr);
-    virtual ~MobAbility();
-
+    virtual ~MobAbility() = default;
 
     virtual void setTarget(std::shared_ptr<SceneObject> targ);
     virtual bool isInProcess();
@@ -17,7 +16,6 @@ public:
     virtual bool canTrigger(std::shared_ptr<SceneObject> targ, AIMobStates aistate) = 0;
 
 protected:
-
     std::shared_ptr<SceneObject> target;
 };
 
