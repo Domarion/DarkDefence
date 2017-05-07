@@ -17,7 +17,7 @@ void SpellStorage::loadWithScene(std::shared_ptr<Scene> scenePtr, std::shared_pt
 
     auto snowStorm = std::make_unique<AbilitySnowStorm>(aManaModel);
     snowStorm->init(scenePtr);
-    snowStorm->setManaCost(100);
+    snowStorm->setManaCost(50);
     snowStorm->setCooldownTime(10000);
     snowStorm->setWorkTime(10000);
     snowStorm->setDamagePerSecond(30);

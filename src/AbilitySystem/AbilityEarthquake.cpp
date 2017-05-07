@@ -57,6 +57,13 @@ bool AbilityEarthquake::onWorking(double timestep)
 
         currentWorkTime = workTime;
         abilityState = Enums::AbilityStates::asOnCooldown;
+
+        if (affectedMobs!= nullptr && !affectedMobs->empty())
+            for(auto affectedMob = affectedMobs->begin(); affectedMob != affectedMobs->end(); ++affectedMob)
+            {
+                if (*affectedMob != nullptr)
+                    (*affectedMob)->getEffectReceiver()->cancelEffect(stunEffect);
+            }
         affectedMobs->clear();
     }
     else
