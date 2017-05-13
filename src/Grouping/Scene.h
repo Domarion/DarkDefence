@@ -16,6 +16,7 @@ using std::list;
 #include "../GraphicsSystem/newSystem/UIElement/ConcreteComposite.h"
 #include "../GraphicsSystem/newSystem/Camera2D.h"
 #include "../Input/InputDispatcher.h"
+
 class SceneObject;
 class SceneManager;
 
@@ -27,7 +28,8 @@ public:
     Scene(const Scene&) = delete;
     Scene& operator=(const Scene&) = delete;
 
-	virtual ~Scene();
+    virtual ~Scene() = default;
+
     virtual void init(std::shared_ptr<SceneManager> sceneManagerPtr);
     virtual void clear();
     virtual void copyToRender() const;
@@ -39,7 +41,7 @@ public:
     virtual void removeFromUIList(const std::shared_ptr<IComposite>& item);
 
     virtual void replaceObject(std::shared_ptr<SceneObject> aObject, std::shared_ptr<SceneObject> aReplacement);
-
+    void softClear();
     void addAsInputHandler(std::shared_ptr<InputHandler> item);
     void clearUIList();
     std::shared_ptr<SceneObject> findObjectByTag(std::string tag);

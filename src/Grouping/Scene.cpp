@@ -38,12 +38,6 @@ void Scene::init(std::shared_ptr<SceneManager> sceneManagerPtr)
 	parentSceneManager = sceneManagerPtr;
 }
 
-
-Scene::~Scene()
-{
-}
-
-
 void Scene::copyToRender() const
 {
     drawSceneObjects();
@@ -54,8 +48,7 @@ void Scene::startUpdate(double timestep)
 {
     for(auto iter = sceneObjects.begin(); iter != sceneObjects.end(); )
     {
-
-        if ((*iter)->update(timestep) == false)
+        if ((*iter) != nullptr && (*iter)->update(timestep) == false)
             sceneObjects.erase(iter++);
         else
             ++iter;
@@ -159,6 +152,12 @@ void Scene::replaceObject(std::shared_ptr<SceneObject> aObject, std::shared_ptr<
 
     }
 
+}
+
+void Scene::softClear()
+{
+    clearUIList();
+    wasInited = false;
 }
 
 void Scene::addAsInputHandler(std::shared_ptr<InputHandler> item)
@@ -323,8 +322,11 @@ void Scene::drawUI() const
 
 void Scene::clear()
 {
-    clearUIList();
-    wasInited = false;
+    if (!listGUI.empty())
+    {
+        softClear();
+    }
+    sceneObjects.clear();
 
     parentSceneManager = nullptr;
 }

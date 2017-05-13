@@ -38,8 +38,6 @@ public:
     };
 
     GameScene(std::shared_ptr<RenderingSystem>& aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher);
-    virtual ~GameScene() = default;
-
 
     map<std::string, std::shared_ptr<AbilityModel> > &getAbilityModelList();
     void ConnectMethod(std::function<void(string)> handler);

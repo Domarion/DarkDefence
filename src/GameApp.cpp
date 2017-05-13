@@ -132,6 +132,7 @@ void GameApp::updateScene(std::shared_ptr<Scene> scene, double timestep)
     if (scene != nullptr)
     {
         scene->startUpdate(timestep);
+        mSceneManager->clearOldScene();
     }
 }
 

@@ -52,3 +52,26 @@ void SceneManager::setCurrentSceneByName(std::string name)
         setCurrentScene(scenes.at(name));
     }
 }
+
+void SceneManager::askForChangeScene(std::string aName)
+{
+    if (currentScene != scenes.at(aName))
+    {
+        oldScene = currentScene;
+        oldScene->softClear();
+        currentScene = scenes.at(aName);
+
+        if (currentScene != nullptr)
+            currentScene->init(shared_from_this());
+    }
+}
+
+void SceneManager::clearOldScene()
+{
+    if (oldScene != nullptr)
+    {
+        oldScene->clear();
+        oldScene = nullptr;
+    }
+}
+

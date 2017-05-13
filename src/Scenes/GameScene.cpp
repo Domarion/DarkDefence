@@ -81,15 +81,15 @@ void GameScene::startUpdate(double timestep)
         std::string s1 = "ScoreScene";
 
         GameModel::getInstance()->setMissionReward(currentMission.getReward());
-        getParentSceneManager()->setCurrentSceneByName(s1);
-        break;
+        getParentSceneManager()->askForChangeScene(s1);
+        return;
     }
     case MissionStatuses::mFAILED:
     {
         GameModel::getInstance()->setGameStatus(Enums::GameStatuses::gsLOST);
         std::string s2 = "ScoreScene";
-        getParentSceneManager()->setCurrentSceneByName(s2);
-        break;
+        getParentSceneManager()->askForChangeScene(s2);
+        return;
     }
     }
 
@@ -619,10 +619,12 @@ void GameScene::processWaveInfo(std::string aInfo)
     }
 
     monsterSpawner->disconnectInfoProcesser();
+    monsterSpawner->disconnectSpawnCallback();
+
     GameModel::getInstance()->setGameStatus(Enums::GameStatuses::gsWON);
     GameModel::getInstance()->setMissionReward(currentMission.getReward());
     std::string s2 = "ScoreScene";
-    getParentSceneManager()->setCurrentSceneByName(s2);
+    getParentSceneManager()->askForChangeScene(s2);
 }
 
 
@@ -638,6 +640,8 @@ void GameScene::clear()
     if (monsterSpawner)
     {
         monsterSpawner->disconnectInfoProcesser();
+        monsterSpawner->disconnectSpawnCallback();
+
         monsterSpawner.reset();
     }
     mManaModel = nullptr;
