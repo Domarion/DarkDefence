@@ -10,16 +10,16 @@
 #include <algorithm>
 
 MobModel::MobModel()
-: DestructibleObject(), attackDistance(0.0, 0.0)
-, moveSpeed(0.0, 0.0)
-, reloadTimeMaximum(0.0, 0.0)
-, reloadTime(0.0)
-, damageArea(0)
-, isVisible(true)
-, isStunned(false)
+    : DestructibleObject(), attackDistance(0.0, 0.0)
+    , moveSpeed(0.0, 0.0)
+    , reloadTimeMaximum(0.0, 0.0)
+    , reloadTime(0.0)
+    , damageArea(0)
+    , isVisible(true)
+    , isStunned(false)
 {
 
-	// TODO Auto-generated constructor stub
+    // TODO Auto-generated constructor stub
     for(int i = 0; i < DestructibleObject::damageTypesCount; ++i)
         price[i] = 0;
 
@@ -27,13 +27,13 @@ MobModel::MobModel()
 
 MobModel::~MobModel()
 {
-	// TODO Auto-generated destructor stub
+    // TODO Auto-generated destructor stub
 }
 
 
 const pair<double, double>& MobModel::getAttackDistance() const
 {
-	return attackDistance;
+    return attackDistance;
 }
 
 void MobModel::setAttackDistance(const pair<double, double>& attackDistance)
@@ -46,39 +46,48 @@ int *MobModel::getAttackDamage()
     int* damage = new int[DestructibleObject::damageTypesCount];
 
     for(int i = 0; i != DestructibleObject::damageTypesCount; ++i)
-       damage[i] = attackDamage[i].first + attackDamage[i].second;
+        damage[i] = attackDamage[i].first + attackDamage[i].second;
     return damage;
 }
 
 
 const pair<double, double>& MobModel::getMoveSpeed() const
 {
-	return moveSpeed;
+    return moveSpeed;
 }
 
 void MobModel::setMoveSpeed(const pair<double, double>& moveSpeed)
 {
-	this->moveSpeed = moveSpeed;
+    this->moveSpeed = moveSpeed;
 }
 
 
 
-MobModel::MobModel(string aName, string aTag, int aMaxHealth,
-        int aProtection[], int damage[], double distance, double speed, double aReloadTime, int aDamageArea, list<EnemyInfo> enemiesTags)
-: DestructibleObject(aName, aTag, aMaxHealth, aProtection), attackDistance(distance, 0.0)
-, moveSpeed(speed, 0.0)
-, reloadTimeMaximum(aReloadTime, 0.0)
-, reloadTime(aReloadTime)
-, damageArea(aDamageArea)
-, enemiesInfo(enemiesTags)
-, isVisible(true)
-, isStunned(false)
+MobModel::MobModel(
+        string aName,
+        string aTag,
+        int aMaxHealth,
+        int aProtection[],
+        int damage[],
+        double distance,
+        double speed,
+        double aReloadTime,
+        int aDamageArea,
+        list<EnemyInfo> enemiesTags)
+    : DestructibleObject(aName, aTag, aMaxHealth, aProtection), attackDistance(distance, 0.0)
+    , moveSpeed(speed, 0.0)
+    , reloadTimeMaximum(aReloadTime, 0.0)
+    , reloadTime(aReloadTime)
+    , damageArea(aDamageArea)
+    , enemiesInfo(enemiesTags)
+    , isVisible(true)
+    , isStunned(false)
 {
-	for(int i = 0; i < DestructibleObject::damageTypesCount; ++i)
-	{
-		attackDamage[i].first = damage[i];
-		attackDamage[i].second = 0;
-	}
+    for(int i = 0; i < DestructibleObject::damageTypesCount; ++i)
+    {
+        attackDamage[i].first = damage[i];
+        attackDamage[i].second = 0;
+    }
 
     for(int i = 0; i < DestructibleObject::damageTypesCount; ++i)
         price[i] = 0;
@@ -117,7 +126,7 @@ bool MobModel::checkDistance(int distanceSqr)
 {
     int x = static_cast<int>(attackDistance.first); //+ attackDistance.second);
 
-   // std::cout << "distance X = " << (x*x) << std::endl;
+    // std::cout << "distance X = " << (x*x) << std::endl;
     return  (x*x) >= distanceSqr;
 }
 
@@ -164,12 +173,12 @@ double MobModel::getAttackDistanceModifier() const
 
 void MobModel::reload()
 {
-	reloadTime = reloadTimeMaximum.first + reloadTimeMaximum.second;
+    reloadTime = reloadTimeMaximum.first + reloadTimeMaximum.second;
 }
 
 double MobModel::getReloadTime() const
 {
-	return reloadTime;
+    return reloadTime;
 }
 
 void MobModel::setReloadTime(double reloadTime)

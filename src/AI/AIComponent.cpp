@@ -23,9 +23,6 @@ AIComponent::AIComponent(std::weak_ptr<Mob> aMob)
     initMobAbilities();
 }
 
-
-
-
 void AIComponent::MakeDecision(double timestep)
 {
 	switch(aiMobState)
