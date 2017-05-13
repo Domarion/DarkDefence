@@ -1,10 +1,8 @@
 #include "MobAbilitySprint.h"
 #include "../../Mob/Mob.h"
-#include <iostream>
 
 bool MobAbilitySprint::onReady(double /*timestep*/)
 {
-     std::cout << "WTF" << std::endl;
      if (target != nullptr)
      {
          std::shared_ptr<Mob> mob = std::dynamic_pointer_cast<Mob>(target);
@@ -13,12 +11,10 @@ bool MobAbilitySprint::onReady(double /*timestep*/)
             double msModifier = mob->getModel()->getMoveSpeedModifier() + 1.5;
             mob->getModel()->setMoveSpeedModifier(msModifier);
             abilityState = Enums::AbilityStates::asWorking;
-            std::cout << "Sprint Working" << std::endl;
          }
      }
      else
      {
-         std::cout << "Uncastable" << std::endl;
          abilityState = Enums::AbilityStates::asNotAvaliable;
      }
 

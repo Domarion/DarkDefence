@@ -5,7 +5,6 @@ class ArrowAnim : public SceneObject
 {
 public:
     explicit ArrowAnim(Position aTargetPosition);
-    virtual ~ArrowAnim() = default;
 
     bool update(double timestep) override;
 private:

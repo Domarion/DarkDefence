@@ -162,9 +162,6 @@ void GameScene::loadData()
     string s01 = "GameData/MineModels.xml";
     GameModel::getInstance()->loadMinesList(s01);
 
-//    GameModel::getInstance()->getResourcesModel()->loadFromFile("GameData/resources.txt");
-
-
     GameModel::getInstance()->loadMonsterList("GameData/MonsterList.xml");
 
     GameModel::getInstance()->loadTowerUpgrades("GameData/TowerTree.xml");
@@ -299,6 +296,39 @@ void GameScene::placingCallBack()
     mSceneMode = SceneModeT::StandardMode;
 }
 
+void GameScene::spawningCallBack(std::string aMobName, Position aSpawnPosition)
+{
+    std::cout << "Entering placing" << std::endl;
+
+    auto tileMapCopy = std::make_shared<TileMapManager>(*tileMap);
+    auto someMob = std::make_shared<Mob>(GameModel::getInstance()->getMonsterByName(aMobName), tileMapCopy);
+
+    if (someMob->getTileMapManager() == nullptr)
+    {
+        std::cout << "someMob->getTileMapManager = nullptr" << std::endl;
+        return;
+    }
+
+    auto someSprite = std::make_shared<AnimationSceneSprite>(getRenderer());
+
+
+    someSprite->setTexture(ResourceManager::getInstance()->getTexture(aMobName));
+
+    map<string, vector<SDL_Rect> > anims;
+
+    std::string filename = "GameData/anims/Monsters/" + aMobName + ".anim";
+    androidText::setRelativePath(filename);
+    androidText::loadAnimFromFile(filename, anims);
+
+    for(auto& anim : anims)
+    {
+        someSprite->setAnimRects(anim.first, anim.second);
+    }
+
+    someMob->setSprite(someSprite);
+    spawnObject(aSpawnPosition.x, aSpawnPosition.y, someMob);
+}
+
 void GameScene::initTopPanel()
 {
     initProgressBars();
@@ -341,13 +371,11 @@ void GameScene::initAbilityCallBacks(const std::string& aAbilityName)
 
 void GameScene::initAbilitiesButtons()
 {
-
     mManaModel = std::make_shared<ManaGlobal>();
     Size abilityButtonSize(96, 96);
 
     int abilityGroupHeight = static_cast<int>(abilityButtonSize.height * MainRect->getScalingFactor());
     Position abilityButtonPos(0, MainRect->getSize().height - abilityGroupHeight);//TODO:: убрать абсолютное позиционирование, сделать относительное
-
 
     spellStorage.loadWithScene(shared_from_this(), mManaModel);
 
@@ -541,13 +569,17 @@ void GameScene::placeSceneObjects()//TODO: Найти лучшее решени�
                             monsterSpawner->setName("Spawner");
                             monsterSpawner->setTag("Spawner");
                             monsterSpawner->loadWavesInfo();
+
                             spawnObject(item.ImagePosition.x, item.ImagePosition.y, monsterSpawner);
-                            monsterSpawner->connectInfoProcesser(std::bind(&GameScene::processWaveInfo, this, std::placeholders::_1));
+
+                            monsterSpawner->connectInfoProcesser(
+                                std::bind(&GameScene::processWaveInfo, this, std::placeholders::_1));
+                            monsterSpawner->connectSpawnCallBack(
+                                std::bind(
+                                    &GameScene::spawningCallBack, this, std::placeholders::_1, std::placeholders::_2));
+
                         }
         }
-//    placeResourcesPlaces();
-//    placeTowers();
-//    placeCastle();
 }
 
 void GameScene::applyArtefactEffects()
@@ -582,7 +614,7 @@ void GameScene::processWaveInfo(std::string aInfo)
         {
             std::cout << "TileIsNullinGameScene" << std::endl;
         }
-        monsterSpawner->doSpawn(renderer, tileMap);
+        monsterSpawner->doSpawn();
         return;
     }
 

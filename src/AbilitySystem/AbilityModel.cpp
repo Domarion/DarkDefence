@@ -32,7 +32,7 @@ bool AbilityModel::onCooldown(double timestep)
 
     currentDelta += timestep;
 
-    if (currentDelta > spamDelta && cooldownListener != nullptr)
+    if (cooldownListener != nullptr && currentDelta > spamDelta)
     {
         currentDelta = 0;
         int current = static_cast<int>(cooldownTime - currentCooldownTime);
@@ -74,6 +74,17 @@ bool AbilityModel::update(double timestep)
 bool AbilityModel::trySetAsReady()
 {
     if (abilityState == Enums::AbilityStates::asNotAvaliable && mManaModel->payMana(getManaCost()))
+    {
+        abilityState = Enums::AbilityStates::asReady;
+        return true;
+    }
+
+    return false;
+}
+
+bool AbilityModel::setAsReady()
+{
+    if (abilityState == Enums::AbilityStates::asNotAvaliable)
     {
         abilityState = Enums::AbilityStates::asReady;
         return true;

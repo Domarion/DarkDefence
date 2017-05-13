@@ -3,15 +3,15 @@
 int main()
 {
     DataGenerator dataGenerator;
-    dataGenerator.saveAnim();
-    dataGenerator.saveTowerTree();
-    dataGenerator.saveItems();
-    dataGenerator.saveMission();
+//    dataGenerator.saveAnim();
+//    dataGenerator.saveTowerTree();
+//    dataGenerator.saveItems();
+//    dataGenerator.saveMission();
     dataGenerator.saveMonsterCollection();
 
-    dataGenerator.saveMineCollection();
-    dataGenerator.savePositions();
-    dataGenerator.saveTextureData();
+//    dataGenerator.saveMineCollection();
+//    dataGenerator.savePositions();
+//    dataGenerator.saveTextureData();
 
     return 0;
 }

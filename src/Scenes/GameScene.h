@@ -53,13 +53,13 @@ public:
     void setAbilityPlacingMode(const std::string& aAbilityName);
 
     void placingCallBack();
+    void spawningCallBack(std::string aMobName, Position aSpawnPosition);
 
     // Scene interface
     void init(std::shared_ptr<SceneManager> sceneManagerPtr) override;
     void clear() override;
     void startUpdate(double timestep) override;
     void copyToRender() const override;
-
 
 private:
 

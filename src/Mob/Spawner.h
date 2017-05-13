@@ -1,21 +1,25 @@
 #pragma once
-#include "Mob/Mob.h"
+
 #include "Mob/MobSpawner.h"
-#include "../GlobalScripts/TileMapManager.h"
+#include "Grouping/SceneObject.h"
 
 class Spawner : public SceneObject
 {
 public:
     Spawner();
-    virtual ~Spawner() = default;
-    virtual bool update(double timestep) override;
-    void doSpawn(std::shared_ptr<RenderingSystem>& aRenderingContext, std::shared_ptr<TileMapManager> aTileMap);
+
+    bool update(double timestep) override;
+    void doSpawn();
     void connectInfoProcesser(std::function<void(string)> aInfoProcesser);
     void disconnectInfoProcesser();
+    void disconnectSpawnCallback();
+
     void loadWavesInfo();
+    void connectSpawnCallBack(std::function<void(std::string, Position)> aCallBack);
 
 private:
     MobSpawner mSpawnerModel;
     int timePeriod;
     int currentTime;
+    std::function<void(std::string, Position)> mSpawnCallBack;
 };

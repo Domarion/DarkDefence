@@ -104,39 +104,6 @@ int MobSpawner::getWaveCount() const
     return waveCount;
 }
 
-//string MobSpawner::getWaveStringInfo()
-//{
-//    string s = "none";
-
-//    if (noMoreWaves())
-//        s = "No More Waves";
-//    else
-//    {
-//        if (!GameModel::getInstance()->canSpawn())
-//        {
-//            s = std::to_string(waveNumber) + " / " + std::to_string(waveCount);
-
-//        }
-//        else
-//        if (currentTime > 0.0)
-//        {
-//            int i = static_cast<int>(currentTime)/1000;
-//            s = "Wave in: " + std::to_string(i);
-
-//        }
-//    }
-
-//    if (mInfoProcesser
-//            && (currentSpawnStatus == SpawnStatusT::InProgress
-//                || (previousValue != s && s != "none")))
-//    {
-//        mInfoProcesser(s);
-//        previousValue = s;
-//    }
-//   return s;
-
-//}
-
 void MobSpawner::reset()
 {
     waveNumber = waveCount = 0;

@@ -25,7 +25,6 @@ public:
 
 public:
     MobSpawner();
-    virtual ~MobSpawner() = default;
     void loadWavesInfo(std::string filename);
 	bool canSpawn(double timestep);
     bool noMoreWaves() const;
@@ -33,7 +32,6 @@ public:
     bool isSpawned() const;
     int getWaveNumber() const;
     int getWaveCount() const;
-//    string getWaveStringInfo();
     void reset();
     std::vector<std::pair<string, int> > getCurrentWaveInfo();
     void connectInfoProcesser(std::function<void(string)> aInfoProcesser);

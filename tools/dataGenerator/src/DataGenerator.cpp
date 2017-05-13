@@ -184,8 +184,8 @@ void DataGenerator::saveMonsterCollection()
     int protection[] = {10, 5, 0, 0};
     int damage[] = {20, 0, 0, 5};
 
-    int attackDistance = 100;//TODO:единицы измерения?
-    int moveSpeed = 0.5;//TODO::единицы измерения?
+    int attackDistance = 1;//TODO:единицы измерения?
+    int moveSpeed = 2;//TODO::единицы измерения?
     int reloadTime = 3000; //миллисекунд
     int damageArea = 0;
     EnemyInfo enemyInfoMine("Mine", Enums::EReaction::UseAbilities, 3);
@@ -195,15 +195,23 @@ void DataGenerator::saveMonsterCollection()
 
     string firstMonsterName = "Necromant";
     MobModel firstMonster (firstMonsterName, tag, health, protection, damage,
-                     attackDistance, moveSpeed, reloadTime, damageArea, enemyTags);
+        attackDistance, moveSpeed, reloadTime, damageArea, enemyTags);
 
-    list<string>* abilityNames = new list<string>();
-    abilityNames->push_back("MobAbilityArson");
-    firstMonster.setAbilitiesNames(*abilityNames);
+    list<string> abilityNames;
+    abilityNames.push_back("MobAbilityArson");
+    firstMonster.setAbilitiesNames(abilityNames);
+
+    string secondMonsterName = "Diversant";
+    MobModel secondMonster (secondMonsterName, tag, health, protection, damage,
+        attackDistance, moveSpeed, reloadTime, damageArea, enemyTags);
+
+    list<string> abilityNamesDiversant;
+    abilityNamesDiversant.push_back("MobAbilityArson");
+    secondMonster.setAbilitiesNames(abilityNamesDiversant);
 
     list<MobModel> monsterList;
     monsterList.push_back(firstMonster);
-
+    monsterList.push_back(secondMonster);
 
     std::string filePath = "/home/kostya_hm/MonsterList.xml";
     std::ofstream outputXMLFile(filePath);

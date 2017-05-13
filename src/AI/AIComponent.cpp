@@ -396,7 +396,7 @@ bool AIComponent::Cast(std::shared_ptr<SceneObject> target)
         if (abilityPtr != nullptr &&
             abilityPtr->canTrigger(target, aiMobState))
         {
-            return abilityPtr->trySetAsReady();
+            return abilityPtr->setAsReady();
         }
 
     return false;

@@ -21,6 +21,7 @@ public:
     virtual bool canPlaceObject() const;
 
     bool trySetAsReady();
+    bool setAsReady();
     int getManaCost() const;
     void setManaCost(int value);
 

@@ -62,6 +62,12 @@
 			<ImageHeight>120</ImageHeight>
 			<ImagePath>GameData/textures/Castle2.png</ImagePath>
 		</value9>
+        <value10>
+			<Caption>Diversant</Caption>
+			<ImageWidth>50</ImageWidth>
+			<ImageHeight>80</ImageHeight>
+			<ImagePath>GameData/textures/Monsters/DiversantSheet.png</ImagePath>
+		</value10>
 	</TexturePaths>
 </cereal>
 

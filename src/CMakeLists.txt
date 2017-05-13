@@ -1,66 +1,26 @@
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -g -O2 -Wall -Wextra -pedantic -ggdb")
-#    -Weffc++ -pedantic  \
-#    -pedantic-errors -Wextra -Waggregate-return -Wcast-align \
-#    -Wcast-qual  -Wchar-subscripts  -Wcomment -Wconversion \
-#    -Wdisabled-optimization \
-#    -Wfloat-equal  -Wformat  -Wformat=2 \
-#    -Wformat-nonliteral -Wformat-security  \
-#    -Wformat-y2k \
-#    -Wimplicit  -Wimport  -Winit-self  -Winline \
-#    -Winvalid-pch   \
-#    -Wunsafe-loop-optimizations  -Wlong-long -Wmissing-braces \
-#    -Wmissing-field-initializers -Wmissing-format-attribute   \
-#    -Wmissing-include-dirs -Wmissing-noreturn \
-#    -Wpacked -Wparentheses  -Wpointer-arith \
-#    -Wredundant-decls -Wreturn-type \
-#    -Wsequence-point  -Wshadow -Wsign-compare  -Wstack-protector \
-#    -Wstrict-aliasing -Wstrict-aliasing=2 -Wswitch \
-#    -Wswitch-enum -Wtrigraphs  -Wuninitialized \
-#    -Wunknown-pragmas  -Wunreachable-code -Wunused \
-#    -Wunused-function  -Wunused-label  -Wunused-parameter \
-#    -Wunused-value  -Wunused-variable  -Wvariadic-macros \
-#    -Wvolatile-register-var  -Wwrite-strings")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -g -O2 -Wall -Wextra -pedantic -ggdb \
+    -Weffc++  \
+    -pedantic-errors -Wextra -Waggregate-return -Wcast-align \
+    -Wcast-qual  -Wchar-subscripts  -Wcomment -Wconversion \
+    -Wdisabled-optimization \
+    -Wfloat-equal  -Wformat  -Wformat=2 \
+    -Wformat-nonliteral -Wformat-security  \
+    -Wformat-y2k \
+    -Wimplicit  -Wimport  -Winit-self  -Winline \
+    -Winvalid-pch   \
+    -Wunsafe-loop-optimizations  -Wlong-long -Wmissing-braces \
+    -Wmissing-field-initializers -Wmissing-format-attribute   \
+    -Wmissing-include-dirs -Wmissing-noreturn \
+    -Wpacked -Wparentheses  -Wpointer-arith \
+    -Wredundant-decls -Wreturn-type \
+    -Wsequence-point  -Wshadow -Wsign-compare  -Wstack-protector \
+    -Wstrict-aliasing -Wstrict-aliasing=2 -Wswitch \
+    -Wswitch-enum -Wtrigraphs  -Wuninitialized \
+    -Wunknown-pragmas  -Wunreachable-code -Wunused \
+    -Wunused-function  -Wunused-label  -Wunused-parameter \
+    -Wunused-value  -Wunused-variable  -Wvariadic-macros \
+    -Wvolatile-register-var  -Wwrite-strings")
 
-#set(OLD_SRC_LIST
-#    GraphicsSystem/UI/MapIndicator.h
-#    GraphicsSystem/UI/StateButton.h
-#    GraphicsSystem/UI/GroupBox.h
-#    GraphicsSystem/UI/ImageButton.h
-#    GraphicsSystem/UI/CompositeLabel.h
-#    GraphicsSystem/UI/Label.h
-#    GraphicsSystem/UI/SlotContainer.h
-#    GraphicsSystem/UI/MissionView.h
-#    GraphicsSystem/UI/ScrollList.h
-#    GraphicsSystem/UI/TextButton.h
-#    GraphicsSystem/UI/AnimatedSprite.h
-#    GraphicsSystem/UI/ProgressBar.h
-#    GraphicsSystem/ShopItemUI.h
-#    GraphicsSystem/CFont.h
-#    GraphicsSystem/CTexture.h
-#    GraphicsSystem/GraphicsManager.h
-#    GraphicsSystem/IDrawable.h
-
-#    GraphicsSystem/UI/StateButton.cpp
-#    GraphicsSystem/UI/Label.cpp
-#    GraphicsSystem/UI/MapIndicator.cpp
-#    GraphicsSystem/UI/MissionView.cpp
-#    GraphicsSystem/UI/ProgressBar.cpp
-#    GraphicsSystem/UI/ScrollList.cpp
-#    GraphicsSystem/UI/ImageButton.cpp
-#    GraphicsSystem/UI/SlotContainer.cpp
-#    GraphicsSystem/UI/CompositeLabel.cpp
-#    GraphicsSystem/UI/AnimatedSprite.cpp
-#    GraphicsSystem/UI/TextButton.cpp
-#    GraphicsSystem/UI/GroupBox.cpp
-#    GraphicsSystem/CTexture.cpp
-#    GraphicsSystem/CFont.cpp
-#    GraphicsSystem/GraphicsManager.cpp
-#    GraphicsSystem/ShopItemUI.cpp
-#    GlobalScripts/Renderer.h
-#    GlobalScripts/Renderer.cpp
-#)
-
-#find_package(Boost COMPONENTS serialization REQUIRED)
 include(FindPkgConfig)
 
 PKG_SEARCH_MODULE(SDL2 REQUIRED sdl2)
@@ -70,7 +30,6 @@ PKG_SEARCH_MODULE(SDL2TTF REQUIRED SDL2_ttf)
 set (CerealInclude ../external/cereal/include)
 
 include_directories(. ${SDL2_INCLUDE_DIRS} ${SDL2IMAGE_INCLUDE_DIRS} ${SDL2TTF_INCLUDE_DIRS} ${CerealInclude} )
-
 
 set(SRC_LIST
     Input/InputHandler.h
@@ -156,6 +115,7 @@ set(SRC_LIST
     AbilitySystem/MobAbilities/MobAbilityInvisiblity.h
     AbilitySystem/MobAbilities/MobAbilityWheat.h
     AbilitySystem/MobAbilities/MobAbilityFog.h
+    AbilitySystem/MobAbilities/MobAbilitySummon.h
     AbilitySystem/MobAbilities/GulakiUpgrade.h
     AbilitySystem/MobAbilities/MobEarthTowerAbility.h
     AbilitySystem/MobAbilities/MobMageTowerAbility.h
@@ -295,6 +255,7 @@ set(SRC_LIST
     AbilitySystem/MobAbilities/MobEarthTowerAbility.cpp
     AbilitySystem/MobAbilities/MobMageTowerAbility.cpp
     AbilitySystem/MobAbilities/MobAbilityFog.cpp
+    AbilitySystem/MobAbilities/MobAbilitySummon.cpp
     AbilitySystem/MobAbilities/MobCloudTowerAbility.cpp
     AbilitySystem/MobAbilities/TitanChockUpgrade.cpp
     AbilitySystem/MobAbilities/TitanChockMassSlow.cpp

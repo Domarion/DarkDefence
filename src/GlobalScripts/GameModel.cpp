@@ -20,6 +20,7 @@ using std::ifstream;
 #include "../AbilitySystem/MobAbilities/MobAbilitySprint.h"
 #include "../AbilitySystem/MobAbilities/MobAbilityInvisiblity.h"
 #include "../AbilitySystem/MobAbilities/MobAbilityFog.h"
+#include "../AbilitySystem/MobAbilities/MobAbilitySummon.h"
 
 #include "../AbilitySystem/MobAbilities/MobAbilityWheat.h"
 #include "../AbilitySystem/MobAbilities/GulakiUpgrade.h"
@@ -74,37 +75,23 @@ std::unique_ptr<MobModel> GameModel::getTowerByName(string name)
 
 void GameModel::loadMonsterList(string filename)
 {
-
-
     list<MobModel> monsterCollection;
-
-
 
     string textString;
     androidText::loadTextFileToString(filename, textString);
-
 
     if (!textString.empty())
     {
         stringstream str(textString);
 
-
         cereal::XMLInputArchive xmlinp(str);
         xmlinp(cereal::make_nvp("Monsters", monsterCollection));
     }
-
-
 
 	for(auto i = monsterCollection.begin(); i != monsterCollection.end(); ++i)
 	{
         monstersModelsMap.insert(std::make_pair(i->getName(), *i));
 	}
-
-//	for(auto i = monstersModelsMap.begin(); i != monstersModelsMap.end(); ++i)
-//	{
-
-//		std::cout << monstersModelsMap[i->first].getName() << std::endl;
-//    }
 }
 
 void GameModel::loadMonsterPointsList(string filename)
@@ -340,6 +327,8 @@ std::unique_ptr<MobAbility> GameModel::getMobAbilityByName(string name)
      if (name == "TitanChockMassSlow")
          return std::make_unique<TitanChockMassSlow>();
 
+     if (name == "MobAbilitySummon")
+         return std::make_unique<MobAbilitySummon>();
 
     return nullptr;
 }
