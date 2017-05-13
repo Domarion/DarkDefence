@@ -32,7 +32,8 @@ bool AbilityModel::onCooldown(double timestep)
 
     currentDelta += timestep;
 
-    if (cooldownListener != nullptr && currentDelta > spamDelta)
+    if (cooldownListener != nullptr
+        && (currentDelta > spamDelta || currentCooldownTime == currentCooldownTime + timestep))
     {
         currentDelta = 0;
         int current = static_cast<int>(cooldownTime - currentCooldownTime);

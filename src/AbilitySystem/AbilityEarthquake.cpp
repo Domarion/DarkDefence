@@ -60,7 +60,7 @@ bool AbilityEarthquake::onWorking(double timestep)
                 if (*affectedMob != nullptr)
                     (*affectedMob)->getEffectReceiver()->cancelEffect(stunEffect);
             }
-        affectedMobs->clear();
+        affectedMobs.reset();
     }
     else
     {

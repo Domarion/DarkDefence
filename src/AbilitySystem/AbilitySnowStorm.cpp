@@ -27,6 +27,7 @@ bool AbilitySnowStorm::onReady(double /*timestep*/)
 
     if (affectedMobs != nullptr)
     {
+        std::cout << "affectedMobSize = " << affectedMobs->size() << std::endl;
         for(auto affectedMob = affectedMobs->begin(); affectedMob != affectedMobs->end(); ++affectedMob)
         {
             if (*affectedMob != nullptr)
@@ -67,8 +68,9 @@ bool AbilitySnowStorm::onWorking(double timestep)
 
 
         currentWorkTime = workTime;
+        affectedMobs.reset();
+
         abilityState = Enums::AbilityStates::asOnCooldown;
-        affectedMobs->clear();
     }
     else
     {

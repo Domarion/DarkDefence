@@ -31,7 +31,7 @@ bool AbilityShrink::onWorking(double timestep)
 {
     if (counter >= 1000)
     {
-        if (affectedMobs != nullptr && affectedMobs->size() > 0)
+        if (affectedMobs != nullptr && !affectedMobs->empty())
             for(auto affectedMob = affectedMobs->begin(); affectedMob != affectedMobs->end(); ++affectedMob)
             {
                 if (*affectedMob != nullptr && (*affectedMob)->getDestructibleObject() != nullptr)
@@ -47,7 +47,7 @@ bool AbilityShrink::onWorking(double timestep)
     {
         currentWorkTime = workTime;
         abilityState = Enums::AbilityStates::asOnCooldown;
-        affectedMobs->clear();
+        affectedMobs.reset();
     }
     else
     {
