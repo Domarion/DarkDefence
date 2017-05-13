@@ -109,5 +109,5 @@ private:
     vector<StructureData> mPositionsVector;
     Enums::GameSceneStatuses mGameSceneCurrentStatus = Enums::GameSceneStatuses::Default;
     SceneModeT mSceneMode = SceneModeT::StandardMode;
-
+    double counter = 5000;
 };

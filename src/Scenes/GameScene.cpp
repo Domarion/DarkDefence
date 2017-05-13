@@ -50,7 +50,6 @@ void GameScene::startUpdate(double timestep)
 {
     Scene::startUpdate(timestep);
 
-    static double counter = 5000;
     if (counter <= 0)
     {
         bool result = GameModel::getInstance()->getResourcesModel()->removeResource(static_cast<int>(Enums::ResourceTypes::WHEAT), 5);
@@ -64,7 +63,7 @@ void GameScene::startUpdate(double timestep)
             }
         }
 
-        counter = 1000;
+        counter = 5000;
     }
     else
         counter -= timestep;

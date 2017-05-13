@@ -1,20 +1,10 @@
 #include "MobAbilityInvisiblity.h"
 #include "../../Mob/MobModel.h"
-MobAbilityInvisiblity::MobAbilityInvisiblity()
-{
-
-}
-
-MobAbilityInvisiblity::~MobAbilityInvisiblity()
-{
-
-}
 
 bool MobAbilityInvisiblity::onReady(double /*timestep*/)
 {
     if (target != nullptr)
     {
-
         target->getSprite()->setVisible(false);
         abilityState = Enums::AbilityStates::asWorking;
         std::cout << "Invis Working" << std::endl;
@@ -33,7 +23,6 @@ bool MobAbilityInvisiblity::onWorking(double /*timestep*/)
 
    if (target != nullptr)//И скастован спелл или проведена атака
    {
-
         //target->getSprite()->setVisible(true);
         //abilityState = Enums::AbilityStates::asOnCooldown;
    }
@@ -61,7 +50,6 @@ bool MobAbilityInvisiblity::canTrigger(std::shared_ptr<SceneObject> targ, Enums:
     {
         targ->getSprite()->setVisible(true);
     }
-
 
     return false;
 }

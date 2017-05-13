@@ -1,26 +1,26 @@
 #pragma once
+
 #include "MobAbility.h"
 
 class GulakiUpgrade: public MobAbility
 {
-
     using SceneObjectList = std::unique_ptr<std::list<std::shared_ptr<SceneObject> > >;
 
-    // AbilityModel interface
 public:
-    GulakiUpgrade(std::shared_ptr<ManaGlobal> aManaModel = nullptr);
-    virtual ~GulakiUpgrade() = default;
-    virtual bool onReady(double timestep) override;
 
-    virtual bool onWorking(double timestep) override;
-    virtual bool onCooldown(double timestep) override;
+    GulakiUpgrade(std::shared_ptr<ManaGlobal> aManaModel = nullptr);
+
+    // AbilityModel interface
+    bool onReady(double timestep) override;
+    bool onWorking(double timestep) override;
+    bool onCooldown(double timestep) override;
 
     // MobAbility interface
-public:
-    virtual bool canTrigger(std::shared_ptr<SceneObject> targ, Enums::AIMobStates aistate) override;
-    SceneObjectList affectedMobs;
-    std::shared_ptr<EffectModel> stunEffect;
+    bool canTrigger(std::shared_ptr<SceneObject> targ, Enums::AIMobStates aistate) override;
 
 private:
+
     void releaseDamage(std::shared_ptr<SceneObject> aTarget);
+    SceneObjectList affectedMobs;
+    std::shared_ptr<EffectModel> stunEffect;
 };

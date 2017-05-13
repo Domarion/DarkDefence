@@ -29,8 +29,6 @@ bool AbilityShrink::onReady(double /*timestep*/)
 
 bool AbilityShrink::onWorking(double timestep)
 {
-    static double counter = 0.0;
-
     if (counter >= 1000)
     {
         if (affectedMobs != nullptr && affectedMobs->size() > 0)

@@ -5,7 +5,6 @@ bool MobAbilityWheat::onReady(double)
 {
     abilityState = Enums::AbilityStates::asWorking;
     return true;
-
 }
 
 bool MobAbilityWheat::onWorking(double timestep)
@@ -21,6 +20,7 @@ bool MobAbilityWheat::onWorking(double timestep)
         currentWorkTime -= timestep;
 
     }
+
     return true;
 }
 

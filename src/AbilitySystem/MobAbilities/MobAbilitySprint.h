@@ -1,21 +1,17 @@
 #pragma once
-#include "MobAbility.h"
 
+#include "MobAbility.h"
 
 class MobAbilitySprint : public MobAbility
 {
 public:
-    MobAbilitySprint();
-    virtual ~MobAbilitySprint();
 
     // AbilityModel interface
-public:
-    virtual bool onReady(double timestep) override;
-    virtual bool onWorking(double timestep) override;
-    virtual bool onCooldown(double timestep) override;
+    bool onReady(double timestep) override;
+    bool onWorking(double timestep) override;
+    bool onCooldown(double timestep) override;
 
     // MobAbility interface
-public:
-    virtual bool canTrigger(std::shared_ptr<SceneObject> targ, Enums::AIMobStates aistate) override;
+    bool canTrigger(std::shared_ptr<SceneObject> targ, Enums::AIMobStates aistate) override;
 };
 

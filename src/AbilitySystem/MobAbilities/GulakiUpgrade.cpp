@@ -6,12 +6,9 @@ GulakiUpgrade::GulakiUpgrade(std::shared_ptr<ManaGlobal> aManaModel)
     , stunEffect(std::make_shared<EffectModel>())
 {
     pair<string, double> imbolizing = std::make_pair("Stun", 1);
-//    pair<string, double> mv = std::make_pair("MoveSpeed", -2.0);
-//    pair<string, double> rt = std::make_pair("ReloadTime", +5.0e+3);
     stunEffect->addMiniEffect(imbolizing);
     stunEffect->setCaption("Stun");
     stunEffect->setDuration(2000);
-//    snowEffect->addMiniEffect(rt);
     srand(time(0));
 }
 
@@ -21,6 +18,7 @@ void GulakiUpgrade::releaseDamage(std::shared_ptr<SceneObject> aTarget)
     {
         aTarget->getEffectReceiver()->applyEffect(stunEffect);
     }
+
     int dmgPhysical = static_cast<int>(Enums::DamageTypes::dtPHYSICAL);
     aTarget->getDestructibleObject()->receiveDamageOneType(dmgPhysical, 20);
     affectedMobs->push_back(aTarget);
@@ -55,18 +53,16 @@ bool GulakiUpgrade::onReady(double /*timestep*/)
             }
         }
 
-
         releaseDamage(target);
         abilityState = Enums::AbilityStates::asNotAvaliable;
     }
-    return true;
 
+    return true;
 }
 
 bool GulakiUpgrade::onWorking(double /*timestep*/)
 {
     return true;
-
 }
 
 bool GulakiUpgrade::onCooldown(double /*timestep*/)
@@ -79,4 +75,3 @@ bool GulakiUpgrade::canTrigger(std::shared_ptr<SceneObject> targ, Enums::AIMobSt
     MobAbility::setTarget(targ);
     return (targ != nullptr && targ->getTag() == "Monster" && aistate == Enums::AIMobStates::aiATTACK);
 }
-

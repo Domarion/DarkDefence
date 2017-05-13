@@ -2,18 +2,16 @@
 #include "../GlobalScripts/GameModel.h"
 
 AbilityEarthquake::AbilityEarthquake(std::shared_ptr<ManaGlobal> aManaModel)
- : AbilityModel(aManaModel)
- , damagePerSecond(0)
- , affectedMobs(nullptr)
- , stunEffect(std::make_shared<EffectModel>())
+    : AbilityModel(aManaModel)
+    , damagePerSecond(0)
+    , affectedMobs(nullptr)
+    , stunEffect(std::make_shared<EffectModel>())
 {
     pair<string, double> imbalizing = std::make_pair("Stun", 1);
     stunEffect->addMiniEffect(imbalizing);
     stunEffect->setCaption("Stun");
     stunEffect->setDuration(workTime);
-
 }
-
 
 bool AbilityEarthquake::onReady(double /*timestep*/)
 {
@@ -29,7 +27,6 @@ bool AbilityEarthquake::onReady(double /*timestep*/)
         }
 
         abilityState = Enums::AbilityStates::asWorking;
-//        std::cout << "worked" << std::endl;
     }
     else
         abilityState = Enums::AbilityStates::asNotAvaliable;
@@ -39,8 +36,6 @@ bool AbilityEarthquake::onReady(double /*timestep*/)
 
 bool AbilityEarthquake::onWorking(double timestep)
 {
-    static double counter = 0.0;
-
     if (counter >= 1000)
     {
         if (affectedMobs!= nullptr && !affectedMobs->empty())
@@ -49,6 +44,7 @@ bool AbilityEarthquake::onWorking(double timestep)
                 if (*affectedMob != nullptr)
                     (*affectedMob)->getDestructibleObject()->receiveDamageOneType(1, damagePerSecond);
             }
+
         counter = 0;
     }
 

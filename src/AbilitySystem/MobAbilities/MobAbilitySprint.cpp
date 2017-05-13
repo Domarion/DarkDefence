@@ -2,16 +2,6 @@
 #include "../../Mob/Mob.h"
 #include <iostream>
 
-MobAbilitySprint::MobAbilitySprint()
-{
-
-}
-
-MobAbilitySprint::~MobAbilitySprint()
-{
-
-}
-
 bool MobAbilitySprint::onReady(double /*timestep*/)
 {
      std::cout << "WTF" << std::endl;
@@ -38,7 +28,6 @@ bool MobAbilitySprint::onReady(double /*timestep*/)
 
 bool MobAbilitySprint::onWorking(double timestep)
 {
-
     if (currentWorkTime <= 0)
     {
         currentWorkTime = workTime;
@@ -64,7 +53,6 @@ bool MobAbilitySprint::onWorking(double timestep)
 
 bool MobAbilitySprint::onCooldown(double timestep)
 {
-
     if (currentCooldownTime <= 0)
     {
         currentCooldownTime = cooldownTime;
@@ -83,5 +71,6 @@ bool MobAbilitySprint::canTrigger(std::shared_ptr<SceneObject> targ, Enums::AIMo
         target = targ;
         return true;
     }
+
     return false;
 }

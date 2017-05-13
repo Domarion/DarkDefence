@@ -1,34 +1,17 @@
 ﻿#include "MobAbilityRegeneration.h"
 
-MobAbilityRegeneration::MobAbilityRegeneration()
-{
-
-}
-
-MobAbilityRegeneration::~MobAbilityRegeneration()
-{
-
-}
-
 bool MobAbilityRegeneration::onReady(double /*timestep*/)
 {
     if (target != nullptr)
     {
-         //std::cout << "WTFRegeneration" << std::endl;
-
-
         abilityState = Enums::AbilityStates::asWorking;
     }
 
-
-return true;
+    return true;
 }
 
 bool MobAbilityRegeneration::onWorking(double timestep)
 {
-    static double counter = 0.0;
-
-
     if (target == nullptr)
     {
         abilityState = Enums::AbilityStates::asOnCooldown;
@@ -37,7 +20,7 @@ bool MobAbilityRegeneration::onWorking(double timestep)
 
     if (counter >= 1000)
     {
-         counter = 0;
+        counter = 0;
         int regen = 30;
         if (target->getDestructibleObject()->addHealth(regen))
         {
@@ -45,8 +28,6 @@ bool MobAbilityRegeneration::onWorking(double timestep)
             abilityState = Enums::AbilityStates::asOnCooldown;
             return false;
         }
-        //std::cout << "AbilityRegeneration Working" << std::endl;
-
     }
 
     if (currentWorkTime <= 0)

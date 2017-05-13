@@ -5,12 +5,15 @@ bool MobMageTowerAbility::onReady(double /*timestep*/)
 {
     auto gameScene = std::static_pointer_cast<GameScene>(parentScenePtr);
     mManaModel = gameScene->getManaModel();
+
     if (mManaModel != nullptr)
     {
         int regenValue = mManaModel->getRegenValue() + 1;
         mManaModel->setRegenValue(regenValue);
     }
+
     abilityState = Enums::AbilityStates::asOnCooldown;
+
     return true;
 }
 

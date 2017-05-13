@@ -12,12 +12,10 @@ MobEarthTowerAbility::MobEarthTowerAbility()
 
     effect->addMiniEffect(miniProtection);
     effect->addMiniEffect(miniHealth);
-
 }
 
 bool MobEarthTowerAbility::onReady(double /*timestep*/)
 {
-
     gates = parentScenePtr->findObjectByTag("Gates");
     if (gates == nullptr)
     {
@@ -44,6 +42,7 @@ bool MobEarthTowerAbility::onWorking(double timestep)
     if (currentWorkTime == 0)
     {
         currentWorkTime = workTime;
+
         if (gates != nullptr)
         {
             int resType = static_cast<int>(Enums::ResourceTypes::WHEAT);
@@ -54,7 +53,6 @@ bool MobEarthTowerAbility::onWorking(double timestep)
         }
         else
             abilityState = Enums::AbilityStates::asOnCooldown;
-
     }
     else
         currentWorkTime -= timestep;

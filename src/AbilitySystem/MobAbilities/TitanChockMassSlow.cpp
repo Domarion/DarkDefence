@@ -22,8 +22,8 @@ bool TitanChockMassSlow::onReady(double /*timestep*/)
     {
         return false;
     }
-    std::cout << "Working TitanChockMassSlow" << std::endl;
 
+    std::cout << "Working TitanChockMassSlow" << std::endl;
 
     for(auto& monster : *monsters)
     {
@@ -37,13 +37,11 @@ bool TitanChockMassSlow::onReady(double /*timestep*/)
     }
 
     return true;
-
 }
 
 bool TitanChockMassSlow::onWorking(double /*timestep*/)
 {
     return true;
-
 }
 
 bool TitanChockMassSlow::onCooldown(double /*timestep*/)

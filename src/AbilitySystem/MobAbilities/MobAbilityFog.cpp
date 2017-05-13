@@ -56,6 +56,7 @@ bool MobAbilityFog::onWorking(double timestep)
     }
     else
         currentCooldownTime -= timestep;
+
     return true;
 }
 

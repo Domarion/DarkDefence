@@ -12,10 +12,6 @@ ManaGlobal::ManaGlobal(int maxMana, int regenValue, double regenPeriod)
 {
 }
 
-ManaGlobal::~ManaGlobal()
-{
-}
-
 void ManaGlobal::setCurrent(int value)
 {
     if (value >= getLimit())
@@ -76,8 +72,6 @@ bool ManaGlobal::payMana(int amount)
 
 void ManaGlobal::regenerate(double timestep)
 {
-    static double counter = 0;
-
     if (counter >= regenerationPeriod)
     {
         setCurrent(current + regenerationValue);

@@ -44,7 +44,6 @@ bool AbilitySnowStorm::onReady(double /*timestep*/)
 
 bool AbilitySnowStorm::onWorking(double timestep)
 {
-    static double counter = 0.0;
 
     if (counter >= 1000)
     {

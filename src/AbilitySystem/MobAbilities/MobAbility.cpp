@@ -4,7 +4,6 @@ MobAbility::MobAbility(std::shared_ptr<ManaGlobal> aManaModel)
     : AbilityModel(aManaModel)
     , target(nullptr)
 {
-
 }
 
 void MobAbility::setTarget(std::shared_ptr<SceneObject> targ)

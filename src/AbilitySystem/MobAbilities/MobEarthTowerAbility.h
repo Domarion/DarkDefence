@@ -1,21 +1,23 @@
 #pragma once
+
 #include "MobAbility.h"
 
 class MobEarthTowerAbility: public MobAbility
 {
+public:
 
+    MobEarthTowerAbility();
 
     // AbilityModel interface
-public:
-    MobEarthTowerAbility();
-    virtual ~MobEarthTowerAbility() = default;
-    virtual bool onReady(double timestep) override;
-    virtual bool onWorking(double timestep) override;
-    virtual bool onCooldown(double timestep) override;
+    bool onReady(double timestep) override;
+    bool onWorking(double timestep) override;
+    bool onCooldown(double timestep) override;
 
     // MobAbility interface
-public:
-    virtual bool canTrigger(std::shared_ptr<SceneObject>, Enums::AIMobStates) override;
+    bool canTrigger(std::shared_ptr<SceneObject>, Enums::AIMobStates) override;
+
+private:
+
     std::shared_ptr<SceneObject> gates;
     std::shared_ptr<EffectModel> effect;
 };
