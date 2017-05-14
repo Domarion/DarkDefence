@@ -2,7 +2,7 @@
 
 #include "MobAbility.h"
 
-class MobAbilityRegeneration: public MobAbility
+class MobAbilityHeal: public MobAbility
 {
 public:
 

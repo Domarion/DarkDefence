@@ -48,6 +48,8 @@ public:
     SceneObjectList findObjectsByTag(std::string tag);
     std::shared_ptr<SceneObject> findObjectWithPos(int x, int y);
     SceneObjectList findObjectsWithPos(int x, int y);
+    SceneObjectList findObjectsInRadius(Position aCenter, size_t aRadius);
+
     std::shared_ptr<SceneManager> getParentSceneManager();
     virtual void onGameQuit();
     std::shared_ptr<RenderingSystem>& getRenderer();
@@ -64,6 +66,7 @@ public:
     }
 
 protected:
+
     mutable std::shared_ptr<RenderingSystem> renderer;
     std::shared_ptr<InputDispatcher> mInputDispatcher;
     std::shared_ptr<ConcreteComposite> MainRect;
@@ -72,12 +75,11 @@ protected:
      void addSceneButton(string aButtonName, string aFontName, int posX, int posY, int width, int height, std::function<void (string)> handler, std::string aMsg);
      void drawSceneObjects() const;
      void drawUI() const;
-private:
 
+private:
 
     list<std::shared_ptr<IComposite> > listGUI;
     list<std::shared_ptr<SceneObject>> sceneObjects;
     std::shared_ptr<SceneManager> parentSceneManager;
-    bool wasInited;
     Camera2D mCamera;
 };

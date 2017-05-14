@@ -123,6 +123,8 @@ set(SRC_LIST
     AbilitySystem/MobAbilities/TitanChockUpgrade.h
     AbilitySystem/MobAbilities/TitanChockMassSlow.h
     AbilitySystem/MobAbilities/MobAbilityInvulnerablity.h
+    AbilitySystem/MobAbilities/MobAbilityHeal.h
+
     AbilitySystem/EffectModel.h
     GlobalScripts/AccountModel.h
     GlobalScripts/ResourcesModel.h
@@ -260,6 +262,7 @@ set(SRC_LIST
     AbilitySystem/MobAbilities/TitanChockUpgrade.cpp
     AbilitySystem/MobAbilities/TitanChockMassSlow.cpp
     AbilitySystem/MobAbilities/MobAbilityInvulnerablity.cpp
+    AbilitySystem/MobAbilities/MobAbilityHeal.cpp
 
     GlobalScripts/ManaGlobal.cpp
     GlobalScripts/ResourcesModel.cpp

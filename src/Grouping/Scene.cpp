@@ -24,7 +24,6 @@ Scene::Scene(std::shared_ptr<RenderingSystem> &aRenderer, std::shared_ptr<InputD
 , listGUI()
 , sceneObjects()
 , parentSceneManager(nullptr)
-, wasInited(false)
 , mCamera(Size(aRenderer->getScreenSize().width, aRenderer->getScreenSize().height))
 {
 
@@ -157,7 +156,6 @@ void Scene::replaceObject(std::shared_ptr<SceneObject> aObject, std::shared_ptr<
 void Scene::softClear()
 {
     clearUIList();
-    wasInited = false;
 }
 
 void Scene::addAsInputHandler(std::shared_ptr<InputHandler> item)
@@ -252,6 +250,35 @@ Scene::SceneObjectList Scene::findObjectsWithPos(int x, int y)
 
     return filteredList;
 
+}
+
+Scene::SceneObjectList Scene::findObjectsInRadius(Position aCenter, size_t aRadius)
+{
+    auto filteredList =  std::make_unique<std::list<std::shared_ptr<SceneObject>>>();
+    size_t rSqr = aRadius * aRadius;
+
+    for(auto &sceneobject : sceneObjects)
+    {
+        if (sceneobject != nullptr)
+        {
+            Position realPosition = sceneobject->getSprite()->getRealPosition();
+
+            size_t xSqr= (realPosition.x - aCenter.x) * (realPosition.x - aCenter.x);
+            size_t ySqr = (realPosition.y - aCenter.y) * (realPosition.y - aCenter.y);
+
+            if (xSqr + ySqr <= rSqr)
+            {
+                filteredList->push_back(sceneobject);
+            }
+        }
+    }
+
+    if (filteredList->empty())
+    {
+        return nullptr;
+    }
+
+    return filteredList;
 }
 
 std::shared_ptr<SceneManager> Scene::getParentSceneManager()

@@ -22,6 +22,7 @@ using std::ifstream;
 #include "../AbilitySystem/MobAbilities/MobAbilityFog.h"
 #include "../AbilitySystem/MobAbilities/MobAbilitySummon.h"
 #include "../AbilitySystem/MobAbilities/MobAbilityInvulnerablity.h"
+#include "../AbilitySystem/MobAbilities/MobAbilityHeal.h"
 
 #include "../AbilitySystem/MobAbilities/MobAbilityWheat.h"
 #include "../AbilitySystem/MobAbilities/GulakiUpgrade.h"
@@ -295,6 +296,9 @@ std::unique_ptr<MobAbility> GameModel::getMobAbilityByName(string name)
         return std::make_unique<MobAbilityArson>();
     if (name == "MobAbilityRegeneration")
         return std::make_unique<MobAbilityRegeneration>();
+    if (name == "MobAbilityHeal")
+        return std::make_unique<MobAbilityHeal>();
+
     if (name == "MobAbilitySprint")
         return std::make_unique<MobAbilitySprint>();
 
