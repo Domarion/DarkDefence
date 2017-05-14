@@ -23,6 +23,7 @@ public:
     void drawAtPosition(Position pos) const;
     void drawPartAtPosition(Position pos, const SDL_Rect *clip, int aFlipFlags = SDL_FLIP_NONE) const;
     void drawScaledPartAtPosition(Position pos, Size aTextureSize, const SDL_Rect *clip) const;
+    void drawScaledPartAtPositionFlipping(Position pos, Size aTextureSize, const SDL_Rect* clip, int aFlipFlags) const;
 
     Size getSize() const;
     void setSize(Size size);

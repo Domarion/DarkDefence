@@ -204,9 +204,19 @@ void DataGenerator::saveMonsterCollection()
     abilityNamesDiversant.push_back("MobAbilityArson");
     secondMonster.setAbilitiesNames(abilityNamesDiversant);
 
+
+    string thirdMonsterName = "Spider";
+    MobModel thirdMonster (thirdMonsterName, tag, health, protection, damage,
+        attackDistance, moveSpeed, reloadTime, damageArea, enemyTags);
+
+    list<string> abilityNamesSpider;
+    abilityNamesSpider.push_back("MobAbilityRegeneration");
+    thirdMonster.setAbilitiesNames(abilityNamesSpider);
+
     list<MobModel> monsterList;
     monsterList.push_back(firstMonster);
     monsterList.push_back(secondMonster);
+    monsterList.push_back(thirdMonster);
 
     std::string filePath = "/home/kostya_hm/MonsterList.xml";
     std::ofstream outputXMLFile(filePath);
@@ -347,7 +357,6 @@ void DataGenerator::saveAnim2()
     const int sheetWidth = 900;
     const int sheetHeight = 501;
 
-
     for (size_t i = 0; i < frameCount; ++i)
     {
         SDL_Rect rect0 = {x, y, width, height};
@@ -369,8 +378,6 @@ void DataGenerator::saveAnim2()
         {
             x += width;
         }
-
-
     }
 
     for (auto& item : walkRects)
@@ -381,8 +388,7 @@ void DataGenerator::saveAnim2()
     map<string, vector<SDL_Rect>> anims;
     anims["Walk"] = walkRects;
 
-    std::string MobAnim = "/home/kostya_hm/Spider2.anim";
-
+    std::string MobAnim = "/home/kostya_hm/Spider.anim";
 
     SDL_RWops* binaryDataFile = SDL_RWFromFile(MobAnim.c_str(),"w+b");
     if (binaryDataFile != nullptr)

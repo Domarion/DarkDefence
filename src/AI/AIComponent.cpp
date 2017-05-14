@@ -341,11 +341,13 @@ void AIComponent::MoveToPos(double /*timestep*/, Position targetPoint)
 
     if (signumX <= 0)
     {
-        spritePtr->setFlipping(SDL_FLIP_HORIZONTAL);
+        int flip = (MobPtr.lock()->getName() == "Spider")? SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL;
+        spritePtr->setFlipping(flip);
     }
     else
     {
-        spritePtr->setFlipping(SDL_FLIP_NONE);
+        int flip = (MobPtr.lock()->getName() != "Spider")? SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL;
+        spritePtr->setFlipping(flip);
     }
 
     MobPtr.lock()->setPosition(newMobPos);

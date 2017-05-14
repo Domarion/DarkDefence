@@ -53,7 +53,7 @@ void Texture2D::drawAtPosition(Position pos) const
     renderer->renderTexture(texturePtr.get(), getSize(), pos);
 }
 
-void Texture2D::drawPartAtPosition(Position pos, const SDL_Rect *clip, int aFlipFlags) const
+void Texture2D::drawPartAtPosition(Position pos, const SDL_Rect* clip, int aFlipFlags) const
 {
     if (aFlipFlags == SDL_FLIP_NONE)
     {
@@ -69,6 +69,20 @@ void Texture2D::drawPartAtPosition(Position pos, const SDL_Rect *clip, int aFlip
 void Texture2D::drawScaledPartAtPosition(Position pos, Size aTextureSize, const SDL_Rect* clip) const
 {
     renderer->renderTexture(texturePtr.get(), aTextureSize, pos, clip);
+}
+
+void Texture2D::drawScaledPartAtPositionFlipping(
+    Position pos, Size aTextureSize, const SDL_Rect* clip, int aFlipFlags) const
+{
+    if (aFlipFlags == SDL_FLIP_NONE)
+    {
+        renderer->renderTexture(texturePtr.get(), aTextureSize, pos, clip);
+    }
+    else
+    {
+        SDL_RendererFlip flags = static_cast<SDL_RendererFlip>(aFlipFlags);
+        renderer->renderScaledTextureFlipping(texturePtr.get(), aTextureSize, pos, clip, flags);
+    }
 }
 
 Size Texture2D::getSize() const

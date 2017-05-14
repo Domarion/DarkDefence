@@ -26,6 +26,14 @@ public:
         const SDL_Rect *clipRect);
     void renderTextureFlipping(
         SDL_Texture* texturePtr, Position aDestPosition, const SDL_Rect* clipRect, SDL_RendererFlip aFlipFlags);
+
+    void renderScaledTextureFlipping(
+        SDL_Texture* texturePtr,
+        Size aTextureSize,
+        Position aDestPosition,
+        const SDL_Rect* clipRect,
+        SDL_RendererFlip aFlipFlags);
+
     void renderTextureRotate(
         SDL_Texture* texturePtr, Position aDestPosition, const SDL_Rect* clipRect, double anAngle);
 

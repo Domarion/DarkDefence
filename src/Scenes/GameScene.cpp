@@ -312,8 +312,11 @@ void GameScene::spawningCallBack(std::string aMobName, Position aSpawnPosition)
     auto someSprite = std::make_shared<AnimationSceneSprite>(getRenderer());
 
 
-    someSprite->setTexture(ResourceManager::getInstance()->getTexture(aMobName));
+    someSprite->setTexture(ResourceManager::getInstance()->getTexture(aMobName));    
+//    std::cout << "SomeSpriteSize" << someSprite->getSize() << std::endl;
+//    std::cout << "resourceManagerSIze"<< (ResourceManager::getInstance()->getTexture(aMobName).getSize()) << std::endl;
 
+//    someSprite->setSize(ResourceManager::getInstance()->getTexture(aMobName).getSize());
     map<string, vector<SDL_Rect> > anims;
 
     std::string filename = "GameData/anims/Monsters/" + aMobName + ".anim";

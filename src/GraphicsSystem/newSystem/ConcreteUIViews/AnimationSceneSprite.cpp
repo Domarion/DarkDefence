@@ -5,7 +5,7 @@ AnimationSceneSprite::AnimationSceneSprite(std::shared_ptr<RenderingSystem> &aRe
     , frame(aRenderingContext)
     , frameNumber(0)
     , oldFrameTime(0)
-    , msCount(16)//Откуда 64?
+    , msCount(64)//Откуда 64?
     , visible(true)
     , flippingFlags(SDL_FLIP_NONE)
 {
@@ -26,7 +26,9 @@ void AnimationSceneSprite::drawAtPosition(Position pos) const
 
     if (animationStates.size() > 0)
     {
-        frame.drawPartAtPosition(image_position, &animationStates.at(currentState).at(frameNumber), flippingFlags);
+//        frame.drawPartAtPosition(image_position, &animationStates.at(currentState).at(frameNumber), flippingFlags);
+        frame.drawScaledPartAtPositionFlipping(
+            image_position, frame.getSize(), &animationStates.at(currentState).at(frameNumber), flippingFlags);
     }
     else
         frame.drawAtPosition(image_position);

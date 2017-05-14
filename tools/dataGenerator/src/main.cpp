@@ -3,7 +3,7 @@
 int main()
 {
     DataGenerator dataGenerator;
-    dataGenerator.saveAnim2();
+//    dataGenerator.saveAnim2();
 
 //    dataGenerator.saveAnim();
 //    dataGenerator.saveTowerTree();

@@ -64,10 +64,17 @@
 		</value9>
         <value10>
 			<Caption>Diversant</Caption>
-			<ImageWidth>50</ImageWidth>
-			<ImageHeight>80</ImageHeight>
+			<ImageWidth>45</ImageWidth>
+			<ImageHeight>70</ImageHeight>
 			<ImagePath>GameData/textures/Monsters/DiversantSheet.png</ImagePath>
 		</value10>
+        <value11>
+			<Caption>Spider</Caption>
+			<ImageWidth>90</ImageWidth>
+			<ImageHeight>80</ImageHeight>
+			<ImagePath>GameData/textures/Monsters/SpiderSheet.png</ImagePath>
+		</value11>
+
 	</TexturePaths>
 </cereal>
 

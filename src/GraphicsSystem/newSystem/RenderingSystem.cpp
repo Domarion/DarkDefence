@@ -73,6 +73,22 @@ void RenderingSystem::renderTextureFlipping(
     }
 }
 
+void RenderingSystem::renderScaledTextureFlipping(
+    SDL_Texture* texturePtr,
+    Size aTextureSize,
+    Position aDestPosition,
+    const SDL_Rect* clipRect,
+    SDL_RendererFlip aFlipFlags)
+{
+    if (texturePtr != nullptr && clipRect != nullptr)
+    {
+        SDL_Rect destRect = {aDestPosition.x, aDestPosition.y, aTextureSize.width, aTextureSize.height};
+
+        SDL_RenderCopyEx(renderer.get(), texturePtr, clipRect, &destRect, 0.0, nullptr, aFlipFlags);
+    }
+
+}
+
 void RenderingSystem::renderTextureRotate(
     SDL_Texture* texturePtr, Position aDestPosition, const SDL_Rect* clipRect, double anAngle)
 {
