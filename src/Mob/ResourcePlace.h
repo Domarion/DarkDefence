@@ -11,7 +11,6 @@ class ResourcePlace:
 public:
     ResourcePlace();
     ResourcePlace(int aLimit, Enums::ResourceTypes aResourceType);
-    virtual ~ResourcePlace();
     void setLimit(int amount);
     Enums::ResourceTypes getResourceType() const;
     // InputHandler interface

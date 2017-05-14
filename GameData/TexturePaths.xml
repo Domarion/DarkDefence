@@ -74,7 +74,24 @@
 			<ImageHeight>80</ImageHeight>
 			<ImagePath>GameData/textures/Monsters/SpiderSheet.png</ImagePath>
 		</value11>
-
+        <value12>
+			<Caption>WindMill</Caption>
+			<ImageWidth>150</ImageWidth>
+			<ImageHeight>100</ImageHeight>
+			<ImagePath>GameData/textures/Buildings/WindMill.png</ImagePath>
+		</value12>
+        <value13>
+			<Caption>SawMill</Caption>
+			<ImageWidth>150</ImageWidth>
+			<ImageHeight>100</ImageHeight>
+			<ImagePath>GameData/textures/Buildings/SawMill.png</ImagePath>
+		</value13>
+        <value14>
+			<Caption>StoneMine</Caption>
+			<ImageWidth>150</ImageWidth>
+			<ImageHeight>100</ImageHeight>
+			<ImagePath>GameData/textures/Buildings/StoneMine.png</ImagePath>
+		</value14>
 	</TexturePaths>
 </cereal>
 

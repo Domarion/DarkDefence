@@ -313,10 +313,6 @@ void GameScene::spawningCallBack(std::string aMobName, Position aSpawnPosition)
 
 
     someSprite->setTexture(ResourceManager::getInstance()->getTexture(aMobName));    
-//    std::cout << "SomeSpriteSize" << someSprite->getSize() << std::endl;
-//    std::cout << "resourceManagerSIze"<< (ResourceManager::getInstance()->getTexture(aMobName).getSize()) << std::endl;
-
-//    someSprite->setSize(ResourceManager::getInstance()->getTexture(aMobName).getSize());
     map<string, vector<SDL_Rect> > anims;
 
     std::string filename = "GameData/anims/Monsters/" + aMobName + ".anim";
@@ -539,9 +535,9 @@ void GameScene::placeSceneObjects()//TODO: Найти лучшее решени�
                      spawnObject(item.ImagePosition.x, item.ImagePosition.y, gates);
                 }
                 else
-                    if (item.Name == "ResourceStone")
+                    if (item.Name == "ResourceWheat")
                     {
-                        auto resPlace = std::make_shared<ResourcePlace>(700, Enums::ResourceTypes::STONE);
+                        auto resPlace = std::make_shared<ResourcePlace>(700, Enums::ResourceTypes::WHEAT);
                         auto resSprite = std::make_shared<AnimationSceneSprite>(renderer);
 
                         resSprite->setSize(item.ImageSize);

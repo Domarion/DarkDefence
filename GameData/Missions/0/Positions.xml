@@ -66,13 +66,13 @@
 			<YAnchorPlace>1</YAnchorPlace>
 		</value6>
 		<value7>
-			<Name>ResourceStone</Name>
-			<Width>60</Width>
-			<Height>50</Height>
+			<Name>ResourceWheat</Name>
+			<Width>100</Width>
+			<Height>100</Height>
 			<PositionX>912</PositionX>
 			<PositionY>384</PositionY>
-			<XAnchorPlace>0</XAnchorPlace>
-			<YAnchorPlace>0</YAnchorPlace>
+			<XAnchorPlace>1</XAnchorPlace>
+			<YAnchorPlace>1</YAnchorPlace>
 		</value7>
 	</Positions>
 </cereal>
