@@ -122,7 +122,7 @@ set(SRC_LIST
     AbilitySystem/MobAbilities/MobCloudTowerAbility.h
     AbilitySystem/MobAbilities/TitanChockUpgrade.h
     AbilitySystem/MobAbilities/TitanChockMassSlow.h
-
+    AbilitySystem/MobAbilities/MobAbilityInvulnerablity.h
     AbilitySystem/EffectModel.h
     GlobalScripts/AccountModel.h
     GlobalScripts/ResourcesModel.h
@@ -259,6 +259,7 @@ set(SRC_LIST
     AbilitySystem/MobAbilities/MobCloudTowerAbility.cpp
     AbilitySystem/MobAbilities/TitanChockUpgrade.cpp
     AbilitySystem/MobAbilities/TitanChockMassSlow.cpp
+    AbilitySystem/MobAbilities/MobAbilityInvulnerablity.cpp
 
     GlobalScripts/ManaGlobal.cpp
     GlobalScripts/ResourcesModel.cpp
