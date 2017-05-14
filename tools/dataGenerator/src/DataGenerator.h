@@ -3,7 +3,6 @@
 class DataGenerator
 {
 public:
-    DataGenerator();
     void saveMission();
     void saveTowerTree();
     void saveMineCollection();
@@ -12,5 +11,6 @@ public:
     void saveAnim();
     void savePositions();
     void saveTextureData();
+    void saveAnim2();
 };
 

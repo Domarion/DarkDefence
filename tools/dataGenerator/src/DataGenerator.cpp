@@ -17,11 +17,6 @@ using std::array;
 #include "Utility/StructData.hpp"
 #include "Utility/TextureData.hpp"
 
-DataGenerator::DataGenerator()
-{
-
-}
-
 void DataGenerator::saveMission()
 {
     const string goalDescription = "yet another resource goal";
@@ -336,5 +331,63 @@ void DataGenerator::saveTextureData()
 
     }
     outputXMLFile.close();
+}
 
+void DataGenerator::saveAnim2()
+{
+    const size_t frameCount = 24;
+
+    vector<SDL_Rect> walkRects;
+    walkRects.reserve(frameCount);
+
+    int x = 0;
+    int y = 0;
+    const int width = 150;
+    const int height = 125;
+    const int sheetWidth = 900;
+    const int sheetHeight = 501;
+
+
+    for (size_t i = 0; i < frameCount; ++i)
+    {
+        SDL_Rect rect0 = {x, y, width, height};
+        walkRects.push_back(rect0);
+
+        if (y + height >= sheetHeight)
+        {
+            walkRects[i].h = sheetHeight - y;
+        }
+
+        if (x + width >= sheetWidth)
+        {
+            walkRects[i].w = sheetWidth - x;
+            x = 0;
+            y += height;
+
+        }
+        else
+        {
+            x += width;
+        }
+
+
+    }
+
+    for (auto& item : walkRects)
+    {
+        std::cout << item.x << "\t" << item.y << std::endl;
+    }
+
+    map<string, vector<SDL_Rect>> anims;
+    anims["Walk"] = walkRects;
+
+    std::string MobAnim = "/home/kostya_hm/Spider2.anim";
+
+
+    SDL_RWops* binaryDataFile = SDL_RWFromFile(MobAnim.c_str(),"w+b");
+    if (binaryDataFile != nullptr)
+    {
+        androidText::saveAnimsToFile(binaryDataFile, anims);
+        SDL_RWclose(binaryDataFile);
+    }
 }

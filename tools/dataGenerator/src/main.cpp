@@ -3,6 +3,8 @@
 int main()
 {
     DataGenerator dataGenerator;
+    dataGenerator.saveAnim2();
+
 //    dataGenerator.saveAnim();
 //    dataGenerator.saveTowerTree();
 //    dataGenerator.saveItems();
@@ -12,6 +14,5 @@ int main()
 //    dataGenerator.saveMineCollection();
 //    dataGenerator.savePositions();
 //    dataGenerator.saveTextureData();
-
     return 0;
 }
