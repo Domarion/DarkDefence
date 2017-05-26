@@ -28,10 +28,10 @@ void loadTextFileToString(string filename, string& destString, bool aSetRelative
         destString.assign(destination);
 
         delete[] destination;
+        SDL_RWclose(ooops);
     }
     else
         std::cout << "Nothing on path: " << filename1 << std::endl;
-    SDL_RWclose(ooops);
 }
 
 void setRelativePath(string &filename)

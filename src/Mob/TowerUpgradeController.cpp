@@ -104,9 +104,9 @@ void TowerUpgradeController::receiveTowerUpgrade(std::shared_ptr<Tower> tower)
             resourceIcon->setPosition(priceGroup->getNextHorizontalPosition());
             priceGroup->addChild(resourceIcon);
 
-            auto upgradeName = std::make_shared<UILabel>(std::to_string(childPrice[i]), arial1Font, renderer);
-            upgradeName->setPosition(priceGroup->getNextHorizontalPosition());
-            priceGroup->addChild(upgradeName);
+            auto upgradePriceLabel = std::make_shared<UILabel>(std::to_string(childPrice[i]), arial1Font, renderer);
+            upgradePriceLabel->setPosition(priceGroup->getNextHorizontalPosition());
+            priceGroup->addChild(upgradePriceLabel);
         }
 
         auto buyButton = std::make_shared<UITextButton>("Купить", arial1Font, renderer);
