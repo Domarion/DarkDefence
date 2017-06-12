@@ -8,10 +8,8 @@
 #include "GameModel.h"
 #include <fstream>
 #include <list>
-using std::list;
-using std::ifstream;
-#include <iostream>
 
+#include <iostream>
 #include <functional>
 #include "../MissionSystem/ResourceGoal.h"
 
@@ -34,11 +32,15 @@ using std::ifstream;
 
 #include "../Utility/textfilefunctions.h"
 #include <sstream>
-using std::stringstream;
 #include "AccountModel.h"
 
 #include <cereal/archives/xml.hpp>
 #include <cereal/types/memory.hpp>
+
+using std::list;
+using std::ifstream;
+using std::stringstream;
+
 GameModel* GameModel::instance_ = nullptr;
 
 GameModel::GameModel()
@@ -68,10 +70,11 @@ std::unique_ptr<MobModel> GameModel::getMonsterByName(string name)
 
 std::unique_ptr<MobModel> GameModel::getTowerByName(string name)
 {
-
     auto temp = towerUpgradesRootNode->recursiveSearch(name);
+
     if (temp == nullptr)
         return nullptr;
+
     return std::make_unique<MobModel>(*temp->getData());
 }
 
@@ -98,15 +101,12 @@ void GameModel::loadMonsterList(string filename)
 
 void GameModel::loadMonsterPointsList(string filename)
 {
-
     string textString;
     androidText::loadTextFileToString(filename, textString);
-
 
     if (!textString.empty())
     {
         stringstream pointStream(textString);
-
 
         int n;
         pointStream >> n;
@@ -116,41 +116,29 @@ void GameModel::loadMonsterPointsList(string filename)
             int val;
             pointStream >> str >> val;
             monsterPointsMap[str] =  val;
-
         }
     }
 }
 
-
-
 void GameModel::loadTowerUpgrades(string filename)
 {
-
     string textString;
     androidText::loadTextFileToString(filename, textString);
-
 
     if (!textString.empty())
     {
         try
         {
-        stringstream str(textString);
+            stringstream str(textString);
 
-        cereal::XMLInputArchive xmlinp(str);
-        xmlinp(cereal::make_nvp("TowerTree", towerUpgradesRootNode));
-//        boost::archive::xml_iarchive xmlinp(str);
-//        xmlinp.register_type<std::shared_ptr<MobModel>>();
-//        xmlinp.register_type<std::shared_ptr<TreeNode<MobModel>>>();
-//        xmlinp.register_type<std::map<string, std::shared_ptr<TreeNode<MobModel>>>>();
-
+            cereal::XMLInputArchive xmlinp(str);
+            xmlinp(cereal::make_nvp("TowerTree", towerUpgradesRootNode));
         }
         catch(std::exception& ex)
         {
             std::cerr << "Error in loadTowerUpgrades from file: " << ex.what() << std::endl;
         }
     }
-
-
 }
 
 void GameModel::loadMinesList(string filename)
@@ -160,31 +148,21 @@ void GameModel::loadMinesList(string filename)
     string textString;
     androidText::loadTextFileToString(filename, textString);
 
-
     if (!textString.empty())
     {
         stringstream str(textString);
 
-
         cereal::XMLInputArchive xmlinp(str);
-        // xmlinp.register_type<MineModel>();
         xmlinp(cereal::make_nvp("Mines", mineCollection));
 
         mineResMapping.resize(mineCollection.size());
     }
 
-
     for(auto i = mineCollection.begin(); i != mineCollection.end(); ++i)
     {
         minesModelsMap.insert(std::make_pair(i->getName(), *i));
-       // std:: cout << "prodType = " << (i->getProductionType()) << " mineName = " << (i->getName()) << std::endl;
         mineResMapping[static_cast<int>(i->getProductionType())] = i->getName();
     }
-
-//    for(auto i = minesModelsMap.begin(); i != minesModelsMap.end(); ++i)
-//    {
-//        std::cout << minesModelsMap[i->first].getName() << std::endl;
-//    }
 }
 
 void GameModel::deserialize(Mission &obj, string filename)
@@ -192,14 +170,11 @@ void GameModel::deserialize(Mission &obj, string filename)
     string textString;
     androidText::loadTextFileToString(filename, textString);
 
-
     if (!textString.empty())
     {
         stringstream missionStream(textString);
 
-
         cereal::XMLInputArchive xmlinp(missionStream);
-//        xmlinp.register_type<ResourceGoal>();
         xmlinp >> cereal::make_nvp("Mission", obj);
     }
 }
@@ -211,14 +186,7 @@ std::shared_ptr<TreeNode<MobModel>> GameModel::getRootTower()
 
 void GameModel::addItemToInventoryByName(string name)
 {
-
-    std::cout << "rewItemName = " << name << std::endl;
-
-
-//    loadShopItems("GameData/Items.xml");
-
     shop->sendItemWithoutPriceCheck(name);
-
 }
 
 bool GameModel::canSpawn() const
@@ -239,8 +207,6 @@ void GameModel::decMonsterCount(string monsterName)
     --MonsterCountOnMap;
 }
 
-
-
 void GameModel::setCurrentMissionIndex(int newValue)
 {
     currentMissionIndex = newValue;
@@ -251,16 +217,9 @@ int GameModel::getCurrentMissionIndex() const
     return currentMissionIndex;
 }
 
-
-
 Enums::GameStatuses GameModel::getGameStatus() const
 {
     return gameStatus;
-}
-
-GameModel::~GameModel()
-{
-	// TODO Auto-generated destructor stub
 }
 
 double GameModel::getPointsRefundModifier() const
@@ -278,24 +237,14 @@ void GameModel::addPoints(int aAmount)
     pointsPerMap += aAmount;
 }
 
-
-
-/*void GameModel::loadMobAbilities()
-{
-    mobAbilitiesMap["MobAbilityArson"]= new MobAbilityArson();
-    mobAbilitiesMap["MobAbilityRegeneration"]= new MobAbilityRegeneration();
-    mobAbilitiesMap["MobAbilitySprint"] = new MobAbilitySprint();
-}*/
-
-
-
 std::unique_ptr<MobAbility> GameModel::getMobAbilityByName(string name)
 {
-//    std::cout << "MobAbility Name = " << name << std::endl;
     if (name == "MobAbilityArson")
         return std::make_unique<MobAbilityArson>();
+
     if (name == "MobAbilityRegeneration")
         return std::make_unique<MobAbilityRegeneration>();
+
     if (name == "MobAbilityHeal")
         return std::make_unique<MobAbilityHeal>();
 
@@ -315,10 +264,7 @@ std::unique_ptr<MobAbility> GameModel::getMobAbilityByName(string name)
         return std::make_unique<MobAbilityWheat>();
 
      if (name == "GulakiAmulet")
-     {
-        std::cout << "Found Gulaki" << std::endl;
         return std::make_unique<GulakiUpgrade>();
-     }
 
      if (name == "MobEarthTowerAbility")
          return std::make_unique<MobEarthTowerAbility>();
@@ -379,13 +325,8 @@ void GameModel::loadGameData(string filename)
             vector<string> inventoryItemsNames;
             androidText::loadStringsFromfile(binaryDataFile, inventoryItemsNames);
 
-//            loadShopItems("GameData/Items.xml");
-
-
             for(auto itemName : inventoryItemsNames)
                 shop->sendItemWithoutPriceCheck(itemName);
-
-
 
             vector<string> heroItemsNames;
             androidText::loadStringsFromfile(binaryDataFile, heroItemsNames);
@@ -398,9 +339,9 @@ void GameModel::loadGameData(string filename)
 
             SDL_RWclose(binaryDataFile);
         }
+
         gameDataLoaded = true;
     }
-
 }
 
 const Reward& GameModel::getMissionReward() const
@@ -415,7 +356,6 @@ void GameModel::setMissionReward(const Reward &value)
 
 void GameModel::loadAbilitiesNames(string filename)
 {
-
     string textString;
     androidText::loadTextFileToString(filename, textString);
 
@@ -423,7 +363,6 @@ void GameModel::loadAbilitiesNames(string filename)
     if (!textString.empty())
     {
         stringstream abilityStream(textString);
-
 
         int n;
         abilityStream >> n;
@@ -436,7 +375,6 @@ void GameModel::loadAbilitiesNames(string filename)
             }
         }
     }
-
 }
 
 string GameModel::getAbilityNameFromIndex(int index)
@@ -491,9 +429,9 @@ std::unique_ptr<MineModel> GameModel::getMineModelByRes(Enums::ResourceTypes res
     return getMineModel(mineResMapping[static_cast<int>(resType)]);
 }
 
-MineModel *GameModel::getMineModelFromList(string name)
+MineModel *GameModel::getMineModelFromList(const string& aName)
 {
-    return &minesModelsMap[name];
+    return &minesModelsMap.at(aName);
 }
 
 MineModel *GameModel::getMineModelFromListByRes(Enums::ResourceTypes resType)
@@ -524,16 +462,12 @@ std::shared_ptr<ResourcesModel> GameModel::getResourcesModel()
 	return resourcesModelPtr;
 }
 
-
-
-
 bool GameModel::loadShopItems(string filename)
 {
     if (shopItemsLoaded == false)
     {
         string textString;
         androidText::loadTextFileToString(filename, textString);
-
 
         if (!textString.empty())
         {
@@ -551,6 +485,7 @@ bool GameModel::loadShopItems(string filename)
 
         shopItemsLoaded = true;
     }
+
     return (!shopItemsLoaded);
 }
 
@@ -567,5 +502,4 @@ std::shared_ptr<Inventory> GameModel::getInventory()
 std::shared_ptr<HeroInventory> GameModel::getHeroInventory()
 {
     return heroFigure;
-
 }

@@ -6,6 +6,7 @@
  */
 
 #pragma once
+
 #include "ResourcesModel.h"
 #include "../Enums.h"
 #include "../Mob/MobModel.h"
@@ -13,14 +14,15 @@
 #include "../ItemSystem/HeroInventory.h"
 #include "../ItemSystem/ShopInventory.h"
 #include <map>
-using std::map;
 #include "../Utility/TreeNode.hpp"
 #include "../MissionSystem/Mission.h"
 #include <vector>
-using std::vector;
 
 #include "ManaGlobal.h"
 #include "../AbilitySystem/MobAbilities/MobAbility.h"
+
+using std::map;
+using std::vector;
 
 class MobAbility;
 
@@ -38,9 +40,6 @@ public:
     void loadMonsterPointsList(string filename);
 	void loadTowerUpgrades(string filename);
     void loadMinesList(string filename);
-    //void deserialize(MobModel& obj, string filename);
-
-
 
     void deserialize(Mission& obj, string filename);
     bool loadShopItems(string filename);
@@ -69,7 +68,7 @@ public:
     std::unique_ptr<MineModel> getMineModelByRes(Enums::ResourceTypes resType);
 
 
-    MineModel *getMineModelFromList(string name);
+    MineModel *getMineModelFromList(const string& aName);
     MineModel *getMineModelFromListByRes(Enums::ResourceTypes resType);
 
     MobModel* getMonsterFromListWithName(string name);
@@ -91,15 +90,13 @@ public:
 
     void addPoints(int aAmount);
 
-   // void loadMobAbilities();
-
     std::unique_ptr<MobAbility> getMobAbilityByName(string name);
 
     void saveGameData(string filename);
     void loadGameData(string filename);
 private:
     GameModel();
-    ~GameModel();
+    ~GameModel() = default;
     static GameModel* instance_;
 
     int waveNumber, waveCount;
@@ -120,8 +117,6 @@ private:
     map<string, MineModel> minesModelsMap;
 
     vector<string> mineResMapping;
-
-
 
     bool shopItemsLoaded;
     bool gameDataLoaded;
