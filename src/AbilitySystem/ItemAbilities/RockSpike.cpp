@@ -1,5 +1,6 @@
 #include "RockSpike.h"
-#include "../AbilityPrick.h"
+#include "../AbilityObjectSpawn.h"
+#include "../PrickObject.h"
 #include "../../Scenes/GameScene.h"
 
 RockSpike::RockSpike()
@@ -19,7 +20,9 @@ void RockSpike::init(std::shared_ptr<Scene> scenePtr, std::shared_ptr<ManaGlobal
     auto gameScenePtr = std::dynamic_pointer_cast<GameScene>(scenePtr);
     if (gameScenePtr == nullptr)
         return;
-    std::shared_ptr<AbilityPrick> prick = std::dynamic_pointer_cast<AbilityPrick>(gameScenePtr->getAbilityModelWithName("Prick"));
+    auto prick =
+        std::dynamic_pointer_cast<AbilityObjectSpawn<PrickObject>>(gameScenePtr->getAbilityModelWithName("Prick"));
+
     if (prick != nullptr)
     {
         int dmg = static_cast<int>( 1.5 * prick->getDamage());
@@ -36,7 +39,8 @@ void RockSpike::update(double timestep)
     if (currentTime <= 0.0)
     {
         currentTime = period;
-        GameModel::getInstance()->getResourcesModel()->addResource(static_cast<int>(Enums::ResourceTypes::STONE), amount);
+        GameModel::getInstance()->getResourcesModel()
+            ->addResource(static_cast<int>(Enums::ResourceTypes::STONE), amount);
     }
     else
         currentTime -= timestep;

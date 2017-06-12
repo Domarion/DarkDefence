@@ -102,10 +102,8 @@ set(SRC_LIST
     AbilitySystem/AbilityModel.h
     AbilitySystem/AbilitySnowStorm.h
     AbilitySystem/AbilityEarthquake.h
-    AbilitySystem/AbilityPrick.h
-    AbilitySystem/AbilityMagicBlink.h
-
     AbilitySystem/AbilityAnims/AbilityAnimObject.hpp
+    AbilitySystem/AbilityObjectSpawn.h
 
     AbilitySystem/MobAbilities/MobAbilityRegeneration.h
     AbilitySystem/MobAbilities/MobAbility.h
@@ -212,7 +210,6 @@ set(SRC_LIST
     AbilitySystem/AbilitySnowStorm.cpp
     AbilitySystem/PrickObject.cpp
     AbilitySystem/BlinkObject.cpp
-    AbilitySystem/AbilityPrick.cpp
     AbilitySystem/ItemAbilities/MerchantsCaftan.cpp
     AbilitySystem/ItemAbilities/ItemAbilitiesStorage.cpp
     AbilitySystem/ItemAbilities/VampsRod.cpp
@@ -242,8 +239,6 @@ set(SRC_LIST
     AbilitySystem/EffectReceiver.cpp
     AbilitySystem/EffectModel.cpp
     AbilitySystem/AbilityEarthquake.cpp
-    AbilitySystem/AbilityMagicBlink.cpp
-
     AbilitySystem/AbilityAnims/AbilityAnimObject.cpp
 
     AbilitySystem/MobAbilities/MobAbilityRegeneration.cpp

@@ -2,9 +2,12 @@
 #include "../AbilitySystem/AbilityMagicStones.h"
 #include "../AbilitySystem/AbilitySnowStorm.h"
 #include "../AbilitySystem/AbilityShrink.h"
-#include "../AbilitySystem/AbilityPrick.h"
+//#include "../AbilitySystem/AbilityPrick.h"
 #include "../AbilitySystem/AbilityEarthquake.h"
-#include "../AbilitySystem/AbilityMagicBlink.h"
+//#include "../AbilitySystem/AbilityMagicBlink.h"
+#include "../AbilitySystem/AbilityObjectSpawn.h"
+#include "../AbilitySystem/PrickObject.h"
+#include "../AbilitySystem/BlinkObject.h"
 
 void SpellStorage::loadWithScene(std::shared_ptr<Scene> scenePtr, std::shared_ptr<ManaGlobal> aManaModel)
 {
@@ -30,7 +33,7 @@ void SpellStorage::loadWithScene(std::shared_ptr<Scene> scenePtr, std::shared_pt
     shrink->setWorkTime(11000);
     shrink->setDamagePerSecond(0.2);
 
-    auto prick = std::make_unique<AbilityPrick>(aManaModel);
+    auto prick = std::make_unique<AbilityObjectSpawn<PrickObject>>(aManaModel);
     prick->init(scenePtr);
     prick->setManaCost(100);
     prick->setCooldownTime(10000);
@@ -45,7 +48,7 @@ void SpellStorage::loadWithScene(std::shared_ptr<Scene> scenePtr, std::shared_pt
     quake->setDamagePerSecond(30);
 
 
-    auto magicBlink = std::make_unique<AbilityMagicBlink>(aManaModel);
+    auto magicBlink = std::make_unique<AbilityObjectSpawn<BlinkObject>>(aManaModel);
     magicBlink->init(scenePtr);
     magicBlink->setManaCost(50);
     magicBlink->setCooldownTime(10000);
