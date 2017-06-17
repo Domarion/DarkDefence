@@ -41,6 +41,8 @@ void GameApp::preloadData()
 
     GameModel::getInstance()->loadShopItems("GameData/Items.xml");
 
+    GameModel::getInstance()->loadGameData("GameData/save.bin");
+
 }
 
 void GameApp::addScenes()

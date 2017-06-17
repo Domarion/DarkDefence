@@ -310,8 +310,13 @@ void GameModel::loadGameData(string filename)
 {
     if (gameDataLoaded == false)
     {
+    #ifdef __ANDROID__
+        string filename1(SDL_GetPrefPath("darkdefence", "game"));
+        filename1 += filename;
+    #else
         string filename1(filename);
         androidText::setRelativePath(filename1);
+    #endif
 
         SDL_RWops* binaryDataFile = SDL_RWFromFile(filename1.c_str(),"r+b");
         if (binaryDataFile != nullptr)
