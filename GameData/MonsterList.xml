@@ -233,6 +233,7 @@
 			</enemyTags>
 			<Abilities size="dynamic">
 				<value0>MobAbilityRegeneration</value0>
+                <value1>MobAbilitySprint</value1>
 			</Abilities>
 			<price>
 				<value0>0</value0>

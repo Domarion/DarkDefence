@@ -1,5 +1,6 @@
 #include "MobAbilitySprint.h"
 #include "../../Mob/Mob.h"
+#include "Utility/textfilefunctions.h"
 
 bool MobAbilitySprint::onReady(double /*timestep*/)
 {
@@ -8,9 +9,33 @@ bool MobAbilitySprint::onReady(double /*timestep*/)
          std::shared_ptr<Mob> mob = std::dynamic_pointer_cast<Mob>(target);
          if (mob != nullptr)
          {
-            double msModifier = mob->getModel()->getMoveSpeedModifier() + 1.5;
+            double msModifier = mob->getModel()->getMoveSpeedModifier() + 2.5;
             mob->getModel()->setMoveSpeedModifier(msModifier);
             abilityState = Enums::AbilityStates::asWorking;
+            if (parentScenePtr != nullptr)
+            {
+                toSpawn = std::make_shared<AbilityAnimObject>(1000);
+                if (toSpawn == nullptr)
+                    return false;
+
+                auto sprite = std::make_shared<AnimationSceneSprite>(parentScenePtr->getRenderer());
+                sprite->loadTexture("GameData/textures/MobAbilities/MobAbilitySprint.png");
+                sprite->setSize(Size{50, 50});
+                map<string, vector<SDL_Rect> > anims;
+
+                std::string filename = "GameData/anims/MobAbilities/MobAbilitySprint.anim";
+                androidText::setRelativePath(filename);
+                androidText::loadAnimFromFile(filename, anims);
+
+                for(auto& anim : anims)
+                {
+                    sprite->setAnimRects(anim.first, anim.second);
+                }
+
+                toSpawn->setSprite(sprite);
+                auto position = mob->getRealPosition();
+                parentScenePtr->spawnObject(position.x, position.y, toSpawn);
+            }
          }
      }
      else
@@ -40,8 +65,13 @@ bool MobAbilitySprint::onWorking(double timestep)
         abilityState = Enums::AbilityStates::asOnCooldown;
     }
     else
+    {
+        if (toSpawn != nullptr && target != nullptr)
+        {
+            toSpawn->setPosition(target->getPosition());
+        }
         currentWorkTime -= timestep;
-
+    }
     return true;
 }
 

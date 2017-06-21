@@ -1,6 +1,7 @@
 #pragma once
 
 #include "MobAbility.h"
+#include "../AbilityAnims/AbilityAnimObject.hpp"
 
 class MobAbilitySprint : public MobAbility
 {
@@ -13,5 +14,7 @@ public:
 
     // MobAbility interface
     bool canTrigger(std::shared_ptr<SceneObject> targ, Enums::AIMobStates aistate) override;
+private:
+    std::shared_ptr<AbilityAnimObject> toSpawn;
 };
 
