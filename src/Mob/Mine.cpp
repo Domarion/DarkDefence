@@ -8,9 +8,7 @@ Mine::Mine(Size aResourcePlaceSize)
     , destructionLoss(300) //TODO: Перенести в конфиг для MineModel
     , mResourcePlaceSize(aResourcePlaceSize)
 {
-
 }
-
 
 bool Mine::update(double timestep)
 {
@@ -22,7 +20,6 @@ bool Mine::update(double timestep)
         if (model->getLimit() <= 0)
             return false;
 
-//        std::cout << "current mine health = " << (model->getCurrentHealth()) << std::endl;
         if (model->getCurrentHealth() <= 0)
         {
             int resPlaceLimit = model->getLimit() - destructionLoss;
@@ -33,8 +30,12 @@ bool Mine::update(double timestep)
             auto resSprite = std::make_shared<AnimationSceneSprite>(parentScenePtr.lock()->getRenderer());
             resSprite->setSize(mResourcePlaceSize);
 
-            std::string resourceName = GameModel::getInstance()->getResourcesModel()->getResourceNameFromIndex(static_cast<size_t>(model->getProductionType()));
+            auto resourceName =
+                GameModel::getInstance()->getResourcesModel()->getResourceNameFromIndex(static_cast<size_t>(model->getProductionType()));
             resSprite->loadTexture("GameData/textures/Resources/" + resourceName + "Resource.png");
+            auto anchorPair = getSprite()->getAnchorPoint();
+            resSprite->setAnchorPointPlace(anchorPair.first, anchorPair.second);
+
             resPlace->setSprite(resSprite);
             resPlace->setName("ResourcePlace");
             resPlace->setTag("ResourcePlace");

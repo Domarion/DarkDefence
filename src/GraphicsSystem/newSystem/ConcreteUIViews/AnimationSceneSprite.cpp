@@ -109,6 +109,11 @@ void AnimationSceneSprite::setAnchorPointPlace(Enums::AnchorCoordTypes aXCoordAn
     yCoordAnchorType = aYCoordAnchorType;
 }
 
+std::pair<Enums::AnchorCoordTypes, Enums::AnchorCoordTypes> AnimationSceneSprite::getAnchorPoint() const
+{
+    return std::make_pair(xCoordAnchorType, yCoordAnchorType);
+}
+
 Position AnimationSceneSprite::getRealPosition() const
 {
     return getRealPosFromLogicPos(getPosition());

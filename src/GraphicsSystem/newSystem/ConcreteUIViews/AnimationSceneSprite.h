@@ -32,6 +32,7 @@ public:
     void setTexture(const Texture2D& aTexture);
     void setSizeFromTexture();
     void setAnchorPointPlace(Enums::AnchorCoordTypes aXCoordAnchorType, Enums::AnchorCoordTypes aYCoordAnchorType);
+    std::pair<Enums::AnchorCoordTypes, Enums::AnchorCoordTypes> getAnchorPoint() const;
     Position getRealPosition() const;
     void setFlipping(int aFlipFlags);
 private:

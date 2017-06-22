@@ -1,4 +1,5 @@
 #include "MobAbilityArson.h"
+#include "../AbilityAnims/AbilityAnimObject.hpp"
 
 MobAbilityArson::MobAbilityArson()
     : arsonEffect(std::make_shared<EffectModel>())
@@ -16,6 +17,19 @@ bool MobAbilityArson::onReady(double /*timestep*/)
     }
 
     target->getEffectReceiver()->applyEffect(arsonEffect);
+
+    if (parentScenePtr != nullptr)
+    {
+        auto toSpawn = Make_AbilityAnimObject(
+            "MobAbilities/MobAbilityArson", Size(80, 80), workTime, parentScenePtr->getRenderer());
+
+        if (toSpawn == nullptr)
+            return false;
+
+        auto position = target->getRealPosition();
+        parentScenePtr->spawnObject(position.x, position.y, toSpawn);
+    }
+
     abilityState = Enums::AbilityStates::asWorking;
     return true;
 }

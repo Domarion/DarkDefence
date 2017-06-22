@@ -1,6 +1,5 @@
 #include "MobAbilitySprint.h"
 #include "../../Mob/Mob.h"
-#include "Utility/textfilefunctions.h"
 
 bool MobAbilitySprint::onReady(double /*timestep*/)
 {
@@ -14,25 +13,12 @@ bool MobAbilitySprint::onReady(double /*timestep*/)
             abilityState = Enums::AbilityStates::asWorking;
             if (parentScenePtr != nullptr)
             {
-                toSpawn = std::make_shared<AbilityAnimObject>(1000);
+                toSpawn = Make_AbilityAnimObject(
+                    "MobAbilities/MobAbilitySprint", Size(50, 50), 1000, parentScenePtr->getRenderer());
+
                 if (toSpawn == nullptr)
                     return false;
 
-                auto sprite = std::make_shared<AnimationSceneSprite>(parentScenePtr->getRenderer());
-                sprite->loadTexture("GameData/textures/MobAbilities/MobAbilitySprint.png");
-                sprite->setSize(Size{50, 50});
-                map<string, vector<SDL_Rect> > anims;
-
-                std::string filename = "GameData/anims/MobAbilities/MobAbilitySprint.anim";
-                androidText::setRelativePath(filename);
-                androidText::loadAnimFromFile(filename, anims);
-
-                for(auto& anim : anims)
-                {
-                    sprite->setAnimRects(anim.first, anim.second);
-                }
-
-                toSpawn->setSprite(sprite);
                 auto position = mob->getRealPosition();
                 parentScenePtr->spawnObject(position.x, position.y, toSpawn);
             }

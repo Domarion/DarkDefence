@@ -7,15 +7,14 @@
 #include "../GlobalScripts/ResourceManager.h"
 
 ResourcePlace::ResourcePlace()
-    :limit(1000), resourceType(Enums::ResourceTypes::WHEAT)
+    : ResourcePlace(1000, Enums::ResourceTypes::WHEAT)
 {
-
 }
 
 ResourcePlace::ResourcePlace(int aLimit, Enums::ResourceTypes aResourceType)
-    :limit(aLimit), resourceType(aResourceType)
+    : limit(aLimit)
+    , resourceType(aResourceType)
 {
-
 }
 
 void ResourcePlace::setLimit(int amount)
@@ -49,10 +48,10 @@ bool ResourcePlace::onClick(Position point)
                     };
     if (SDL_PointInRect(&sPoint, &rect))
     {
-        std::unique_ptr<MineModel> tempMineModel = GameModel::getInstance()->getMineModelByRes(resourceType);
-        tempMineModel->setLimit(this->limit);
+        auto tempMineModel = GameModel::getInstance()->getMineModelByRes(resourceType);
+        tempMineModel->setLimit(limit);
 
-        Size resourcePlaceSize =  getSprite()->getSize();
+        Size resourcePlaceSize = getSprite()->getSize();
         auto tempMine = std::make_shared<Mine>(resourcePlaceSize);
 
         std::string mineName = tempMineModel->getName();
@@ -61,6 +60,9 @@ bool ResourcePlace::onClick(Position point)
 
         auto sprt = std::make_shared<AnimationSceneSprite>(parentScenePtr.lock()->getRenderer());
         sprt->setTexture(ResourceManager::getInstance()->getTexture(mineName));
+
+        auto anchorPair = getSprite()->getAnchorPoint();
+        sprt->setAnchorPointPlace(anchorPair.first, anchorPair.second);
         tempMine->setName(mineName);
         tempMine->setTag("Mine");
         tempMine->setSprite(sprt);
@@ -73,8 +75,6 @@ bool ResourcePlace::onClick(Position point)
     return false;
 }
 
-
-
 bool ResourcePlace::update(double)
 {
     return true;
@@ -82,5 +82,4 @@ bool ResourcePlace::update(double)
 
 void ResourcePlace::finalize()
 {
-
 }

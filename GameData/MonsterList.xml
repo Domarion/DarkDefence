@@ -223,12 +223,12 @@
 				<value0>
 					<enemyTag>Mine</enemyTag>
 					<enemyReaction>true</enemyReaction>
-					<priority>3</priority>
+					<priority>1</priority>
 				</value0>
 				<value1>
 					<enemyTag>Gates</enemyTag>
 					<enemyReaction>false</enemyReaction>
-					<priority>1</priority>
+					<priority>4</priority>
 				</value1>
 			</enemyTags>
 			<Abilities size="dynamic">

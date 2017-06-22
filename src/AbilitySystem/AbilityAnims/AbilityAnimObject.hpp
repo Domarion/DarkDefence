@@ -15,3 +15,9 @@ private:
 
 
 };
+
+extern std::shared_ptr<AbilityAnimObject> Make_AbilityAnimObject(
+    const std::string& aNameWithParentDir,
+    Size aImageSize,
+    double aTimeToLiveMs,
+    std::shared_ptr<RenderingSystem>& aRenderer);
