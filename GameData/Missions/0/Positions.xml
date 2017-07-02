@@ -6,8 +6,8 @@
 			<Name>WatcherTower</Name>
 			<Width>50</Width>
 			<Height>80</Height>
-			<PositionX>10</PositionX>
-			<PositionY>300</PositionY>
+			<PositionX>600</PositionX>
+			<PositionY>600</PositionY>
 			<XAnchorPlace>0</XAnchorPlace>
 			<YAnchorPlace>0</YAnchorPlace>
 		</value0>
@@ -15,8 +15,8 @@
 			<Name>WatcherTower</Name>
 			<Width>50</Width>
 			<Height>80</Height>
-			<PositionX>60</PositionX>
-			<PositionY>300</PositionY>
+			<PositionX>650</PositionX>
+			<PositionY>600</PositionY>
 			<XAnchorPlace>0</XAnchorPlace>
 			<YAnchorPlace>0</YAnchorPlace>
 		</value1>
@@ -24,8 +24,8 @@
 			<Name>WatcherTower</Name>
 			<Width>50</Width>
 			<Height>80</Height>
-			<PositionX>110</PositionX>
-			<PositionY>300</PositionY>
+			<PositionX>700</PositionX>
+			<PositionY>600</PositionY>
 			<XAnchorPlace>0</XAnchorPlace>
 			<YAnchorPlace>0</YAnchorPlace>
 		</value2>
@@ -33,8 +33,8 @@
 			<Name>WatcherTower</Name>
 			<Width>50</Width>
 			<Height>80</Height>
-			<PositionX>160</PositionX>
-			<PositionY>300</PositionY>
+			<PositionX>750</PositionX>
+			<PositionY>600</PositionY>
 			<XAnchorPlace>0</XAnchorPlace>
 			<YAnchorPlace>0</YAnchorPlace>
 		</value3>
@@ -42,8 +42,8 @@
 			<Name>WatcherTower</Name>
 			<Width>50</Width>
 			<Height>80</Height>
-			<PositionX>210</PositionX>
-			<PositionY>300</PositionY>
+			<PositionX>800</PositionX>
+			<PositionY>600</PositionY>
 			<XAnchorPlace>0</XAnchorPlace>
 			<YAnchorPlace>0</YAnchorPlace>
 		</value4>

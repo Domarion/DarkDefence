@@ -158,6 +158,11 @@ Position TileMapManager::getGlobalPosFromLocalCoords(pair<int,int> localPos)
     return globalPos;
 }
 
+bool TileMapManager::IsFilledCell(pair<int, int> localPos) const
+{
+    return mapTemplate[localPos.first][localPos.second] == FilledCell;
+}
+
 TileMapManager::Path TileMapManager::getAvaliableNeightbours(int aRow, int aColumn)
 {
     auto neightbourList = std::make_unique<list<pair<int, int>>>();

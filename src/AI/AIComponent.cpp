@@ -80,7 +80,6 @@ void AIComponent::Select()
 {
 	if (!avaliableTargets.empty())
 	{
-
 		int closestDistanceSqr = 0;
         int maxPriority = 0;
         for(auto& target: avaliableTargets)
@@ -108,7 +107,6 @@ void AIComponent::Select()
 
 void AIComponent::Attack()
 {
-//     std::cout << (MobPtr.lock()->getModel()->getName()) << std::endl;
     if (currentTarget == nullptr)
 		aiMobState = AIMobStates::aiSELECT;
 	else
@@ -225,13 +223,12 @@ void AIComponent::MovetoTile(double timestep)
         return;
     }
 
+    Cast(currentTarget);
+
     if ((MobPtr.lock()->getTag() == "Tower"))
     {
         return;
     }
-//    std::cout << "MOBPOS = {" << mobPos.first << ", " << mobPos.second
-//              << "} TARGETPOS {" << targetPos.first << ", " << targetPos.second << std::endl;
-
 
     if (currentTargetPosition != targetPos || currentPath == nullptr || currentPath->empty())
     {
@@ -241,15 +238,6 @@ void AIComponent::MovetoTile(double timestep)
         if (canBuildPath)
         {
             currentPath = tilemapPtr->getPath(targetPos);
-
-//            std::cout << "New Path {" << std::endl;
-//            int index = 0;
-//            for(const auto& item : *currentPath)
-//            {
-//                std::cout << index << "\t" << item.first << "\t" << item.second << std::endl;
-//                index++;
-//            }
-
         }
         else
         {
@@ -258,10 +246,8 @@ void AIComponent::MovetoTile(double timestep)
         }
     }
 
-
     if (nextCell == emptyCell)
     {
-//        std::cout << "nextCell" << std::endl;
         nextCell = currentPath->back();
         currentPath->pop_back();
     }
@@ -272,16 +258,6 @@ void AIComponent::MovetoTile(double timestep)
         {
             return;
         }
-
-//        std::cout << "Path {" << std::endl;
-//        int index = 0;
-//        for(const auto& item : *currentPath)
-//        {
-//            std::cout << index << "\t" << item.first << "\t" << item.second << std::endl;
-//            index++;
-//        }
-
-
         auto it = std::find(currentPath->begin(), currentPath->end(), mobPos);
 
         while (it != currentPath->end())
@@ -293,29 +269,14 @@ void AIComponent::MovetoTile(double timestep)
         {
             nextCell = currentPath->back();
         }
-//        bool canBuildPath = tilemapPtr->waveAlgo(mobPos, targetPos);
-
-//        if (canBuildPath)
-//        {
-//            nextCell = path->back();
-//        }
-//        else
-//        {
-//            nextCell = emptyCell;
-//            aiMobState = AIMobStates::aiSELECT;
-//        }
     }
 
     if (nextCell != mobPos && nextCell != emptyCell)
     {
-//        std::cout << "Current pos " << mobPos.first << "\t" << mobPos.second
-//            << " next cell " << nextCell.first << "\t" << nextCell.second << std::endl;
         auto globalCoords = tilemapPtr->getGlobalPosFromLocalCoords(nextCell);
-//        std::cout << "Global coords next cell " << globalCoords << std::endl;
 
         MoveToPos(timestep, globalCoords);
     }
-
 }
 
 void AIComponent::MoveToPos(double /*timestep*/, Position targetPoint)
@@ -398,6 +359,17 @@ bool AIComponent::Cast(std::shared_ptr<SceneObject> target)
             return abilityPtr->setAsReady();
         }
 
+    return false;
+}
+
+bool AIComponent::CanCast(std::shared_ptr<SceneObject> target)
+{
+    for(auto& abilityPtr : mobAbilities)
+        if (abilityPtr != nullptr &&
+            abilityPtr->canTrigger(target, aiMobState))
+        {
+            return true;
+        }
     return false;
 }
 

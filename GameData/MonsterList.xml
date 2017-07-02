@@ -75,6 +75,7 @@
 			</enemyTags>
 			<Abilities size="dynamic">
 				<value0>MobAbilityArson</value0>
+                <value1>MobAbilityFog</value1>
 			</Abilities>
 			<price>
 				<value0>0</value0>

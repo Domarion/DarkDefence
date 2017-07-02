@@ -25,7 +25,7 @@ public:
     pair<int, int> getPosFromGlobalCoords(Position pos);
 
     Position getGlobalPosFromLocalCoords(pair<int, int> localPos);
-
+    bool IsFilledCell(pair<int, int> localPos) const;
     const constexpr static int FilledCell = -2;
     const constexpr static int StartingCell = 0;
     const constexpr static int EmptyCell = -1;

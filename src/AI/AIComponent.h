@@ -49,6 +49,9 @@ private:
     void MoveToPos(double timestep, Position targetPoint);
     bool Cast(std::shared_ptr<SceneObject> target);
 
+    bool CanCast(std::shared_ptr<SceneObject> target);
+
+
     bool distanceInRange(const pair<int, int>& firstPoint, const pair<int, int>& secondPoint);
     int signum(int aValue) const;
     int getPriorityFromTag(const string& aTag);

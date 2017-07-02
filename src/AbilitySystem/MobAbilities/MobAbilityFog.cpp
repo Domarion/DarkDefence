@@ -1,4 +1,5 @@
 #include "MobAbilityFog.h"
+#include "../AbilityAnims/AbilityAnimObject.hpp"
 
 MobAbilityFog::MobAbilityFog()
 : MobAbility()
@@ -24,6 +25,16 @@ bool MobAbilityFog::onReady(double)
                     if (effectReceiver != nullptr)
                     {
                         effectReceiver->applyEffect(fogEffect);
+
+                        auto toSpawn = Make_AbilityAnimObject(
+                            "MobAbilities/MobAbilityFog", Size(100, 100), workTime, parentScenePtr->getRenderer());
+
+                        if (toSpawn == nullptr)
+                            return false;
+
+                        auto position = affectedMob->getRealPosition();
+                        parentScenePtr->spawnObject(position.x, position.y, toSpawn);
+
                     }
                 }
             }
@@ -74,5 +85,5 @@ bool MobAbilityFog::onCooldown(double timestep)
 
 bool MobAbilityFog::canTrigger(std::shared_ptr<SceneObject>, Enums::AIMobStates aistate)
 {
-    return abilityState == Enums::AbilityStates::asNotAvaliable && aistate != Enums::AIMobStates::aiMOVE;
+    return abilityState == Enums::AbilityStates::asNotAvaliable && aistate != Enums::AIMobStates::aiSELECT;
 }
