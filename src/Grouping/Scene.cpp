@@ -115,10 +115,10 @@ void Scene::removeFromUIList(const std::shared_ptr<IComposite> &item)
 
 void Scene::replaceObject(std::shared_ptr<SceneObject> aObject, std::shared_ptr<SceneObject> aReplacement)
 {
-
     auto comparator = [&aObject](std::shared_ptr<SceneObject>& aRight)
         {
-           return aObject->getTag() == aRight->getTag() && aObject->getPosition() == aRight->getPosition();//TODO: нужно нормальное сравнение объёектов сцены
+            return aObject->getTag() == aRight->getTag()
+                && aObject->getPosition() == aRight->getPosition();//TODO: нужно нормальное сравнение объёектов сцены
         };
 
     auto obj = std::find_if(sceneObjects.begin(), sceneObjects.end(), comparator);
@@ -128,8 +128,6 @@ void Scene::replaceObject(std::shared_ptr<SceneObject> aObject, std::shared_ptr<
 
         int x = aObject->getPosition().x;
         int y = aObject->getPosition().y;
-
-
 
         (*obj)->setParentScene(shared_from_this());
 
@@ -148,9 +146,7 @@ void Scene::replaceObject(std::shared_ptr<SceneObject> aObject, std::shared_ptr<
             mInputDispatcher->removeHandler(handler1);
 
         aObject->finalize();
-
     }
-
 }
 
 void Scene::softClear()
@@ -180,6 +176,7 @@ std::shared_ptr<SceneObject> Scene::findObjectByTag(std::string tag)
       if ((*ptr)->getTag() == tag)
           return *ptr;
     }
+
     return nullptr;
 }
 
@@ -199,7 +196,6 @@ Scene::SceneObjectList Scene::findObjectsByTag(string tag)
     }
 
     return filteredList;
-
 }
 
 std::shared_ptr<SceneObject> Scene::findObjectWithPos(int x, int y)

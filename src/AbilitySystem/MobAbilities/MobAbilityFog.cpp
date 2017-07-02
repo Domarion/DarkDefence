@@ -3,7 +3,6 @@
 
 MobAbilityFog::MobAbilityFog()
 : MobAbility()
-, affectedMobs(std::make_unique<std::list<std::shared_ptr<SceneObject> > >())
 , fogEffect(std::make_shared<EffectModel>())
 {
     pair<string, double> rt = std::make_pair("ReloadTime", +5.0e+6);
@@ -52,6 +51,10 @@ bool MobAbilityFog::onWorking(double timestep)
     {
         abilityState = Enums::AbilityStates::asOnCooldown;
         currentCooldownTime = cooldownTime;
+
+        if (affectedMobs == nullptr)
+            return true;
+
         for(auto& affectedMob : *affectedMobs)
         {
             if (affectedMob != nullptr)
@@ -63,7 +66,7 @@ bool MobAbilityFog::onWorking(double timestep)
                 }
             }
         }
-        affectedMobs->clear();
+        affectedMobs.reset();
     }
     else
         currentCooldownTime -= timestep;

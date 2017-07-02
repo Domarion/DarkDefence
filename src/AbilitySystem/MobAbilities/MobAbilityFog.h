@@ -18,7 +18,7 @@ public:
     bool canTrigger(std::shared_ptr<SceneObject> targ, Enums::AIMobStates aistate) override;
 
 private:
-    SceneObjectList affectedMobs;
     std::shared_ptr<EffectModel> fogEffect;
+    SceneObjectList affectedMobs;
 
 };
