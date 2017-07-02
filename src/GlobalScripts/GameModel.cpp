@@ -382,7 +382,7 @@ void GameModel::loadAbilitiesNames(string filename)
     }
 }
 
-string GameModel::getAbilityNameFromIndex(int index)
+string GameModel::getAbilityNameFromIndex(size_t index)
 {
     return abilitiesNames.at(index);
 }

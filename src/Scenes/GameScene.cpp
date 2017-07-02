@@ -203,8 +203,9 @@ void GameScene::initResourceView()
     resourceLabels.resize(GlobalConstants::resourceTypeCount);
     for(size_t i = 0; i != GlobalConstants::resourceTypeCount; ++i)
     {
+        string resourceName = GameModel::getInstance()->getResourcesModel()->getResourceNameFromIndex(i);
         string iconPath = "GameData/textures/Resources/"
-                + GameModel::getInstance()->getResourcesModel()->getResourceNameFromIndex(i) + ".png";
+                + resourceName + ".png";
 
         auto resourceIcon = std::make_shared<UIImage>(renderer);
         resourceIcon->loadTexture(iconPath);
@@ -519,66 +520,73 @@ void GameScene::placeSceneObjects()//TODO: Найти лучшее решени�
         }
         else
             if (item.Name == "Gates")
+            {
+                auto newView = std::make_shared<AnimationSceneSprite>(renderer);
+
+                newView->setSize(item.ImageSize);
+                newView->setTexture(ResourceManager::getInstance()->getTexture("Castle"));
+
+                newView->setAnchorPointPlace(item.xCoordAnchorType, item.yCoordAnchorType);
+
+                gates = std::make_shared<Gates>();
+                gates->setSprite(newView);
+                gates->setTag("Gates");
+                gates->getDestructibleObject()->connectMethod(
+                    std::bind
+                    (
+                        &UIProgressBar::calculateProgress,
+                        gatesHealthBar,
+                        std::placeholders::_1,
+                        std::placeholders::_2
+                    ));
+                gates->getDestructibleObject()->setMaximumHealth(5000);
+                spawnObject(item.ImagePosition.x, item.ImagePosition.y, gates);
+            }
+            else
+                if (item.Name == "ResourceWheat")
                 {
-                    auto newView = std::make_shared<AnimationSceneSprite>(renderer);
+                    auto resPlace = std::make_shared<ResourcePlace>(700, Enums::ResourceTypes::WHEAT);
+                    auto resSprite = std::make_shared<AnimationSceneSprite>(renderer);
 
-                     newView->setSize(item.ImageSize);
-					 newView->setTexture(ResourceManager::getInstance()->getTexture("Castle"));
+                    resSprite->setSize(item.ImageSize);
 
-                     newView->setAnchorPointPlace(item.xCoordAnchorType, item.yCoordAnchorType);
+                    resSprite->setAnchorPointPlace(item.xCoordAnchorType, item.yCoordAnchorType);
 
-                     gates = std::make_shared<Gates>();
-                     gates->setSprite(newView);
-                     gates->setTag("Gates");
-                     gates->getDestructibleObject()->connectMethod(std::bind(&UIProgressBar::calculateProgress, gatesHealthBar, std::placeholders::_1, std::placeholders::_2));
-                     gates->getDestructibleObject()->setMaximumHealth(5000);
-                     spawnObject(item.ImagePosition.x, item.ImagePosition.y, gates);
+                    string resourceName =
+                        GameModel::getInstance()->getResourcesModel()->getResourceNameFromType(resPlace->getResourceType());
+                    string texturePath = "GameData/textures/Resources/" + resourceName + "Resource.png";
+                    resSprite->loadTexture(texturePath);
+                    resPlace->setSprite(resSprite);
+                    resPlace->setName("ResourcePlace");
+                    resPlace->setTag("ResourcePlace");
+                    spawnObject(item.ImagePosition.x, item.ImagePosition.y, resPlace);
                 }
                 else
-                    if (item.Name == "ResourceWheat")
+                    if (item.Name == "Spawner")
                     {
-                        auto resPlace = std::make_shared<ResourcePlace>(700, Enums::ResourceTypes::WHEAT);
-                        auto resSprite = std::make_shared<AnimationSceneSprite>(renderer);
+                        auto spawnerSprite = std::make_shared<AnimationSceneSprite>(renderer);
 
-                        resSprite->setSize(item.ImageSize);
+                        spawnerSprite->setSize(item.ImageSize);
+                        spawnerSprite->setAnchorPointPlace(item.xCoordAnchorType, item.yCoordAnchorType);
 
-                        resSprite->setAnchorPointPlace(item.xCoordAnchorType, item.yCoordAnchorType);
+                        string spawnertexturePath = "GameData/textures/spawner.png";
+                        spawnerSprite->loadTexture(spawnertexturePath);
+                        monsterSpawner = std::make_shared<Spawner>();
+                        monsterSpawner->setSprite(spawnerSprite);
+                        monsterSpawner->setName("Spawner");
+                        monsterSpawner->setTag("Spawner");
+                        monsterSpawner->loadWavesInfo();
 
-                        string resourceName = GameModel::getInstance()->getResourcesModel()->getResourceNameFromIndex(static_cast<int> (resPlace->getResourceType()));
-                        string texturePath = "GameData/textures/Resources/" + resourceName + "Resource.png";
-                        resSprite->loadTexture(texturePath);
-                        resPlace->setSprite(resSprite);
-                        resPlace->setName("ResourcePlace");
-                        resPlace->setTag("ResourcePlace");
-                        spawnObject(item.ImagePosition.x, item.ImagePosition.y, resPlace);
+                        spawnObject(item.ImagePosition.x, item.ImagePosition.y, monsterSpawner);
+
+                        monsterSpawner->connectInfoProcesser(
+                            std::bind(&GameScene::processWaveInfo, this, std::placeholders::_1));
+                        monsterSpawner->connectSpawnCallBack(
+                            std::bind(
+                                &GameScene::spawningCallBack, this, std::placeholders::_1, std::placeholders::_2));
+
                     }
-                    else
-                        if (item.Name == "Spawner")
-                        {
-                            auto spawnerSprite = std::make_shared<AnimationSceneSprite>(renderer);
-
-                            spawnerSprite->setSize(item.ImageSize);
-                            spawnerSprite->setAnchorPointPlace(item.xCoordAnchorType, item.yCoordAnchorType);
-
-
-                            string spawnertexturePath = "GameData/textures/spawner.png";
-                            spawnerSprite->loadTexture(spawnertexturePath);
-                            monsterSpawner = std::make_shared<Spawner>();
-                            monsterSpawner->setSprite(spawnerSprite);
-                            monsterSpawner->setName("Spawner");
-                            monsterSpawner->setTag("Spawner");
-                            monsterSpawner->loadWavesInfo();
-
-                            spawnObject(item.ImagePosition.x, item.ImagePosition.y, monsterSpawner);
-
-                            monsterSpawner->connectInfoProcesser(
-                                std::bind(&GameScene::processWaveInfo, this, std::placeholders::_1));
-                            monsterSpawner->connectSpawnCallBack(
-                                std::bind(
-                                    &GameScene::spawningCallBack, this, std::placeholders::_1, std::placeholders::_2));
-
-                        }
-        }
+    }
 }
 
 void GameScene::applyArtefactEffects()

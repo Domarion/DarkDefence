@@ -53,7 +53,8 @@ public:
              double aReloadTime,
              int aDamageArea,
              list<EnemyInfo> enemiesTags);
-	virtual ~MobModel();
+
+    virtual ~MobModel() = default;
 
 	MobModel(const MobModel& right);
 	const pair<double, double>& getAttackDistance() const;
@@ -66,10 +67,10 @@ public:
     const list<EnemyInfo> &getEnemyTags() const;
 	bool checkDistance(int distanceSqr);
 
-    void setAttackDamageModifier(int index, int modifier);
-    int getAttackDamageModifier(int index);
+    void setAttackDamageModifier(size_t index, int modifier);
+    int getAttackDamageModifier(size_t index);
 
-    void setAttackDamageWithIndex(int index, int value);
+    void setAttackDamageWithIndex(size_t index, int value);
     int getAttackDamageWithIndex(int index);
 
 

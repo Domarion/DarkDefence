@@ -12,7 +12,6 @@ Mine::Mine(Size aResourcePlaceSize)
 
 bool Mine::update(double timestep)
 {
-
     if (model != nullptr)
     {
         model->produce(timestep, GameModel::getInstance()->getResourcesModel());
@@ -23,7 +22,7 @@ bool Mine::update(double timestep)
         if (model->getCurrentHealth() <= 0)
         {
             int resPlaceLimit = model->getLimit() - destructionLoss;
-            if (resPlaceLimit <= 0 )
+            if (resPlaceLimit <= 0)
                 return false;
 
             auto resPlace = std::make_shared<ResourcePlace>(resPlaceLimit, model->getProductionType());
@@ -31,8 +30,10 @@ bool Mine::update(double timestep)
             resSprite->setSize(mResourcePlaceSize);
 
             auto resourceName =
-                GameModel::getInstance()->getResourcesModel()->getResourceNameFromIndex(static_cast<size_t>(model->getProductionType()));
+                GameModel::getInstance()->getResourcesModel()->getResourceNameFromType(model->getProductionType());
+
             resSprite->loadTexture("GameData/textures/Resources/" + resourceName + "Resource.png");
+
             auto anchorPair = getSprite()->getAnchorPoint();
             resSprite->setAnchorPointPlace(anchorPair.first, anchorPair.second);
 
@@ -72,5 +73,5 @@ std::shared_ptr<MineModel> Mine::getMineModel()
 
 void Mine::setMineModel(std::shared_ptr<MineModel>  newModel)
 {
-   model = newModel;
+    model = newModel;
 }

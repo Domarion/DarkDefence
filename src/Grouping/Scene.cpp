@@ -171,10 +171,10 @@ void Scene::clearUIList()
 
 std::shared_ptr<SceneObject> Scene::findObjectByTag(std::string tag)
 {
-    for(auto ptr = sceneObjects.begin(); ptr != sceneObjects.end(); ++ptr)
+    for(const auto& sceneObjectPtr : sceneObjects)
     {
-      if ((*ptr)->getTag() == tag)
-          return *ptr;
+        if (sceneObjectPtr->getTag() == tag)
+            return sceneObjectPtr;
     }
 
     return nullptr;
@@ -184,10 +184,10 @@ Scene::SceneObjectList Scene::findObjectsByTag(string tag)
 {
     auto filteredList = std::make_unique<std::list<std::shared_ptr<SceneObject>>>();
 
-    for(auto ptr = sceneObjects.begin(); ptr != sceneObjects.end(); ++ptr)
+    for(const auto& sceneObjectPtr : sceneObjects)
     {
-      if ((*ptr)->getTag() == tag)
-        filteredList->push_back(*ptr);
+      if (sceneObjectPtr->getTag() == tag)
+        filteredList->push_back(sceneObjectPtr);
     }
 
     if (filteredList->empty())

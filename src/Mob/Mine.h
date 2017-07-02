@@ -11,8 +11,8 @@ public:
     // SceneObject interface
 public:
 
-    virtual bool update(double timestep);
-    virtual void finalize();
+    virtual bool update(double timestep) override;
+    virtual void finalize() override;
     virtual std::shared_ptr<DestructibleObject> getDestructibleObject() const override;
     virtual std::shared_ptr<EffectReceiver> getEffectReceiver() const override;
     std::shared_ptr<MineModel> getMineModel();

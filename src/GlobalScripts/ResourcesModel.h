@@ -6,9 +6,11 @@
  */
 
 #pragma once
+
 #include "ResourceInfo.h"
 #include "../GlobalConstants.h"
 #include <array>
+#include "Enums.h"
 
 class ResourcesModel
 {
@@ -16,7 +18,8 @@ public:
     using PriceArray = std::array<int, GlobalConstants::resourceTypeCount>;
     ResourcesModel() = default;
     ~ResourcesModel() = default;
-    std::string getResourceNameFromIndex(size_t index);
+    const std::string& getResourceNameFromIndex(size_t index);
+    const std::string& getResourceNameFromType(Enums::ResourceTypes aResourceType);
     std::string printResourceFromIndex(size_t index);
 
     bool canBuy(PriceArray costarray);

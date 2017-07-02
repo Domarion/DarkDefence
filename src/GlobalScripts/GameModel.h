@@ -78,7 +78,7 @@ public:
     void setMissionReward(const Reward &value);
 
     void loadAbilitiesNames(string filename);
-    string getAbilityNameFromIndex(int index);
+    string getAbilityNameFromIndex(size_t index);
     size_t getAbilityCount() const;
 
     void calculatePointsPerWave();

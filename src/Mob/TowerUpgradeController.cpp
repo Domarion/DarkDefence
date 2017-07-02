@@ -96,8 +96,8 @@ void TowerUpgradeController::receiveTowerUpgrade(std::shared_ptr<Tower> tower)
         {
 
             auto resourceIcon = std::make_shared<UIImage>(renderer);
-            string RiconPath = "GameData/textures/Resources/"
-                    + GameModel::getInstance()->getResourcesModel()->getResourceNameFromIndex(i) + ".png";
+            string resourceName = GameModel::getInstance()->getResourcesModel()->getResourceNameFromIndex(i);
+            string RiconPath = "GameData/textures/Resources/" + resourceName + ".png";
 
             resourceIcon->loadTexture(RiconPath);
             resourceIcon->setSize(Size(iconWidthSmall, iconWidthSmall));

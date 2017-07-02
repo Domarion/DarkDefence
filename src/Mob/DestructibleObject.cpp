@@ -8,30 +8,25 @@
 #include "DestructibleObject.h"
 
 DestructibleObject::DestructibleObject()
-    :Alive( true ), currentHealth(0), maximumHealth{0, 0}
+    : Alive(true)
+    , currentHealth(0)
+    , maximumHealth{0, 0}
 {
-	// TODO Auto-generated constructor stub
-
 }
 
-DestructibleObject::~DestructibleObject()
-
-{
-	// TODO Auto-generated destructor stub
-}
 std::array<pair<int, int>, DestructibleObject::damageTypesCount> DestructibleObject::getAttackProtection() const
 {
     return attackProtection;
 }
 
-
 const string& DestructibleObject::getName() const
 {
 	return name;
 }
-void DestructibleObject::setName(const string& name)
+
+void DestructibleObject::setName(const string& aName)
 {
-	this->name = name;
+    name = aName;
 }
 
 const string& DestructibleObject::getTag() const
@@ -39,9 +34,9 @@ const string& DestructibleObject::getTag() const
 	return tag;
 }
 
-void DestructibleObject::setTag(const string& tag)
+void DestructibleObject::setTag(const string& aTag)
 {
-	this->tag = tag;
+    tag = aTag;
 }
 
 bool DestructibleObject::IsAlive() const
@@ -49,11 +44,15 @@ bool DestructibleObject::IsAlive() const
 	return Alive;
 }
 
-DestructibleObject::DestructibleObject(string aName, string aTag,
-		int aMaxHealth, int aProtection[])
-:name(aName), tag(aTag), Alive(true), currentHealth(aMaxHealth), maximumHealth(aMaxHealth, 0)//, worldX ( 0 ), worldY ( 0 )
+DestructibleObject::DestructibleObject(
+    string aName, string aTag, int aMaxHealth, int aProtection[])
+    : name(aName)
+    , tag(aTag)
+    , Alive(true)
+    , currentHealth(aMaxHealth)
+    , maximumHealth(aMaxHealth, 0)
 {
-	for(int i = 0; i < DestructibleObject::damageTypesCount; ++i)
+    for(size_t i = 0; i < DestructibleObject::damageTypesCount; ++i)
 	{
 		attackProtection[i].first = aProtection[i];
 		attackProtection[i].second = 0;
@@ -69,7 +68,7 @@ DestructibleObject::DestructibleObject(const DestructibleObject &right)
         maximumHealth = right.maximumHealth;
         currentHealth = right.currentHealth;
 
-        for(int i = 0; i < DestructibleObject::damageTypesCount; ++i)
+        for(size_t i = 0; i < DestructibleObject::damageTypesCount; ++i)
             attackProtection[i] = right.attackProtection[i];
         Alive = right.Alive;
     }
@@ -135,30 +134,10 @@ void DestructibleObject::setCurrentHealth(int hp)
 	currentHealth = hp;
 }
 
-void DestructibleObject::setIsAlive(bool alive)
+void DestructibleObject::setIsAlive(bool aAlive)
 {
-	Alive = alive;
+    Alive = aAlive;
 }
-/*
-int DestructibleObject::getWorldX() const
-{
-	return worldX;
-}
-
-void DestructibleObject::setWorldX(int worldX)
-{
-	this->worldX = worldX;
-}
-
-int DestructibleObject::getWorldY() const
-{
-	return worldY;
-}
-
-void DestructibleObject::setWorldY(int worldY)
-{
-	this->worldY = worldY;
-}*/
 
 bool DestructibleObject::receiveDamage(int* damage)
 {
@@ -166,9 +145,9 @@ bool DestructibleObject::receiveDamage(int* damage)
         return false;
 
 	int summaryDamage = 0;
-	for(int i = 0; i < DestructibleObject::damageTypesCount; ++i)
+    for(size_t i = 0; i < DestructibleObject::damageTypesCount; ++i)
 	{
-		int temp = attackProtection[i].first + attackProtection[i].second - damage[i];
+        auto temp = attackProtection[i].first + attackProtection[i].second - damage[i];
 		if (temp < 0)
 			summaryDamage += temp;
 	}
@@ -178,12 +157,12 @@ bool DestructibleObject::receiveDamage(int* damage)
     return false;
 }
 
-bool DestructibleObject::receiveDamageOneType(int damage_type, int damage)
+bool DestructibleObject::receiveDamageOneType(size_t damage_type, int damage)
 {
-    if (damage_type < 0 || damage_type >= DestructibleObject::damageTypesCount)
+    if (damage_type >= DestructibleObject::damageTypesCount)
         return false;
 
-    int summaryDamage = attackProtection[damage_type].first + attackProtection[damage_type].second - damage;
+    auto summaryDamage = attackProtection[damage_type].first + attackProtection[damage_type].second - damage;
 
     if (summaryDamage < 0)
        return changeHealth(summaryDamage);
@@ -211,7 +190,7 @@ bool DestructibleObject::addHealth(int amount)
 
 void DestructibleObject::setProtectionModifier(int modifier)
 {
-    for(int i = 0; i < DestructibleObject::damageTypesCount; ++i)
+    for(size_t i = 0; i < DestructibleObject::damageTypesCount; ++i)
     {
         attackProtection[i].second = modifier;
     }

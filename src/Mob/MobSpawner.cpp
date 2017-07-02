@@ -94,12 +94,12 @@ bool MobSpawner::isSpawned() const
 }
 
 
-int MobSpawner::getWaveNumber() const
+size_t MobSpawner::getWaveNumber() const
 {
     return waveNumber;
 }
 
-int MobSpawner::getWaveCount() const
+size_t MobSpawner::getWaveCount() const
 {
     return waveCount;
 }
@@ -134,7 +134,7 @@ string MobSpawner::getNextMobName()
     if (index < 0)
     {
         index = 0;
-        int count = currentWaveInfo[index].second;
+        auto count = currentWaveInfo[index].second;
         std::cout << "0Count = " << count << std::endl;
         nextInfo = std::make_tuple(index, currentWaveInfo[index].first, count - 1);
         return currentWaveInfo[index].first;
@@ -149,7 +149,7 @@ string MobSpawner::getNextMobName()
         if (leavesCount == 0 && currentWaveInfo.size() > index + 1)
         {
             ++index;
-            int count = currentWaveInfo[index].second;
+            auto count = currentWaveInfo[index].second;
             std::cout << "1Count = " << count << std::endl;
 
             nextInfo = std::make_tuple(index, currentWaveInfo[index].first, count);

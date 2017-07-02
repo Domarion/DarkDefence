@@ -30,8 +30,8 @@ public:
     bool noMoreWaves() const;
     double getCurrentTime() const;
     bool isSpawned() const;
-    int getWaveNumber() const;
-    int getWaveCount() const;
+    size_t getWaveNumber() const;
+    size_t getWaveCount() const;
     void reset();
     std::vector<std::pair<string, int> > getCurrentWaveInfo();
     void connectInfoProcesser(std::function<void(string)> aInfoProcesser);

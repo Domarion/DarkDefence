@@ -9,11 +9,17 @@
 #include <fstream>
 #include "../Utility/textfilefunctions.h"
 #include <sstream>
+
 using std::stringstream;
 
-std::string ResourcesModel::getResourceNameFromIndex(size_t index)
+const std::string& ResourcesModel::getResourceNameFromIndex(size_t index)
 {
 	return resourceTypes[index].getCaption();
+}
+
+const std::string& ResourcesModel::getResourceNameFromType(Enums::ResourceTypes aResourceType)
+{
+    return getResourceNameFromIndex(Enums::toIntegralType(aResourceType));
 }
 
 std::string ResourcesModel::printResourceFromIndex(size_t index)
@@ -75,7 +81,6 @@ void ResourcesModel::loadFromFile(std::string filename)
 {
     string textString;
     androidText::loadTextFileToString(filename, textString);
-
 
     if (!textString.empty())
     {

@@ -378,11 +378,9 @@ void AIComponent::initMobAbilities()
 
     list<string> mobAbilitiesNames =  MobPtr.lock()->getModel()->getAbilitiesNames();
 
-    for(auto ptr = mobAbilitiesNames.begin(); ptr != mobAbilitiesNames.end(); ++ptr)
+    for(const auto& abilityName : mobAbilitiesNames)
     {
-
-//        std::cout << *ptr << std::endl;
-        mobAbilities.emplace_back(std::move(GameModel::getInstance()->getMobAbilityByName(*ptr)));
+        mobAbilities.emplace_back(GameModel::getInstance()->getMobAbilityByName(abilityName));
         mobAbilities.back()->setWorkTime(4000);
         mobAbilities.back()->setCooldownTime(4000);
         mobAbilities.back()->init(MobPtr.lock()->getParentScene());

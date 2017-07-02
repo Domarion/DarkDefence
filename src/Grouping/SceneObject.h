@@ -24,13 +24,12 @@ public:
     virtual void setPos(int x, int y);
     virtual bool update(double timestep);
 	virtual void finalize();
-    virtual const std::shared_ptr<AnimationSceneSprite> &getSprite() const;
+    virtual const std::shared_ptr<AnimationSceneSprite>& getSprite() const;
     virtual void setSprite(std::shared_ptr<AnimationSceneSprite> &value);
+
     int getX() const;
     int getY() const;
-    SDL_Point getPos() const;
     Position getPosition() const;
-
     Position getRealPosition() const;
 
     void setPos(SDL_Point aPos);
@@ -40,7 +39,7 @@ public:
     virtual void setName(const string &value);
 
     virtual string getTag() const;
-    virtual void setTag(const string &value);
+    virtual void setTag(const string& value);
     virtual void setParentScene(std::shared_ptr<Scene> scene);
     virtual std::shared_ptr<Scene> getParentScene();
     virtual std::shared_ptr<DestructibleObject> getDestructibleObject() const;
@@ -52,11 +51,8 @@ public:
     bool isVisible() const;
     void setVisible(bool aVisiblity);
 
-//    void setX(int value);
-
-//    void setY(int value);
-
     std::shared_ptr<AnimationSceneSprite> getModifiableSprite() const;
+
 protected:
 
 

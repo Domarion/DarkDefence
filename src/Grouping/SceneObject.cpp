@@ -9,37 +9,22 @@
 #include <cassert>
 
 SceneObject::SceneObject()
-:spriteModel(nullptr), x(0), y(0)
+    : spriteModel(nullptr)
+    , x(0)
+    , y(0)
 {
-	// TODO Auto-generated constructor stub
-
 }
-
-//void SceneObject::setY(int value)
-//{
-//    y = value;
-//    if (spriteModel != nullptr)
-//        spriteModel->setPosY(y);
-//}
-
-//void SceneObject::setX(int value)
-//{
-//    x = value;
-//    if (spriteModel != nullptr)
-//        spriteModel->setPosX(x);
-//}
-
 
 SceneObject::~SceneObject()
 {
     finalize();
-    // TODO Auto-generated destructor stub
 }
 
 bool SceneObject::isVisible() const
 {
     if (spriteModel == nullptr)
         throw std::runtime_error("No sprite to get visiblity");
+
     return spriteModel->isVisible();
 }
 
@@ -134,7 +119,6 @@ bool SceneObject::update(double /*timestep*/)
 
 void SceneObject::finalize()
 {
-    //parentScenePtr = nullptr;
 }
 
 const std::shared_ptr<AnimationSceneSprite> &SceneObject::getSprite() const
@@ -147,24 +131,19 @@ std::shared_ptr<AnimationSceneSprite> SceneObject::getModifiableSprite() const
     return spriteModel;
 }
 
-
 void SceneObject::setSprite(std::shared_ptr<AnimationSceneSprite> & value)
 {
     spriteModel = value;
 }
+
 int SceneObject::getX() const
 {
     return x;
 }
+
 int SceneObject::getY() const
 {
     return y;
-}
-
-SDL_Point SceneObject::getPos() const
-{
-   SDL_Point currentPos = { getX(), getY()};
-   return currentPos;
 }
 
 Position SceneObject::getPosition() const

@@ -28,21 +28,21 @@ class DestructibleObject
         Alive = true;
     }
 public:
-	const static int damageTypesCount = 4;
+    const static size_t damageTypesCount = 4;
 	DestructibleObject();
 	DestructibleObject(string aName, string aTag, int aMaxHealth, int aProtection[]);
     DestructibleObject(const DestructibleObject& right);
 
-    virtual ~DestructibleObject();
+    virtual ~DestructibleObject() = default;
     std::array<pair<int, int>, damageTypesCount> getAttackProtection() const;
 	const string& getName() const;
-	void setName(const string& name);
+    void setName(const string& aName);
 	const string& getTag() const;
-	void setTag(const string& tag);
+    void setTag(const string& aTag);
 	bool IsAlive() const;
 
     bool receiveDamage(int* damage);
-    bool receiveDamageOneType(int damage_type, int damage);
+    bool receiveDamageOneType(size_t damage_type, int damage);
     bool addHealth(int amount);
     void setProtectionModifier(int modifier);
     int getProtectionModifier() const;
@@ -56,7 +56,7 @@ public:
 protected:
     bool changeHealth(int amount);
 	void setCurrentHealth(int hp);
-	void setIsAlive(bool isAlive);
+    void setIsAlive(bool aAlive);
 	string name;
 	string tag;
 	bool Alive;

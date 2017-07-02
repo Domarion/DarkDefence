@@ -7,7 +7,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -g -O2 -Wall -Wextra -pedanti
     -Wformat-y2k \
     -Wimplicit  -Wimport  -Winit-self  -Winline \
     -Winvalid-pch   \
-    -Wunsafe-loop-optimizations -Wmissing-braces \
+    -Wmissing-braces \
     -Wmissing-field-initializers -Wmissing-format-attribute   \
     -Wmissing-include-dirs -Wmissing-noreturn \
     -Wpacked -Wparentheses  -Wpointer-arith \
