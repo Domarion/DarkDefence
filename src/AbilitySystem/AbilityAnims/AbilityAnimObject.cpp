@@ -1,5 +1,6 @@
 #include "AbilityAnimObject.hpp"
 #include "Utility/textfilefunctions.h"
+#include "GlobalScripts/ResourceManager.h"
 
 AbilityAnimObject::AbilityAnimObject(double timeToLiveSec)
     : SceneObject()
@@ -21,8 +22,7 @@ bool AbilityAnimObject::update(double timestep)
 }
 
 std::shared_ptr<AbilityAnimObject> Make_AbilityAnimObject(
-    const std::string& aNameWithParentDir,
-    Size aImageSize,
+    const std::string& aName,
     double aTimeToLiveMs,
     std::shared_ptr<RenderingSystem>& aRenderer)
 {
@@ -31,36 +31,18 @@ std::shared_ptr<AbilityAnimObject> Make_AbilityAnimObject(
     {
         return nullptr;
     }
-    auto sprite = std::make_shared<AnimationSceneSprite>(aRenderer);
+
+    auto& animPack = ResourceManager::getInstance()->getAnimationPack(aName);
+    auto sprite = std::make_shared<AnimationSceneSprite>(aRenderer, AnimationSceneSprite::Animation{animPack});
 
     if (sprite == nullptr)
     {
         return nullptr;
     }
 
-    std::string textureFullPath {"GameData/textures/"};
-    textureFullPath.append(aNameWithParentDir);
-    textureFullPath.append(".png");
-
-    sprite->loadTexture(textureFullPath);
-    sprite->setSize(aImageSize);
-
-    std::string animPath {"GameData/anims/"};
-    animPath.append(aNameWithParentDir);
-    animPath.append(".anim");
-
-    androidText::setRelativePath(animPath);
-
-    map<string, vector<SDL_Rect> > anims;
-    androidText::loadAnimFromFile(animPath, anims);
-
-    for(auto& anim : anims)
-    {
-        sprite->setAnimRects(anim.first, anim.second);
-    }
+    sprite->setTexture(ResourceManager::getInstance()->getTexture(aName));
 
     object->setSprite(sprite);
 
     return object;
-
 }

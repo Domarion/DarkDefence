@@ -1,6 +1,6 @@
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -g -O2 -Wall -Wextra -pedantic -ggdb \
     -pedantic-errors -Wextra -Waggregate-return -Wcast-align \
-    -Wcast-qual  -Wchar-subscripts  -Wcomment -Wconversion \
+    -Wcast-qual  -Wchar-subscripts  -Wcomment \
     -Wdisabled-optimization \
     -Wfloat-equal  -Wformat  -Wformat=2 \
     -Wformat-nonliteral -Wformat-security  \

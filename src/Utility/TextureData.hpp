@@ -14,6 +14,7 @@ struct Res
     std::string Caption;
     Size ImageSize;
     std::string ImagePath;
+    std::string AnimationPackPath;
 private:
     friend class cereal::access;
     template <typename Archive>
@@ -23,7 +24,9 @@ private:
            CEREAL_NVP(Caption),
            cereal::make_nvp("ImageWidth", ImageSize.width),
            cereal::make_nvp("ImageHeight", ImageSize.height),
-           CEREAL_NVP(ImagePath));
+           CEREAL_NVP(ImagePath),
+           CEREAL_NVP(AnimationPackPath));
+
     }
 };
 } 

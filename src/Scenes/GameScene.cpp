@@ -310,20 +310,10 @@ void GameScene::spawningCallBack(std::string aMobName, Position aSpawnPosition)
         return;
     }
 
-    auto someSprite = std::make_shared<AnimationSceneSprite>(getRenderer());
+    auto& animPack = ResourceManager::getInstance()->getAnimationPack(aMobName);
+    auto someSprite = std::make_shared<AnimationSceneSprite>(getRenderer(), AnimationSceneSprite::Animation{animPack});
 
-
-    someSprite->setTexture(ResourceManager::getInstance()->getTexture(aMobName));    
-    map<string, vector<SDL_Rect> > anims;
-
-    std::string filename = "GameData/anims/Monsters/" + aMobName + ".anim";
-    androidText::setRelativePath(filename);
-    androidText::loadAnimFromFile(filename, anims);
-
-    for(auto& anim : anims)
-    {
-        someSprite->setAnimRects(anim.first, anim.second);
-    }
+    someSprite->setTexture(ResourceManager::getInstance()->getTexture(aMobName));
 
     someMob->setSprite(someSprite);
     spawnObject(aSpawnPosition.x, aSpawnPosition.y, someMob);
@@ -335,7 +325,6 @@ void GameScene::initTopPanel()
     initResourceView();
 
     auto miniGroup = std::make_shared<ConcreteComposite>(renderer);
-//    miniGroup->setSize(Size(MainRect->getSize().width/4, 50));
     miniGroup->setPosition(MainRect->getNextHorizontalPosition());
 
     Font aFont = FontManager::getInstance()->getFontByKind2("TextFont");

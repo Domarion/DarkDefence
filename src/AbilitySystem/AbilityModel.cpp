@@ -32,6 +32,7 @@ bool AbilityModel::onCooldown(double timestep)
 
     currentDelta += timestep;
 
+    //TODO правильное сравнение double
     if (cooldownListener != nullptr
         && (currentDelta > spamDelta || currentCooldownTime == currentCooldownTime + timestep))
     {
@@ -131,7 +132,7 @@ void AbilityModel::setCooldownTime(double value)
     currentCooldownTime = cooldownTime;
 }
 
-string AbilityModel::getAbilityName() const
+const string& AbilityModel::getAbilityName() const
 {
     return abilityName;
 }

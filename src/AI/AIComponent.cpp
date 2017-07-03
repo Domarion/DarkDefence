@@ -11,6 +11,7 @@
 #include <algorithm>
 #include "../Utility/textfilefunctions.h"
 #include "../Mob/ArrowAnim.h"
+#include "../GlobalScripts/ResourceManager.h"
 
 AIComponent::AIComponent(std::weak_ptr<Mob> aMob)
     : MobPtr(aMob)
@@ -25,31 +26,31 @@ AIComponent::AIComponent(std::weak_ptr<Mob> aMob)
 
 void AIComponent::MakeDecision(double timestep)
 {
-	switch(aiMobState)
-	{
-        case AIMobStates::aiSEARCH:
-			Search();
-			break;
-        case AIMobStates::aiSELECT:
-			Select();
-			break;
-        case AIMobStates::aiMOVE:
-            MovetoTile(timestep);
-			break;
-        case AIMobStates::aiATTACK:
-			Attack();
-			break;
-        case AIMobStates::aiRELOAD:
-			Reload(timestep);
-			break;
+    switch(aiMobState)
+    {
+    case AIMobStates::aiSEARCH:
+        Search();
+        break;
+    case AIMobStates::aiSELECT:
+        Select();
+        break;
+    case AIMobStates::aiMOVE:
+        MovetoTile(timestep);
+        break;
+    case AIMobStates::aiATTACK:
+        Attack();
+        break;
+    case AIMobStates::aiRELOAD:
+        Reload(timestep);
+        break;
 
-		default:
-			break;
+    default:
+        break;
     }
     Cast(MobPtr.lock());
     for(auto& abilityPtr : mobAbilities)
         if (abilityPtr != nullptr)
-             abilityPtr->update(timestep);
+            abilityPtr->update(timestep);
 
 
 }
@@ -78,116 +79,110 @@ void AIComponent::Search()
 
 void AIComponent::Select()
 {
-	if (!avaliableTargets.empty())
-	{
-		int closestDistanceSqr = 0;
+    if (!avaliableTargets.empty())
+    {
+        int closestDistanceSqr = 0;
         int maxPriority = 0;
         for(auto& target: avaliableTargets)
-		{
+        {
 
             if (target == nullptr || !target->isVisible())
                 continue;
             int distanceSqr = MobPtr.lock()->computeDistanceSqr(target);
             int priority = getPriorityFromTag(target->getTag());
             if (priority > maxPriority || (priority == maxPriority && distanceSqr < closestDistanceSqr))
-			{
+            {
                 maxPriority = priority;
-				closestDistanceSqr = distanceSqr;
+                closestDistanceSqr = distanceSqr;
                 currentTarget = target;
-			}
-		}
-	}
+            }
+        }
+    }
 
-	if (currentTarget == nullptr)
-		aiMobState = AIMobStates::aiSEARCH;
-	else
-		aiMobState = AIMobStates::aiMOVE;
+    if (currentTarget == nullptr)
+        aiMobState = AIMobStates::aiSEARCH;
+    else
+        aiMobState = AIMobStates::aiMOVE;
 }
 
 
 void AIComponent::Attack()
 {
     if (currentTarget == nullptr)
-		aiMobState = AIMobStates::aiSELECT;
-	else
-	{
+        aiMobState = AIMobStates::aiSELECT;
+    else
+    {
         EReaction reaction = getReactionByTag(currentTarget->getTag());
-       if (reaction == EReaction::UseAbilities)
-       {
+        if (reaction == EReaction::UseAbilities)
+        {
 
-           Cast(currentTarget);
+            Cast(currentTarget);
 
-           avaliableTargets.remove(currentTarget);
-           currentTarget = nullptr;
-           aiMobState = AIMobStates::aiSELECT;
-       }
-       else
-       {
-           int* damage = MobPtr.lock()->getModel()->getAttackDamage();
+            avaliableTargets.remove(currentTarget);
+            currentTarget = nullptr;
+            aiMobState = AIMobStates::aiSELECT;
+        }
+        else
+        {
+            int* damage = MobPtr.lock()->getModel()->getAttackDamage();
 
-           if (damage == nullptr)
-           {
-               return;
-           }
+            if (damage == nullptr)
+            {
+                return;
+            }
 
-           bool hasDamage = false;
+            bool hasDamage = false;
 
-           for(int i = 0; i < DestructibleObject::damageTypesCount; ++i)
-           {
-               if (damage[i] > 0)
-               {
-                   hasDamage = true;
-                   break;
-               }
-           }
-
-           if (hasDamage && MobPtr.lock()->getTag() == "Tower")
-           {
-                auto sprite = std::make_shared<AnimationSceneSprite>(MobPtr.lock()->getParentScene()->getRenderer());
-                sprite->loadTexture("GameData/textures/Arrows/arrowSheet.png");
-                sprite->setSize(Size{123, 47});
-                map<string, vector<SDL_Rect> > anims;
-
-                std::string filename = "GameData/anims/Arrows/arrow.anim";
-                androidText::setRelativePath(filename);
-                androidText::loadAnimFromFile(filename, anims);
-
-                for(auto& anim : anims)
+            for(size_t i = 0; i < DestructibleObject::damageTypesCount; ++i)
+            {
+                if (damage[i] > 0)
                 {
-                sprite->setAnimRects(anim.first, anim.second);
+                    hasDamage = true;
+                    break;
                 }
+            }
+
+            if (hasDamage && MobPtr.lock()->getTag() == "Tower")
+            {
+                const std::string arrowName {"Arrow"};
+                auto& animPack = ResourceManager::getInstance()->getAnimationPack(arrowName);
+                auto sprite =
+                    std::make_shared<AnimationSceneSprite>(
+                        MobPtr.lock()->getParentScene()->getRenderer(), AnimationSceneSprite::Animation{animPack});
+
+                sprite->setTexture(ResourceManager::getInstance()->getTexture(arrowName));
 
                 auto miniObject = std::make_shared<ArrowAnim>(currentTarget->getRealPosition());
                 miniObject->setSprite(sprite);
                 MobPtr.lock()->getParentScene()->spawnObject(
                     MobPtr.lock()->getRealPosition().x, MobPtr.lock()->getRealPosition().y, miniObject);
-           }
+            }
 
-           if (currentTarget->getDestructibleObject()->receiveDamage(damage))
-           {
-               avaliableTargets.remove(currentTarget);
-               currentTarget = nullptr;
-           }
-           else
-           {
-               Cast(currentTarget);
-           }
-           delete[] damage;
+            if (currentTarget->getDestructibleObject()->receiveDamage(damage))
+            {
+                avaliableTargets.remove(currentTarget);
+                currentTarget = nullptr;
+            }
+            else
+            {
+                Cast(currentTarget);
+            }
+            delete[] damage;
 
-           MobPtr.lock()->getModel()->reload();
-           aiMobState = AIMobStates::aiRELOAD;
-       }
-	}
+            MobPtr.lock()->getModel()->reload();
+            aiMobState = AIMobStates::aiRELOAD;
+        }
+    }
 }
 
 void AIComponent::Reload(double timestep)
 {
     if (MobPtr.lock()->getModel()->getReloadTime() > 0)
         MobPtr.lock()->getModel()->setReloadTime(MobPtr.lock()->getModel()->getReloadTime() - timestep);
-	else
-	{
+    else
+    {
         aiMobState = (currentTarget == nullptr)? AIMobStates::aiSELECT : AIMobStates::aiATTACK;
-	}
+    }
 }
 
 
@@ -195,7 +190,7 @@ void AIComponent::Reload(double timestep)
 void AIComponent::MovetoTile(double timestep)
 {
 
-   const static pair<int, int> emptyCell = std::make_pair(TileMapManager::EmptyCell, TileMapManager::EmptyCell);
+    const static pair<int, int> emptyCell = std::make_pair(TileMapManager::EmptyCell, TileMapManager::EmptyCell);
     if (currentTarget == nullptr)
     {
         aiMobState = AIMobStates::aiSELECT;
@@ -315,7 +310,7 @@ void AIComponent::MoveToPos(double /*timestep*/, Position targetPoint)
 }
 
 
-bool AIComponent::distanceInRange(const pair<int, int> &firstPoint, const pair<int, int> &secondPoint)
+bool AIComponent::distanceInRange(const pair<int, int>& firstPoint, const pair<int, int>& secondPoint)
 {
     int diffX = secondPoint.first - firstPoint.first;
     int diffY = secondPoint.second - firstPoint.second;
@@ -333,7 +328,7 @@ int AIComponent::signum(int aValue) const
     return aValue > 0 ? 1 : -1;
 }
 
-int AIComponent::getPriorityFromTag(const string &aTag)
+int AIComponent::getPriorityFromTag(const string& aTag)
 {
     for(const auto& enemyInfo: enemiesInfoList)
         if (enemyInfo.getTag() == aTag)
@@ -354,7 +349,7 @@ bool AIComponent::Cast(std::shared_ptr<SceneObject> target)
 {
     for(auto& abilityPtr : mobAbilities)
         if (abilityPtr != nullptr &&
-            abilityPtr->canTrigger(target, aiMobState))
+                abilityPtr->canTrigger(target, aiMobState))
         {
             return abilityPtr->setAsReady();
         }
@@ -366,7 +361,7 @@ bool AIComponent::CanCast(std::shared_ptr<SceneObject> target)
 {
     for(auto& abilityPtr : mobAbilities)
         if (abilityPtr != nullptr &&
-            abilityPtr->canTrigger(target, aiMobState))
+                abilityPtr->canTrigger(target, aiMobState))
         {
             return true;
         }

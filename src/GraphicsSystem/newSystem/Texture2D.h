@@ -12,17 +12,17 @@ class Texture2D final
 {
 public:
     Texture2D() = default;
-    Texture2D(std::shared_ptr<RenderingSystem> &renderingContext);
+    Texture2D(std::shared_ptr<RenderingSystem>& renderingContext);
     Texture2D(const Texture2D& right);
     virtual ~Texture2D() = default;
     void setTexture(shared_ptr<SDL_Texture> texture);
     void setTextureFromText(const string& ltext, Font lfont);
 
-    const shared_ptr<SDL_Texture> &getTexture() const;
+    const shared_ptr<SDL_Texture>& getTexture() const;
     void loadTexture(const string& filename, bool aRelativePath = true);
     void drawAtPosition(Position pos) const;
-    void drawPartAtPosition(Position pos, const SDL_Rect *clip, int aFlipFlags = SDL_FLIP_NONE) const;
-    void drawScaledPartAtPosition(Position pos, Size aTextureSize, const SDL_Rect *clip) const;
+    void drawPartAtPosition(Position pos, const SDL_Rect* clip, int aFlipFlags = SDL_FLIP_NONE) const;
+    void drawScaledPartAtPosition(Position pos, Size aTextureSize, const SDL_Rect* clip) const;
     void drawScaledPartAtPositionFlipping(Position pos, Size aTextureSize, const SDL_Rect* clip, int aFlipFlags) const;
 
     Size getSize() const;

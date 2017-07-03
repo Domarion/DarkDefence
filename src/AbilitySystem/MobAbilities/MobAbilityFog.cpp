@@ -26,7 +26,7 @@ bool MobAbilityFog::onReady(double)
                         effectReceiver->applyEffect(fogEffect);
 
                         auto toSpawn = Make_AbilityAnimObject(
-                            "MobAbilities/MobAbilityFog", Size(100, 100), workTime, parentScenePtr->getRenderer());
+                            "MobAbilityFog", workTime, parentScenePtr->getRenderer());
 
                         if (toSpawn == nullptr)
                             return false;

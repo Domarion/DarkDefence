@@ -21,7 +21,7 @@ ResourceManager* ResourceManager::getInstance()
 }
 
 void ResourceManager::loadConfigFromFile(
-        const std::string& aFilename, std::shared_ptr<RenderingSystem> aRenderingSystem)
+    const std::string& aFilename, std::shared_ptr<RenderingSystem> aRenderingSystem)
 {
     if (!mNameToTextureMap.empty())
     {
@@ -31,22 +31,27 @@ void ResourceManager::loadConfigFromFile(
     string textString;
     androidText::loadTextFileToString(aFilename, textString);
 
-
     if (!textString.empty())
     {
         std::vector<UtilityStruct::Res> configs;
         std::stringstream str(textString);
 
-
         cereal::XMLInputArchive xmlinp(str);
 
         xmlinp(configs);
+
         for (const auto& config : configs)
         {
             Texture2D texture(aRenderingSystem);
             texture.loadTexture(config.ImagePath);
             texture.setSize(config.ImageSize);
             mNameToTextureMap[config.Caption] = texture;
+
+            if (!config.AnimationPackPath.empty())
+            {
+                auto animPack = loadAnimationPack(config.AnimationPackPath);
+                mAnimationCollection.emplace(config.Caption, std::move(animPack));
+            }
         }
     }
 }
@@ -56,7 +61,22 @@ Texture2D ResourceManager::getTexture(const std::string& aObjectName) const
     return mNameToTextureMap.at(aObjectName);
 }
 
-bool ResourceManager::haveTexture(const std::string& aObjectName) const
+const ResourceManager::AnimationPack& ResourceManager::getAnimationPack(const std::string& aAnimationPackName) const
+{
+    return mAnimationCollection.at(aAnimationPackName);
+}
+
+bool ResourceManager::hasAnimationPack(const std::string& aAnimationPackName) const
+{
+    if (mAnimationCollection.empty())
+    {
+        return false;
+    }
+
+    return mAnimationCollection.find(aAnimationPackName) != mAnimationCollection.cend();
+}
+
+bool ResourceManager::hasTexture(const std::string& aObjectName) const
 {
     if (mNameToTextureMap.empty())
     {
@@ -64,4 +84,14 @@ bool ResourceManager::haveTexture(const std::string& aObjectName) const
     }
 
     return mNameToTextureMap.find(aObjectName) != mNameToTextureMap.cend();
+}
+
+ResourceManager::AnimationPack ResourceManager::loadAnimationPack(const std::string& aAnimationPackPath)
+{
+    ResourceManager::AnimationPack animPack;
+    std::string filename1 {aAnimationPackPath};
+    androidText::setRelativePath(filename1);
+    androidText::loadAnimFromFile(filename1, animPack);
+
+    return animPack;
 }

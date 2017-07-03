@@ -14,7 +14,7 @@ bool MobAbilitySprint::onReady(double /*timestep*/)
             if (parentScenePtr != nullptr)
             {
                 toSpawn = Make_AbilityAnimObject(
-                    "MobAbilities/MobAbilitySprint", Size(50, 50), 1000, parentScenePtr->getRenderer());
+                    "MobAbilitySprint", 1000, parentScenePtr->getRenderer());
 
                 if (toSpawn == nullptr)
                     return false;

@@ -8,13 +8,6 @@
 #include "SceneObject.h"
 #include <cassert>
 
-SceneObject::SceneObject()
-    : spriteModel(nullptr)
-    , x(0)
-    , y(0)
-{
-}
-
 SceneObject::~SceneObject()
 {
     finalize();
@@ -98,11 +91,11 @@ void SceneObject::init(int x, int y)
 
 void SceneObject::setPos(int x, int y)
 {
-    this->x = x;
-    this->y = y;
+    mX = x;
+    mY = y;
     if (spriteModel != nullptr)
     {
-        spriteModel->setPosition(Position(x, y));
+        spriteModel->setPosition(Position(mX, mY));
     }
 
 }
@@ -138,12 +131,12 @@ void SceneObject::setSprite(std::shared_ptr<AnimationSceneSprite> & value)
 
 int SceneObject::getX() const
 {
-    return x;
+    return mX;
 }
 
 int SceneObject::getY() const
 {
-    return y;
+    return mY;
 }
 
 Position SceneObject::getPosition() const
@@ -164,8 +157,9 @@ void SceneObject::setPos(SDL_Point aPos)
 
 void SceneObject::setPosition(Position aPos)
 {
-    this->x = aPos.x;
-    this->y = aPos.y;
+    mX = aPos.x;
+    mY = aPos.y;
+
     if (spriteModel != nullptr)
     {
         spriteModel->setPosition(aPos);

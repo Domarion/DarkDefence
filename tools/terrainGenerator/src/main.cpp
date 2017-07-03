@@ -56,9 +56,9 @@ void saveTerrain(std::string filename, std::string outputFilePath)
 }
 
 
-int main(int argc, char** argv)
+int main(int argc, const char** argv)
 {
-    if (argc == 1 && argv[1] == "help")
+    if (argc == 1 && strcmp(argv[1], "help") == 0)
     {
         std::cout << "HELP: First argument is full path to config file second - full path to output png image" << std::endl;
         return 0;

@@ -7,91 +7,141 @@
 			<ImageWidth>50</ImageWidth>
 			<ImageHeight>80</ImageHeight>
 			<ImagePath>GameData/textures/Towers/WatcherTower.png</ImagePath>
+            <AnimationPackPath></AnimationPackPath>
 		</value0>
 		<value1>
 			<Caption>BallistaTower</Caption>
 			<ImageWidth>50</ImageWidth>
 			<ImageHeight>80</ImageHeight>
 			<ImagePath>GameData/textures/Towers/BallistaTower.png</ImagePath>
+            <AnimationPackPath></AnimationPackPath>
 		</value1>
 		<value2>
 			<Caption>CatapultTower</Caption>
 			<ImageWidth>50</ImageWidth>
 			<ImageHeight>80</ImageHeight>
 			<ImagePath>GameData/textures/Towers/CatapultTower.png</ImagePath>
+            <AnimationPackPath></AnimationPackPath>
 		</value2>
 		<value3>
 			<Caption>ProductivityTower</Caption>
 			<ImageWidth>50</ImageWidth>
 			<ImageHeight>80</ImageHeight>
 			<ImagePath>GameData/textures/Towers/ProductivityTower.png</ImagePath>
+            <AnimationPackPath></AnimationPackPath>
 		</value3>
 		<value4>
 			<Caption>MageTower</Caption>
 			<ImageWidth>50</ImageWidth>
 			<ImageHeight>80</ImageHeight>
 			<ImagePath>GameData/textures/Towers/MageTower.png</ImagePath>
+            <AnimationPackPath></AnimationPackPath>
 		</value4>
 		<value5>
 			<Caption>WindTower</Caption>
 			<ImageWidth>50</ImageWidth>
 			<ImageHeight>80</ImageHeight>
 			<ImagePath>GameData/textures/Towers/WindTower.png</ImagePath>
+            <AnimationPackPath></AnimationPackPath>
 		</value5>
 		<value6>
 			<Caption>EarthTower</Caption>
 			<ImageWidth>50</ImageWidth>
 			<ImageHeight>80</ImageHeight>
 			<ImagePath>GameData/textures/Towers/EarthTower.png</ImagePath>
+            <AnimationPackPath></AnimationPackPath>
 		</value6>
 		<value7>
 			<Caption>CloudTower</Caption>
 			<ImageWidth>50</ImageWidth>
 			<ImageHeight>80</ImageHeight>
 			<ImagePath>GameData/textures/Towers/CloudTower.png</ImagePath>
+            <AnimationPackPath></AnimationPackPath>
 		</value7>
         <value8>
 			<Caption>Necromant</Caption>
 			<ImageWidth>50</ImageWidth>
 			<ImageHeight>80</ImageHeight>
 			<ImagePath>GameData/textures/Monsters/NecromantSheet.png</ImagePath>
+            <AnimationPackPath>GameData/anims/Monsters/Necromant.anim</AnimationPackPath>
 		</value8>
 		<value9>
 			<Caption>Castle</Caption>
 			<ImageWidth>120</ImageWidth>
 			<ImageHeight>120</ImageHeight>
 			<ImagePath>GameData/textures/Castle2.png</ImagePath>
+            <AnimationPackPath></AnimationPackPath>
 		</value9>
         <value10>
 			<Caption>Diversant</Caption>
 			<ImageWidth>45</ImageWidth>
 			<ImageHeight>70</ImageHeight>
 			<ImagePath>GameData/textures/Monsters/DiversantSheet.png</ImagePath>
+            <AnimationPackPath>GameData/anims/Monsters/Diversant.anim</AnimationPackPath>
 		</value10>
         <value11>
 			<Caption>Spider</Caption>
 			<ImageWidth>90</ImageWidth>
 			<ImageHeight>80</ImageHeight>
 			<ImagePath>GameData/textures/Monsters/SpiderSheet.png</ImagePath>
+            <AnimationPackPath>GameData/anims/Monsters/Spider.anim</AnimationPackPath>
 		</value11>
         <value12>
 			<Caption>WindMill</Caption>
 			<ImageWidth>150</ImageWidth>
 			<ImageHeight>100</ImageHeight>
 			<ImagePath>GameData/textures/Buildings/WindMill.png</ImagePath>
+            <AnimationPackPath></AnimationPackPath>
 		</value12>
         <value13>
 			<Caption>SawMill</Caption>
 			<ImageWidth>150</ImageWidth>
 			<ImageHeight>100</ImageHeight>
 			<ImagePath>GameData/textures/Buildings/SawMill.png</ImagePath>
+            <AnimationPackPath></AnimationPackPath>
 		</value13>
         <value14>
 			<Caption>StoneMine</Caption>
 			<ImageWidth>150</ImageWidth>
 			<ImageHeight>100</ImageHeight>
 			<ImagePath>GameData/textures/Buildings/StoneMine.png</ImagePath>
+            <AnimationPackPath></AnimationPackPath>
 		</value14>
+        <value15>
+			<Caption>Shrink</Caption>
+			<ImageWidth>300</ImageWidth>
+			<ImageHeight>300</ImageHeight>
+			<ImagePath>GameData/textures/SpellAnims/AbilityShrink.png</ImagePath>
+            <AnimationPackPath>GameData/anims/Spells/AbilityShrink.anim</AnimationPackPath>
+		</value15>
+        <value16>
+			<Caption>Arrow</Caption>
+			<ImageWidth>123</ImageWidth>
+			<ImageHeight>47</ImageHeight>
+			<ImagePath>GameData/textures/Arrows/arrowSheet.png</ImagePath>
+            <AnimationPackPath>GameData/anims/Arrows/arrow.anim</AnimationPackPath>
+		</value16>
+        <value17>
+			<Caption>MobAbilityArson</Caption>
+			<ImageWidth>80</ImageWidth>
+			<ImageHeight>80</ImageHeight>
+			<ImagePath>GameData/textures/MobAbilities/MobAbilityArson.png</ImagePath>
+            <AnimationPackPath>GameData/anims/MobAbilities/MobAbilityArson.anim</AnimationPackPath>
+		</value17>
+        <value18>
+			<Caption>MobAbilityFog</Caption>
+			<ImageWidth>80</ImageWidth>
+			<ImageHeight>80</ImageHeight>
+			<ImagePath>GameData/textures/MobAbilities/MobAbilityFog.png</ImagePath>
+            <AnimationPackPath>GameData/anims/MobAbilities/MobAbilityFog.anim</AnimationPackPath>
+		</value18>
+        <value19>
+			<Caption>MobAbilitySprint</Caption>
+			<ImageWidth>80</ImageWidth>
+			<ImageHeight>80</ImageHeight>
+			<ImagePath>GameData/textures/MobAbilities/MobAbilitySprint.png</ImagePath>
+            <AnimationPackPath>GameData/anims/MobAbilities/MobAbilitySprint.anim</AnimationPackPath>
+		</value19>
 	</TexturePaths>
 </cereal>
 

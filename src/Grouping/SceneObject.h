@@ -18,7 +18,8 @@ class Scene;
 class SceneObject
 {
 public:
-    SceneObject();
+    SceneObject() = default;
+    virtual ~SceneObject();
 
     virtual void init(int x, int y);
     virtual void setPos(int x, int y);
@@ -47,7 +48,6 @@ public:
 
     int computeDistanceSqr(int x0, int y0, int x1, int y1);
     int computeDistanceSqr(std::shared_ptr<SceneObject> second);
-    virtual ~SceneObject();
     bool isVisible() const;
     void setVisible(bool aVisiblity);
 
@@ -57,7 +57,7 @@ protected:
 
 
     std::shared_ptr<AnimationSceneSprite> spriteModel;
-    int x, y;
+    int mX{0}, mY{0};
     string name;
     string tag;
     std::weak_ptr<Scene> parentScenePtr;

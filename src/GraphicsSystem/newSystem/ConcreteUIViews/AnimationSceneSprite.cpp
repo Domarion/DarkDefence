@@ -1,15 +1,20 @@
 #include "AnimationSceneSprite.h"
 
-AnimationSceneSprite::AnimationSceneSprite(std::shared_ptr<RenderingSystem> &aRenderingContext)
-    :Leaf(aRenderingContext)
+AnimationSceneSprite::AnimationSceneSprite(std::shared_ptr<RenderingSystem>& aRenderingContext, Animation&& aAnimation)
+    : Leaf(aRenderingContext)
     , frame(aRenderingContext)
-    , frameNumber(0)
-    , oldFrameTime(0)
-    , msCount(64)//Откуда 64?
+    , visible(true)
+    , flippingFlags(SDL_FLIP_NONE)
+    , mAnimation(std::move(aAnimation))
+{
+}
+
+AnimationSceneSprite::AnimationSceneSprite(std::shared_ptr<RenderingSystem>& aRenderingContext)
+    : Leaf(aRenderingContext)
+    , frame(aRenderingContext)
     , visible(true)
     , flippingFlags(SDL_FLIP_NONE)
 {
-
 }
 
 void AnimationSceneSprite::draw() const
@@ -20,18 +25,21 @@ void AnimationSceneSprite::draw() const
 void AnimationSceneSprite::drawAtPosition(Position pos) const
 {
     if (!visible)
+    {
         return;
+    }
 
     Position image_position = getRealPosFromLogicPos(pos);
 
-    if (animationStates.size() > 0)
+    if (mAnimation.hasAnimations())
     {
-//        frame.drawPartAtPosition(image_position, &animationStates.at(currentState).at(frameNumber), flippingFlags);
         frame.drawScaledPartAtPositionFlipping(
-            image_position, frame.getSize(), &animationStates.at(currentState).at(frameNumber), flippingFlags);
+            image_position, frame.getSize(), mAnimation.getCurrentRect(), flippingFlags);
     }
     else
+    {
         frame.drawAtPosition(image_position);
+    }
 }
 
 
@@ -47,40 +55,22 @@ void AnimationSceneSprite::setSize(Size size)
 
 void AnimationSceneSprite::calculateFrameNumber()
 {
-    if (oldFrameTime + msCount >= SDL_GetTicks() || animationStates.empty())
-        return;
-
-    oldFrameTime = SDL_GetTicks();
-
-    ++frameNumber;
-
-//    std::cout << "currentState = " << currentState << std::endl;
-    if (frameNumber >= animationStates.at(currentState).size())
-    {
-        frameNumber = 0;
-    }
+    mAnimation.calculateFrameNumber();
 }
 
-std::string AnimationSceneSprite::getCurrentState() const
+const std::string& AnimationSceneSprite::getCurrentState() const
 {
-    return currentState;
+    return mAnimation.getCurrentState();
 }
 
 void AnimationSceneSprite::setCurrentState(const std::string& aStateName)
 {
-    currentState = aStateName;
-}
-
-void AnimationSceneSprite::setAnimRects(std::string state, vector<SDL_Rect> rects)
-{
-    animationStates[state] = rects;
-    setCurrentState(state);
+    mAnimation.setCurrentState(aStateName);
 }
 
 bool AnimationSceneSprite::isVisible() const
 {
     return visible;
-
 }
 
 void AnimationSceneSprite::setVisible(bool aVisible)
@@ -88,9 +78,9 @@ void AnimationSceneSprite::setVisible(bool aVisible)
     visible = aVisible;
 }
 
-void AnimationSceneSprite::loadTexture(const std::string &path)
+void AnimationSceneSprite::loadTexture(const std::string& aPath)
 {
-    frame.loadTexture(path);
+    frame.loadTexture(aPath);
 }
 
 void AnimationSceneSprite::setTexture(const Texture2D& aTexture)
@@ -103,13 +93,16 @@ void AnimationSceneSprite::setSizeFromTexture()
     frame.scaleToTexture();
 }
 
-void AnimationSceneSprite::setAnchorPointPlace(Enums::AnchorCoordTypes aXCoordAnchorType, Enums::AnchorCoordTypes aYCoordAnchorType)
+void AnimationSceneSprite::setAnchorPointPlace(
+    Enums::AnchorCoordTypes aXCoordAnchorType,
+    Enums::AnchorCoordTypes aYCoordAnchorType)
 {
     xCoordAnchorType = aXCoordAnchorType;
     yCoordAnchorType = aYCoordAnchorType;
 }
 
-std::pair<Enums::AnchorCoordTypes, Enums::AnchorCoordTypes> AnimationSceneSprite::getAnchorPoint() const
+std::pair<Enums::AnchorCoordTypes, Enums::AnchorCoordTypes>
+AnimationSceneSprite::getAnchorPoint() const
 {
     return std::make_pair(xCoordAnchorType, yCoordAnchorType);
 }
@@ -124,10 +117,15 @@ void AnimationSceneSprite::setFlipping(int aFlipFlags)
     flippingFlags = aFlipFlags;
 }
 
-Position AnimationSceneSprite::getRealPosFromLogicPos(Position aLogicPos) const
+Position
+AnimationSceneSprite::getRealPosFromLogicPos(Position aLogicPos) const
 {
-    int x = aLogicPos.x - static_cast<int>(Enums::toIntegralType(xCoordAnchorType) / 2.0 * getSize().width);
-    int y = aLogicPos.y - static_cast<int>(Enums::toIntegralType(yCoordAnchorType) / 2.0 * getSize().height);
+    int x =
+        aLogicPos.x - static_cast<int>(Enums::toIntegralType(xCoordAnchorType) /
+                                       2.0 * getSize().width);
+    int y =
+        aLogicPos.y - static_cast<int>(Enums::toIntegralType(yCoordAnchorType) /
+                                       2.0 * getSize().height);
 
     return Position{x, y};
 }
