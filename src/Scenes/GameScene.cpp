@@ -192,31 +192,29 @@ void GameScene::loadData()
 void GameScene::initResourceView()
 {
     auto resourcePanel = std::make_shared<ConcreteComposite>(renderer);
-    //resourcePanel->setSize(Size(MainRect->getSize().width/3, 50));
     resourcePanel->setPosition(MainRect->getNextHorizontalPosition());
 
+    // TODO нужно как-то убрать использование размера из кода
     const Size iconSize{48, 48};
 
     int resourcePanelWidth = iconSize.width * GlobalConstants::resourceTypeCount;
 
     Font labelFont = FontManager::getInstance()->getFontByKind2("TextFont");
     resourceLabels.resize(GlobalConstants::resourceTypeCount);
+
     for(size_t i = 0; i != GlobalConstants::resourceTypeCount; ++i)
     {
         string resourceName = GameModel::getInstance()->getResourcesModel()->getResourceNameFromIndex(i);
-        string iconPath = "GameData/textures/Resources/"
-                + resourceName + ".png";
 
         auto resourceIcon = std::make_shared<UIImage>(renderer);
-        resourceIcon->loadTexture(iconPath);
-        resourceIcon->setSize(Size(48, 48));
+        resourceIcon->setTexture(ResourceManager::getInstance()->getTexture(resourceName));
+
         resourceIcon->setPosition(resourcePanel->getNextHorizontalPosition());
         resourcePanel->addChild(resourceIcon);
 
         string labelText = GameModel::getInstance()->getResourcesModel()->printResourceFromIndex(i);
         resourceLabels[i] = std::make_shared<UILabel>(labelText, labelFont, renderer);
         resourceLabels[i]->setPosition(resourcePanel->getNextHorizontalPosition());
-
 
         resourcePanel->addChild(resourceLabels[i]);
         resourcePanelWidth += resourceLabels[i]->getSize().width;
@@ -225,8 +223,6 @@ void GameScene::initResourceView()
     MainRect->addChild(resourcePanel);
 
     resourcePanel->setSize(Size(resourcePanelWidth + 5, iconSize.height));
-
-
 }
 
 void GameScene::initProgressBars()
@@ -489,7 +485,7 @@ void GameScene::initUILayer()
 
 void GameScene::placeSceneObjects()//TODO: Найти лучшее решение для считывания и хранения позиций объектов
 {
-
+    //TODO Продумать предзагрузку динамически меняющихся объектов
     int curMissionIndex =  GameModel::getInstance()->getCurrentMissionIndex();
 
     std::string terrainPath = "GameData/textures/Missions/" + std::to_string(curMissionIndex) + ".png";
@@ -537,14 +533,14 @@ void GameScene::placeSceneObjects()//TODO: Найти лучшее решени�
                     auto resPlace = std::make_shared<ResourcePlace>(700, Enums::ResourceTypes::WHEAT);
                     auto resSprite = std::make_shared<AnimationSceneSprite>(renderer);
 
-                    resSprite->setSize(item.ImageSize);
-
                     resSprite->setAnchorPointPlace(item.xCoordAnchorType, item.yCoordAnchorType);
 
-                    string resourceName =
+                    string resourcePlaceName =
                         GameModel::getInstance()->getResourcesModel()->getResourceNameFromType(resPlace->getResourceType());
-                    string texturePath = "GameData/textures/Resources/" + resourceName + "Resource.png";
-                    resSprite->loadTexture(texturePath);
+                    resourcePlaceName.append("Resource");
+
+                    resSprite->setTexture(ResourceManager::getInstance()->getTexture(resourcePlaceName));
+                    resSprite->setSize(item.ImageSize);
                     resPlace->setSprite(resSprite);
                     resPlace->setName("ResourcePlace");
                     resPlace->setTag("ResourcePlace");
@@ -555,11 +551,10 @@ void GameScene::placeSceneObjects()//TODO: Найти лучшее решени�
                     {
                         auto spawnerSprite = std::make_shared<AnimationSceneSprite>(renderer);
 
+                        spawnerSprite->setTexture(ResourceManager::getInstance()->getTexture("Spawner"));
                         spawnerSprite->setSize(item.ImageSize);
                         spawnerSprite->setAnchorPointPlace(item.xCoordAnchorType, item.yCoordAnchorType);
 
-                        string spawnertexturePath = "GameData/textures/spawner.png";
-                        spawnerSprite->loadTexture(spawnertexturePath);
                         monsterSpawner = std::make_shared<Spawner>();
                         monsterSpawner->setSprite(spawnerSprite);
                         monsterSpawner->setName("Spawner");
@@ -573,7 +568,6 @@ void GameScene::placeSceneObjects()//TODO: Найти лучшее решени�
                         monsterSpawner->connectSpawnCallBack(
                             std::bind(
                                 &GameScene::spawningCallBack, this, std::placeholders::_1, std::placeholders::_2));
-
                     }
     }
 }

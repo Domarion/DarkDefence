@@ -4,6 +4,7 @@
 #include "../AbilitySystem/AbilityAnims/AbilityAnimObject.hpp"
 #include "../Input/InputHandler.h"
 #include <cassert>
+#include "../GlobalScripts/ResourceManager.h"
 
 template<typename SpawnedObject>
 class AbilityObjectSpawn: public AbilityModel, public InputHandler
@@ -56,12 +57,12 @@ bool AbilityObjectSpawn<SpawnedObject>::onWorking(double /*timestep*/)
         const int timeToLive = 200;
         someSpawnObject = std::make_shared<SpawnedObject>(timeToLive, damage);
 
-        auto spriteBlink = std::make_shared<AnimationSceneSprite>(parentScenePtr->getRenderer());
-        spriteBlink->setSize(Size(200, 200));
-        spriteBlink->loadTexture("GameData/textures/EmptySlot.png");
-        spriteBlink->setAnchorPointPlace(Enums::AnchorCoordTypes::Middle, Enums::AnchorCoordTypes::Middle);
+        std::string name {"AbilityObjectSpawn"};
+        auto sprite = std::make_shared<AnimationSceneSprite>(parentScenePtr->getRenderer());
+        sprite->setTexture(ResourceManager::getInstance()->getTexture(name));
+        sprite->setAnchorPointPlace(Enums::AnchorCoordTypes::Middle, Enums::AnchorCoordTypes::Middle);
 
-        someSpawnObject->setSprite(spriteBlink);
+        someSpawnObject->setSprite(sprite);
 
         parentScenePtr->spawnObject(coordX, coordY, someSpawnObject);
 

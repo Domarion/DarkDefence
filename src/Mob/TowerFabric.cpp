@@ -15,8 +15,6 @@ std::shared_ptr<Tower> TowerFabric::produceTower(
 
 
     someSprite->setTexture(ResourceManager::getInstance()->getTexture(towerName));
-//    someSprite->setSize(Size(50, 80));
-//    someSprite->loadTexture("GameData/textures/Towers/" + towerName + ".png");
 
     someMob->setSprite(someSprite);
 

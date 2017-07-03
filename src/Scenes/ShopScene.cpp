@@ -10,6 +10,7 @@
 #include "../GlobalScripts/AccountModel.h"
 #include "../GraphicsSystem/newSystem/UIElement/UIImage.h"
 #include "../GraphicsSystem/newSystem/UIElement/UILabel.h"
+#include "../GlobalScripts/ResourceManager.h"
 
 ShopScene::ShopScene(std::shared_ptr<RenderingSystem> &aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher)
     : Scene(aRenderer, aInputDispatcher)
@@ -62,7 +63,7 @@ void ShopScene::initControlButton()
 void ShopScene::initBackGroundUI()
 {
     auto backGroundImage = std::make_shared<UIImage>(renderer);
-    backGroundImage->loadTexture("GameData/textures/shopBackground.jpg");
+    backGroundImage->setTexture(ResourceManager::getInstance()->getTexture("ShopSceneBackground"));
     backGroundImage->setSize(Size(MainRect->getSize().width*3/5, MainRect->getSize().height - 50));
     MainRect->addChild(backGroundImage);
 

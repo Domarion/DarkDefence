@@ -3,6 +3,7 @@
 #include "../UIElement/UIImage.h"
 #include "../../../MissionSystem/ResourceGoal.h"
 #include "GlobalScripts/GameModel.h"
+#include "GlobalScripts/ResourceManager.h"
 
 UIMissionView::UIMissionView(std::shared_ptr<RenderingSystem>& aRenderingContext)
     : ConcreteComposite(aRenderingContext)
@@ -30,8 +31,6 @@ void UIMissionView::initGoals(Mission &aMission, Font &aFont)
     missionGoalsGroup->setSize(Size(this->getSize().width, this->getSize().height/4));
     missionGoalsGroup->setPosition(getNextVerticalPosition());
 
-    const Size iconSize{48, 48};
-
     list<std::shared_ptr<BasicGoal>> goals = aMission.getGoals();
     for(auto& goal : goals)
     {
@@ -46,14 +45,13 @@ void UIMissionView::initGoals(Mission &aMission, Font &aFont)
                 missionLabelWithIcon->setPosition(missionGoalsGroup->getNextVerticalPosition());
 
                 auto missionGoalIcon = std::make_shared<UIImage>(renderer);
-                missionGoalIcon->setSize(iconSize);
 
                 string resourceName =
                     GameModel::getInstance()->getResourcesModel()->getResourceNameFromType(resGoal->getResourceType());
 
-                string iconFilePath = "GameData/textures/Resources/" + resourceName + ".png";
+                missionGoalIcon->setTexture(ResourceManager::getInstance()->getTexture(resourceName));
 
-                missionGoalIcon->loadTexture(iconFilePath);
+                Size textureSize = missionGoalIcon->getSize();
                 missionLabelWithIcon->addChild(missionGoalIcon);
 
                 string needed = std::to_string(goal->getNeeded());
@@ -64,8 +62,7 @@ void UIMissionView::initGoals(Mission &aMission, Font &aFont)
 
                 const auto& missionGoalLabelSize = missionGoalLabel->getSize();
 
-
-                missionLabelWithIcon->setSize(Size(iconSize.width + missionGoalLabelSize.width, iconSize.height));
+                missionLabelWithIcon->setSize(Size(textureSize.width + missionGoalLabelSize.width, textureSize.height));
 
                 missionGoalsGroup->addChild(missionLabelWithIcon);
             }
@@ -83,9 +80,7 @@ void UIMissionView::initRewards(Mission &aMission, Font &aFont)
 
     missionRewardsGroup->setPosition(getNextVerticalPosition());
     missionRewardsGroup->setSize(Size(this->getSize().width, this->getSize().height/4));
-
     const Size iconSize{48, 48};
-
     list<string> rewardStrings = aMission.getReward().getFullDescription();
 
     for(auto& descString : rewardStrings)
@@ -96,6 +91,7 @@ void UIMissionView::initRewards(Mission &aMission, Font &aFont)
         missionLabelWithIcon->setPosition(pos);
         auto missionRewardIcon = std::make_shared<UIImage>(renderer);
         missionRewardIcon->setSize(iconSize);
+
         string iconFilePath = "GameData/textures/items/" + descString + ".png";
         missionRewardIcon->loadTexture(iconFilePath);
 
@@ -122,12 +118,11 @@ void UIMissionView::initRewards(Mission &aMission, Font &aFont)
     Position goldIconPos = missionRewardsGroup->getNextVerticalPosition();
     auto missionRewardGoldIcon = std::make_shared<UIImage>(renderer);
 
-    missionRewardGoldIcon->setSize(Size(48, 48));
     missionRewardGoldIcon->setScalingFactor(getScalingFactor());
 
     missionRewardGoldIcon->setPosition(goldIconPos);
-    string goldIconFilePath = "GameData/textures/Resources/Gold.png";
-    missionRewardGoldIcon->loadTexture(goldIconFilePath);
+    std::string goldName{"Gold"};
+    missionRewardGoldIcon->setTexture(ResourceManager::getInstance()->getTexture(goldName));
 
     missionRewardsGroup->addChild(missionRewardGoldIcon);
 

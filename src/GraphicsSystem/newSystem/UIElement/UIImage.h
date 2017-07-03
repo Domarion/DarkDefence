@@ -10,6 +10,7 @@ public:
     UIImage() = delete;
     virtual ~UIImage() = default;
     void loadTexture(const string& filename);
+    void setTexture(const Texture2D& aTexture);
 
 
     // IComposite interface

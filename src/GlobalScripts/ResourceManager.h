@@ -12,8 +12,9 @@ public:
 
     static ResourceManager* getInstance();
     void loadConfigFromFile(
-            const std::string& aFilename,
-            std::shared_ptr<RenderingSystem> aRenderingSystem);
+        const std::string& aFilename,
+        std::shared_ptr<RenderingSystem> aRenderingSystem);
+
     Texture2D getTexture(const std::string& aObjectName) const;
     const AnimationPack& getAnimationPack(const std::string& aAnimationPackName) const;
     bool hasAnimationPack(const std::string& aAnimationPackName) const;

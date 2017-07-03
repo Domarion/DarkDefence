@@ -34,15 +34,12 @@ void MainScene::init(std::shared_ptr<SceneManager> sceneManagerPtr)
     initUIMenuItems();
     Scene::addToUIList(MainRect);
 
-    ResourceManager::getInstance()->loadConfigFromFile("GameData/TexturePaths.xml", getRenderer());
 }
 
 void MainScene::ConnectMethod(std::function<void (std::string)> handler)
 {
     method = handler;
 }
-
-
 
 void MainScene::loadMenuItems(string filename)
 {
@@ -106,7 +103,8 @@ void MainScene::initBackground()
       renderer->setRendererDrawColor(255, 255, 255, 255);
 
       auto backGround = std::make_shared<UIImage>(renderer);
-      backGround->loadTexture("GameData/textures/castle.jpg");
+      std::string backGroundName {"MainSceneBackground"};
+      backGround->setTexture(ResourceManager::getInstance()->getTexture(backGroundName));
       backGround->setSize(MainRect->getSize());
       MainRect->addChild(backGround);
 }

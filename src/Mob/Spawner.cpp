@@ -33,30 +33,6 @@ void Spawner::doSpawn()
         currentTime += 16; // величина шага времени фиксированная
         return;
     }
-//        string monsterName = monsterInfo.first;
-//        int monsterCount = monsterInfo.second;
-
-//        for(int index = 0; index < monsterCount; ++index)
-//        {
-//            auto someMob = std::make_shared<Mob>(GameModel::getInstance()->getMonsterByName(monsterName), aTileMap);
-
-
-//            if (someMob->getTileMapManager() == nullptr)
-//            {
-//                std::cout << "someMob->getTileMapManager = nullptr" << std::endl;
-//            }
-//            auto someSprite = std::make_shared<AnimationSceneSprite>(aRenderingContext);
-
-//            std::string temp = "Spider2";
-
-//            someSprite->setSize(Size(150, 125));
-//            someSprite->loadTexture("GameData/textures/Monsters/" + temp + ".png");
-
-//            map<string, vector<SDL_Rect> > anims;
-
-//            std::string filename = "GameData/anims/Monsters/" + temp + ".anim";
-//            androidText::setRelativePath(filename);
-//            androidText::loadAnimFromFile(filename, anims);
 
     currentTime = 0;
 
@@ -65,7 +41,6 @@ void Spawner::doSpawn()
     if (nextMobName == "none")
     {
         currentTime = timePeriod;
-//        std::cout << "NO NAME" << std::endl;
         return;
     }
 

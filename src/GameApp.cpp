@@ -22,27 +22,28 @@ using std::endl;
 #include "Scenes/ShopScene.h"
 #include "Scenes/ScoreScene.h"
 #include <string>
+#include "GlobalScripts/ResourceManager.h"
 
 GameApp::GameApp(std::unique_ptr<SceneManager> aSceneManager, std::unique_ptr<RenderingSystem>&& aRenderer)
-: mRenderer(std::move(aRenderer))
-, mSceneManager(std::move(aSceneManager))
-, mInputDispatcher(std::make_shared<InputDispatcher>(mRenderer->getScreenSize()))
-, mIsPaused(false)
-, mNeedQuit(false)
+    : mRenderer(std::move(aRenderer))
+    , mSceneManager(std::move(aSceneManager))
+    , mInputDispatcher(std::make_shared<InputDispatcher>(mRenderer->getScreenSize()))
+    , mIsPaused(false)
+    , mNeedQuit(false)
 {
-    FontManager::getInstance()->loadFontList("GameData/fontconfig.txt", mRenderer);
-
 }
 
 void GameApp::preloadData()
 {
+    FontManager::getInstance()->loadFontList("GameData/fontconfig.txt", mRenderer);
+    ResourceManager::getInstance()->loadConfigFromFile("GameData/TexturePaths.xml", mRenderer);
+
     // Нужны только названия ресурсов, а не полная ресурсная модель, которая отличается на разных миссиях
     GameModel::getInstance()->getResourcesModel()->loadFromFile("GameData/resources.txt");
 
     GameModel::getInstance()->loadShopItems("GameData/Items.xml");
 
     GameModel::getInstance()->loadGameData("GameData/save.bin");
-
 }
 
 void GameApp::addScenes()
@@ -72,7 +73,6 @@ void GameApp::addScenes()
 
 int GameApp::gameLoop()
 {
-
     int lasttime = SDL_GetTicks();
     const int MS_PER_UPDATE = 16;//1000ms/60FPS
     int lag = 0;

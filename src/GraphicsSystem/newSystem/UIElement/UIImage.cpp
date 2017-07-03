@@ -12,6 +12,11 @@ void UIImage::loadTexture(const std::string &filename)
     mTexture.loadTexture(filename);
 }
 
+void UIImage::setTexture(const Texture2D& aTexture)
+{
+    mTexture = aTexture;
+}
+
 void UIImage::draw() const
 {
     mTexture.drawAtPosition(this->getPosition());

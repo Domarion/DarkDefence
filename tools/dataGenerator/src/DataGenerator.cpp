@@ -110,10 +110,6 @@ void DataGenerator::saveTowerTree()
         {
             cereal::XMLOutputArchive xmloa(outputXMLFile);
             xmloa << cereal::make_nvp("TowerTree", rootNode);
-//            boost::archive::xml_oarchive xmloa (outputXMLFile);
-//            xmloa.register_type<MobModel>();
-//            xmloa.register_type<std::shared_ptr<MobModel>>();
-//            xmloa.register_type<std::shared_ptr<TreeNode<MobModel> >>();
         }
         catch(std::exception& ex)
         {
