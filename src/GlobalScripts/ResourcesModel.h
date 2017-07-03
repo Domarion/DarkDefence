@@ -25,13 +25,14 @@ public:
     bool canBuy(PriceArray costarray);
     void addResources(PriceArray costarray);
     void removeResources(PriceArray costarray);
-    int getResourceAmountFromIndex(int resourceType);
-	bool haveEnoughResource(int resourceType, int amount);
-	bool addResource(int resourceType, int amount);
-	bool removeResource(int resourceType, int amount);
+    int getResourceAmountFromIndex(size_t resourceType);
+    bool haveEnoughResource(size_t resourceType, int amount);
+    bool addResource(size_t resourceType, int amount);
+    bool removeResource(size_t resourceType, int amount);
 	void increaseLimit(int resourceType, int amount);
 	void decreaseLimit(int resourceType, int amount);
-    void loadFromFile(std::string filename);
+    void loadFromFile(const std::string& aFilename);
+    void loadResourceNamesFromFile(const std::string& aFilename);
 private:
     std::array<ResourceInfo, GlobalConstants::resourceTypeCount> resourceTypes;
 };

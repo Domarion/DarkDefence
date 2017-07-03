@@ -21,7 +21,6 @@ MobSpawner::MobSpawner()
     , wavesInfo()
     , currentSpawnStatus(SpawnStatusT::NoSpawn)
     , nextInfo{-1, "none", 0}
-
 {
 }
 
@@ -29,7 +28,6 @@ void MobSpawner::loadWavesInfo(string filename)
 {
     string textString;
     androidText::loadTextFileToString(filename, textString);
-
 
     if (!textString.empty())
     {
@@ -49,7 +47,6 @@ void MobSpawner::loadWavesInfo(string filename)
             }
         }
     }
-
 }
 
 bool MobSpawner::canSpawn(double timestep)
@@ -122,6 +119,7 @@ std::vector<std::pair<string, int> > MobSpawner::getCurrentWaveInfo() // depreca
 
 string MobSpawner::getNextMobName()
 {
+    //TODO Переписать этот запутанный код
     if (waveNumber == 0 || currentSpawnStatus == SpawnStatusT::Done)
     {
         return std::string{"none"};
@@ -135,7 +133,6 @@ string MobSpawner::getNextMobName()
     {
         index = 0;
         auto count = currentWaveInfo[index].second;
-        std::cout << "0Count = " << count << std::endl;
         nextInfo = std::make_tuple(index, currentWaveInfo[index].first, count - 1);
         return currentWaveInfo[index].first;
     }
@@ -150,7 +147,6 @@ string MobSpawner::getNextMobName()
         {
             ++index;
             auto count = currentWaveInfo[index].second;
-            std::cout << "1Count = " << count << std::endl;
 
             nextInfo = std::make_tuple(index, currentWaveInfo[index].first, count);
 
@@ -164,8 +160,6 @@ string MobSpawner::getNextMobName()
             currentSpawnStatus = SpawnStatusT::Done;
             return std::string{"none"};
         }
-
-        std::cout << "2Count = " << (leavesCount - 1) << " index = " << index << " MobName = " << nextMobName << std::endl;
 
         nextInfo = std::make_tuple(index, nextMobName, --leavesCount);
         return nextMobName;

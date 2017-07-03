@@ -29,7 +29,7 @@ std::string ResourcesModel::printResourceFromIndex(size_t index)
 
 bool ResourcesModel::canBuy(PriceArray costarray)
 {
-    for(int i = 0; i < GlobalConstants::resourceTypeCount; ++i)
+    for(size_t i = 0; i < GlobalConstants::resourceTypeCount; ++i)
 		if (!haveEnoughResource(i, costarray[i]))
 			return false;
 	return true;
@@ -37,32 +37,32 @@ bool ResourcesModel::canBuy(PriceArray costarray)
 
 void ResourcesModel::addResources(PriceArray costarray)
 {
-    for (int i = 0; i < GlobalConstants::resourceTypeCount; ++i)
+    for (size_t i = 0; i < GlobalConstants::resourceTypeCount; ++i)
 		resourceTypes[i].addResource(costarray[i]);
 }
 
 void ResourcesModel::removeResources(PriceArray costarray)
 {
-    for (int i = 0; i < GlobalConstants::resourceTypeCount; ++i)
+    for (size_t i = 0; i < GlobalConstants::resourceTypeCount; ++i)
         resourceTypes[i].removeResource(costarray[i]);
 }
 
-int ResourcesModel::getResourceAmountFromIndex(int resourceType)
+int ResourcesModel::getResourceAmountFromIndex(size_t resourceType)
 {
     return resourceTypes[resourceType].getCurrentAmount();
 }
 
-bool ResourcesModel::haveEnoughResource(int resourceType, int amount)
+bool ResourcesModel::haveEnoughResource(size_t resourceType, int amount)
 {
 	return resourceTypes[resourceType].getCurrentAmount() >= amount;
 }
 
-bool ResourcesModel::addResource(int resourceType, int amount)
+bool ResourcesModel::addResource(size_t resourceType, int amount)
 {
 	return resourceTypes[resourceType].addResource(amount);
 }
 
-bool ResourcesModel::removeResource(int resourceType, int amount)
+bool ResourcesModel::removeResource(size_t resourceType, int amount)
 {
 	return resourceTypes[resourceType].removeResource(amount);
 }
@@ -77,24 +77,40 @@ void ResourcesModel::decreaseLimit(int resourceType, int amount)
     resourceTypes[resourceType].decreaseLimit(amount);
 }
 
-void ResourcesModel::loadFromFile(std::string filename)
+void ResourcesModel::loadFromFile(const std::string& aFilename)
 {
     string textString;
-    androidText::loadTextFileToString(filename, textString);
+    androidText::loadTextFileToString(aFilename, textString);
 
     if (!textString.empty())
     {
         stringstream somestream(textString);
 
-        for(int i = 0; i != GlobalConstants::resourceTypeCount; ++i)
+        for(size_t i = 0; i != GlobalConstants::resourceTypeCount; ++i)
         {
-            std::string s;
             int amount = 0;
             int limit = 0;
-            somestream >> s >> amount >> limit;
-            resourceTypes[i].setCaption(s);
+            somestream  >> amount >> limit;
             resourceTypes[i].setLimit(limit);
             resourceTypes[i].setCurrentAmount(amount);
+        }
+    }
+}
+
+void ResourcesModel::loadResourceNamesFromFile(const std::string& aFilename)
+{
+    string textString;
+    androidText::loadTextFileToString(aFilename, textString);
+
+    if (!textString.empty())
+    {
+        stringstream somestream(textString);
+
+        for(size_t i = 0; i < GlobalConstants::resourceTypeCount; ++i)
+        {
+            std::string caption;
+            somestream >> caption;
+            resourceTypes[i].setCaption(caption);
         }
     }
 }

@@ -7,23 +7,19 @@ namespace androidText
 
 void loadTextFileToString(string filename, string& destString, bool aSetRelativePath)
 {
-
     string filename1 = filename;
     if (aSetRelativePath)
         setRelativePath(filename1);
 
     SDL_RWops* ooops = SDL_RWFromFile(filename1.c_str(),"rt");
 
-
     if (ooops != nullptr)
     {
         size_t file_length = SDL_RWseek(ooops, 0, SEEK_END);
         char* destination = new char[file_length + 1];
         SDL_RWseek(ooops, 0, SEEK_SET);
-        //int bytes =
         SDL_RWread(ooops, (destination), 1, file_length);
         destination[file_length] ='\0';
-
 
         destString.assign(destination);
 
@@ -34,14 +30,15 @@ void loadTextFileToString(string filename, string& destString, bool aSetRelative
         std::cout << "Nothing on path: " << filename1 << std::endl;
 }
 
-void setRelativePath(string &filename)
+void setRelativePath(string& filename)
 {
-   #ifndef __ANDROID__
-   filename = "/home/kostya_hm/Projects/DarkDefence/"+ filename; //TODO: Заманить на относительный путь
-   #endif
+#ifndef __ANDROID__
+    //TODO: Заменить на относительный путь
+    filename = "/home/kostya_hm/Projects/DarkDefence/"+ filename;
+#endif
 }
 
-void saveStringsTofile(SDL_RWops* filetoWrite, const vector<string> &strings)
+void saveStringsTofile(SDL_RWops* filetoWrite, const vector<string>& strings)
 {
     if (filetoWrite != nullptr)
     {
@@ -56,7 +53,8 @@ void saveStringsTofile(SDL_RWops* filetoWrite, const vector<string> &strings)
         }
     }
 }
-void loadStringsFromfile(SDL_RWops* filetoRead, vector<string> &strings)
+
+void loadStringsFromfile(SDL_RWops* filetoRead, vector<string>& strings)
 {
     if (filetoRead != nullptr)
     {
@@ -65,7 +63,6 @@ void loadStringsFromfile(SDL_RWops* filetoRead, vector<string> &strings)
         strings.resize(stringCount);
         for(int i = 0; i < stringCount; ++i)
             strings[i] = loadCharStringFromFile(filetoRead);
-
     }
 }
 
@@ -93,10 +90,8 @@ vector<vector<int> > loadMatrixFromFile(string filename)
         for(size_t row = 0; row < n; ++row)
             for(size_t column = 0; column < m; ++column)
             {
-//                std::cout << "row = " << row << " column= " << column;
                 int res;
                 stream >> res;
-//                std::cout << "result = " << res << std::endl;
                 resultingMap[row][column] = res;
             }
     }
@@ -104,7 +99,7 @@ vector<vector<int> > loadMatrixFromFile(string filename)
     return resultingMap;
 }
 
-void loadAnimFromFile(SDL_RWops *filetoRead, map<string, vector<SDL_Rect> > &anims)
+void loadAnimFromFile(SDL_RWops* filetoRead, map<string, vector<SDL_Rect> >& anims)
 {
     if (filetoRead != nullptr)
     {
@@ -130,7 +125,7 @@ void loadAnimFromFile(SDL_RWops *filetoRead, map<string, vector<SDL_Rect> > &ani
     }
 }
 
-void loadAnimFromFile(const std::string& filename, map<string, vector<SDL_Rect> > &anims)
+void loadAnimFromFile(const std::string& filename, map<string, vector<SDL_Rect> >& anims)
 {
     SDL_RWops* binaryDataFile = SDL_RWFromFile(filename.c_str(),"r+b");
     loadAnimFromFile(binaryDataFile, anims);
@@ -165,7 +160,7 @@ std::string loadCharStringFromFile(SDL_RWops* filetoRead)
     return std::string{};
 }
 
-void saveAnimsToFile(SDL_RWops *filetoWrite, const map<string, vector<SDL_Rect> > &anims)
+void saveAnimsToFile(SDL_RWops* filetoWrite, const map<string, vector<SDL_Rect> >& anims)
 {
     if (filetoWrite != nullptr)
     {
@@ -191,7 +186,6 @@ void saveAnimsToFile(SDL_RWops *filetoWrite, const map<string, vector<SDL_Rect> 
             }
         }
     }
-
 }
 
 }

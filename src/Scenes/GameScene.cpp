@@ -52,7 +52,8 @@ void GameScene::startUpdate(double timestep)
 
     if (counter <= 0)
     {
-        bool result = GameModel::getInstance()->getResourcesModel()->removeResource(static_cast<int>(Enums::ResourceTypes::WHEAT), 5);
+        bool result = GameModel::getInstance()->getResourcesModel()->removeResource(static_cast<int>
+                      (Enums::ResourceTypes::WHEAT), 5);
 
         if (!result && mManaModel)
         {
@@ -69,29 +70,30 @@ void GameScene::startUpdate(double timestep)
         counter -= timestep;
 
     if (gates != nullptr && gates->getDestructibleObject() != nullptr)
-    switch(currentMission.checkStatus(GameModel::getInstance()->getGameStatus()))
-    {
-    case MissionStatuses::mIN_PROGRESS:case MissionStatuses::mNOT_STARTED:
-    {
-        break;
-    }
-    case MissionStatuses::mCOMPLETED:
-    {
-        GameModel::getInstance()->setGameStatus(Enums::GameStatuses::gsWON);
-        std::string s1 = "ScoreScene";
+        switch(currentMission.checkStatus(GameModel::getInstance()->getGameStatus()))
+        {
+        case MissionStatuses::mIN_PROGRESS:
+        case MissionStatuses::mNOT_STARTED:
+        {
+            break;
+        }
+        case MissionStatuses::mCOMPLETED:
+        {
+            GameModel::getInstance()->setGameStatus(Enums::GameStatuses::gsWON);
+            std::string s1 = "ScoreScene";
 
-        GameModel::getInstance()->setMissionReward(currentMission.getReward());
-        getParentSceneManager()->askForChangeScene(s1);
-        return;
-    }
-    case MissionStatuses::mFAILED:
-    {
-        GameModel::getInstance()->setGameStatus(Enums::GameStatuses::gsLOST);
-        std::string s2 = "ScoreScene";
-        getParentSceneManager()->askForChangeScene(s2);
-        return;
-    }
-    }
+            GameModel::getInstance()->setMissionReward(currentMission.getReward());
+            getParentSceneManager()->askForChangeScene(s1);
+            return;
+        }
+        case MissionStatuses::mFAILED:
+        {
+            GameModel::getInstance()->setGameStatus(Enums::GameStatuses::gsLOST);
+            std::string s2 = "ScoreScene";
+            getParentSceneManager()->askForChangeScene(s2);
+            return;
+        }
+        }
 
 
     if (pointsLabel != nullptr)
@@ -122,9 +124,9 @@ void GameScene::startUpdate(double timestep)
 }
 
 
-map<string, std::shared_ptr<AbilityModel>> &GameScene::getAbilityModelList()
+map<string, std::shared_ptr<AbilityModel>>& GameScene::getAbilityModelList()
 {
-   return spellStorage.getAbilityModelList();
+    return spellStorage.getAbilityModelList();
 }
 
 void GameScene::ConnectMethod(std::function<void (string)> handler)
@@ -152,15 +154,19 @@ void GameScene::loadData()
 {
     int curIndex =  GameModel::getInstance()->getCurrentMissionIndex();
 
-    string s ="GameData/Missions/" + std::to_string(curIndex) +"/Mission.xml";
-    GameModel::getInstance()->deserialize(currentMission, s);
+    std::string currentMissionPath = "GameData/Missions/" + std::to_string(curIndex);
+    string missionConf = currentMissionPath + std::string{"/Mission.xml"};
 
-    string s00 = "GameData/Missions/" + std::to_string(curIndex) + "/points.txt";
-    GameModel::getInstance()->loadMonsterPointsList(s00);
+    GameModel::getInstance()->deserialize(currentMission, missionConf);
 
+    std::string pointsConf = currentMissionPath + std::string{"/points.txt"};
+    GameModel::getInstance()->loadMonsterPointsList(pointsConf);
 
-    string s01 = "GameData/MineModels.xml";
-    GameModel::getInstance()->loadMinesList(s01);
+    std::string resourcesConf = currentMissionPath + std::string{"/resources.txt"};
+    GameModel::getInstance()->getResourcesModel()->loadFromFile(resourcesConf);
+
+    std::string mineModelsConf = "GameData/MineModels.xml";
+    GameModel::getInstance()->loadMinesList(mineModelsConf);
 
     GameModel::getInstance()->loadMonsterList("GameData/MonsterList.xml");
 
@@ -360,7 +366,8 @@ void GameScene::initAbilitiesButtons()
     Size abilityButtonSize(96, 96);
 
     int abilityGroupHeight = static_cast<int>(abilityButtonSize.height * MainRect->getScalingFactor());
-    Position abilityButtonPos(0, MainRect->getSize().height - abilityGroupHeight);//TODO:: убрать абсолютное позиционирование, сделать относительное
+    Position abilityButtonPos(0, MainRect->getSize().height -
+                              abilityGroupHeight);//TODO:: убрать абсолютное позиционирование, сделать относительное
 
     spellStorage.loadWithScene(shared_from_this(), mManaModel);
 
@@ -398,15 +405,15 @@ void GameScene::initAbilitiesButtons()
 
         auto ability = spellStorage.getAbilityModelWithName(GameModel::getInstance()->getAbilityNameFromIndex(i));
         ability->connectCooldownListener
-                (
-                    std::bind
-                    (
-                        &UIProgressBar::calculateProgress,
-                        abilityButton.get(),
-                        std::placeholders::_1,
-                        std::placeholders::_2
-                    )
-                );
+        (
+            std::bind
+            (
+                &UIProgressBar::calculateProgress,
+                abilityButton.get(),
+                std::placeholders::_1,
+                std::placeholders::_2
+            )
+        );
     }
 
     MainRect->addChild(abilityButtonsGroup);
@@ -489,7 +496,7 @@ void GameScene::placeSceneObjects()//TODO: Найти лучшее решени�
     int curMissionIndex =  GameModel::getInstance()->getCurrentMissionIndex();
 
     std::string terrainPath = "GameData/textures/Missions/" + std::to_string(curMissionIndex) + ".png";
-    std::shared_ptr<SceneObject> Terrain = objectFabric.produce("Terrain", "none", terrainPath, 0 , 0, renderer );
+    std::shared_ptr<SceneObject> Terrain = objectFabric.produce("Terrain", "none", terrainPath, 0, 0, renderer );
     spawnObject(0,0, Terrain);
 
     towerUpgradeController->init(shared_from_this(), renderer);
@@ -503,72 +510,69 @@ void GameScene::placeSceneObjects()//TODO: Найти лучшее решени�
 
             spawnObject(item.ImagePosition.x, item.ImagePosition.y, tower);
         }
-        else
-            if (item.Name == "Gates")
-            {
-                auto newView = std::make_shared<AnimationSceneSprite>(renderer);
+        else if (item.Name == "Gates")
+        {
+            auto newView = std::make_shared<AnimationSceneSprite>(renderer);
 
-                newView->setSize(item.ImageSize);
-                newView->setTexture(ResourceManager::getInstance()->getTexture("Castle"));
+            newView->setSize(item.ImageSize);
+            newView->setTexture(ResourceManager::getInstance()->getTexture("Castle"));
 
-                newView->setAnchorPointPlace(item.xCoordAnchorType, item.yCoordAnchorType);
+            newView->setAnchorPointPlace(item.xCoordAnchorType, item.yCoordAnchorType);
 
-                gates = std::make_shared<Gates>();
-                gates->setSprite(newView);
-                gates->setTag("Gates");
-                gates->getDestructibleObject()->connectMethod(
-                    std::bind
-                    (
-                        &UIProgressBar::calculateProgress,
-                        gatesHealthBar,
-                        std::placeholders::_1,
-                        std::placeholders::_2
-                    ));
-                gates->getDestructibleObject()->setMaximumHealth(5000);
-                spawnObject(item.ImagePosition.x, item.ImagePosition.y, gates);
-            }
-            else
-                if (item.Name == "ResourceWheat")
-                {
-                    auto resPlace = std::make_shared<ResourcePlace>(700, Enums::ResourceTypes::WHEAT);
-                    auto resSprite = std::make_shared<AnimationSceneSprite>(renderer);
+            gates = std::make_shared<Gates>();
+            gates->setSprite(newView);
+            gates->setTag("Gates");
+            gates->getDestructibleObject()->connectMethod(
+                std::bind
+                (
+                    &UIProgressBar::calculateProgress,
+                    gatesHealthBar,
+                    std::placeholders::_1,
+                    std::placeholders::_2
+                ));
+            gates->getDestructibleObject()->setMaximumHealth(5000);
+            spawnObject(item.ImagePosition.x, item.ImagePosition.y, gates);
+        }
+        else if (item.Name == "ResourceWheat")
+        {
+            auto resPlace = std::make_shared<ResourcePlace>(700, Enums::ResourceTypes::WHEAT);
+            auto resSprite = std::make_shared<AnimationSceneSprite>(renderer);
 
-                    resSprite->setAnchorPointPlace(item.xCoordAnchorType, item.yCoordAnchorType);
+            resSprite->setAnchorPointPlace(item.xCoordAnchorType, item.yCoordAnchorType);
 
-                    string resourcePlaceName =
-                        GameModel::getInstance()->getResourcesModel()->getResourceNameFromType(resPlace->getResourceType());
-                    resourcePlaceName.append("Resource");
+            string resourcePlaceName =
+                GameModel::getInstance()->getResourcesModel()->getResourceNameFromType(resPlace->getResourceType());
+            resourcePlaceName.append("Resource");
 
-                    resSprite->setTexture(ResourceManager::getInstance()->getTexture(resourcePlaceName));
-                    resSprite->setSize(item.ImageSize);
-                    resPlace->setSprite(resSprite);
-                    resPlace->setName("ResourcePlace");
-                    resPlace->setTag("ResourcePlace");
-                    spawnObject(item.ImagePosition.x, item.ImagePosition.y, resPlace);
-                }
-                else
-                    if (item.Name == "Spawner")
-                    {
-                        auto spawnerSprite = std::make_shared<AnimationSceneSprite>(renderer);
+            resSprite->setTexture(ResourceManager::getInstance()->getTexture(resourcePlaceName));
+            resSprite->setSize(item.ImageSize);
+            resPlace->setSprite(resSprite);
+            resPlace->setName("ResourcePlace");
+            resPlace->setTag("ResourcePlace");
+            spawnObject(item.ImagePosition.x, item.ImagePosition.y, resPlace);
+        }
+        else if (item.Name == "Spawner")
+        {
+            auto spawnerSprite = std::make_shared<AnimationSceneSprite>(renderer);
 
-                        spawnerSprite->setTexture(ResourceManager::getInstance()->getTexture("Spawner"));
-                        spawnerSprite->setSize(item.ImageSize);
-                        spawnerSprite->setAnchorPointPlace(item.xCoordAnchorType, item.yCoordAnchorType);
+            spawnerSprite->setTexture(ResourceManager::getInstance()->getTexture("Spawner"));
+            spawnerSprite->setSize(item.ImageSize);
+            spawnerSprite->setAnchorPointPlace(item.xCoordAnchorType, item.yCoordAnchorType);
 
-                        monsterSpawner = std::make_shared<Spawner>();
-                        monsterSpawner->setSprite(spawnerSprite);
-                        monsterSpawner->setName("Spawner");
-                        monsterSpawner->setTag("Spawner");
-                        monsterSpawner->loadWavesInfo();
+            monsterSpawner = std::make_shared<Spawner>();
+            monsterSpawner->setSprite(spawnerSprite);
+            monsterSpawner->setName("Spawner");
+            monsterSpawner->setTag("Spawner");
+            monsterSpawner->loadWavesInfo();
 
-                        spawnObject(item.ImagePosition.x, item.ImagePosition.y, monsterSpawner);
+            spawnObject(item.ImagePosition.x, item.ImagePosition.y, monsterSpawner);
 
-                        monsterSpawner->connectInfoProcesser(
-                            std::bind(&GameScene::processWaveInfo, this, std::placeholders::_1));
-                        monsterSpawner->connectSpawnCallBack(
-                            std::bind(
-                                &GameScene::spawningCallBack, this, std::placeholders::_1, std::placeholders::_2));
-                    }
+            monsterSpawner->connectInfoProcesser(
+                std::bind(&GameScene::processWaveInfo, this, std::placeholders::_1));
+            monsterSpawner->connectSpawnCallBack(
+                std::bind(
+                    &GameScene::spawningCallBack, this, std::placeholders::_1, std::placeholders::_2));
+        }
     }
 }
 

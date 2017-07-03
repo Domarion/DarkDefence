@@ -36,10 +36,10 @@ GameApp::GameApp(std::unique_ptr<SceneManager> aSceneManager, std::unique_ptr<Re
 void GameApp::preloadData()
 {
     FontManager::getInstance()->loadFontList("GameData/fontconfig.txt", mRenderer);
+
     ResourceManager::getInstance()->loadConfigFromFile("GameData/TexturePaths.xml", mRenderer);
 
-    // Нужны только названия ресурсов, а не полная ресурсная модель, которая отличается на разных миссиях
-    GameModel::getInstance()->getResourcesModel()->loadFromFile("GameData/resources.txt");
+    GameModel::getInstance()->getResourcesModel()->loadResourceNamesFromFile("GameData/resourceNames.txt");
 
     GameModel::getInstance()->loadShopItems("GameData/Items.xml");
 
