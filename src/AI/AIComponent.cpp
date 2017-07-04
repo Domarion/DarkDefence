@@ -178,14 +178,13 @@ void AIComponent::Attack()
 void AIComponent::Reload(double timestep)
 {
     if (MobPtr.lock()->getModel()->getReloadTime() > 0)
-        MobPtr.lock()->getModel()->setReloadTime(MobPtr.lock()->getModel()->getReloadTime() - timestep);
-    else
     {
-        aiMobState = (currentTarget == nullptr)? AIMobStates::aiSELECT : AIMobStates::aiATTACK;
+        MobPtr.lock()->getModel()->setReloadTime(MobPtr.lock()->getModel()->getReloadTime() - timestep);
+        return;
     }
+
+    aiMobState = (currentTarget == nullptr)? AIMobStates::aiSELECT : AIMobStates::aiATTACK;
 }
-
-
 
 void AIComponent::MovetoTile(double timestep)
 {
@@ -377,7 +376,7 @@ void AIComponent::initMobAbilities()
     {
         mobAbilities.emplace_back(GameModel::getInstance()->getMobAbilityByName(abilityName));
         mobAbilities.back()->setWorkTime(4000);
-        mobAbilities.back()->setCooldownTime(4000);
+        mobAbilities.back()->setCooldownTime(8000);
         mobAbilities.back()->init(MobPtr.lock()->getParentScene());
     }
 }

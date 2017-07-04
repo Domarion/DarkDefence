@@ -2,10 +2,10 @@
 #include "../AbilityAnims/AbilityAnimObject.hpp"
 
 MobAbilityFog::MobAbilityFog()
-: MobAbility()
-, fogEffect(std::make_shared<EffectModel>())
+    : MobAbility()
+    , fogEffect(std::make_shared<EffectModel>())
 {
-    pair<string, double> rt = std::make_pair("ReloadTime", +5.0e+6);
+    pair<string, double> rt = std::make_pair("ReloadTime", +5.0e+4);
     fogEffect->addMiniEffect(rt);
 }
 
@@ -69,7 +69,7 @@ bool MobAbilityFog::onWorking(double timestep)
         affectedMobs.reset();
     }
     else
-        currentCooldownTime -= timestep;
+        currentWorkTime -= timestep;
 
     return true;
 }
@@ -79,6 +79,7 @@ bool MobAbilityFog::onCooldown(double timestep)
     if (currentCooldownTime <= 0)
     {
         abilityState = Enums::AbilityStates::asNotAvaliable;
+        currentCooldownTime = cooldownTime;
     }
     else
         currentCooldownTime -= timestep;
