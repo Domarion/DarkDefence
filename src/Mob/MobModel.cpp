@@ -110,6 +110,11 @@ const std::string& MobModel::getArrowName() const
     return arrowName;
 }
 
+void MobModel::setArrowName(const std::string& aArrowName)
+{
+    arrowName = aArrowName;
+}
+
 const list<EnemyInfo>& MobModel::getEnemyTags() const
 {
     return enemiesInfo;

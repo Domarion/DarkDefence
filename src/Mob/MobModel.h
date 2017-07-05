@@ -61,6 +61,8 @@ public:
 	MobModel(const MobModel& right);
 
     const std::string& getArrowName() const;
+    void setArrowName(const std::string& aArrowName);
+
 	const pair<double, double>& getAttackDistance() const;
 	void setAttackDistance(const pair<double, double>& attackDistance);
 

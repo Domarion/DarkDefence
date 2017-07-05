@@ -90,6 +90,12 @@
 						<itemType>3</itemType>
 						<price>50</price>
 					</value13>
+                    <value14>
+						<caption>CorruptedPineApple</caption>
+						<description>Some</description>
+						<itemType>2</itemType>
+						<price>50</price>
+					</value14>
 				</ArtifactList>
 			</data>
 		</ptr_wrapper>

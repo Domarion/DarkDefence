@@ -246,7 +246,14 @@
 			<ImageHeight>54</ImageHeight>
 			<ImagePath>GameData/textures/Arrows/CatapultStone.png</ImagePath>
             <AnimationPackPath></AnimationPackPath>
-		</value33>
+		</value34>
+        <value35>
+			<Caption>BurningStone</Caption>
+			<ImageWidth>57</ImageWidth>
+			<ImageHeight>54</ImageHeight>
+			<ImagePath>GameData/textures/Arrows/BurningStone.png</ImagePath>
+            <AnimationPackPath></AnimationPackPath>
+		</value35>
 	</TexturePaths>
 </cereal>
 

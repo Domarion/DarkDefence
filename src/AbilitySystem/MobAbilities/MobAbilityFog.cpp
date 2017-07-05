@@ -21,7 +21,7 @@ bool MobAbilityFog::onReady(double)
                 if (affectedMob != nullptr)
                 {
                     auto effectReceiver = affectedMob->getEffectReceiver();
-                    if (effectReceiver != nullptr)
+                    if (effectReceiver != nullptr && !effectReceiver->hasEffect(fogEffect))
                     {
                         effectReceiver->applyEffect(fogEffect);
 

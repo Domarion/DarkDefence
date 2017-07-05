@@ -12,5 +12,7 @@ void CorruptedPineApple::init(std::shared_ptr<Scene> /*scenePtr*/, std::shared_p
 
         int damageArea = tower->getData()->getDamageArea() * 4/3;
         tower->getData()->setDamageArea(damageArea);
+        std::string arrowName {"BurningStone"};
+        tower->getData()->setArrowName(arrowName);
     }
 }
