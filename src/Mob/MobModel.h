@@ -33,7 +33,8 @@ class MobModel: public DestructibleObject
             CEREAL_NVP(damageArea),
             cereal::make_nvp("enemyTags", enemiesInfo),
             cereal::make_nvp("Abilities", mobAbilitiesNames),
-            CEREAL_NVP(price)
+            CEREAL_NVP(price),
+            CEREAL_NVP(arrowName)
            );
 
         reloadTime = reloadTimeMaximum.first + reloadTimeMaximum.second;
@@ -52,11 +53,14 @@ public:
              double speed,
              double aReloadTime,
              int aDamageArea,
-             list<EnemyInfo> enemiesTags);
+             list<EnemyInfo> enemiesTags,
+             std::string aArrowName = "");
 
     virtual ~MobModel() = default;
 
 	MobModel(const MobModel& right);
+
+    const std::string& getArrowName() const;
 	const pair<double, double>& getAttackDistance() const;
 	void setAttackDistance(const pair<double, double>& attackDistance);
 
@@ -84,7 +88,6 @@ public:
 	void reload();
 	double getReloadTime() const;
 	void setReloadTime(double reloadTime);
-
 
     void setReloadTimeMaximum(double reloadTimeMax);
 
@@ -116,10 +119,10 @@ private:
     list<EnemyInfo> enemiesInfo;
     bool isVisible;
     bool isStunned;
-	//int x, y;
 
     list<string> mobAbilitiesNames;
     std::array<int, GlobalConstants::resourceTypeCount> price;
+    std::string arrowName;
 
 };
 

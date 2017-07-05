@@ -84,6 +84,7 @@
 								<value1>0</value1>
 								<value2>0</value2>
 							</price>
+                            <arrowName></arrowName>
 						</data>
 					</ptr_wrapper>
 				</value2>
@@ -171,6 +172,7 @@
 													<value1>0</value1>
 													<value2>0</value2>
 												</price>
+                                                <arrowName>BallistaArrow</arrowName>
 											</data>
 										</ptr_wrapper>
 									</value2>
@@ -262,6 +264,7 @@
 													<value1>0</value1>
 													<value2>0</value2>
 												</price>
+                                                <arrowName>CatapultStone</arrowName>
 											</data>
 										</ptr_wrapper>
 									</value2>
@@ -355,6 +358,7 @@
 													<value1>0</value1>
 													<value2>0</value2>
 												</price>
+                                                <arrowName></arrowName>
 											</data>
 										</ptr_wrapper>
 									</value2>
@@ -442,6 +446,7 @@
 																		<value1>0</value1>
 																		<value2>0</value2>
 																	</price>
+                                                                    <arrowName></arrowName>
 																</data>
 															</ptr_wrapper>
 														</value2>
@@ -535,6 +540,7 @@
 																		<value1>0</value1>
 																		<value2>0</value2>
 																	</price>
+                                                                    <arrowName></arrowName>
 																</data>
 															</ptr_wrapper>
 														</value2>
@@ -626,6 +632,7 @@
 																		<value1>0</value1>
 																		<value2>0</value2>
 																	</price>
+                                                                    <arrowName>ArrowLighting</arrowName>
 																</data>
 															</ptr_wrapper>
 														</value2>
@@ -724,6 +731,7 @@
 													<value1>0</value1>
 													<value2>0</value2>
 												</price>
+                                                <arrowName></arrowName>
 											</data>
 										</ptr_wrapper>
 									</value2>

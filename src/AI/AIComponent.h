@@ -50,7 +50,8 @@ private:
     bool Cast(std::shared_ptr<SceneObject> target);
 
     bool CanCast(std::shared_ptr<SceneObject> target);
-
+    void ShotArrow();
+    bool UseAbility();
 
     bool distanceInRange(const pair<int, int>& firstPoint, const pair<int, int>& secondPoint);
     int signum(int aValue) const;

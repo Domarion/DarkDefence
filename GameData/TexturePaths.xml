@@ -115,11 +115,11 @@
             <AnimationPackPath>GameData/anims/Spells/AbilityShrink.anim</AnimationPackPath>
 		</value15>
         <value16>
-			<Caption>Arrow</Caption>
+			<Caption>ArrowLighting</Caption>
 			<ImageWidth>123</ImageWidth>
 			<ImageHeight>47</ImageHeight>
-			<ImagePath>GameData/textures/Arrows/arrowSheet.png</ImagePath>
-            <AnimationPackPath>GameData/anims/Arrows/arrow.anim</AnimationPackPath>
+			<ImagePath>GameData/textures/Arrows/ArrowLighting.png</ImagePath>
+            <AnimationPackPath>GameData/anims/Arrows/ArrowLighting.anim</AnimationPackPath>
 		</value16>
         <value17>
 			<Caption>MobAbilityArson</Caption>
@@ -233,6 +233,20 @@
 			<ImagePath>GameData/textures/shopBackground.jpg</ImagePath>
             <AnimationPackPath></AnimationPackPath>
 		</value32>
+        <value33>
+			<Caption>BallistaArrow</Caption>
+			<ImageWidth>72</ImageWidth>
+			<ImageHeight>35</ImageHeight>
+			<ImagePath>GameData/textures/Arrows/BallistaArrow.png</ImagePath>
+            <AnimationPackPath></AnimationPackPath>
+		</value33>
+        <value34>
+			<Caption>CatapultStone</Caption>
+			<ImageWidth>57</ImageWidth>
+			<ImageHeight>54</ImageHeight>
+			<ImagePath>GameData/textures/Arrows/CatapultStone.png</ImagePath>
+            <AnimationPackPath></AnimationPackPath>
+		</value33>
 	</TexturePaths>
 </cereal>
 

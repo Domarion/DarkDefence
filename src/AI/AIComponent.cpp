@@ -108,71 +108,55 @@ void AIComponent::Select()
 
 void AIComponent::Attack()
 {
-    if (currentTarget == nullptr)
-        aiMobState = AIMobStates::aiSELECT;
-    else
+    if (currentTarget == nullptr
+        || (currentTarget->getDestructibleObject() != nullptr && !currentTarget->getDestructibleObject()->IsAlive()))
     {
-        EReaction reaction = getReactionByTag(currentTarget->getTag());
-        if (reaction == EReaction::UseAbilities)
+        aiMobState = AIMobStates::aiSELECT;
+        return;
+    }
+
+    if (UseAbility())
+    {
+        return;
+    }
+
+    int* damage = MobPtr.lock()->getModel()->getAttackDamage();
+
+    if (damage == nullptr)
+    {
+        return;
+    }
+
+    bool hasDamage = false;
+
+    for(size_t i = 0; i < DestructibleObject::damageTypesCount; ++i)
+    {
+        if (damage[i] > 0)
         {
-
-            Cast(currentTarget);
-
-            avaliableTargets.remove(currentTarget);
-            currentTarget = nullptr;
-            aiMobState = AIMobStates::aiSELECT;
-        }
-        else
-        {
-            int* damage = MobPtr.lock()->getModel()->getAttackDamage();
-
-            if (damage == nullptr)
-            {
-                return;
-            }
-
-            bool hasDamage = false;
-
-            for(size_t i = 0; i < DestructibleObject::damageTypesCount; ++i)
-            {
-                if (damage[i] > 0)
-                {
-                    hasDamage = true;
-                    break;
-                }
-            }
-
-            if (hasDamage && MobPtr.lock()->getTag() == "Tower")
-            {
-                const std::string arrowName {"Arrow"};
-                auto& animPack = ResourceManager::getInstance()->getAnimationPack(arrowName);
-                auto sprite =
-                    std::make_shared<AnimationSceneSprite>(
-                        MobPtr.lock()->getParentScene()->getRenderer(), AnimationSceneSprite::Animation{animPack});
-
-                sprite->setTexture(ResourceManager::getInstance()->getTexture(arrowName));
-
-                auto miniObject = std::make_shared<ArrowAnim>(currentTarget->getRealPosition());
-                miniObject->setSprite(sprite);
-                MobPtr.lock()->getParentScene()->spawnObject(
-                    MobPtr.lock()->getRealPosition().x, MobPtr.lock()->getRealPosition().y, miniObject);
-            }
-
-            if (currentTarget->getDestructibleObject()->receiveDamage(damage))
-            {
-                avaliableTargets.remove(currentTarget);
-                currentTarget = nullptr;
-            }
-            else
-            {
-                Cast(currentTarget);
-            }
-            delete[] damage;
-
-            MobPtr.lock()->getModel()->reload();
-            aiMobState = AIMobStates::aiRELOAD;
+            hasDamage = true;
+            break;
         }
     }
+
+    if (hasDamage)
+    {
+        ShotArrow();
+    }
+
+    if (currentTarget->getDestructibleObject()->receiveDamage(damage))
+    {
+        avaliableTargets.remove(currentTarget);
+        currentTarget = nullptr;
+    }
+    else
+    {
+        Cast(currentTarget);
+    }
+
+    delete[] damage;
+
+    MobPtr.lock()->getModel()->reload();
+    aiMobState = AIMobStates::aiRELOAD;
 }
 
 void AIComponent::Reload(double timestep)
@@ -364,6 +348,56 @@ bool AIComponent::CanCast(std::shared_ptr<SceneObject> target)
         {
             return true;
         }
+    return false;
+}
+
+void AIComponent::ShotArrow()
+{
+    if (MobPtr.lock()->getTag() == "Tower")
+    {
+        const std::string& arrowName = MobPtr.lock()->getModel()->getArrowName();
+
+        if (!arrowName.empty())
+        {
+            std::shared_ptr<AnimationSceneSprite> sprite = nullptr;
+
+            if (ResourceManager::getInstance()->hasAnimationPack(arrowName))
+            {
+                auto& animPack = ResourceManager::getInstance()->getAnimationPack(arrowName);
+                sprite =
+                    std::make_shared<AnimationSceneSprite>(
+                        MobPtr.lock()->getParentScene()->getRenderer(),
+                        AnimationSceneSprite::Animation{animPack});
+            }
+            else
+            {
+                sprite = std::make_shared<AnimationSceneSprite>(
+                    MobPtr.lock()->getParentScene()->getRenderer());
+            }
+
+            sprite->setTexture(ResourceManager::getInstance()->getTexture(arrowName));
+
+            auto miniObject = std::make_shared<ArrowAnim>(currentTarget->getRealPosition());
+            miniObject->setSprite(sprite);
+            MobPtr.lock()->getParentScene()->spawnObject(
+                MobPtr.lock()->getRealPosition().x, MobPtr.lock()->getRealPosition().y, miniObject);
+        }
+    }
+}
+
+bool AIComponent::UseAbility()
+{
+    EReaction reaction = getReactionByTag(currentTarget->getTag());
+    if (reaction == EReaction::UseAbilities)
+    {
+
+        Cast(currentTarget);
+
+        avaliableTargets.remove(currentTarget);
+        currentTarget = nullptr;
+        aiMobState = AIMobStates::aiSELECT;
+        return true;
+    }
     return false;
 }
 

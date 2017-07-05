@@ -17,6 +17,7 @@ MobModel::MobModel()
     , damageArea(0)
     , isVisible(true)
     , isStunned(false)
+    , arrowName()
 {
     for(size_t i = 0; i < DestructibleObject::damageTypesCount; ++i)
         price[i] = 0;
@@ -52,17 +53,17 @@ void MobModel::setMoveSpeed(const pair<double, double>& aMoveSpeed)
     moveSpeed = aMoveSpeed;
 }
 
-MobModel::MobModel(
-        string aName,
-        string aTag,
-        int aMaxHealth,
-        int aProtection[],
-        int damage[],
-        double distance,
-        double speed,
-        double aReloadTime,
-        int aDamageArea,
-        list<EnemyInfo> enemiesTags)
+MobModel::MobModel(string aName,
+    string aTag,
+    int aMaxHealth,
+    int aProtection[],
+    int damage[],
+    double distance,
+    double speed,
+    double aReloadTime,
+    int aDamageArea,
+    list<EnemyInfo> enemiesTags,
+    std::string aArrowName)
     : DestructibleObject(aName, aTag, aMaxHealth, aProtection), attackDistance(distance, 0.0)
     , moveSpeed(speed, 0.0)
     , reloadTimeMaximum(aReloadTime, 0.0)
@@ -71,6 +72,7 @@ MobModel::MobModel(
     , enemiesInfo(enemiesTags)
     , isVisible(true)
     , isStunned(false)
+    , arrowName(aArrowName)
 {
     for(size_t i = 0; i < DestructibleObject::damageTypesCount; ++i)
     {
@@ -99,7 +101,13 @@ MobModel::MobModel(const MobModel& right)
 
         isVisible = right.isVisible;
         isStunned = right.isStunned;
+        arrowName = right.arrowName;
     }
+}
+
+const std::string& MobModel::getArrowName() const
+{
+    return arrowName;
 }
 
 const list<EnemyInfo>& MobModel::getEnemyTags() const
@@ -109,9 +117,7 @@ const list<EnemyInfo>& MobModel::getEnemyTags() const
 
 bool MobModel::checkDistance(int distanceSqr)
 {
-    int x = static_cast<int>(attackDistance.first); //+ attackDistance.second);
-
-    // std::cout << "distance X = " << (x*x) << std::endl;
+    int x = static_cast<int>(attackDistance.first);
     return  (x*x) >= distanceSqr;
 }
 
@@ -219,7 +225,7 @@ void MobModel::replaceAbilityWithName(const std::string& oldName, const std::str
 
 }
 
-list<string> &MobModel::getAbilitiesNames()
+list<string>& MobModel::getAbilitiesNames()
 {
     return mobAbilitiesNames;
 }
