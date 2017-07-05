@@ -68,6 +68,7 @@ bool Mob::update(double timestep)
 
 void Mob::finalize()
 {
+    mobAI.reset();
     if (mobModel->getTag() == "Monster")
         GameModel::getInstance()->decMonsterCount(mobModel->getName());
 }
