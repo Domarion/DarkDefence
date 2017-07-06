@@ -29,9 +29,10 @@ class DestructibleObject
     }
 public:
     const static size_t damageTypesCount = 4;
-	DestructibleObject();
+    DestructibleObject() = default;
 	DestructibleObject(string aName, string aTag, int aMaxHealth, int aProtection[]);
-    DestructibleObject(const DestructibleObject& right);
+    DestructibleObject(const DestructibleObject& aRight);
+    DestructibleObject& operator =(const DestructibleObject& aRight);
 
     virtual ~DestructibleObject() = default;
     std::array<pair<int, int>, damageTypesCount> getAttackProtection() const;
@@ -59,9 +60,9 @@ protected:
     void setIsAlive(bool aAlive);
 	string name;
 	string tag;
-	bool Alive;
-    int currentHealth;
-	pair<int, int> maximumHealth;
+    bool Alive = true;
+    int currentHealth = 0;
+    pair<int, int> maximumHealth {0, 0};
     std::array<pair<int, int>, damageTypesCount> attackProtection;
 
 

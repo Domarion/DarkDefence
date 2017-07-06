@@ -12,11 +12,13 @@ bool MobAbilityRegeneration::onReady(double /*timestep*/)
 
 bool MobAbilityRegeneration::onWorking(double timestep)
 {
-    if (target == nullptr)
+    if (target == nullptr
+            || (target->getDestructibleObject() != nullptr && !target->getDestructibleObject()->IsAlive()))
     {
         abilityState = Enums::AbilityStates::asOnCooldown;
         return false;
     }
+
 
     if (counter >= 1000)
     {
@@ -63,7 +65,8 @@ bool MobAbilityRegeneration::canTrigger(std::shared_ptr<SceneObject> targ, Enums
         return false;
 
     const double allowedPercentage = 0.70;
-    double percentage = static_cast<double>(targ->getDestructibleObject()->getCurrentHealth()) / targ->getDestructibleObject()->getMaximumHealth();
+    double percentage = static_cast<double>(targ->getDestructibleObject()->getCurrentHealth()) /
+                        targ->getDestructibleObject()->getMaximumHealth();
 
     if ( percentage < allowedPercentage)
     {

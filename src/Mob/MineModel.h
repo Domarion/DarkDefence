@@ -42,6 +42,7 @@ public:
 	double getCurrentTime() const;
     void setCurrentTime(double aCurrentTime);
     Enums::ResourceTypes getProductionType() const;
+    size_t getProductionTypeIndex() const;
 
     void produce(double timestep, std::shared_ptr<ResourcesModel> aResourceModel);
 private:

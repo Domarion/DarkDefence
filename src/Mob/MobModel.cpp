@@ -10,7 +10,8 @@
 #include <algorithm>
 
 MobModel::MobModel()
-    : DestructibleObject(), attackDistance(0.0, 0.0)
+    : DestructibleObject()
+    , attackDistance(0.0, 0.0)
     , moveSpeed(0.0, 0.0)
     , reloadTimeMaximum(0.0, 0.0)
     , reloadTime(0.0)
@@ -166,7 +167,6 @@ double MobModel::getAttackDistanceModifier() const
     return attackDistance.second;
 }
 
-
 void MobModel::reload()
 {
     reloadTime = reloadTimeMaximum.first + reloadTimeMaximum.second;
@@ -207,8 +207,6 @@ void MobModel::setMobVisiblity(bool flag)
     isVisible = flag;
 }
 
-
-
 void MobModel::setAbilitiesNames(list<string> abNames)
 {
     mobAbilitiesNames = abNames;
@@ -227,7 +225,6 @@ void MobModel::replaceAbilityWithName(const std::string& oldName, const std::str
     {
         *iter = newName;
     }
-
 }
 
 list<string>& MobModel::getAbilitiesNames()

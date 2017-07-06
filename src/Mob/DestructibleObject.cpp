@@ -7,13 +7,6 @@
 
 #include "DestructibleObject.h"
 
-DestructibleObject::DestructibleObject()
-    : Alive(true)
-    , currentHealth(0)
-    , maximumHealth{0, 0}
-{
-}
-
 std::array<pair<int, int>, DestructibleObject::damageTypesCount> DestructibleObject::getAttackProtection() const
 {
     return attackProtection;
@@ -21,7 +14,7 @@ std::array<pair<int, int>, DestructibleObject::damageTypesCount> DestructibleObj
 
 const string& DestructibleObject::getName() const
 {
-	return name;
+    return name;
 }
 
 void DestructibleObject::setName(const string& aName)
@@ -31,7 +24,7 @@ void DestructibleObject::setName(const string& aName)
 
 const string& DestructibleObject::getTag() const
 {
-	return tag;
+    return tag;
 }
 
 void DestructibleObject::setTag(const string& aTag)
@@ -41,7 +34,7 @@ void DestructibleObject::setTag(const string& aTag)
 
 bool DestructibleObject::IsAlive() const
 {
-	return Alive;
+    return Alive;
 }
 
 DestructibleObject::DestructibleObject(
@@ -53,41 +46,60 @@ DestructibleObject::DestructibleObject(
     , maximumHealth(aMaxHealth, 0)
 {
     for(size_t i = 0; i < DestructibleObject::damageTypesCount; ++i)
-	{
-		attackProtection[i].first = aProtection[i];
-		attackProtection[i].second = 0;
+    {
+        attackProtection[i].first = aProtection[i];
+        attackProtection[i].second = 0;
     }
 }
 
-DestructibleObject::DestructibleObject(const DestructibleObject &right)
+DestructibleObject::DestructibleObject(const DestructibleObject& aRight)
 {
-    if (this != &right)
+    if (this != &aRight)
     {
-        name = right.name;
-        tag = right.tag;
-        maximumHealth = right.maximumHealth;
-        currentHealth = right.currentHealth;
+        name = aRight.name;
+        tag = aRight.tag;
+        maximumHealth = aRight.maximumHealth;
+        currentHealth = aRight.currentHealth;
 
         for(size_t i = 0; i < DestructibleObject::damageTypesCount; ++i)
-            attackProtection[i] = right.attackProtection[i];
-        Alive = right.Alive;
+            attackProtection[i] = aRight.attackProtection[i];
+        Alive = aRight.Alive;
     }
+}
+
+DestructibleObject& DestructibleObject::operator= (const DestructibleObject& aRight)
+{
+    if (this != &aRight)
+    {
+        connectedMethod = nullptr;
+
+        name = aRight.name;
+        tag = aRight.tag;
+        maximumHealth = aRight.maximumHealth;
+        currentHealth = aRight.currentHealth;
+
+        for(size_t i = 0; i < DestructibleObject::damageTypesCount; ++i)
+            attackProtection[i] = aRight.attackProtection[i];
+        Alive = aRight.Alive;
+    }
+
+    return *this;
 }
 
 int DestructibleObject::getMaximumHealth() const
 {
-	return maximumHealth.first;
+    return maximumHealth.first;
 }
 
 void DestructibleObject::setMaximumHealth(int hp)
 {
-	if (hp < 0)
-		return;
+    if (hp < 0)
+        return;
 
     if (currentHealth == maximumHealth.first)
     {
         maximumHealth.first = hp;
-		setCurrentHealth(hp);
+        setCurrentHealth(hp);
     }
     else
         maximumHealth.first = hp;
@@ -106,14 +118,17 @@ void DestructibleObject::connectMethod(std::function<void (int, int)> handler)
 
 bool DestructibleObject::changeHealth(int amount)
 {
+    if (!IsAlive())
+    {
+        return true;
+    }
 
     if (currentHealth + amount > getMaximumHealth())
     {
         currentHealth =  getMaximumHealth();
 
     }
-    else
-    if (currentHealth + amount  <= 0)
+    else if (currentHealth + amount  <= 0)
     {
         currentHealth = 0;
         setIsAlive(false);
@@ -128,10 +143,10 @@ bool DestructibleObject::changeHealth(int amount)
 
 void DestructibleObject::setCurrentHealth(int hp)
 {
-	if (hp < 0)
-		return;
+    if (hp < 0)
+        return;
 
-	currentHealth = hp;
+    currentHealth = hp;
 }
 
 void DestructibleObject::setIsAlive(bool aAlive)
@@ -141,17 +156,17 @@ void DestructibleObject::setIsAlive(bool aAlive)
 
 bool DestructibleObject::receiveDamage(int* damage)
 {
-    if (damage == nullptr)
+    if (damage == nullptr || !IsAlive())
         return false;
 
-	int summaryDamage = 0;
+    int summaryDamage = 0;
     for(size_t i = 0; i < DestructibleObject::damageTypesCount; ++i)
-	{
+    {
         auto temp = attackProtection[i].first + attackProtection[i].second - damage[i];
-		if (temp < 0)
-			summaryDamage += temp;
-	}
-	if (summaryDamage < 0)
+        if (temp < 0)
+            summaryDamage += temp;
+    }
+    if (summaryDamage < 0)
         return changeHealth(summaryDamage);
 
     return false;
@@ -165,27 +180,32 @@ bool DestructibleObject::receiveDamageOneType(size_t damage_type, int damage)
     auto summaryDamage = attackProtection[damage_type].first + attackProtection[damage_type].second - damage;
 
     if (summaryDamage < 0)
-       return changeHealth(summaryDamage);
+        return changeHealth(summaryDamage);
 
     return false;
 }
 
 bool DestructibleObject::addHealth(int amount)
 {
-    bool result = false;
+    bool isMaximumReached = false;
+
+    if (!IsAlive())
+    {
+        return isMaximumReached;
+    }
 
     currentHealth += amount;
     if (currentHealth > getMaximumHealth())
     {
         currentHealth = getMaximumHealth();
-        result = true;
+        isMaximumReached = true;
     }
 
     std::cout << "Health added" << std::endl;
     if (connectedMethod != nullptr)
         connectedMethod(currentHealth, getMaximumHealth());
 
-    return result;
+    return isMaximumReached;
 }
 
 void DestructibleObject::setProtectionModifier(int modifier)

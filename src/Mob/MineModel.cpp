@@ -85,6 +85,11 @@ Enums::ResourceTypes MineModel::getProductionType() const
     return productionType;
 }
 
+size_t MineModel::getProductionTypeIndex() const
+{
+    return Enums::toIntegralType(productionType);
+}
+
 void MineModel::produce(double timestep, std::shared_ptr<ResourcesModel> aResourceModel)
 {
     if (currentTime <= 0)

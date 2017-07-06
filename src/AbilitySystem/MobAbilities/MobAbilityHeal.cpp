@@ -21,8 +21,13 @@ bool MobAbilityHeal::onReady(double /*timestep*/)
 
         for(auto& affectedMob : *affectedMobs)
         {
-            if (affectedMob == nullptr || affectedMob->getTag() != "Monster")
+            if (affectedMob == nullptr
+                    || affectedMob->getTag() != "Monster"
+                    || !affectedMob->getDestructibleObject()
+                    || !affectedMob->getDestructibleObject()->IsAlive())
+            {
                 continue;
+            }
 
             double percentage = static_cast<double>(affectedMob->getDestructibleObject()->getCurrentHealth())
                 / affectedMob->getDestructibleObject()->getMaximumHealth();
@@ -38,8 +43,6 @@ bool MobAbilityHeal::onReady(double /*timestep*/)
                 }
             }
         }
-
-
     }
 
     abilityState = Enums::AbilityStates::asNotAvaliable;
@@ -84,8 +87,13 @@ bool MobAbilityHeal::canTrigger(std::shared_ptr<SceneObject> targ, Enums::AIMobS
     int counter = 0;
     for(auto& affectedMob : *affectedMobs)
     {
-        if (affectedMob == nullptr || affectedMob->getTag() != "Monster")
+        if (affectedMob == nullptr
+                || affectedMob->getTag() != "Monster"
+                || !affectedMob->getDestructibleObject()
+                || !affectedMob->getDestructibleObject()->IsAlive())
+        {
             continue;
+        }
 
         double percentage = static_cast<double>(affectedMob->getDestructibleObject()->getCurrentHealth())
             / affectedMob->getDestructibleObject()->getMaximumHealth();

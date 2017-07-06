@@ -33,10 +33,6 @@ void Mob::init(int x, int y)
 
     if (mobModel->getTag() == "Monster")
 		GameModel::getInstance()->incMonsterCount();
-
-    //mobAI->initMobAbilities();
-
-
 }
 
 bool Mob::update(double timestep)
@@ -61,7 +57,10 @@ bool Mob::update(double timestep)
 
     SceneObject::update(timestep);
 
-    mobAI->MakeDecision(timestep);
+    if (mobAI != nullptr)
+    {
+        mobAI->MakeDecision(timestep);
+    }
 
     return true;
 }

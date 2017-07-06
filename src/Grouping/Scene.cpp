@@ -17,14 +17,14 @@ using std::list;
 #include <algorithm>
 
 
-Scene::Scene(std::shared_ptr<RenderingSystem> &aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher)
-: renderer(aRenderer)
-, mInputDispatcher(aInputDispatcher)
-, MainRect(std::make_shared<ConcreteComposite>())
-, listGUI()
-, sceneObjects()
-, parentSceneManager(nullptr)
-, mCamera(Size(aRenderer->getScreenSize().width, aRenderer->getScreenSize().height))
+Scene::Scene(std::shared_ptr<RenderingSystem>& aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher)
+    : renderer(aRenderer)
+    , mInputDispatcher(aInputDispatcher)
+    , MainRect(std::make_shared<ConcreteComposite>())
+    , listGUI()
+    , sceneObjects()
+    , parentSceneManager(nullptr)
+    , mCamera(Size(aRenderer->getScreenSize().width, aRenderer->getScreenSize().height))
 {
 
     MainRect->setScalingFactor(renderer->getScalingFactor());
@@ -34,7 +34,7 @@ Scene::Scene(std::shared_ptr<RenderingSystem> &aRenderer, std::shared_ptr<InputD
 
 void Scene::init(std::shared_ptr<SceneManager> sceneManagerPtr)
 {
-	parentSceneManager = sceneManagerPtr;
+    parentSceneManager = sceneManagerPtr;
 }
 
 void Scene::copyToRender() const
@@ -47,10 +47,12 @@ void Scene::startUpdate(double timestep)
 {
     for(auto iter = sceneObjects.begin(); iter != sceneObjects.end(); )
     {
-        if ((*iter) != nullptr && (*iter)->update(timestep) == false)
-            sceneObjects.erase(iter++);
-        else
-            ++iter;
+        if (!(*iter) || !(*iter)->update(timestep))
+        {
+            iter = sceneObjects.erase(iter);
+            continue;
+        }
+        ++iter;
     }
 }
 
@@ -84,7 +86,7 @@ void Scene::destroyObject(std::shared_ptr<SceneObject> obj)
     obj->finalize();
 }
 
-void Scene::addToUIList(const std::shared_ptr<IComposite> &item)
+void Scene::addToUIList(const std::shared_ptr<IComposite>& item)
 {
     if (item == nullptr)
         return;
@@ -100,7 +102,7 @@ void Scene::addToUIList(const std::shared_ptr<IComposite> &item)
         std::cout << "fucking NULL";
 }
 
-void Scene::removeFromUIList(const std::shared_ptr<IComposite> &item)
+void Scene::removeFromUIList(const std::shared_ptr<IComposite>& item)
 {
     if (item == nullptr)
         return;
@@ -116,10 +118,11 @@ void Scene::removeFromUIList(const std::shared_ptr<IComposite> &item)
 void Scene::replaceObject(std::shared_ptr<SceneObject> aObject, std::shared_ptr<SceneObject> aReplacement)
 {
     auto comparator = [&aObject](std::shared_ptr<SceneObject>& aRight)
-        {
-            return aObject->getTag() == aRight->getTag()
-                && aObject->getPosition() == aRight->getPosition();//TODO: нужно нормальное сравнение объёектов сцены
-        };
+    {
+        return aObject->getTag() == aRight->getTag()
+               && aObject->getPosition() ==
+               aRight->getPosition();//TODO: нужно нормальное сравнение объёектов сцены
+    };
 
     auto obj = std::find_if(sceneObjects.begin(), sceneObjects.end(), comparator);
     if (obj != sceneObjects.cend())
@@ -156,7 +159,6 @@ void Scene::softClear()
 
 void Scene::addAsInputHandler(std::shared_ptr<InputHandler> item)
 {
-
     if (item != nullptr)
         mInputDispatcher->addHandler(item);
 }
@@ -167,7 +169,6 @@ void Scene::clearUIList()
     listGUI.clear();
     mInputDispatcher->clearHandlers();
 }
-
 
 std::shared_ptr<SceneObject> Scene::findObjectByTag(std::string tag)
 {
@@ -186,8 +187,8 @@ Scene::SceneObjectList Scene::findObjectsByTag(string tag)
 
     for(const auto& sceneObjectPtr : sceneObjects)
     {
-      if (sceneObjectPtr->getTag() == tag)
-        filteredList->push_back(sceneObjectPtr);
+        if (sceneObjectPtr->getTag() == tag)
+            filteredList->push_back(sceneObjectPtr);
     }
 
     if (filteredList->empty())
@@ -204,17 +205,17 @@ std::shared_ptr<SceneObject> Scene::findObjectWithPos(int x, int y)
     SDL_Point point = {x, y};
     for(auto& sceneobject : sceneObjects)
     {
-      if (sceneobject != nullptr)
-      {
-          const SDL_Rect some = {sceneobject->getSprite()->getPosition().x
-                                 , sceneobject->getSprite()->getPosition().y
-                                , sceneobject->getSprite()->getSize().width
-                                , sceneobject->getSprite()->getSize().height
-                                };
+        if (sceneobject != nullptr)
+        {
+            const SDL_Rect some = {sceneobject->getSprite()->getPosition().x
+                                   , sceneobject->getSprite()->getPosition().y
+                                   , sceneobject->getSprite()->getSize().width
+                                   , sceneobject->getSprite()->getSize().height
+                                  };
 
-          if (SDL_PointInRect(&point, &some))
-               return sceneobject;
-       }
+            if (SDL_PointInRect(&point, &some))
+                return sceneobject;
+        }
     }
     return nullptr;
 }
@@ -224,17 +225,17 @@ Scene::SceneObjectList Scene::findObjectsWithPos(int x, int y)
     SDL_Point point = {x, y};
     auto filteredList =  std::make_unique<std::list<std::shared_ptr<SceneObject>>>();
 
-    for(auto &sceneobject : sceneObjects)
+    for(auto& sceneobject : sceneObjects)
     {
         if (sceneobject != nullptr)
         {
-           const SDL_Rect some = {sceneobject->getSprite()->getPosition().x
-                                  , sceneobject->getSprite()->getPosition().y
-                                 , sceneobject->getSprite()->getSize().width
-                                 , sceneobject->getSprite()->getSize().height
-                                 };
+            const SDL_Rect some = {sceneobject->getSprite()->getPosition().x
+                                   , sceneobject->getSprite()->getPosition().y
+                                   , sceneobject->getSprite()->getSize().width
+                                   , sceneobject->getSprite()->getSize().height
+                                  };
 
-           if (SDL_PointInRect(&point, &some))
+            if (SDL_PointInRect(&point, &some))
                 filteredList->push_back(sceneobject);
         }
     }
@@ -253,7 +254,7 @@ Scene::SceneObjectList Scene::findObjectsInRadius(Position aCenter, size_t aRadi
     auto filteredList =  std::make_unique<std::list<std::shared_ptr<SceneObject>>>();
     size_t rSqr = aRadius * aRadius;
 
-    for(auto &sceneobject : sceneObjects)
+    for(auto& sceneobject : sceneObjects)
     {
         if (sceneobject != nullptr)
         {
@@ -285,48 +286,48 @@ std::shared_ptr<SceneManager> Scene::getParentSceneManager()
 void Scene::onGameQuit()
 {
     GameModel::getInstance()->saveGameData("GameData/save.bin");
-
 }
 
-std::shared_ptr<ConcreteComposite> &Scene::getMainRect()
+std::shared_ptr<ConcreteComposite>& Scene::getMainRect()
 {
     return MainRect;
 }
 
-std::shared_ptr<RenderingSystem> &Scene::getRenderer()
+std::shared_ptr<RenderingSystem>& Scene::getRenderer()
 {
     return renderer;
 }
 
-void Scene::addLoadSceneButton(string aButtonName, string aFontName, string aSceneName, int posX, int posY, int /*width*/, int /*height*/)
+void Scene::addLoadSceneButton(string aButtonName, string aFontName, string aSceneName, int posX, int posY,
+                               int /*width*/, int /*height*/)
 {
 
-      auto textButton = std::make_shared<UITextButton>(aButtonName, FontManager::getInstance()->getFontByKind2(aFontName), renderer);
-      textButton->setPosition(Position(posX, posY));
-      textButton->ConnectMethod(std::bind(&SceneManager::setCurrentSceneByName, getParentSceneManager(), aSceneName));
+    auto textButton = std::make_shared<UITextButton>(aButtonName, FontManager::getInstance()->getFontByKind2(aFontName),
+                      renderer);
+    textButton->setPosition(Position(posX, posY));
+    textButton->ConnectMethod(std::bind(&SceneManager::setCurrentSceneByName, getParentSceneManager(), aSceneName));
 
-      MainRect->addChild(textButton);
+    MainRect->addChild(textButton);
 
 }
 
-void Scene::addSceneButton(string aButtonName,
-                           string aFontName,
-                           int posX, int posY, int /*width*/, int /*height*/, std::function<void(string)> handler
-                           , std::string aMsg)
+void Scene::addSceneButton(
+    string aButtonName, string aFontName, int posX, int posY, int /*width*/, int /*height*/,
+    std::function<void(string)> handler, std::string aMsg)
 {
+    auto textButton = std::make_shared<UITextButton>(aButtonName, FontManager::getInstance()->getFontByKind2(aFontName),
+                      renderer);
+    textButton->setPosition(Position(posX, posY));
+    textButton->setMessage(aMsg);
+    textButton->ConnectMethod(handler);
 
-      auto textButton = std::make_shared<UITextButton>(aButtonName, FontManager::getInstance()->getFontByKind2(aFontName), renderer);
-      textButton->setPosition(Position(posX, posY));
-      textButton->setMessage(aMsg);
-      textButton->ConnectMethod(handler);
-
-      MainRect->addChild(textButton);
-
+    MainRect->addChild(textButton);
 }
 
 void Scene::drawSceneObjects() const
 {
-    for(auto& sceneObject : sceneObjects)
+    for(const auto& sceneObject : sceneObjects)
+    {
         if (sceneObject != nullptr && sceneObject->getSprite() != nullptr )
         {
             Position sceneObjectPosition = sceneObject->getPosition();
@@ -334,13 +335,18 @@ void Scene::drawSceneObjects() const
             if (mCamera.hasIntersection(sceneObjectPosition, sceneObjectSize))
                 sceneObject->getSprite()->drawAtPosition(mCamera.worldToCameraPosition(sceneObjectPosition));
         }
+    }
 }
 
 void Scene::drawUI() const
 {
     for(const auto& guiItem : listGUI)
+    {
         if (guiItem != nullptr)
+        {
             guiItem->draw();
+        }
+    }
 }
 
 void Scene::clear()

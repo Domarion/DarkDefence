@@ -93,9 +93,11 @@ void GameModel::loadMonsterList(string filename)
         xmlinp(cereal::make_nvp("Monsters", monsterCollection));
     }
 
-	for(auto i = monsterCollection.begin(); i != monsterCollection.end(); ++i)
+    auto beginMove = std::make_move_iterator(monsterCollection.begin());
+    auto endMove =std::make_move_iterator(monsterCollection.end());
+    for(auto i = beginMove ; i != endMove; ++i)
 	{
-        monstersModelsMap.insert(std::make_pair(i->getName(), *i));
+        monstersModelsMap.emplace(i->getName(), *i);
 	}
 }
 
@@ -160,8 +162,8 @@ void GameModel::loadMinesList(string filename)
 
     for(auto i = mineCollection.begin(); i != mineCollection.end(); ++i)
     {
-        minesModelsMap.insert(std::make_pair(i->getName(), *i));
-        mineResMapping[static_cast<int>(i->getProductionType())] = i->getName();
+        mineResMapping[i->getProductionTypeIndex()] = i->getName();
+        minesModelsMap.emplace(i->getName(), std::move(*i));
     }
 }
 

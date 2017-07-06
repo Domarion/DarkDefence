@@ -13,8 +13,4 @@ public:
 
     // MobAbility interface
     bool canTrigger(std::shared_ptr<SceneObject> targ, Enums::AIMobStates aistate) override;
-
-private:
-
-    double counter = 0.0;
 };
