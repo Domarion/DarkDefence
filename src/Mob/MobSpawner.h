@@ -6,10 +6,12 @@
  */
 
 #pragma once
+
 #include <string>
 #include <utility>
 #include <vector>
 #include <functional>
+#include <deque>
 
 using std::string;
 
@@ -27,24 +29,25 @@ public:
     MobSpawner();
     void loadWavesInfo(std::string filename);
 	bool canSpawn(double timestep);
+    bool IsReadyForSpawn() const;
     bool noMoreWaves() const;
     double getCurrentTime() const;
     bool isSpawned() const;
     size_t getWaveNumber() const;
     size_t getWaveCount() const;
     void reset();
-    std::vector<std::pair<string, int> > getCurrentWaveInfo();
     void connectInfoProcesser(std::function<void(string)> aInfoProcesser);
     void update(double timestep);
     void disconnectInfoProcesser();
-    string getNextMobName();
+    std::string getMobNameToSpawn();
+
 private:
+
     double period;
     double currentTime;
     size_t waveNumber, waveCount;
-    std::vector<std::vector<std::pair<string, int> > > wavesInfo;
     std::function<void(string)> mInfoProcesser;
     std::string previousValue{};
     SpawnStatusT currentSpawnStatus;
-    std::tuple<int, string, int> nextInfo;
+    std::vector<std::deque<std::pair<int, std::string>>> waveMobList;
 };

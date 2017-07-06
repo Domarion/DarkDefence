@@ -191,7 +191,7 @@ void GameModel::addItemToInventoryByName(string name)
     shop->sendItemWithoutPriceCheck(name);
 }
 
-bool GameModel::canSpawn() const
+bool GameModel::NoMonstersOnMap() const
 {
 	return (MonsterCountOnMap == 0);
 }

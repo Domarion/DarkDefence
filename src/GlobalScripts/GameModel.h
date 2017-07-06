@@ -52,7 +52,7 @@ public:
 
     void addItemToInventoryByName(string name);
 
-	bool canSpawn() const;
+    bool NoMonstersOnMap() const;
 	void incMonsterCount();
     void decMonsterCount(string monsterName);
 

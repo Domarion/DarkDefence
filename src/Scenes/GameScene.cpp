@@ -301,7 +301,10 @@ void GameScene::placingCallBack()
 
 void GameScene::spawningCallBack(std::string aMobName, Position aSpawnPosition)
 {
-    std::cout << "Entering placing" << std::endl;
+    static int counter11 = 0;
+
+    ++counter11;
+    std::cout << "Entering placing " << counter11 << std::endl;
 
     auto tileMapCopy = std::make_shared<TileMapManager>(*tileMap);
     auto someMob = std::make_shared<Mob>(GameModel::getInstance()->getMonsterByName(aMobName), tileMapCopy);

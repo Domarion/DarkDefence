@@ -23,7 +23,7 @@ bool Spawner::update(double timestep)
 
 void Spawner::doSpawn()
 {
-    if (mSpawnerModel.isSpawned())
+    if (!mSpawnerModel.IsReadyForSpawn())
     {
         return;
     }
@@ -36,9 +36,9 @@ void Spawner::doSpawn()
 
     currentTime = 0;
 
-    auto nextMobName = mSpawnerModel.getNextMobName();
+    auto nextMobName = mSpawnerModel.getMobNameToSpawn();
 
-    if (nextMobName == "none")
+    if (nextMobName.empty())
     {
         currentTime = timePeriod;
         return;
