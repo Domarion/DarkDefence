@@ -45,13 +45,14 @@ void Scene::copyToRender() const
 
 void Scene::startUpdate(double timestep)
 {
-    for(auto iter = sceneObjects.begin(); iter != sceneObjects.end(); )
+    for(auto iter = sceneObjects.begin(); iter != sceneObjects.end();)
     {
         if (!(*iter) || !(*iter)->update(timestep))
         {
             iter = sceneObjects.erase(iter);
             continue;
         }
+
         ++iter;
     }
 }

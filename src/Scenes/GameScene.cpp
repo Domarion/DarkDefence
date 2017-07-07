@@ -642,7 +642,6 @@ void GameScene::clear()
         monsterSpawner.reset();
     }
     mManaModel = nullptr;
-    GameModel::getInstance()->getResourcesModel()->loadFromFile("GameData/resources.txt");
     mGameSceneCurrentStatus = Enums::GameSceneStatuses::Default;
     mSceneMode = SceneModeT::StandardMode;
     Scene::clear();

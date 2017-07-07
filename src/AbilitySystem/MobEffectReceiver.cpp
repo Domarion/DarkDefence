@@ -57,13 +57,8 @@ bool MobEffectReceiver::parseMethod(list<pair<string, double> >& attributes, int
         }
         else if (attrib->first == "ReloadTime")
         {
-            double newAmount = mobModelPtr->getReloadTimeModifier() + amount;
-            mobModelPtr->setReloadTimeModifier( newAmount );
-            if (removeFlag == -1)
-            {
-                double oldAmount = mobModelPtr->getReloadTime() + amount;
-                mobModelPtr->setReloadTime(oldAmount);
-            }
+            double newAmount = mobModelPtr->getReloadTimeMaximumModifier() + amount;
+            mobModelPtr->setReloadTimeMaximumModifier( newAmount );
         }
         else if (attrib->first == "Stun")
         {

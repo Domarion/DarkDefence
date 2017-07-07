@@ -68,7 +68,7 @@ MobModel::MobModel(string aName,
     : DestructibleObject(aName, aTag, aMaxHealth, aProtection), attackDistance(distance, 0.0)
     , moveSpeed(speed, 0.0)
     , reloadTimeMaximum(aReloadTime, 0.0)
-    , reloadTime(aReloadTime)
+    , reloadTime(0)
     , damageArea(aDamageArea)
     , enemiesInfo(enemiesTags)
     , isVisible(true)
@@ -95,6 +95,7 @@ MobModel::MobModel(const MobModel& right)
         moveSpeed = right.moveSpeed;
         enemiesInfo = right.enemiesInfo;
         reloadTimeMaximum = right.reloadTimeMaximum;
+        reloadTime = right.reloadTime;
         mobAbilitiesNames = right.mobAbilitiesNames;
 
         for(size_t i = 0; i < DestructibleObject::damageTypesCount; ++i)
@@ -169,32 +170,49 @@ double MobModel::getAttackDistanceModifier() const
 
 void MobModel::reload()
 {
-    reloadTime = reloadTimeMaximum.first + reloadTimeMaximum.second;
+    reloadTime = 0;
 }
 
-double MobModel::getReloadTime() const
+double MobModel::getReloadTimeCurrent() const
 {
     return reloadTime;
 }
 
-void MobModel::setReloadTime(double aReloadTime)
+void MobModel::setReloadTimeCurrent(double aReloadTime)
 {
     reloadTime = aReloadTime;
 }
 
-void MobModel::setReloadTimeMaximum(double reloadTimeMax)
+void MobModel::setReloadTimeMaximumBase(double reloadTimeMax)
 {
     reloadTimeMaximum.first = reloadTimeMax;
 }
 
-double MobModel::getReloadTimeModifier() const
+double MobModel::getReloadTimeMaximumModifier() const
 {
     return reloadTimeMaximum.second;
 }
 
-void MobModel::setReloadTimeModifier(double modifier)
+void MobModel::setReloadTimeMaximumModifier(double modifier)
 {
     reloadTimeMaximum.second = modifier;
+}
+
+double MobModel::getReloadTimeMaximumBase() const
+{
+    return reloadTimeMaximum.first;
+}
+
+bool MobModel::IsReloadingInProgress() const
+{
+    const double EPSe3 = 1e-3;
+    double reloadTimeDiff = reloadTime - reloadTimeMaximum.first - reloadTimeMaximum.second;
+    return reloadTimeDiff < EPSe3;
+}
+
+void MobModel::ProcessReloadStep(double aTimeStep)
+{
+    reloadTime += aTimeStep;
 }
 
 bool MobModel::isMobVisible() const

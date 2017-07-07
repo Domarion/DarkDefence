@@ -26,6 +26,11 @@ AIComponent::AIComponent(std::weak_ptr<Mob> aMob)
 
 void AIComponent::MakeDecision(double timestep)
 {
+    if (MobPtr.lock()->getDestructibleObject() && !MobPtr.lock()->getDestructibleObject()->IsAlive())
+    {
+        return;
+    }
+
     switch(aiMobState)
     {
     case AIMobStates::aiSEARCH:
@@ -51,8 +56,6 @@ void AIComponent::MakeDecision(double timestep)
     for(auto& abilityPtr : mobAbilities)
         if (abilityPtr != nullptr)
             abilityPtr->update(timestep);
-
-
 }
 
 std::shared_ptr<SceneObject> AIComponent::getCurrentTarget()
@@ -63,6 +66,7 @@ std::shared_ptr<SceneObject> AIComponent::getCurrentTarget()
 void AIComponent::Search()
 {
     enemiesInfoList = MobPtr.lock()->getModel()->getEnemyTags();
+
     for(const auto& enemyInfo : enemiesInfoList)
     {
         auto lst = MobPtr.lock()->getParentScene()->findObjectsByTag(enemyInfo.getTag());
@@ -71,10 +75,8 @@ void AIComponent::Search()
         avaliableTargets.insert(avaliableTargets.end(), lst->begin(), lst->end());
     }
 
-
     if (!avaliableTargets.empty())
         aiMobState = AIMobStates::aiSELECT;
-
 }
 
 void AIComponent::Select()
@@ -85,11 +87,19 @@ void AIComponent::Select()
         int maxPriority = 0;
         for(auto& target: avaliableTargets)
         {
-
             if (target == nullptr || !target->isVisible())
                 continue;
+
+            bool isTargetAlive = target->getDestructibleObject()->IsAlive();
+
+            if (!isTargetAlive)
+            {
+                continue;
+            }
+
             int distanceSqr = MobPtr.lock()->computeDistanceSqr(target);
             int priority = getPriorityFromTag(target->getTag());
+
             if (priority > maxPriority || (priority == maxPriority && distanceSqr < closestDistanceSqr))
             {
                 maxPriority = priority;
@@ -100,9 +110,12 @@ void AIComponent::Select()
     }
 
     if (currentTarget == nullptr)
+    {
         aiMobState = AIMobStates::aiSEARCH;
-    else
-        aiMobState = AIMobStates::aiMOVE;
+        return;
+    }
+
+    aiMobState = AIMobStates::aiMOVE;
 }
 
 
@@ -161,9 +174,9 @@ void AIComponent::Attack()
 
 void AIComponent::Reload(double timestep)
 {
-    if (MobPtr.lock()->getModel()->getReloadTime() > 0)
+    if (MobPtr.lock()->getModel()->IsReloadingInProgress())
     {
-        MobPtr.lock()->getModel()->setReloadTime(MobPtr.lock()->getModel()->getReloadTime() - timestep);
+        MobPtr.lock()->getModel()->ProcessReloadStep(timestep);
         return;
     }
 
@@ -193,7 +206,7 @@ void AIComponent::MovetoTile(double timestep)
     pair<int, int> mobPos = tilemapPtr->getPosFromGlobalCoords(MobPtr.lock()->getPosition());
     pair<int, int> targetPos = tilemapPtr->getPosFromGlobalCoords(currentTarget->getPosition());
 
-    if (distanceInRange(mobPos, targetPos))
+    if (distanceSquareInRange(mobPos, targetPos))
     {
         aiMobState = AIMobStates::aiATTACK;
         nextCell = emptyCell;
@@ -293,14 +306,14 @@ void AIComponent::MoveToPos(double /*timestep*/, Position targetPoint)
 }
 
 
-bool AIComponent::distanceInRange(const pair<int, int>& firstPoint, const pair<int, int>& secondPoint)
+bool AIComponent::distanceSquareInRange(const pair<int, int>& firstPoint, const pair<int, int>& secondPoint)
 {
     int diffX = secondPoint.first - firstPoint.first;
     int diffY = secondPoint.second - firstPoint.second;
-    int current_distance = diffX*diffX + diffY*diffY;
-    int attackDistance = static_cast<int>(MobPtr.lock()->getModel()->getAttackDistance().first);
-
-    return current_distance <= attackDistance;
+    int current_distanceSqr = diffX*diffX + diffY*diffY;
+    int attackDistanceSqr = static_cast<int>(MobPtr.lock()->getModel()->getAttackDistance().first);
+    attackDistanceSqr *= attackDistanceSqr;
+    return current_distanceSqr <= attackDistanceSqr;
 }
 
 int AIComponent::signum(int aValue) const

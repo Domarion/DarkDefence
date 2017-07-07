@@ -20,10 +20,9 @@ using std::list;
 class MobModel: public DestructibleObject
 {
     friend class cereal::access;
-	template <typename Archive>
-    void serialize(Archive &ar)
-	{
-
+    template <typename Archive>
+    void serialize(Archive& ar)
+    {
         ar(
             cereal::base_class<DestructibleObject>(this),
             CEREAL_NVP(attackDamage),
@@ -35,15 +34,12 @@ class MobModel: public DestructibleObject
             cereal::make_nvp("Abilities", mobAbilitiesNames),
             CEREAL_NVP(price),
             CEREAL_NVP(arrowName)
-           );
-
-        reloadTime = reloadTimeMaximum.first + reloadTimeMaximum.second;
-
-	}
+        );
+    }
 
 
 public:
-	MobModel();
+    MobModel();
     MobModel(string aName,
              string aTag,
              int aMaxHealth,
@@ -58,20 +54,20 @@ public:
 
     virtual ~MobModel() = default;
 
-	MobModel(const MobModel& right);
+    MobModel(const MobModel& right);
 
     const std::string& getArrowName() const;
     void setArrowName(const std::string& aArrowName);
 
-	const pair<double, double>& getAttackDistance() const;
-	void setAttackDistance(const pair<double, double>& attackDistance);
+    const pair<double, double>& getAttackDistance() const;
+    void setAttackDistance(const pair<double, double>& attackDistance);
 
     int* getAttackDamage();
 
-	const pair<double, double>& getMoveSpeed() const;
-	void setMoveSpeed(const pair<double, double>& moveSpeed);
-    const list<EnemyInfo> &getEnemyTags() const;
-	bool checkDistance(int distanceSqr);
+    const pair<double, double>& getMoveSpeed() const;
+    void setMoveSpeed(const pair<double, double>& moveSpeed);
+    const list<EnemyInfo>& getEnemyTags() const;
+    bool checkDistance(int distanceSqr);
 
     void setAttackDamageModifier(size_t index, int modifier);
     int getAttackDamageModifier(size_t index);
@@ -87,15 +83,19 @@ public:
     void setAttackDistanceModifier(double modifier);
     double getAttackDistanceModifier() const;
 
-	void reload();
-	double getReloadTime() const;
-	void setReloadTime(double reloadTime);
+    void reload();
+    double getReloadTimeCurrent() const;
+    void setReloadTimeCurrent(double reloadTime);
 
-    void setReloadTimeMaximum(double reloadTimeMax);
+    void setReloadTimeMaximumBase(double reloadTimeMax);
 
-    double getReloadTimeModifier() const;
-    void setReloadTimeModifier(double modifier);
+    double getReloadTimeMaximumModifier() const;
+    void setReloadTimeMaximumModifier(double modifier);
 
+    double getReloadTimeMaximumBase() const;
+
+    bool IsReloadingInProgress() const;
+    void ProcessReloadStep(double aTimeStep);
     bool isMobVisible() const;
     void setMobVisiblity(bool flag);
     void setAbilitiesNames(list<string> abNames);
@@ -112,11 +112,11 @@ public:
 private:
 
     std::array<pair<int, int>, GlobalConstants::damageTypeCount> attackDamage;
-	pair<double, double> attackDistance;
-	pair<double, double> moveSpeed;
+    pair<double, double> attackDistance;
+    pair<double, double> moveSpeed;
 
-	pair<double, double> reloadTimeMaximum;
-    double reloadTime;
+    pair<double, double> reloadTimeMaximum;
+    double reloadTime = 0;
     int damageArea;
     list<EnemyInfo> enemiesInfo;
     bool isVisible;
@@ -125,7 +125,6 @@ private:
     list<string> mobAbilitiesNames;
     std::array<int, GlobalConstants::resourceTypeCount> price;
     std::string arrowName;
-
 };
 
 
