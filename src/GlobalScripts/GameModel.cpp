@@ -458,8 +458,10 @@ map<string, MobModel> &GameModel::getMonsterList()
 
 GameModel*  GameModel::getInstance()
 {
-    if (instance_ == nullptr)
+    if (!instance_)
+    {
         instance_ = new GameModel();
+    }
 
 	return instance_;
 }

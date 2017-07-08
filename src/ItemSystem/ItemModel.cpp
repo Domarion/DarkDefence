@@ -7,73 +7,65 @@
 
 #include "ItemModel.h"
 
-ItemModel::ItemModel()
+ItemModel::ItemModel(
+    const std::string& aCaption, const std::string& aDescription, Enums::ItemTypes aItemType, int aPrice)
+    : caption(aCaption)
+    , description(aDescription)
+    , itemType(aItemType)
+    , price(aPrice)
 {
-	// TODO Auto-generated constructor stub
-
-}
-
-ItemModel::ItemModel(std::string aCaption, std::string aDescription, Enums::ItemTypes aItemType, int aPrice)
-    :caption(aCaption), description(aDescription), itemType(aItemType), price(aPrice)
-{
-
-}
-
-ItemModel::~ItemModel()
-{
-	// TODO Auto-generated destructor stub
 }
 
 const std::string& ItemModel::getDescription() const
 {
-	return description;
+    return description;
 }
 
-void ItemModel::setDescription(const std::string& description)
+void ItemModel::setDescription(const std::string& aDescription)
 {
-	this->description = description;
+    description = aDescription;
 }
 
 Enums::ItemTypes ItemModel::getItemType() const
 {
-	return itemType;
+    return itemType;
 }
 
-void ItemModel::setItemType(Enums::ItemTypes itemType)
+void ItemModel::setItemType(Enums::ItemTypes aItemType)
 {
-	this->itemType = itemType;
+    itemType = aItemType;
 }
 
 int ItemModel::getPrice() const
 {
-	return price;
+    return price;
 }
 
-void ItemModel::setPrice(int price)
+void ItemModel::setPrice(int aPrice)
 {
-	this->price = price;
+    price = aPrice;
 }
 
 void ItemModel::clean()
 {
-	itemType = Enums::ItemTypes::DEFAULT;
-	safeClean();
+    itemType = Enums::ItemTypes::DEFAULT;
+    safeClean();
 
 }
 
 const std::string& ItemModel::getCaption() const
 {
-	return caption;
+    return caption;
 }
 
-void ItemModel::setCaption(const std::string& caption)
+void ItemModel::setCaption(const std::string& aCaption)
 {
-	this->caption = caption;
+    caption = aCaption;
 }
 
 void ItemModel::safeClean()
 {
-	caption.clear();
-	description.clear();
-	price = 0;
+    caption.clear();
+    description.clear();
+    price = 0;
 }

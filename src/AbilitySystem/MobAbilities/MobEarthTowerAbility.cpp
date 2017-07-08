@@ -39,7 +39,8 @@ bool MobEarthTowerAbility::onCooldown(double /*timestep*/)
 
 bool MobEarthTowerAbility::onWorking(double timestep)
 {
-    if (currentWorkTime == 0)
+    const double EPSe3 = 1e-3;
+    if (fabs(currentWorkTime) < EPSe3)
     {
         currentWorkTime = workTime;
 

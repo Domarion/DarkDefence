@@ -317,14 +317,14 @@ void DataGenerator::saveTextureData()
 {
     vector<UtilityStruct::Res> dataVector
     {
-        {"WatcherTower", Size{50, 80}, "GameData/textures/Towers/WatcherTower.png"},
-        {"BallistaTower", Size{50, 80}, "GameData/textures/Towers/BallistaTower.png"},
-        {"CatapultTower", Size{50, 80}, "GameData/textures/Towers/CatapultTower.png"},
-        {"ProductivityTower", Size{50, 80}, "GameData/textures/Towers/ProductivityTower.png"},
-        {"MageTower", Size{50, 80}, "GameData/textures/Towers/MageTower.png"},
-        {"WindTower", Size{50, 80}, "GameData/textures/Towers/WindTower.png"},
-        {"EarthTower", Size{50, 80}, "GameData/textures/Towers/EarthTower.png"},
-        {"CloudTower", Size{50, 80}, "GameData/textures/Towers/CloudTower.png"}
+        {"WatcherTower", Size{50, 80}, "GameData/textures/Towers/WatcherTower.png", ""},
+        {"BallistaTower", Size{50, 80}, "GameData/textures/Towers/BallistaTower.png", ""},
+        {"CatapultTower", Size{50, 80}, "GameData/textures/Towers/CatapultTower.png", ""},
+        {"ProductivityTower", Size{50, 80}, "GameData/textures/Towers/ProductivityTower.png", ""},
+        {"MageTower", Size{50, 80}, "GameData/textures/Towers/MageTower.png", ""},
+        {"WindTower", Size{50, 80}, "GameData/textures/Towers/WindTower.png", ""},
+        {"EarthTower", Size{50, 80}, "GameData/textures/Towers/EarthTower.png", ""},
+        {"CloudTower", Size{50, 80}, "GameData/textures/Towers/CloudTower.png", ""}
     };
 
     std::string filePath = "/home/kostya_hm/TexturePaths.xml";

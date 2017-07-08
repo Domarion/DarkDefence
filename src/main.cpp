@@ -16,10 +16,9 @@ int main( int /*argc*/, char** /*args*/)
 
     Size screenSize = SDL2_Library->getScreenResolution();// (800, 480);
     screenSize.height -= 200;//TODO: убрать
-    auto renderer = std::make_unique<RenderingSystem>(screenSize);
-    auto sceneManager = std::make_unique<SceneManager>();
 
-    auto app = std::make_unique<GameApp>(std::move(sceneManager), std::move(renderer));
+    auto app = std::make_unique<GameApp>(
+        std::make_unique<SceneManager>(), std::make_unique<RenderingSystem>(screenSize));
     app->preloadData();
     app->addScenes();
     int result = app->gameLoop();

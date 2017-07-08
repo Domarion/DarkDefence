@@ -225,14 +225,14 @@ void MobModel::setMobVisiblity(bool flag)
     isVisible = flag;
 }
 
-void MobModel::setAbilitiesNames(list<string> abNames)
+void MobModel::setAbilitiesNames(const list<string>& aAbilityNamesList)
 {
-    mobAbilitiesNames = abNames;
+    mobAbilitiesNames = aAbilityNamesList;
 }
 
-void MobModel::addAbilityName(std::string name)
+void MobModel::addAbilityName(const std::string& aName)
 {
-    mobAbilitiesNames.push_back(name);
+    mobAbilitiesNames.push_back(aName);
 }
 
 void MobModel::replaceAbilityWithName(const std::string& oldName, const std::string& newName)

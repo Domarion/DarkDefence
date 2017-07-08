@@ -32,9 +32,7 @@ bool AbilityModel::onCooldown(double timestep)
 
     currentDelta += timestep;
 
-    //TODO правильное сравнение double
-    if (cooldownListener != nullptr
-        && (currentDelta > spamDelta || currentCooldownTime == currentCooldownTime + timestep))
+    if (cooldownListener != nullptr && currentDelta > spamDelta)
     {
         currentDelta = 0;
         int current = static_cast<int>(cooldownTime - currentCooldownTime);

@@ -15,7 +15,7 @@ class AccountModel
 public:
     static AccountModel* getInstance();
 	const string& getAccountName() const;
-	void setAccountName(const string& accountName);
+    void setAccountName(const string& aAccountName);
 	int getGoldAmount() const;
     void setGoldAmount(int amount);
 	bool PayGold(int amount);

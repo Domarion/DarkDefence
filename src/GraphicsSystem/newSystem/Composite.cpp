@@ -189,7 +189,8 @@ double Composite::getScalingFactor() const
 
 void Composite::setScalingFactor(double aScaleFactor)
 {
-    if (mScaleFactor == aScaleFactor)
+    const double EPSe3 = 1e-3;
+    if (fabs(mScaleFactor - aScaleFactor) < EPSe3)
         return;
 
     mScaleFactor = aScaleFactor;

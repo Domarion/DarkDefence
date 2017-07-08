@@ -18,7 +18,7 @@ public:
 	void increaseLimit(int amount);
 	void decreaseLimit(int amount);
 	const std::string& getCaption() const;
-	void setCaption(const std::string& caption);
+    void setCaption(const std::string& aCaption);
 	int getCurrentAmount() const;
 	void setCurrentAmount(int value);
 	int getLimit() const;

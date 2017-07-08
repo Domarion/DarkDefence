@@ -41,7 +41,10 @@ bool Inventory::sendItem(size_t index)
 {
     std::cout << "itemIndex = " << index << std::endl;
     if (index >= items.size())
+    {
         return false;
+    }
+
 	std::cout << items[index].getCaption() << std::endl;
     if (connectedMethod0 != nullptr && !items[index].getCaption().empty())
 	{

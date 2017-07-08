@@ -34,9 +34,9 @@ const string& AccountModel::getAccountName() const
 	return accountName;
 }
 
-void AccountModel::setAccountName(const string& accountName)
+void AccountModel::setAccountName(const string& aAccountName)
 {
-	this->accountName = accountName;
+    accountName = aAccountName;
 }
 
 int AccountModel::getGoldAmount() const

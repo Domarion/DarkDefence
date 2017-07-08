@@ -98,8 +98,8 @@ public:
     void ProcessReloadStep(double aTimeStep);
     bool isMobVisible() const;
     void setMobVisiblity(bool flag);
-    void setAbilitiesNames(list<string> abNames);
-    void addAbilityName(string name);
+    void setAbilitiesNames(const list<std::string>& aAbilityNamesList);
+    void addAbilityName(const std::string& aName);
     void replaceAbilityWithName(const string& oldName, const string& newName);
     list<string>& getAbilitiesNames();
 

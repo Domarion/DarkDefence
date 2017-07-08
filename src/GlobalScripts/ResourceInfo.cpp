@@ -59,9 +59,9 @@ const std::string& ResourceInfo::getCaption() const
 	return caption;
 }
 
-void ResourceInfo::setCaption(const std::string& caption)
+void ResourceInfo::setCaption(const std::string& aCaption)
 {
-	this->caption = caption;
+    caption = aCaption;
 }
 
 int ResourceInfo::getCurrentAmount() const
