@@ -1,15 +1,17 @@
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/external/sanitizers-cmake/cmake" ${CMAKE_MODULE_PATH})
+
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -g -O2 -Wall -Wextra -pedantic -ggdb \
-    -pedantic-errors -Wextra -Waggregate-return -Wcast-align \
+    -pedantic-errors -Wextra -Wcast-align \
     -Wcast-qual  -Wchar-subscripts  -Wcomment \
     -Wdisabled-optimization \
     -Wfloat-equal  -Wformat  -Wformat=2 \
     -Wformat-nonliteral -Wformat-security  \
     -Wformat-y2k \
-    -Wimplicit  -Wimport  -Winit-self  -Winline \
+    -Wimport  -Winit-self \
     -Winvalid-pch   \
     -Wmissing-braces \
     -Wmissing-field-initializers -Wmissing-format-attribute   \
-    -Wmissing-include-dirs -Wmissing-noreturn \
+    -Wmissing-include-dirs \
     -Wpacked -Wparentheses  -Wpointer-arith \
     -Wredundant-decls -Wreturn-type \
     -Wsequence-point  -Wshadow -Wsign-compare  -Wstack-protector \
@@ -18,7 +20,10 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -g -O2 -Wall -Wextra -pedanti
     -Wunknown-pragmas  -Wunreachable-code -Wunused \
     -Wunused-function  -Wunused-label  -Wunused-parameter \
     -Wunused-value  -Wunused-variable  -Wvariadic-macros \
-    -Wvolatile-register-var  -Wwrite-strings")
+    -Wvolatile-register-var  -Wwrite-strings \
+    -fsanitize=address -fno-omit-frame-pointer")
+#    -fsanitize=leak")
+#-Waggregate-return
 
 include(FindPkgConfig)
 
@@ -29,6 +34,8 @@ PKG_SEARCH_MODULE(SDL2TTF REQUIRED SDL2_ttf)
 set (CerealInclude ../external/cereal/include)
 
 include_directories(. ${SDL2_INCLUDE_DIRS} ${SDL2IMAGE_INCLUDE_DIRS} ${SDL2TTF_INCLUDE_DIRS} ${CerealInclude} )
+
+
 
 set(SRC_LIST
     Input/InputHandler.h
@@ -302,9 +309,11 @@ set(SRC_LIST
 
     )
 
+find_package(Sanitizers)
 
 
 
 add_executable(DarkDefenceGame ${SRC_LIST})
 target_link_libraries( DarkDefenceGame ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES} ${SDL2TTF_LIBRARIES})
+add_sanitizers(DarkDefenceGame)
 
