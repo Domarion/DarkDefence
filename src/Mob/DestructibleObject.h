@@ -10,6 +10,7 @@
 #include <cereal/types/utility.hpp>
 #include <cereal/types/string.hpp>
 #include <cereal/types/array.hpp>
+#include "GlobalConstants.h"
 
 using std::string;
 
@@ -28,21 +29,20 @@ class DestructibleObject
         Alive = true;
     }
 public:
-    const static size_t damageTypesCount = 4;
     DestructibleObject() = default;
 	DestructibleObject(string aName, string aTag, int aMaxHealth, int aProtection[]);
     DestructibleObject(const DestructibleObject& aRight);
     DestructibleObject& operator =(const DestructibleObject& aRight);
 
     virtual ~DestructibleObject() = default;
-    std::array<pair<int, int>, damageTypesCount> getAttackProtection() const;
+    std::array<pair<int, int>, GlobalConstants::damageTypeCount> getAttackProtection() const;
 	const string& getName() const;
     void setName(const string& aName);
 	const string& getTag() const;
     void setTag(const string& aTag);
 	bool IsAlive() const;
 
-    bool receiveDamage(int* damage);
+    bool receiveDamage(const std::array<int, GlobalConstants::damageTypeCount>& aDamage);
     bool receiveDamageOneType(size_t damage_type, int damage);
     bool addHealth(int amount);
     void setProtectionModifier(int modifier);
@@ -63,7 +63,7 @@ protected:
     bool Alive = true;
     int currentHealth = 0;
     pair<int, int> maximumHealth {0, 0};
-    std::array<pair<int, int>, damageTypesCount> attackProtection;
+    std::array<pair<int, int>, GlobalConstants::damageTypeCount> attackProtection;
 
 
     std::function<void(int, int)> connectedMethod;

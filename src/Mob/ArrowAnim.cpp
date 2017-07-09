@@ -10,6 +10,7 @@ bool ArrowAnim::update(double timestep)
 {
     if (ReachedPos())
         return false;
+
     return SceneObject::update(timestep);
 }
 
@@ -20,8 +21,6 @@ bool ArrowAnim::ReachedPos()
     int diffX = mTargetPosition.x  - newMobPos.x;
     int diffY = mTargetPosition.y  - newMobPos.y;
 
-//    std::cout << "arrow Pos " << newMobPos << std::endl;
-//    std::cout << "targ Pos " << mTargetPosition << std::endl;
     if (diffX == 0 && diffY == 0)
         return true;
 

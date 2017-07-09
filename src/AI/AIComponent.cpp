@@ -133,27 +133,15 @@ void AIComponent::Attack()
         return;
     }
 
-    int* damage = MobPtr.lock()->getModel()->getAttackDamage();
+    auto damage = MobPtr.lock()->getModel()->getAttackDamage();
 
-    if (damage == nullptr)
+    for(const auto& damageVal : damage)
     {
-        return;
-    }
-
-    bool hasDamage = false;
-
-    for(size_t i = 0; i < DestructibleObject::damageTypesCount; ++i)
-    {
-        if (damage[i] > 0)
+        if (damageVal > 0)
         {
-            hasDamage = true;
+            ShotArrow();
             break;
         }
-    }
-
-    if (hasDamage)
-    {
-        ShotArrow();
     }
 
     if (currentTarget->getDestructibleObject()->receiveDamage(damage))
@@ -165,8 +153,6 @@ void AIComponent::Attack()
     {
         Cast(currentTarget);
     }
-
-    delete[] damage;
 
     MobPtr.lock()->getModel()->reload();
     aiMobState = AIMobStates::aiRELOAD;

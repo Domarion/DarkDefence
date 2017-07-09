@@ -82,7 +82,7 @@
 				<value1>0</value1>
 				<value2>0</value2>
 			</price>
-            <arrowName></arrowName>
+            <ArrowName></ArrowName>
 		</value0>
 		<value1>
 			<value0>
@@ -162,7 +162,7 @@
 				<value1>0</value1>
 				<value2>0</value2>
 			</price>
-            <arrowName></arrowName>
+            <ArrowName></ArrowName>
 		</value1>
 		<value2>
 			<value0>
@@ -243,7 +243,7 @@
 				<value1>0</value1>
 				<value2>0</value2>
 			</price>
-            <arrowName></arrowName>
+            <ArrowName></ArrowName>
 		</value2>
 	</Monsters>
 </cereal>

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * MobModel.h
  *
  *  Created on: 9 апр. 2016 г.
@@ -33,7 +33,7 @@ class MobModel: public DestructibleObject
             cereal::make_nvp("enemyTags", enemiesInfo),
             cereal::make_nvp("Abilities", mobAbilitiesNames),
             CEREAL_NVP(price),
-            CEREAL_NVP(arrowName)
+            cereal::make_nvp("ArrowName", arrowName)
         );
     }
 
@@ -50,7 +50,7 @@ public:
              double aReloadTime,
              int aDamageArea,
              list<EnemyInfo> enemiesTags,
-             std::string aArrowName = "");
+             std::string aArrowName);
 
     virtual ~MobModel() = default;
 
@@ -62,7 +62,7 @@ public:
     const pair<double, double>& getAttackDistance() const;
     void setAttackDistance(const pair<double, double>& attackDistance);
 
-    int* getAttackDamage();
+    std::array<int, GlobalConstants::damageTypeCount> getAttackDamage();
 
     const pair<double, double>& getMoveSpeed() const;
     void setMoveSpeed(const pair<double, double>& moveSpeed);
@@ -73,7 +73,7 @@ public:
     int getAttackDamageModifier(size_t index);
 
     void setAttackDamageWithIndex(size_t index, int value);
-    int getAttackDamageWithIndex(int index);
+    int getAttackDamageWithIndex(size_t index);
 
 
     void setMoveSpeedModifier(double modifier);
@@ -119,12 +119,12 @@ private:
     double reloadTime = 0;
     int damageArea;
     list<EnemyInfo> enemiesInfo;
+    std::string arrowName;
     bool isVisible;
     bool isStunned;
 
     list<string> mobAbilitiesNames;
     std::array<int, GlobalConstants::resourceTypeCount> price;
-    std::string arrowName;
 };
 
 

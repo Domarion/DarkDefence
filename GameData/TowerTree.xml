@@ -84,7 +84,7 @@
 								<value1>0</value1>
 								<value2>0</value2>
 							</price>
-                            <arrowName></arrowName>
+                            <ArrowName></ArrowName>
 						</data>
 					</ptr_wrapper>
 				</value2>
@@ -172,8 +172,8 @@
 													<value1>0</value1>
 													<value2>0</value2>
 												</price>
-                                                <arrowName>BallistaArrow</arrowName>
-											</data>
+                                                <ArrowName>BallistaArrow</ArrowName>
+                                                </data>
 										</ptr_wrapper>
 									</value2>
 									<value3 size="dynamic"/>
@@ -264,7 +264,7 @@
 													<value1>0</value1>
 													<value2>0</value2>
 												</price>
-                                                <arrowName>CatapultStone</arrowName>
+                                                <ArrowName>CatapultStone</ArrowName>
 											</data>
 										</ptr_wrapper>
 									</value2>
@@ -358,7 +358,7 @@
 													<value1>0</value1>
 													<value2>0</value2>
 												</price>
-                                                <arrowName></arrowName>
+                                                <ArrowName></ArrowName>
 											</data>
 										</ptr_wrapper>
 									</value2>
@@ -446,7 +446,7 @@
 																		<value1>0</value1>
 																		<value2>0</value2>
 																	</price>
-                                                                    <arrowName></arrowName>
+                                                                    <ArrowName></ArrowName>
 																</data>
 															</ptr_wrapper>
 														</value2>
@@ -540,7 +540,7 @@
 																		<value1>0</value1>
 																		<value2>0</value2>
 																	</price>
-                                                                    <arrowName></arrowName>
+                                                                    <ArrowName></ArrowName>
 																</data>
 															</ptr_wrapper>
 														</value2>
@@ -632,7 +632,7 @@
 																		<value1>0</value1>
 																		<value2>0</value2>
 																	</price>
-                                                                    <arrowName>ArrowLighting</arrowName>
+                                                                    <ArrowName>ArrowLighting</ArrowName>
 																</data>
 															</ptr_wrapper>
 														</value2>
@@ -731,7 +731,7 @@
 													<value1>0</value1>
 													<value2>0</value2>
 												</price>
-                                                <arrowName></arrowName>
+                                                <ArrowName></ArrowName>
 											</data>
 										</ptr_wrapper>
 									</value2>

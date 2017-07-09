@@ -72,7 +72,7 @@ void DataGenerator::saveTowerTree()
 
     string firstTowerName = "WatcherTower";
     auto firstTower = std::make_unique<MobModel>(firstTowerName, tag, health, protection, damage,
-                     attackDistance, moveSpeed, reloadTime, damageArea, enemyTags);
+                     attackDistance, moveSpeed, reloadTime, damageArea, enemyTags, "");
 
     auto rootNode = std::make_shared<TreeNode<MobModel>>(firstTowerName, "none", std::move(firstTower));
 
@@ -81,7 +81,7 @@ void DataGenerator::saveTowerTree()
     for(auto& towername : watcherTowerChildrenNames)
     {
         auto watcherTowerChild = std::make_unique<MobModel> (towername, tag, health, protection, damage,
-                         attackDistance, moveSpeed, reloadTime, damageArea, enemyTags);
+                         attackDistance, moveSpeed, reloadTime, damageArea, enemyTags, "");
         rootNode->addChildData(towername, std::move(watcherTowerChild));
     }
 
@@ -95,7 +95,7 @@ void DataGenerator::saveTowerTree()
         for(auto& towername : mageTowerChildrenNames)
         {
            auto mageTowerChild = std::make_unique<MobModel> (towername, tag, health, protection, damage,
-                             attackDistance, moveSpeed, reloadTime, damageArea, enemyTags);
+                             attackDistance, moveSpeed, reloadTime, damageArea, enemyTags, "");
            mageTowerNode->addChildData(towername, std::move(mageTowerChild));
         }
     }
@@ -186,7 +186,7 @@ void DataGenerator::saveMonsterCollection()
 
     string firstMonsterName = "Necromant";
     MobModel firstMonster (firstMonsterName, tag, health, protection, damage,
-        attackDistance, moveSpeed, reloadTime, damageArea, enemyTags);
+        attackDistance, moveSpeed, reloadTime, damageArea, enemyTags, "");
 
     list<string> abilityNames;
     abilityNames.push_back("MobAbilityArson");
@@ -194,7 +194,7 @@ void DataGenerator::saveMonsterCollection()
 
     string secondMonsterName = "Diversant";
     MobModel secondMonster (secondMonsterName, tag, health, protection, damage,
-        attackDistance, moveSpeed, reloadTime, damageArea, enemyTags);
+        attackDistance, moveSpeed, reloadTime, damageArea, enemyTags, "");
 
     list<string> abilityNamesDiversant;
     abilityNamesDiversant.push_back("MobAbilityArson");
@@ -203,7 +203,7 @@ void DataGenerator::saveMonsterCollection()
 
     string thirdMonsterName = "Spider";
     MobModel thirdMonster (thirdMonsterName, tag, health, protection, damage,
-        attackDistance, moveSpeed, reloadTime, damageArea, enemyTags);
+        attackDistance, moveSpeed, reloadTime, damageArea, enemyTags, "");
 
     list<string> abilityNamesSpider;
     abilityNamesSpider.push_back("MobAbilityRegeneration");

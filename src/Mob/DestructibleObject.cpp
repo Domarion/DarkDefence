@@ -7,7 +7,7 @@
 
 #include "DestructibleObject.h"
 
-std::array<pair<int, int>, DestructibleObject::damageTypesCount> DestructibleObject::getAttackProtection() const
+std::array<pair<int, int>, GlobalConstants::damageTypeCount> DestructibleObject::getAttackProtection() const
 {
     return attackProtection;
 }
@@ -45,7 +45,7 @@ DestructibleObject::DestructibleObject(
     , currentHealth(aMaxHealth)
     , maximumHealth(aMaxHealth, 0)
 {
-    for(size_t i = 0; i < DestructibleObject::damageTypesCount; ++i)
+    for(size_t i = 0; i < GlobalConstants::damageTypeCount; ++i)
     {
         attackProtection[i].first = aProtection[i];
         attackProtection[i].second = 0;
@@ -61,7 +61,7 @@ DestructibleObject::DestructibleObject(const DestructibleObject& aRight)
         maximumHealth = aRight.maximumHealth;
         currentHealth = aRight.currentHealth;
 
-        for(size_t i = 0; i < DestructibleObject::damageTypesCount; ++i)
+        for(size_t i = 0; i < GlobalConstants::damageTypeCount; ++i)
             attackProtection[i] = aRight.attackProtection[i];
         Alive = aRight.Alive;
     }
@@ -78,7 +78,7 @@ DestructibleObject& DestructibleObject::operator= (const DestructibleObject& aRi
         maximumHealth = aRight.maximumHealth;
         currentHealth = aRight.currentHealth;
 
-        for(size_t i = 0; i < DestructibleObject::damageTypesCount; ++i)
+        for(size_t i = 0; i < GlobalConstants::damageTypeCount; ++i)
             attackProtection[i] = aRight.attackProtection[i];
         Alive = aRight.Alive;
     }
@@ -154,18 +154,19 @@ void DestructibleObject::setIsAlive(bool aAlive)
     Alive = aAlive;
 }
 
-bool DestructibleObject::receiveDamage(int* damage)
+bool DestructibleObject::receiveDamage(const std::array<int, GlobalConstants::damageTypeCount>& aDamage)
 {
-    if (damage == nullptr || !IsAlive())
+    if (!IsAlive())
         return false;
 
     int summaryDamage = 0;
-    for(size_t i = 0; i < DestructibleObject::damageTypesCount; ++i)
+    for(size_t i = 0; i < GlobalConstants::damageTypeCount; ++i)
     {
-        auto temp = attackProtection[i].first + attackProtection[i].second - damage[i];
+        auto temp = attackProtection[i].first + attackProtection[i].second - aDamage[i];
         if (temp < 0)
             summaryDamage += temp;
     }
+
     if (summaryDamage < 0)
         return changeHealth(summaryDamage);
 
@@ -174,7 +175,7 @@ bool DestructibleObject::receiveDamage(int* damage)
 
 bool DestructibleObject::receiveDamageOneType(size_t damage_type, int damage)
 {
-    if (damage_type >= DestructibleObject::damageTypesCount)
+    if (damage_type >= GlobalConstants::damageTypeCount)
         return false;
 
     auto summaryDamage = attackProtection[damage_type].first + attackProtection[damage_type].second - damage;
@@ -210,7 +211,7 @@ bool DestructibleObject::addHealth(int amount)
 
 void DestructibleObject::setProtectionModifier(int modifier)
 {
-    for(size_t i = 0; i < DestructibleObject::damageTypesCount; ++i)
+    for(size_t i = 0; i < GlobalConstants::damageTypeCount; ++i)
     {
         attackProtection[i].second = modifier;
     }

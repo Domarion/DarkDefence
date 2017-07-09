@@ -16,12 +16,43 @@ MobModel::MobModel()
     , reloadTimeMaximum(0.0, 0.0)
     , reloadTime(0.0)
     , damageArea(0)
+    , enemiesInfo()
     , isVisible(true)
     , isStunned(false)
-    , arrowName()
 {
-    for(size_t i = 0; i < DestructibleObject::damageTypesCount; ++i)
-        price[i] = 0;
+    attackDamage.fill(std::make_pair(0, 0));
+    price.fill(0);
+}
+
+MobModel::MobModel(string aName,
+    string aTag,
+    int aMaxHealth,
+    int aProtection[],
+    int damage[],
+    double distance,
+    double speed,
+    double aReloadTime,
+    int aDamageArea,
+    list<EnemyInfo> enemiesTags,
+    std::string aArrowName)
+    : DestructibleObject(aName, aTag, aMaxHealth, aProtection)
+    , attackDistance(distance, 0.0)
+    , moveSpeed(speed, 0.0)
+    , reloadTimeMaximum(aReloadTime, 0.0)
+    , reloadTime(0)
+    , damageArea(aDamageArea)
+    , enemiesInfo(enemiesTags)
+    , arrowName(aArrowName)
+    , isVisible(true)
+    , isStunned(false)
+{
+    for(size_t i = 0; i < GlobalConstants::damageTypeCount; ++i)
+    {
+        attackDamage[i].first = damage[i];
+        attackDamage[i].second = 0;
+    }
+
+    price.fill(0);
 }
 
 const pair<double, double>& MobModel::getAttackDistance() const
@@ -34,12 +65,15 @@ void MobModel::setAttackDistance(const pair<double, double>& aAttackDistance)
     attackDistance = aAttackDistance;
 }
 
-int* MobModel::getAttackDamage()
+std::array<int, GlobalConstants::damageTypeCount> MobModel::getAttackDamage()
 {
-    int* damage = new int[DestructibleObject::damageTypesCount];
+    std::array<int, GlobalConstants::damageTypeCount> damage;
 
-    for(size_t i = 0; i != DestructibleObject::damageTypesCount; ++i)
+    for(size_t i = 0; i < GlobalConstants::damageTypeCount; ++i)
+    {
         damage[i] = attackDamage[i].first + attackDamage[i].second;
+    }
+
     return damage;
 }
 
@@ -54,42 +88,13 @@ void MobModel::setMoveSpeed(const pair<double, double>& aMoveSpeed)
     moveSpeed = aMoveSpeed;
 }
 
-MobModel::MobModel(string aName,
-    string aTag,
-    int aMaxHealth,
-    int aProtection[],
-    int damage[],
-    double distance,
-    double speed,
-    double aReloadTime,
-    int aDamageArea,
-    list<EnemyInfo> enemiesTags,
-    std::string aArrowName)
-    : DestructibleObject(aName, aTag, aMaxHealth, aProtection), attackDistance(distance, 0.0)
-    , moveSpeed(speed, 0.0)
-    , reloadTimeMaximum(aReloadTime, 0.0)
-    , reloadTime(0)
-    , damageArea(aDamageArea)
-    , enemiesInfo(enemiesTags)
-    , isVisible(true)
-    , isStunned(false)
-    , arrowName(aArrowName)
-{
-    for(size_t i = 0; i < DestructibleObject::damageTypesCount; ++i)
-    {
-        attackDamage[i].first = damage[i];
-        attackDamage[i].second = 0;
-        price[i] = 0;
-    }
-}
 
 MobModel::MobModel(const MobModel& right)
     : DestructibleObject(right)
 {
     if (this != &right)
     {
-        for(size_t i = 0; i < DestructibleObject::damageTypesCount; ++i)
-            attackDamage[i] = right.attackDamage[i];
+        std::copy(right.attackDamage.begin(), right.attackDamage.end(), attackDamage.begin());
 
         attackDistance = right.attackDistance;
         moveSpeed = right.moveSpeed;
@@ -98,12 +103,11 @@ MobModel::MobModel(const MobModel& right)
         reloadTime = right.reloadTime;
         mobAbilitiesNames = right.mobAbilitiesNames;
 
-        for(size_t i = 0; i < DestructibleObject::damageTypesCount; ++i)
-            price[i] = right.price[i];
+        std::copy(right.price.begin(), right.price.end(), price.begin());
 
+        arrowName = right.arrowName;
         isVisible = right.isVisible;
         isStunned = right.isStunned;
-        arrowName = right.arrowName;
     }
 }
 
@@ -143,7 +147,7 @@ void MobModel::setAttackDamageWithIndex(size_t index, int value)
     attackDamage[index].first = value;
 }
 
-int MobModel::getAttackDamageWithIndex(int index)
+int MobModel::getAttackDamageWithIndex(size_t index)
 {
     return attackDamage[index].first;
 }
