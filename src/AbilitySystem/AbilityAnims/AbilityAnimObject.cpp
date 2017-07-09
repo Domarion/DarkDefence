@@ -1,12 +1,10 @@
 #include "AbilityAnimObject.hpp"
-#include "Utility/textfilefunctions.h"
 #include "GlobalScripts/ResourceManager.h"
 
 AbilityAnimObject::AbilityAnimObject(double timeToLiveSec)
     : SceneObject()
     , mTimeToLive(timeToLiveSec)
 {
-
 }
 
 bool AbilityAnimObject::update(double timestep)
@@ -18,7 +16,6 @@ bool AbilityAnimObject::update(double timestep)
 
     mTimeToLive -= timestep;
     return SceneObject::update(timestep);
-;
 }
 
 std::shared_ptr<AbilityAnimObject> Make_AbilityAnimObject(

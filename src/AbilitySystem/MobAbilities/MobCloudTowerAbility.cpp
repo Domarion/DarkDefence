@@ -33,49 +33,47 @@ void MobCloudTowerAbility::init(std::shared_ptr<Scene> scenePtr)
 
     if (gameScene != nullptr)
     {
-       auto manaModel = gameScene->getManaModel();
-       if (manaModel != nullptr)
-       {
-            auto regenValue = manaModel->getRegenValue() + 5;// учесть необходимость сброса в будущем
+        auto manaModel = gameScene->getManaModel();
+        if (manaModel != nullptr)
+        {
+            auto regenValue = manaModel->getRegenValue() +
+                              5;// учесть необходимость сброса в будущем
             manaModel->setRegenValue(regenValue);
-       }
+        }
     }
 }
 
 bool MobCloudTowerAbility::onReady(double /*timestep*/)
 {
-    if (target != nullptr)
+    abilityState = Enums::AbilityStates::asNotAvaliable;
+
+    if (target == nullptr)
     {
-        affectedMobs->clear();
-
-        auto monsters = parentScenePtr->findObjectsByTag("Monster");
-
-        if (monsters == nullptr)
-        {
-            abilityState = Enums::AbilityStates::asNotAvaliable;
-            return false;
-        }
-
-        int counter = 0;
-        int counterMax = 5;
-
-        for(auto& monster : *monsters)
-        {
-            if (monster != nullptr && monster != target)
-            {
-                releaseDamage(monster);
-
-                ++counter;
-                if (counter  == counterMax)
-                    break;
-            }
-        }
-
-        releaseDamage(target);
-        abilityState = Enums::AbilityStates::asNotAvaliable;
+        return true;
     }
-    return true;
 
+    affectedMobs->clear();
+
+    auto monsters = parentScenePtr->findObjectsByTag("Monster");
+
+    if (monsters == nullptr)
+    {
+        return false;
+    }
+
+    aBouncingArrowObject = Make_AbilityMultitargetObject("ArrowLighting", 5, parentScenePtr->getRenderer());
+
+    if (aBouncingArrowObject)
+    {
+        aBouncingArrowObject->setParentScene(parentScenePtr);
+        aBouncingArrowObject->SetCallBack(
+            std::bind(&MobCloudTowerAbility::ChainLightingHandler, this, std::placeholders::_1));
+        abilityState = Enums::AbilityStates::asWorking;
+        auto fakePos = parentScenePtr->findObjectByTag("Tower")->getPosition();
+        parentScenePtr->spawnObject(fakePos.x, fakePos.y, aBouncingArrowObject);
+    }
+
+    return true;
 }
 
 bool MobCloudTowerAbility::onWorking(double /*timestep*/)
@@ -85,12 +83,26 @@ bool MobCloudTowerAbility::onWorking(double /*timestep*/)
 
 bool MobCloudTowerAbility::onCooldown(double /*timestep*/)
 {
+    aBouncingArrowObject.reset();
+    abilityState = Enums::AbilityStates::asNotAvaliable;
     return true;
 }
 
 bool MobCloudTowerAbility::canTrigger(std::shared_ptr<SceneObject> targ, Enums::AIMobStates aistate)
 {
     MobAbility::setTarget(targ);
-    return (targ != nullptr && targ->getTag() == "Monster" && aistate == Enums::AIMobStates::aiATTACK);
+    return (targ != nullptr && targ->getTag() == "Monster"
+        && aistate == Enums::AIMobStates::aiATTACK && abilityState == Enums::AbilityStates::asNotAvaliable);
+}
+
+void MobCloudTowerAbility::ChainLightingHandler(std::shared_ptr<SceneObject> aTarget)
+{
+    if (!aTarget)
+    {
+        abilityState = Enums::AbilityStates::asOnCooldown;
+        return;
+    }
+
+    releaseDamage(aTarget);
 }
 

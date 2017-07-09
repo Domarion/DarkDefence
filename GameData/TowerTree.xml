@@ -440,7 +440,9 @@
 																			<priority>1</priority>
 																		</value0>
 																	</enemyTags>
-																	<Abilities size="dynamic"/>
+																	<Abilities size="dynamic">
+                                                                        <value0>MobCloudTowerAbility</value0>
+                                                                    </Abilities>
 																	<price>
 																		<value0>0</value0>
 																		<value1>0</value1>

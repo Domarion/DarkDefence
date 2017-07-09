@@ -171,25 +171,29 @@ void Scene::clearUIList()
     mInputDispatcher->clearHandlers();
 }
 
-std::shared_ptr<SceneObject> Scene::findObjectByTag(std::string tag)
+std::shared_ptr<SceneObject> Scene::findObjectByTag(const std::string& aTag)
 {
     for(const auto& sceneObjectPtr : sceneObjects)
     {
-        if (sceneObjectPtr->getTag() == tag)
+        if (sceneObjectPtr->getTag() == aTag)
+        {
             return sceneObjectPtr;
+        }
     }
 
     return nullptr;
 }
 
-Scene::SceneObjectList Scene::findObjectsByTag(string tag)
+Scene::SceneObjectList Scene::findObjectsByTag(const std::string& aTag)
 {
     auto filteredList = std::make_unique<std::list<std::shared_ptr<SceneObject>>>();
 
     for(const auto& sceneObjectPtr : sceneObjects)
     {
-        if (sceneObjectPtr->getTag() == tag)
+        if (sceneObjectPtr->getTag() == aTag)
+        {
             filteredList->push_back(sceneObjectPtr);
+        }
     }
 
     if (filteredList->empty())

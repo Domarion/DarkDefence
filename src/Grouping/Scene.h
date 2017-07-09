@@ -22,7 +22,7 @@ class SceneManager;
 
 class Scene: public std::enable_shared_from_this<Scene>
 {
-    using SceneObjectList = std::unique_ptr<std::list<std::shared_ptr<SceneObject> > >;
+    using SceneObjectList = std::unique_ptr<std::list<std::shared_ptr<SceneObject>>>;
 public:
     Scene(std::shared_ptr<RenderingSystem>& aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher);
     Scene(const Scene&) = delete;
@@ -44,8 +44,8 @@ public:
     void softClear();
     void addAsInputHandler(std::shared_ptr<InputHandler> item);
     void clearUIList();
-    std::shared_ptr<SceneObject> findObjectByTag(std::string tag);
-    SceneObjectList findObjectsByTag(std::string tag);
+    std::shared_ptr<SceneObject> findObjectByTag(const std::string& aTag);
+    SceneObjectList findObjectsByTag(const std::string& aTag);
     std::shared_ptr<SceneObject> findObjectWithPos(int x, int y);
     SceneObjectList findObjectsWithPos(int x, int y);
     SceneObjectList findObjectsInRadius(Position aCenter, size_t aRadius);

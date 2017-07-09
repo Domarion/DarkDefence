@@ -2,7 +2,7 @@
 
 #include "Grouping/SceneObject.h"
 
-class AbilityAnimObject: public SceneObject
+class AbilityAnimObject : public SceneObject
 {
 public:
     explicit AbilityAnimObject(double timeToLiveSec);
@@ -12,7 +12,6 @@ public:
     virtual bool update(double timestep) override;
 
 private:
-
     double mTimeToLive = 0.0;
 };
 

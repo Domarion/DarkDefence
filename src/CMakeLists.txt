@@ -110,6 +110,8 @@ set(SRC_LIST
     AbilitySystem/AbilitySnowStorm.h
     AbilitySystem/AbilityEarthquake.h
     AbilitySystem/AbilityAnims/AbilityAnimObject.hpp
+    AbilitySystem/AbilityAnims/AbilityMultitargetObject.hpp
+
     AbilitySystem/AbilityObjectSpawn.h
 
     AbilitySystem/MobAbilities/MobAbilityRegeneration.h
@@ -247,6 +249,7 @@ set(SRC_LIST
     AbilitySystem/EffectModel.cpp
     AbilitySystem/AbilityEarthquake.cpp
     AbilitySystem/AbilityAnims/AbilityAnimObject.cpp
+    AbilitySystem/AbilityAnims/AbilityMultitargetObject.cpp
 
     AbilitySystem/MobAbilities/MobAbilityRegeneration.cpp
     AbilitySystem/MobAbilities/MobAbilitySprint.cpp
