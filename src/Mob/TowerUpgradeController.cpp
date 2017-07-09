@@ -126,8 +126,9 @@ void TowerUpgradeController::receiveTowerUpgrade(std::shared_ptr<Tower> tower)
     closeButton->loadTexture(closeIconPath);
     closeButton->setSize(Size(50,50));
     closeButton->setPosition(Position(upgradeGroup->getSize().width/2 - 25, upgradeGroup->getNextVerticalPosition().y));
+    std::string none {"none"};
 
-    closeButton->ConnectMethod(std::bind(&TowerUpgradeController::closeHandler, this, 0));
+    closeButton->ConnectMethod(std::bind(&TowerUpgradeController::closeHandler, this, none));
     upgradeGroup->addChild(closeButton);
 
     if (parentGameScene != nullptr)
@@ -143,11 +144,10 @@ void TowerUpgradeController::receiveTowerUpgrade(std::shared_ptr<Tower> tower)
 
 }
 
-bool TowerUpgradeController::closeHandler(size_t /*itemIndex*/)
+void TowerUpgradeController::closeHandler(std::string /*itemIndex*/)
 {
-
     if (parentGameScene == nullptr)
-        return false;
+        return;
 
     parentGameScene->getMainRect()->removeChild(upgradeGroup);
 
@@ -156,8 +156,6 @@ bool TowerUpgradeController::closeHandler(size_t /*itemIndex*/)
     {
         gameScene->setGameSceneStatus(Enums::GameSceneStatuses::Default);
     }
-
-    return true;
 }
 
 bool TowerUpgradeController::menuClickHandler(size_t itemIndex)
