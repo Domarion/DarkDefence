@@ -4,7 +4,7 @@
 
 class MobCloudTowerAbility: public MobAbility
 {
-    using SceneObjectList = std::unique_ptr<std::list<std::shared_ptr<SceneObject> > >;
+//    using SceneObjectList = std::unique_ptr<std::list<std::shared_ptr<SceneObject> > >;
 
 public:
 
@@ -22,7 +22,7 @@ private:
     void ChainLightingHandler(std::shared_ptr<SceneObject> aTarget);
     void releaseDamage(std::shared_ptr<SceneObject> aTarget);
 
-    SceneObjectList affectedMobs;
+//    SceneObjectList affectedMobs;
     std::shared_ptr<EffectModel> stunEffect;
     std::shared_ptr<AbilityMultitargetObject> aBouncingArrowObject;
 };

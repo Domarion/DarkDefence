@@ -7,5 +7,6 @@ void GulakiAmulet::init(std::shared_ptr<Scene> /*scenePtr*/, std::shared_ptr<Man
     if (tower != nullptr)
     {
         tower->getData()->addAbilityName("GulakiAmulet");
+        tower->getData()->setArrowName("");
     }
 }

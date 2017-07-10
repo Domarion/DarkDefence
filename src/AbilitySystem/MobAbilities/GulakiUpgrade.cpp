@@ -2,7 +2,7 @@
 
 GulakiUpgrade::GulakiUpgrade(std::shared_ptr<ManaGlobal> aManaModel)
     : MobAbility(aManaModel)
-    , affectedMobs(std::make_unique<std::list<std::shared_ptr<SceneObject> > >())
+//    , affectedMobs(std::make_unique<std::list<std::shared_ptr<SceneObject> > >())
     , stunEffect(std::make_shared<EffectModel>())
 {
     pair<string, double> imbolizing = std::make_pair("Stun", 1);
@@ -21,40 +21,35 @@ void GulakiUpgrade::releaseDamage(std::shared_ptr<SceneObject> aTarget)
 
     int dmgPhysical = static_cast<int>(Enums::DamageTypes::dtPHYSICAL);
     aTarget->getDestructibleObject()->receiveDamageOneType(dmgPhysical, 20);
-    affectedMobs->push_back(aTarget);
+//    affectedMobs->push_back(aTarget);
 }
 
 bool GulakiUpgrade::onReady(double /*timestep*/)
 {
-    if (target != nullptr)
+    abilityState = Enums::AbilityStates::asNotAvaliable;
+
+    if (target == nullptr)
     {
-        affectedMobs->clear();
+        return true;
+    }
 
-        auto monsters = parentScenePtr->findObjectsByTag("Monster");
+    auto monsters = parentScenePtr->findObjectsByTag("Monster");
 
-        if (monsters == nullptr)
-        {
-            abilityState = Enums::AbilityStates::asNotAvaliable;
-            return false;
-        }
+    if (monsters == nullptr)
+    {
+        return false;
+    }
 
-        int counter = 0;
-        int counterMax = 2;
+    aBouncingArrowObject = Make_AbilityMultitargetObject("ArrowLighting", 2, parentScenePtr->getRenderer());
 
-        for(auto& monster : *monsters)
-        {
-            if (monster != nullptr && monster != target)
-            {
-                releaseDamage(monster);
-
-                ++counter;
-                if (counter  == counterMax)
-                    break;
-            }
-        }
-
-        releaseDamage(target);
-        abilityState = Enums::AbilityStates::asNotAvaliable;
+    if (aBouncingArrowObject)
+    {
+        aBouncingArrowObject->setParentScene(parentScenePtr);
+        aBouncingArrowObject->SetCallBack(
+            std::bind(&GulakiUpgrade::ChainLightingHandler, this, std::placeholders::_1));
+        abilityState = Enums::AbilityStates::asWorking;
+        auto fakePos = parentScenePtr->findObjectByTag("Tower")->getPosition();
+        parentScenePtr->spawnObject(fakePos.x, fakePos.y, aBouncingArrowObject);
     }
 
     return true;
@@ -67,11 +62,26 @@ bool GulakiUpgrade::onWorking(double /*timestep*/)
 
 bool GulakiUpgrade::onCooldown(double /*timestep*/)
 {
+    aBouncingArrowObject.reset();
+    abilityState = Enums::AbilityStates::asNotAvaliable;
+
     return true;
 }
 
 bool GulakiUpgrade::canTrigger(std::shared_ptr<SceneObject> targ, Enums::AIMobStates aistate)
 {
     MobAbility::setTarget(targ);
-    return (targ != nullptr && targ->getTag() == "Monster" && aistate == Enums::AIMobStates::aiATTACK);
+    return (targ != nullptr && targ->getTag() == "Monster"
+        && aistate == Enums::AIMobStates::aiATTACK && abilityState == Enums::AbilityStates::asNotAvaliable);
+}
+
+void GulakiUpgrade::ChainLightingHandler(std::shared_ptr<SceneObject> aTarget)
+{
+    if (!aTarget)
+    {
+        abilityState = Enums::AbilityStates::asOnCooldown;
+        return;
+    }
+
+    releaseDamage(aTarget);
 }

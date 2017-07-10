@@ -3,7 +3,7 @@
 
 MobCloudTowerAbility::MobCloudTowerAbility(std::shared_ptr<ManaGlobal> aManaModel)
     : MobAbility(aManaModel)
-    , affectedMobs(std::make_unique<std::list<std::shared_ptr<SceneObject> > >())
+//    , affectedMobs(std::make_unique<std::list<std::shared_ptr<SceneObject> > >())
     , stunEffect(std::make_shared<EffectModel>())
 {
     pair<string, double> imbolizing = std::make_pair("Stun", 1);
@@ -22,7 +22,7 @@ void MobCloudTowerAbility::releaseDamage(std::shared_ptr<SceneObject> aTarget)
 
     int dmgPhysical = static_cast<int>(Enums::DamageTypes::dtPHYSICAL);
     aTarget->getDestructibleObject()->receiveDamageOneType(dmgPhysical, 20);
-    affectedMobs->push_back(aTarget);
+//    affectedMobs->push_back(aTarget);
 }
 
 void MobCloudTowerAbility::init(std::shared_ptr<Scene> scenePtr)
@@ -36,8 +36,8 @@ void MobCloudTowerAbility::init(std::shared_ptr<Scene> scenePtr)
         auto manaModel = gameScene->getManaModel();
         if (manaModel != nullptr)
         {
-            auto regenValue = manaModel->getRegenValue() +
-                              5;// учесть необходимость сброса в будущем
+            // учесть необходимость сброса в будущем
+            auto regenValue = manaModel->getRegenValue() + 5;
             manaModel->setRegenValue(regenValue);
         }
     }
@@ -51,8 +51,6 @@ bool MobCloudTowerAbility::onReady(double /*timestep*/)
     {
         return true;
     }
-
-    affectedMobs->clear();
 
     auto monsters = parentScenePtr->findObjectsByTag("Monster");
 
