@@ -1,4 +1,5 @@
 #pragma once
+
 #include <functional>
 #include "UILabel.h"
 #include "../../../Input/InputHandler.h"
@@ -6,16 +7,16 @@
 class UITextButton final: public UILabel,  public InputHandler
 {
 public:
-    explicit UITextButton(const string& ltext, const Font& lfont,
-                          std::shared_ptr<RenderingSystem>& aRenderingContext);
+    explicit UITextButton(
+        const string& ltext, const Font& lfont, std::shared_ptr<RenderingSystem>& aRenderingContext);
 
     UITextButton() = delete;
     virtual ~UITextButton() = default;
+
     void setMessage(std::string aMsg);
     void ConnectMethod(std::function<void(std::string)> method);
 
     // InputHandler interface
-public:
     virtual bool onClick(Position point) override;
 
 private:

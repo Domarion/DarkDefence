@@ -21,7 +21,6 @@ using std::vector;
 #include "../AbilitySystem/SpellStorage.h"
 
 #include "../Mob/ResourcePlace.h"
-#include "../Mob/TowerFabric.hpp"
 #include "../Mob/TowerUpgradeController.h"
 #include "../AbilitySystem/ItemAbilities/ItemAbilitiesStorage.h"
 
@@ -88,7 +87,6 @@ private:
 
     vector<std::shared_ptr<UILabel> > resourceLabels;
 
-    TowerFabric towerFabric;
     std::shared_ptr<Spawner> monsterSpawner;
 
 

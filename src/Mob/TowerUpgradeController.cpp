@@ -21,13 +21,14 @@ TowerUpgradeController::TowerUpgradeController()
 
 TowerUpgradeController::~TowerUpgradeController()
 {
+    upgradeGroup.reset();
+    fabric.reset();
 }
 
-void TowerUpgradeController::init(std::shared_ptr<Scene> parent, std::shared_ptr<RenderingSystem> &aRenderer)
+void TowerUpgradeController::init(std::shared_ptr<Scene> parent, std::shared_ptr<RenderingSystem>& aRenderer)
 {
     parentGameScene = parent;
     renderer = aRenderer;
-
 }
 
 void TowerUpgradeController::receiveTowerUpgrade(std::shared_ptr<Tower> tower)
@@ -38,17 +39,19 @@ void TowerUpgradeController::receiveTowerUpgrade(std::shared_ptr<Tower> tower)
     }
 
     auto gameScene = std::dynamic_pointer_cast<GameScene>(parentGameScene);
+
     if (gameScene != nullptr && gameScene->getGameSceneStatus() != Enums::GameSceneStatuses::Default)
     {
         return;
     }
 
     Font arial1Font(FontManager::getInstance()->getFontByKind2("TextFont"));
+
     cachedTower = tower;
 
+    auto towerName = tower->getName();
+    auto currentGrade = GameModel::getInstance()->getRootTower()->recursiveSearch(towerName);
 
-    string towerName = tower->getName();
-    std::shared_ptr<TreeNode<MobModel>> currentGrade = GameModel::getInstance()->getRootTower()->recursiveSearch(towerName);
     if (currentGrade == nullptr || currentGrade->hasChildren() == false)
         return;
 
@@ -75,7 +78,6 @@ void TowerUpgradeController::receiveTowerUpgrade(std::shared_ptr<Tower> tower)
         menuItemGroup->setSize(Size(100, 100));
         string iconPath = "GameData/textures/Towers/UpgradeIcons/" + childrenName +".jpg";
 
-
         auto upgradeIcon = std::make_shared<UIImage>(renderer);
         upgradeIcon->loadTexture(iconPath);
         upgradeIcon->setSize(Size(iconWidth, iconWidth));
@@ -91,10 +93,9 @@ void TowerUpgradeController::receiveTowerUpgrade(std::shared_ptr<Tower> tower)
         priceGroup->setPosition(priceGroupPos);
 
         auto childPrice = childModel->getPrice();
-        const size_t priceCount = GlobalConstants::resourceTypeCount;
-        for(size_t i = 0; i < priceCount; ++i)
-        {
 
+        for(size_t i = 0; i < GlobalConstants::resourceTypeCount; ++i)
+        {
             auto resourceIcon = std::make_shared<UIImage>(renderer);
             string resourceName = GameModel::getInstance()->getResourcesModel()->getResourceNameFromIndex(i);
             string RiconPath = "GameData/textures/Resources/" + resourceName + ".png";
@@ -116,7 +117,6 @@ void TowerUpgradeController::receiveTowerUpgrade(std::shared_ptr<Tower> tower)
 
         menuItemGroup->addChild(priceGroup);
         towerMenu->addChild(menuItemGroup);
-
     }
 
     upgradeGroup->addChild(towerMenu);
@@ -133,7 +133,6 @@ void TowerUpgradeController::receiveTowerUpgrade(std::shared_ptr<Tower> tower)
 
     if (parentGameScene != nullptr)
     {
-
         towerMenu->ConnectMethod(std::bind(&TowerUpgradeController::menuClickHandler, this, std::placeholders::_1));
 
         parentGameScene->getMainRect()->addChild(upgradeGroup);
@@ -141,28 +140,43 @@ void TowerUpgradeController::receiveTowerUpgrade(std::shared_ptr<Tower> tower)
 
     if (gameScene != nullptr)
         gameScene->setGameSceneStatus(Enums::GameSceneStatuses::Menu);
-
 }
 
 void TowerUpgradeController::closeHandler(std::string /*itemIndex*/)
 {
     if (parentGameScene == nullptr)
+    {
         return;
+    }
 
     parentGameScene->getMainRect()->removeChild(upgradeGroup);
+    upgradeGroup.reset();
 
     auto gameScene = std::dynamic_pointer_cast<GameScene>(parentGameScene);
+
     if (gameScene != nullptr)
     {
         gameScene->setGameSceneStatus(Enums::GameSceneStatuses::Default);
     }
 }
 
+std::shared_ptr<Tower> TowerUpgradeController::ProduceTower(
+    const std::string& aTowerName, std::shared_ptr<TileMapManager> aTileMap)
+{
+    if (!fabric || !parentGameScene)
+    {
+        return nullptr;
+    }
+
+    return fabric->produceTower(aTowerName, parentGameScene->getRenderer(), shared_from_this(), aTileMap);
+}
+
 bool TowerUpgradeController::menuClickHandler(size_t itemIndex)
 {
-
     if (parentGameScene == nullptr || cachedTower == nullptr)
+    {
         return false;
+    }
 
     auto gameScene = std::dynamic_pointer_cast<GameScene>(parentGameScene);
 
@@ -173,32 +187,30 @@ bool TowerUpgradeController::menuClickHandler(size_t itemIndex)
             gameScene->setGameSceneStatus(Enums::GameSceneStatuses::Default);
         }
 
-//        parentGameScene->removeFromUIList(&towerMenu);
         return false;
     }
 
-    std::cout << "itemIndex = " << itemIndex << std::endl;
-    string towerName = currentTowerChildrenNames[itemIndex];
-    std::cout << "towername = " << towerName << std::endl;
+    auto towerName = currentTowerChildrenNames[itemIndex];
 
-   auto rootTower = GameModel::getInstance()->getRootTower();
+    auto rootTower = GameModel::getInstance()->getRootTower();
     if (rootTower == nullptr)
     {
         std::cout << "rootTower is nullptr" << std::endl;
         return false;
 
     }
+
     auto searchresult = rootTower->recursiveSearch(towerName);
     if (searchresult == nullptr)
     {
         std::cout << "searchresult is nullptr" << std::endl;
         return false;
     }
+
     MobModel model(*searchresult->getData());
 
     if (GameModel::getInstance()->getResourcesModel()->canBuy(model.getPrice()))
     {
-
         GameModel::getInstance()->getResourcesModel()->removeResources(model.getPrice());
 
         int x = cachedTower->getSprite()->getPosition().x;
@@ -206,13 +218,18 @@ bool TowerUpgradeController::menuClickHandler(size_t itemIndex)
         parentGameScene->destroyObject(cachedTower);
 
         parentGameScene->getMainRect()->removeChild(upgradeGroup);
+        upgradeGroup.reset();
 
-        cachedTower = fabric->produceTower(towerName, parentGameScene->getRenderer(), shared_from_this(), cachedTower->getTileMapManager());
+        cachedTower = ProduceTower(towerName, cachedTower->getTileMapManager());
+
         if (cachedTower == nullptr)
+        {
             return false;
+        }
+
         parentGameScene->spawnObject(x, y, cachedTower);
 
-        cachedTower = nullptr;
+        cachedTower.reset();
 
         if (gameScene != nullptr)
         {
@@ -220,10 +237,7 @@ bool TowerUpgradeController::menuClickHandler(size_t itemIndex)
         }
 
         return true;
-
     }
-    else
-        std::cout << "CantBuy" << std::endl;
 
     return false;
 }

@@ -20,17 +20,19 @@ class Scene;
 class SceneManager: public std::enable_shared_from_this<SceneManager>
 {
 public:
-	SceneManager();
+    SceneManager();
     SceneManager(const SceneManager&) = delete;
     SceneManager& operator=(const SceneManager&) = delete;
     virtual ~SceneManager() = default;
+
     std::shared_ptr<Scene> getCurrentScene();
     void addScene(std::shared_ptr<Scene> scene, std::string name);
-	void setCurrentSceneByName(string name);
+    void setCurrentSceneByName(string name);
     void askForChangeScene(string aName);
     void clearOldScene();
+
 private:
-    void setCurrentScene(std::shared_ptr<Scene> &value);
+    void setCurrentScene(std::shared_ptr<Scene>& value);
 
     std::shared_ptr<Scene> currentScene;
     map<string, std::shared_ptr<Scene>> scenes;

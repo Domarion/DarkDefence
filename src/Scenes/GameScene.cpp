@@ -508,7 +508,7 @@ void GameScene::placeSceneObjects()//TODO: Найти лучшее решени�
     {
         if (item.Name.find("Tower") != std::string::npos)
         {
-            std::shared_ptr<Tower> tower= towerFabric.produceTower(item.Name, renderer, towerUpgradeController, tileMap);
+            auto tower= towerUpgradeController->ProduceTower(item.Name, tileMap);
             tower->getSprite()->setAnchorPointPlace(item.xCoordAnchorType, item.yCoordAnchorType);
 
             spawnObject(item.ImagePosition.x, item.ImagePosition.y, tower);
@@ -634,6 +634,7 @@ void GameScene::clear()
     gatesHealthBar = nullptr;
     gates = nullptr;
     currentMission.reset();
+    towerUpgradeController.reset();
     if (monsterSpawner)
     {
         monsterSpawner->disconnectInfoProcesser();

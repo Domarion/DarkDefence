@@ -1,15 +1,5 @@
 #include "HelmOfLigofglass.h"
 
-HelmOfLigofglass::HelmOfLigofglass()
-{
-
-}
-
-HelmOfLigofglass::~HelmOfLigofglass()
-{
-
-}
-
 void HelmOfLigofglass::init(std::shared_ptr<Scene> /*scenePtr*/, std::shared_ptr<ManaGlobal> /*aManaModel*/)
 {
     string towerName = "BallistaTower";
