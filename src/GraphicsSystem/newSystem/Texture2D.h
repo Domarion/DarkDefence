@@ -16,7 +16,7 @@ public:
     Texture2D(const Texture2D& right);
     virtual ~Texture2D() = default;
     void setTexture(shared_ptr<SDL_Texture> texture);
-    void setTextureFromText(const string& ltext, Font lfont);
+    void setTextureFromText(const string& aText, Font aFont);
 
     const shared_ptr<SDL_Texture>& getTexture() const;
     void loadTexture(const string& filename, bool aRelativePath = true);

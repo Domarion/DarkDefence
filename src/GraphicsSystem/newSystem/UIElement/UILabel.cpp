@@ -1,17 +1,17 @@
 #include "UILabel.h"
 
-UILabel::UILabel(const string& ltext, const Font& lfont, std::shared_ptr<RenderingSystem>& aRenderingContext)
+UILabel::UILabel(const string& aText, const Font& aFont, std::shared_ptr<RenderingSystem>& aRenderingContext)
     : Leaf(aRenderingContext)
-    , text(ltext)
-    , font(lfont)
+    , text(aText)
+    , font(aFont)
     , textTexture(aRenderingContext)
 {
     setText(ltext);
 }
 
-void UILabel::setText(const string& ltext)
+void UILabel::setText(const string& aText)
 {
-    text = ltext;
+    text = aText;
     textTexture.setTextureFromText(text, font);
     textTexture.scaleToTexture();
 }

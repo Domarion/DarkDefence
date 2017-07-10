@@ -1,65 +1,65 @@
 #include "Font.h"
 #include "../../Utility/textfilefunctions.h"
 
-Font::Font(shared_ptr<TTF_Font> ttfFont, std::shared_ptr<RenderingSystem> &aRenderer)
+Font::Font(shared_ptr<TTF_Font> ttfFont, std::shared_ptr<RenderingSystem>& aRenderer)
     : mRenderer(aRenderer)
-    , font( ttfFont )
-    , fontColor({0, 0, 0, 255})
-    , fontSize(0)
+    , mFontPtr( ttfFont )
+    , mFontColor({0, 0, 0, 255})
+    , mFontSize(0)
 {
-
 }
 
 Font::Font()
-:font(nullptr, TTF_CloseFont), fontColor({0, 0, 0, 255}), fontSize(0)
+    : mFontPtr(nullptr, TTF_CloseFont)
+    , mFontColor({0, 0, 0, 255})
+    , mFontSize(0)
 {
-
 }
 
-Font::Font(string fontPath, int size, Uint8 r, Uint8 g, Uint8 b, std::shared_ptr<RenderingSystem>& aRenderer)
-: mRenderer(aRenderer)
-,font(nullptr, TTF_CloseFont), fontColor({r, g, b, 255}), fontSize(size)
+Font::Font(string fontPath, size_t aFontSize, Uint8 r, Uint8 g, Uint8 b, std::shared_ptr<RenderingSystem>& aRenderer)
+    : mRenderer(aRenderer)
+    , mFontPtr(nullptr, TTF_CloseFont)
+    , mFontColor({r, g, b, 255})
+    , mFontSize(aFontSize)
 {
-    loadFromFile(fontPath, size);
+    loadFromFile(fontPath, aFontSize);
 }
 
-
-void Font::loadFromFile(string filename, int size)
+void Font::loadFromFile(string filename, size_t aFontSize)
 {
-    fontSize = size;
+    mFontSize = aFontSize;
     string filename1 = filename;
     androidText::setRelativePath(filename1);
 
-    setFont(std::move(mRenderer->loadFontFromFile(filename1, size)));
+    setFont(std::move(mRenderer->loadFontFromFile(filename1, mFontSize)));
 }
 
 SDL_Color Font::getFontColor() const
 {
-    return fontColor;
-
+    return mFontColor;
 }
 
-void Font::setFontColor(const SDL_Color &value)
+void Font::setFontColor(const SDL_Color& value)
 {
-    fontColor = value;
+    mFontColor = value;
 }
 
 void Font::setFontColor(Uint8 r, Uint8 g, Uint8 b)
 {
-    fontColor = {r, g, b, 255};
+    mFontColor = {r, g, b, 255};
 }
 
 int Font::getFontSize() const
 {
-   return fontSize;
+    return mFontSize;
 }
 
-shared_ptr<TTF_Font> Font::getFont() const
+const shared_ptr<TTF_Font>& Font::getFont() const
 {
-    return font;
+    return mFontPtr;
 }
 
-void Font::setFont(shared_ptr<TTF_Font> value)
+void Font::setFont(shared_ptr<TTF_Font>& aTTFFont)
 {
-    font = value;
+    mFontPtr = aTTFFont;
 }

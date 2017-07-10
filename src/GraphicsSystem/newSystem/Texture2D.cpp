@@ -1,14 +1,13 @@
 ﻿#include "Texture2D.h"
 #include "../../Utility/textfilefunctions.h"
 
-Texture2D::Texture2D(std::shared_ptr<RenderingSystem> &renderingContext)
+Texture2D::Texture2D(std::shared_ptr<RenderingSystem>& renderingContext)
     : texturePtr(nullptr, SDL_DestroyTexture)
     , renderer(renderingContext)
 {
-
 }
 
-Texture2D::Texture2D(const Texture2D &right)
+Texture2D::Texture2D(const Texture2D& right)
 {
     texturePtr = right.texturePtr;
     textureSize = right.textureSize;
@@ -22,10 +21,10 @@ void Texture2D::setTexture(shared_ptr<SDL_Texture> texture)
     setOriginalTextureSize();
 }
 
-void Texture2D::setTextureFromText(const string &ltext, Font lfont)
+void Texture2D::setTextureFromText(const string& aText, Font aFont)
 {
     texturePtr.reset();
-    texturePtr = renderer->textToTexture(lfont.getFont().get(),ltext, lfont.getFontColor());
+    texturePtr = renderer->textToTexture(aFont.getFont().get(), aText, aFont.getFontColor());
     setOriginalTextureSize();
 }
 
@@ -34,7 +33,7 @@ const shared_ptr<SDL_Texture>& Texture2D::getTexture() const
     return texturePtr;
 }
 
-void Texture2D::loadTexture(const string &filename, bool aRelativePath)
+void Texture2D::loadTexture(const string& filename, bool aRelativePath)
 {
     string filename1 = filename;
 
