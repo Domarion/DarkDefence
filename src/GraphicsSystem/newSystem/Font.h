@@ -23,7 +23,7 @@ public:
     int getFontSize() const;
 
     const shared_ptr<TTF_Font>& getFont() const;
-    void setFont(shared_ptr<TTF_Font>& aTTFFont);
+    void setFont(shared_ptr<TTF_Font> aTTFFont);
 private:
     std::shared_ptr<RenderingSystem> mRenderer;
     shared_ptr<TTF_Font> mFontPtr;

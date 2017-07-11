@@ -6,7 +6,7 @@ UILabel::UILabel(const string& aText, const Font& aFont, std::shared_ptr<Renderi
     , font(aFont)
     , textTexture(aRenderingContext)
 {
-    setText(ltext);
+    setText(aText);
 }
 
 void UILabel::setText(const string& aText)

@@ -59,7 +59,7 @@ const shared_ptr<TTF_Font>& Font::getFont() const
     return mFontPtr;
 }
 
-void Font::setFont(shared_ptr<TTF_Font>& aTTFFont)
+void Font::setFont(shared_ptr<TTF_Font> aTTFFont)
 {
     mFontPtr = aTTFFont;
 }

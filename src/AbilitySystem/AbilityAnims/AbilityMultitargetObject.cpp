@@ -114,7 +114,7 @@ void AbilityMultitargetObject::MoveToTarget()
     auto firstMonster = mTargets->front();
 
     auto targetPos = firstMonster->getPosition();
-    auto newSelfPos{getPosition()};
+    auto newSelfPos = getPosition();
 
     int diffX = targetPos.x - newSelfPos.x;
     int diffY = targetPos.y - newSelfPos.y;

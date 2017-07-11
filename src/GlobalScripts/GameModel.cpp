@@ -291,8 +291,13 @@ std::unique_ptr<MobAbility> GameModel::getMobAbilityByName(string name)
 
 void GameModel::saveGameData(string filename)
 {
+#ifdef __ANDROID__
+    string filename1(SDL_GetPrefPath("darkdefence", "game"));
+    filename1.append("save.bin");
+#else
     string filename1(filename);
     androidText::setRelativePath(filename1);
+#endif
 
     SDL_RWops* binaryDataFile = SDL_RWFromFile(filename1.c_str(),"w+b");
     if (binaryDataFile != nullptr)
@@ -314,7 +319,7 @@ void GameModel::loadGameData(string filename)
     {
     #ifdef __ANDROID__
         string filename1(SDL_GetPrefPath("darkdefence", "game"));
-        filename1 += filename;
+        filename1.append("save.bin");
     #else
         string filename1(filename);
         androidText::setRelativePath(filename1);
