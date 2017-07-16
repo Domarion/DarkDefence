@@ -1,4 +1,5 @@
 #pragma once
+
 #include<vector>
 #include <list>
 #include <utility>
@@ -15,7 +16,7 @@ class TileMapManager
 
 public:
 
-    explicit TileMapManager(vector<vector<int> > &aMapTemplate);
+    explicit TileMapManager(vector<vector<int> >& aMapTemplate);
     bool waveAlgo(pair<int, int> startVertex, pair<int, int> endVertex);
     Path getPath(pair<int, int> endVertex);
     int getRowCount() const;

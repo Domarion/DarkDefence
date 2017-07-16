@@ -19,17 +19,20 @@ bool UIScrollList::canDrag() const
     return children.size() > itemCountToShow;
 }
 
-bool UIScrollList::onDrag(int direction)
+bool UIScrollList::onDrag(Position aDirection)
 {
-    if (direction == 0 || children.empty())
+    if (aDirection.y == 0 || children.empty())
         return false;
 
-    size_t points = abs(direction)/3 + 1;
+    size_t points = abs(aDirection.y)/3 + 1;
 
-    if (direction > 0)
+    if (aDirection.y > 0)
+    {
         scrollUp(points);
-    else
-        scrollDown(points);
+        return true;
+    }
+
+    scrollDown(points);
 
     return true;
 }
@@ -54,12 +57,12 @@ std::list<shared_ptr<IComposite> >::const_iterator UIScrollList::getEndIterator(
     return children.end();
 }
 
-std::list<shared_ptr<IComposite> >::iterator &UIScrollList::getIteratorToFirst()
+std::list<shared_ptr<IComposite> >::iterator& UIScrollList::getIteratorToFirst()
 {
     return toFirst;
 }
 
-std::list<shared_ptr<IComposite> >::iterator &UIScrollList::getIteratorToLast()
+std::list<shared_ptr<IComposite> >::iterator& UIScrollList::getIteratorToLast()
 {
     return toLast;
 }
@@ -117,29 +120,28 @@ void UIScrollList::recalcItemPositions()
 void UIScrollList::addChild(const shared_ptr<IComposite>& child)
 {
     ConcreteComposite::addChild(child);
+
     if (children.size() == 1)
     {
         toFirst = children.begin();
         toLast = children.end();
     }
-    else
-        if (children.size() >= itemCountToShow)
-        {
-            std::advance(toLast, itemCountToShow - std::distance(toFirst, toLast));
-        }
+    else if (children.size() >= itemCountToShow)
+    {
+        std::advance(toLast, itemCountToShow - std::distance(toFirst, toLast));
+    }
+
     recalcItemPositions();
 }
 
-void UIScrollList::removeChild(const shared_ptr<IComposite> &child)//TODO::Wrong Logic
+void UIScrollList::removeChild(const shared_ptr<IComposite>& child)//TODO::Wrong Logic
 {
     if (child != nullptr)
-    {   
-
+    {
         auto childIterator = std::find(children.begin(), children.end(), child);
 
         if (childIterator == children.end())
             return;
-
 
         if (children.size() <= itemCountToShow + 1)
         {
@@ -147,8 +149,7 @@ void UIScrollList::removeChild(const shared_ptr<IComposite> &child)//TODO::Wrong
             toFirst = children.begin();
             toLast = children.end();
         }
-        else
-        if (childIterator == toFirst)
+        else if (childIterator == toFirst)
         {
 
             toFirst = children.erase(childIterator);
@@ -191,6 +192,7 @@ void UIScrollList::removeChild(const shared_ptr<IComposite> &child)//TODO::Wrong
                 std::advance(toFirst, beginFirstDistance - 1);
             }
         }
+
         recalcItemPositions();
     }
 }
@@ -244,10 +246,13 @@ bool UIScrollList::onClick(Position point)
     return isSuccess;
 }
 
-bool UIScrollList::containsPoint(int x, int y) const
+bool UIScrollList::containsPoint(Position aPosition) const
 {
-   Position pos = getPosition();
-   Size size = getSize();
+    Position pos = getPosition();
+    Size size = getSize();
 
-   return x >= pos.x && x <= (pos.x + size.width) && y >= pos.y && y <= (pos.y + size.height);
+    return aPosition.x >= pos.x
+        && aPosition.x <= (pos.x + size.width)
+        && aPosition.y >= pos.y
+        && aPosition.y <= (pos.y + size.height);
 }

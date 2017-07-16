@@ -58,6 +58,16 @@ std::shared_ptr<EffectReceiver>  SceneObject::getEffectReceiver() const
     return nullptr;
 }
 
+std::shared_ptr<InputHandler> SceneObject::getInputHandler() const
+{
+    return mInputHandler;
+}
+
+void SceneObject::setInputHandler(std::shared_ptr<InputHandler> aInputHandler)
+{
+    mInputHandler = aInputHandler;
+}
+
 int SceneObject::computeDistanceSqr(int x0, int y0, int x1, int y1)
 {
     int xdist = x0 - x1;

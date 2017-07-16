@@ -4,7 +4,6 @@ Camera2D::Camera2D(Size aCameraSize)
     : mWorldPosition()
     , mCameraSize(aCameraSize)
 {
-
 }
 
 Position Camera2D::getWorldPosition() const
@@ -27,7 +26,7 @@ void Camera2D::setCameraSize(Size cameraSize)
     mCameraSize = cameraSize;
 }
 
-SDL_Rect *Camera2D::getIntersection(Position aPos, Size aSize) const
+SDL_Rect* Camera2D::getIntersection(Position aPos, Size aSize) const
 {
     SDL_Rect objRect{aPos.x, aPos.y, aSize.width, aSize.height};
     SDL_Rect cameraRect{mWorldPosition.x, mWorldPosition.y, mCameraSize.width, mCameraSize.height};

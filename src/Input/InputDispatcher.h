@@ -6,6 +6,7 @@
  */
 
 #pragma once
+
 #include <SDL.h>
 #include "InputHandler.h"
 #include <vector>
@@ -17,16 +18,16 @@ public:
     InputDispatcher(Size aSize);
     ~InputDispatcher() = default;
 
-    void sendEvent(const SDL_Event &inputEvent);
+    void sendEvent(const SDL_Event& inputEvent);
     void addHandler(std::shared_ptr<InputHandler>);
     void removeHandler(std::shared_ptr<InputHandler>);
-	void clearHandlers();
+    void clearHandlers();
 
 private:
-    void sendEventTouch(const SDL_Event &inputEvent);
-    void sendEventMouse(const SDL_Event &inputEvent);
+    void sendEventTouch(const SDL_Event& inputEvent);
+    void sendEventMouse(const SDL_Event& inputEvent);
+
     uint32_t previousEventType;
     Size mSize;
     std::vector<std::shared_ptr<InputHandler>> handlers;
-
 };

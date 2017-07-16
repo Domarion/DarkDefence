@@ -22,7 +22,7 @@ void UIProgressBar::calculateProgress(int current, int max)
 
     if (current >= max)
     {
-        if (backSize.isZero())
+        if (backSize.IsZero())
         {
             return;
         }
@@ -121,7 +121,7 @@ void UIProgressBar::calculateProgress(int current, int max)
 
 void UIProgressBar::draw() const
 {
-    if (backSize.isZero())
+    if (backSize.IsZero())
     {
         frontTexture.drawAtPosition(getPosition());
     }

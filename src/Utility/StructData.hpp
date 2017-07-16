@@ -1,15 +1,16 @@
 #pragma once
+
 #include <cereal/access.hpp>
 #include <cereal/types/string.hpp>
 #include "Enums.h"
-#include "GraphicsSystem/newSystem/UtilityStructs.h"
+#include "../GraphicsSystem/newSystem/UtilityStructs.h"
 
 struct StructureData
 {
 private:
     friend class cereal::access;
     template <typename Archive>
-    void serialize(Archive &ar, const unsigned int /*version*/)
+    void serialize(Archive& ar, const unsigned int /*version*/)
     {
         ar(cereal::make_nvp("Name", Name),
            cereal::make_nvp("Width", ImageSize.width),
@@ -27,4 +28,4 @@ public:
     Enums::AnchorCoordTypes xCoordAnchorType = Enums::AnchorCoordTypes::Min;
     Enums::AnchorCoordTypes yCoordAnchorType = Enums::AnchorCoordTypes::Min;
 
-}; 
+};

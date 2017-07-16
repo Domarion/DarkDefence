@@ -33,11 +33,11 @@ public:
     virtual void init(std::shared_ptr<SceneManager> sceneManagerPtr);
     virtual void clear();
     virtual void copyToRender() const;
-	virtual void startUpdate(double timestep);
+    virtual void startUpdate(double timestep);
     virtual void spawnObject(int x, int y, std::shared_ptr<SceneObject> obj);
     virtual void destroyObject(std::shared_ptr<SceneObject> obj);
 
-    virtual void addToUIList(const std::shared_ptr<IComposite> &item);
+    virtual void addToUIList(const std::shared_ptr<IComposite>& item);
     virtual void removeFromUIList(const std::shared_ptr<IComposite>& item);
 
     virtual void replaceObject(std::shared_ptr<SceneObject> aObject, std::shared_ptr<SceneObject> aReplacement);
@@ -56,14 +56,7 @@ public:
 
     std::shared_ptr<ConcreteComposite>& getMainRect();
 
-    void onlyTestMoveCamera(Position aDeltaPosition) //TestOnly
-    {
-        Position pos = mCamera.getWorldPosition();
-
-        if (pos.x >= 0 && pos.x <= 2000)
-            pos.x += aDeltaPosition.x;
-        mCamera.setWorldPosition(pos);
-    }
+    void onlyTestMoveCamera(Position aDeltaPosition);
 
 protected:
 
@@ -71,10 +64,11 @@ protected:
     std::shared_ptr<InputDispatcher> mInputDispatcher;
     std::shared_ptr<ConcreteComposite> MainRect;
 
-     void addLoadSceneButton(string aButtonName, string aFontName, string aSceneName, int posX, int posY, int, int);
-     void addSceneButton(string aButtonName, string aFontName, int posX, int posY, int width, int height, std::function<void (string)> handler, std::string aMsg);
-     void drawSceneObjects() const;
-     void drawUI() const;
+    void addLoadSceneButton(string aButtonName, string aFontName, string aSceneName, int posX, int posY, int, int);
+    void addSceneButton(string aButtonName, string aFontName, int posX, int posY, int width, int height,
+                        std::function<void (string)> handler, std::string aMsg);
+    void drawSceneObjects() const;
+    void drawUI() const;
 
 private:
 

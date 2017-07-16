@@ -93,6 +93,7 @@ int GameApp::gameLoop()
 
                 while (lag >= MS_PER_UPDATE)
                 {
+                    //TODO: Вынести в SceneManager
                     updateScene(mSceneManager->getCurrentScene(), MS_PER_UPDATE);
                     lag -= MS_PER_UPDATE;
                 }

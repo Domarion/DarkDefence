@@ -70,8 +70,17 @@ void Scene::spawnObject(int x, int y, std::shared_ptr<SceneObject> obj)
     auto handler = std::dynamic_pointer_cast<InputHandler>(obj);
 
     if (handler != nullptr)
+    {
         mInputDispatcher->addHandler(handler);
-
+    }
+    else
+    {
+        auto handler2 = obj->getInputHandler();
+        if (handler2)
+        {
+            mInputDispatcher->addHandler(handler2);
+        }
+    }
     sceneObjects.push_back(obj);
 }
 
@@ -296,6 +305,18 @@ void Scene::onGameQuit()
 std::shared_ptr<ConcreteComposite>& Scene::getMainRect()
 {
     return MainRect;
+}
+
+//TODO Найти наилучшее место для метода
+void Scene::onlyTestMoveCamera(Position aDeltaPosition)
+{
+    std::cout << "Enter onlyTestMoveCamera" << std::endl;
+    #ifdef __ANDROID__
+        aDeltaPosition *= 50;
+    #endif
+    Position pos = mCamera.getWorldPosition() + aDeltaPosition;
+
+    mCamera.setWorldPosition(pos);
 }
 
 std::shared_ptr<RenderingSystem>& Scene::getRenderer()

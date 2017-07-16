@@ -1,9 +1,7 @@
 #include "RenderingSystem.h"
-#include "UtilityStructs.h"
 #include <SDL_image.h>
 
-
-RenderingSystem::RenderingSystem(const Size &aScreenSize)
+RenderingSystem::RenderingSystem(const Size& aScreenSize)
     : window
       (
            SDL_CreateWindow(
@@ -33,7 +31,7 @@ void RenderingSystem::renderTexture(
     SDL_Texture* texturePtr,
     Size aTextureSize,
     Position aDestPosition,
-    const SDL_Rect *clipRect)
+    const SDL_Rect* clipRect)
 {
     SDL_Rect destRect = {aDestPosition.x, aDestPosition.y, aTextureSize.width, aTextureSize.height};
     SDL_RenderCopy(renderer.get(), texturePtr, clipRect, &destRect);

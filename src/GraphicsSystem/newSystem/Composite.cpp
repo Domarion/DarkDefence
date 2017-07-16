@@ -1,13 +1,13 @@
 #include "Composite.h"
 
-Composite::Composite(std::shared_ptr<RenderingSystem> &aRenderingContext)
+Composite::Composite(std::shared_ptr<RenderingSystem>& aRenderingContext)
     :IComposite()
     , renderer(aRenderingContext)
 {
 
 }
 
-void Composite::addChild(const shared_ptr<IComposite> &child)
+void Composite::addChild(const shared_ptr<IComposite>& child)
 {
     if (child != nullptr)
     {
@@ -27,7 +27,7 @@ void Composite::addChild(const shared_ptr<IComposite> &child)
     }
 }
 
-void Composite::removeChild(const shared_ptr<IComposite> &child)
+void Composite::removeChild(const shared_ptr<IComposite>& child)
 {
     if (child != nullptr)
         children.remove(child);
@@ -60,7 +60,7 @@ Position Composite::getPosition() const
 void Composite::setPosition(Position pos)
 {
     if (hasParent() && (pos.x < 0 || pos.y < 0))
-            throw std::logic_error("Error: relative to parent coord cannot be less than 0");
+        throw std::logic_error("Error: relative to parent coord cannot be less than 0");
     localPosition = pos;
 }
 
@@ -116,43 +116,40 @@ bool Composite::canDrag() const
             }
         }
     }
-   return false;
-}
-
-bool Composite::onDrag(int direction)
-{
-    std::cout << "TryTo?" << std::endl;
-
-    for (auto& child: children)
-    {
-        if (child.get() != nullptr)
-        {
-            InputHandler* handler= dynamic_cast<InputHandler*>(child.get());
-            if (handler != nullptr)
-            {
-                std::cout << "NotNull" << std::endl;
-                if (handler->onDrag(direction))
-                    return true;
-            }
-        }
-    }
     return false;
 }
 
-bool Composite::containsPoint(int x, int y) const
+bool Composite::onDrag(Position aDirection)
 {
     for (auto& child: children)
     {
-        if (child.get() != nullptr)
+        if (child)
         {
-            InputHandler* handler= dynamic_cast<InputHandler*>(child.get());
-            if (handler != nullptr)
+            auto handler = std::dynamic_pointer_cast<InputHandler>(child);
+            if (handler && handler->onDrag(aDirection))
             {
-                if (handler->containsPoint(x, y))
-                    return true;
+                return true;
             }
         }
     }
+
+    return false;
+}
+
+bool Composite::containsPoint(Position aPosition) const
+{
+    for (const auto& child: children)
+    {
+        if (child)
+        {
+            auto handler= std::dynamic_pointer_cast<InputHandler>(child);
+            if (handler && handler->containsPoint(aPosition))
+            {
+                return true;
+            }
+        }
+    }
+
     return false;
 }
 
@@ -173,11 +170,11 @@ void Composite::setParent(weak_ptr<IComposite> aParent)
 
 bool Composite::onClick(Position point)
 {
-    for(const auto &child : children)
+    for(const auto& child : children)
     {
         InputHandler* handler = dynamic_cast<InputHandler*>(child.get());
         if (handler != nullptr && handler->onClick(point))
-               return true;
+            return true;
     }
     return false;
 }
@@ -195,7 +192,7 @@ void Composite::setScalingFactor(double aScaleFactor)
 
     mScaleFactor = aScaleFactor;
     mScaledSize = getSize();
-    mScaledSize.multiplyBy(mScaleFactor);
+    mScaledSize *= mScaleFactor;
     setSize(mScaledSize);
 
     for(auto& child : children)

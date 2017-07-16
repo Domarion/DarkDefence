@@ -1,11 +1,11 @@
 #include "TileMapManager.h"
 #include <algorithm>
+
 using std::find;
 
-TileMapManager::TileMapManager(vector<vector<int> > &aMapTemplate)
-    :mapTemplate(aMapTemplate)
+TileMapManager::TileMapManager(vector<vector<int> >& aMapTemplate)
+    : mapTemplate(aMapTemplate)
 {
-
 }
 
 bool TileMapManager::waveAlgo(pair<int, int> startVertex, pair<int, int> endVertex)
@@ -24,8 +24,8 @@ bool TileMapManager::waveAlgo(pair<int, int> startVertex, pair<int, int> endVert
         for(const auto& currentVertex: oldFront)
         {
             TileMapManager::Path vertexNeightbours = getAvaliableNeightbours(
-                currentVertex.first,
-                currentVertex.second);
+                        currentVertex.first,
+                        currentVertex.second);
 
             for(const auto& neightbour: *vertexNeightbours)
             {
@@ -73,7 +73,7 @@ TileMapManager::Path TileMapManager::getPath(pair<int, int> endVertex)
 
     pair<int, int> currentVertex = endVertex;
 
-    for(;startVertexDistance > 0; --startVertexDistance)
+    for(; startVertexDistance > 0; --startVertexDistance)
     {
         TileMapManager::Path vertexNeightbours = getAvaliableNeightbours(currentVertex.first, currentVertex.second);
 
@@ -81,18 +81,17 @@ TileMapManager::Path TileMapManager::getPath(pair<int, int> endVertex)
         {
             size_t startPointDistance = waveZone[neightbour.first][neightbour.second];
 
-             if (0 == startPointDistance)
-             {
-                 path->push_back(neightbour);
-                 break;
-             }
-             else
-                 if (startVertexDistance - 1 == startPointDistance)
-                 {
-                     path->push_back(neightbour);
-                     currentVertex = neightbour;
-                     break;
-                 }
+            if (0 == startPointDistance)
+            {
+                path->push_back(neightbour);
+                break;
+            }
+            else if (startVertexDistance - 1 == startPointDistance)
+            {
+                path->push_back(neightbour);
+                currentVertex = neightbour;
+                break;
+            }
         }
     }
 
@@ -119,10 +118,10 @@ Size TileMapManager::getCellSize() const
 Size TileMapManager::getMapSize() const
 {
     return Size
-        {
-            TileMapManager::columnSize * this->getColumnCount(),
-            TileMapManager::rowSize * this->getRowCount()
-        };
+    {
+        TileMapManager::columnSize* this->getColumnCount(),
+        TileMapManager::rowSize* this->getRowCount()
+    };
 }
 
 pair<int,int> TileMapManager::getPosFromGlobalCoords(Position pos)

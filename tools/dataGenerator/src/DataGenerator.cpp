@@ -9,6 +9,7 @@
 #include "Utility/TreeNode.hpp"
 #include "Mob/EnemyInfo.h"
 #include "Utility/textfilefunctions.h"
+#include "GraphicsSystem/newSystem/UtilityStructs.h"
 
 #include <cereal/archives/xml.hpp>
 #include <cereal/types/memory.hpp>

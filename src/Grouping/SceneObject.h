@@ -12,6 +12,7 @@ using std::string;
 #include "Scene.h"
 #include "../Mob/DestructibleObject.h"
 #include "../AbilitySystem/EffectReceiver.h"
+#include "../Input/InputHandler.h"
 class Scene;
 
 
@@ -45,6 +46,8 @@ public:
     virtual std::shared_ptr<Scene> getParentScene();
     virtual std::shared_ptr<DestructibleObject> getDestructibleObject() const;
     virtual std::shared_ptr<EffectReceiver> getEffectReceiver() const;
+    virtual std::shared_ptr<InputHandler> getInputHandler() const;
+    virtual void setInputHandler(std::shared_ptr<InputHandler> aInputHandler);
 
     int computeDistanceSqr(int x0, int y0, int x1, int y1);
     int computeDistanceSqr(std::shared_ptr<SceneObject> second);
@@ -61,4 +64,5 @@ protected:
     string name;
     string tag;
     std::weak_ptr<Scene> parentScenePtr;
+    std::shared_ptr<InputHandler> mInputHandler;
 };

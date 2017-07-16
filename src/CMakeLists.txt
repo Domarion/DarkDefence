@@ -65,7 +65,6 @@ set(SRC_LIST
     Utility/TreeNode.hpp
     Utility/TreeNode_impl.hpp
     Utility/textfilefunctions.h
-    Utility/Size.h
     MissionSystem/ResourceGoal.h
     MissionSystem/BasicGoal.h
     MissionSystem/Reward.h
@@ -150,13 +149,16 @@ set(SRC_LIST
     ItemSystem/HeroInventoryController.h
     ItemSystem/ShopInventory.h
 
+    GraphicsSystem/newSystem/Size.h
+    GraphicsSystem/newSystem/Position.h
+    GraphicsSystem/newSystem/UtilityStructs.h
     GraphicsSystem/newSystem/Font.h
     GraphicsSystem/newSystem/Composite.h
     GraphicsSystem/newSystem/IComposite.h
     GraphicsSystem/newSystem/UIElement/UILabel.h
     GraphicsSystem/newSystem/UIElement/HorizontalPanel.h
     GraphicsSystem/newSystem/UIElement/UIProgressBar.h
-    GraphicsSystem/newSystem/UtilityStructs.h
+
     Utility/StructData.hpp
     Utility/TextureData.hpp
     GraphicsSystem/newSystem/Texture2D.h
@@ -179,7 +181,8 @@ set(SRC_LIST
     GraphicsSystem/newSystem/ConcreteUIViews/UISlotContainer.h
     GraphicsSystem/newSystem/Camera2D.h
 
-    GraphicsSystem/newSystem/UtilityStructs.cpp
+    GraphicsSystem/newSystem/Size.cpp
+    GraphicsSystem/newSystem/Position.cpp
     Input/InputHandler.cpp
     Input/SceneInputHandler.cpp
     Input/InputDispatcher.cpp

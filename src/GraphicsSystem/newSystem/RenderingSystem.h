@@ -1,4 +1,5 @@
 #pragma once
+
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include <string>
@@ -9,8 +10,8 @@ using std::string;
 class RenderingSystem
 {
 public:
-    using TTextureDeleter = void (*)(SDL_Texture *);
-    using TSurfaceDeleter = void (*)(SDL_Surface *);
+    using TTextureDeleter = void (*)(SDL_Texture*);
+    using TSurfaceDeleter = void (*)(SDL_Surface*);
     using TFontDeleter = void(*)(TTF_Font*);
 
     explicit RenderingSystem(const Size& aScreenSize);
@@ -23,7 +24,7 @@ public:
         SDL_Texture* texturePtr,
         Size aTextureSize,
         Position aDestPosition,
-        const SDL_Rect *clipRect);
+        const SDL_Rect* clipRect);
     void renderTextureFlipping(
         SDL_Texture* texturePtr, Position aDestPosition, const SDL_Rect* clipRect, SDL_RendererFlip aFlipFlags);
 
@@ -53,7 +54,7 @@ public:
 
     std::unique_ptr<SDL_Surface, TSurfaceDeleter> createSurfaceFromRenderingTarget(
         Size aTextureSize, Position aTexturePosition);
-    void renderToTarget(SDL_Texture *texturePtr);
+    void renderToTarget(SDL_Texture* texturePtr);
 
     void setRendererDrawColor(Uint8 red, Uint8 green, Uint8 blue, Uint8 alpha);
     void drawLine(Position aFirstPoint, Position aLastPoint);

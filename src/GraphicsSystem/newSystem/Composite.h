@@ -37,8 +37,8 @@ public:
     // InputHandler interface
     bool onClick(Position point) override;
     bool canDrag() const override;
-    bool onDrag(int direction) override;
-    bool containsPoint(int x, int y) const override;
+    bool onDrag(Position aDirection) override;
+    bool containsPoint(Position aPosition) const override;
 
 protected:
     std::shared_ptr<RenderingSystem> renderer;

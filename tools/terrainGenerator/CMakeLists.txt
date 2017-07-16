@@ -5,8 +5,8 @@ set(RenderingSystem_INCLUDE_DIRS ../../src)
 
 set(HEADERS
     ${RenderingSystem_INCLUDE_DIRS}/SDL_Engine.h
-    ${RenderingSystem_INCLUDE_DIRS}/GraphicsSystem/newSystem/Font.h
     ${RenderingSystem_INCLUDE_DIRS}/GraphicsSystem/newSystem/UtilityStructs.h
+    ${RenderingSystem_INCLUDE_DIRS}/GraphicsSystem/newSystem/Font.h
 
     ${RenderingSystem_INCLUDE_DIRS}/GraphicsSystem/newSystem/Texture2D.h
     ${RenderingSystem_INCLUDE_DIRS}/Utility/textfilefunctions.h
@@ -18,11 +18,12 @@ set(SRC_LIST
     ${RenderingSystem_INCLUDE_DIRS}/SDL_Engine.cpp
 
     ${RenderingSystem_INCLUDE_DIRS}/GraphicsSystem/newSystem/Font.cpp
-    ${RenderingSystem_INCLUDE_DIRS}/GraphicsSystem/newSystem/UtilityStructs.cpp
-
     ${RenderingSystem_INCLUDE_DIRS}/GraphicsSystem/newSystem/Texture2D.cpp
     ${RenderingSystem_INCLUDE_DIRS}/Utility/textfilefunctions.cpp
     ${RenderingSystem_INCLUDE_DIRS}/GraphicsSystem/newSystem/RenderingSystem.cpp
+    ${RenderingSystem_INCLUDE_DIRS}/GraphicsSystem/newSystem/Size.cpp
+    ${RenderingSystem_INCLUDE_DIRS}/GraphicsSystem/newSystem/Position.cpp
+
     src/TerrainGenerator.cpp
     src/main.cpp
     )

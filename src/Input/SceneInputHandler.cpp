@@ -1,25 +1,43 @@
 #include "SceneInputHandler.h"
 
-SceneInputHandler::SceneInputHandler()
-    :parentScene(nullptr)
+bool SceneInputHandler::onClick(Position /*aPoint*/)
 {
+//    if (!mParentScene)
+//    {
+//        return false;
+//    }
 
+//    return mParentScene->findObjectWithPos(aPoint.x, aPoint.y);
+    return false;
 }
 
-SceneInputHandler::~SceneInputHandler()
+bool SceneInputHandler::canDrag() const
 {
-
+    return true;
 }
 
-bool SceneInputHandler::onClick(Position point)
+bool SceneInputHandler::onDrag(Position aDirection)
 {
-    if (parentScene == nullptr)
+    std::cout << "Enter SceneInputHandler::onDrag" << std::endl;
+
+    if (!mParentScene)
+    {
         return false;
+    }
 
-    return (parentScene->findObjectWithPos(point.x, point.y)) != nullptr;
+    std::cout << "SceneInputHandler::onDrag" << std::endl;
+
+    mParentScene->onlyTestMoveCamera(aDirection);
+
+    return true;
 }
 
-void SceneInputHandler::setParentScene(Scene *value)
+bool SceneInputHandler::containsPoint(Position) const
 {
-    parentScene = value;
+    return true;
+}
+
+void SceneInputHandler::setParentScene(std::shared_ptr<Scene> aParentScene)
+{
+    mParentScene = aParentScene;
 }

@@ -15,10 +15,11 @@ set(HEADERS
     )
 
 set(SRC_LIST
+    ${RenderingSystem_INCLUDE_DIRS}/GraphicsSystem/newSystem/Size.cpp
+    ${RenderingSystem_INCLUDE_DIRS}/GraphicsSystem/newSystem/Position.cpp
     ${RenderingSystem_INCLUDE_DIRS}/SDL_Engine.cpp
 
     ${RenderingSystem_INCLUDE_DIRS}/GraphicsSystem/newSystem/Font.cpp
-    ${RenderingSystem_INCLUDE_DIRS}/GraphicsSystem/newSystem/UtilityStructs.cpp
 
     ${RenderingSystem_INCLUDE_DIRS}/GraphicsSystem/newSystem/Texture2D.cpp
     ${RenderingSystem_INCLUDE_DIRS}/Utility/textfilefunctions.cpp

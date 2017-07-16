@@ -14,14 +14,13 @@ PKG_SEARCH_MODULE(SDL2TTF REQUIRED SDL2_ttf)
 include_directories(${CerealInclude} ${DarkDefenceIncludeDir} ${SDL2_INCLUDE_DIRS} ${SDL2IMAGE_INCLUDE_DIRS} ${SDL2TTF_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS} ${CerealInclude} )
 
 set(HEADERS
+    ${DarkDefenceIncludeDir}/GraphicsSystem/newSystem/UtilityStructs.h
 
     ${DarkDefenceIncludeDir}/GlobalConstants.h
     ${DarkDefenceIncludeDir}/MissionSystem/Reward.h
     ${DarkDefenceIncludeDir}/MissionSystem/BasicGoal.h
     ${DarkDefenceIncludeDir}/MissionSystem/Mission.h
     ${DarkDefenceIncludeDir}/MissionSystem/ResourceGoal.h
-#    ${DarkDefenceIncludeDir}/GlobalScripts/GameModel.h
-#    ${DarkDefenceIncludeDir}/GlobalScripts/AccountModel.h
     ${DarkDefenceIncludeDir}/GlobalScripts/ResourcesModel.h
     ${DarkDefenceIncludeDir}/GlobalScripts/ResourceInfo.h
 
@@ -62,9 +61,9 @@ set(HEADERS
 
 set(SRC_LIST
 
+    ${DarkDefenceIncludeDir}/GraphicsSystem/newSystem/Size.cpp
+    ${DarkDefenceIncludeDir}/GraphicsSystem/newSystem/Position.cpp
 
-#    ${DarkDefenceIncludeDir}/GlobalScripts/GameModel.cpp
-#    ${DarkDefenceIncludeDir}/GlobalScripts/AccountModel.cpp
     ${DarkDefenceIncludeDir}/GlobalScripts/ResourcesModel.cpp
     ${DarkDefenceIncludeDir}/GlobalScripts/ResourceInfo.cpp
 

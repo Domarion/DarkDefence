@@ -6,17 +6,18 @@
  */
 
 #pragma once
+
 #include <SDL_rect.h>
 #include "../GraphicsSystem/newSystem/UtilityStructs.h"
+
 class InputHandler
 {
 public:
-	InputHandler();
-	virtual ~InputHandler();
+    virtual ~InputHandler() = default;
+
     virtual bool onClick(Position point) = 0;
-	virtual bool canDrag() const;
-    virtual bool onDrag(int);
-    virtual bool containsPoint(int, int) const;
-    //virtual bool canWorkWithGamePause() const;
+    virtual bool canDrag() const;
+    virtual bool onDrag(Position);
+    virtual bool containsPoint(Position) const;
 };
 

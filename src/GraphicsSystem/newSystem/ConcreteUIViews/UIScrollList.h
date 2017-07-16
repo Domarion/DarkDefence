@@ -10,8 +10,6 @@ public:
     virtual ~UIScrollList() = default;
 
     virtual void ConnectMethod(std::function<bool(int)> method);
-    virtual bool canDrag() const override;
-    virtual bool onDrag(int direction) override;
     int getItemCountToShow();
     int getChildrenCount() const;
     std::list<shared_ptr<IComposite> >::const_iterator getBeginIterator() const;
@@ -28,8 +26,10 @@ public:
     void draw() const override;
 
     // InputHandler interface
+    virtual bool canDrag() const override;
+    virtual bool onDrag(Position aDirection) override;
     bool onClick(Position point) override;
-    bool containsPoint(int x, int y) const override;
+    bool containsPoint(Position aPosition) const override;
 
 private:
     size_t itemCountToShow;

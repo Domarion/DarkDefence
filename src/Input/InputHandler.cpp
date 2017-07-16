@@ -7,29 +7,17 @@
 
 #include "InputHandler.h"
 
-InputHandler::InputHandler()
-{
-	// TODO Auto-generated constructor stub
-
-}
-
-InputHandler::~InputHandler()
-{
-	// TODO Auto-generated destructor stub
-}
-
-bool InputHandler::onDrag(int /*direction*/)
-{
-	return false;
-}
-
-bool InputHandler::canDrag() const
-{
-	return false;
-}
-
-bool InputHandler::containsPoint(int /*x*/, int /*y*/) const
+bool InputHandler::onDrag(Position /*aDirection*/)
 {
     return false;
 }
 
+bool InputHandler::canDrag() const
+{
+    return false;
+}
+
+bool InputHandler::containsPoint(Position /*aPosition*/) const
+{
+    return false;
+}
