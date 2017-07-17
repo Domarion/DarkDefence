@@ -50,6 +50,20 @@ void Size::operator*=(int aScalar)
     height *= aScalar;
 }
 
+Size Size::operator*(double aScalar) const
+{
+    int w = static_cast<int>(width * aScalar);
+    int h = static_cast<int>(height * aScalar);
+
+    return Size(w, h);
+}
+
+void Size::operator*=(double aScalar)
+{
+    width = static_cast<int>(width * aScalar);
+    height = static_cast<int>(height * aScalar);
+}
+
 Size Size::operator/(int aScalar) const
 {
     if (aScalar == 0)

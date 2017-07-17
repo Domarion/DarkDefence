@@ -25,9 +25,12 @@ public:
     Position operator* (int aScalar) const;
     void operator*= (int aScalar);
 
+    Position operator* (double aScalar) const;
+    void operator*= (double aScalar);
+
+
     Position operator/ (int aScalar) const;
     void operator/= (int aScalar);
-
 
     Position operator+ (const Position& aRight) const;
     void operator+= (const Position& aRight);

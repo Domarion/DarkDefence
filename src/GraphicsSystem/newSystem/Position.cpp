@@ -50,6 +50,20 @@ void Position::operator*=(int aScalar)
     y *= aScalar;
 }
 
+Position Position::operator*(double aScalar) const
+{
+    int xCoord = static_cast<int>(x * aScalar);
+    int yCoord = static_cast<int>(y * aScalar);
+
+    return Position(xCoord, yCoord);
+}
+
+void Position::operator*=(double aScalar)
+{
+    x = static_cast<int>(x * aScalar);
+    y = static_cast<int>(y * aScalar);
+}
+
 Position Position::operator/(int aScalar) const
 {
     if (aScalar == 0)

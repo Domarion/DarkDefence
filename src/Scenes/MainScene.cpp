@@ -12,8 +12,8 @@
 #include "../GraphicsSystem/newSystem/UIElement/UIImage.h"
 #include "../GlobalScripts/ResourceManager.h"
 
-MainScene::MainScene(std::shared_ptr<RenderingSystem> &aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher)
-    :Scene(aRenderer, aInputDispatcher)
+MainScene::MainScene(std::shared_ptr<RenderingSystem>& aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher)
+    : Scene(aRenderer, aInputDispatcher)
 {
 }
 
@@ -21,7 +21,6 @@ MainScene::~MainScene()
 {
     clear();
 }
-
 
 void MainScene::init(std::shared_ptr<SceneManager> sceneManagerPtr)
 {
@@ -43,11 +42,11 @@ void MainScene::ConnectMethod(std::function<void (std::string)> handler)
 
 void MainScene::loadMenuItems(string filename)
 {
-   string destString;
-   androidText::loadTextFileToString(filename, destString);
+    string destString;
+    androidText::loadTextFileToString(filename, destString);
 
-   if (!destString.empty())
-   {
+    if (!destString.empty())
+    {
         std::istringstream str(destString);
 
         size_t pairCount{};
@@ -71,7 +70,7 @@ void MainScene::loadMenuItems(string filename)
                 itemNamesSceneNamesMapping[i] = std::make_pair(itemName, sceneName);
             }
         }
-   }
+    }
 }
 
 void MainScene::initUIMenuItems()
@@ -81,6 +80,7 @@ void MainScene::initUIMenuItems()
     int x = MainRect->getSize().width/4;
     int y = MainRect->getSize().height/4;
 
+    std::cout << "MenuSize = " << itemNamesSceneNamesMapping.size() << std::endl;
     for(size_t menuIndex = 0; menuIndex < itemNamesSceneNamesMapping.size(); ++menuIndex)
     {
         Scene::addLoadSceneButton(itemNamesSceneNamesMapping[menuIndex].first,
@@ -100,13 +100,13 @@ void MainScene::initUIMenuItems()
 
 void MainScene::initBackground()
 {
-      renderer->setRendererDrawColor(255, 255, 255, 255);
+    renderer->setRendererDrawColor(255, 255, 255, 255);
 
-      auto backGround = std::make_shared<UIImage>(renderer);
-      std::string backGroundName {"MainSceneBackground"};
-      backGround->setTexture(ResourceManager::getInstance()->getTexture(backGroundName));
-      backGround->setSize(MainRect->getSize());
-      MainRect->addChild(backGround);
+    auto backGround = std::make_shared<UIImage>(renderer);
+    std::string backGroundName {"MainSceneBackground"};
+    backGround->setTexture(ResourceManager::getInstance()->getTexture(backGroundName));
+    backGround->setSize(MainRect->getSize());
+    MainRect->addChild(backGround);
 }
 
 
