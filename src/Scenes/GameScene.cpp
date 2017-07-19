@@ -12,6 +12,8 @@
 #include "../GlobalScripts/GameModel.h"
 #include <iostream>
 #include "../Input/InputDispatcher.h"
+#include "../Input/SceneInputHandler.h"
+
 #include "../Utility/textfilefunctions.h"
 #include "../GraphicsSystem/newSystem/UIElement/UIImageButton.h"
 #include "../GlobalScripts/ResourceManager.h"
@@ -500,6 +502,12 @@ void GameScene::placeSceneObjects()//TODO: Найти лучшее решени�
 
     std::string terrainPath = "GameData/textures/Missions/" + std::to_string(curMissionIndex) + ".png";
     std::shared_ptr<SceneObject> Terrain = objectFabric.produce("Terrain", "none", terrainPath, 0, 0, renderer );
+    auto inputHandler = std::make_shared<SceneInputHandler>();
+    if (inputHandler)//TODO не перехватывать весь ввод, чтобы можно было нажимать на кнопки или башни
+    {
+        inputHandler->setParentScene(shared_from_this());
+        Terrain->setInputHandler(inputHandler);
+    }
     spawnObject(0,0, Terrain);
 
     towerUpgradeController->init(shared_from_this(), renderer);

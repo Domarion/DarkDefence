@@ -1,5 +1,5 @@
 #include "Size.h"
-#include <exception>
+#include <stdexcept>
 
 Size::Size(int aWidth, int aHeight)
     : width(aWidth)

@@ -314,7 +314,8 @@ void Scene::onlyTestMoveCamera(Position aDeltaPosition)
     #ifdef __ANDROID__
         aDeltaPosition *= 50;
     #endif
-    Position pos = mCamera.getWorldPosition() + aDeltaPosition;
+
+    Position pos = mCamera.getWorldPosition() - aDeltaPosition;
 
     mCamera.setWorldPosition(pos);
 }

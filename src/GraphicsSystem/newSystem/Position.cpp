@@ -1,5 +1,5 @@
 #include "Position.h"
-#include <exception>
+#include <stdexcept>
 
 Position::Position(int aX, int aY)
     : x(aX)
