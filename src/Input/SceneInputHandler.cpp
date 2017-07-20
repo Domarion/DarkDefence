@@ -1,13 +1,8 @@
 #include "SceneInputHandler.h"
+#include "Scenes/GameScene.h"
 
 bool SceneInputHandler::onClick(Position /*aPoint*/)
 {
-//    if (!mParentScene)
-//    {
-//        return false;
-//    }
-
-//    return mParentScene->findObjectWithPos(aPoint.x, aPoint.y);
     return false;
 }
 
@@ -27,9 +22,13 @@ bool SceneInputHandler::onDrag(Position aDirection)
 
     std::cout << "SceneInputHandler::onDrag" << std::endl;
 
-    mParentScene->onlyTestMoveCamera(aDirection);
+    auto gameScene = std::dynamic_pointer_cast<GameScene>(mParentScene);
+    if (gameScene && gameScene->getSceneMode() == GameScene::SceneModeT::StandardMode)
+    {
+        mParentScene->onlyTestMoveCamera(aDirection);
+    }
 
-    return true;
+    return false;// не захватываем событие.
 }
 
 bool SceneInputHandler::containsPoint(Position) const

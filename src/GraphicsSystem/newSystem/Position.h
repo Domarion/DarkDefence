@@ -35,6 +35,9 @@ public:
     Position operator+ (const Position& aRight) const;
     void operator+= (const Position& aRight);
 
+    Position operator- (const Position& aRight) const;
+
+
     int x = 0;
     int y = 0;
 };

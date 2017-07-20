@@ -275,6 +275,11 @@ void GameScene::copyToRender() const
     drawUI();
 }
 
+GameScene::SceneModeT GameScene::getSceneMode() const
+{
+    return mSceneMode;
+}
+
 void GameScene::setGameSceneStatus(Enums::GameSceneStatuses aStatus)
 {
     mGameSceneCurrentStatus = aStatus;

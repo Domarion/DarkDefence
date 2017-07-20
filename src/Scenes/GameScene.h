@@ -57,6 +57,7 @@ public:
     void clear() override;
     void startUpdate(double timestep) override;
     void copyToRender() const override;
+    SceneModeT getSceneMode() const;
 
 private:
 

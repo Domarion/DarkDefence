@@ -96,6 +96,11 @@ void Position::operator+=(const Position& aRight)
     y += aRight.y;
 }
 
+Position Position::operator-(const Position& aRight) const
+{
+    return Position(x - aRight.x, y - aRight.y);
+}
+
 std::ostream& operator<<(std::ostream& aOutput, const Position& aRight)
 {
     aOutput << '(' << aRight.x << ",\t" << aRight.y << ')';
