@@ -39,12 +39,9 @@ bool HeroInventory::sendItem(size_t index)
 
 void HeroInventory::receiveItem(ItemModel item)
 {
-
-    std::cout << " HeroInventory itemReceived" << std::endl;
 	if (!item.getCaption().empty())
 	{
 		int itemIndex = static_cast<int>(item.getItemType()) - 1;
-        std::cout << " ItemReceived index = " << itemIndex << std::endl;
 		if (itemIndex >= 0)
 		{
 
@@ -56,15 +53,11 @@ void HeroInventory::receiveItem(ItemModel item)
 					sendItem(itemIndex);
 			}
 
-
-              std::cout << " ItemReceived index = " << item.getCaption() << std::endl;
 			items[itemIndex] = item;
             if (connectedMethod != nullptr)
                 connectedMethod(item.getCaption(), itemIndex);
 		}
 	}
-    else
-        std::cout << " ItemReceived == 0" << std::endl;
 }
 
 void HeroInventory::addItem(ItemModel item)

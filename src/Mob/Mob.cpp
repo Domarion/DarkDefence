@@ -7,7 +7,7 @@
 
 #include "Mob.h"
 #include "../GlobalScripts/GameModel.h"
-
+#include "Logging/Logger.h"
 
 
 Mob::Mob(std::shared_ptr<MobModel> model, std::shared_ptr<TileMapManager> aTileMapPtr)
@@ -18,11 +18,11 @@ Mob::Mob(std::shared_ptr<MobModel> model, std::shared_ptr<TileMapManager> aTileM
 {
 
    mobEffectReceiver->init(mobModel);
-   if ( tileMapPtr == nullptr)
-   {
-       std::cout << "Mob_tileNullptr" << std::endl;
-   }
 
+   if (!tileMapPtr)
+   {
+       LOG_ERROR("Tilemap is nullptr.");
+   }
 }
 
 void Mob::init(int x, int y)
@@ -39,7 +39,10 @@ bool Mob::update(double timestep)
 {
     if (!mobModel->IsAlive())
     {
-        std::cout << "Destructing " << this->getName() << std::endl;
+        std::string msg = std::string("Destructing ") + this->getName();
+
+        LOG_INFO(msg);
+
         finalize();
         return false;
     }
@@ -51,7 +54,6 @@ bool Mob::update(double timestep)
 
     if (mobModel->getIsStunned())
     {
-        std::cout << "Stunned mob " << this->getName() << std::endl;
         return true;
     }
 
@@ -115,10 +117,12 @@ std::shared_ptr<MobModel> Mob::getModel() const
 
 std::shared_ptr<TileMapManager> Mob::getTileMapManager() const
 {
-    if (tileMapPtr == nullptr)
+    if (!tileMapPtr)
     {
-        std::cout << "getTileMapManager nullptr " << this->getTag() << std::endl;
+        std::string msg = std::string("TileMapManager is nullptr for ") + this->getName();
+        LOG_ERROR(msg);
     }
+
     return tileMapPtr;
 }
 

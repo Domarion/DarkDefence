@@ -35,9 +35,7 @@ std::shared_ptr<ShopInventory> ShopController::getModel() const
 
 void ShopController::initView(std::shared_ptr<RenderingSystem>& aRenderer)
 {
-
 	int count = model->getItemCount();
-//	std::cout << "ItemCount = " << count << std::endl;
 
     Font aFont =  FontManager::getInstance()->getFontByKind2("ButtonFont");
 

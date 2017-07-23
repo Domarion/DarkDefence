@@ -202,7 +202,6 @@ bool DestructibleObject::addHealth(int amount)
         isMaximumReached = true;
     }
 
-    std::cout << "Health added" << std::endl;
     if (connectedMethod != nullptr)
         connectedMethod(currentHealth, getMaximumHealth());
 

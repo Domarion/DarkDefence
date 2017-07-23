@@ -49,13 +49,6 @@ void RenderingSystem::renderTexture(SDL_Texture* texturePtr, Position aDestPosit
     {
         SDL_Rect destRect = {aDestPosition.x, aDestPosition.y, clipRect->w, clipRect->h};
 
-//        std::cout << "DEST Rect = " << destRect.x  << "\t" << destRect.y
-//                  << "\t" << destRect.w << "\t" << destRect.h << std::endl;
-
-//        std::cout << "Clip Rect = " << clipRect->x  << "\t" << clipRect->y
-//                  << "\t" << clipRect->w << "\t" << clipRect->h << std::endl;
-
-
         SDL_RenderCopy(renderer.get(), texturePtr, clipRect, &destRect);
     }
 }
@@ -154,8 +147,8 @@ std::unique_ptr<SDL_Surface, RenderingSystem::TSurfaceDeleter> RenderingSystem::
     // pitch = texture format bytes * textureWidth
     if (SDL_RenderReadPixels(
         renderer.get(), &textureRect, SDL_PIXELFORMAT_RGB888, data, bytesPerPixel * aTextureSize.width) != 0)
-        std::cout << SDL_GetError() << std::endl;
-
+    {
+    }
     return std::unique_ptr<SDL_Surface, RenderingSystem::TSurfaceDeleter>(
                 SDL_CreateRGBSurfaceWithFormatFrom(data
                                                    , aTextureSize.width

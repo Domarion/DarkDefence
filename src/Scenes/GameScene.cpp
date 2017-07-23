@@ -311,14 +311,12 @@ void GameScene::spawningCallBack(std::string aMobName, Position aSpawnPosition)
     static int counter11 = 0;
 
     ++counter11;
-    std::cout << "Entering placing " << counter11 << std::endl;
 
     auto tileMapCopy = std::make_shared<TileMapManager>(*tileMap);
     auto someMob = std::make_shared<Mob>(GameModel::getInstance()->getMonsterByName(aMobName), tileMapCopy);
 
     if (someMob->getTileMapManager() == nullptr)
     {
-        std::cout << "someMob->getTileMapManager = nullptr" << std::endl;
         return;
     }
 
@@ -622,7 +620,6 @@ void GameScene::processWaveInfo(std::string aInfo)
     {
         if (tileMap == nullptr)
         {
-            std::cout << "TileIsNullinGameScene" << std::endl;
         }
         monsterSpawner->doSpawn();
         return;

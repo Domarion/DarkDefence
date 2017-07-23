@@ -95,10 +95,8 @@ void MineModel::produce(double timestep, std::shared_ptr<ResourcesModel> aResour
     if (currentTime <= 0)
     {
         int prod = getProduction();
-        std::cout << "Prod =" << (prod) <<std::endl;
         if ( prod <= getLimit() && aResourceModel->addResource(static_cast<int>(productionType), prod))
         {
-             std::cout << "Prod++ =" << (prod) <<std::endl;
             limit.first -= prod;
         }
 

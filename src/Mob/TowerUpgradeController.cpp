@@ -195,7 +195,6 @@ bool TowerUpgradeController::menuClickHandler(size_t itemIndex)
     auto rootTower = GameModel::getInstance()->getRootTower();
     if (rootTower == nullptr)
     {
-        std::cout << "rootTower is nullptr" << std::endl;
         return false;
 
     }
@@ -203,7 +202,6 @@ bool TowerUpgradeController::menuClickHandler(size_t itemIndex)
     auto searchresult = rootTower->recursiveSearch(towerName);
     if (searchresult == nullptr)
     {
-        std::cout << "searchresult is nullptr" << std::endl;
         return false;
     }
 

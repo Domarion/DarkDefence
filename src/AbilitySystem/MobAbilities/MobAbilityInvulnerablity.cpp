@@ -8,7 +8,6 @@ bool MobAbilityInvulnerablity::onReady(double /*timestep*/)
          std::shared_ptr<Mob> mob = std::dynamic_pointer_cast<Mob>(target);
          if (mob != nullptr)
          {
-            std::cout << "Ready" << std::endl;
             mob->getModel()->setProtectionModifier(protectionModifier);
             abilityState = Enums::AbilityStates::asWorking;
          }
@@ -28,10 +27,8 @@ bool MobAbilityInvulnerablity::onWorking(double timestep)
     {
         currentWorkTime = workTime;
 
-        if (target != nullptr)
+        if (target)
         {
-            std::cout << "working end" << std::endl;
-
             std::shared_ptr<Mob> mob = std::dynamic_pointer_cast<Mob>(target);
             if (mob != nullptr)
             {

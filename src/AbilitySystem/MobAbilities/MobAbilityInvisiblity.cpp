@@ -1,19 +1,20 @@
 #include "MobAbilityInvisiblity.h"
 #include "../../Mob/MobModel.h"
+#include "Logging/Logger.h"
 
 bool MobAbilityInvisiblity::onReady(double /*timestep*/)
 {
-    if (target != nullptr)
+    if (target)
     {
         target->getSprite()->setVisible(false);
         abilityState = Enums::AbilityStates::asWorking;
-        std::cout << "Invis Working" << std::endl;
+        LOG_INFO("MobAbilityInvisiblity. Has target.");
+        return true;
+
     }
-    else
-    {
-        std::cout << "Uncastable" << std::endl;
-        abilityState = Enums::AbilityStates::asNotAvaliable;
-    }
+
+    LOG_INFO("MobAbilityInvisiblity. Has no target.");
+    abilityState = Enums::AbilityStates::asNotAvaliable;
 
     return true;
 }

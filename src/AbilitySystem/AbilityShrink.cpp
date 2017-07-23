@@ -2,6 +2,7 @@
 #include "../GlobalScripts/GameModel.h"
 #include "Utility/textfilefunctions.h"
 #include "../GlobalScripts/ResourceManager.h"
+#include "Logging/Logger.h"
 
 AbilityShrink::AbilityShrink(std::shared_ptr<ManaGlobal> aManaModel)
     : AbilityModel(aManaModel)
@@ -14,12 +15,14 @@ AbilityShrink::AbilityShrink(std::shared_ptr<ManaGlobal> aManaModel)
 
 bool AbilityShrink::onReady(double /*timestep*/)
 {
+    LOG_INFO("Enter.");
+
     if (affectedMobs == nullptr && parentScenePtr != nullptr && GameModel::getInstance()->getMonsterCount() > 0)
         affectedMobs = parentScenePtr->findObjectsByTag("Monster");
 
-    if (affectedMobs != nullptr)
+    if (affectedMobs)
     {
-        std::cout << "Shrink working" << std::endl;
+        LOG_INFO("Monsters found.");
         abilityState = Enums::AbilityStates::asWorking;
         spawnEffect(10000);
     }

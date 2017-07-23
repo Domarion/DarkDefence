@@ -2,9 +2,9 @@
 #include "../Utility/textfilefunctions.h"
 #include <fstream>
 using std::ifstream;
-#include <iostream>
 #include <sstream>
 using std::stringstream;
+#include "Logging/Logger.h"
 
 FontManager* FontManager::instance_ = nullptr;
 
@@ -43,7 +43,7 @@ Font& FontManager::getFontByKind2(std::string kind)
 {
     if (fontList2.at( kind ).getFont() == nullptr)
     {
-        std::cout << "FontManager::getFontByKind2: font null" << std::endl;
+        LOG_ERROR("Can't Find font by name.");
     }
     return fontList2.at( kind );
 }

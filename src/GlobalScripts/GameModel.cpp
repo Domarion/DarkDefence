@@ -199,13 +199,11 @@ bool GameModel::NoMonstersOnMap() const
 void GameModel::incMonsterCount()
 {
     ++MonsterCountOnMap;
-    std::cout << "MonsterCountOnMap = " << MonsterCountOnMap << std::endl;
 }
 
 void GameModel::decMonsterCount(string monsterName)
 {
     pointsPerWave += monsterPointsMap[monsterName];
-    std::cout << "pointsPerWave = " << pointsPerWave << std::endl;
     --MonsterCountOnMap;
 }
 
@@ -333,7 +331,6 @@ void GameModel::loadGameData(string filename)
             AccountModel::getInstance()->setGoldAmount(goldAmount);
             SDL_RWread(binaryDataFile, &currentMissionIndex, sizeof(int), 1);
 
-            std::cout << "HASGOLD=" << AccountModel::getInstance()->getGoldAmount() << std::endl;
             vector<string> inventoryItemsNames;
             androidText::loadStringsFromfile(binaryDataFile, inventoryItemsNames);
 

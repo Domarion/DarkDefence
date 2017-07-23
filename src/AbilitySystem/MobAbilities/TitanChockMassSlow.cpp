@@ -23,8 +23,6 @@ bool TitanChockMassSlow::onReady(double /*timestep*/)
         return false;
     }
 
-    std::cout << "Working TitanChockMassSlow" << std::endl;
-
     for(auto& monster : *monsters)
     {
         if (monster != nullptr)

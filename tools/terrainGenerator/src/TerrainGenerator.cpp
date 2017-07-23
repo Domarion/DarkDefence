@@ -149,7 +149,6 @@ Texture2D TileLegendCollection::constructTextureByMap(std::unique_ptr<SDL_Surfac
         {
             Position pos{static_cast<int>(column) * tileSize.width, static_cast<int>(row) * tileSize.height};
             std::string line = matrix[row];
-//            std::cout << "character is = " << line[column] << std::endl;
 
             if (mIsAtlas)
             {

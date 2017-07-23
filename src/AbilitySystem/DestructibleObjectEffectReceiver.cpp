@@ -23,10 +23,8 @@ bool DestructibleObjectEffectReceiver::parseMethod(list<pair<string, double> > &
 
         if (attrib->first == "Protection")
         {
-//            std::cout << "protShouldBe ";
             int newAmount = doModelPtr->getProtectionModifier() + static_cast<int>(amount);
             doModelPtr->setProtectionModifier( newAmount );
-            std::cout << (doModelPtr->getProtectionModifier()) << std::endl;
 
         }
         else if (attrib->first == "Health")
@@ -37,10 +35,8 @@ bool DestructibleObjectEffectReceiver::parseMethod(list<pair<string, double> > &
         }
         else if (attrib->first == "ProtectionPercent")
         {
-//            std::cout << "protShouldBe ";
             int newAmount = static_cast<int>(doModelPtr->getProtectionModifier() * (1 + amount));
             doModelPtr->setProtectionModifier( newAmount );
-            std::cout << (doModelPtr->getProtectionModifier()) << std::endl;
 
         }
         else if (attrib->first == "HealthPercent")

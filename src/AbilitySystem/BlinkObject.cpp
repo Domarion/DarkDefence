@@ -13,7 +13,6 @@ void BlinkObject::init(int x, int y)
 
     if (!parentScenePtr.expired())
     {
-        std::cout << "prickObject init" << std::endl;
         auto mobListWithTag = parentScenePtr.lock()->findObjectsByTag("Monster");
 
         if (mobListWithTag == nullptr)

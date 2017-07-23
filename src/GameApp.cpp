@@ -7,8 +7,6 @@
 
 #include "GameApp.h"
 #include <iostream>
-using std::cout;
-using std::endl;
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <exception>
@@ -23,6 +21,7 @@ using std::endl;
 #include "Scenes/ScoreScene.h"
 #include <string>
 #include "GlobalScripts/ResourceManager.h"
+#include "Logging/Logger.h"
 
 GameApp::GameApp(std::unique_ptr<SceneManager> aSceneManager, std::unique_ptr<RenderingSystem>&& aRenderer)
     : mRenderer(std::move(aRenderer))
@@ -106,7 +105,7 @@ int GameApp::gameLoop()
     }
     catch (std::exception &ex)
     {
-        std::cerr << "Exception: " << ex.what() << std::endl;
+        LOG_ERROR(ex.what());
         return 1;
     }
 
@@ -194,6 +193,6 @@ void GameApp::receiveMessage(string msg)//TODO: Изменить логику о
             }
             else
             {
-                std::cout << "Wrong message to GameApp" << std::endl;
+                LOG_ERROR("Wrong message to GameApp");
             }
 }

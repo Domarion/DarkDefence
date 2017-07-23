@@ -25,9 +25,8 @@ bool AbilitySnowStorm::onReady(double /*timestep*/)
     if (affectedMobs == nullptr && parentScenePtr != nullptr && GameModel::getInstance()->getMonsterCount() > 0)
         affectedMobs = parentScenePtr->findObjectsByTag("Monster");
 
-    if (affectedMobs != nullptr)
+    if (affectedMobs)
     {
-        std::cout << "affectedMobSize = " << affectedMobs->size() << std::endl;
         for(auto affectedMob = affectedMobs->begin(); affectedMob != affectedMobs->end(); ++affectedMob)
         {
             if (*affectedMob != nullptr)
@@ -35,7 +34,6 @@ bool AbilitySnowStorm::onReady(double /*timestep*/)
         }
 
         abilityState = Enums::AbilityStates::asWorking;
-        std::cout << "worked" << std::endl;
     }
     else
         abilityState = Enums::AbilityStates::asNotAvaliable;

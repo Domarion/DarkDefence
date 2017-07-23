@@ -15,7 +15,7 @@ using std::list;
 #include "../GlobalScripts/GameModel.h"
 #include <iostream>
 #include <algorithm>
-
+#include "Logging/Logger.h"
 
 Scene::Scene(std::shared_ptr<RenderingSystem>& aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher)
     : renderer(aRenderer)
@@ -105,11 +105,13 @@ void Scene::addToUIList(const std::shared_ptr<IComposite>& item)
 
     auto handler = std::dynamic_pointer_cast<InputHandler>(item);
 
-
-    if (handler != nullptr)
+    if (handler)
+    {
         mInputDispatcher->addHandler(handler);
-    else
-        std::cout << "fucking NULL";
+        return;
+    }
+
+    LOG_INFO("UI Item is not an InputHandler");
 }
 
 void Scene::removeFromUIList(const std::shared_ptr<IComposite>& item)
@@ -310,7 +312,6 @@ std::shared_ptr<ConcreteComposite>& Scene::getMainRect()
 //TODO Найти наилучшее место для метода
 void Scene::onlyTestMoveCamera(Position aDeltaPosition)
 {
-    std::cout << "Enter onlyTestMoveCamera" << std::endl;
     #ifdef __ANDROID__
         aDeltaPosition *= 50;
     #endif

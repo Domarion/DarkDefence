@@ -30,6 +30,8 @@ set(HEADERS
     ${DarkDefenceIncludeDir}/Mob/MobModel.h
     ${DarkDefenceIncludeDir}/Mob/EnemyInfo.h
 
+    ${DarkDefenceIncludeDir}/Logging/Logger.h
+
     ${DarkDefenceIncludeDir}/Utility/textfilefunctions.h
 
     ${DarkDefenceIncludeDir}/Utility/TreeNode.hpp
@@ -77,6 +79,9 @@ set(SRC_LIST
 
     ${DarkDefenceIncludeDir}/Mob/MineModel.cpp
     ${DarkDefenceIncludeDir}/Mob/MobModel.cpp
+
+    ${DarkDefenceIncludeDir}/Logging/Logger.cpp
+
     ${DarkDefenceIncludeDir}/Utility/textfilefunctions.cpp
 
     ${DarkDefenceIncludeDir}/ItemSystem/ItemModel.cpp

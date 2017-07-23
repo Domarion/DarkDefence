@@ -12,6 +12,7 @@
 #include "../Utility/textfilefunctions.h"
 #include "../Mob/ArrowAnim.h"
 #include "../GlobalScripts/ResourceManager.h"
+#include "Logging/Logger.h"
 
 AIComponent::AIComponent(std::weak_ptr<Mob> aMob)
     : MobPtr(aMob)
@@ -183,9 +184,9 @@ void AIComponent::MovetoTile(double timestep)
 
     auto tilemapPtr = MobPtr.lock()->getTileMapManager();
 
-    if (tilemapPtr == nullptr)
+    if (!tilemapPtr)
     {
-        std::cout << "tilemap is null, baby" << std::endl;
+        LOG_ERROR("AIComponent::MovetoTile. Tilemap is nullptr");
         return;
     }
 

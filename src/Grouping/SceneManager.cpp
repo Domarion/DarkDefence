@@ -6,10 +6,7 @@
  */
 
 #include "SceneManager.h"
-#include <iostream>
-
-using std::cout;
-using std::endl;
+#include "Logging/Logger.h"
 
 SceneManager::SceneManager()
     : currentScene(nullptr)
@@ -28,27 +25,28 @@ void SceneManager::addScene(std::shared_ptr<Scene> scene, std::string name)
 
 void SceneManager::setCurrentScene(std::shared_ptr<Scene>& value)
 {
-    if (currentScene != nullptr )
+    if (currentScene )
     {
         currentScene->clear();
     }
 
     currentScene = value;
 
-    if (currentScene != nullptr)
+    if (currentScene)
     {
         currentScene->init(shared_from_this());
         return;
     }
 
-    std::cout << "currentScene is NULL" << std::endl;
+    LOG_ERROR("Current scene is nullptr.");
 }
 
 void SceneManager::setCurrentSceneByName(std::string name)
 {
     if (currentScene != scenes.at(name))
     {
-        std::cout << "Scene name = " << name << std::endl;
+        std::string msg = std::string{"SceneName = "} + name;
+        LOG_INFO(msg)
         setCurrentScene(scenes.at(name));
     }
 }

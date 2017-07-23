@@ -165,7 +165,7 @@ set(SRC_LIST
     GraphicsSystem/newSystem/Leaf.h
     Enums.h
 
-
+    Logging/Logger.h
     GraphicsSystem/newSystem/RenderingSystem.h
     SDL_Engine.h
     GraphicsSystem/newSystem/UIElement/ConcreteComposite.h
@@ -297,6 +297,7 @@ set(SRC_LIST
     GraphicsSystem/newSystem/UIElement/UIProgressBar.cpp
     GraphicsSystem/newSystem/Texture2D.cpp
 
+    Logging/Logger.cpp
     GraphicsSystem/newSystem/RenderingSystem.cpp
     SDL_Engine.cpp
     GraphicsSystem/newSystem/UIElement/ConcreteComposite.cpp

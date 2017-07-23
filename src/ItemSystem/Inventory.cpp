@@ -39,13 +39,11 @@ void Inventory::clearControllerReceivers()
 
 bool Inventory::sendItem(size_t index)
 {
-    std::cout << "itemIndex = " << index << std::endl;
     if (index >= items.size())
     {
         return false;
     }
 
-	std::cout << items[index].getCaption() << std::endl;
     if (connectedMethod0 != nullptr && !items[index].getCaption().empty())
 	{
         connectedMethod0(items[index]);
@@ -81,7 +79,6 @@ void Inventory::sendItemWithoutPriceCheck(string name)
 
 void Inventory::receiveItem(ItemModel item)
 {
-    std::cout << " Inventory itemReceived" << std::endl;
 	if (!item.getCaption().empty())
     {
 		items.push_back(item);

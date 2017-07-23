@@ -48,9 +48,6 @@ void InventoryController::initView()
 	if (count == 0)
 		return;
 
-
-	std::cout << "ItemCount = " << count << std::endl;
-
     Font aFont =  FontManager::getInstance()->getFontByKind2("ButtonFont");
     for(int i = 0; i != count; ++i)
 	{

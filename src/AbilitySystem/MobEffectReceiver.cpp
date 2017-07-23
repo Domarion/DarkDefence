@@ -71,9 +71,6 @@ bool MobEffectReceiver::parseMethod(list<pair<string, double> >& attributes, int
 
 void MobEffectReceiver::processTemporaryEffects(double aDeltaTime)
 {
-//    std::cout << "Entered " << effectsList.size() << std::endl;
-
-
     if (effectsList.empty())
     {
         return;
@@ -83,18 +80,12 @@ void MobEffectReceiver::processTemporaryEffects(double aDeltaTime)
     {
         if (*effectIter != nullptr && (*effectIter)->getDuration() > 0.0)
         {
-//            std::cout << "Effect caption = " << effectPtr->getCaption() << std::endl;
-
             double runningTime = (*effectIter)->getRunningTime() + aDeltaTime;
 
             (*effectIter)->setRunningTime(runningTime);
-            std::cout << "Effect running = " << runningTime << std::endl;
-
-//            std::cout << "Effect duration = " << effectPtr->getDuration() << std::endl;
 
             if (runningTime >= ((*effectIter)->getDuration()))
             {
-                std::cout << "Effect caption = " << (*effectIter)->getCaption() << std::endl;
                 if (parseEffect((*effectIter), true))
                 {
                     effectsList.erase(effectIter++);
@@ -105,29 +96,4 @@ void MobEffectReceiver::processTemporaryEffects(double aDeltaTime)
 
         ++effectIter;
     }
-
-//    for(auto& effectPtr : effectsList)
-//    {
-//        if (effectPtr != nullptr && effectPtr->getDuration() > 0.0)
-//        {
-////            std::cout << "Effect caption = " << effectPtr->getCaption() << std::endl;
-
-//            double runningTime = effectPtr->getRunningTime() + aDeltaTime;
-
-//            effectPtr->setRunningTime(runningTime);
-//            std::cout << "Effect running = " << runningTime << std::endl;
-
-//            std::cout << "Effect duration = " << effectPtr->getDuration() << std::endl;
-
-//            if (runningTime >= (effectPtr->getDuration()))
-//            {
-//                std::cout << "Effect caption = " << effectPtr->getCaption() << std::endl;
-//                if (parseEffect(effectPtr, true))
-//                {
-//                    effectPtr.reset();
-//                }
-//            }
-//        }
-//    }
-
 }

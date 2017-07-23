@@ -168,7 +168,6 @@ bool UIProgressBar::onClick(Position point)
 
     bool result = SDL_PointInRect(&sPoint, &rect);
 
-    std::cout << "ClickingResultProgrressBar" << std::boolalpha << result << std::endl;
     if (result)
         connectedMethod("zero");
 

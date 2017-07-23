@@ -1,6 +1,6 @@
 #include "textfilefunctions.h"
-#include <iostream>
 #include <sstream>
+#include "Logging/Logger.h"
 
 namespace androidText
 {
@@ -11,23 +11,25 @@ void loadTextFileToString(string filename, string& destString, bool aSetRelative
     if (aSetRelativePath)
         setRelativePath(filename1);
 
-    SDL_RWops* ooops = SDL_RWFromFile(filename1.c_str(),"rt");
+    SDL_RWops* rwOps = SDL_RWFromFile(filename1.c_str(),"rt");
 
-    if (ooops != nullptr)
+    if (rwOps)
     {
-        size_t file_length = SDL_RWseek(ooops, 0, SEEK_END);
+        size_t file_length = SDL_RWseek(rwOps, 0, SEEK_END);
         char* destination = new char[file_length + 1];
-        SDL_RWseek(ooops, 0, SEEK_SET);
-        SDL_RWread(ooops, (destination), 1, file_length);
+        SDL_RWseek(rwOps, 0, SEEK_SET);
+        SDL_RWread(rwOps, (destination), 1, file_length);
         destination[file_length] ='\0';
 
         destString.assign(destination);
 
         delete[] destination;
-        SDL_RWclose(ooops);
+        SDL_RWclose(rwOps);
+        return;
     }
-    else
-        std::cout << "Nothing on path: " << filename1 << std::endl;
+
+    std::string msg = std::string{"File not found: "} + filename1;
+    LOG_ERROR(msg);
 }
 
 void setRelativePath(string& filename)

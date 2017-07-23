@@ -13,14 +13,10 @@ bool SceneInputHandler::canDrag() const
 
 bool SceneInputHandler::onDrag(Position aDirection)
 {
-    std::cout << "Enter SceneInputHandler::onDrag" << std::endl;
-
     if (!mParentScene)
     {
         return false;
     }
-
-    std::cout << "SceneInputHandler::onDrag" << std::endl;
 
     auto gameScene = std::dynamic_pointer_cast<GameScene>(mParentScene);
     if (gameScene && gameScene->getSceneMode() == GameScene::SceneModeT::StandardMode)

@@ -63,7 +63,6 @@ void MainScene::loadMenuItems(string filename)
             {
                 string item;
                 std::getline(str, item);
-                std::cout << std::noskipws << item << std::endl;
                 size_t firstEnd = item.find('=');
                 string itemName = item.substr(0, firstEnd);
                 string sceneName = item.substr(firstEnd + 1, item.size() - firstEnd);
@@ -80,7 +79,6 @@ void MainScene::initUIMenuItems()
     int x = MainRect->getSize().width/4;
     int y = MainRect->getSize().height/4;
 
-    std::cout << "MenuSize = " << itemNamesSceneNamesMapping.size() << std::endl;
     for(size_t menuIndex = 0; menuIndex < itemNamesSceneNamesMapping.size(); ++menuIndex)
     {
         Scene::addLoadSceneButton(itemNamesSceneNamesMapping[menuIndex].first,

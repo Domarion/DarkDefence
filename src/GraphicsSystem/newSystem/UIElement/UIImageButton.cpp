@@ -23,7 +23,6 @@ bool UIImageButton::onClick(Position point)
 
     bool result = SDL_PointInRect(&sPoint, &rect);
 
-//    std::cout << "ClickingResult" << std::boolalpha << result;
     if (result)
         connectedMethod("zero");
 

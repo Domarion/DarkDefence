@@ -9,6 +9,8 @@ set(HEADERS
     ${RenderingSystem_INCLUDE_DIRS}/GraphicsSystem/newSystem/UtilityStructs.h
 
     ${RenderingSystem_INCLUDE_DIRS}/GraphicsSystem/newSystem/Texture2D.h
+    ${RenderingSystem_INCLUDE_DIRS}/Logging/Logger.h
+
     ${RenderingSystem_INCLUDE_DIRS}/Utility/textfilefunctions.h
     ${RenderingSystem_INCLUDE_DIRS}/GraphicsSystem/newSystem/RenderingSystem.h
     src/AnimSaver.hpp
@@ -22,6 +24,8 @@ set(SRC_LIST
     ${RenderingSystem_INCLUDE_DIRS}/GraphicsSystem/newSystem/Font.cpp
 
     ${RenderingSystem_INCLUDE_DIRS}/GraphicsSystem/newSystem/Texture2D.cpp
+    ${RenderingSystem_INCLUDE_DIRS}/Logging/Logger.cpp
+
     ${RenderingSystem_INCLUDE_DIRS}/Utility/textfilefunctions.cpp
     ${RenderingSystem_INCLUDE_DIRS}/GraphicsSystem/newSystem/RenderingSystem.cpp
     src/AnimSaver.cpp
