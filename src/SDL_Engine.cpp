@@ -2,6 +2,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
+#include <Logging/Logger.h>
 
 namespace SDL2Engine
 {
@@ -10,11 +11,23 @@ SDL2::SDL2(uint32_t flags)
     if (SDL_Init(flags) == 0)
     {
         int imgFlags = IMG_INIT_PNG;
-        IMG_Init(imgFlags);
-        TTF_Init();
+        if (IMG_Init(imgFlags) != 0)
+        {
+            LOG_ERROR(std::string(IMG_GetError()));
+        }
+
+        if (TTF_Init() != 0)
+        {
+            LOG_ERROR(std::string(TTF_GetError()));
+        }
+
         // Flag for separate mouse and touch handle
         SDL_SetHint(SDL_HINT_ANDROID_SEPARATE_MOUSE_AND_TOUCH, "1");
+
+        return;
     }
+
+    LOG_ERROR(std::string(SDL_GetError()));
 }
 
 Size SDL2::getScreenResolution() const
