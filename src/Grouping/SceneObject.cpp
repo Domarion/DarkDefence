@@ -7,6 +7,7 @@
 
 #include "SceneObject.h"
 #include <cassert>
+#include "../Logging/Logger.h"
 
 SceneObject::~SceneObject()
 {
@@ -15,16 +16,23 @@ SceneObject::~SceneObject()
 
 bool SceneObject::isVisible() const
 {
-    if (spriteModel == nullptr)
+    if (!spriteModel)
+    {
+        LOG_ERROR("No sprite to get visiblity");
         throw std::runtime_error("No sprite to get visiblity");
+    }
 
     return spriteModel->isVisible();
 }
 
 void SceneObject::setVisible(bool aVisiblity)
 {
-    if (spriteModel == nullptr)
+    if (!spriteModel)
+    {
+        LOG_ERROR("No sprite to set visiblity");
         throw std::runtime_error("No sprite to set visiblity");
+    }
+
     spriteModel->setVisible(aVisiblity);
 }
 
@@ -68,20 +76,16 @@ void SceneObject::setInputHandler(std::shared_ptr<InputHandler> aInputHandler)
     mInputHandler = aInputHandler;
 }
 
-int SceneObject::computeDistanceSqr(int x0, int y0, int x1, int y1)
-{
-    int xdist = x0 - x1;
-    int ydist = y0 - y1;
-
-    return (xdist*xdist + ydist*ydist);
-}
-
 int SceneObject::computeDistanceSqr(std::shared_ptr<SceneObject> second)
 {
     if (second  == nullptr)
-        return -1;
+    {
+        LOG_INFO("Cant compare with nullptr SceneObject.");
 
-    return computeDistanceSqr(getX(), getY(), second->getX(), second->getY());
+        return -1;
+    }
+
+    return getPosition().ComputeDistanceSqr(second->getPosition());
 }
 
 string SceneObject::getName() const
@@ -103,22 +107,26 @@ void SceneObject::setPos(int x, int y)
 {
     mX = x;
     mY = y;
-    if (spriteModel != nullptr)
+
+    if (spriteModel)
     {
         spriteModel->setPosition(Position(mX, mY));
     }
-
 }
 
 bool SceneObject::update(double /*timestep*/)
 {
-    if (spriteModel != nullptr)
+    if (spriteModel)
+    {
         spriteModel->calculateFrameNumber();
+        return true;
+    }
+
+    std::string msg = std::string{"SpriteModel is nullptr for "} + getName();
+    LOG_ERROR(msg);
+
     return true;
 }
-
-
-
 
 void SceneObject::finalize()
 {
@@ -156,7 +164,8 @@ Position SceneObject::getPosition() const
 
 Position SceneObject::getRealPosition() const
 {
-    assert(spriteModel != nullptr);
+    assert(spriteModel);
+
     return spriteModel->getRealPosition();
 }
 
@@ -170,8 +179,12 @@ void SceneObject::setPosition(Position aPos)
     mX = aPos.x;
     mY = aPos.y;
 
-    if (spriteModel != nullptr)
+    if (spriteModel)
     {
         spriteModel->setPosition(aPos);
+        return;
     }
+
+    std::string msg = std::string{"SpriteModel is nullptr for "} + getName();
+    LOG_ERROR(msg);
 }

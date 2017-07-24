@@ -5,6 +5,7 @@ set(globalScriptsPath ../../src/GlobalScripts)
 set(srcPath ../../src)
 
 add_library(tilemap
+    ${srcPath}/Logging/Logger.cpp
     ${srcPath}/GraphicsSystem/newSystem/Size.cpp
     ${srcPath}/GraphicsSystem/newSystem/Position.cpp
     ${globalScriptsPath}/TileMapManager.cpp)

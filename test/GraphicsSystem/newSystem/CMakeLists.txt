@@ -1,10 +1,13 @@
 project(newSystemTests)
-add_executable (CompositeTest CompositeTest.cpp)
 
 set(newSystemPath ../../../src/GraphicsSystem/newSystem)
 set(srcPath ../../../src)
 
+add_executable (CompositeTest CompositeTest.cpp)
+
+
 add_library(composite
+    ${srcPath}/Logging/Logger.cpp
     ${newSystemPath}/Size.cpp
     ${newSystemPath}/Position.cpp
     ${newSystemPath}/Composite.cpp
@@ -21,6 +24,8 @@ add_executable (RendererTest RenderingSystemTest.cpp)
 add_library(
     RenderingSystem
     ${newSystemPath}/RenderingSystem.cpp
+    ${srcPath}/Logging/Logger.cpp
+
     ${newSystemPath}/Size.cpp
     ${newSystemPath}/Position.cpp)
 
@@ -34,6 +39,7 @@ add_test (NAME MyRendererTest COMMAND RendererTest)
 
 add_executable (UIScrollListTest UIScrollListTest.cpp)
 add_library(UIScrollList
+    ${srcPath}/Logging/Logger.cpp
     ${newSystemPath}/Size.cpp
     ${newSystemPath}/Position.cpp
     ${newSystemPath}/ConcreteUIViews/UIScrollList.cpp

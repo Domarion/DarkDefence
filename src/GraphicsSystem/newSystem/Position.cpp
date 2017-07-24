@@ -18,6 +18,14 @@ bool Position::IsZero() const
     return x == 0 && y == 0;
 }
 
+int Position::ComputeDistanceSqr(Position aRight) const
+{
+    Position pos(x, y);
+    pos -= aRight;
+
+    return pos.x * pos.x + pos.y * pos.y;
+}
+
 Position& Position::operator=(const Position& aRight)
 {
     if (this != &aRight)
@@ -99,6 +107,12 @@ void Position::operator+=(const Position& aRight)
 Position Position::operator-(const Position& aRight) const
 {
     return Position(x - aRight.x, y - aRight.y);
+}
+
+void Position::operator-=(const Position& aRight)
+{
+    x -= aRight.x;
+    y -= aRight.y;
 }
 
 std::ostream& operator<<(std::ostream& aOutput, const Position& aRight)

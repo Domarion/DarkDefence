@@ -15,6 +15,7 @@ public:
     Position(const Position& aRight);
 
     bool IsZero() const;
+    int ComputeDistanceSqr(Position aRight) const;
 
     Position& operator= (const Position& aRight);
 
@@ -36,6 +37,7 @@ public:
     void operator+= (const Position& aRight);
 
     Position operator- (const Position& aRight) const;
+    void operator-= (const Position& aRight);
 
 
     int x = 0;
