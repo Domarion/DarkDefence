@@ -30,6 +30,8 @@ public:
     void setCurrentSceneByName(string name);
     void askForChangeScene(string aName);
     void clearOldScene();
+    void updateCurrentScene(double aTimeStep);
+    void renderCurrentScene();
 
 private:
     void setCurrentScene(std::shared_ptr<Scene>& value);

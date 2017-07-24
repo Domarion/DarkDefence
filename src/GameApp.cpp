@@ -6,7 +6,6 @@
  */
 
 #include "GameApp.h"
-#include <iostream>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <exception>
@@ -92,15 +91,14 @@ int GameApp::gameLoop()
 
                 while (lag >= MS_PER_UPDATE)
                 {
-                    //TODO: Вынести в SceneManager
-                    updateScene(mSceneManager->getCurrentScene(), MS_PER_UPDATE);
+                    mSceneManager->updateCurrentScene(MS_PER_UPDATE);
                     lag -= MS_PER_UPDATE;
                 }
             }
             else
                 lasttime = currenttime;
 
-            renderScene(mSceneManager->getCurrentScene());
+            renderScene();
         }
     }
     catch (std::exception &ex)
@@ -112,15 +110,15 @@ int GameApp::gameLoop()
 	return 0;
 }
 
-void GameApp::renderScene(std::shared_ptr<Scene> scene)
+void GameApp::renderScene()
 {
-    if (mRenderer == nullptr || scene == nullptr)
+    if (mRenderer == nullptr)
     {
         return;
     }
 
     mRenderer->renderClear();
-    scene->copyToRender();
+    mSceneManager->renderCurrentScene();
     mRenderer->renderPresent();
 }
 
@@ -129,30 +127,11 @@ bool GameApp::isPaused()
     return mIsPaused;
 }
 
-void GameApp::updateScene(std::shared_ptr<Scene> scene, double timestep)
-{
-    if (scene != nullptr)
-    {
-        scene->startUpdate(timestep);
-        mSceneManager->clearOldScene();
-    }
-}
-
 bool GameApp::processInput()
 {
     while (SDL_PollEvent(&event) != 0)
     {
-        if (event.type == SDL_KEYDOWN) //TestOnly
-        {
-            Position deltaPos{};
-            if (event.key.keysym.sym == SDLK_LEFT)
-                deltaPos.x = -50;
-            else if (event.key.keysym.sym == SDLK_RIGHT)
-                deltaPos.x = +50;
-
-            mSceneManager->getCurrentScene()->onlyTestMoveCamera(deltaPos);
-        }
-        else if (event.type == SDL_QUIT)
+        if (event.type == SDL_QUIT)
         {
             mNeedQuit = true;
         }

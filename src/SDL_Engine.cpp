@@ -11,7 +11,8 @@ SDL2::SDL2(uint32_t flags)
     if (SDL_Init(flags) == 0)
     {
         int imgFlags = IMG_INIT_PNG;
-        if (IMG_Init(imgFlags) != 0)
+        int initResult = IMG_Init(imgFlags);
+        if ((initResult & imgFlags) != imgFlags)
         {
             LOG_ERROR(std::string(IMG_GetError()));
         }

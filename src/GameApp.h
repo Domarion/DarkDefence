@@ -14,8 +14,10 @@
 class GameApp
 {
 public:
-    explicit GameApp(std::unique_ptr<SceneManager> aSceneManager, std::unique_ptr<RenderingSystem> &&aRenderer);
+
+    explicit GameApp(std::unique_ptr<SceneManager> aSceneManager, std::unique_ptr<RenderingSystem>&& aRenderer);
     ~GameApp() = default;
+
     GameApp(const GameApp&) = delete;
     GameApp& operator=(const GameApp&) = delete;
 
@@ -26,15 +28,14 @@ public:
 
     void receiveMessage(string msg);
 
-
 private:
+
     void pause();
     void unpause();
     bool processInput();
-    void updateScene(std::shared_ptr<Scene> scene, double timestep);
-    void renderScene(std::shared_ptr<Scene> scene);
+    void renderScene();
     bool isPaused();
-	SDL_Event event;
+    SDL_Event event;
     std::shared_ptr<RenderingSystem> mRenderer;
     std::shared_ptr<SceneManager> mSceneManager;
     std::shared_ptr<InputDispatcher> mInputDispatcher;

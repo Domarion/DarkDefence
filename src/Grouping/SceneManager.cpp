@@ -25,7 +25,7 @@ void SceneManager::addScene(std::shared_ptr<Scene> scene, std::string name)
 
 void SceneManager::setCurrentScene(std::shared_ptr<Scene>& value)
 {
-    if (currentScene )
+    if (currentScene)
     {
         currentScene->clear();
     }
@@ -59,8 +59,10 @@ void SceneManager::askForChangeScene(std::string aName)
         oldScene->softClear();
         currentScene = scenes.at(aName);
 
-        if (currentScene != nullptr)
+        if (currentScene)
+        {
             currentScene->init(shared_from_this());
+        }
     }
 }
 
@@ -71,5 +73,26 @@ void SceneManager::clearOldScene()
         oldScene->clear();
         oldScene = nullptr;
     }
+}
+
+void SceneManager::updateCurrentScene(double aTimeStep)
+{
+    if (!currentScene)
+    {
+        return;
+    }
+
+    currentScene->startUpdate(aTimeStep);
+    clearOldScene();
+}
+
+void SceneManager::renderCurrentScene()
+{
+    if (!currentScene)
+    {
+        return;
+    }
+
+    currentScene->copyToRender();
 }
 
