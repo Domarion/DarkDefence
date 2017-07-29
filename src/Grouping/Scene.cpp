@@ -313,8 +313,11 @@ std::shared_ptr<ConcreteComposite>& Scene::getMainRect()
 void Scene::onlyTestMoveCamera(Position aDeltaPosition)
 {
     #ifdef __ANDROID__
-        aDeltaPosition *= 50;
+        const int multiplier = 50;
+    #else
+        const int multiplier = 10;
     #endif
+    aDeltaPosition *= multiplier;
 
     Position pos = mCamera.getWorldPosition() - aDeltaPosition;
 
