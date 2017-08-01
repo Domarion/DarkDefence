@@ -36,9 +36,9 @@ public:
     std::unique_ptr<MobModel> getMonsterByName(string name);
     std::unique_ptr<MobModel> getTowerByName(string name);
 
-	void loadMonsterList(string filename);
+    void loadMonsterList(string filename);
     void loadMonsterPointsList(string filename);
-	void loadTowerUpgrades(string filename);
+    void loadTowerUpgrades(string filename);
     void loadMinesList(string filename);
 
     void deserialize(Mission& obj, string filename);
@@ -53,14 +53,14 @@ public:
     void addItemToInventoryByName(string name);
 
     bool NoMonstersOnMap() const;
-	void incMonsterCount();
+    void incMonsterCount();
     void decMonsterCount(string monsterName);
 
     void setCurrentMissionIndex( int newValue);
     int getCurrentMissionIndex() const;
 
     Enums::GameStatuses getGameStatus() const;
-    void setGameStatus(const Enums::GameStatuses &value);
+    void setGameStatus(const Enums::GameStatuses& value);
     int getMonsterCount() const;
 
 
@@ -68,14 +68,14 @@ public:
     std::unique_ptr<MineModel> getMineModelByRes(Enums::ResourceTypes resType);
 
 
-    MineModel *getMineModelFromList(const string& aName);
-    MineModel *getMineModelFromListByRes(Enums::ResourceTypes resType);
+    MineModel* getMineModelFromList(const string& aName);
+    MineModel* getMineModelFromListByRes(Enums::ResourceTypes resType);
 
     MobModel* getMonsterFromListWithName(string name);
     map<string, MobModel>& getMonsterList();
 
     const Reward& getMissionReward() const;
-    void setMissionReward(const Reward &value);
+    void setMissionReward(const Reward& value);
 
     void loadAbilitiesNames(string filename);
     string getAbilityNameFromIndex(size_t index);
@@ -102,14 +102,14 @@ private:
     int waveNumber, waveCount;
     int pointsPerWave, pointsPerMap;
     double pointsRefundModifier;
-	int MonsterCountOnMap;
-	Enums::GameStatuses gameStatus;
+    int MonsterCountOnMap;
+    Enums::GameStatuses gameStatus;
     int currentMissionIndex;
     std::shared_ptr<ShopInventory> shop;
     std::shared_ptr<HeroInventory> heroFigure;
     std::shared_ptr<Inventory> inventory;
     std::shared_ptr<ResourcesModel> resourcesModelPtr;
-	map<string, MobModel> monstersModelsMap;
+    map<string, MobModel> monstersModelsMap;
     std::shared_ptr<TreeNode<MobModel>> towerUpgradesRootNode;
     Reward missionReward;
     vector<string> abilitiesNames;

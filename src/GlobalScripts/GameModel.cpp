@@ -36,6 +36,7 @@
 
 #include <cereal/archives/xml.hpp>
 #include <cereal/types/memory.hpp>
+#include "../Logging/Logger.h"
 
 using std::list;
 using std::ifstream;
@@ -90,15 +91,17 @@ void GameModel::loadMonsterList(string filename)
         stringstream str(textString);
 
         cereal::XMLInputArchive xmlinp(str);
+
+        LOG_INFO("Loading Monster List.");
         xmlinp(cereal::make_nvp("Monsters", monsterCollection));
     }
 
     auto beginMove = std::make_move_iterator(monsterCollection.begin());
     auto endMove =std::make_move_iterator(monsterCollection.end());
     for(auto i = beginMove ; i != endMove; ++i)
-	{
+    {
         monstersModelsMap.emplace(i->getName(), *i);
-	}
+    }
 }
 
 void GameModel::loadMonsterPointsList(string filename)
@@ -112,6 +115,9 @@ void GameModel::loadMonsterPointsList(string filename)
 
         int n;
         pointStream >> n;
+
+        LOG_INFO("Loading Monster Points.");
+
         for(int i = 0; i < n; ++i)
         {
             string str;
@@ -133,12 +139,15 @@ void GameModel::loadTowerUpgrades(string filename)
         {
             stringstream str(textString);
 
+            LOG_INFO("Loading Tower Upgrades.");
+
             cereal::XMLInputArchive xmlinp(str);
             xmlinp(cereal::make_nvp("TowerTree", towerUpgradesRootNode));
         }
-        catch(std::exception& ex)
+        catch(const std::exception& ex)
         {
-            std::cerr << "Error in loadTowerUpgrades from file: " << ex.what() << std::endl;
+            std::string msg = std::string{"Can't load Tower Upgrades from file: "} + std::string{ex.what()};
+            LOG_ERROR(msg);
         }
     }
 }
@@ -155,6 +164,9 @@ void GameModel::loadMinesList(string filename)
         stringstream str(textString);
 
         cereal::XMLInputArchive xmlinp(str);
+
+        LOG_INFO("Loading Mines List.");
+
         xmlinp(cereal::make_nvp("Mines", mineCollection));
 
         mineResMapping.resize(mineCollection.size());
@@ -167,7 +179,7 @@ void GameModel::loadMinesList(string filename)
     }
 }
 
-void GameModel::deserialize(Mission &obj, string filename)
+void GameModel::deserialize(Mission& obj, string filename)
 {
     string textString;
     androidText::loadTextFileToString(filename, textString);
@@ -177,6 +189,8 @@ void GameModel::deserialize(Mission &obj, string filename)
         stringstream missionStream(textString);
 
         cereal::XMLInputArchive xmlinp(missionStream);
+        LOG_INFO("Loading Mission Info.");
+
         xmlinp >> cereal::make_nvp("Mission", obj);
     }
 }
@@ -193,7 +207,7 @@ void GameModel::addItemToInventoryByName(string name)
 
 bool GameModel::NoMonstersOnMap() const
 {
-	return (MonsterCountOnMap == 0);
+    return (MonsterCountOnMap == 0);
 }
 
 void GameModel::incMonsterCount()
@@ -263,26 +277,26 @@ std::unique_ptr<MobAbility> GameModel::getMobAbilityByName(string name)
     if (name == "MobAbilityWheat")
         return std::make_unique<MobAbilityWheat>();
 
-     if (name == "GulakiAmulet")
+    if (name == "GulakiAmulet")
         return std::make_unique<GulakiUpgrade>();
 
-     if (name == "MobEarthTowerAbility")
-         return std::make_unique<MobEarthTowerAbility>();
+    if (name == "MobEarthTowerAbility")
+        return std::make_unique<MobEarthTowerAbility>();
 
-     if (name == "MobMageTowerAbility")
-         return std::make_unique<MobMageTowerAbility>();
+    if (name == "MobMageTowerAbility")
+        return std::make_unique<MobMageTowerAbility>();
 
-     if (name == "MobCloudTowerAbility")
-         return std::make_unique<MobCloudTowerAbility>();
+    if (name == "MobCloudTowerAbility")
+        return std::make_unique<MobCloudTowerAbility>();
 
-     if (name == "TitanChockUpgrade")
-         return std::make_unique<TitanChockUpgrade>();
+    if (name == "TitanChockUpgrade")
+        return std::make_unique<TitanChockUpgrade>();
 
-     if (name == "TitanChockMassSlow")
-         return std::make_unique<TitanChockMassSlow>();
+    if (name == "TitanChockMassSlow")
+        return std::make_unique<TitanChockMassSlow>();
 
-     if (name == "MobAbilitySummon")
-         return std::make_unique<MobAbilitySummon>();
+    if (name == "MobAbilitySummon")
+        return std::make_unique<MobAbilitySummon>();
 
     return nullptr;
 }
@@ -315,13 +329,13 @@ void GameModel::loadGameData(string filename)
 {
     if (gameDataLoaded == false)
     {
-    #ifdef __ANDROID__
+#ifdef __ANDROID__
         string filename1(SDL_GetPrefPath("darkdefence", "game"));
         filename1.append("save.bin");
-    #else
+#else
         string filename1(filename);
         androidText::setRelativePath(filename1);
-    #endif
+#endif
 
         SDL_RWops* binaryDataFile = SDL_RWFromFile(filename1.c_str(),"r+b");
         if (binaryDataFile != nullptr)
@@ -358,7 +372,7 @@ const Reward& GameModel::getMissionReward() const
     return missionReward;
 }
 
-void GameModel::setMissionReward(const Reward &value)
+void GameModel::setMissionReward(const Reward& value)
 {
     missionReward = value;
 }
@@ -372,6 +386,8 @@ void GameModel::loadAbilitiesNames(string filename)
     if (!textString.empty())
     {
         stringstream abilityStream(textString);
+
+        LOG_INFO("Loading Abilities Names.");
 
         int n;
         abilityStream >> n;
@@ -415,7 +431,7 @@ void GameModel::resetGameValues()
     waveNumber = waveCount = 0;
 }
 
-void GameModel::setGameStatus(const Enums::GameStatuses &value)
+void GameModel::setGameStatus(const Enums::GameStatuses& value)
 {
     gameStatus = value;
 
@@ -438,39 +454,39 @@ std::unique_ptr<MineModel> GameModel::getMineModelByRes(Enums::ResourceTypes res
     return getMineModel(mineResMapping[static_cast<int>(resType)]);
 }
 
-MineModel *GameModel::getMineModelFromList(const string& aName)
+MineModel* GameModel::getMineModelFromList(const string& aName)
 {
     return &minesModelsMap.at(aName);
 }
 
-MineModel *GameModel::getMineModelFromListByRes(Enums::ResourceTypes resType)
+MineModel* GameModel::getMineModelFromListByRes(Enums::ResourceTypes resType)
 {
     return getMineModelFromList(mineResMapping[static_cast<int>(resType)]);
 }
 
-MobModel *  GameModel::getMonsterFromListWithName(string name)
+MobModel* GameModel::getMonsterFromListWithName(string name)
 {
     return &monstersModelsMap[name];
 }
 
-map<string, MobModel> &GameModel::getMonsterList()
+map<string, MobModel>& GameModel::getMonsterList()
 {
     return monstersModelsMap;
 }
 
-GameModel*  GameModel::getInstance()
+GameModel* GameModel::getInstance()
 {
     if (!instance_)
     {
         instance_ = new GameModel();
     }
 
-	return instance_;
+    return instance_;
 }
 
 std::shared_ptr<ResourcesModel> GameModel::getResourcesModel()
 {
-	return resourcesModelPtr;
+    return resourcesModelPtr;
 }
 
 bool GameModel::loadShopItems(string filename)
@@ -484,6 +500,7 @@ bool GameModel::loadShopItems(string filename)
         {
             stringstream str(textString);
 
+            LOG_INFO("Loading Shop Items.");
 
             cereal::XMLInputArchive xmlinp(str);
 
