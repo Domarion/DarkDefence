@@ -142,6 +142,16 @@ std::shared_ptr<AnimationSceneSprite> SceneObject::getModifiableSprite() const
     return spriteModel;
 }
 
+void SceneObject::setDrawPriority(size_t aPriority)
+{
+    mDrawPriority = aPriority;
+}
+
+size_t SceneObject::getDrawPriority() const
+{
+    return mDrawPriority;
+}
+
 void SceneObject::setSprite(std::shared_ptr<AnimationSceneSprite> & value)
 {
     spriteModel = value;

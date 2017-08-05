@@ -19,7 +19,7 @@ public:
     void receiveTowerUpgrade(std::shared_ptr<Tower> tower);
     bool menuClickHandler(size_t itemIndex);
     void closeHandler(std::string);
-    std::shared_ptr<Tower> ProduceTower(const std::string& aTowerName, std::shared_ptr<TileMapManager> aTileMap);
+    std::shared_ptr<Tower> ProduceTower(const std::string& aTowerName, std::shared_ptr<TileMapManager> aTileMap, size_t aDrawPriority);
 
 private:
 

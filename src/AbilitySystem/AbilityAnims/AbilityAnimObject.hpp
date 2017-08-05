@@ -17,4 +17,5 @@ private:
 
 extern std::shared_ptr<AbilityAnimObject> Make_AbilityAnimObject(const std::string& aName,
         double aTimeToLiveMs,
-        std::shared_ptr<RenderingSystem>& aRenderer);
+        std::shared_ptr<RenderingSystem>& aRenderer,
+        size_t aDrawPriority);

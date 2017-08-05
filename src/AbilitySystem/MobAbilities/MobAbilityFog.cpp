@@ -26,10 +26,12 @@ bool MobAbilityFog::onReady(double)
                         effectReceiver->applyEffect(fogEffect);
 
                         auto toSpawn = Make_AbilityAnimObject(
-                            "MobAbilityFog", workTime, parentScenePtr->getRenderer());
+                            "MobAbilityFog", workTime, parentScenePtr->getRenderer(), affectedMob->getDrawPriority() + 1);
 
-                        if (toSpawn == nullptr)
+                        if (!toSpawn)
+                        {
                             return false;
+                        }
 
                         auto position = affectedMob->getRealPosition();
                         parentScenePtr->spawnObject(position.x, position.y, toSpawn);

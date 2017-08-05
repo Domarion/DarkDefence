@@ -24,7 +24,10 @@ bool MobAbilitySummon::onWorking(double /*timestep*/)
             const size_t spawnCount = 5;
             for (size_t counter = 0; counter < spawnCount; ++counter)
             {
-                gameScenePtr->spawningCallBack("Diversant", target->getPosition());
+                gameScenePtr->spawningCallBack(
+                    "Diversant",
+                    target->getPosition(),
+                    target->getDrawPriority() + counter + 1);
             }
         }
 

@@ -18,7 +18,8 @@ private:
            cereal::make_nvp("PositionX", ImagePosition.x),
            cereal::make_nvp("PositionY", ImagePosition.y),
            cereal::make_nvp("XAnchorPlace", xCoordAnchorType),
-           cereal::make_nvp("YAnchorPlace", yCoordAnchorType));
+           cereal::make_nvp("YAnchorPlace", yCoordAnchorType),
+           cereal::make_nvp("DrawPriority", DrawPriority));
 
     }
 public:
@@ -27,5 +28,6 @@ public:
     Position ImagePosition{};
     Enums::AnchorCoordTypes xCoordAnchorType = Enums::AnchorCoordTypes::Min;
     Enums::AnchorCoordTypes yCoordAnchorType = Enums::AnchorCoordTypes::Min;
+    size_t DrawPriority = 0;
 
 };

@@ -15,11 +15,13 @@ public:
     void disconnectSpawnCallback();
 
     void loadWavesInfo();
-    void connectSpawnCallBack(std::function<void(std::string, Position)> aCallBack);
+    void connectSpawnCallBack(std::function<void(std::string, Position, size_t)> aCallBack);
 
 private:
     MobSpawner mSpawnerModel;
     int timePeriod;
     int currentTime;
-    std::function<void(std::string, Position)> mSpawnCallBack;
+    std::function<void(std::string, Position, size_t)> mSpawnCallBack;
+    const size_t mInitialDrawPriority = 2;
+    size_t mDrawPriority = 0;
 };

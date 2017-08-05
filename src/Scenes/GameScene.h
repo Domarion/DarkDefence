@@ -50,7 +50,7 @@ public:
     void setAbilityPlacingMode(const std::string& aAbilityName);
 
     void placingCallBack();
-    void spawningCallBack(std::string aMobName, Position aSpawnPosition);
+    void spawningCallBack(std::string aMobName, Position aSpawnPosition, size_t aDrawPriority);
 
     // Scene interface
     void init(std::shared_ptr<SceneManager> sceneManagerPtr) override;

@@ -18,10 +18,17 @@ bool SceneInputHandler::onDrag(Position aDirection)
         return false;
     }
 
+    if (abs(aDirection.x) < 7 && abs(aDirection.y) < 7)
+    {
+        // Should not move camera if touched screen slightly
+        return false;
+    }
+
     auto gameScene = std::dynamic_pointer_cast<GameScene>(mParentScene);
     if (gameScene && gameScene->getSceneMode() == GameScene::SceneModeT::StandardMode)
     {
         mParentScene->onlyTestMoveCamera(aDirection);
+        return true;
     }
 
     return false;// не захватываем событие.

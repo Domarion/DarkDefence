@@ -16,6 +16,7 @@ using std::list;
 #include <iostream>
 #include <algorithm>
 #include "Logging/Logger.h"
+#include <cassert>
 
 Scene::Scene(std::shared_ptr<RenderingSystem>& aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher)
     : renderer(aRenderer)
@@ -57,31 +58,37 @@ void Scene::startUpdate(double timestep)
     }
 }
 
-void Scene::spawnObject(int x, int y, std::shared_ptr<SceneObject> obj)
+void Scene::spawnObject(int x, int y, std::shared_ptr<SceneObject> obj) // TODO избавиться по возможности
 {
-    if (obj == nullptr)
+   spawnObject(Position(x, y), obj);
+}
+
+void Scene::spawnObject(Position aPos, std::shared_ptr<SceneObject> aObj)
+{
+    if (!aObj)
         return;
 
-    obj->setParentScene(shared_from_this());
+    aObj->setParentScene(shared_from_this());
 
 
-    obj->init(x, y);
+    aObj->init(aPos.x, aPos.y);
 
-    auto handler = std::dynamic_pointer_cast<InputHandler>(obj);
+    auto handler = std::dynamic_pointer_cast<InputHandler>(aObj);
 
-    if (handler != nullptr)
+    if (handler)
     {
         mInputDispatcher->addHandler(handler);
     }
     else
     {
-        auto handler2 = obj->getInputHandler();
+        auto handler2 = aObj->getInputHandler();
         if (handler2)
         {
             mInputDispatcher->addHandler(handler2);
         }
     }
-    sceneObjects.push_back(obj);
+
+    sceneObjects.push_back(aObj);
 }
 
 void Scene::destroyObject(std::shared_ptr<SceneObject> obj)
@@ -148,6 +155,7 @@ void Scene::replaceObject(std::shared_ptr<SceneObject> aObject, std::shared_ptr<
 
 
         (*obj)->init(x, y);
+        (*obj)->setDrawPriority(aObject->getDrawPriority());
 
         auto handler = std::dynamic_pointer_cast<InputHandler>(*obj);
 
@@ -317,6 +325,7 @@ void Scene::onlyTestMoveCamera(Position aDeltaPosition)
     #else
         const int multiplier = 10;
     #endif
+
     aDeltaPosition *= multiplier;
 
     Position pos = mCamera.getWorldPosition() - aDeltaPosition;
@@ -357,16 +366,41 @@ void Scene::addSceneButton(
 
 void Scene::drawSceneObjects() const
 {
-    for(const auto& sceneObject : sceneObjects)
+    std::list<DrawObject> drawObjects;// TODO кэшировать
+    auto transformation = [](std::shared_ptr<SceneObject> aObject)
     {
-        if (sceneObject != nullptr && sceneObject->getSprite() != nullptr )
+        return DrawObject{aObject->getPosition(), aObject->getSprite(), aObject->getDrawPriority()};
+    };
+
+    std::transform(sceneObjects.begin(), sceneObjects.end(), std::back_inserter(drawObjects), transformation);
+
+    drawObjects.sort();
+
+    auto drawSprite = [this](DrawObject aDrawObject)
+    {
+        if (!aDrawObject.Sprite)
         {
-            Position sceneObjectPosition = sceneObject->getPosition();
-            Size sceneObjectSize = sceneObject->getSprite()->getSize();
-            if (mCamera.hasIntersection(sceneObjectPosition, sceneObjectSize))
-                sceneObject->getSprite()->drawAtPosition(mCamera.worldToCameraPosition(sceneObjectPosition));
+            return;
         }
-    }
+        auto& sprite = aDrawObject.Sprite;
+        Size objSize = sprite->getSize();
+        if (mCamera.hasIntersection(aDrawObject.ObjectPosition, objSize))
+        {
+            sprite->drawAtPosition(mCamera.worldToCameraPosition(aDrawObject.ObjectPosition));
+        }
+    };
+
+    std::for_each(drawObjects.begin(), drawObjects.end(), drawSprite);
+//    for(const auto& sceneObject : sceneObjects)
+//    {
+//        if (sceneObject != nullptr && sceneObject->getSprite() != nullptr )
+//        {
+//            Position sceneObjectPosition = sceneObject->getPosition();
+//            Size sceneObjectSize = sceneObject->getSprite()->getSize();
+//            if (mCamera.hasIntersection(sceneObjectPosition, sceneObjectSize))
+//                sceneObject->getSprite()->drawAtPosition(mCamera.worldToCameraPosition(sceneObjectPosition));
+//        }
+//    }
 }
 
 void Scene::drawUI() const
@@ -379,6 +413,19 @@ void Scene::drawUI() const
         }
     }
 }
+
+//void Scene::addSceneObject(std::shared_ptr<SceneObject>& aObject)//TODO: красиво, но бесполезно. Нужно выводить в таком порядке, а не портить порядок update
+//{
+//    auto comparator = [](std::shared_ptr<SceneObject> aFirst, std::shared_ptr<SceneObject> aSecond)
+//    {
+//        assert(aFirst && aSecond);
+//        return aFirst->getDrawPriority() < aSecond->getDrawPriority();
+//    };
+
+//    auto greaterIter = std::upper_bound(sceneObjects.begin(), sceneObjects.end(), aObject, comparator);
+
+//    sceneObjects.insert(greaterIter, aObject);
+//}
 
 void Scene::clear()
 {

@@ -10,6 +10,7 @@
 			<PositionY>600</PositionY>
 			<XAnchorPlace>0</XAnchorPlace>
 			<YAnchorPlace>0</YAnchorPlace>
+            <DrawPriority>1</DrawPriority>
 		</value0>
 		<value1>
 			<Name>WatcherTower</Name>
@@ -19,6 +20,7 @@
 			<PositionY>600</PositionY>
 			<XAnchorPlace>0</XAnchorPlace>
 			<YAnchorPlace>0</YAnchorPlace>
+            <DrawPriority>1</DrawPriority>
 		</value1>
 		<value2>
 			<Name>WatcherTower</Name>
@@ -28,6 +30,7 @@
 			<PositionY>600</PositionY>
 			<XAnchorPlace>0</XAnchorPlace>
 			<YAnchorPlace>0</YAnchorPlace>
+            <DrawPriority>1</DrawPriority>
 		</value2>
 		<value3>
 			<Name>WatcherTower</Name>
@@ -37,6 +40,7 @@
 			<PositionY>600</PositionY>
 			<XAnchorPlace>0</XAnchorPlace>
 			<YAnchorPlace>0</YAnchorPlace>
+            <DrawPriority>1</DrawPriority>
 		</value3>
 		<value4>
 			<Name>WatcherTower</Name>
@@ -46,6 +50,7 @@
 			<PositionY>600</PositionY>
 			<XAnchorPlace>0</XAnchorPlace>
 			<YAnchorPlace>0</YAnchorPlace>
+            <DrawPriority>1</DrawPriority>
 		</value4>
 		<value5>
 			<Name>Spawner</Name>
@@ -55,6 +60,7 @@
 			<PositionY>288</PositionY>
 			<XAnchorPlace>0</XAnchorPlace>
 			<YAnchorPlace>0</YAnchorPlace>
+            <DrawPriority>1</DrawPriority>
 		</value5>
 		<value6>
 			<Name>Gates</Name>
@@ -64,6 +70,7 @@
 			<PositionY>528</PositionY>
 			<XAnchorPlace>0</XAnchorPlace>
 			<YAnchorPlace>1</YAnchorPlace>
+            <DrawPriority>1</DrawPriority>
 		</value6>
 		<value7>
 			<Name>ResourceWheat</Name>
@@ -73,6 +80,7 @@
 			<PositionY>384</PositionY>
 			<XAnchorPlace>1</XAnchorPlace>
 			<YAnchorPlace>1</YAnchorPlace>
+            <DrawPriority>1</DrawPriority>
 		</value7>
 	</Positions>
 </cereal>

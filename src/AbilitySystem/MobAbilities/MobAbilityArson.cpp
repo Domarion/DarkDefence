@@ -21,7 +21,7 @@ bool MobAbilityArson::onReady(double /*timestep*/)
     if (parentScenePtr != nullptr)
     {
         auto toSpawn = Make_AbilityAnimObject(
-            "MobAbilityArson", workTime, parentScenePtr->getRenderer());
+            "MobAbilityArson", workTime, parentScenePtr->getRenderer(), target->getDrawPriority() + 1);
 
         if (toSpawn == nullptr)
             return false;

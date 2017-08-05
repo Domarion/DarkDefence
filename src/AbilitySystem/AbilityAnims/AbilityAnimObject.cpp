@@ -21,7 +21,8 @@ bool AbilityAnimObject::update(double timestep)
 std::shared_ptr<AbilityAnimObject> Make_AbilityAnimObject(
     const std::string& aName,
     double aTimeToLiveMs,
-    std::shared_ptr<RenderingSystem>& aRenderer)
+    std::shared_ptr<RenderingSystem>& aRenderer,
+    size_t aDrawPriority)
 {
     auto object = std::make_shared<AbilityAnimObject>(aTimeToLiveMs);
     if (object == nullptr)
@@ -40,6 +41,7 @@ std::shared_ptr<AbilityAnimObject> Make_AbilityAnimObject(
     sprite->setTexture(ResourceManager::getInstance()->getTexture(aName));
 
     object->setSprite(sprite);
+    object->setDrawPriority(aDrawPriority);
 
     return object;
 }

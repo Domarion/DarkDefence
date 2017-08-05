@@ -161,14 +161,16 @@ void TowerUpgradeController::closeHandler(std::string /*itemIndex*/)
 }
 
 std::shared_ptr<Tower> TowerUpgradeController::ProduceTower(
-    const std::string& aTowerName, std::shared_ptr<TileMapManager> aTileMap)
+    const std::string& aTowerName, std::shared_ptr<TileMapManager> aTileMap, size_t aDrawPriority)
 {
     if (!fabric || !parentGameScene)
     {
         return nullptr;
     }
 
-    return fabric->produceTower(aTowerName, parentGameScene->getRenderer(), shared_from_this(), aTileMap);
+    auto tower = fabric->produceTower(aTowerName, parentGameScene->getRenderer(), shared_from_this(), aTileMap);
+    tower->setDrawPriority(aDrawPriority);
+    return tower;
 }
 
 bool TowerUpgradeController::menuClickHandler(size_t itemIndex)
@@ -218,7 +220,7 @@ bool TowerUpgradeController::menuClickHandler(size_t itemIndex)
         parentGameScene->getMainRect()->removeChild(upgradeGroup);
         upgradeGroup.reset();
 
-        cachedTower = ProduceTower(towerName, cachedTower->getTileMapManager());
+        cachedTower = ProduceTower(towerName, cachedTower->getTileMapManager(), cachedTower->getDrawPriority());
 
         if (cachedTower == nullptr)
         {

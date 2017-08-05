@@ -306,7 +306,7 @@ void GameScene::placingCallBack()
     mSceneMode = SceneModeT::StandardMode;
 }
 
-void GameScene::spawningCallBack(std::string aMobName, Position aSpawnPosition)
+void GameScene::spawningCallBack(std::string aMobName, Position aSpawnPosition, size_t aDrawPriority)
 {
     static int counter11 = 0;
 
@@ -326,6 +326,8 @@ void GameScene::spawningCallBack(std::string aMobName, Position aSpawnPosition)
     someSprite->setTexture(ResourceManager::getInstance()->getTexture(aMobName));
 
     someMob->setSprite(someSprite);
+    someMob->setDrawPriority(aDrawPriority);
+
     spawnObject(aSpawnPosition.x, aSpawnPosition.y, someMob);
 }
 
@@ -519,7 +521,7 @@ void GameScene::placeSceneObjects()//TODO: Найти лучшее решени�
     {
         if (item.Name.find("Tower") != std::string::npos)
         {
-            auto tower= towerUpgradeController->ProduceTower(item.Name, tileMap);
+            auto tower= towerUpgradeController->ProduceTower(item.Name, tileMap, item.DrawPriority);
             tower->getSprite()->setAnchorPointPlace(item.xCoordAnchorType, item.yCoordAnchorType);
 
             spawnObject(item.ImagePosition.x, item.ImagePosition.y, tower);
@@ -545,6 +547,7 @@ void GameScene::placeSceneObjects()//TODO: Найти лучшее решени�
                     std::placeholders::_2
                 ));
             gates->getDestructibleObject()->setMaximumHealth(5000);
+            gates->setDrawPriority(item.DrawPriority);
             spawnObject(item.ImagePosition.x, item.ImagePosition.y, gates);
         }
         else if (item.Name == "ResourceWheat")
@@ -563,6 +566,8 @@ void GameScene::placeSceneObjects()//TODO: Найти лучшее решени�
             resPlace->setSprite(resSprite);
             resPlace->setName("ResourcePlace");
             resPlace->setTag("ResourcePlace");
+            resPlace->setDrawPriority(item.DrawPriority);
+
             spawnObject(item.ImagePosition.x, item.ImagePosition.y, resPlace);
         }
         else if (item.Name == "Spawner")
@@ -579,13 +584,20 @@ void GameScene::placeSceneObjects()//TODO: Найти лучшее решени�
             monsterSpawner->setTag("Spawner");
             monsterSpawner->loadWavesInfo();
 
+            monsterSpawner->setDrawPriority(item.DrawPriority);
+
             spawnObject(item.ImagePosition.x, item.ImagePosition.y, monsterSpawner);
 
             monsterSpawner->connectInfoProcesser(
                 std::bind(&GameScene::processWaveInfo, this, std::placeholders::_1));
             monsterSpawner->connectSpawnCallBack(
                 std::bind(
-                    &GameScene::spawningCallBack, this, std::placeholders::_1, std::placeholders::_2));
+                    &GameScene::spawningCallBack,
+                    this,
+                    std::placeholders::_1,
+                    std::placeholders::_2,
+                    std::placeholders::_3)
+                );
         }
     }
 }

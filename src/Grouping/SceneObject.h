@@ -55,6 +55,9 @@ public:
 
     std::shared_ptr<AnimationSceneSprite> getModifiableSprite() const;
 
+    void setDrawPriority(size_t aPriority);
+    size_t getDrawPriority() const;
+
 protected:
 
 
@@ -64,4 +67,5 @@ protected:
     string tag;
     std::weak_ptr<Scene> parentScenePtr;
     std::shared_ptr<InputHandler> mInputHandler;
+    size_t mDrawPriority = 0;
 };

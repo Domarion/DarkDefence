@@ -41,12 +41,14 @@ void Spawner::doSpawn()
     if (nextMobName.empty())
     {
         currentTime = timePeriod;
+        mDrawPriority = mInitialDrawPriority;
         return;
     }
 
+    ++mDrawPriority;
     if (mSpawnCallBack)
     {
-        mSpawnCallBack(nextMobName, getRealPosition());
+        mSpawnCallBack(nextMobName, getRealPosition(), mDrawPriority);
     }
 }
 
@@ -70,7 +72,7 @@ void Spawner::loadWavesInfo()
     mSpawnerModel.loadWavesInfo("GameData/wavesInfo.txt");
 }
 
-void Spawner::connectSpawnCallBack(std::function<void (std::string, Position)> aCallBack)
+void Spawner::connectSpawnCallBack(std::function<void(std::string, Position, size_t)> aCallBack)
 {
     mSpawnCallBack = aCallBack;
 }

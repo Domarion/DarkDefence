@@ -353,10 +353,12 @@ bool AIComponent::CanCast(std::shared_ptr<SceneObject> target)
 
 void AIComponent::ShotArrow()
 {
-    if (MobPtr.lock()->getTag() == "Tower")
+    auto lockedMob = MobPtr.lock();
+    if (lockedMob->getTag() == "Tower")
     {
-        const std::string& arrowName = MobPtr.lock()->getModel()->getArrowName();
+        const std::string& arrowName = lockedMob->getModel()->getArrowName();
 
+        auto lockedParentScene = MobPtr.lock()->getParentScene();
         if (!arrowName.empty())
         {
             std::shared_ptr<AnimationSceneSprite> sprite = nullptr;
@@ -366,21 +368,22 @@ void AIComponent::ShotArrow()
                 auto& animPack = ResourceManager::getInstance()->getAnimationPack(arrowName);
                 sprite =
                     std::make_shared<AnimationSceneSprite>(
-                        MobPtr.lock()->getParentScene()->getRenderer(),
+                        lockedParentScene->getRenderer(),
                         AnimationSceneSprite::Animation{animPack});
             }
             else
             {
                 sprite = std::make_shared<AnimationSceneSprite>(
-                    MobPtr.lock()->getParentScene()->getRenderer());
+                    lockedParentScene->getRenderer());
             }
 
             sprite->setTexture(ResourceManager::getInstance()->getTexture(arrowName));
 
             auto miniObject = std::make_shared<ArrowAnim>(currentTarget->getRealPosition());
             miniObject->setSprite(sprite);
-            MobPtr.lock()->getParentScene()->spawnObject(
-                MobPtr.lock()->getRealPosition().x, MobPtr.lock()->getRealPosition().y, miniObject);
+            miniObject->setDrawPriority(lockedMob->getDrawPriority() + 1);
+            lockedParentScene->spawnObject(
+                lockedMob->getRealPosition().x, lockedMob->getRealPosition().y, miniObject);
         }
     }
 }

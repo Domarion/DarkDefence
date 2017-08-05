@@ -23,6 +23,19 @@ class SceneManager;
 class Scene: public std::enable_shared_from_this<Scene>
 {
     using SceneObjectList = std::unique_ptr<std::list<std::shared_ptr<SceneObject>>>;
+
+    struct DrawObject
+    {
+        Position ObjectPosition;
+        std::shared_ptr<AnimationSceneSprite> Sprite;
+        size_t DrawPriority;
+
+        bool operator<(DrawObject aRight)
+        {
+            return DrawPriority < aRight.DrawPriority;
+        }
+    };
+
 public:
     Scene(std::shared_ptr<RenderingSystem>& aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher);
     Scene(const Scene&) = delete;
@@ -35,6 +48,8 @@ public:
     virtual void copyToRender() const;
     virtual void startUpdate(double timestep);
     virtual void spawnObject(int x, int y, std::shared_ptr<SceneObject> obj);
+    virtual void spawnObject(Position aPos, std::shared_ptr<SceneObject> aObj);
+
     virtual void destroyObject(std::shared_ptr<SceneObject> obj);
 
     virtual void addToUIList(const std::shared_ptr<IComposite>& item);
@@ -72,6 +87,7 @@ protected:
 
 private:
 
+   // void addSceneObject(std::shared_ptr<SceneObject>& aObject);
     list<std::shared_ptr<IComposite> > listGUI;
     list<std::shared_ptr<SceneObject>> sceneObjects;
     std::shared_ptr<SceneManager> parentSceneManager;
