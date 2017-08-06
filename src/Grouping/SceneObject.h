@@ -57,9 +57,11 @@ public:
 
     void setDrawPriority(size_t aPriority);
     size_t getDrawPriority() const;
-
+    size_t getId() const;
+    static void resetSceneObjectIds();
 protected:
 
+    static size_t sceneObjectCurrentId;
 
     std::shared_ptr<AnimationSceneSprite> spriteModel;
     int mX{0}, mY{0};
@@ -68,4 +70,6 @@ protected:
     std::weak_ptr<Scene> parentScenePtr;
     std::shared_ptr<InputHandler> mInputHandler;
     size_t mDrawPriority = 0;
+    size_t mSceneObjectId = ++sceneObjectCurrentId;
+
 };

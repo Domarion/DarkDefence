@@ -79,6 +79,8 @@ void AbilityMultitargetObject::ProcessTargets()
     bool isMonsterExistsAndAlive = firstMonster
         && firstMonster->getDestructibleObject()&& firstMonster->getDestructibleObject()->IsAlive();
 
+    setDrawPriority(firstMonster->getDrawPriority() + 1);
+
     if (!isMonsterExistsAndAlive)
     {
         mTargets->pop_front();

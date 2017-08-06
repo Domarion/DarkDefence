@@ -9,6 +9,9 @@
 #include <cassert>
 #include "../Logging/Logger.h"
 
+
+size_t SceneObject::sceneObjectCurrentId = 0;
+
 SceneObject::~SceneObject()
 {
     finalize();
@@ -150,6 +153,16 @@ void SceneObject::setDrawPriority(size_t aPriority)
 size_t SceneObject::getDrawPriority() const
 {
     return mDrawPriority;
+}
+
+size_t SceneObject::getId() const
+{
+    return mSceneObjectId;
+}
+
+void SceneObject::resetSceneObjectIds()
+{
+    sceneObjectCurrentId = 0;
 }
 
 void SceneObject::setSprite(std::shared_ptr<AnimationSceneSprite> & value)

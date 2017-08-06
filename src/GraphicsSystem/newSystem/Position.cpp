@@ -115,6 +115,12 @@ void Position::operator-=(const Position& aRight)
     y -= aRight.y;
 }
 
+Position Position::Zero()
+{
+    static Position zero;
+    return zero;
+}
+
 std::ostream& operator<<(std::ostream& aOutput, const Position& aRight)
 {
     aOutput << '(' << aRight.x << ",\t" << aRight.y << ')';

@@ -26,15 +26,11 @@ class Scene: public std::enable_shared_from_this<Scene>
 
     struct DrawObject
     {
-        Position ObjectPosition;
-        std::shared_ptr<AnimationSceneSprite> Sprite;
         size_t DrawPriority;
-
-        bool operator<(DrawObject aRight)
-        {
-            return DrawPriority < aRight.DrawPriority;
-        }
+        size_t SceneObjectId;
     };
+
+    friend bool operator<(const Scene::DrawObject& aLeft, const Scene::DrawObject& aRight);
 
 public:
     Scene(std::shared_ptr<RenderingSystem>& aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher);
@@ -86,10 +82,13 @@ protected:
     void drawUI() const;
 
 private:
+    void addDrawObject(std::shared_ptr<SceneObject>& aObj);
+    void removeDrawObject(size_t aObjId);
+    void replaceDrawObject(size_t aOldObjId, std::shared_ptr<SceneObject>& aNewObject);
 
-   // void addSceneObject(std::shared_ptr<SceneObject>& aObject);
     list<std::shared_ptr<IComposite> > listGUI;
     list<std::shared_ptr<SceneObject>> sceneObjects;
     std::shared_ptr<SceneManager> parentSceneManager;
     Camera2D mCamera;
+    std::list<DrawObject> drawObjects;
 };

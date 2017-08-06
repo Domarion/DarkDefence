@@ -39,6 +39,7 @@ public:
     Position operator- (const Position& aRight) const;
     void operator-= (const Position& aRight);
 
+    static Position Zero();
 
     int x = 0;
     int y = 0;
