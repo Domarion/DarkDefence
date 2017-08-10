@@ -43,7 +43,20 @@ public:
 
         void setCurrentState(const std::string& aStateName)
         {
-            mCurrentState = aStateName;
+            if (hasState(aStateName))
+            {
+                mCurrentState = aStateName;
+            }
+        }
+
+        bool hasState(const std::string& aStateName)
+        {
+            if (aStateName.empty())
+            {
+                return false;
+            }
+
+            return mAnimationStates.find(aStateName) != mAnimationStates.cend();
         }
 
         bool hasAnimations() const

@@ -116,6 +116,7 @@ void AIComponent::Select()
         return;
     }
 
+    MobPtr.lock()->getSprite()->setCurrentState("walk");
     aiMobState = AIMobStates::aiMOVE;
 }
 
@@ -168,6 +169,11 @@ void AIComponent::Reload(double timestep)
     }
 
     aiMobState = (currentTarget == nullptr)? AIMobStates::aiSELECT : AIMobStates::aiATTACK;
+
+    if (aiMobState == AIMobStates::aiATTACK)
+    {
+        MobPtr.lock()->getSprite()->setCurrentState("attack");
+    }
 }
 
 void AIComponent::MovetoTile(double timestep)
@@ -196,6 +202,8 @@ void AIComponent::MovetoTile(double timestep)
     if (distanceSquareInRange(mobPos, targetPos))
     {
         aiMobState = AIMobStates::aiATTACK;
+        MobPtr.lock()->getSprite()->setCurrentState("attack");
+
         nextCell = emptyCell;
         currentPath.reset();
         return;
