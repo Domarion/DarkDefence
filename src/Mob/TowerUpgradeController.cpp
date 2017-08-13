@@ -213,10 +213,7 @@ bool TowerUpgradeController::menuClickHandler(size_t itemIndex)
     {
         GameModel::getInstance()->getResourcesModel()->removeResources(model.getPrice());
 
-        int x = cachedTower->getSprite()->getPosition().x;
-        int y = cachedTower->getSprite()->getPosition().y;
-        parentGameScene->destroyObject(cachedTower);
-
+        auto oldcached = cachedTower;
         parentGameScene->getMainRect()->removeChild(upgradeGroup);
         upgradeGroup.reset();
 
@@ -226,8 +223,8 @@ bool TowerUpgradeController::menuClickHandler(size_t itemIndex)
         {
             return false;
         }
-
-        parentGameScene->spawnObject(x, y, cachedTower);
+//TODO: убедиться в том, что башня реально заменяется без неопределенного поведения
+        parentGameScene->replaceObject(oldcached, cachedTower);
 
         cachedTower.reset();
 
