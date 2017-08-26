@@ -9,7 +9,6 @@
 
 #include "Inventory.h"
 #include "../GraphicsSystem/newSystem/ConcreteUIViews/UIScrollList.h"
-//#include "../GraphicsSystem/UI/ScrollList.h"
 #include <memory>
 #include "../GraphicsSystem/newSystem/IComposite.h"
 #include "../GraphicsSystem/newSystem/Font.h"
@@ -17,9 +16,9 @@
 class InventoryController
 {
 public:
-    explicit InventoryController(std::shared_ptr<RenderingSystem> &aRenderer);
-	virtual ~InventoryController();
-    void setView(std::shared_ptr<UIScrollList> &newView);
+    explicit InventoryController(std::shared_ptr<RenderingSystem>& aRenderer);
+    virtual ~InventoryController() = default;
+    void setView(std::shared_ptr<UIScrollList>& newView);
     void setModel(std::shared_ptr<Inventory> newModel);
     std::shared_ptr<Inventory> getModel() const;
     void initView();

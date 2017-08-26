@@ -3,6 +3,7 @@
 #include <boost/test/unit_test.hpp>
 #include "src/GraphicsSystem/newSystem/Composite.h"
 #include "src/GraphicsSystem/newSystem/Leaf.h"
+#include "src/GraphicsSystem/newSystem/VerticalLayout.h"
 
 BOOST_AUTO_TEST_SUITE(CompositeTestSuite)
 

@@ -6,6 +6,9 @@
 #include "../GraphicsSystem/newSystem/UIElement/UILabel.h"
 #include "../GraphicsSystem/newSystem/UIElement/UIImageButton.h"
 #include "../GraphicsSystem/newSystem/UIElement/UITextButton.h"
+#include "../GraphicsSystem/newSystem/VerticalLayout.h"
+#include "../GraphicsSystem/newSystem/StubLayout.h"
+
 #include "../Scenes/GameScene.h"
 
 TowerUpgradeController::TowerUpgradeController()
@@ -56,15 +59,16 @@ void TowerUpgradeController::receiveTowerUpgrade(std::shared_ptr<Tower> tower)
         return;
 
     Size parentSize = parentGameScene->getMainRect()->getSize();
-
-    upgradeGroup = std::make_shared<ConcreteComposite>(renderer);
+    auto layout = std::make_shared<StubLayout>();
+    upgradeGroup = std::make_shared<ConcreteComposite>(renderer, layout);
     upgradeGroup->setSize(Size(150, 400));
     upgradeGroup->setPosition(Position(parentSize.width/2 - 150, 50));
 
     currentTowerChildrenNames = currentGrade->getChildrenNames();
 
+    auto verticalLayout = std::make_shared<VerticalLayout>();
     auto currentTowerChildren = currentGrade->getChildren();
-    towerMenu = std::make_shared<UIScrollList>(currentTowerChildrenNames.size() + 1, renderer);
+    towerMenu = std::make_shared<UIScrollList>(currentTowerChildrenNames.size() + 1, renderer, verticalLayout);
     towerMenu->setSize(Size(100, 350));
 
     const int iconWidth = 48;
@@ -74,7 +78,7 @@ void TowerUpgradeController::receiveTowerUpgrade(std::shared_ptr<Tower> tower)
     {
         auto childModel = currentTowerChildren.at(childrenName)->getData();
 
-        auto menuItemGroup = std::make_shared<ConcreteComposite>(renderer);
+        auto menuItemGroup = std::make_shared<ConcreteComposite>(renderer, layout);
         menuItemGroup->setSize(Size(100, 100));
         string iconPath = "GameData/textures/Towers/UpgradeIcons/" + childrenName +".jpg";
 
@@ -87,7 +91,7 @@ void TowerUpgradeController::receiveTowerUpgrade(std::shared_ptr<Tower> tower)
         upgradeName->setPosition(menuItemGroup->getNextHorizontalPosition());
         menuItemGroup->addChild(upgradeName);
 
-        auto priceGroup = std::make_shared<ConcreteComposite>(renderer);
+        auto priceGroup = std::make_shared<ConcreteComposite>(renderer, layout);
         priceGroup->setSize(Size(menuItemGroup->getSize().width, menuItemGroup->getSize().height/2));
         Position priceGroupPos = Position(upgradeName->getLocalPosition().x, menuItemGroup->getNextVerticalPosition().y);
         priceGroup->setPosition(priceGroupPos);

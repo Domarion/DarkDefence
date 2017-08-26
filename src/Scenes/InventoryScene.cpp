@@ -7,10 +7,10 @@
 
 #include "InventoryScene.h"
 #include "../GlobalScripts/GameModel.h"
+#include "../GraphicsSystem/newSystem/VerticalLayout.h"
 
-
-
-InventoryScene::InventoryScene(std::shared_ptr<RenderingSystem> &aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher)
+InventoryScene::InventoryScene(
+    std::shared_ptr<RenderingSystem>& aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher)
     : Scene(aRenderer, aInputDispatcher)
     , inventoryController(nullptr)
     , heroController(nullptr)
@@ -40,17 +40,14 @@ void InventoryScene::clear()
     inventoryController.reset();
     GameModel::getInstance()->getHeroInventory()->clearControllerReceivers();
     GameModel::getInstance()->getInventory()->clearControllerReceivers();
-
-
 }
 
 void InventoryScene::initControlButton()
 {
-
     Position pos(MainRect->getSize().width - 100, MainRect->getSize().height - 50);
 
     Scene::addLoadSceneButton("Назад", "ButtonFont", "MainScene",
-                pos.x, pos.y, 100, 50);
+                              pos.x, pos.y, 100, 50);
 }
 
 void InventoryScene::initHeroView()
@@ -63,30 +60,32 @@ void InventoryScene::initHeroView()
     heroController->initLocalPositions(MainRect->getSize());
     heroController->initView(renderer);
     auto items = heroController->getView()->getItems();
+
     for(auto& item : items)
     {
         MainRect->addChild(item);
     }
 
-  Scene::addAsInputHandler(heroController->getView());
-
+    Scene::addAsInputHandler(heroController->getView());
 }
 
 void InventoryScene::initInventoryView()
 {
 //   if (GameModel::getInstance()->getInventory()->getItemCount() > 0)
 //   {
-        const int showItems = 5;
-        auto scroll = std::make_shared<UIScrollList>(showItems, renderer);
+    const int showItems = 5;
+    auto layout = std::make_shared<VerticalLayout>();
 
-        inventoryController = std::make_unique<InventoryController>(renderer);
-        auto inventory = GameModel::getInstance()->getInventory();
-        inventory->clearControllerReceivers();
-        inventoryController->setModel(inventory);
-        inventoryController->setView(scroll);
-        inventoryController->initView();
+    auto scroll = std::make_shared<UIScrollList>(showItems, renderer, layout);
 
-        MainRect->addChild(scroll);
+    inventoryController = std::make_unique<InventoryController>(renderer);
+    auto inventory = GameModel::getInstance()->getInventory();
+    inventory->clearControllerReceivers();
+    inventoryController->setModel(inventory);
+    inventoryController->setView(scroll);
+    inventoryController->initView();
+
+    MainRect->addChild(scroll);
 //    }
 }
 

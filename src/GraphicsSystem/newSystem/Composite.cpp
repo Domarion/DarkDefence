@@ -1,10 +1,10 @@
 #include "Composite.h"
 
-Composite::Composite(std::shared_ptr<RenderingSystem>& aRenderingContext)
-    :IComposite()
+Composite::Composite(std::shared_ptr<RenderingSystem>& aRenderingContext, const std::shared_ptr<ILayout>& aLayout)
+    : IComposite()
     , renderer(aRenderingContext)
+    , mLayout(aLayout)
 {
-
 }
 
 void Composite::addChild(const shared_ptr<IComposite>& child)
@@ -23,6 +23,11 @@ void Composite::addChild(const shared_ptr<IComposite>& child)
             if (child->getSize() != getSize())
                 child->setScalingFactor(this->getScalingFactor());
             children.push_back(child);
+        }
+
+        if (mLayout)
+        {
+            mLayout->apply(children);
         }
     }
 }

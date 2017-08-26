@@ -6,17 +6,13 @@
  */
 
 #include "ShopController.h"
-//#include "../GraphicsSystem/ShopItemUI.h"
 #include "../Grouping/FontManager.h"
 #include "../GraphicsSystem/newSystem/UIElement/ConcreteComposite.h"
 #include "../GraphicsSystem/newSystem/UIElement/UIImage.h"
-//#include "../GraphicsSystem/newSystem/UIElement/UILabel.h"
 #include "../GraphicsSystem/newSystem/UIElement/UITextButton.h"
-
-ShopController::ShopController()
-: model(nullptr), view(nullptr)
-{
-}
+#include "../GraphicsSystem/newSystem/StubLayout.h"
+#include "../GraphicsSystem/newSystem/VerticalLayout.h"
+#include "../GraphicsSystem/newSystem/HorizontalLayout.h"
 
 void ShopController::setView(std::shared_ptr<UIScrollList>&& newView)
 {
@@ -41,46 +37,36 @@ void ShopController::initView(std::shared_ptr<RenderingSystem>& aRenderer)
 
     Size itemSize{view->getSize()};
 
-    itemSize.height /= count;
+    auto horizontalLayout = std::make_shared<HorizontalLayout>();
+
+    itemSize.height /= view->getItemCountToShow() + 1;
     for(int i = 0; i < count; ++i)
 	{
-        auto shopItem = std::make_shared<ConcreteComposite>(aRenderer);
-        shopItem->setPosition(view->getNextVerticalPosition());
-        shopItem->setSize(itemSize);
-
-        auto shopItemGroup = std::make_shared<ConcreteComposite>(aRenderer);
-        shopItemGroup->setSize(Size(shopItem->getSize().height, shopItem->getSize().height));
+        auto shopItemGroup = std::make_shared<ConcreteComposite>(aRenderer, horizontalLayout);
+        shopItemGroup->setSize(itemSize);
 
         auto shopItemIcon = std::make_shared<UIImage>(aRenderer);
         string iconPath = "GameData/textures/items/" +
                 model->getItemFromIndex(i)->getCaption() + ".png";
         shopItemIcon->loadTexture(iconPath);
-        shopItemIcon->setSize(Size(shopItem->getSize().height, shopItem->getSize().height));
+        shopItemIcon->setSize(Size(itemSize.height, itemSize.height));
         shopItemGroup->addChild(shopItemIcon);
 
         auto shopItemCaption = std::make_shared<UILabel>(model->getItemFromIndex(i)->getCaption() , aFont, aRenderer);
         shopItemCaption->setPosition(shopItemGroup->getNextHorizontalPosition());
         shopItemGroup->addChild(shopItemCaption);
 
-        auto shopItemDescription = std::make_shared<UILabel>(model->getItemFromIndex(i)->getDescription() , aFont, aRenderer);
-        Position descPos{shopItemCaption->getLocalPosition().x, shopItemGroup->getNextVerticalPosition().y};
-        shopItemDescription->setPosition(descPos);
-        shopItemGroup->addChild(shopItemDescription);
-
-        shopItem->addChild(shopItemGroup);
-
         string priceText = std::to_string(model->getItemFromIndex(i)->getPrice());
         auto shopItemPrice = std::make_shared<UILabel>(priceText , aFont, aRenderer);
-        shopItemPrice->setPosition(shopItem->getNextHorizontalPosition());
 
-        shopItem->addChild(shopItemPrice);
+        shopItemGroup->addChild(shopItemPrice);
 
         auto shopItemBuyButton = std::make_shared<UITextButton>("Купить" , aFont, aRenderer);
-        shopItemBuyButton->setPosition(Position(shopItemGroup->getNextHorizontalPosition().x, shopItemGroup->getPosition().y));
-        shopItem->addChild(shopItemBuyButton);
+        shopItemGroup->addChild(shopItemBuyButton);
 
-        view->addChild(shopItem);
+        view->addChild(shopItemGroup);
 	}
+
     view->ConnectMethod(std::bind( &ShopController::sendItemToModel, this, std::placeholders::_1) );
 }
 

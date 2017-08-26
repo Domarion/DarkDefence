@@ -6,7 +6,8 @@
 class UIScrollList final: public ConcreteComposite
 {
 public:
-    explicit UIScrollList(int aItemsToShow, std::shared_ptr<RenderingSystem>& aRenderingContext);
+    explicit UIScrollList(
+        int aItemsToShow, std::shared_ptr<RenderingSystem>& aRenderingContext, const std::shared_ptr<ILayout>& aLayout);
     virtual ~UIScrollList() = default;
 
     virtual void ConnectMethod(std::function<bool(int)> method);

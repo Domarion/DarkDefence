@@ -2,26 +2,42 @@
 #define BOOST_TEST_MODULE UIScrollListTest
 #include <boost/test/unit_test.hpp>
 #include "src/GraphicsSystem/newSystem/ConcreteUIViews/UIScrollList.h"
+#include "src/GraphicsSystem/newSystem/VerticalLayout.h"
+#include "src/GraphicsSystem/newSystem/StubLayout.h"
+
 BOOST_AUTO_TEST_SUITE(UIScrollListTestSuite)
+
 struct UIScrollListFixture
 {
-std::shared_ptr<RenderingSystem> nullrendering = nullptr;
-const int ItemsToShow = 3;
-};
+    std::shared_ptr<RenderingSystem> nullrendering = nullptr;
+    std::shared_ptr<ILayout> verticalLayout = std::make_shared<VerticalLayout>();
+    std::shared_ptr<ILayout> emptyLayout = std::make_shared<StubLayout>();
 
+    const int ItemsToShow = 3;
+
+    auto makeScroll()
+    {
+        return std::make_shared<UIScrollList>(ItemsToShow, nullrendering, verticalLayout);
+    }
+
+    auto makeConcreteComposite()
+    {
+        return std::make_shared<ConcreteComposite>(nullrendering, emptyLayout);
+    }
+};
 
 
 BOOST_FIXTURE_TEST_CASE(scrollShouldSaveItemCountToShow, UIScrollListFixture)
 {
-    auto scroll = std::make_shared<UIScrollList>(ItemsToShow, nullrendering);
+    auto scroll = makeScroll();
 
     BOOST_CHECK_EQUAL(scroll->getItemCountToShow(), ItemsToShow);
 }
 
 BOOST_FIXTURE_TEST_CASE(scrollBorderPointersShouldMoveOnAdd, UIScrollListFixture)
 {
-    auto child = std::make_shared<ConcreteComposite>(nullrendering);
-    auto scroll = std::make_shared<UIScrollList>(ItemsToShow, nullrendering);
+    auto child = makeConcreteComposite();
+    auto scroll = makeScroll();
     scroll->addChild(child);
     BOOST_CHECK(scroll->getIteratorToFirst() == scroll->getBeginIterator());
     BOOST_CHECK(scroll->getIteratorToLast() == scroll->getEndIterator());
@@ -29,12 +45,12 @@ BOOST_FIXTURE_TEST_CASE(scrollBorderPointersShouldMoveOnAdd, UIScrollListFixture
 
 BOOST_FIXTURE_TEST_CASE(scrollBorderLastPointerShouldMoveOnAddMoreThan, UIScrollListFixture)
 {
-    auto child1 = std::make_shared<ConcreteComposite>(nullrendering);
-    auto child2 = std::make_shared<ConcreteComposite>(nullrendering);
-    auto child3 = std::make_shared<ConcreteComposite>(nullrendering);
-    auto child4 = std::make_shared<ConcreteComposite>(nullrendering);
+    auto child1 = makeConcreteComposite();
+    auto child2 = makeConcreteComposite();
+    auto child3 = makeConcreteComposite();
+    auto child4 = makeConcreteComposite();
 
-    auto scroll = std::make_shared<UIScrollList>(ItemsToShow, nullrendering);
+    auto scroll = makeScroll();
     scroll->addChild(child1);
     scroll->addChild(child2);
     scroll->addChild(child3);
@@ -48,14 +64,14 @@ BOOST_FIXTURE_TEST_CASE(scrollBorderLastPointerShouldMoveOnAddMoreThan, UIScroll
 
 BOOST_FIXTURE_TEST_CASE(scrollPointersDistanceShouldBeLEConst, UIScrollListFixture)
 {
-    auto child1 = std::make_shared<ConcreteComposite>(nullrendering);
-    auto child2 = std::make_shared<ConcreteComposite>(nullrendering);
-    auto child3 = std::make_shared<ConcreteComposite>(nullrendering);
-    auto child4 = std::make_shared<ConcreteComposite>(nullrendering);
-    auto child5 = std::make_shared<ConcreteComposite>(nullrendering);
-    auto child6 = std::make_shared<ConcreteComposite>(nullrendering);
+    auto child1 = makeConcreteComposite();
+    auto child2 = makeConcreteComposite();
+    auto child3 = makeConcreteComposite();
+    auto child4 = makeConcreteComposite();
+    auto child5 = makeConcreteComposite();
+    auto child6 = makeConcreteComposite();
 
-    auto scroll = std::make_shared<UIScrollList>(ItemsToShow, nullrendering);
+    auto scroll = makeScroll();
     scroll->addChild(child1);
     scroll->addChild(child2);
     scroll->addChild(child3);
@@ -69,7 +85,7 @@ BOOST_FIXTURE_TEST_CASE(scrollPointersDistanceShouldBeLEConst, UIScrollListFixtu
 BOOST_FIXTURE_TEST_CASE(scrollShouldBeEmptyIfNoInsertions, UIScrollListFixture)
 {
 
-    auto scroll = std::make_shared<UIScrollList>(ItemsToShow, nullrendering);
+    auto scroll = makeScroll();
 
     BOOST_CHECK(std::distance(scroll->getIteratorToFirst(), scroll->getIteratorToLast()) == 0);
 }
@@ -77,8 +93,8 @@ BOOST_FIXTURE_TEST_CASE(scrollShouldBeEmptyIfNoInsertions, UIScrollListFixture)
 BOOST_FIXTURE_TEST_CASE(scrollShouldPointToOneAddedChild, UIScrollListFixture)
 {
 
-    auto scroll = std::make_shared<UIScrollList>(ItemsToShow, nullrendering);
-    auto child1 = std::make_shared<ConcreteComposite>(nullrendering);
+    auto scroll = makeScroll();
+    auto child1 = makeConcreteComposite();
     scroll->addChild(child1);
 
 
@@ -88,8 +104,8 @@ BOOST_FIXTURE_TEST_CASE(scrollShouldPointToOneAddedChild, UIScrollListFixture)
 BOOST_FIXTURE_TEST_CASE(scrollShouldBeEmptyAfterRemove, UIScrollListFixture)
 {
 
-    auto scroll = std::make_shared<UIScrollList>(ItemsToShow, nullrendering);
-    auto child1 = std::make_shared<ConcreteComposite>(nullrendering);
+    auto scroll = makeScroll();
+    auto child1 = makeConcreteComposite();
     scroll->addChild(child1);
 
     scroll->removeChild(child1);
@@ -102,13 +118,13 @@ BOOST_FIXTURE_TEST_CASE(scrollShouldBeEmptyAfterRemove, UIScrollListFixture)
 BOOST_FIXTURE_TEST_CASE(scrollPointersShouldMoveAfterRemove, UIScrollListFixture)
 {
 
-    auto child1 = std::make_shared<ConcreteComposite>(nullrendering);
-    auto child2 = std::make_shared<ConcreteComposite>(nullrendering);
-    auto child3 = std::make_shared<ConcreteComposite>(nullrendering);
-    auto child4 = std::make_shared<ConcreteComposite>(nullrendering);
-    auto child5 = std::make_shared<ConcreteComposite>(nullrendering);
+    auto child1 = makeConcreteComposite();
+    auto child2 = makeConcreteComposite();
+    auto child3 = makeConcreteComposite();
+    auto child4 = makeConcreteComposite();
+    auto child5 = makeConcreteComposite();
 
-    auto scroll = std::make_shared<UIScrollList>(ItemsToShow, nullrendering);
+    auto scroll = makeScroll();
     scroll->addChild(child1);
     scroll->addChild(child2);
     scroll->addChild(child3);
@@ -122,12 +138,12 @@ BOOST_FIXTURE_TEST_CASE(scrollPointersShouldMoveAfterRemove, UIScrollListFixture
 BOOST_FIXTURE_TEST_CASE(scrollPointersShouldMoveAfterDown, UIScrollListFixture)
 {
 
-    auto child1 = std::make_shared<ConcreteComposite>(nullrendering);
-    auto child2 = std::make_shared<ConcreteComposite>(nullrendering);
-    auto child3 = std::make_shared<ConcreteComposite>(nullrendering);
-    auto child4 = std::make_shared<ConcreteComposite>(nullrendering);
+    auto child1 = makeConcreteComposite();
+    auto child2 = makeConcreteComposite();
+    auto child3 = makeConcreteComposite();
+    auto child4 = makeConcreteComposite();
 
-    auto scroll = std::make_shared<UIScrollList>(ItemsToShow, nullrendering);
+    auto scroll = makeScroll();
     scroll->addChild(child1);
     scroll->addChild(child2);
     scroll->addChild(child3);
@@ -146,13 +162,13 @@ BOOST_FIXTURE_TEST_CASE(scrollPointersShouldMoveAfterDown, UIScrollListFixture)
 BOOST_FIXTURE_TEST_CASE(scrollPointersShouldMoveAfterDownAndLastNEEnd, UIScrollListFixture)
 {
 
-    auto child1 = std::make_shared<ConcreteComposite>(nullrendering);
-    auto child2 = std::make_shared<ConcreteComposite>(nullrendering);
-    auto child3 = std::make_shared<ConcreteComposite>(nullrendering);
-    auto child4 = std::make_shared<ConcreteComposite>(nullrendering);
-    auto child5 = std::make_shared<ConcreteComposite>(nullrendering);
+    auto child1 = makeConcreteComposite();
+    auto child2 = makeConcreteComposite();
+    auto child3 = makeConcreteComposite();
+    auto child4 = makeConcreteComposite();
+    auto child5 = makeConcreteComposite();
 
-    auto scroll = std::make_shared<UIScrollList>(ItemsToShow, nullrendering);
+    auto scroll = makeScroll();
     scroll->addChild(child1);
     scroll->addChild(child2);
     scroll->addChild(child3);
@@ -175,12 +191,12 @@ BOOST_FIXTURE_TEST_CASE(scrollPointersShouldMoveAfterDownAndLastNEEnd, UIScrollL
 BOOST_FIXTURE_TEST_CASE(scrollPointersShouldMoveOnlyOnceAfterDown, UIScrollListFixture)
 {
 
-    auto child1 = std::make_shared<ConcreteComposite>(nullrendering);
-    auto child2 = std::make_shared<ConcreteComposite>(nullrendering);
-    auto child3 = std::make_shared<ConcreteComposite>(nullrendering);
-    auto child4 = std::make_shared<ConcreteComposite>(nullrendering);
+    auto child1 = makeConcreteComposite();
+    auto child2 = makeConcreteComposite();
+    auto child3 = makeConcreteComposite();
+    auto child4 = makeConcreteComposite();
 
-    auto scroll = std::make_shared<UIScrollList>(ItemsToShow, nullrendering);
+    auto scroll = makeScroll();
     scroll->addChild(child1);
     scroll->addChild(child2);
     scroll->addChild(child3);
@@ -199,11 +215,11 @@ BOOST_FIXTURE_TEST_CASE(scrollPointersShouldMoveOnlyOnceAfterDown, UIScrollListF
 BOOST_FIXTURE_TEST_CASE(scrollPointersShouldntMoveAfterDown, UIScrollListFixture)
 {
 
-    auto child1 = std::make_shared<ConcreteComposite>(nullrendering);
-    auto child2 = std::make_shared<ConcreteComposite>(nullrendering);
-    auto child3 = std::make_shared<ConcreteComposite>(nullrendering);
+    auto child1 = makeConcreteComposite();
+    auto child2 = makeConcreteComposite();
+    auto child3 = makeConcreteComposite();
 
-    auto scroll = std::make_shared<UIScrollList>(ItemsToShow, nullrendering);
+    auto scroll = makeScroll();
     scroll->addChild(child1);
     scroll->addChild(child2);
     scroll->addChild(child3);
@@ -217,14 +233,14 @@ BOOST_FIXTURE_TEST_CASE(scrollPointersShouldntMoveAfterDown, UIScrollListFixture
 BOOST_FIXTURE_TEST_CASE(scrollPointersShouldMoveOnlyToOne, UIScrollListFixture)
 {
 
-    auto child1 = std::make_shared<ConcreteComposite>(nullrendering);
-    auto child2 = std::make_shared<ConcreteComposite>(nullrendering);
-    auto child3 = std::make_shared<ConcreteComposite>(nullrendering);
-    auto child4 = std::make_shared<ConcreteComposite>(nullrendering);
-    auto child5 = std::make_shared<ConcreteComposite>(nullrendering);
-    auto child6 = std::make_shared<ConcreteComposite>(nullrendering);
+    auto child1 = makeConcreteComposite();
+    auto child2 = makeConcreteComposite();
+    auto child3 = makeConcreteComposite();
+    auto child4 = makeConcreteComposite();
+    auto child5 = makeConcreteComposite();
+    auto child6 = makeConcreteComposite();
 
-    auto scroll = std::make_shared<UIScrollList>(ItemsToShow, nullrendering);
+    auto scroll = makeScroll();
     scroll->addChild(child1);
     scroll->addChild(child2);
     scroll->addChild(child3);
@@ -246,12 +262,12 @@ BOOST_FIXTURE_TEST_CASE(scrollPointersShouldMoveOnlyToOne, UIScrollListFixture)
 BOOST_FIXTURE_TEST_CASE(scrollPointersShouldMoveUp, UIScrollListFixture)
 {
 
-    auto child1 = std::make_shared<ConcreteComposite>(nullrendering);
-    auto child2 = std::make_shared<ConcreteComposite>(nullrendering);
-    auto child3 = std::make_shared<ConcreteComposite>(nullrendering);
-    auto child4 = std::make_shared<ConcreteComposite>(nullrendering);
+    auto child1 = makeConcreteComposite();
+    auto child2 = makeConcreteComposite();
+    auto child3 = makeConcreteComposite();
+    auto child4 = makeConcreteComposite();
 
-    auto scroll = std::make_shared<UIScrollList>(ItemsToShow, nullrendering);
+    auto scroll = makeScroll();
     scroll->addChild(child1);
     scroll->addChild(child2);
     scroll->addChild(child3);
@@ -273,13 +289,13 @@ BOOST_FIXTURE_TEST_CASE(scrollPointersShouldMoveUp, UIScrollListFixture)
 BOOST_FIXTURE_TEST_CASE(removeAfterScrollShouldMovePointers, UIScrollListFixture)
 {
 
-    auto child1 = std::make_shared<ConcreteComposite>(nullrendering);
-    auto child2 = std::make_shared<ConcreteComposite>(nullrendering);
-    auto child3 = std::make_shared<ConcreteComposite>(nullrendering);
-    auto child4 = std::make_shared<ConcreteComposite>(nullrendering);
-    auto child5 = std::make_shared<ConcreteComposite>(nullrendering);
+    auto child1 = makeConcreteComposite();
+    auto child2 = makeConcreteComposite();
+    auto child3 = makeConcreteComposite();
+    auto child4 = makeConcreteComposite();
+    auto child5 = makeConcreteComposite();
 
-    auto scroll = std::make_shared<UIScrollList>(ItemsToShow, nullrendering);
+    auto scroll = makeScroll();
     scroll->addChild(child1);
     scroll->addChild(child2);
     scroll->addChild(child3);
@@ -303,12 +319,12 @@ BOOST_FIXTURE_TEST_CASE(removeAfterScrollShouldMovePointers, UIScrollListFixture
 BOOST_FIXTURE_TEST_CASE(removeAfterScrollShouldntMoveLast, UIScrollListFixture)
 {
 
-    auto child1 = std::make_shared<ConcreteComposite>(nullrendering);
-    auto child2 = std::make_shared<ConcreteComposite>(nullrendering);
-    auto child3 = std::make_shared<ConcreteComposite>(nullrendering);
-    auto child4 = std::make_shared<ConcreteComposite>(nullrendering);
+    auto child1 = makeConcreteComposite();
+    auto child2 = makeConcreteComposite();
+    auto child3 = makeConcreteComposite();
+    auto child4 = makeConcreteComposite();
 
-    auto scroll = std::make_shared<UIScrollList>(ItemsToShow, nullrendering);
+    auto scroll = makeScroll();
     scroll->addChild(child1);
     scroll->addChild(child2);
     scroll->addChild(child3);
@@ -325,12 +341,12 @@ BOOST_FIXTURE_TEST_CASE(removeAfterScrollShouldntMoveLast, UIScrollListFixture)
 BOOST_FIXTURE_TEST_CASE(removeAtEndShouldMoveUpper, UIScrollListFixture)
 {
 
-    auto child1 = std::make_shared<ConcreteComposite>(nullrendering);
-    auto child2 = std::make_shared<ConcreteComposite>(nullrendering);
-    auto child3 = std::make_shared<ConcreteComposite>(nullrendering);
-    auto child4 = std::make_shared<ConcreteComposite>(nullrendering);
+    auto child1 = makeConcreteComposite();
+    auto child2 = makeConcreteComposite();
+    auto child3 = makeConcreteComposite();
+    auto child4 = makeConcreteComposite();
 
-    auto scroll = std::make_shared<UIScrollList>(ItemsToShow, nullrendering);
+    auto scroll = makeScroll();
     scroll->addChild(child1);
     scroll->addChild(child2);
     scroll->addChild(child3);
@@ -348,12 +364,12 @@ BOOST_FIXTURE_TEST_CASE(removeAtEndShouldMoveUpper, UIScrollListFixture)
 BOOST_FIXTURE_TEST_CASE(ScrollUpAfterScrollDown, UIScrollListFixture)
 {
 
-    auto child1 = std::make_shared<ConcreteComposite>(nullrendering);
-    auto child2 = std::make_shared<ConcreteComposite>(nullrendering);
-    auto child3 = std::make_shared<ConcreteComposite>(nullrendering);
-    auto child4 = std::make_shared<ConcreteComposite>(nullrendering);
+    auto child1 = makeConcreteComposite();
+    auto child2 = makeConcreteComposite();
+    auto child3 = makeConcreteComposite();
+    auto child4 = makeConcreteComposite();
 
-    auto scroll = std::make_shared<UIScrollList>(ItemsToShow, nullrendering);
+    auto scroll = makeScroll();
     scroll->addChild(child1);
     scroll->addChild(child2);
     scroll->addChild(child3);
@@ -372,13 +388,13 @@ BOOST_FIXTURE_TEST_CASE(ScrollUpAfterScrollDown, UIScrollListFixture)
 
 BOOST_FIXTURE_TEST_CASE(ItemPositionsShouldBeTheSameAfterScroll, UIScrollListFixture)
 {
-    auto child1 = std::make_shared<ConcreteComposite>(nullrendering);
-    auto child2 = std::make_shared<ConcreteComposite>(nullrendering);
-    auto child3 = std::make_shared<ConcreteComposite>(nullrendering);
-    auto child4 = std::make_shared<ConcreteComposite>(nullrendering);
-    auto child5 = std::make_shared<ConcreteComposite>(nullrendering);
+    auto child1 = makeConcreteComposite();
+    auto child2 = makeConcreteComposite();
+    auto child3 = makeConcreteComposite();
+    auto child4 = makeConcreteComposite();
+    auto child5 = makeConcreteComposite();
 
-    auto scroll = std::make_shared<UIScrollList>(ItemsToShow, nullrendering);
+    auto scroll = makeScroll();
     scroll->addChild(child1);
     scroll->addChild(child2);
     scroll->addChild(child3);

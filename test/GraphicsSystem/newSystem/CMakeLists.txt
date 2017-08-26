@@ -11,6 +11,7 @@ add_library(composite
     ${newSystemPath}/Size.cpp
     ${newSystemPath}/Position.cpp
     ${newSystemPath}/Composite.cpp
+    ${newSystemPath}/VerticalLayout.cpp
     ${newSystemPath}/Leaf.cpp
     ${srcPath}/Input/InputHandler.cpp)
 
@@ -42,6 +43,9 @@ add_library(UIScrollList
     ${srcPath}/Logging/Logger.cpp
     ${newSystemPath}/Size.cpp
     ${newSystemPath}/Position.cpp
+    ${newSystemPath}/VerticalLayout.cpp
+    ${newSystemPath}/StubLayout.h
+
     ${newSystemPath}/ConcreteUIViews/UIScrollList.cpp
     ${newSystemPath}/UIElement/ConcreteComposite.cpp
     ${newSystemPath}/Composite.cpp

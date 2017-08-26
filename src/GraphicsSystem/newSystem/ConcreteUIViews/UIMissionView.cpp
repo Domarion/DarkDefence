@@ -5,8 +5,9 @@
 #include "GlobalScripts/GameModel.h"
 #include "GlobalScripts/ResourceManager.h"
 
-UIMissionView::UIMissionView(std::shared_ptr<RenderingSystem>& aRenderingContext)
-    : ConcreteComposite(aRenderingContext)
+UIMissionView::UIMissionView(
+    std::shared_ptr<RenderingSystem>& aRenderingContext, const std::shared_ptr<ILayout>& aLayout)
+    : ConcreteComposite(aRenderingContext, aLayout)
 {
 }
 
@@ -26,7 +27,7 @@ void UIMissionView::init(Mission& aMission, Font& aFont)
 
 void UIMissionView::initGoals(Mission &aMission, Font &aFont)
 {
-    auto missionGoalsGroup = std::make_shared<ConcreteComposite>(renderer);
+    auto missionGoalsGroup = std::make_shared<ConcreteComposite>(renderer, mLayout);
     missionGoalsGroup->setScalingFactor(getScalingFactor());
     missionGoalsGroup->setSize(Size(this->getSize().width, this->getSize().height/4));
     missionGoalsGroup->setPosition(getNextVerticalPosition());
@@ -40,7 +41,7 @@ void UIMissionView::initGoals(Mission &aMission, Font &aFont)
 
             if (resGoal != nullptr)
             {
-                auto missionLabelWithIcon = std::make_shared<ConcreteComposite>(renderer);
+                auto missionLabelWithIcon = std::make_shared<ConcreteComposite>(renderer, mLayout);
 
                 missionLabelWithIcon->setPosition(missionGoalsGroup->getNextVerticalPosition());
 
@@ -75,7 +76,7 @@ void UIMissionView::initGoals(Mission &aMission, Font &aFont)
 
 void UIMissionView::initRewards(Mission &aMission, Font &aFont)
 {
-    auto missionRewardsGroup = std::make_shared<ConcreteComposite>(renderer);
+    auto missionRewardsGroup = std::make_shared<ConcreteComposite>(renderer, mLayout);
     missionRewardsGroup->setScalingFactor(getScalingFactor());
 
     missionRewardsGroup->setPosition(getNextVerticalPosition());
@@ -87,7 +88,7 @@ void UIMissionView::initRewards(Mission &aMission, Font &aFont)
     {
         Position pos = missionRewardsGroup->getNextVerticalPosition();
 
-        auto missionLabelWithIcon = std::make_shared<ConcreteComposite>(renderer);
+        auto missionLabelWithIcon = std::make_shared<ConcreteComposite>(renderer, mLayout);
         missionLabelWithIcon->setPosition(pos);
         auto missionRewardIcon = std::make_shared<UIImage>(renderer);
         missionRewardIcon->setSize(iconSize);

@@ -57,7 +57,9 @@ void MapMenuScene::loadMissionView()
     string s ="GameData/Missions/" + std::to_string(currentMissionIndex) +"/Mission.xml";
     GameModel::getInstance()->deserialize(currentMission, s);
 
-    auto currentMissionView = std::make_shared<UIMissionView>(renderer);
+    auto layout = std::make_shared<StubLayout>();
+
+    auto currentMissionView = std::make_shared<UIMissionView>(renderer, layout);
 
     currentMissionView->setSize(Size(MainRect->getSize().width/4*3, MainRect->getSize().height - 100));
     currentMissionView->setScalingFactor(MainRect->getScalingFactor());

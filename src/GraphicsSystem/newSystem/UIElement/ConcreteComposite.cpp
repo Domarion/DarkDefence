@@ -1,8 +1,14 @@
 #include "ConcreteComposite.h"
 
-ConcreteComposite::ConcreteComposite(std::shared_ptr<RenderingSystem>& aRenderingContext)
-    : Composite(aRenderingContext)
+ConcreteComposite::ConcreteComposite(
+    std::shared_ptr<RenderingSystem>& aRenderingContext, const std::shared_ptr<ILayout>& aLayout)
+    : Composite(aRenderingContext, aLayout)
 {
+}
+
+void ConcreteComposite::setLayout(const std::shared_ptr<ILayout>& aLayout)
+{
+    mLayout = aLayout;
 }
 
 Size ConcreteComposite::getSize() const

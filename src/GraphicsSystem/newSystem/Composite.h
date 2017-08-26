@@ -4,13 +4,15 @@
 #include <list>
 #include "RenderingSystem.h"
 #include "../../Input/InputHandler.h"
+#include "ILayout.h"
 
 using std::list;
 
 class Composite : public IComposite, public InputHandler, public std::enable_shared_from_this<Composite>
 {
 public:
-    explicit Composite(std::shared_ptr<RenderingSystem>& aRenderingContext);
+    explicit Composite(std::shared_ptr<RenderingSystem>& aRenderingContext,
+                       const std::shared_ptr<ILayout>& aLayout);
     Composite() = default;
     virtual ~Composite() = default;
 
@@ -42,6 +44,7 @@ public:
 
 protected:
     std::shared_ptr<RenderingSystem> renderer;
+    std::shared_ptr<ILayout> mLayout;
     list<shared_ptr<IComposite> > children;
     weak_ptr<IComposite> parent;
     Position localPosition{0, 0};

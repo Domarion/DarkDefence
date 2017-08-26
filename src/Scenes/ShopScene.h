@@ -6,6 +6,7 @@
  */
 
 #pragma once
+
 #include "../Grouping/Scene.h"
 #include "../ItemSystem/ShopController.h"
 #include "../GraphicsSystem/newSystem/UIElement/UILabel.h"

@@ -74,8 +74,6 @@ void MainScene::loadMenuItems(string filename)
 
 void MainScene::initUIMenuItems()
 {
-
-
     int x = MainRect->getSize().width/4;
     int y = MainRect->getSize().height/4;
 

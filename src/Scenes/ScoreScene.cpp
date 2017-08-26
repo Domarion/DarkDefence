@@ -9,12 +9,10 @@ using std::string;
 #include "../GraphicsSystem/newSystem/UIElement/UILabel.h"
 
 
-
 ScoreScene::ScoreScene(std::shared_ptr<RenderingSystem> &aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher)
     : Scene(aRenderer, aInputDispatcher)
 {
 }
-
 
 void ScoreScene::init(std::shared_ptr<SceneManager> sceneManagerPtr)
 {
@@ -40,7 +38,9 @@ void ScoreScene::clear()
 
 void ScoreScene::showItemRewards()
 {
-    auto rewardGroup = std::make_shared<ConcreteComposite>(renderer);
+    auto layout = std::make_shared<StubLayout>();
+
+    auto rewardGroup = std::make_shared<ConcreteComposite>(renderer, layout);
     rewardGroup->setSize(Size(MainRect->getSize().width/2, MainRect->getSize().height/3));
     rewardGroup->setPosition(MainRect->getNextVerticalPosition());
 
@@ -75,8 +75,9 @@ void ScoreScene::showGoldReward()
     if (goldCoins > 0)
     {
         AccountModel::getInstance()->addGold(goldCoins);
+        auto layout = std::make_shared<StubLayout>();
 
-        auto rewardGoldGroup = std::make_shared<ConcreteComposite>(renderer);
+        auto rewardGoldGroup = std::make_shared<ConcreteComposite>(renderer, layout);
         rewardGoldGroup->setSize(Size(MainRect->getSize().width/2, MainRect->getSize().height/3));
         rewardGoldGroup->setPosition(MainRect->getNextVerticalPosition());
 

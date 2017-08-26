@@ -6,19 +6,16 @@
  */
 
 #include "InventoryController.h"
-//#include "../GraphicsSystem/UI/TextButton.h"
-//#include "../GraphicsSystem/ShopItemUI.h"
 #include "../Grouping/FontManager.h"
 #include "../GraphicsSystem/newSystem/UIElement/UIImage.h"
-//#include "../GraphicsSystem/newSystem/UIElement/UILabel.h"
 #include "../GraphicsSystem/newSystem/UIElement/UITextButton.h"
+#include "../GraphicsSystem/newSystem/StubLayout.h"
 
 InventoryController::InventoryController(std::shared_ptr<RenderingSystem>& aRenderer)
-: model(nullptr), view(nullptr), renderer(aRenderer), arial()
-{
-}
-
-InventoryController::~InventoryController()
+    : model(nullptr)
+    , view(nullptr)
+    , renderer(aRenderer)
+    , arial()
 {
 }
 
@@ -48,11 +45,12 @@ void InventoryController::initView()
 	if (count == 0)
 		return;
 
+    auto layout = std::make_shared<StubLayout>();
     Font aFont =  FontManager::getInstance()->getFontByKind2("ButtonFont");
     for(int i = 0; i != count; ++i)
 	{
 
-        auto shopItemGroup = std::make_shared<ConcreteComposite>(renderer);
+        auto shopItemGroup = std::make_shared<ConcreteComposite>(renderer, layout);
         shopItemGroup->setSize(Size(150, 80));
 
         auto shopItemIcon = std::make_shared<UIImage>(renderer);
@@ -82,8 +80,9 @@ void InventoryController::receiveItemFromModel(string caption, size_t /*itemType
         return;
 
     Font aFont =  FontManager::getInstance()->getFontByKind2("ButtonFont");
+    auto layout = std::make_shared<StubLayout>();
 
-    auto shopItemGroup = std::make_shared<ConcreteComposite>(renderer);
+    auto shopItemGroup = std::make_shared<ConcreteComposite>(renderer, layout);
     shopItemGroup->setSize(Size(150, 80));
 
     auto shopItemIcon = std::make_shared<UIImage>(renderer);

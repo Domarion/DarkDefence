@@ -5,7 +5,8 @@
 class UIMissionView final: public ConcreteComposite
 {
 public:
-    explicit UIMissionView(std::shared_ptr<RenderingSystem>& aRenderingContext);
+    explicit UIMissionView(
+        std::shared_ptr<RenderingSystem>& aRenderingContext, const std::shared_ptr<ILayout>& aLayout);
     void init(Mission& aMission, Font& aFont);
 
 private:

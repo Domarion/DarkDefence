@@ -155,6 +155,11 @@ set(SRC_LIST
     GraphicsSystem/newSystem/Font.h
     GraphicsSystem/newSystem/Composite.h
     GraphicsSystem/newSystem/IComposite.h
+    GraphicsSystem/newSystem/ILayout.h
+    GraphicsSystem/newSystem/VerticalLayout.h
+    GraphicsSystem/newSystem/HorizontalLayout.h
+    GraphicsSystem/newSystem/StubLayout.h
+
     GraphicsSystem/newSystem/UIElement/UILabel.h
     GraphicsSystem/newSystem/UIElement/HorizontalPanel.h
     GraphicsSystem/newSystem/UIElement/UIProgressBar.h
@@ -293,6 +298,9 @@ set(SRC_LIST
     GraphicsSystem/newSystem/Composite.cpp
     GraphicsSystem/newSystem/Font.cpp
     GraphicsSystem/newSystem/UIElement/UILabel.cpp
+    GraphicsSystem/newSystem/VerticalLayout.cpp
+    GraphicsSystem/newSystem/HorizontalLayout.cpp
+
     GraphicsSystem/newSystem/UIElement/HorizontalPanel.cpp
     GraphicsSystem/newSystem/UIElement/UIProgressBar.cpp
     GraphicsSystem/newSystem/Texture2D.cpp

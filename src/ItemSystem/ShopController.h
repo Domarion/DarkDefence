@@ -12,7 +12,7 @@
 class ShopController
 {
 public:
-    ShopController();
+    ShopController() = default;
     virtual ~ShopController() = default;
     void setView(std::shared_ptr<UIScrollList>&& newView);
     void setModel(std::shared_ptr<ShopInventory> newModel);

@@ -1,8 +1,9 @@
 #include "UIScrollList.h"
 #include <algorithm>
 
-UIScrollList::UIScrollList(int aItemsToShow, std::shared_ptr<RenderingSystem>& aRenderingContext)
-    : ConcreteComposite(aRenderingContext)
+UIScrollList::UIScrollList(
+    int aItemsToShow, std::shared_ptr<RenderingSystem>& aRenderingContext, const std::shared_ptr<ILayout>& aLayout)
+    : ConcreteComposite(aRenderingContext, aLayout)
     , itemCountToShow(aItemsToShow)
     , toFirst(children.begin())
     , toLast(children.end())
@@ -106,14 +107,9 @@ void UIScrollList::scrollDown(size_t amount)
 
 void UIScrollList::recalcItemPositions()
 {
-    const int xPos{0};
-    int yPos{0};
-
-    for(auto firstIter = toFirst; firstIter != toLast; ++firstIter)
+    if (mLayout)
     {
-        (*firstIter)->setLocalPosition(Position(xPos, yPos));
-
-        yPos += (*firstIter)->getSize().height;
+        mLayout->apply(toFirst, toLast);
     }
 }
 

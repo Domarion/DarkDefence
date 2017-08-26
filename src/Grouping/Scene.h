@@ -16,6 +16,7 @@ using std::list;
 #include "../GraphicsSystem/newSystem/UIElement/ConcreteComposite.h"
 #include "../GraphicsSystem/newSystem/Camera2D.h"
 #include "../Input/InputDispatcher.h"
+#include "../GraphicsSystem/newSystem/StubLayout.h"
 
 class SceneObject;
 class SceneManager;

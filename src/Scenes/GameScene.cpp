@@ -199,7 +199,8 @@ void GameScene::loadData()
 
 void GameScene::initResourceView()
 {
-    auto resourcePanel = std::make_shared<ConcreteComposite>(renderer);
+    auto layout = std::make_shared<StubLayout>();
+    auto resourcePanel = std::make_shared<ConcreteComposite>(renderer, layout);
     resourcePanel->setPosition(MainRect->getNextHorizontalPosition());
 
     // TODO нужно как-то убрать использование размера из кода
@@ -235,7 +236,9 @@ void GameScene::initResourceView()
 
 void GameScene::initProgressBars()
 {
-    auto progressBarGroup = std::make_shared<ConcreteComposite>(renderer);
+    auto layout = std::make_shared<StubLayout>();
+
+    auto progressBarGroup = std::make_shared<ConcreteComposite>(renderer, layout);
     progressBarGroup->setPosition(MainRect->getNextHorizontalPosition());
 
     Texture2D emptyBar(renderer);
@@ -336,7 +339,8 @@ void GameScene::initTopPanel()
     initProgressBars();
     initResourceView();
 
-    auto miniGroup = std::make_shared<ConcreteComposite>(renderer);
+    auto layout = std::make_shared<StubLayout>();
+    auto miniGroup = std::make_shared<ConcreteComposite>(renderer, layout);
     miniGroup->setPosition(MainRect->getNextHorizontalPosition());
 
     Font aFont = FontManager::getInstance()->getFontByKind2("TextFont");
@@ -381,7 +385,9 @@ void GameScene::initAbilitiesButtons()
 
     spellStorage.loadWithScene(shared_from_this(), mManaModel);
 
-    auto abilityButtonsGroup = std::make_shared<ConcreteComposite>(renderer);
+    auto layout = std::make_shared<StubLayout>();
+
+    auto abilityButtonsGroup = std::make_shared<ConcreteComposite>(renderer, layout);
     abilityButtonsGroup->setSize(Size(MainRect->getSize().width/3, abilityButtonSize.height));
     abilityButtonsGroup->setPosition(abilityButtonPos);
     abilityButtonsGroup->setScalingFactor(MainRect->getScalingFactor());

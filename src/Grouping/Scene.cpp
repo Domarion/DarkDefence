@@ -28,9 +28,11 @@ Scene::Scene(std::shared_ptr<RenderingSystem>& aRenderer, std::shared_ptr<InputD
     , mCamera(Size(aRenderer->getScreenSize().width, aRenderer->getScreenSize().height))
 {
 
+    auto emptyLayout = std::make_shared<StubLayout>();
+    MainRect->setLayout(emptyLayout);
     MainRect->setScalingFactor(renderer->getScalingFactor());
     MainRect->setSize(renderer->getScreenSize());
-    MainRect->setPosition(Position(0, 0));
+    MainRect->setPosition(Position::Zero());
 }
 
 void Scene::init(std::shared_ptr<SceneManager> sceneManagerPtr)
@@ -396,14 +398,12 @@ std::shared_ptr<RenderingSystem>& Scene::getRenderer()
 void Scene::addLoadSceneButton(string aButtonName, string aFontName, string aSceneName, int posX, int posY,
                                int /*width*/, int /*height*/)
 {
-
     auto textButton = std::make_shared<UITextButton>(aButtonName, FontManager::getInstance()->getFontByKind2(aFontName),
                       renderer);
     textButton->setPosition(Position(posX, posY));
     textButton->ConnectMethod(std::bind(&SceneManager::setCurrentSceneByName, getParentSceneManager(), aSceneName));
 
     MainRect->addChild(textButton);
-
 }
 
 void Scene::addSceneButton(

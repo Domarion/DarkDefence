@@ -26,3 +26,4 @@ public:
     virtual void setScalingFactor(double aScaleFactor) = 0;
     virtual double getScalingFactor() const  = 0;
 };
+
