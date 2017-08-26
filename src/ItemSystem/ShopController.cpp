@@ -39,19 +39,23 @@ void ShopController::initView(std::shared_ptr<RenderingSystem>& aRenderer)
 
     Font aFont =  FontManager::getInstance()->getFontByKind2("ButtonFont");
 
-	for(int i = 0; i != count; ++i)
+    Size itemSize{view->getSize()};
+
+    itemSize.height /= count;
+    for(int i = 0; i < count; ++i)
 	{
         auto shopItem = std::make_shared<ConcreteComposite>(aRenderer);
-        shopItem->setSize(Size(250, 160));
+        shopItem->setPosition(view->getNextVerticalPosition());
+        shopItem->setSize(itemSize);
 
         auto shopItemGroup = std::make_shared<ConcreteComposite>(aRenderer);
-        shopItemGroup->setSize(Size(shopItem->getSize().width, 80));
+        shopItemGroup->setSize(Size(shopItem->getSize().height, shopItem->getSize().height));
 
         auto shopItemIcon = std::make_shared<UIImage>(aRenderer);
         string iconPath = "GameData/textures/items/" +
                 model->getItemFromIndex(i)->getCaption() + ".png";
         shopItemIcon->loadTexture(iconPath);
-        shopItemIcon->setSize(Size(50,50));
+        shopItemIcon->setSize(Size(shopItem->getSize().height, shopItem->getSize().height));
         shopItemGroup->addChild(shopItemIcon);
 
         auto shopItemCaption = std::make_shared<UILabel>(model->getItemFromIndex(i)->getCaption() , aFont, aRenderer);
@@ -67,12 +71,12 @@ void ShopController::initView(std::shared_ptr<RenderingSystem>& aRenderer)
 
         string priceText = std::to_string(model->getItemFromIndex(i)->getPrice());
         auto shopItemPrice = std::make_shared<UILabel>(priceText , aFont, aRenderer);
-        shopItemPrice->setPosition(shopItem->getNextVerticalPosition());
+        shopItemPrice->setPosition(shopItem->getNextHorizontalPosition());
 
         shopItem->addChild(shopItemPrice);
 
         auto shopItemBuyButton = std::make_shared<UITextButton>("Купить" , aFont, aRenderer);
-        shopItemBuyButton->setPosition(Position(shopItem->getNextHorizontalPosition().x, shopItemPrice->getPosition().y));
+        shopItemBuyButton->setPosition(Position(shopItemGroup->getNextHorizontalPosition().x, shopItemGroup->getPosition().y));
         shopItem->addChild(shopItemBuyButton);
 
         view->addChild(shopItem);

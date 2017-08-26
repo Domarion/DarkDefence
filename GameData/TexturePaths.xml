@@ -230,7 +230,7 @@
 			<Caption>ShopSceneBackground</Caption>
 			<ImageWidth>0</ImageWidth>
 			<ImageHeight>0</ImageHeight>
-			<ImagePath>GameData/textures/shopBackground.jpg</ImagePath>
+			<ImagePath>GameData/textures/shop-background.png</ImagePath>
             <AnimationPackPath></AnimationPackPath>
 		</value32>
 		<value33>

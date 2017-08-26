@@ -64,8 +64,9 @@ void ShopScene::initBackGroundUI()
 {
     auto backGroundImage = std::make_shared<UIImage>(renderer);
     backGroundImage->setTexture(ResourceManager::getInstance()->getTexture("ShopSceneBackground"));
-    backGroundImage->setSize(Size(MainRect->getSize().width*3/5, MainRect->getSize().height - 50));
+    //backGroundImage->setSize(Size(MainRect->getSize().width*3/5, MainRect->getSize().height - 50));
     MainRect->addChild(backGroundImage);
+    backGroundImage->setSize(MainRect->getSize());
 
     Font aFont = FontManager::getInstance()->getFontByKind2("ButtonFont");
 
@@ -130,7 +131,7 @@ void ShopScene::initShopItemsUI()
     auto scroll = std::make_shared<UIScrollList>(showItems, renderer);
 
     scroll->setSize(Size(MainRect->getSize().width*2/5, MainRect->getSize().height - 50));
-    scroll->setPosition(Position(MainRect->getSize().width*3/5, 0));
+    scroll->setPosition(Position(MainRect->getSize().width*4/5, 50));
 
     shopController = std::make_shared<ShopController>();
     if (shopController != nullptr)
