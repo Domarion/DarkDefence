@@ -20,21 +20,40 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -g -O2 -Wall -Wextra -pedanti
     -Wunknown-pragmas  -Wunreachable-code -Wunused \
     -Wunused-function  -Wunused-label  -Wunused-parameter \
     -Wunused-value  -Wunused-variable  -Wvariadic-macros \
-    -Wvolatile-register-var  -Wwrite-strings \
-    -fsanitize=address -fno-omit-frame-pointer")
+    -Wvolatile-register-var  -Wwrite-strings")
+#  	-fsanitize=address -fno-omit-frame-pointer")
 #    -fsanitize=leak")
 #-Waggregate-return
 
 include(FindPkgConfig)
 
 PKG_SEARCH_MODULE(SDL2 REQUIRED sdl2)
-PKG_SEARCH_MODULE(SDL2IMAGE REQUIRED SDL2_image>=2.0.0)
+
+if (NOT SDL2_FOUND)
+	message(SEND_ERROR "Failed to find SDL2")
+else()
+	include_directories(${SDL2_INCLUDE_DIRS})
+endif()
+
+PKG_SEARCH_MODULE(SDL2IMAGE REQUIRED SDL2_image)
+
+if (NOT SDL2IMAGE_FOUND)
+	message(SEND_ERROR "Failed to find SDL2_image")
+else()
+	include_directories(${SDL2IMAGE_INCLUDE_DIRS})
+endif()
+
 PKG_SEARCH_MODULE(SDL2TTF REQUIRED SDL2_ttf)
+
+if (NOT SDL2TTF_FOUND)
+	message(SEND_ERROR "Failed to find SDL2_ttf")
+else()
+	include_directories(${SDL2TTG_INCLUDE_DIRS})
+endif()
 
 set (CerealInclude ../external/cereal/include)
 
-include_directories(. ${SDL2_INCLUDE_DIRS} ${SDL2IMAGE_INCLUDE_DIRS} ${SDL2TTF_INCLUDE_DIRS} ${CerealInclude} )
-
+include_directories(. ${CerealInclude})
 
 
 set(SRC_LIST
@@ -324,11 +343,9 @@ set(SRC_LIST
 
     )
 
-find_package(Sanitizers)
-
-
+#find_package(Sanitizers)
 
 add_executable(DarkDefenceGame ${SRC_LIST})
 target_link_libraries( DarkDefenceGame ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES} ${SDL2TTF_LIBRARIES})
-add_sanitizers(DarkDefenceGame)
+#add_sanitizers(DarkDefenceGame)
 
