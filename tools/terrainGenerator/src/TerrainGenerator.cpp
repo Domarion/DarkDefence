@@ -22,7 +22,7 @@ void TileLegendCollection::parseString(const std::string &aLegend)
         if (atlasPath != "!none!")
         {
             mIsAtlas = true;
-            atlasTexture.loadTexture(atlasPath, false);
+            atlasTexture.loadTexture(atlasPath);
             atlasTexture.scaleToTexture();
         }
     }
@@ -109,7 +109,7 @@ void TileLegendCollection::loadTile(const std::string tileMapping, const std::st
 
     Texture2D texture(mRenderer);
     texture.setSize(aTileSize);
-    texture.loadTexture(tempPath, false);
+    texture.loadTexture(tempPath);
     tiles.emplace(tileMapping[0], texture);//[aTileName]=texture;
 }
 

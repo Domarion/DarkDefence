@@ -14,12 +14,12 @@ void saveTerrain(std::string filename, std::string outputFilePath)
     TileLegendCollection tileCollection(renderer);
 
     std::string str;
-    androidText::loadTextFileToString(filename, str, false);
+    androidText::loadTextFileToString(filename, str);
     tileCollection.parseString(str);
     using TSurfaceDeleter = void (*)(SDL_Surface *);
 
     std::unique_ptr<SDL_Surface, TSurfaceDeleter> surface(nullptr, [](SDL_Surface* aSurface){SDL_FreeSurface(aSurface);});
-    Texture2D targetTexture = tileCollection.constructTextureByMap(surface);
+//    Texture2D targetTexture = tileCollection.constructTextureByMap(surface);
 
     if (surface == nullptr || surface.get() == nullptr)
         std::cerr << "surface is nullptr" << std::endl;
