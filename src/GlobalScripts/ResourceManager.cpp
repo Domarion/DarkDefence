@@ -89,9 +89,7 @@ bool ResourceManager::hasTexture(const std::string& aObjectName) const
 ResourceManager::AnimationPack ResourceManager::loadAnimationPack(const std::string& aAnimationPackPath)
 {
     ResourceManager::AnimationPack animPack;
-    std::string filename1 {aAnimationPackPath};
-    androidText::setRelativePath(filename1);
-    androidText::loadAnimFromFile(filename1, animPack);
+    androidText::loadAnimFromFile(aAnimationPackPath, animPack);
 
     return animPack;
 }

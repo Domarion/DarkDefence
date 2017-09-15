@@ -64,27 +64,27 @@ GameModel::GameModel()
 {
 }
 
-std::unique_ptr<MobModel> GameModel::getMonsterByName(string name)
+std::unique_ptr<MobModel> GameModel::getMonsterByName(const std::string& aName)
 {
-    return std::make_unique<MobModel>(monstersModelsMap[name]);
+    return std::make_unique<MobModel>(monstersModelsMap[aName]);
 }
 
-std::unique_ptr<MobModel> GameModel::getTowerByName(string name)
+std::unique_ptr<MobModel> GameModel::getTowerByName(const std::string& aName)
 {
-    auto temp = towerUpgradesRootNode->recursiveSearch(name);
+    auto temp = towerUpgradesRootNode->recursiveSearch(aName);
 
-    if (temp == nullptr)
+    if (!temp)
         return nullptr;
 
     return std::make_unique<MobModel>(*temp->getData());
 }
 
-void GameModel::loadMonsterList(string filename)
+void GameModel::loadMonsterList(const std::string& aFileName)
 {
     list<MobModel> monsterCollection;
 
     string textString;
-    androidText::loadTextFileToString(filename, textString);
+    androidText::loadTextFileToString(aFileName, textString);
 
     if (!textString.empty())
     {
@@ -104,10 +104,10 @@ void GameModel::loadMonsterList(string filename)
     }
 }
 
-void GameModel::loadMonsterPointsList(string filename)
+void GameModel::loadMonsterPointsList(const std::string& aFileName)
 {
     string textString;
-    androidText::loadTextFileToString(filename, textString);
+    androidText::loadTextFileToString(aFileName, textString);
 
     if (!textString.empty())
     {
@@ -128,10 +128,10 @@ void GameModel::loadMonsterPointsList(string filename)
     }
 }
 
-void GameModel::loadTowerUpgrades(string filename)
+void GameModel::loadTowerUpgrades(const std::string& aFileName)
 {
     string textString;
-    androidText::loadTextFileToString(filename, textString);
+    androidText::loadTextFileToString(aFileName, textString);
 
     if (!textString.empty())
     {
@@ -152,12 +152,12 @@ void GameModel::loadTowerUpgrades(string filename)
     }
 }
 
-void GameModel::loadMinesList(string filename)
+void GameModel::loadMinesList(const std::string& aFileName)
 {
     list<MineModel> mineCollection;
 
     string textString;
-    androidText::loadTextFileToString(filename, textString);
+    androidText::loadTextFileToString(aFileName, textString);
 
     if (!textString.empty())
     {
@@ -179,10 +179,10 @@ void GameModel::loadMinesList(string filename)
     }
 }
 
-void GameModel::deserialize(Mission& obj, string filename)
+void GameModel::deserialize(Mission& obj, const std::string& aFileName)
 {
     string textString;
-    androidText::loadTextFileToString(filename, textString);
+    androidText::loadTextFileToString(aFileName, textString);
 
     if (!textString.empty())
     {
@@ -301,14 +301,13 @@ std::unique_ptr<MobAbility> GameModel::getMobAbilityByName(string name)
     return nullptr;
 }
 
-void GameModel::saveGameData(string filename)
+void GameModel::saveGameData(const std::string& aFileName)
 {
 #ifdef __ANDROID__
     string filename1(SDL_GetPrefPath("darkdefence", "game"));
     filename1.append("save.bin");
 #else
-    string filename1(filename);
-    androidText::setRelativePath(filename1);
+    string filename1(aFileName);
 #endif
 
     SDL_RWops* binaryDataFile = SDL_RWFromFile(filename1.c_str(),"w+b");
@@ -325,16 +324,15 @@ void GameModel::saveGameData(string filename)
     }
 }
 
-void GameModel::loadGameData(string filename)
+void GameModel::loadGameData(const std::string& aFileName)
 {
-    if (gameDataLoaded == false)
+    if (!gameDataLoaded)
     {
 #ifdef __ANDROID__
         string filename1(SDL_GetPrefPath("darkdefence", "game"));
         filename1.append("save.bin");
 #else
-        string filename1(filename);
-        androidText::setRelativePath(filename1);
+        string filename1(aFileName);
 #endif
 
         SDL_RWops* binaryDataFile = SDL_RWFromFile(filename1.c_str(),"r+b");
@@ -377,11 +375,10 @@ void GameModel::setMissionReward(const Reward& value)
     missionReward = value;
 }
 
-void GameModel::loadAbilitiesNames(string filename)
+void GameModel::loadAbilitiesNames(const std::string& aFileName)
 {
     string textString;
-    androidText::loadTextFileToString(filename, textString);
-
+    androidText::loadTextFileToString(aFileName, textString);
 
     if (!textString.empty())
     {
@@ -444,9 +441,9 @@ int GameModel::getMonsterCount() const
     return MonsterCountOnMap;
 }
 
-std::unique_ptr<MineModel> GameModel::getMineModel(string name)
+std::unique_ptr<MineModel> GameModel::getMineModel(const std::string& aName)
 {
-    return std::make_unique<MineModel>(minesModelsMap.at(name));
+    return std::make_unique<MineModel>(minesModelsMap.at(aName));
 }
 
 std::unique_ptr<MineModel> GameModel::getMineModelByRes(Enums::ResourceTypes resType)
@@ -464,9 +461,9 @@ MineModel* GameModel::getMineModelFromListByRes(Enums::ResourceTypes resType)
     return getMineModelFromList(mineResMapping[static_cast<int>(resType)]);
 }
 
-MobModel* GameModel::getMonsterFromListWithName(string name)
+MobModel* GameModel::getMonsterFromListWithName(const std::string& aName)
 {
-    return &monstersModelsMap[name];
+    return &monstersModelsMap[aName];
 }
 
 map<string, MobModel>& GameModel::getMonsterList()
@@ -489,12 +486,12 @@ std::shared_ptr<ResourcesModel> GameModel::getResourcesModel()
     return resourcesModelPtr;
 }
 
-bool GameModel::loadShopItems(string filename)
+bool GameModel::loadShopItems(const std::string& aFileName)
 {
-    if (shopItemsLoaded == false)
+    if (!shopItemsLoaded)
     {
         string textString;
-        androidText::loadTextFileToString(filename, textString);
+        androidText::loadTextFileToString(aFileName, textString);
 
         if (!textString.empty())
         {

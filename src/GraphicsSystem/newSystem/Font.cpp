@@ -16,22 +16,25 @@ Font::Font()
 {
 }
 
-Font::Font(string fontPath, size_t aFontSize, Uint8 r, Uint8 g, Uint8 b, std::shared_ptr<RenderingSystem>& aRenderer)
+Font::Font(
+    const std::string& aFontPath,
+    size_t aFontSize,
+    Uint8 r,
+    Uint8 g,
+    Uint8 b,
+    std::shared_ptr<RenderingSystem>& aRenderer)
     : mRenderer(aRenderer)
     , mFontPtr(nullptr, TTF_CloseFont)
     , mFontColor({r, g, b, 255})
     , mFontSize(aFontSize)
 {
-    loadFromFile(fontPath, aFontSize);
+    loadFromFile(aFontPath, aFontSize);
 }
 
-void Font::loadFromFile(string filename, size_t aFontSize)
+void Font::loadFromFile(const std::string& aFilename, size_t aFontSize)
 {
     mFontSize = aFontSize;
-    string filename1 = filename;
-    androidText::setRelativePath(filename1);
-
-    setFont(std::move(mRenderer->loadFontFromFile(filename1, mFontSize)));
+    setFont(std::move(mRenderer->loadFontFromFile(aFilename, mFontSize)));
 }
 
 SDL_Color Font::getFontColor() const

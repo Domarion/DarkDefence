@@ -33,16 +33,16 @@ public:
 
     static GameModel* getInstance();
     std::shared_ptr<ResourcesModel> getResourcesModel();
-    std::unique_ptr<MobModel> getMonsterByName(string name);
-    std::unique_ptr<MobModel> getTowerByName(string name);
+    std::unique_ptr<MobModel> getMonsterByName(const std::string& aName);
+    std::unique_ptr<MobModel> getTowerByName(const std::string& aName);
 
-    void loadMonsterList(string filename);
-    void loadMonsterPointsList(string filename);
-    void loadTowerUpgrades(string filename);
-    void loadMinesList(string filename);
+    void loadMonsterList(const std::string& aFileName);
+    void loadMonsterPointsList(const std::string& aFileName);
+    void loadTowerUpgrades(const std::string& aFileName);
+    void loadMinesList(const std::string& aFileName);
 
-    void deserialize(Mission& obj, string filename);
-    bool loadShopItems(string filename);
+    void deserialize(Mission& obj, const std::string& aFileName);
+    bool loadShopItems(const std::string& aFileName);
 
     std::shared_ptr<ShopInventory> getShopInventory();
     std::shared_ptr<Inventory> getInventory();
@@ -63,21 +63,19 @@ public:
     void setGameStatus(const Enums::GameStatuses& value);
     int getMonsterCount() const;
 
-
-    std::unique_ptr<MineModel> getMineModel(string name);
+    std::unique_ptr<MineModel> getMineModel(const std::string& aName);
     std::unique_ptr<MineModel> getMineModelByRes(Enums::ResourceTypes resType);
-
 
     MineModel* getMineModelFromList(const string& aName);
     MineModel* getMineModelFromListByRes(Enums::ResourceTypes resType);
 
-    MobModel* getMonsterFromListWithName(string name);
+    MobModel* getMonsterFromListWithName(const std::string& aName);
     map<string, MobModel>& getMonsterList();
 
     const Reward& getMissionReward() const;
     void setMissionReward(const Reward& value);
 
-    void loadAbilitiesNames(string filename);
+    void loadAbilitiesNames(const std::string& aFileName);
     string getAbilityNameFromIndex(size_t index);
     size_t getAbilityCount() const;
 
@@ -92,8 +90,8 @@ public:
 
     std::unique_ptr<MobAbility> getMobAbilityByName(string name);
 
-    void saveGameData(string filename);
-    void loadGameData(string filename);
+    void saveGameData(const std::string& aFileName);
+    void loadGameData(const std::string& aFileName);
 private:
     GameModel();
     ~GameModel() = default;
