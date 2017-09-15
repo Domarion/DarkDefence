@@ -11,4 +11,5 @@ namespace Logger
     extern void Info(const std::string& aMethodName, const std::string& aMessage);
     extern void Error(const std::string& aMethodName, const std::string& aMessage);
     extern void Debug(const std::string& aMethodName, const std::string& aMessage);
+    extern char* GetTimeDateNow();
 }
