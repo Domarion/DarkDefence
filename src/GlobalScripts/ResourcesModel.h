@@ -28,6 +28,8 @@ public:
     int getResourceAmountFromIndex(size_t resourceType);
     bool haveEnoughResource(size_t resourceType, int amount);
     bool addResource(size_t resourceType, int amount);
+    bool addResource(Enums::ResourceTypes aResourceType, int aAmount);
+
     bool removeResource(size_t resourceType, int amount);
 	void increaseLimit(int resourceType, int amount);
 	void decreaseLimit(int resourceType, int amount);

@@ -12,8 +12,8 @@
 MobModel::MobModel(const std::string& aName,
     const std::string& aTag,
     int aMaxHealth,
-    int aProtection[],
-    int damage[],
+    std::array<int, GlobalConstants::damageTypeCount>& aProtection,
+    std::array<int, GlobalConstants::damageTypeCount>& aDamage,
     double aDistance,
     double aSpeed,
     double aReloadTime,
@@ -28,12 +28,10 @@ MobModel::MobModel(const std::string& aName,
     , damageArea(aDamageArea)
     , enemiesInfo(aEnemiesTags)
     , arrowName(aArrowName)
-    , isVisible(true)
-    , isStunned(false)
 {
     for(size_t i = 0; i < GlobalConstants::damageTypeCount; ++i)
     {
-        attackDamage[i].first = damage[i];
+        attackDamage[i].first = aDamage[i];
         attackDamage[i].second = 0;
     }
 }

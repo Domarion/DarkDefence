@@ -398,9 +398,9 @@ void GameModel::loadAbilitiesNames(const std::string& aFileName)
     }
 }
 
-string GameModel::getAbilityNameFromIndex(size_t index)
+const string& GameModel::getAbilityNameFromIndex(size_t aIndex) const
 {
-    return abilitiesNames.at(index);
+    return abilitiesNames.at(aIndex);
 }
 
 size_t GameModel::getAbilityCount() const
@@ -480,7 +480,7 @@ GameModel* GameModel::getInstance()
     return instance_;
 }
 
-std::shared_ptr<ResourcesModel> GameModel::getResourcesModel()
+const std::shared_ptr<ResourcesModel>& GameModel::getResourcesModel() const
 {
     return resourcesModelPtr;
 }

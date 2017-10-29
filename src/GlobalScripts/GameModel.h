@@ -32,7 +32,7 @@ class GameModel//TODO: разделение на мелкие классы
 public:
 
     static GameModel* getInstance();
-    std::shared_ptr<ResourcesModel> getResourcesModel();
+    const std::shared_ptr<ResourcesModel>& getResourcesModel() const;
     std::unique_ptr<MobModel> getMonsterByName(const std::string& aName);
     std::unique_ptr<MobModel> getTowerByName(const std::string& aName);
 
@@ -76,7 +76,7 @@ public:
     void setMissionReward(const Reward& value);
 
     void loadAbilitiesNames(const std::string& aFileName);
-    string getAbilityNameFromIndex(size_t index);
+    const string& getAbilityNameFromIndex(size_t aIndex) const;
     size_t getAbilityCount() const;
 
     void calculatePointsPerWave();

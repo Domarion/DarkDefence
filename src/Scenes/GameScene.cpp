@@ -396,7 +396,7 @@ void GameScene::initAbilitiesButtons()
 
     for(size_t i = 0; i < abilityButtonCount; ++i)
     {
-        std::string abilityName = GameModel::getInstance()->getAbilityNameFromIndex(i);
+        const auto& abilityName = GameModel::getInstance()->getAbilityNameFromIndex(i);
         string imgPath = "GameData/textures/Abilities/Ability" + abilityName;
 
         string backPath = imgPath + "_back.png";

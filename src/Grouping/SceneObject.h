@@ -6,13 +6,15 @@
  */
 
 #pragma once
-#include <string>
-using std::string;
+
 #include "../GraphicsSystem/newSystem/ConcreteUIViews/AnimationSceneSprite.h"
 #include "Scene.h"
 #include "../Mob/DestructibleObject.h"
 #include "../AbilitySystem/EffectReceiver.h"
 #include "../Input/InputHandler.h"
+
+using std::string;
+
 class Scene;
 
 

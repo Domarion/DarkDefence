@@ -76,8 +76,8 @@ protected:
     std::shared_ptr<InputDispatcher> mInputDispatcher;
     std::shared_ptr<ConcreteComposite> MainRect;
 
-    void addLoadSceneButton(string aButtonName, string aFontName, string aSceneName, int posX, int posY, int, int);
-    void addSceneButton(string aButtonName, string aFontName, int posX, int posY, int width, int height,
+    void addLoadSceneButton(const std::string& aButtonName, const std::string& aFontName, const std::string& aSceneName, int posX, int posY, int, int);
+    void addSceneButton(const std::string& aButtonName, const std::string& aFontName, int posX, int posY, int width, int height,
                         std::function<void (string)> handler, const std::string& aMsg);
     void drawSceneObjects() const;
     void drawUI() const;
