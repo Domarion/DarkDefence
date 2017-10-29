@@ -408,7 +408,7 @@ void Scene::addLoadSceneButton(string aButtonName, string aFontName, string aSce
 
 void Scene::addSceneButton(
     string aButtonName, string aFontName, int posX, int posY, int /*width*/, int /*height*/,
-    std::function<void(string)> handler, std::string aMsg)
+    std::function<void(string)> handler, const std::string& aMsg)
 {
     auto textButton = std::make_shared<UITextButton>(aButtonName, FontManager::getInstance()->getFontByKind2(aFontName),
                       renderer);

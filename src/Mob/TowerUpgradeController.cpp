@@ -48,7 +48,7 @@ void TowerUpgradeController::receiveTowerUpgrade(std::shared_ptr<Tower> tower)
         return;
     }
 
-    Font arial1Font(FontManager::getInstance()->getFontByKind2("TextFont"));
+    const auto& arial1Font = FontManager::getInstance()->getFontByKind2("TextFont");
 
     cachedTower = tower;
 

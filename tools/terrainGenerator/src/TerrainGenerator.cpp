@@ -2,7 +2,8 @@
 #include <sstream>
 #include "Utility/textfilefunctions.h"
 #include <SDL_image.h>
-void TileLegendCollection::parseString(const std::string &aLegend)
+
+void TileLegendCollection::parseString(const std::string& aLegend)
 {
     std::istringstream legendTokens(aLegend);
 
@@ -76,7 +77,7 @@ void TileLegendCollection::parseString(const std::string &aLegend)
             char symbol = legendTokens.get();
             while(isspace(symbol))
             {
-               symbol = legendTokens.get();
+                symbol = legendTokens.get();
             }
             str += symbol;
 
@@ -87,14 +88,13 @@ void TileLegendCollection::parseString(const std::string &aLegend)
     }
 }
 
-TileLegendCollection::TileLegendCollection(std::shared_ptr<RenderingSystem> &aRenderer)
+TileLegendCollection::TileLegendCollection(std::shared_ptr<RenderingSystem>& aRenderer)
     : mRenderer(aRenderer)
     , mIsAtlas(false)
     , atlasTexture(mRenderer)
     , tiles()
 
 {
-
 }
 
 size_t TileLegendCollection::size() const
@@ -134,7 +134,7 @@ void TileLegendCollection::loadTile(const std::string tileMapping, const std::st
 //    }
 //}
 
-Texture2D TileLegendCollection::constructTextureByMap(std::unique_ptr<SDL_Surface, void (*)(SDL_Surface *)>& out)
+Texture2D TileLegendCollection::constructTextureByMap(std::unique_ptr<SDL_Surface, void (*)(SDL_Surface*)>& out)
 {
     Texture2D targetTexture(mRenderer);
 
@@ -147,7 +147,7 @@ Texture2D TileLegendCollection::constructTextureByMap(std::unique_ptr<SDL_Surfac
     {
         for(size_t column = 0; column < columns; ++column)
         {
-            Position pos{static_cast<int>(column) * tileSize.width, static_cast<int>(row) * tileSize.height};
+            Position pos{static_cast<int>(column)* tileSize.width, static_cast<int>(row)* tileSize.height};
             std::string line = matrix[row];
 
             if (mIsAtlas)
@@ -182,7 +182,7 @@ Size TileLegendCollection::getTileSize() const
     return tileSize;
 }
 
-Texture2D& TileLegendCollection::getTextureByTag(const std::string &aTag)
+Texture2D& TileLegendCollection::getTextureByTag(const std::string& aTag)
 {
     return tiles.at(aTag[0]);
 }

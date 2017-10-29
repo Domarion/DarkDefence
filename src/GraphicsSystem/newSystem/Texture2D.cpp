@@ -24,7 +24,8 @@ void Texture2D::setTexture(shared_ptr<SDL_Texture> texture)
 void Texture2D::setTextureFromText(const string& aText, Font aFont)
 {
     texturePtr.reset();
-    texturePtr = renderer->textToTexture(aFont.getFont().get(), aText, aFont.getFontColor());
+    const auto& font = aFont.getFont();
+    texturePtr = renderer->textToTexture(font.get(), aText, aFont.getFontColor());
     setOriginalTextureSize();
 }
 

@@ -11,10 +11,9 @@
 #include "EnemyInfo.h"
 #include <cereal/types/base_class.hpp>
 #include <cereal/types/list.hpp>
-
 #include "../GlobalConstants.h"
-using std::pair;
 
+using std::pair;
 using std::list;
 
 class MobModel: public DestructibleObject
@@ -37,20 +36,21 @@ class MobModel: public DestructibleObject
         );
     }
 
-
 public:
-    MobModel();
-    MobModel(string aName,
-             string aTag,
-             int aMaxHealth,
-             int aProtection[],
-             int damage[],
-             double distance,
-             double speed,
-             double aReloadTime,
-             int aDamageArea,
-             list<EnemyInfo> enemiesTags,
-             std::string aArrowName);
+
+    MobModel() = default;
+    MobModel(
+        const std::string& aName,
+        const std::string& aTag,
+        int aMaxHealth,
+        int aProtection[],
+        int damage[],
+        double aDistance,
+        double aSpeed,
+        double aReloadTime,
+        int aDamageArea,
+        list<EnemyInfo> aEnemiesTags,
+        const std::string& aArrowName);
 
     virtual ~MobModel() = default;
 
@@ -97,34 +97,34 @@ public:
     bool IsReloadingInProgress() const;
     void ProcessReloadStep(double aTimeStep);
     bool isMobVisible() const;
-    void setMobVisiblity(bool flag);
+    void setMobVisiblity(bool aIsVisible);
     void setAbilitiesNames(const list<std::string>& aAbilityNamesList);
     void addAbilityName(const std::string& aName);
     void replaceAbilityWithName(const string& oldName, const string& newName);
-    list<string>& getAbilitiesNames();
+    const list<std::string>& getAbilitiesNames() const;
 
-    std::array<int, GlobalConstants::resourceTypeCount> getPrice();
+    std::array<int, GlobalConstants::resourceTypeCount> getPrice() const;
     int getDamageArea() const;
-    void setDamageArea(int value);
+    void setDamageArea(int aDamageArea);
     bool getIsStunned() const;
-    void setIsStunned(bool value);
+    void setIsStunned(bool aIsStunned);
 
 private:
 
-    std::array<pair<int, int>, GlobalConstants::damageTypeCount> attackDamage;
-    pair<double, double> attackDistance;
-    pair<double, double> moveSpeed;
+    std::array<pair<int, int>, GlobalConstants::damageTypeCount> attackDamage = {};
+    pair<double, double> attackDistance{};
+    pair<double, double> moveSpeed{};
 
-    pair<double, double> reloadTimeMaximum;
+    pair<double, double> reloadTimeMaximum{};
     double reloadTime = 0;
-    int damageArea;
+    int damageArea = 0;
     list<EnemyInfo> enemiesInfo;
     std::string arrowName;
-    bool isVisible;
-    bool isStunned;
+    bool isVisible = true;
+    bool isStunned = false;
 
     list<string> mobAbilitiesNames;
-    std::array<int, GlobalConstants::resourceTypeCount> price;
+    std::array<int, GlobalConstants::resourceTypeCount> price = {};
 };
 
 

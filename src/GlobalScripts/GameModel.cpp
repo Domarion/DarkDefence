@@ -57,7 +57,6 @@ GameModel::GameModel()
     , heroFigure(std::make_shared<HeroInventory>(9))
     , inventory(std::make_shared<Inventory>())
     , resourcesModelPtr(std::make_shared<ResourcesModel>())
-    , towerUpgradesRootNode(std::make_shared<TreeNode<MobModel>>())
     , missionReward()
     , shopItemsLoaded(false)
     , gameDataLoaded(false)
@@ -195,7 +194,7 @@ void GameModel::deserialize(Mission& obj, const std::string& aFileName)
     }
 }
 
-std::shared_ptr<TreeNode<MobModel>> GameModel::getRootTower()
+const std::shared_ptr<TreeNode<MobModel>>& GameModel::getRootTower() const
 {
     return towerUpgradesRootNode;
 }

@@ -47,7 +47,7 @@ public:
     std::shared_ptr<ShopInventory> getShopInventory();
     std::shared_ptr<Inventory> getInventory();
     std::shared_ptr<HeroInventory> getHeroInventory();
-    std::shared_ptr<TreeNode<MobModel>> getRootTower();
+    const std::shared_ptr<TreeNode<MobModel>>& getRootTower() const;
 
 
     void addItemToInventoryByName(string name);

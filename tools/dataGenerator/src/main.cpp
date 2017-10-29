@@ -6,10 +6,10 @@ int main()
 //    dataGenerator.saveAnim2();
 
 //    dataGenerator.saveAnim();
-//    dataGenerator.saveTowerTree();
+    dataGenerator.saveTowerTree();
 //    dataGenerator.saveItems();
 //    dataGenerator.saveMission();
-    dataGenerator.saveMonsterCollection();
+//    dataGenerator.saveMonsterCollection();
 
 //    dataGenerator.saveMineCollection();
 //    dataGenerator.savePositions();

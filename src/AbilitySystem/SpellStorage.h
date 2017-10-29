@@ -9,11 +9,11 @@ using std::map;
 class SpellStorage final
 {
 public:
-    void loadWithScene(std::shared_ptr<Scene> scenePtr, std::shared_ptr<ManaGlobal> aManaModel);
+    void loadWithScene(std::shared_ptr<Scene> scenePtr, const std::shared_ptr<ManaGlobal>& aManaModel);
     std::shared_ptr<AbilityModel> getAbilityModelWithName(const std::string& aName);
     bool setAbilityReady(const std::string& aAbilityName);
-    void updateAbilities(double timestep);
-    map<string, std::shared_ptr<AbilityModel> >& getAbilityModelList();
+    void updateAbilities(double aTimeStep);
+    const map<std::string, std::shared_ptr<AbilityModel> >& getAbilityModelList() const;
     bool canPlaceObjectAbility(const std::string& aAbilityName) const;
 
 private:

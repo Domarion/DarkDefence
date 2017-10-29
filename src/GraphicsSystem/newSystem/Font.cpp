@@ -1,9 +1,9 @@
 #include "Font.h"
 #include "../../Utility/textfilefunctions.h"
 
-Font::Font(shared_ptr<TTF_Font> ttfFont, std::shared_ptr<RenderingSystem>& aRenderer)
+Font::Font(const shared_ptr<TTF_Font>& aTtfFont, std::shared_ptr<RenderingSystem>& aRenderer)
     : mRenderer(aRenderer)
-    , mFontPtr( ttfFont )
+    , mFontPtr(aTtfFont)
     , mFontColor({0, 0, 0, 255})
     , mFontSize(0)
 {
@@ -49,7 +49,8 @@ void Font::setFontColor(const SDL_Color& value)
 
 void Font::setFontColor(Uint8 r, Uint8 g, Uint8 b)
 {
-    mFontColor = {r, g, b, 255};
+    const Uint8 alpha = 255;
+    mFontColor = {r, g, b, alpha};
 }
 
 int Font::getFontSize() const
@@ -62,7 +63,12 @@ const shared_ptr<TTF_Font>& Font::getFont() const
     return mFontPtr;
 }
 
-void Font::setFont(shared_ptr<TTF_Font> aTTFFont)
+void Font::setFont(std::unique_ptr<TTF_Font,TFontDeleter>&& aTTFFont)
+{
+    mFontPtr = std::move(aTTFFont);
+}
+
+void Font::setFont(const shared_ptr<TTF_Font>& aTTFFont)
 {
     mFontPtr = aTTFFont;
 }

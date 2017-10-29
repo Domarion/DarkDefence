@@ -6,24 +6,11 @@
  */
 
 #include "BasicGoal.h"
-#include <string>
 
-BasicGoal::BasicGoal()
-    :current(0), needed(0), description(), goalStatus(GoalStatuses::gIN_PROGRESS)
+BasicGoal::BasicGoal(const std::string& aDescription, int aControlNumber)
+    : description(aDescription)
+    , needed(aControlNumber)
 {
-	// TODO Auto-generated constructor stub
-
-}
-
-BasicGoal::BasicGoal(std::string aDescription, int controlNumber)
-    :current(0), needed(controlNumber), description(aDescription), goalStatus(GoalStatuses::gIN_PROGRESS)
-{
-
-}
-
-BasicGoal::~BasicGoal()
-{
-	// TODO Auto-generated destructor stub
 }
 
 int BasicGoal::getCurrent() const
@@ -31,9 +18,9 @@ int BasicGoal::getCurrent() const
 	return current;
 }
 
-void BasicGoal::setCurrent(int value)
+void BasicGoal::setCurrent(int aCurrent)
 {
-	current = value > 0 ? value : 0;
+    current = aCurrent > 0 ? aCurrent : 0;
 }
 
 int BasicGoal::getNeeded() const
@@ -41,9 +28,9 @@ int BasicGoal::getNeeded() const
 	return needed;
 }
 
-void BasicGoal::setNeeded(int value)
+void BasicGoal::setNeeded(int aNeeded)
 {
-	needed = value > 0 ? value : 0;
+    needed = aNeeded > 0 ? aNeeded : 0;
 }
 
 std::string BasicGoal::getDescription() const
@@ -51,9 +38,9 @@ std::string BasicGoal::getDescription() const
 	return description;
 }
 
-void BasicGoal::setDescription(std::string value)
+void BasicGoal::setDescription(const std::string& aDescription)
 {
-	description = value;
+    description = aDescription;
 }
 
 GoalStatuses BasicGoal::getGoalStatus() const
@@ -61,9 +48,9 @@ GoalStatuses BasicGoal::getGoalStatus() const
 	return goalStatus;
 }
 
-void BasicGoal::setGoalStatus(GoalStatuses value)
+void BasicGoal::setGoalStatus(GoalStatuses aGoalStatus)
 {
-    goalStatus = value;
+    goalStatus = aGoalStatus;
 }
 
 bool BasicGoal::checkCondition(Enums::GameStatuses aGameStatus)
@@ -73,7 +60,6 @@ bool BasicGoal::checkCondition(Enums::GameStatuses aGameStatus)
         goalStatus = GoalStatuses::gFAILED;
         return false;
     }
-
 
     return true;
 }

@@ -38,7 +38,7 @@ public:
 
     GameScene(std::shared_ptr<RenderingSystem>& aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher);
 
-    map<std::string, std::shared_ptr<AbilityModel> > &getAbilityModelList();
+    const map<std::string, std::shared_ptr<AbilityModel> >& getAbilityModelList() const;
     void ConnectMethod(std::function<void(string)> handler);
     std::shared_ptr<AbilityModel> getAbilityModelWithName(string name);
     void sendMessage(string msgText);

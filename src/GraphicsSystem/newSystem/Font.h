@@ -10,7 +10,9 @@ using std::shared_ptr;
 class Font final
 {
 public:
-    explicit Font(shared_ptr<TTF_Font> ttfFont, std::shared_ptr<RenderingSystem>& aRenderer);
+    using TFontDeleter = void(*)(TTF_Font*);
+
+    explicit Font(const shared_ptr<TTF_Font>& aTtfFont, std::shared_ptr<RenderingSystem>& aRenderer);
     Font();
 
     Font(
@@ -29,8 +31,11 @@ public:
     int getFontSize() const;
 
     const shared_ptr<TTF_Font>& getFont() const;
-    void setFont(shared_ptr<TTF_Font> aTTFFont);
+    void setFont(std::unique_ptr<TTF_Font, TFontDeleter>&& aTTFFont);
+    void setFont(const shared_ptr<TTF_Font>& aTTFFont);
+
 private:
+
     std::shared_ptr<RenderingSystem> mRenderer;
     shared_ptr<TTF_Font> mFontPtr;
     SDL_Color mFontColor;

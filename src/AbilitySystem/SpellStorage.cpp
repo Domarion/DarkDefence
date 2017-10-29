@@ -9,7 +9,7 @@
 #include "../AbilitySystem/PrickObject.h"
 #include "../AbilitySystem/BlinkObject.h"
 
-void SpellStorage::loadWithScene(std::shared_ptr<Scene> scenePtr, std::shared_ptr<ManaGlobal> aManaModel)
+void SpellStorage::loadWithScene(std::shared_ptr<Scene> scenePtr, const std::shared_ptr<ManaGlobal>& aManaModel)
 {
     auto magicStones = std::make_unique<AbilityMagicStones>(aManaModel);
     magicStones->init(scenePtr);
@@ -74,20 +74,20 @@ bool SpellStorage::setAbilityReady(const string& aAbilityName)
     return abilityModelsMap.at(aAbilityName)->trySetAsReady();
 }
 
-void SpellStorage::updateAbilities(double timestep)
+void SpellStorage::updateAbilities(double aTimeStep)
 {
     for(auto& abilityPair : abilityModelsMap)
     {
         if (abilityPair.second != nullptr)
         {
-            (abilityPair.second)->update(timestep);
+            (abilityPair.second)->update(aTimeStep);
         }
     }
 }
 
-map<std::string, std::shared_ptr<AbilityModel> > &SpellStorage::getAbilityModelList()
+const map<std::string, std::shared_ptr<AbilityModel>>& SpellStorage::getAbilityModelList() const
 {
-     return abilityModelsMap;
+    return abilityModelsMap;
 }
 
 bool SpellStorage::canPlaceObjectAbility(const std::string& aAbilityName) const

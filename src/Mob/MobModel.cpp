@@ -9,39 +9,24 @@
 #include "../GlobalScripts/GameModel.h"
 #include <algorithm>
 
-MobModel::MobModel()
-    : DestructibleObject()
-    , attackDistance(0.0, 0.0)
-    , moveSpeed(0.0, 0.0)
-    , reloadTimeMaximum(0.0, 0.0)
-    , reloadTime(0.0)
-    , damageArea(0)
-    , enemiesInfo()
-    , isVisible(true)
-    , isStunned(false)
-{
-    attackDamage.fill(std::make_pair(0, 0));
-    price.fill(0);
-}
-
-MobModel::MobModel(string aName,
-    string aTag,
+MobModel::MobModel(const std::string& aName,
+    const std::string& aTag,
     int aMaxHealth,
     int aProtection[],
     int damage[],
-    double distance,
-    double speed,
+    double aDistance,
+    double aSpeed,
     double aReloadTime,
     int aDamageArea,
-    list<EnemyInfo> enemiesTags,
-    std::string aArrowName)
+    list<EnemyInfo> aEnemiesTags,
+    const std::string& aArrowName)
     : DestructibleObject(aName, aTag, aMaxHealth, aProtection)
-    , attackDistance(distance, 0.0)
-    , moveSpeed(speed, 0.0)
+    , attackDistance(aDistance, 0.0)
+    , moveSpeed(aSpeed, 0.0)
     , reloadTimeMaximum(aReloadTime, 0.0)
     , reloadTime(0)
     , damageArea(aDamageArea)
-    , enemiesInfo(enemiesTags)
+    , enemiesInfo(aEnemiesTags)
     , arrowName(aArrowName)
     , isVisible(true)
     , isStunned(false)
@@ -51,8 +36,6 @@ MobModel::MobModel(string aName,
         attackDamage[i].first = damage[i];
         attackDamage[i].second = 0;
     }
-
-    price.fill(0);
 }
 
 const pair<double, double>& MobModel::getAttackDistance() const
@@ -224,9 +207,9 @@ bool MobModel::isMobVisible() const
     return isVisible;
 }
 
-void MobModel::setMobVisiblity(bool flag)
+void MobModel::setMobVisiblity(bool aIsVisible)
 {
-    isVisible = flag;
+    isVisible = aIsVisible;
 }
 
 void MobModel::setAbilitiesNames(const list<string>& aAbilityNamesList)
@@ -249,12 +232,12 @@ void MobModel::replaceAbilityWithName(const std::string& oldName, const std::str
     }
 }
 
-list<string>& MobModel::getAbilitiesNames()
+const list<string>& MobModel::getAbilitiesNames() const
 {
     return mobAbilitiesNames;
 }
 
-std::array<int, GlobalConstants::resourceTypeCount> MobModel::getPrice()
+std::array<int, GlobalConstants::resourceTypeCount> MobModel::getPrice() const
 {
     return price;
 }
@@ -264,9 +247,9 @@ int MobModel::getDamageArea() const
     return damageArea;
 }
 
-void MobModel::setDamageArea(int value)
+void MobModel::setDamageArea(int aDamageArea)
 {
-    damageArea = value;
+    damageArea = aDamageArea;
 }
 
 bool MobModel::getIsStunned() const
@@ -274,8 +257,8 @@ bool MobModel::getIsStunned() const
     return isStunned;
 }
 
-void MobModel::setIsStunned(bool value)
+void MobModel::setIsStunned(bool aIsStunned)
 {
-    isStunned = value;
+    isStunned = aIsStunned;
 }
 

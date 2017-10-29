@@ -51,7 +51,7 @@ void SceneManager::setCurrentSceneByName(std::string name)
     }
 }
 
-void SceneManager::askForChangeScene(std::string aName)
+void SceneManager::askForChangeScene(const std::string& aName)
 {
     if (currentScene != scenes.at(aName))
     {

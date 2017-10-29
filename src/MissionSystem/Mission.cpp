@@ -7,42 +7,32 @@
 
 #include "Mission.h"
 
-Mission::Mission()
-    :missionStatus(mNOT_STARTED)
-{
-	// TODO Auto-generated constructor stub
-
-}
-
-Mission::Mission(std::string aCaption, std::string aDescription, const Reward& aReward)
-:caption(aCaption), description(aDescription), reward(aReward), missionStatus(mNOT_STARTED)
+Mission::Mission(const std::string& aCaption, const std::string& aDescription, const Reward& aReward)
+    : caption(aCaption)
+    , description(aDescription)
+    , reward(aReward)
 {
 
 }
 
-Mission::~Mission()
+const std::string& Mission::getCaption() const
 {
-	// TODO Auto-generated destructor stub
+    return caption;
 }
 
-std::string Mission::getCaption() const
+void Mission::setCaption(const std::string& aCaption)
 {
-	return caption;
+    caption = aCaption;
 }
 
-void Mission::setCaption(std::string value)
+const std::string& Mission::getDescription() const
 {
-	caption = value;
+    return description;
 }
 
-std::string Mission::getDescription() const
+void Mission::setDescription(const std::string& aDescription)
 {
-	return description;
-}
-
-void Mission::setDescription(std::string value)
-{
-    description = value;
+    description = aDescription;
 }
 
 MissionStatuses Mission::checkStatus(Enums::GameStatuses aGameStatus)
@@ -53,7 +43,7 @@ MissionStatuses Mission::checkStatus(Enums::GameStatuses aGameStatus)
         (*goal)->checkCondition(aGameStatus);
         if ((*goal)->getGoalStatus() == GoalStatuses::gFAILED)
         {
-            missionStatus = mFAILED;
+            missionStatus = MissionStatuses::mFAILED;
             return missionStatus;
         }
 
@@ -62,7 +52,8 @@ MissionStatuses Mission::checkStatus(Enums::GameStatuses aGameStatus)
 
     }
 
-    missionStatus = (goalCompleted == goals.size() && goals.size() > 0)? mCOMPLETED : mIN_PROGRESS;
+    missionStatus = (!goals.empty() && goalCompleted == goals.size())?
+                    MissionStatuses::mCOMPLETED : MissionStatuses::mIN_PROGRESS;
 
     return missionStatus;
 }
@@ -77,54 +68,62 @@ void Mission::setStatus(MissionStatuses value)
     missionStatus = value;
 }
 
-void Mission::addGoal(std::shared_ptr<BasicGoal> goal)
+void Mission::addGoal(const std::shared_ptr<BasicGoal>& aGoal)
 {
-    goals.push_back(goal);
+    goals.emplace_back(aGoal);
 }
 
-void Mission::setReward(const Reward &someReward)
+void Mission::setReward(const Reward& aReward)
 {
-    reward = someReward;
+    reward = aReward;
 }
 
-std::list<std::string> Mission::getGoalsFullDesc()
+std::list<std::string> Mission::getGoalsFullDesc() const // TODO: Refactor
 {
-    list<std::string> someList;
-    for(auto goalPtr = goals.begin(); goalPtr != goals.end(); ++goalPtr)
+    list<std::string> goalDescriptionList;
+    for(const auto& goalPtr : goals)
     {
-        std::string s = (*goalPtr)->getDescription() + " " + std::to_string((*goalPtr)->getNeeded());
-        someList.push_back(s);
+        if (!goalPtr)
+        {
+            continue;
+        }
+
+        std::string goalDescription = goalPtr->getDescription() + " " + std::to_string(goalPtr->getNeeded());
+        goalDescriptionList.emplace_back(goalDescription);
     }
 
-    return someList;
+    return goalDescriptionList;
 }
 
-std::list<string> Mission::getGoalsNeeded()
+std::list<string> Mission::getGoalsNeeded() const
 {
-    list<std::string> someList;
-    for(auto goalPtr = goals.begin(); goalPtr != goals.end(); ++goalPtr)
+    list<std::string> goalNeededList;
+    for(const auto& goalPtr : goals)
     {
-        std::string s = std::to_string((*goalPtr)->getNeeded());
-        someList.push_back(s);
+        if (!goalPtr)
+        {
+            continue;
+        }
+
+        goalNeededList.emplace_back(std::to_string(goalPtr->getNeeded()));
     }
 
-    return someList;
+    return goalNeededList;
 }
 
-std::list<std::shared_ptr<BasicGoal> > &Mission::getGoals()
+const std::list<std::shared_ptr<BasicGoal>>& Mission::getGoals() const
 {
     return goals;
 }
 
-Reward &Mission::getReward()
+const Reward& Mission::getReward() const
 {
     return reward;
 }
 
 void Mission::reset()
 {
-    missionStatus = mNOT_STARTED;
+    missionStatus = MissionStatuses::mNOT_STARTED;
     description.clear();
     caption.clear();
-
 }
