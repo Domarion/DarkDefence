@@ -199,9 +199,9 @@ const std::shared_ptr<TreeNode<MobModel>>& GameModel::getRootTower() const
     return towerUpgradesRootNode;
 }
 
-void GameModel::addItemToInventoryByName(string name)
+void GameModel::addItemToInventoryByName(const std::string& aItemName)
 {
-    shop->sendItemWithoutPriceCheck(name);
+    shop->sendItemWithoutPriceCheck(aItemName);
 }
 
 bool GameModel::NoMonstersOnMap() const
@@ -214,15 +214,15 @@ void GameModel::incMonsterCount()
     ++MonsterCountOnMap;
 }
 
-void GameModel::decMonsterCount(string monsterName)
+void GameModel::decMonsterCount(const std::string& aMonsterName)
 {
-    pointsPerWave += monsterPointsMap[monsterName];
+    pointsPerWave += monsterPointsMap[aMonsterName];
     --MonsterCountOnMap;
 }
 
-void GameModel::setCurrentMissionIndex(int newValue)
+void GameModel::setCurrentMissionIndex(int aMissionIndex)
 {
-    currentMissionIndex = newValue;
+    currentMissionIndex = aMissionIndex;
 }
 
 int GameModel::getCurrentMissionIndex() const
@@ -240,9 +240,9 @@ double GameModel::getPointsRefundModifier() const
     return pointsRefundModifier;
 }
 
-void GameModel::setPointsRefundModifier(double value)
+void GameModel::setPointsRefundModifier(double aPointsModifier)
 {
-    pointsRefundModifier = value;
+    pointsRefundModifier = aPointsModifier;
 }
 
 void GameModel::addPoints(int aAmount)
@@ -250,57 +250,57 @@ void GameModel::addPoints(int aAmount)
     pointsPerMap += aAmount;
 }
 
-std::unique_ptr<MobAbility> GameModel::getMobAbilityByName(string name)
+std::unique_ptr<MobAbility> GameModel::getMobAbilityByName(const string& aAbilityName) const
 {
-    if (name == "MobAbilityArson")
+    if (aAbilityName == "MobAbilityArson")
         return std::make_unique<MobAbilityArson>();
 
-    if (name == "MobAbilityRegeneration")
+    if (aAbilityName == "MobAbilityRegeneration")
         return std::make_unique<MobAbilityRegeneration>();
 
-    if (name == "MobAbilityHeal")
+    if (aAbilityName == "MobAbilityHeal")
         return std::make_unique<MobAbilityHeal>();
 
-    if (name == "MobAbilitySprint")
+    if (aAbilityName == "MobAbilitySprint")
         return std::make_unique<MobAbilitySprint>();
 
-    if (name == "MobAbilityFog")
+    if (aAbilityName == "MobAbilityFog")
         return std::make_unique<MobAbilityFog>();
 
-    if (name == "MobAbilityInvisiblity")
+    if (aAbilityName == "MobAbilityInvisiblity")
         return std::make_unique<MobAbilityInvisiblity>();
 
-    if (name == "MobAbilityInvulnerablity")
+    if (aAbilityName == "MobAbilityInvulnerablity")
         return std::make_unique<MobAbilityInvulnerablity>();
 
-    if (name == "MobAbilityWheat")
+    if (aAbilityName == "MobAbilityWheat")
         return std::make_unique<MobAbilityWheat>();
 
-    if (name == "GulakiAmulet")
+    if (aAbilityName == "GulakiAmulet")
         return std::make_unique<GulakiUpgrade>();
 
-    if (name == "MobEarthTowerAbility")
+    if (aAbilityName == "MobEarthTowerAbility")
         return std::make_unique<MobEarthTowerAbility>();
 
-    if (name == "MobMageTowerAbility")
+    if (aAbilityName == "MobMageTowerAbility")
         return std::make_unique<MobMageTowerAbility>();
 
-    if (name == "MobCloudTowerAbility")
+    if (aAbilityName == "MobCloudTowerAbility")
         return std::make_unique<MobCloudTowerAbility>();
 
-    if (name == "TitanChockUpgrade")
+    if (aAbilityName == "TitanChockUpgrade")
         return std::make_unique<TitanChockUpgrade>();
 
-    if (name == "TitanChockMassSlow")
+    if (aAbilityName == "TitanChockMassSlow")
         return std::make_unique<TitanChockMassSlow>();
 
-    if (name == "MobAbilitySummon")
+    if (aAbilityName == "MobAbilitySummon")
         return std::make_unique<MobAbilitySummon>();
 
     return nullptr;
 }
 
-void GameModel::saveGameData(const std::string& aFileName)
+void GameModel::saveGameData(const std::string& aFileName) // TODO : use textFileFunctions
 {
 #ifdef __ANDROID__
     string filename1(SDL_GetPrefPath("darkdefence", "game"));
@@ -323,7 +323,7 @@ void GameModel::saveGameData(const std::string& aFileName)
     }
 }
 
-void GameModel::loadGameData(const std::string& aFileName)
+void GameModel::loadGameData(const std::string& aFileName) // TODO : use textFileFunctions
 {
     if (!gameDataLoaded)
     {
@@ -427,12 +427,14 @@ void GameModel::resetGameValues()
     waveNumber = waveCount = 0;
 }
 
-void GameModel::setGameStatus(const Enums::GameStatuses& value)
+void GameModel::setGameStatus(Enums::GameStatuses aGameStatus)
 {
-    gameStatus = value;
+    gameStatus = aGameStatus;
 
     if (gameStatus == Enums::GameStatuses::gsLOST)
+    {
         pointsPerMap = 0;
+    }
 }
 
 int GameModel::getMonsterCount() const
@@ -445,9 +447,9 @@ std::unique_ptr<MineModel> GameModel::getMineModel(const std::string& aName)
     return std::make_unique<MineModel>(minesModelsMap.at(aName));
 }
 
-std::unique_ptr<MineModel> GameModel::getMineModelByRes(Enums::ResourceTypes resType)
+std::unique_ptr<MineModel> GameModel::getMineModelByRes(Enums::ResourceTypes aResType)
 {
-    return getMineModel(mineResMapping[static_cast<int>(resType)]);
+    return getMineModel(mineResMapping[static_cast<int>(aResType)]);
 }
 
 MineModel* GameModel::getMineModelFromList(const string& aName)
@@ -455,9 +457,9 @@ MineModel* GameModel::getMineModelFromList(const string& aName)
     return &minesModelsMap.at(aName);
 }
 
-MineModel* GameModel::getMineModelFromListByRes(Enums::ResourceTypes resType)
+MineModel* GameModel::getMineModelFromListByRes(Enums::ResourceTypes aResType)
 {
-    return getMineModelFromList(mineResMapping[static_cast<int>(resType)]);
+    return getMineModelFromList(mineResMapping[Enums::toIntegralType(aResType)]);
 }
 
 MobModel* GameModel::getMonsterFromListWithName(const std::string& aName)
@@ -513,17 +515,17 @@ bool GameModel::loadShopItems(const std::string& aFileName)
     return (!shopItemsLoaded);
 }
 
-std::shared_ptr<ShopInventory> GameModel::getShopInventory()
+const std::shared_ptr<ShopInventory>& GameModel::getShopInventory() const
 {
     return shop;
 }
 
-std::shared_ptr<Inventory> GameModel::getInventory()
+const std::shared_ptr<Inventory>& GameModel::getInventory() const
 {
     return inventory;
 }
 
-std::shared_ptr<HeroInventory> GameModel::getHeroInventory()
+const std::shared_ptr<HeroInventory>& GameModel::getHeroInventory() const
 {
     return heroFigure;
 }

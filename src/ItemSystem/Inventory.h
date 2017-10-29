@@ -5,14 +5,13 @@
  *      Author: kostya_hm
  */
 #pragma once
+
 #include "ItemModel.h"
 #include <cereal/access.hpp>
 #include <cereal/types/vector.hpp>
 #include <cereal/types/memory.hpp>
 
 #include <functional>
-#include <string>
-using std::string;
 using std::vector;
 
 class Inventory
@@ -23,27 +22,29 @@ class Inventory
 		{
             ar(cereal::make_nvp("ArtifactList", items));
 		}
+
 public:
-	Inventory();
-	virtual ~Inventory();
-    virtual bool sendItem(size_t index);
-    int getItemIndexByName(string name);
-    virtual void sendItemWithoutPriceCheck(string name);
+
+    virtual ~Inventory() = default;
+
+    virtual bool sendItem(size_t aItemIndex);
+    int getItemIndexByName(const std::string& aItemName) const;
+    virtual void sendItemWithoutPriceCheck(const std::string& aItemName);
 	virtual void receiveItem(ItemModel item);
-	virtual void addItem(ItemModel item);
+    virtual void addItem(const ItemModel& aItem);
 
 	int getItemCount() const;
-    const ItemModel* getItemFromIndex(size_t index);
-    virtual void ConnectControllerReceiver( std::function<void(string, size_t)> handler);
+    const ItemModel* getItemFromIndex(size_t aItemIndex) const;
+    virtual void ConnectControllerReceiver( std::function<void(std::string, size_t)> handler);
     virtual void ConnectModelReceiver( std::function<void(ItemModel)> handler);
-    virtual ItemModel* getItemByName(string name);
+    virtual const ItemModel* getItemByName(const std::string& aItemName) const;
     virtual void clearControllerReceivers();
-    vector<string> getItemNames();
+    vector<std::string> getItemNames() const;
+
 protected:
+
 	vector<ItemModel> items;
-    std::function<void(string, size_t)> connectedMethod;
+
+    std::function<void(std::string, size_t)> connectedMethod;
     std::function<void(ItemModel)> connectedMethod0;
-
-
-
 };

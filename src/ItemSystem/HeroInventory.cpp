@@ -7,31 +7,28 @@
 
 #include "HeroInventory.h"
 
-HeroInventory::HeroInventory(int slots1)
-:Inventory()
+HeroInventory::HeroInventory(int aSlotCount)
+    : Inventory()
 {
-    items.resize(slots1);
+    items.resize(aSlotCount);
 
-    for(int i = 0; i != slots1 - 1; ++i)
+    for(int i = 0; i != aSlotCount - 1; ++i)
     {
 		items[i].setItemType(static_cast<Enums::ItemTypes>(i + 1));
         items[i].setDescription("none");
     }
 
-    items[slots1 - 1].setItemType(static_cast<Enums::ItemTypes>(slots1 - 1));
-    items[slots1 - 1].setDescription("none");
+    items[aSlotCount - 1].setItemType(static_cast<Enums::ItemTypes>(aSlotCount - 1));
+    items[aSlotCount - 1].setDescription("none");
 }
 
-HeroInventory::~HeroInventory()
-{
-}
 
-bool HeroInventory::sendItem(size_t index)
+bool HeroInventory::sendItem(size_t aIndex)
 {
-    if (connectedMethod0 != nullptr && !items[index].getCaption().empty())
+    if (connectedMethod0 != nullptr && !items[aIndex].getCaption().empty())
 	{
-        connectedMethod0(items[index]);
-		items[index].safeClean();
+        connectedMethod0(items[aIndex]);
+        items[aIndex].safeClean();
 		return true;
 	}
 	return false;
@@ -60,21 +57,21 @@ void HeroInventory::receiveItem(ItemModel item)
 	}
 }
 
-void HeroInventory::addItem(ItemModel item)
+void HeroInventory::addItem(const ItemModel& aItem)
 {
-	if (!item.getCaption().empty())
+    if (!aItem.getCaption().empty())
 	{
-		int itemIndex = static_cast<int>(item.getItemType()) - 1;
+        int itemIndex = static_cast<int>(aItem.getItemType()) - 1;
 		if (itemIndex >= 0)
 		{
 
 			if (!items[itemIndex].getCaption().empty())
 			{
-				if (item.getItemType() != Enums::ItemTypes::CONSUMABLE || !items[++itemIndex].getCaption().empty())
+                if (aItem.getItemType() != Enums::ItemTypes::CONSUMABLE || !items[++itemIndex].getCaption().empty())
 					return;
 			}
 
-			items[itemIndex] = item;
+            items[itemIndex] = aItem;
 		}
     }
 }
