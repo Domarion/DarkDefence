@@ -47,9 +47,9 @@ private:
     void MovetoTile(double timestep);
 
     void MoveToPos(double timestep, Position targetPoint);
-    bool Cast(std::shared_ptr<SceneObject> target);
+    bool Cast(const std::shared_ptr<SceneObject>& aTarget);
 
-    bool CanCast(std::shared_ptr<SceneObject> target);
+    bool CanCast(const std::shared_ptr<SceneObject>& aTarget) const;
     void ShotArrow();
     bool UseAbility();
 

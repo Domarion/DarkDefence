@@ -56,7 +56,7 @@ void ResourceManager::loadConfigFromFile(
     }
 }
 
-Texture2D ResourceManager::getTexture(const std::string& aObjectName) const
+const Texture2D& ResourceManager::getTexture(const std::string& aObjectName) const
 {
     return mNameToTextureMap.at(aObjectName);
 }

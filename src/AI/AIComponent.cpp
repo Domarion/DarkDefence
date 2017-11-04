@@ -27,7 +27,8 @@ AIComponent::AIComponent(std::weak_ptr<Mob> aMob)
 
 void AIComponent::MakeDecision(double timestep)
 {
-    if (MobPtr.lock()->getDestructibleObject() && !MobPtr.lock()->getDestructibleObject()->IsAlive())
+    auto mobPtr = MobPtr.lock();
+    if (mobPtr->getDestructibleObject() && !mobPtr->getDestructibleObject()->IsAlive())
     {
         return;
     }
@@ -53,7 +54,7 @@ void AIComponent::MakeDecision(double timestep)
     default:
         break;
     }
-    Cast(MobPtr.lock());
+    Cast(mobPtr);
     for(auto& abilityPtr : mobAbilities)
         if (abilityPtr != nullptr)
             abilityPtr->update(timestep);
@@ -336,11 +337,11 @@ Enums::EReaction AIComponent::getReactionByTag(const string& aTag)
     return Enums::EReaction::Attack;
 }
 
-bool AIComponent::Cast(std::shared_ptr<SceneObject> target)
+bool AIComponent::Cast(const std::shared_ptr<SceneObject>& aTarget)
 {
     for(auto& abilityPtr : mobAbilities)
         if (abilityPtr != nullptr &&
-                abilityPtr->canTrigger(target, aiMobState))
+                abilityPtr->canTrigger(aTarget, aiMobState))
         {
             return abilityPtr->setAsReady();
         }
@@ -348,11 +349,11 @@ bool AIComponent::Cast(std::shared_ptr<SceneObject> target)
     return false;
 }
 
-bool AIComponent::CanCast(std::shared_ptr<SceneObject> target)
+bool AIComponent::CanCast(const std::shared_ptr<SceneObject>& aTarget) const
 {
     for(auto& abilityPtr : mobAbilities)
         if (abilityPtr != nullptr &&
-                abilityPtr->canTrigger(target, aiMobState))
+                abilityPtr->canTrigger(aTarget, aiMobState))
         {
             return true;
         }
