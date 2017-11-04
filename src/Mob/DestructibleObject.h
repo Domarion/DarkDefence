@@ -74,7 +74,7 @@ protected:
     int currentHealth = 0;
     pair<int, int> maximumHealth {0, 0};
     bool Alive = true;
-    std::array<pair<int, int>, GlobalConstants::damageTypeCount> attackProtection;
+    std::array<pair<int, int>, GlobalConstants::damageTypeCount> attackProtection{};
 
     std::function<void(int, int)> connectedMethod;
 };

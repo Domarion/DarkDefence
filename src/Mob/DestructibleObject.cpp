@@ -28,6 +28,8 @@ DestructibleObject::DestructibleObject(const DestructibleObject& aRight)
 {
     if (this != &aRight)
     {
+        connectedMethod = nullptr;
+
         name = aRight.name;
         tag = aRight.tag;
         maximumHealth = aRight.maximumHealth;
