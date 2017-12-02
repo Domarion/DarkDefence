@@ -1,10 +1,10 @@
 #pragma once
 
 #include "BasicGoal.h"
-#include "Enums.h"
 #include <cereal/types/polymorphic.hpp>
 #include <cereal/types/base_class.hpp>
 #include "GlobalScripts/ResourcesModel.h"
+
 class ResourceGoal: public BasicGoal
 {
     friend class cereal::access;
@@ -15,18 +15,22 @@ class ResourceGoal: public BasicGoal
     }
 
 public:
-    ResourceGoal();
-    ResourceGoal(std::string aDescription,
-                 int controlNumber,
-                 Enums::ResourceTypes aResourceType,
-                 std::shared_ptr<ResourcesModel> aResourceModel = nullptr);
-    void setResourceModel(std::shared_ptr<ResourcesModel> aResourceModel);
-    void setResourceType(Enums::ResourceTypes resType);
+    ResourceGoal() = default;
+    ResourceGoal(const std::string& aDescription,
+        int aControlNumber,
+        Enums::ResourceTypes aResourceType);
+
+    void setResourceModel(const std::shared_ptr<ResourcesModel>& aResourceModel);
+    void setResourceType(Enums::ResourceTypes aResType);
+
     virtual bool checkCondition(Enums::GameStatuses aGameStatus) override;
-    Enums::ResourceTypes getResourceType();
+
+    Enums::ResourceTypes getResourceType() const;
+
 private:
-    int getResourceAmount();
-    Enums::ResourceTypes resourceType;
+
+    int getResourceAmount() const;
+    Enums::ResourceTypes resourceType = Enums::ResourceTypes::WOOD; // TODO убрать хардкод
     std::shared_ptr<ResourcesModel> resourceModel; //TODO: Передавать ResourcesModel сюда, иначе не будет работать
 };
 

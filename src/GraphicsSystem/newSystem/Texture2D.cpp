@@ -24,7 +24,8 @@ void Texture2D::setTexture(shared_ptr<SDL_Texture> texture)
 void Texture2D::setTextureFromText(const string& aText, Font aFont)
 {
     texturePtr.reset();
-    texturePtr = renderer->textToTexture(aFont.getFont().get(), aText, aFont.getFontColor());
+    const auto& font = aFont.getFont();
+    texturePtr = renderer->textToTexture(font.get(), aText, aFont.getFontColor());
     setOriginalTextureSize();
 }
 
@@ -33,17 +34,10 @@ const shared_ptr<SDL_Texture>& Texture2D::getTexture() const
     return texturePtr;
 }
 
-void Texture2D::loadTexture(const string& filename, bool aRelativePath)
+void Texture2D::loadTexture(const string& aFilename)
 {
-    string filename1 = filename;
-
-    if (aRelativePath)
-    {
-        androidText::setRelativePath(filename1);
-    }
-
     texturePtr.reset();
-    texturePtr = renderer->loadTextureFromFile(filename1);
+    texturePtr = renderer->loadTextureFromFile(aFilename);
     setOriginalTextureSize();
 }
 

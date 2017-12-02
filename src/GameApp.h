@@ -11,11 +11,11 @@
 #include "Grouping/SceneManager.h"
 #include "Input/InputDispatcher.h"
 
-class GameApp
+class GameApp final
 {
 public:
 
-    explicit GameApp(std::unique_ptr<SceneManager> aSceneManager, std::unique_ptr<RenderingSystem>&& aRenderer);
+    explicit GameApp(std::unique_ptr<SceneManager>&& aSceneManager, std::unique_ptr<RenderingSystem>&& aRenderer);
     ~GameApp() = default;
 
     GameApp(const GameApp&) = delete;
@@ -39,6 +39,6 @@ private:
     std::shared_ptr<RenderingSystem> mRenderer;
     std::shared_ptr<SceneManager> mSceneManager;
     std::shared_ptr<InputDispatcher> mInputDispatcher;
-    bool mIsPaused;
-    bool mNeedQuit;
+    bool mIsPaused = false;
+    bool mNeedQuit = false;
 };

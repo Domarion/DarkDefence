@@ -126,7 +126,7 @@ void GameScene::startUpdate(double timestep)
 }
 
 
-map<string, std::shared_ptr<AbilityModel>>& GameScene::getAbilityModelList()
+const map<string, std::shared_ptr<AbilityModel>>& GameScene::getAbilityModelList() const
 {
     return spellStorage.getAbilityModelList();
 }
@@ -208,7 +208,7 @@ void GameScene::initResourceView()
 
     int resourcePanelWidth = iconSize.width * GlobalConstants::resourceTypeCount;
 
-    Font labelFont = FontManager::getInstance()->getFontByKind2("TextFont");
+    const auto& labelFont = FontManager::getInstance()->getFontByKind2("TextFont");
     resourceLabels.resize(GlobalConstants::resourceTypeCount);
 
     for(size_t i = 0; i != GlobalConstants::resourceTypeCount; ++i)
@@ -343,7 +343,7 @@ void GameScene::initTopPanel()
     auto miniGroup = std::make_shared<ConcreteComposite>(renderer, layout);
     miniGroup->setPosition(MainRect->getNextHorizontalPosition());
 
-    Font aFont = FontManager::getInstance()->getFontByKind2("TextFont");
+    const auto& aFont = FontManager::getInstance()->getFontByKind2("TextFont");
 
     pointsLabel = std::make_shared<UILabel>("none", aFont, renderer);
     pointsLabel->setPosition(miniGroup->getNextHorizontalPosition());
@@ -396,7 +396,7 @@ void GameScene::initAbilitiesButtons()
 
     for(size_t i = 0; i < abilityButtonCount; ++i)
     {
-        std::string abilityName = GameModel::getInstance()->getAbilityNameFromIndex(i);
+        const auto& abilityName = GameModel::getInstance()->getAbilityNameFromIndex(i);
         string imgPath = "GameData/textures/Abilities/Ability" + abilityName;
 
         string backPath = imgPath + "_back.png";

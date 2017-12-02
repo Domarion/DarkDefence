@@ -46,7 +46,7 @@ void ScoreScene::showItemRewards()
 
     list<string> missionRewardItems = GameModel::getInstance()->getMissionReward().getFullDescription();
 
-    Font aFont = FontManager::getInstance()->getFontByKind2("ButtonFont");
+    const auto& font = FontManager::getInstance()->getFontByKind2("ButtonFont");
     for(auto& rewardItem : missionRewardItems)
     {
         auto rewardIcon = std::make_shared<UIImage>(renderer);
@@ -57,7 +57,7 @@ void ScoreScene::showItemRewards()
 
         rewardGroup->addChild(rewardIcon);
 
-        auto rewardLabel = std::make_shared<UILabel>(rewardItem, aFont, renderer);
+        auto rewardLabel = std::make_shared<UILabel>(rewardItem, font, renderer);
         rewardLabel->setPosition(rewardGroup->getNextHorizontalPosition());
         rewardGroup->addChild(rewardLabel);
 
@@ -82,7 +82,7 @@ void ScoreScene::showGoldReward()
         rewardGoldGroup->setPosition(MainRect->getNextVerticalPosition());
 
 
-        Font aFont = FontManager::getInstance()->getFontByKind2("ButtonFont");
+        const auto& font = FontManager::getInstance()->getFontByKind2("ButtonFont");
         auto rewardGoldIcon = std::make_shared<UIImage>(renderer);
         rewardGoldIcon->setSize(Size(30, 30));
         rewardGoldIcon->setPosition(rewardGoldGroup->getNextVerticalPosition());
@@ -91,7 +91,7 @@ void ScoreScene::showGoldReward()
 
         rewardGoldGroup->addChild(rewardGoldIcon);
 
-        auto rewardGoldLabel = std::make_shared<UILabel>(std::to_string(goldCoins), aFont, renderer);
+        auto rewardGoldLabel = std::make_shared<UILabel>(std::to_string(goldCoins), font, renderer);
         rewardGoldLabel->setPosition(rewardGoldGroup->getNextHorizontalPosition());
         rewardGoldGroup->addChild(rewardGoldLabel);
 
@@ -102,8 +102,8 @@ void ScoreScene::showGoldReward()
 
 void ScoreScene::showScoreView()
 {
-    Font aFont = FontManager::getInstance()->getFontByKind2("ButtonFont");
-    auto scoreLabel = std::make_shared<UILabel>("none", aFont, renderer);
+    const auto& font = FontManager::getInstance()->getFontByKind2("ButtonFont");
+    auto scoreLabel = std::make_shared<UILabel>("none", font, renderer);
     scoreLabel->setPosition(Position(MainRect->getSize().width/2 - 75, 0));
     MainRect->addChild(scoreLabel);
 

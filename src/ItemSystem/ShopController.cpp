@@ -33,7 +33,7 @@ void ShopController::initView(std::shared_ptr<RenderingSystem>& aRenderer)
 {
 	int count = model->getItemCount();
 
-    Font aFont =  FontManager::getInstance()->getFontByKind2("ButtonFont");
+    const Font& font =  FontManager::getInstance()->getFontByKind2("ButtonFont");
 
     Size itemSize{view->getSize()};
 
@@ -52,16 +52,16 @@ void ShopController::initView(std::shared_ptr<RenderingSystem>& aRenderer)
         shopItemIcon->setSize(Size(itemSize.height, itemSize.height));
         shopItemGroup->addChild(shopItemIcon);
 
-        auto shopItemCaption = std::make_shared<UILabel>(model->getItemFromIndex(i)->getCaption() , aFont, aRenderer);
+        auto shopItemCaption = std::make_shared<UILabel>(model->getItemFromIndex(i)->getCaption() , font, aRenderer);
         shopItemCaption->setPosition(shopItemGroup->getNextHorizontalPosition());
         shopItemGroup->addChild(shopItemCaption);
 
         string priceText = std::to_string(model->getItemFromIndex(i)->getPrice());
-        auto shopItemPrice = std::make_shared<UILabel>(priceText , aFont, aRenderer);
+        auto shopItemPrice = std::make_shared<UILabel>(priceText , font, aRenderer);
 
         shopItemGroup->addChild(shopItemPrice);
 
-        auto shopItemBuyButton = std::make_shared<UITextButton>("Купить" , aFont, aRenderer);
+        auto shopItemBuyButton = std::make_shared<UITextButton>("Купить" , font, aRenderer);
         shopItemGroup->addChild(shopItemBuyButton);
 
         view->addChild(shopItemGroup);

@@ -11,7 +11,7 @@
 #include "Reward.h"
 #include <cereal/types/memory.hpp>
 
-enum MissionStatuses
+enum class MissionStatuses
 {
     mNOT_STARTED = 0,
 	mIN_PROGRESS,
@@ -23,36 +23,46 @@ class Mission
 {
     friend class cereal::access;
     template <typename Archive>
-     void serialize(Archive &ar)
+    void serialize(Archive &ar)
     {
-        ar(CEREAL_NVP(caption), CEREAL_NVP(description), CEREAL_NVP(goals), CEREAL_NVP(reward), CEREAL_NVP(missionStatus));
+        ar(
+            CEREAL_NVP(caption),
+            CEREAL_NVP(description),
+            CEREAL_NVP(goals),
+            CEREAL_NVP(reward),
+            CEREAL_NVP(missionStatus));
     }
+
 public:
-	Mission();
-    Mission(std::string aCaption, std::string aDescription, const Reward& aReward);
-	~Mission();
-	std::string getCaption() const;
-	void setCaption(std::string value);
-	std::string getDescription() const;
-	void setDescription(std::string value);
+
+    Mission() = default;
+    Mission(const std::string& aCaption, const std::string& aDescription, const Reward& aReward);
+    ~Mission() = default;
+
+    const std::string& getCaption() const;
+    void setCaption(const std::string& aCaption);
+    const std::string& getDescription() const;
+    void setDescription(const std::string& aDescription);
 	MissionStatuses getStatus() const;
 
     MissionStatuses checkStatus(Enums::GameStatuses aGameStatus);
 	void setStatus(MissionStatuses value);
-    void addGoal(std::shared_ptr<BasicGoal> goal);
-    void setReward(const Reward& someReward);
-    std::list<std::string> getGoalsFullDesc();
-    std::list<std::string> getGoalsNeeded();
-    std::list<std::shared_ptr<BasicGoal>>& getGoals();
-    Reward& getReward();
+    void addGoal(const std::shared_ptr<BasicGoal>& aGoal);
+    void setReward(const Reward& aReward);
+    std::list<std::string> getGoalsFullDesc() const;
+    std::list<std::string> getGoalsNeeded() const;
+    const std::list<std::shared_ptr<BasicGoal>>& getGoals() const;
+    const Reward& getReward() const;
+
     void reset();
+
 private:
+
 	std::string caption;
 	std::string description;
     std::list<std::shared_ptr<BasicGoal>> goals;
     Reward reward;
-    MissionStatuses missionStatus;
-
+    MissionStatuses missionStatus = MissionStatuses::mNOT_STARTED;
 };
 
 

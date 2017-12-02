@@ -32,53 +32,51 @@ class GameModel//TODO: разделение на мелкие классы
 public:
 
     static GameModel* getInstance();
-    std::shared_ptr<ResourcesModel> getResourcesModel();
-    std::unique_ptr<MobModel> getMonsterByName(string name);
-    std::unique_ptr<MobModel> getTowerByName(string name);
+    const std::shared_ptr<ResourcesModel>& getResourcesModel() const;
+    std::unique_ptr<MobModel> getMonsterByName(const std::string& aName);
+    std::unique_ptr<MobModel> getTowerByName(const std::string& aName);
 
-    void loadMonsterList(string filename);
-    void loadMonsterPointsList(string filename);
-    void loadTowerUpgrades(string filename);
-    void loadMinesList(string filename);
+    void loadMonsterList(const std::string& aFileName);
+    void loadMonsterPointsList(const std::string& aFileName);
+    void loadTowerUpgrades(const std::string& aFileName);
+    void loadMinesList(const std::string& aFileName);
 
-    void deserialize(Mission& obj, string filename);
-    bool loadShopItems(string filename);
+    void deserialize(Mission& obj, const std::string& aFileName);
+    bool loadShopItems(const std::string& aFileName);
 
-    std::shared_ptr<ShopInventory> getShopInventory();
-    std::shared_ptr<Inventory> getInventory();
-    std::shared_ptr<HeroInventory> getHeroInventory();
-    std::shared_ptr<TreeNode<MobModel>> getRootTower();
+    const std::shared_ptr<ShopInventory>& getShopInventory() const;
+    const std::shared_ptr<Inventory>& getInventory() const;
+    const std::shared_ptr<HeroInventory>& getHeroInventory() const;
+    const std::shared_ptr<TreeNode<MobModel>>& getRootTower() const;
 
 
-    void addItemToInventoryByName(string name);
+    void addItemToInventoryByName(const std::string& aItemName);
 
     bool NoMonstersOnMap() const;
     void incMonsterCount();
-    void decMonsterCount(string monsterName);
+    void decMonsterCount(const std::string& aMonsterName);
 
-    void setCurrentMissionIndex( int newValue);
+    void setCurrentMissionIndex(int aMissionIndex);
     int getCurrentMissionIndex() const;
 
     Enums::GameStatuses getGameStatus() const;
-    void setGameStatus(const Enums::GameStatuses& value);
+    void setGameStatus(Enums::GameStatuses aGameStatus);
     int getMonsterCount() const;
 
-
-    std::unique_ptr<MineModel> getMineModel(string name);
-    std::unique_ptr<MineModel> getMineModelByRes(Enums::ResourceTypes resType);
-
+    std::unique_ptr<MineModel> getMineModel(const std::string& aName);
+    std::unique_ptr<MineModel> getMineModelByRes(Enums::ResourceTypes aResType);
 
     MineModel* getMineModelFromList(const string& aName);
-    MineModel* getMineModelFromListByRes(Enums::ResourceTypes resType);
+    MineModel* getMineModelFromListByRes(Enums::ResourceTypes aResType);
 
-    MobModel* getMonsterFromListWithName(string name);
+    MobModel* getMonsterFromListWithName(const std::string& aName);
     map<string, MobModel>& getMonsterList();
 
     const Reward& getMissionReward() const;
     void setMissionReward(const Reward& value);
 
-    void loadAbilitiesNames(string filename);
-    string getAbilityNameFromIndex(size_t index);
+    void loadAbilitiesNames(const std::string& aFileName);
+    const string& getAbilityNameFromIndex(size_t aIndex) const;
     size_t getAbilityCount() const;
 
     void calculatePointsPerWave();
@@ -86,14 +84,14 @@ public:
 
     void resetGameValues();
     double getPointsRefundModifier() const;
-    void setPointsRefundModifier(double value);
+    void setPointsRefundModifier(double aPointsModifier);
 
     void addPoints(int aAmount);
 
-    std::unique_ptr<MobAbility> getMobAbilityByName(string name);
+    std::unique_ptr<MobAbility> getMobAbilityByName(const std::string& aName) const;
 
-    void saveGameData(string filename);
-    void loadGameData(string filename);
+    void saveGameData(const std::string& aFileName);
+    void loadGameData(const std::string& aFileName);
 private:
     GameModel();
     ~GameModel() = default;

@@ -68,15 +68,15 @@ void ShopScene::initBackGroundUI()
     MainRect->addChild(backGroundImage);
     backGroundImage->setSize(MainRect->getSize());
 
-    Font aFont = FontManager::getInstance()->getFontByKind2("ButtonFont");
+    const auto& font = FontManager::getInstance()->getFontByKind2("ButtonFont");
 
-    auto sceneNameLabel = std::make_shared<UILabel>("Мистическая лавка", aFont, renderer);
+    auto sceneNameLabel = std::make_shared<UILabel>("Мистическая лавка", font, renderer);
     sceneNameLabel->setPosition(MainRect->getNextVerticalPosition());
     MainRect->addChild(sceneNameLabel);
 
     string goldAmount = std::to_string(AccountModel::getInstance()->getGoldAmount());
 
-    goldCoinsLabel = std::make_shared<UILabel>(goldAmount, aFont, renderer);
+    goldCoinsLabel = std::make_shared<UILabel>(goldAmount, font, renderer);
     goldCoinsLabel->setPosition(Position(MainRect->getNextHorizontalPosition().x, sceneNameLabel->getPosition().y));
     MainRect->addChild(goldCoinsLabel);
 

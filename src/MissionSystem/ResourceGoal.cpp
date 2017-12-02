@@ -1,52 +1,42 @@
 #include "ResourceGoal.h"
 
-ResourceGoal::ResourceGoal()
-    : BasicGoal()
-    , resourceType(Enums::ResourceTypes::WOOD)
+ResourceGoal::ResourceGoal(
+    const std::string& aDescription,
+    int aControlNumber,
+    Enums::ResourceTypes aResourceType)
+    : BasicGoal(aDescription, aControlNumber)
+    , resourceType(aResourceType)
 {
-
 }
 
-ResourceGoal::ResourceGoal(std::string aDescription, int controlNumber,
-                           Enums::ResourceTypes aResourceType, std::shared_ptr<ResourcesModel> aResourceModel)
-    :BasicGoal(aDescription, controlNumber), resourceType(aResourceType), resourceModel(aResourceModel)
-{
-
-}
-
-void ResourceGoal::setResourceModel(std::shared_ptr<ResourcesModel> aResourceModel)
+void ResourceGoal::setResourceModel(const std::shared_ptr<ResourcesModel>& aResourceModel)
 {
     resourceModel = aResourceModel;
 }
 
-void ResourceGoal::setResourceType(Enums::ResourceTypes resType)
+void ResourceGoal::setResourceType(Enums::ResourceTypes aResType)
 {
-    resourceType = resType;
+    resourceType = aResType;
 }
 
 bool ResourceGoal::checkCondition(Enums::GameStatuses aGameStatus)
 {
-    if (BasicGoal::checkCondition(aGameStatus) == false)
+    if (!BasicGoal::checkCondition(aGameStatus))
         return false;
-
-
 
     current = getResourceAmount();
 
-    if (current >= needed)
-        goalStatus = GoalStatuses::gCOMPLETED;
-    else
-        goalStatus = GoalStatuses::gIN_PROGRESS;
+    goalStatus = current >= needed ? GoalStatuses::gCOMPLETED : GoalStatuses::gIN_PROGRESS;
 
     return true;
 }
 
-Enums::ResourceTypes ResourceGoal::getResourceType()
+Enums::ResourceTypes ResourceGoal::getResourceType() const
 {
     return resourceType;
 }
 
-int ResourceGoal::getResourceAmount()
+int ResourceGoal::getResourceAmount() const // TODO какой-то хардкод
 {
     return 0;//resourceModel->getResourceAmountFromIndex(static_cast<int>(resourceType));
 }

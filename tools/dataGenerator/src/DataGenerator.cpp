@@ -44,8 +44,6 @@ void DataGenerator::saveMission()
     if (outputXMLFile.good())
     {
         cereal::XMLOutputArchive xmloa (outputXMLFile);
-//        xmloa.registerPolymorphicType("ResourceGoal");
-//        xmloa.register_type<ResourceGoal>();
 
         xmloa << cereal::make_nvp("Mission", someMission);
     }
@@ -55,7 +53,7 @@ void DataGenerator::saveMission()
 
 void DataGenerator::saveTowerTree()
 {
-
+// TODO: починить xml TowerTree.
     string tag = "Tower";
     EnemyInfo enemyInfo("Monster", Enums::EReaction::Attack, 1);
     const int health = 100;
@@ -68,14 +66,11 @@ void DataGenerator::saveTowerTree()
     list<EnemyInfo> enemyTags;
     enemyTags.push_back(enemyInfo);
 
-
-
-
     string firstTowerName = "WatcherTower";
     auto firstTower = std::make_unique<MobModel>(firstTowerName, tag, health, protection, damage,
                      attackDistance, moveSpeed, reloadTime, damageArea, enemyTags, "");
 
-    auto rootNode = std::make_shared<TreeNode<MobModel>>(firstTowerName, "none", std::move(firstTower));
+    auto rootNode = std::make_shared<TreeNode<MobModel>>(firstTowerName, std::move(firstTower));
 
     array<string, 4> watcherTowerChildrenNames = {"BallistaTower", "CatapultTower", "MageTower", "ProductivityTower"};
 
@@ -114,7 +109,7 @@ void DataGenerator::saveTowerTree()
         }
         catch(std::exception& ex)
         {
-            std::cerr << "Error in saveTowerTree to file: " << ex.what() << std::endl;
+            std::cerr << "Error in saveTowerTree to file: " << ex.what() << std::endl; // TODO logError
         }
     }
     outputXMLFile.close();
@@ -122,8 +117,6 @@ void DataGenerator::saveTowerTree()
 
 void DataGenerator::saveMineCollection()
 {
-
-    //string goldMineCaption = "GoldMine";
     string stoneMineCaption = "StoneMine";
     string sawMillCaption = "SawMill";
     string windMillCaption = "WindMill";
@@ -135,9 +128,6 @@ void DataGenerator::saveMineCollection()
     const int productionAmount = 20;
     const int productionPeriod = 5000; //миллисекунд
 
-   // MineModel goldMine(goldMineCaption, tag, health,
-     //                  protection, Enums::ResourceTypes::GOLD, productionAmount, productionPeriod
-       //                );
     MineModel stoneMine(stoneMineCaption, tag, health, protection,
                         Enums::ResourceTypes::STONE, productionAmount, productionPeriod
                         );
@@ -163,7 +153,6 @@ void DataGenerator::saveMineCollection()
     if (outputXMLFile.good())
     {
         cereal::XMLOutputArchive xmloa (outputXMLFile);
-//        xmloa.register_type<MineModel>();
         xmloa(cereal::make_nvp("Mines", mineList));
     }
     outputXMLFile.close();

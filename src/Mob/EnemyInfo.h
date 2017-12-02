@@ -12,7 +12,7 @@ class EnemyInfo
 {
     friend class cereal::access;
     template <typename Archive>
-      void serialize(Archive &ar, const unsigned int /*version*/)
+    void serialize(Archive& ar, const unsigned int /*version*/)
     {
         ar(cereal::make_nvp("enemyTag", tag),
            cereal::make_nvp("enemyReaction", reaction),
@@ -24,10 +24,10 @@ public:
     EnemyInfo(const string& aTag, EReaction aReaction, int aPriority);
 
     string getTag() const;
-    void setTag(const string &value);
+    void setTag(const string& value);
 
     EReaction getReaction() const;
-    void setReaction(const EReaction &value);
+    void setReaction(const EReaction& value);
 
     int getPriority() const;
     void setPriority(int value);

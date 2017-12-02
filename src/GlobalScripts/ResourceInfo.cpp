@@ -6,25 +6,16 @@
  */
 
 #include "ResourceInfo.h"
-#include <sstream>
-ResourceInfo::ResourceInfo()
-    :currentAmount(0), limit(0)
-{
-	// TODO Auto-generated constructor stub
+#include <cassert>
 
-}
-
-ResourceInfo::~ResourceInfo()
+bool ResourceInfo::addResource(int aAmount)
 {
-	// TODO Auto-generated destructor stub
-}
-
-bool ResourceInfo::addResource(int amount)
-{
-	if (currentAmount == limit || amount > limit)
+    if (currentAmount == limit || aAmount > limit)
+    {
         return false;
+    }
 
-	currentAmount += amount;
+    currentAmount += aAmount;
 
 	if (currentAmount > limit)
 		currentAmount = limit;
@@ -32,26 +23,30 @@ bool ResourceInfo::addResource(int amount)
 	return true;
 }
 
-bool ResourceInfo::removeResource(int amount)
+bool ResourceInfo::removeResource(int aAmount)
 {
-	if (currentAmount < amount)
+    if (currentAmount < aAmount)
 		return false;
 
-	currentAmount -= amount;
+    currentAmount -= aAmount;
 	return true;
 }
 
-void ResourceInfo::increaseLimit(int amount)
+void ResourceInfo::increaseLimit(int aAmount)
 {
-	limit += amount;
+    assert(aAmount >= 0 && "increaseLimit: Amount < 0");
+    limit += aAmount;
 }
 
-void ResourceInfo::decreaseLimit(int amount)
+void ResourceInfo::decreaseLimit(int aAmount)
 {
-	if (limit < amount)
+    if (limit <= aAmount)
+    {
 		limit = 0;
-	else
-		limit -= amount;
+        return;
+    }
+
+    limit -= aAmount;
 }
 
 const std::string& ResourceInfo::getCaption() const
@@ -69,12 +64,9 @@ int ResourceInfo::getCurrentAmount() const
 	return currentAmount;
 }
 
-void ResourceInfo::setCurrentAmount(int value)
+void ResourceInfo::setCurrentAmount(int aCurrentAmount)
 {
-	if (value > 0)
-		currentAmount = value;
-	else
-		currentAmount = 0;
+    currentAmount = aCurrentAmount > 0 ? aCurrentAmount : 0;
 }
 
 int ResourceInfo::getLimit() const
@@ -82,17 +74,12 @@ int ResourceInfo::getLimit() const
 	return limit;
 }
 
-void ResourceInfo::setLimit(int value)
+void ResourceInfo::setLimit(int aLimitAmount)
 {
-	if (value > 0)
-		limit = value;
-	else
-		limit = 0;
+    limit = aLimitAmount > 0 ? aLimitAmount : 0;
 }
 
 std::string ResourceInfo::printToString() const
 {
-	std::ostringstream outStringStream;
-    outStringStream << getCurrentAmount() ;//<< '/' << getLimit();
-	return outStringStream.str();
+    return std::to_string(getCurrentAmount());
 }

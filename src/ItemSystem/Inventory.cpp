@@ -6,52 +6,40 @@
  */
 
 #include "Inventory.h"
-#include <iostream>
-Inventory::Inventory()
-{
-	// TODO Auto-generated constructor stub
-
-}
-
-Inventory::~Inventory()
-{
-	// TODO Auto-generated destructor stub
-}
 
 void Inventory::ConnectModelReceiver(std::function<void(ItemModel)> method)
 {
     connectedMethod0 = method;
 }
 
-ItemModel* Inventory::getItemByName(string name)
+const ItemModel* Inventory::getItemByName(const std::string& aItemName) const
 {
-    for(size_t i = 0; i < items.size(); ++i)
-        if (items[i].getCaption() == name)
-            return &items[i];
+    for(const auto& item : items)
+        if (item.getCaption() == aItemName)
+            return &item;
     return nullptr;
 }
 
 void Inventory::clearControllerReceivers()
 {
-   // connectedMethod0 = nullptr;
     connectedMethod = nullptr;
 }
 
-bool Inventory::sendItem(size_t index)
+bool Inventory::sendItem(size_t aItemIndex)
 {
-    if (index >= items.size())
+    if (aItemIndex >= items.size())
     {
         return false;
     }
 
-    if (connectedMethod0 != nullptr && !items[index].getCaption().empty())
+    if (connectedMethod0 != nullptr && !items[aItemIndex].getCaption().empty())
 	{
-        connectedMethod0(items[index]);
+        connectedMethod0(items[aItemIndex]);
 
-        if (items.size() != 1 && index != items.size() - 1)
+        if (items.size() != 1 && aItemIndex != items.size() - 1)
         {
 
-            for(size_t i = index; i < items.size() - 1; ++i)
+            for(size_t i = aItemIndex; i < items.size() - 1; ++i)
                 items[i] = items[i + 1];
 
         }
@@ -63,17 +51,17 @@ bool Inventory::sendItem(size_t index)
     return false;
 }
 
-int Inventory::getItemIndexByName(string name)
+int Inventory::getItemIndexByName(const std::string& aItemName) const
 {
     for(size_t i = 0; i < items.size(); ++i)
-        if (items[i].getCaption() == name)
+        if (items[i].getCaption() == aItemName)
             return i;
     return -1;
 }
 
-void Inventory::sendItemWithoutPriceCheck(string name)
+void Inventory::sendItemWithoutPriceCheck(const std::string& aItemName)
 {
-    size_t index = getItemIndexByName(name);
+    size_t index = getItemIndexByName(aItemName);
     Inventory::sendItem(index);
 }
 
@@ -87,9 +75,9 @@ void Inventory::receiveItem(ItemModel item)
     }
 }
 
-void Inventory::addItem(ItemModel item)
+void Inventory::addItem(const ItemModel& aItem)
 {
-	items.push_back(item);
+    items.push_back(aItem);
 }
 
 int Inventory::getItemCount() const
@@ -97,28 +85,27 @@ int Inventory::getItemCount() const
 	return items.size();
 }
 
-const ItemModel*  Inventory::getItemFromIndex(size_t index)
+const ItemModel* Inventory::getItemFromIndex(size_t aItemIndex) const
 {
-    if (index >= items.size())
+    if (aItemIndex >= items.size())
 		return nullptr;
 
-    return &items[index];
+    return &items[aItemIndex];
 }
 
-void Inventory::ConnectControllerReceiver(std::function<void (string, size_t)> handler)
+void Inventory::ConnectControllerReceiver(std::function<void (std::string, size_t)> handler)
 {
     connectedMethod = handler;
-
 }
 
-vector<string> Inventory::getItemNames()
+vector<std::string> Inventory::getItemNames() const
 {
-    vector<string> itemNames;
+    vector<std::string> itemNames;
     itemNames.reserve((items.size()));
-    for(auto ptr = items.begin(); ptr != items.end(); ++ptr)
+    for(const auto& item : items)
     {
-        if (!ptr->getCaption().empty())
-            itemNames.push_back(ptr->getCaption());
+        if (!item.getCaption().empty())
+            itemNames.emplace_back(item.getCaption());
     }
     return itemNames;
 }

@@ -22,12 +22,10 @@
 #include "GlobalScripts/ResourceManager.h"
 #include "Logging/Logger.h"
 
-GameApp::GameApp(std::unique_ptr<SceneManager> aSceneManager, std::unique_ptr<RenderingSystem>&& aRenderer)
+GameApp::GameApp(std::unique_ptr<SceneManager>&& aSceneManager, std::unique_ptr<RenderingSystem>&& aRenderer)
     : mRenderer(std::move(aRenderer))
     , mSceneManager(std::move(aSceneManager))
     , mInputDispatcher(std::make_shared<InputDispatcher>(mRenderer->getScreenSize()))
-    , mIsPaused(false)
-    , mNeedQuit(false)
 {
 }
 
@@ -68,7 +66,6 @@ void GameApp::addScenes()
     mSceneManager->setCurrentSceneByName("MainScene");
 }
 
-
 int GameApp::gameLoop()
 {
     int lasttime = SDL_GetTicks();
@@ -101,13 +98,13 @@ int GameApp::gameLoop()
             renderScene();
         }
     }
-    catch (std::exception &ex)
+    catch (std::exception& ex)
     {
         LOG_ERROR(ex.what());
         return 1;
     }
 
-	return 0;
+    return 0;
 }
 
 void GameApp::renderScene()
@@ -160,18 +157,16 @@ void GameApp::receiveMessage(string msg)//TODO: Изменить логику о
     {
         pause();
     }
+    else if (msg == GlobalConstants::Resumed)
+    {
+        unpause();
+    }
+    else if (msg == "quit")
+    {
+        mNeedQuit = true;
+    }
     else
-        if (msg == GlobalConstants::Resumed)
-        {
-            unpause();
-        }
-        else
-            if (msg == "quit")
-            {
-                mNeedQuit = true;
-            }
-            else
-            {
-                LOG_ERROR("Wrong message to GameApp");
-            }
+    {
+        LOG_ERROR("Wrong message to GameApp");
+    }
 }

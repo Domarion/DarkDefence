@@ -5,9 +5,8 @@
 			<id>2147483649</id>
 			<data>
 				<cereal_class_version>0</cereal_class_version>
-				<value0>WatcherTower</value0>
-				<value1>none</value1>
-				<value2>
+				<nodeName>WatcherTower</nodeName>
+				<nodeData>
 					<polymorphic_id>1073741824</polymorphic_id>
 					<ptr_wrapper>
 						<id>2147483650</id>
@@ -84,20 +83,19 @@
 								<value1>0</value1>
 								<value2>0</value2>
 							</price>
-                            <ArrowName></ArrowName>
+							<ArrowName></ArrowName>
 						</data>
 					</ptr_wrapper>
-				</value2>
-				<value3 size="dynamic">
+				</nodeData>
+				<children size="dynamic">
 					<value0>
 						<key>BallistaTower</key>
 						<value>
 							<ptr_wrapper>
 								<id>2147483651</id>
 								<data>
-									<value0>BallistaTower</value0>
-									<value1>WatcherTower</value1>
-									<value2>
+									<nodeName>BallistaTower</nodeName>
+									<nodeData>
 										<polymorphic_id>1073741824</polymorphic_id>
 										<ptr_wrapper>
 											<id>2147483652</id>
@@ -172,11 +170,11 @@
 													<value1>0</value1>
 													<value2>0</value2>
 												</price>
-                                                <ArrowName>BallistaArrow</ArrowName>
-                                                </data>
+												<ArrowName>BallistaArrow</ArrowName>
+											</data>
 										</ptr_wrapper>
-									</value2>
-									<value3 size="dynamic"/>
+									</nodeData>
+									<children size="dynamic"/>
 								</data>
 							</ptr_wrapper>
 						</value>
@@ -187,9 +185,8 @@
 							<ptr_wrapper>
 								<id>2147483653</id>
 								<data>
-									<value0>CatapultTower</value0>
-									<value1>WatcherTower</value1>
-									<value2>
+									<nodeName>CatapultTower</nodeName>
+									<nodeData>
 										<polymorphic_id>1073741824</polymorphic_id>
 										<ptr_wrapper>
 											<id>2147483654</id>
@@ -264,11 +261,11 @@
 													<value1>0</value1>
 													<value2>0</value2>
 												</price>
-                                                <ArrowName>CatapultStone</ArrowName>
+												<ArrowName>CatapultStone</ArrowName>
 											</data>
 										</ptr_wrapper>
-									</value2>
-									<value3 size="dynamic"/>
+									</nodeData>
+									<children size="dynamic"/>
 								</data>
 							</ptr_wrapper>
 						</value>
@@ -279,9 +276,8 @@
 							<ptr_wrapper>
 								<id>2147483655</id>
 								<data>
-									<value0>MageTower</value0>
-									<value1>WatcherTower</value1>
-									<value2>
+									<nodeName>MageTower</nodeName>
+									<nodeData>
 										<polymorphic_id>1073741824</polymorphic_id>
 										<ptr_wrapper>
 											<id>2147483656</id>
@@ -358,20 +354,19 @@
 													<value1>0</value1>
 													<value2>0</value2>
 												</price>
-                                                <ArrowName></ArrowName>
+												<ArrowName></ArrowName>
 											</data>
 										</ptr_wrapper>
-									</value2>
-									<value3 size="dynamic">
+									</nodeData>
+									<children size="dynamic">
 										<value0>
 											<key>CloudTower</key>
 											<value>
 												<ptr_wrapper>
 													<id>2147483657</id>
 													<data>
-														<value0>CloudTower</value0>
-														<value1>MageTower</value1>
-														<value2>
+														<nodeName>CloudTower</nodeName>
+														<nodeData>
 															<polymorphic_id>1073741824</polymorphic_id>
 															<ptr_wrapper>
 																<id>2147483658</id>
@@ -442,17 +437,16 @@
 																	</enemyTags>
 																	<Abilities size="dynamic">
                                                                         <value0>MobCloudTowerAbility</value0>
-                                                                    </Abilities>
-																	<price>
+                                                                    </Abilities>							<price>
 																		<value0>0</value0>
 																		<value1>0</value1>
 																		<value2>0</value2>
 																	</price>
-                                                                    <ArrowName></ArrowName>
+																	<ArrowName></ArrowName>
 																</data>
 															</ptr_wrapper>
-														</value2>
-														<value3 size="dynamic"/>
+														</nodeData>
+														<children size="dynamic"/>
 													</data>
 												</ptr_wrapper>
 											</value>
@@ -463,9 +457,8 @@
 												<ptr_wrapper>
 													<id>2147483659</id>
 													<data>
-														<value0>EarthTower</value0>
-														<value1>MageTower</value1>
-														<value2>
+														<nodeName>EarthTower</nodeName>
+														<nodeData>
 															<polymorphic_id>1073741824</polymorphic_id>
 															<ptr_wrapper>
 																<id>2147483660</id>
@@ -534,7 +527,7 @@
 																			<priority>1</priority>
 																		</value0>
 																	</enemyTags>
-																	<Abilities size="dynamic">
+                                                                    <Abilities size="dynamic">                                                                                      
                                                                         <value0>MobEarthTowerAbility</value0>
                                                                     </Abilities>
 																	<price>
@@ -542,11 +535,11 @@
 																		<value1>0</value1>
 																		<value2>0</value2>
 																	</price>
-                                                                    <ArrowName></ArrowName>
+																	<ArrowName></ArrowName>
 																</data>
 															</ptr_wrapper>
-														</value2>
-														<value3 size="dynamic"/>
+														</nodeData>
+														<children size="dynamic"/>
 													</data>
 												</ptr_wrapper>
 											</value>
@@ -557,9 +550,8 @@
 												<ptr_wrapper>
 													<id>2147483661</id>
 													<data>
-														<value0>WindTower</value0>
-														<value1>MageTower</value1>
-														<value2>
+														<nodeName>WindTower</nodeName>
+														<nodeData>
 															<polymorphic_id>1073741824</polymorphic_id>
 															<ptr_wrapper>
 																<id>2147483662</id>
@@ -634,16 +626,16 @@
 																		<value1>0</value1>
 																		<value2>0</value2>
 																	</price>
-                                                                    <ArrowName>ArrowLighting</ArrowName>
+																	<ArrowName>ArrowLighting</ArrowName>
 																</data>
 															</ptr_wrapper>
-														</value2>
-														<value3 size="dynamic"/>
+														</nodeData>
+														<children size="dynamic"/>
 													</data>
 												</ptr_wrapper>
 											</value>
 										</value2>
-									</value3>
+									</children>
 								</data>
 							</ptr_wrapper>
 						</value>
@@ -654,9 +646,8 @@
 							<ptr_wrapper>
 								<id>2147483663</id>
 								<data>
-									<value0>ProductivityTower</value0>
-									<value1>WatcherTower</value1>
-									<value2>
+									<nodeName>ProductivityTower</nodeName>
+									<nodeData>
 										<polymorphic_id>1073741824</polymorphic_id>
 										<ptr_wrapper>
 											<id>2147483664</id>
@@ -728,21 +719,21 @@
 												<Abilities size="dynamic">
                                                     <value0>MobAbilityWheat</value0>
                                                 </Abilities>
-												<price>
+                                                <price>
 													<value0>0</value0>
 													<value1>0</value1>
 													<value2>0</value2>
 												</price>
-                                                <ArrowName></ArrowName>
+												<ArrowName></ArrowName>
 											</data>
 										</ptr_wrapper>
-									</value2>
-									<value3 size="dynamic"/>
+									</nodeData>
+									<children size="dynamic"/>
 								</data>
 							</ptr_wrapper>
 						</value>
 					</value3>
-				</value3>
+				</children>
 			</data>
 		</ptr_wrapper>
 	</TowerTree>

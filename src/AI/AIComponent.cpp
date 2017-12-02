@@ -27,7 +27,8 @@ AIComponent::AIComponent(std::weak_ptr<Mob> aMob)
 
 void AIComponent::MakeDecision(double timestep)
 {
-    if (MobPtr.lock()->getDestructibleObject() && !MobPtr.lock()->getDestructibleObject()->IsAlive())
+    auto mobPtr = MobPtr.lock();
+    if (mobPtr->getDestructibleObject() && !mobPtr->getDestructibleObject()->IsAlive())
     {
         return;
     }
@@ -53,7 +54,7 @@ void AIComponent::MakeDecision(double timestep)
     default:
         break;
     }
-    Cast(MobPtr.lock());
+    Cast(mobPtr);
     for(auto& abilityPtr : mobAbilities)
         if (abilityPtr != nullptr)
             abilityPtr->update(timestep);
@@ -66,12 +67,13 @@ std::shared_ptr<SceneObject> AIComponent::getCurrentTarget()
 
 void AIComponent::Search()
 {
-    enemiesInfoList = MobPtr.lock()->getModel()->getEnemyTags();
+    auto lockedMob = MobPtr.lock();
+    enemiesInfoList = lockedMob->getModel()->getEnemyTags();
 
     for(const auto& enemyInfo : enemiesInfoList)
     {
-        auto lst = MobPtr.lock()->getParentScene()->findObjectsByTag(enemyInfo.getTag());
-        if (lst == nullptr || lst->empty())
+        auto lst = lockedMob->getParentScene()->findObjectsByTag(enemyInfo.getTag());
+        if (!lst || lst->empty())
             continue;
         avaliableTargets.insert(avaliableTargets.end(), lst->begin(), lst->end());
     }
@@ -82,49 +84,73 @@ void AIComponent::Search()
 
 void AIComponent::Select()
 {
-    if (!avaliableTargets.empty())
-    {
-        int closestDistanceSqr = 0;
-        int maxPriority = 0;
-        for(auto& target: avaliableTargets)
-        {
-            if (target == nullptr || !target->isVisible())
-                continue;
+    currentTarget.reset();
 
-            bool isTargetAlive = target->getDestructibleObject()->IsAlive();
-
-            if (!isTargetAlive)
-            {
-                continue;
-            }
-
-            int distanceSqr = MobPtr.lock()->computeDistanceSqr(target);
-            int priority = getPriorityFromTag(target->getTag());
-
-            if (priority > maxPriority || (priority == maxPriority && distanceSqr < closestDistanceSqr))
-            {
-                maxPriority = priority;
-                closestDistanceSqr = distanceSqr;
-                currentTarget = target;
-            }
-        }
-    }
-
-    if (currentTarget == nullptr)
+    if (avaliableTargets.empty())
     {
         aiMobState = AIMobStates::aiSEARCH;
         return;
     }
 
-    MobPtr.lock()->getSprite()->setCurrentState("walk");
-    aiMobState = AIMobStates::aiMOVE;
+    int closestDistanceSqr = 0;
+    int maxPriority = 0;
+
+    size_t avaliableSize = avaliableTargets.size();
+    size_t invalidTargetCount = 0;
+    for (const auto& target: avaliableTargets)
+    {
+        if (!target || !target->getDestructibleObject())
+        {
+            ++invalidTargetCount;
+            continue;
+        }
+
+        bool isTargetAlive = target->getDestructibleObject()->IsAlive();
+
+        if (!isTargetAlive)
+        {
+            ++invalidTargetCount;
+            continue;
+        }
+
+        if (!target->isVisible())
+        {
+            continue;
+        }
+
+        int distanceSqr = MobPtr.lock()->computeDistanceSqr(target);
+        int priority = getPriorityFromTag(target->getTag());
+
+        if (priority > maxPriority || (priority == maxPriority && distanceSqr < closestDistanceSqr))
+        {
+            maxPriority = priority;
+            closestDistanceSqr = distanceSqr;
+            currentTarget = target;
+        }
+    }
+
+    if (avaliableSize == invalidTargetCount)
+    {
+        aiMobState = AIMobStates::aiSEARCH;
+        return;
+    }
+
+    if (currentTarget)
+    {
+        MobPtr.lock()->getSprite()->setCurrentState("walk");
+        aiMobState = AIMobStates::aiMOVE;
+    }
 }
 
 
 void AIComponent::Attack()
 {
-    if (currentTarget == nullptr
-        || (currentTarget->getDestructibleObject() != nullptr && !currentTarget->getDestructibleObject()->IsAlive()))
+    bool hasNotAvaliableTarget =
+            !currentTarget
+            || !currentTarget->getDestructibleObject()
+            || !currentTarget->getDestructibleObject()->IsAlive();
+
+    if (hasNotAvaliableTarget)
     {
         aiMobState = AIMobStates::aiSELECT;
         return;
@@ -168,7 +194,7 @@ void AIComponent::Reload(double timestep)
         return;
     }
 
-    aiMobState = (currentTarget == nullptr)? AIMobStates::aiSELECT : AIMobStates::aiATTACK;
+    aiMobState = (!currentTarget)? AIMobStates::aiSELECT : AIMobStates::aiATTACK;
 
     if (aiMobState == AIMobStates::aiATTACK)
     {
@@ -178,14 +204,12 @@ void AIComponent::Reload(double timestep)
 
 void AIComponent::MovetoTile(double timestep)
 {
-
     const static pair<int, int> emptyCell = std::make_pair(TileMapManager::EmptyCell, TileMapManager::EmptyCell);
-    if (currentTarget == nullptr)
+    if (!currentTarget)
     {
         aiMobState = AIMobStates::aiSELECT;
         nextCell = emptyCell;
         return;
-
     }
 
     auto tilemapPtr = MobPtr.lock()->getTileMapManager();
@@ -216,7 +240,7 @@ void AIComponent::MovetoTile(double timestep)
         return;
     }
 
-    if (currentTargetPosition != targetPos || currentPath == nullptr || currentPath->empty())
+    if (currentTargetPosition != targetPos || !currentPath || currentPath->empty())
     {
         nextCell = emptyCell;
         currentTargetPosition = targetPos;
@@ -336,11 +360,11 @@ Enums::EReaction AIComponent::getReactionByTag(const string& aTag)
     return Enums::EReaction::Attack;
 }
 
-bool AIComponent::Cast(std::shared_ptr<SceneObject> target)
+bool AIComponent::Cast(const std::shared_ptr<SceneObject>& aTarget)
 {
     for(auto& abilityPtr : mobAbilities)
         if (abilityPtr != nullptr &&
-                abilityPtr->canTrigger(target, aiMobState))
+                abilityPtr->canTrigger(aTarget, aiMobState))
         {
             return abilityPtr->setAsReady();
         }
@@ -348,11 +372,11 @@ bool AIComponent::Cast(std::shared_ptr<SceneObject> target)
     return false;
 }
 
-bool AIComponent::CanCast(std::shared_ptr<SceneObject> target)
+bool AIComponent::CanCast(const std::shared_ptr<SceneObject>& aTarget) const
 {
     for(auto& abilityPtr : mobAbilities)
         if (abilityPtr != nullptr &&
-                abilityPtr->canTrigger(target, aiMobState))
+                abilityPtr->canTrigger(aTarget, aiMobState))
         {
             return true;
         }
@@ -401,7 +425,6 @@ bool AIComponent::UseAbility()
     EReaction reaction = getReactionByTag(currentTarget->getTag());
     if (reaction == EReaction::UseAbilities)
     {
-
         Cast(currentTarget);
 
         avaliableTargets.remove(currentTarget);
@@ -409,6 +432,7 @@ bool AIComponent::UseAbility()
         aiMobState = AIMobStates::aiSELECT;
         return true;
     }
+
     return false;
 }
 

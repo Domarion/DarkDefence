@@ -19,7 +19,7 @@ public:
     void setTextureFromText(const string& aText, Font aFont);
 
     const shared_ptr<SDL_Texture>& getTexture() const;
-    void loadTexture(const string& filename, bool aRelativePath = true);
+    void loadTexture(const string& aFilename);
     void drawAtPosition(Position pos) const;
     void drawPartAtPosition(Position pos, const SDL_Rect* clip, int aFlipFlags = SDL_FLIP_NONE) const;
     void drawScaledPartAtPosition(Position pos, Size aTextureSize, const SDL_Rect* clip) const;

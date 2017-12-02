@@ -12,8 +12,6 @@ AccountModel* AccountModel::instance_ = nullptr;
 AccountModel::AccountModel(int goldValue, int goldMax)
     :goldAmount(goldValue), goldLimit(goldMax)
 {
-	// TODO Auto-generated constructor stub
-
 }
 
 AccountModel* AccountModel::getInstance()
@@ -24,10 +22,6 @@ AccountModel* AccountModel::getInstance()
 	return instance_;
 }
 
-AccountModel::~AccountModel()
-{
-	// TODO Auto-generated destructor stub
-}
 
 const string& AccountModel::getAccountName() const
 {

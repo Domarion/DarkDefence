@@ -28,7 +28,7 @@ public:
     std::shared_ptr<Scene> getCurrentScene();
     void addScene(std::shared_ptr<Scene> scene, std::string name);
     void setCurrentSceneByName(string name);
-    void askForChangeScene(string aName);
+    void askForChangeScene(const std::string& aName);
     void clearOldScene();
     void updateCurrentScene(double aTimeStep);
     void renderCurrentScene();

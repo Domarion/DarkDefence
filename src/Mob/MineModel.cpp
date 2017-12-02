@@ -7,45 +7,29 @@
 
 #include "MineModel.h"
 
-MineModel::MineModel()
-    : DestructibleObject(),limit(0, 0)
-    , production(0, 0)
-    , productionPeriod(0, 0)
-    , currentTime(0.0)
-    , productionType(Enums::ResourceTypes::WHEAT)
-{
-	// TODO Auto-generated constructor stub
-
-}
-
-MineModel::MineModel(string aName, string aTag, int aMaxHealth, int aProtection[], Enums::ResourceTypes resType, int aProduction, double aPeriod)
+MineModel::MineModel(
+    const std::string& aName,
+    const std::string& aTag,
+    int aMaxHealth,
+    std::array<int, GlobalConstants::damageTypeCount>& aProtection,
+    Enums::ResourceTypes aResType,
+    int aProduction,
+    double aPeriod)
     : DestructibleObject(aName, aTag, aMaxHealth, aProtection)
-    , limit(0, 0)
-    , production(0, 0)
-    , productionPeriod(0, 0)
-    , currentTime(0.0)
-    , productionType(resType)
+    , production{aProduction, 0}
+    , productionPeriod{aPeriod, 0}
+    , currentTime(aPeriod)
+    , productionType(aResType)
 {
-    production.first = aProduction;
-    production.second = 0;
-
-    productionPeriod.first = aPeriod;
-    productionPeriod.second = 0;
-    currentTime = aPeriod;
 }
 
-MineModel::~MineModel()
+MineModel::MineModel(const MineModel& aRight)
+    : DestructibleObject(aRight)
 {
-    // TODO Auto-generated destructor stub
-}
-
-MineModel::MineModel(const MineModel &right)
-    :DestructibleObject(right)
-{
-    productionType = right.productionType;
-    production = right.production;
-    limit = right.limit;
-    productionPeriod = right.productionPeriod;
+    productionType = aRight.productionType;
+    production = aRight.production;
+    limit = aRight.limit;
+    productionPeriod = aRight.productionPeriod;
     currentTime = productionPeriod.first;
 }
 
@@ -72,7 +56,7 @@ double MineModel::getProductionPeriod() const
 
 double MineModel::getCurrentTime() const
 {
-	return currentTime;
+    return currentTime;
 }
 
 void MineModel::setCurrentTime(double aCurrentTime)
@@ -90,12 +74,12 @@ size_t MineModel::getProductionTypeIndex() const
     return Enums::toIntegralType(productionType);
 }
 
-void MineModel::produce(double timestep, std::shared_ptr<ResourcesModel> aResourceModel)
+void MineModel::produce(double aTimeStep, const std::shared_ptr<ResourcesModel>& aResourceModel)
 {
     if (currentTime <= 0)
     {
         int prod = getProduction();
-        if ( prod <= getLimit() && aResourceModel->addResource(static_cast<int>(productionType), prod))
+        if ( prod <= getLimit() && aResourceModel->addResource(productionType, prod))
         {
             limit.first -= prod;
         }
@@ -103,18 +87,18 @@ void MineModel::produce(double timestep, std::shared_ptr<ResourcesModel> aResour
         currentTime = getProductionPeriod();
     }
     else
-        currentTime -= timestep;
+        currentTime -= aTimeStep;
 }
 
 void MineModel::setProductionPeriod(double aProductionPeriod)
 {
-    this->productionPeriod.first = aProductionPeriod;
-    setCurrentTime( getProductionPeriod());
+    productionPeriod.first = aProductionPeriod;
+    setCurrentTime(getProductionPeriod());
 }
 
 void MineModel::setLimit(int aLimit)
 {
-    this->limit.first = aLimit;
+    limit.first = aLimit;
 }
 
 

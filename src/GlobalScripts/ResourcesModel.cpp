@@ -62,6 +62,11 @@ bool ResourcesModel::addResource(size_t resourceType, int amount)
 	return resourceTypes[resourceType].addResource(amount);
 }
 
+bool ResourcesModel::addResource(Enums::ResourceTypes aResourceType, int aAmount)
+{
+    return addResource(Enums::toIntegralType(aResourceType), aAmount);
+}
+
 bool ResourcesModel::removeResource(size_t resourceType, int amount)
 {
 	return resourceTypes[resourceType].removeResource(amount);

@@ -10,7 +10,7 @@
 #include <string>
 using std::string;
 
-class AccountModel
+class AccountModel final
 {
 public:
     static AccountModel* getInstance();
@@ -22,7 +22,7 @@ public:
     void addGold(int amount);
 private:
     AccountModel(int goldValue = 300, int goldMax = 5000);
-	~AccountModel();
+    ~AccountModel() = default;
 	string accountName;
     int goldAmount, goldLimit;
 	static AccountModel* instance_;

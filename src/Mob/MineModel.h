@@ -20,19 +20,28 @@ class MineModel: public DestructibleObject
     void serialize(Archive &ar)
     {
 
-       ar(cereal::base_class<DestructibleObject>(this), CEREAL_NVP(productionType), CEREAL_NVP(production), CEREAL_NVP(productionPeriod));
+       ar(
+           cereal::base_class<DestructibleObject>(this),
+           CEREAL_NVP(productionType),
+           CEREAL_NVP(production),
+           CEREAL_NVP(productionPeriod));
 
         currentTime = productionPeriod.first;
     }
 
-
-
 public:
-	MineModel();
-    MineModel(string aName, string aTag,
-              int aMaxHealth, int aProtection[], Enums::ResourceTypes resType, int aProduction, double aPeriod);
-	~MineModel();
-    MineModel(const MineModel& right);
+
+    MineModel() = default;
+    MineModel(
+        const std::string& aName,
+        const std::string& aTag,
+        int aMaxHealth,
+        std::array<int, GlobalConstants::damageTypeCount>& aProtection,
+        Enums::ResourceTypes aResType,
+        int aProduction,
+        double aPeriod);
+    MineModel(const MineModel& aRight);
+
     int getLimit() const;
     void setLimit(int aLimit);
     int getProduction() const;
@@ -44,13 +53,15 @@ public:
     Enums::ResourceTypes getProductionType() const;
     size_t getProductionTypeIndex() const;
 
-    void produce(double timestep, std::shared_ptr<ResourcesModel> aResourceModel);
+    void produce(double aTimeStep, const std::shared_ptr<ResourcesModel>& aResourceModel);
+
 private:
-	pair<int, int> limit;
-	pair<int, int> production;
-	pair<double, double> productionPeriod;
-	double currentTime;
-	Enums::ResourceTypes productionType;
+
+    pair<int, int> production{};
+    pair<double, double> productionPeriod{};
+    double currentTime = 0;
+    Enums::ResourceTypes productionType = Enums::ResourceTypes::WHEAT;
+    pair<int, int> limit{};
 
 
 };

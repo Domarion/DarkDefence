@@ -46,7 +46,7 @@ void InventoryController::initView()
 		return;
 
     auto layout = std::make_shared<StubLayout>();
-    Font aFont =  FontManager::getInstance()->getFontByKind2("ButtonFont");
+    const auto& aFont =  FontManager::getInstance()->getFontByKind2("ButtonFont");
     for(int i = 0; i != count; ++i)
 	{
 
@@ -79,7 +79,7 @@ void InventoryController::receiveItemFromModel(string caption, size_t /*itemType
     if (caption.empty())
         return;
 
-    Font aFont =  FontManager::getInstance()->getFontByKind2("ButtonFont");
+    const Font& aFont =  FontManager::getInstance()->getFontByKind2("ButtonFont");
     auto layout = std::make_shared<StubLayout>();
 
     auto shopItemGroup = std::make_shared<ConcreteComposite>(renderer, layout);
@@ -102,12 +102,9 @@ void InventoryController::receiveItemFromModel(string caption, size_t /*itemType
     shopItemGroup->addChild(shopItemDescription);
 
     view->addChild(shopItemGroup);
-
 }
 
 bool InventoryController::sendItemToModel(int index)
 {
-
-   return model->sendItem(index);
-
+    return model->sendItem(index);
 }

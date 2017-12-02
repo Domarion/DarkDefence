@@ -9,11 +9,9 @@
 
 #include "Inventory.h"
 
-class ShopInventory: public Inventory
+class ShopInventory final: public Inventory
 {
-
 public:
-	ShopInventory();
-	virtual ~ShopInventory();
-    virtual bool sendItem(size_t index) override;
+
+    virtual bool sendItem(size_t aIndex) override;
 };

@@ -12,8 +12,17 @@ bool TileMapManager::waveAlgo(pair<int, int> startVertex, pair<int, int> endVert
 {
     waveZone = mapTemplate;
 
-    if (startVertex.first >= waveZone.size() || startVertex.second >= waveZone[0].size())
+    if (startVertex.first < 0 || startVertex.second < 0)
+    {
         return false;
+    }
+
+    if (static_cast<size_t>(startVertex.first) >= waveZone.size()
+        || static_cast<size_t>(startVertex.second) >= waveZone[0].size())
+    {
+        return false;
+    }
+
     waveZone[startVertex.first][startVertex.second] = StartingCell;
 
     size_t startVertexDistance = 0;

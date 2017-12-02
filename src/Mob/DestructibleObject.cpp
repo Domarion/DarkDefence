@@ -7,41 +7,13 @@
 
 #include "DestructibleObject.h"
 
-std::array<pair<int, int>, GlobalConstants::damageTypeCount> DestructibleObject::getAttackProtection() const
-{
-    return attackProtection;
-}
-
-const string& DestructibleObject::getName() const
-{
-    return name;
-}
-
-void DestructibleObject::setName(const string& aName)
-{
-    name = aName;
-}
-
-const string& DestructibleObject::getTag() const
-{
-    return tag;
-}
-
-void DestructibleObject::setTag(const string& aTag)
-{
-    tag = aTag;
-}
-
-bool DestructibleObject::IsAlive() const
-{
-    return Alive;
-}
-
 DestructibleObject::DestructibleObject(
-    string aName, string aTag, int aMaxHealth, int aProtection[])
+    const std::string& aName,
+    const std::string& aTag,
+    int aMaxHealth,
+    std::array<int, GlobalConstants::damageTypeCount>& aProtection)
     : name(aName)
     , tag(aTag)
-    , Alive(true)
     , currentHealth(aMaxHealth)
     , maximumHealth(aMaxHealth, 0)
 {
@@ -56,6 +28,8 @@ DestructibleObject::DestructibleObject(const DestructibleObject& aRight)
 {
     if (this != &aRight)
     {
+        connectedMethod = nullptr;
+
         name = aRight.name;
         tag = aRight.tag;
         maximumHealth = aRight.maximumHealth;
@@ -84,6 +58,36 @@ DestructibleObject& DestructibleObject::operator= (const DestructibleObject& aRi
     }
 
     return *this;
+}
+
+const std::array<pair<int, int>, GlobalConstants::damageTypeCount>& DestructibleObject::getAttackProtection() const
+{
+    return attackProtection;
+}
+
+const string& DestructibleObject::getName() const
+{
+    return name;
+}
+
+void DestructibleObject::setName(const string& aName)
+{
+    name = aName;
+}
+
+const string& DestructibleObject::getTag() const
+{
+    return tag;
+}
+
+void DestructibleObject::setTag(const string& aTag)
+{
+    tag = aTag;
+}
+
+bool DestructibleObject::IsAlive() const
+{
+    return Alive;
 }
 
 int DestructibleObject::getMaximumHealth() const
@@ -173,12 +177,12 @@ bool DestructibleObject::receiveDamage(const std::array<int, GlobalConstants::da
     return false;
 }
 
-bool DestructibleObject::receiveDamageOneType(size_t damage_type, int damage)
+bool DestructibleObject::receiveDamageOneType(size_t aDamageType, int aDamage)
 {
-    if (damage_type >= GlobalConstants::damageTypeCount)
+    if (aDamageType >= GlobalConstants::damageTypeCount)
         return false;
 
-    auto summaryDamage = attackProtection[damage_type].first + attackProtection[damage_type].second - damage;
+    auto summaryDamage = attackProtection[aDamageType].first + attackProtection[aDamageType].second - aDamage;
 
     if (summaryDamage < 0)
         return changeHealth(summaryDamage);
@@ -186,7 +190,7 @@ bool DestructibleObject::receiveDamageOneType(size_t damage_type, int damage)
     return false;
 }
 
-bool DestructibleObject::addHealth(int amount)
+bool DestructibleObject::addHealth(int aAmount)
 {
     bool isMaximumReached = false;
 
@@ -195,7 +199,7 @@ bool DestructibleObject::addHealth(int amount)
         return isMaximumReached;
     }
 
-    currentHealth += amount;
+    currentHealth += aAmount;
     if (currentHealth > getMaximumHealth())
     {
         currentHealth = getMaximumHealth();
@@ -208,11 +212,11 @@ bool DestructibleObject::addHealth(int amount)
     return isMaximumReached;
 }
 
-void DestructibleObject::setProtectionModifier(int modifier)
+void DestructibleObject::setProtectionModifier(int aModifier)//TODO почему для всех?
 {
     for(size_t i = 0; i < GlobalConstants::damageTypeCount; ++i)
     {
-        attackProtection[i].second = modifier;
+        attackProtection[i].second = aModifier;
     }
 }
 

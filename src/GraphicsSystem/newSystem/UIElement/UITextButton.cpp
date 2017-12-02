@@ -8,7 +8,7 @@ UITextButton::UITextButton(
 {
 }
 
-void UITextButton::setMessage(std::string aMsg)
+void UITextButton::setMessage(const std::string& aMsg)
 {
     msg = aMsg;
 }
