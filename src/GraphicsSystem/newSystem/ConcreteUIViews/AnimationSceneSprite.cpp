@@ -1,4 +1,5 @@
 #include "AnimationSceneSprite.h"
+#include <limits>
 
 AnimationSceneSprite::AnimationSceneSprite(std::shared_ptr<RenderingSystem>& aRenderingContext, Animation&& aAnimation)
     : Leaf(aRenderingContext)
@@ -35,11 +36,19 @@ void AnimationSceneSprite::drawAtPosition(Position pos) const
     {
         frame.drawScaledPartAtPositionFlipping(
             image_position, frame.getSize(), mAnimation.getCurrentRect(), flippingFlags);
+        return;
     }
-    else
+
+    if (!hasRotation())
     {
-        frame.drawAtPosition(image_position);
+        SDL_RendererFlip flags = static_cast<SDL_RendererFlip>(flippingFlags);
+
+        frame.drawAtPositionFlipped(image_position, flags);
+        return;
     }
+
+    frame.drawAtPositionRotated(image_position, mAngle, mRotationCenter);
+
 }
 
 
@@ -115,6 +124,17 @@ Position AnimationSceneSprite::getRealPosition() const
 void AnimationSceneSprite::setFlipping(int aFlipFlags)
 {
     flippingFlags = aFlipFlags;
+}
+
+void AnimationSceneSprite::setRotation(double aAngle, Position aCenter)
+{
+    mAngle = aAngle;
+    mRotationCenter = aCenter;
+}
+
+bool AnimationSceneSprite::hasRotation() const
+{
+    return std::abs(mAngle) > std::numeric_limits<double>::epsilon();
 }
 
 Position

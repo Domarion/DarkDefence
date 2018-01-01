@@ -409,6 +409,8 @@ void AIComponent::ShotArrow()
                     lockedParentScene->getRenderer());
             }
 
+            assert(sprite);
+
             sprite->setTexture(ResourceManager::getInstance()->getTexture(arrowName));
 
             auto miniObject = std::make_shared<ArrowAnim>(currentTarget->getRealPosition());

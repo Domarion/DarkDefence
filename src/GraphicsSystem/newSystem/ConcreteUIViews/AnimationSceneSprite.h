@@ -121,13 +121,17 @@ public:
     std::pair<Enums::AnchorCoordTypes, Enums::AnchorCoordTypes> getAnchorPoint() const;
     Position getRealPosition() const;
     void setFlipping(int aFlipFlags);
+    void setRotation(double aAngle, Position aCenter);
 
+    bool hasRotation() const;
 private:
 
     Position getRealPosFromLogicPos(Position aLogicPos) const;
     Texture2D frame;
-    bool visible;
-    int flippingFlags;
+    bool visible = true;
+    int flippingFlags = SDL_FLIP_NONE;
+    double mAngle = 0.0;
+    Position mRotationCenter;
     Enums::AnchorCoordTypes xCoordAnchorType = Enums::AnchorCoordTypes::Min;
     Enums::AnchorCoordTypes yCoordAnchorType = Enums::AnchorCoordTypes::Min;
     Animation mAnimation;
