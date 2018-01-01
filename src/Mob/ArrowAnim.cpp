@@ -1,4 +1,5 @@
 #include "ArrowAnim.h"
+#include <limits>
 
 ArrowAnim::ArrowAnim(Position aTargetPosition)
     : SceneObject()
@@ -41,6 +42,19 @@ bool ArrowAnim::ReachedPos()
 
     newMobPos.x += (abs(diffX) < speed)? diffX : signumX * speed;
     newMobPos.y += (abs(diffY) < speed)? diffY : signumY * speed;
+
+    auto& spriteRef = getSprite();
+    if (spriteRef)
+    {
+        if (abs(diffX) > std::numeric_limits<double>::epsilon())
+        {
+            spriteRef->setRotation(atan(tan(abs(diffY)/abs(diffX))), Position{});
+        }
+        int flipping = (diffX < 0)? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
+
+        spriteRef->setFlipping(flipping);
+    }
+
 
     setPosition(newMobPos);
     return false;

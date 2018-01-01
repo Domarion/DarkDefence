@@ -380,7 +380,7 @@ void Scene::onlyTestMoveCamera(Position aDeltaPosition)
     #ifdef __ANDROID__
         const int multiplier = 50;
     #else
-        const int multiplier = 10;
+        const int multiplier = 20;
     #endif
 
     aDeltaPosition *= multiplier;

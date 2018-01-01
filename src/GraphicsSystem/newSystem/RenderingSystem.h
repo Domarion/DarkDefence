@@ -27,6 +27,8 @@ public:
         const SDL_Rect* clipRect);
     void renderTextureFlipping(
         SDL_Texture* texturePtr, Position aDestPosition, const SDL_Rect* clipRect, SDL_RendererFlip aFlipFlags);
+    void renderTextureFlipping(
+        SDL_Texture* texturePtr, Position aDestPosition, Size aTextureSize, SDL_RendererFlip aFlipFlags);
 
     void renderScaledTextureFlipping(
         SDL_Texture* texturePtr,
@@ -38,6 +40,8 @@ public:
     void renderTextureRotate(
         SDL_Texture* texturePtr, Position aDestPosition, const SDL_Rect* clipRect, double anAngle);
 
+    void renderTextureRotate(
+        SDL_Texture* texturePtr, Position aDestPosition, Size aTextureSize, double aRotationAngle, Position /*aRotationPosition*/);
 
 
     std::unique_ptr<SDL_Texture, TTextureDeleter>  loadTextureFromFile(const string& filename);

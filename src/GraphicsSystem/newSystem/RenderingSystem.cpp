@@ -37,7 +37,7 @@ void RenderingSystem::renderTexture(
     SDL_RenderCopy(renderer.get(), texturePtr, clipRect, &destRect);
 }
 
-void RenderingSystem::renderTexture(SDL_Texture* texturePtr, Size aTextureSize,  Position aDestPosition)
+void RenderingSystem::renderTexture(SDL_Texture* texturePtr, Size aTextureSize, Position aDestPosition)
 {
     SDL_Rect destRect = {aDestPosition.x, aDestPosition.y, aTextureSize.width, aTextureSize.height};
     SDL_RenderCopy(renderer.get(), texturePtr, nullptr, &destRect);
@@ -64,6 +64,17 @@ void RenderingSystem::renderTextureFlipping(
     }
 }
 
+void RenderingSystem::renderTextureFlipping(
+    SDL_Texture* texturePtr, Position aDestPosition, Size aTextureSize, SDL_RendererFlip aFlipFlags)
+{
+    if (texturePtr != nullptr)
+    {
+        SDL_Rect destRect{aDestPosition.x, aDestPosition.y, aTextureSize.width, aTextureSize.height};
+
+        SDL_RenderCopyEx(renderer.get(), texturePtr, nullptr, &destRect, 0.0, nullptr, aFlipFlags);
+    }
+}
+
 void RenderingSystem::renderScaledTextureFlipping(
     SDL_Texture* texturePtr,
     Size aTextureSize,
@@ -77,7 +88,6 @@ void RenderingSystem::renderScaledTextureFlipping(
 
         SDL_RenderCopyEx(renderer.get(), texturePtr, clipRect, &destRect, 0.0, nullptr, aFlipFlags);
     }
-
 }
 
 void RenderingSystem::renderTextureRotate(
@@ -89,6 +99,13 @@ void RenderingSystem::renderTextureRotate(
         SDL_RendererFlip flipFlagNone = static_cast<SDL_RendererFlip>(SDL_FLIP_NONE);
         SDL_RenderCopyEx(renderer.get(), texturePtr, clipRect, &destRect, anAngle, nullptr, flipFlagNone);
     }
+}
+
+void RenderingSystem::renderTextureRotate(
+    SDL_Texture* texturePtr, Position aDestPosition, Size aTextureSize, double aRotationAngle, Position /*aRotationPosition*/)
+{//TODO: Handle Rotation Center
+    SDL_Rect destRect = {aDestPosition.x, aDestPosition.y, aTextureSize.width, aTextureSize.height};
+    renderTextureRotate(texturePtr, aDestPosition, &destRect, aRotationAngle);
 }
 
 std::unique_ptr<SDL_Texture, RenderingSystem::TTextureDeleter> RenderingSystem::loadTextureFromFile(

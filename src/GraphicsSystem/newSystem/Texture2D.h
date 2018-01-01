@@ -21,6 +21,9 @@ public:
     const shared_ptr<SDL_Texture>& getTexture() const;
     void loadTexture(const string& aFilename);
     void drawAtPosition(Position pos) const;
+    void drawAtPositionFlipped(Position aPosition, int aFlipFlags) const;
+    void drawAtPositionRotated(Position aDrawPosition, double aRotationAngle, Position aRotationCenter) const;
+
     void drawPartAtPosition(Position pos, const SDL_Rect* clip, int aFlipFlags = SDL_FLIP_NONE) const;
     void drawScaledPartAtPosition(Position pos, Size aTextureSize, const SDL_Rect* clip) const;
     void drawScaledPartAtPositionFlipping(Position pos, Size aTextureSize, const SDL_Rect* clip, int aFlipFlags) const;

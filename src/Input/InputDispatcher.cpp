@@ -96,7 +96,6 @@ void InputDispatcher::sendEventMouse(const SDL_Event& inputEvent)
 
     if (inputEvent.type == SDL_MOUSEBUTTONUP || inputEvent.type == SDL_MOUSEBUTTONDOWN)
     {
-
         if (inputEvent.type == SDL_MOUSEBUTTONUP)
         {
             for (auto& handler : handlers)
