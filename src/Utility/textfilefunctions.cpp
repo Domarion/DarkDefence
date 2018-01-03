@@ -32,13 +32,13 @@ void saveStringsTofile(SDL_RWops* filetoWrite, const vector<string>& strings)
 {
     if (filetoWrite)
     {
-        int stringCount = strings.size();
-        SDL_RWwrite(filetoWrite, &stringCount, sizeof(int), 1);
+        uint32_t stringCount = strings.size();
+        SDL_RWwrite(filetoWrite, &stringCount, sizeof(uint32_t), 1);
 
-        for(int i = 0; i < stringCount; ++i)
+        for(uint32_t i = 0; i < stringCount; ++i)
         {
-            int stringByteLength = strings[i].size();
-            SDL_RWwrite(filetoWrite, &stringByteLength, sizeof(int), 1);
+            uint32_t stringByteLength = strings[i].size();
+            SDL_RWwrite(filetoWrite, &stringByteLength, sizeof(uint32_t), 1);
             SDL_RWwrite(filetoWrite, strings[i].c_str(), stringByteLength, 1);
         }
     }
@@ -48,11 +48,13 @@ void loadStringsFromfile(SDL_RWops* filetoRead, vector<string>& strings)
 {
     if (filetoRead)
     {
-        int stringCount{0};
-        SDL_RWread(filetoRead, &stringCount, sizeof(int), 1);
+        uint32_t stringCount{0};
+        SDL_RWread(filetoRead, &stringCount, sizeof(uint32_t), 1);
         strings.resize(stringCount);
-        for(int i = 0; i < stringCount; ++i)
+        for(uint32_t i = 0; i < stringCount; ++i)
+        {
             strings[i] = loadCharStringFromFile(filetoRead);
+        }
     }
 }
 
@@ -129,8 +131,8 @@ std::string loadCharStringFromFile(SDL_RWops* filetoRead)
 {
     if (filetoRead)
     {
-        int stringByteLength{};
-        SDL_RWread(filetoRead, &stringByteLength, sizeof(int), 1);
+        uint32_t stringByteLength{};
+        SDL_RWread(filetoRead, &stringByteLength, sizeof(uint32_t), 1);
 
         char* char_string = new char[stringByteLength + 1];
         try
@@ -157,20 +159,20 @@ void saveAnimsToFile(SDL_RWops* filetoWrite, const map<string, vector<SDL_Rect> 
 {
     if (filetoWrite)
     {
-        int statesCount = anims.size();
-        SDL_RWwrite(filetoWrite, &statesCount, sizeof(int), 1);
+        uint32_t statesCount = anims.size();
+        SDL_RWwrite(filetoWrite, &statesCount, sizeof(uint32_t), 1);
 
         for(const auto& mapItem : anims)
         {
-            int stringByteLength = mapItem.first.size();
-            SDL_RWwrite(filetoWrite, &stringByteLength, sizeof(int), 1);
+            uint32_t stringByteLength = mapItem.first.size();
+            SDL_RWwrite(filetoWrite, &stringByteLength, sizeof(uint32_t), 1);
             SDL_RWwrite(filetoWrite, mapItem.first.c_str(), stringByteLength, 1);
 
-            int frameCount = mapItem.second.size();
+            uint32_t frameCount = mapItem.second.size();
 
-            SDL_RWwrite(filetoWrite, &frameCount, sizeof(int), 1);
+            SDL_RWwrite(filetoWrite, &frameCount, sizeof(uint32_t), 1);
 
-            for(int frameIndex = 0; frameIndex < frameCount; ++frameIndex)
+            for(uint32_t frameIndex = 0; frameIndex < frameCount; ++frameIndex)
             {
                 SDL_Rect animFrameRect = mapItem.second[frameIndex];
                 SDL_RWwrite(filetoWrite, &animFrameRect, sizeof(SDL_Rect), 1);

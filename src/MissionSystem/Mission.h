@@ -1,10 +1,3 @@
-/*
- * Mission.h
- *
- *  Created on: 8 марта 2016 г.
- *      Author: kostya_hm
- */
-
 #pragma once
 
 #include "BasicGoal.h"
@@ -37,16 +30,15 @@ public:
 
     Mission() = default;
     Mission(const std::string& aCaption, const std::string& aDescription, const Reward& aReward);
-    ~Mission() = default;
 
     const std::string& getCaption() const;
     void setCaption(const std::string& aCaption);
     const std::string& getDescription() const;
     void setDescription(const std::string& aDescription);
-	MissionStatuses getStatus() const;
+    MissionStatuses getMissionStatus() const;
 
     MissionStatuses checkStatus(Enums::GameStatuses aGameStatus);
-	void setStatus(MissionStatuses value);
+    void setStatus(MissionStatuses aMissionStatus);
     void addGoal(const std::shared_ptr<BasicGoal>& aGoal);
     void setReward(const Reward& aReward);
     std::list<std::string> getGoalsFullDesc() const;

@@ -1,34 +1,8 @@
-/*
- * GameModel.cpp
- *
- *  Created on: 14 апр. 2016 г.
- *      Author: kostya_hm
- */
-
 #include "GameModel.h"
-#include <fstream>
 #include <list>
 
-#include <iostream>
 #include <functional>
 #include "../MissionSystem/ResourceGoal.h"
-
-#include "../AbilitySystem/MobAbilities/MobAbilityArson.h"
-#include "../AbilitySystem/MobAbilities/MobAbilityRegeneration.h"
-#include "../AbilitySystem/MobAbilities/MobAbilitySprint.h"
-#include "../AbilitySystem/MobAbilities/MobAbilityInvisiblity.h"
-#include "../AbilitySystem/MobAbilities/MobAbilityFog.h"
-#include "../AbilitySystem/MobAbilities/MobAbilitySummon.h"
-#include "../AbilitySystem/MobAbilities/MobAbilityInvulnerablity.h"
-#include "../AbilitySystem/MobAbilities/MobAbilityHeal.h"
-
-#include "../AbilitySystem/MobAbilities/MobAbilityWheat.h"
-#include "../AbilitySystem/MobAbilities/GulakiUpgrade.h"
-#include "../AbilitySystem/MobAbilities/MobEarthTowerAbility.h"
-#include "../AbilitySystem/MobAbilities/MobMageTowerAbility.h"
-#include "../AbilitySystem/MobAbilities/MobCloudTowerAbility.h"
-#include "../AbilitySystem/MobAbilities/TitanChockUpgrade.h"
-#include "../AbilitySystem/MobAbilities/TitanChockMassSlow.h"
 
 #include "../Utility/textfilefunctions.h"
 #include <sstream>
@@ -39,27 +13,16 @@
 #include "../Logging/Logger.h"
 
 using std::list;
-using std::ifstream;
 using std::stringstream;
 
 GameModel* GameModel::instance_ = nullptr;
 
 GameModel::GameModel()
-    : waveNumber(0)
-    , waveCount(0)
-    , pointsPerWave(0)
-    , pointsPerMap(0)
-    , pointsRefundModifier(1)
-    , MonsterCountOnMap( 0 )
-    , gameStatus(Enums::GameStatuses::gsINPROGRESS)
-    , currentMissionIndex(0)
-    , shop(std::make_shared<ShopInventory>())
+    : shop(std::make_shared<ShopInventory>())
     , heroFigure(std::make_shared<HeroInventory>(9))
     , inventory(std::make_shared<Inventory>())
     , resourcesModelPtr(std::make_shared<ResourcesModel>())
     , missionReward()
-    , shopItemsLoaded(false)
-    , gameDataLoaded(false)
 {
 }
 
@@ -250,55 +213,6 @@ void GameModel::addPoints(int aAmount)
     pointsPerMap += aAmount;
 }
 
-std::unique_ptr<MobAbility> GameModel::getMobAbilityByName(const string& aAbilityName) const
-{
-    if (aAbilityName == "MobAbilityArson")
-        return std::make_unique<MobAbilityArson>();
-
-    if (aAbilityName == "MobAbilityRegeneration")
-        return std::make_unique<MobAbilityRegeneration>();
-
-    if (aAbilityName == "MobAbilityHeal")
-        return std::make_unique<MobAbilityHeal>();
-
-    if (aAbilityName == "MobAbilitySprint")
-        return std::make_unique<MobAbilitySprint>();
-
-    if (aAbilityName == "MobAbilityFog")
-        return std::make_unique<MobAbilityFog>();
-
-    if (aAbilityName == "MobAbilityInvisiblity")
-        return std::make_unique<MobAbilityInvisiblity>();
-
-    if (aAbilityName == "MobAbilityInvulnerablity")
-        return std::make_unique<MobAbilityInvulnerablity>();
-
-    if (aAbilityName == "MobAbilityWheat")
-        return std::make_unique<MobAbilityWheat>();
-
-    if (aAbilityName == "GulakiAmulet")
-        return std::make_unique<GulakiUpgrade>();
-
-    if (aAbilityName == "MobEarthTowerAbility")
-        return std::make_unique<MobEarthTowerAbility>();
-
-    if (aAbilityName == "MobMageTowerAbility")
-        return std::make_unique<MobMageTowerAbility>();
-
-    if (aAbilityName == "MobCloudTowerAbility")
-        return std::make_unique<MobCloudTowerAbility>();
-
-    if (aAbilityName == "TitanChockUpgrade")
-        return std::make_unique<TitanChockUpgrade>();
-
-    if (aAbilityName == "TitanChockMassSlow")
-        return std::make_unique<TitanChockMassSlow>();
-
-    if (aAbilityName == "MobAbilitySummon")
-        return std::make_unique<MobAbilitySummon>();
-
-    return nullptr;
-}
 
 void GameModel::saveGameData(const std::string& aFileName) // TODO : use textFileFunctions
 {
@@ -483,6 +397,11 @@ GameModel* GameModel::getInstance()
 }
 
 const std::shared_ptr<ResourcesModel>& GameModel::getResourcesModel() const
+{
+    return resourcesModelPtr;
+}
+
+std::shared_ptr<ResourcesModel> GameModel::getResourcesModelNonConst()
 {
     return resourcesModelPtr;
 }

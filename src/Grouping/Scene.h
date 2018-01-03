@@ -1,14 +1,6 @@
-/*
- * Scene.h
- *
- *  Created on: 8 марта 2016 г.
- *      Author: kostya_hm
- */
-
 #pragma once
 
 #include <list>
-using std::list;
 
 #include "SceneObject.h"
 #include "SceneManager.h"
@@ -17,6 +9,8 @@ using std::list;
 #include "../GraphicsSystem/newSystem/Camera2D.h"
 #include "../Input/InputDispatcher.h"
 #include "../GraphicsSystem/newSystem/StubLayout.h"
+
+using std::list;
 
 class SceneObject;
 class SceneManager;

@@ -1,10 +1,3 @@
-/*
- * Mob.h
- *
- *  Created on: 8 марта 2016 г.
- *      Author: kostya_hm
- */
-
 #pragma once
 
 #include "../AI/AIComponent.h"
@@ -13,31 +6,27 @@
 
 #include "../AbilitySystem/MobEffectReceiver.h"
 
-#include "../AbilitySystem/MobAbilities/MobAbility.h"
-
 #include "../GlobalScripts/TileMapManager.h"
 
 class AIComponent;
-class MobAbility;
 class MobEffectReceiver;
 class MobModel;
-
 
 class Mob: public SceneObject, public std::enable_shared_from_this<Mob>
 {
 public:
     Mob(std::shared_ptr<MobModel> model, std::shared_ptr<TileMapManager> aTileMapPtr = nullptr);
-    virtual ~Mob();
+    virtual ~Mob() = default;
 
-    virtual void init(int x, int y) override;
+    virtual void init(int aX, int aY) override;
 
-    virtual bool update(double timestep) override;
+    virtual bool update(double aTimeStep) override;
 	virtual void finalize() override;
     virtual string getName() const override;
-    virtual void setName(const string &value) override;
+    virtual void setName(const string& aName) override;
 
     virtual string getTag() const override;
-    virtual void setTag(const string &value) override;
+    virtual void setTag(const string& aTag) override;
     virtual std::shared_ptr<DestructibleObject> getDestructibleObject() const override;
     virtual std::shared_ptr<EffectReceiver> getEffectReceiver() const override;
     virtual std::shared_ptr<MobModel> getModel() const;
@@ -47,8 +36,6 @@ public:
 protected:
 
     std::shared_ptr<MobModel> mobModel;
-
-
     std::shared_ptr<MobEffectReceiver>  mobEffectReceiver;
     std::shared_ptr<TileMapManager> tileMapPtr;
     std::unique_ptr<AIComponent> mobAI;

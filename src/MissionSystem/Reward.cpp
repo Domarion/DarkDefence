@@ -1,51 +1,27 @@
-/*
- * Reward.cpp
- *
- *  Created on: 8 марта 2016 г.
- *      Author: kostya_hm
- */
-
 #include "Reward.h"
 
-Reward::Reward()
-    :goldCoins(0)
+Reward::Reward(int aCoinsAmount)
+    : mCoinsAmount(aCoinsAmount)
 {
-	// TODO Auto-generated constructor stub
-
 }
 
-Reward::Reward(int coinsAmount)
-    :goldCoins(coinsAmount)
+void Reward::addItemName(const std::string& aItemName)
 {
-
+    mItemNames.emplace_back(aItemName);
 }
 
-Reward::~Reward()
+void Reward::setGoldCoins(int aCoinsAmount)
 {
-    // TODO Auto-generated destructor stub
-}
-
-void Reward::addItemName(string itemName)
-{
-    itemNames.push_back(itemName);
-}
-
-void Reward::setGoldCoins(int amount)
-{
-    goldCoins = amount;
+    mCoinsAmount = aCoinsAmount;
 }
 
 int Reward::getGoldCoins() const
 {
-    return goldCoins;
+    return mCoinsAmount;
 }
 
-list<string> Reward::getFullDescription() const
+const std::list<std::string>& Reward::getFullDescription() const
 {
-    list<string> someList;
-    someList.insert(someList.end(), itemNames.begin(), itemNames.end());
-   // string s = "GoldCoins " + std::to_string(goldCoins);
-    //someList.push_back(s);
-    return someList;
+    return mItemNames;
 }
 

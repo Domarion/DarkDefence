@@ -16,17 +16,17 @@
 							<goalStatus>0</goalStatus>
 							<needed>2000</needed>
 						</value0>
-						<resourceType>2</resourceType>
+						<ResourceType>2</ResourceType>
 					</data>
 				</ptr_wrapper>
 			</value0>
 		</goals>
 		<reward>
 			<cereal_class_version>0</cereal_class_version>
-			<itemNames size="dynamic">
+			<ItemNames size="dynamic">
 				<value0>MerchantsCaftan</value0>
-			</itemNames>
-			<goldCoins>15</goldCoins>
+			</ItemNames>
+			<CoinsAmount>15</CoinsAmount>
 		</reward>
 		<missionStatus>0</missionStatus>
 	</Mission>

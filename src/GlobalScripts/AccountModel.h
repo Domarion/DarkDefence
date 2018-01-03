@@ -1,30 +1,27 @@
-/*
- * AccountModel.h
- *
- *  Created on: 17 апр. 2016 г.
- *      Author: kostya_hm
- */
-
 #pragma once
 
 #include <string>
-using std::string;
 
 class AccountModel final
 {
 public:
     static AccountModel* getInstance();
-	const string& getAccountName() const;
-    void setAccountName(const string& aAccountName);
+
+    const std::string& getAccountName() const;
+    void setAccountName(const std::string& aAccountName);
+
 	int getGoldAmount() const;
-    void setGoldAmount(int amount);
-	bool PayGold(int amount);
-    void addGold(int amount);
+    void setGoldAmount(int aAmount);
+
+    bool PayGold(int aAmount);
+    void addGold(int aAmount);
+
 private:
-    AccountModel(int goldValue = 300, int goldMax = 5000);
+    AccountModel(int aGoldValue = 300, int aGoldMax = 5000);
     ~AccountModel() = default;
-	string accountName;
-    int goldAmount, goldLimit;
+
+    std::string mAccountName;
+    int mGoldAmount = 0, mGoldAmountLimit = 0;
 	static AccountModel* instance_;
 };
 

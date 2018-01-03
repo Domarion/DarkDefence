@@ -1,18 +1,8 @@
-/*
- * Reward.h
- *
- *  Created on: 8 марта 2016 г.
- *      Author: kostya_hm
- */
-
 #pragma once
 
 #include <cereal/access.hpp>
 #include <cereal/types/string.hpp>
 #include <cereal/types/list.hpp>
-#include <cereal/types/utility.hpp>
-using std::list;
-using std::string;
 
 class Reward
 {
@@ -20,18 +10,24 @@ class Reward
      template <typename Archive>
      void serialize(Archive &ar, const unsigned int /*version*/)
      {
-         ar(CEREAL_NVP(itemNames), CEREAL_NVP(goldCoins));
+         ar(
+            cereal::make_nvp("ItemNames", mItemNames),
+            cereal::make_nvp("CoinsAmount", mCoinsAmount));
      }
+
 public:
-	Reward();
-    explicit Reward(int coinsAmount);
-	~Reward();
-    void addItemName(string itemName);
-    void setGoldCoins(int amount);
+
+    Reward() = default;
+    explicit Reward(int aCoinsAmount);
+
+    void addItemName(const std::string& aItemName);
+    void setGoldCoins(int aCoinsAmount);
     int getGoldCoins() const;
-    list<string> getFullDescription() const;
+
+    const std::list<std::string>& getFullDescription() const;
+
 private:
-    list<string> itemNames;
-    int goldCoins;
+    std::list<std::string> mItemNames;
+    int mCoinsAmount = 0;
 };
 

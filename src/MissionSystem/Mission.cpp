@@ -1,10 +1,3 @@
-/*
- * Mission.cpp
- *
- *  Created on: 8 марта 2016 г.
- *      Author: kostya_hm
- */
-
 #include "Mission.h"
 
 Mission::Mission(const std::string& aCaption, const std::string& aDescription, const Reward& aReward)
@@ -12,7 +5,6 @@ Mission::Mission(const std::string& aCaption, const std::string& aDescription, c
     , description(aDescription)
     , reward(aReward)
 {
-
 }
 
 const std::string& Mission::getCaption() const
@@ -58,14 +50,14 @@ MissionStatuses Mission::checkStatus(Enums::GameStatuses aGameStatus)
     return missionStatus;
 }
 
-MissionStatuses Mission::getStatus() const
+MissionStatuses Mission::getMissionStatus() const
 {
     return missionStatus;
 }
 
-void Mission::setStatus(MissionStatuses value)
+void Mission::setStatus(MissionStatuses aMissionStatus)
 {
-    missionStatus = value;
+    missionStatus = aMissionStatus;
 }
 
 void Mission::addGoal(const std::shared_ptr<BasicGoal>& aGoal)
@@ -78,9 +70,9 @@ void Mission::setReward(const Reward& aReward)
     reward = aReward;
 }
 
-std::list<std::string> Mission::getGoalsFullDesc() const // TODO: Refactor
+std::list<std::string> Mission::getGoalsFullDesc() const
 {
-    list<std::string> goalDescriptionList;
+    std::list<std::string> goalDescriptionList;
     for(const auto& goalPtr : goals)
     {
         if (!goalPtr)
@@ -95,9 +87,9 @@ std::list<std::string> Mission::getGoalsFullDesc() const // TODO: Refactor
     return goalDescriptionList;
 }
 
-std::list<string> Mission::getGoalsNeeded() const
+std::list<std::string> Mission::getGoalsNeeded() const
 {
-    list<std::string> goalNeededList;
+    std::list<std::string> goalNeededList;
     for(const auto& goalPtr : goals)
     {
         if (!goalPtr)

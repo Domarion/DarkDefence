@@ -18,7 +18,7 @@
 #include "Scenes/InventoryScene.h"
 #include "Scenes/ShopScene.h"
 #include "Scenes/ScoreScene.h"
-#include <string>
+
 #include "GlobalScripts/ResourceManager.h"
 #include "Logging/Logger.h"
 
@@ -31,6 +31,7 @@ GameApp::GameApp(std::unique_ptr<SceneManager>&& aSceneManager, std::unique_ptr<
 
 void GameApp::preloadData()
 {
+    // TODO: Use configuration file instead.
     FontManager::getInstance()->loadFontList("GameData/fontconfig.txt", mRenderer);
 
     ResourceManager::getInstance()->loadConfigFromFile("GameData/TexturePaths.xml", mRenderer);

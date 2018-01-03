@@ -1,10 +1,3 @@
-/*
- * ItemModel.cpp
- *
- *  Created on: 15 апр. 2016 г.
- *      Author: kostya_hm
- */
-
 #include "ItemModel.h"
 
 ItemModel::ItemModel(
@@ -50,7 +43,6 @@ void ItemModel::clean()
 {
     itemType = Enums::ItemTypes::DEFAULT;
     safeClean();
-
 }
 
 const std::string& ItemModel::getCaption() const

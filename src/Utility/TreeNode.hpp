@@ -1,10 +1,3 @@
-/*
- * TreeNode.h
- *
- *  Created on: 16 апр. 2016 г.
- *      Author: kostya_hm
- */
-
 #pragma once
 
 #include <cereal/access.hpp>
@@ -25,7 +18,10 @@ class TreeNode : public std::enable_shared_from_this<TreeNode<T>>
     template<class Archive>
     void serialize(Archive& ar, const unsigned int /*version*/)
     {
-        ar(CEREAL_NVP(nodeName), cereal::make_nvp("nodeData",data), CEREAL_NVP(children));
+        ar(
+            cereal::make_nvp("NodeName", mNodeName),
+            cereal::make_nvp("NodeData", mData),
+            cereal::make_nvp("Children", mChildren));
     }
 
 public:
@@ -34,7 +30,6 @@ public:
     TreeNode(const std::string& aNodeName, std::shared_ptr<T>&& aData);
 
     TreeNode() = default;
-    ~TreeNode() = default;
 
     void addChild(std::unique_ptr<TreeNode<T>>&& aNode);
     void addChildData(const std::string& aNodeName, std::unique_ptr<T>&& aNodeData);
@@ -52,9 +47,9 @@ public:
     bool hasChildren() const;
 
 private:
-    string nodeName;
-    std::shared_ptr<T> data;
-    map<string, std::shared_ptr<TreeNode<T>>> children;
+    string mNodeName;
+    std::shared_ptr<T> mData;
+    map<string, std::shared_ptr<TreeNode<T>>> mChildren;
 };
 
 #include "../Utility/TreeNode_impl.hpp"

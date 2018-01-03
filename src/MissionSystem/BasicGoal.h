@@ -1,17 +1,9 @@
-/*
- * BasicGoal.h
- *
- *  Created on: 8 марта 2016 г.
- *      Author: kostya_hm
- */
-
 #pragma once
 
 #include <cereal/access.hpp>
 #include <cereal/types/string.hpp>
 #include <cereal/types/utility.hpp>
 #include "Enums.h"
-#include <string>
 
 enum class GoalStatuses
 {

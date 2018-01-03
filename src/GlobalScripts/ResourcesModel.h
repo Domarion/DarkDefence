@@ -26,6 +26,8 @@ public:
     void addResources(PriceArray costarray);
     void removeResources(PriceArray costarray);
     int getResourceAmountFromIndex(size_t resourceType);
+    int getResourceAmountFromType(Enums::ResourceTypes aResourceType);
+
     bool haveEnoughResource(size_t resourceType, int amount);
     bool addResource(size_t resourceType, int amount);
     bool addResource(Enums::ResourceTypes aResourceType, int aAmount);

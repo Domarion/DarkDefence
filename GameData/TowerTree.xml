@@ -5,8 +5,8 @@
 			<id>2147483649</id>
 			<data>
 				<cereal_class_version>0</cereal_class_version>
-				<nodeName>WatcherTower</nodeName>
-				<nodeData>
+				<NodeName>WatcherTower</NodeName>
+				<NodeData>
 					<polymorphic_id>1073741824</polymorphic_id>
 					<ptr_wrapper>
 						<id>2147483650</id>
@@ -86,16 +86,16 @@
 							<ArrowName></ArrowName>
 						</data>
 					</ptr_wrapper>
-				</nodeData>
-				<children size="dynamic">
+				</NodeData>
+				<Children size="dynamic">
 					<value0>
 						<key>BallistaTower</key>
 						<value>
 							<ptr_wrapper>
 								<id>2147483651</id>
 								<data>
-									<nodeName>BallistaTower</nodeName>
-									<nodeData>
+									<NodeName>BallistaTower</NodeName>
+									<NodeData>
 										<polymorphic_id>1073741824</polymorphic_id>
 										<ptr_wrapper>
 											<id>2147483652</id>
@@ -173,8 +173,8 @@
 												<ArrowName>BallistaArrow</ArrowName>
 											</data>
 										</ptr_wrapper>
-									</nodeData>
-									<children size="dynamic"/>
+									</NodeData>
+									<Children size="dynamic"/>
 								</data>
 							</ptr_wrapper>
 						</value>
@@ -185,8 +185,8 @@
 							<ptr_wrapper>
 								<id>2147483653</id>
 								<data>
-									<nodeName>CatapultTower</nodeName>
-									<nodeData>
+									<NodeName>CatapultTower</NodeName>
+									<NodeData>
 										<polymorphic_id>1073741824</polymorphic_id>
 										<ptr_wrapper>
 											<id>2147483654</id>
@@ -264,8 +264,8 @@
 												<ArrowName>CatapultStone</ArrowName>
 											</data>
 										</ptr_wrapper>
-									</nodeData>
-									<children size="dynamic"/>
+									</NodeData>
+									<Children size="dynamic"/>
 								</data>
 							</ptr_wrapper>
 						</value>
@@ -276,8 +276,8 @@
 							<ptr_wrapper>
 								<id>2147483655</id>
 								<data>
-									<nodeName>MageTower</nodeName>
-									<nodeData>
+									<NodeName>MageTower</NodeName>
+									<NodeData>
 										<polymorphic_id>1073741824</polymorphic_id>
 										<ptr_wrapper>
 											<id>2147483656</id>
@@ -357,16 +357,16 @@
 												<ArrowName></ArrowName>
 											</data>
 										</ptr_wrapper>
-									</nodeData>
-									<children size="dynamic">
+									</NodeData>
+									<Children size="dynamic">
 										<value0>
 											<key>CloudTower</key>
 											<value>
 												<ptr_wrapper>
 													<id>2147483657</id>
 													<data>
-														<nodeName>CloudTower</nodeName>
-														<nodeData>
+														<NodeName>CloudTower</NodeName>
+														<NodeData>
 															<polymorphic_id>1073741824</polymorphic_id>
 															<ptr_wrapper>
 																<id>2147483658</id>
@@ -445,8 +445,8 @@
 																	<ArrowName></ArrowName>
 																</data>
 															</ptr_wrapper>
-														</nodeData>
-														<children size="dynamic"/>
+														</NodeData>
+														<Children size="dynamic"/>
 													</data>
 												</ptr_wrapper>
 											</value>
@@ -457,8 +457,8 @@
 												<ptr_wrapper>
 													<id>2147483659</id>
 													<data>
-														<nodeName>EarthTower</nodeName>
-														<nodeData>
+														<NodeName>EarthTower</NodeName>
+														<NodeData>
 															<polymorphic_id>1073741824</polymorphic_id>
 															<ptr_wrapper>
 																<id>2147483660</id>
@@ -538,8 +538,8 @@
 																	<ArrowName></ArrowName>
 																</data>
 															</ptr_wrapper>
-														</nodeData>
-														<children size="dynamic"/>
+														</NodeData>
+														<Children size="dynamic"/>
 													</data>
 												</ptr_wrapper>
 											</value>
@@ -550,8 +550,8 @@
 												<ptr_wrapper>
 													<id>2147483661</id>
 													<data>
-														<nodeName>WindTower</nodeName>
-														<nodeData>
+														<NodeName>WindTower</NodeName>
+														<NodeData>
 															<polymorphic_id>1073741824</polymorphic_id>
 															<ptr_wrapper>
 																<id>2147483662</id>
@@ -629,13 +629,13 @@
 																	<ArrowName>ArrowLighting</ArrowName>
 																</data>
 															</ptr_wrapper>
-														</nodeData>
-														<children size="dynamic"/>
+														</NodeData>
+														<Children size="dynamic"/>
 													</data>
 												</ptr_wrapper>
 											</value>
 										</value2>
-									</children>
+									</Children>
 								</data>
 							</ptr_wrapper>
 						</value>
@@ -646,8 +646,8 @@
 							<ptr_wrapper>
 								<id>2147483663</id>
 								<data>
-									<nodeName>ProductivityTower</nodeName>
-									<nodeData>
+									<NodeName>ProductivityTower</NodeName>
+									<NodeData>
 										<polymorphic_id>1073741824</polymorphic_id>
 										<ptr_wrapper>
 											<id>2147483664</id>
@@ -727,13 +727,13 @@
 												<ArrowName></ArrowName>
 											</data>
 										</ptr_wrapper>
-									</nodeData>
-									<children size="dynamic"/>
+									</NodeData>
+									<Children size="dynamic"/>
 								</data>
 							</ptr_wrapper>
 						</value>
 					</value3>
-				</children>
+				</Children>
 			</data>
 		</ptr_wrapper>
 	</TowerTree>
