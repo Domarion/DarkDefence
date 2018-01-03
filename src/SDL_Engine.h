@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GraphicsSystem/newSystem/Size.h"
+#include <cstdint>
 
 namespace SDL2Engine
 {
@@ -11,8 +12,6 @@ public:
     explicit SDL2(uint32_t aSubsystemsFlags);
 
     Size getScreenResolution() const;
-
-    SDL2() = delete;
 
     ~SDL2();
 };

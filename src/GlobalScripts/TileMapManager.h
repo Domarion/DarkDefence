@@ -3,12 +3,14 @@
 #include<vector>
 #include <list>
 #include <utility>
-using std::pair;
-using std::list;
-using std::vector;
+
 #include <SDL_rect.h>
 #include <memory>
 #include "../GraphicsSystem/newSystem/UtilityStructs.h"
+
+using std::pair;
+using std::list;
+using std::vector;
 
 class TileMapManager
 {

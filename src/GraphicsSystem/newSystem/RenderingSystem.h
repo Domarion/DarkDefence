@@ -1,11 +1,14 @@
 #pragma once
 
+#include <string>
+#include <memory>
+
 #include <SDL.h>
 #include <SDL_ttf.h>
-#include <string>
-using std::string;
-#include <memory>
+
 #include "UtilityStructs.h"
+
+using std::string;
 
 class RenderingSystem
 {

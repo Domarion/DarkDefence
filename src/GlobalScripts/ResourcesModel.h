@@ -1,10 +1,3 @@
-/*
- * ResourcesModel.h
- *
- *  Created on: 15 апр. 2016 г.
- *      Author: kostya_hm
- */
-
 #pragma once
 
 #include "ResourceInfo.h"
@@ -15,9 +8,9 @@
 class ResourcesModel
 {
 public:
+
     using PriceArray = std::array<int, GlobalConstants::resourceTypeCount>;
-    ResourcesModel() = default;
-    ~ResourcesModel() = default;
+
     const std::string& getResourceNameFromIndex(size_t index);
     const std::string& getResourceNameFromType(Enums::ResourceTypes aResourceType);
     std::string printResourceFromIndex(size_t index);

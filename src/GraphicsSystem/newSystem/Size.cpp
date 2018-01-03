@@ -1,4 +1,5 @@
 #include "Size.h"
+#include <iostream>
 #include <stdexcept>
 
 Size::Size(int aWidth, int aHeight)

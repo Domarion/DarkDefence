@@ -1,4 +1,5 @@
 #include "Position.h"
+#include <iostream>
 #include <stdexcept>
 
 Position::Position(int aX, int aY)

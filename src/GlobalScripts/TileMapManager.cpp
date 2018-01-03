@@ -1,8 +1,6 @@
 #include "TileMapManager.h"
 #include <algorithm>
 
-using std::find;
-
 TileMapManager::TileMapManager(vector<vector<int> >& aMapTemplate)
     : mapTemplate(aMapTemplate)
 {
@@ -52,7 +50,7 @@ bool TileMapManager::waveAlgo(pair<int, int> startVertex, pair<int, int> endVert
             return false;
         }
 
-        if (find(newFront.cbegin(), newFront.cend(), endVertex) != newFront.cend())
+        if (std::find(newFront.cbegin(), newFront.cend(), endVertex) != newFront.cend())
         {
             oldFront.clear();
             newFront.clear();
