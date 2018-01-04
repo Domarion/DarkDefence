@@ -6,15 +6,14 @@
 
 namespace UtilityStruct
 {
+
 struct Res
 {
-    Res() = default;
-    ~Res() = default;
-
     std::string Caption;
     Size ImageSize;
     std::string ImagePath;
     std::string AnimationPackPath;
+
 private:
     friend class cereal::access;
     template <typename Archive>
@@ -26,7 +25,7 @@ private:
             cereal::make_nvp("ImageHeight", ImageSize.height),
             CEREAL_NVP(ImagePath),
             CEREAL_NVP(AnimationPackPath));
-
     }
 };
+
 }

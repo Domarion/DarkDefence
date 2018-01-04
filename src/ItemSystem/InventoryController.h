@@ -1,10 +1,3 @@
-/*
- * InventoryController.h
- *
- *  Created on: 24 апр. 2016 г.
- *      Author: kostya_hm
- */
-
 #pragma once
 
 #include "Inventory.h"
@@ -31,6 +24,6 @@ private:
 
     Font arial;
     SDL_Color color;
-    vector<std::shared_ptr<IComposite> > buttons;
+    vector<std::shared_ptr<IComposite>> buttons;
 };
 

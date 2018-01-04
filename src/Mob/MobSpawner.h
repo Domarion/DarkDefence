@@ -1,10 +1,3 @@
-/*
- * MobSpawner.h
- *
- *  Created on: 6 апр. 2016 г.
- *      Author: kostya_hm
- */
-
 #pragma once
 
 #include <string>
@@ -12,8 +5,6 @@
 #include <vector>
 #include <functional>
 #include <deque>
-
-using std::string;
 
 class MobSpawner
 {
@@ -26,9 +17,9 @@ public:
     };
 
 public:
-    MobSpawner();
-    void loadWavesInfo(std::string filename);
-	bool canSpawn(double timestep);
+
+    void loadWavesInfo(const std::string& aFilename);
+    bool canSpawn(double aTimeStep);
     bool IsReadyForSpawn() const;
     bool noMoreWaves() const;
     double getCurrentTime() const;
@@ -36,18 +27,21 @@ public:
     size_t getWaveNumber() const;
     size_t getWaveCount() const;
     void reset();
-    void connectInfoProcesser(std::function<void(string)> aInfoProcesser);
-    void update(double timestep);
+    void connectInfoProcesser(std::function<void(std::string)> aInfoProcesser);
+    void update(double aTimeStep);
     void disconnectInfoProcesser();
     std::string getMobNameToSpawn();
 
 private:
 
-    double period;
-    double currentTime;
-    size_t waveNumber, waveCount;
-    std::function<void(string)> mInfoProcesser;
-    std::string previousValue{};
-    SpawnStatusT currentSpawnStatus;
+    double period = 5000;
+    double currentTime = 5000;
+
+    size_t waveNumber = 0, waveCount = 0;
+
+    std::string previousValue;
+    SpawnStatusT currentSpawnStatus = SpawnStatusT::NoSpawn;
     std::vector<std::deque<std::pair<int, std::string>>> waveMobList;
+
+    std::function<void(std::string)> mInfoProcesser;
 };

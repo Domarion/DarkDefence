@@ -1,18 +1,11 @@
-/*
- * AIComponent.cpp
- *
- *  Created on: 8 марта 2016 г.
- *      Author: kostya_hm
- */
-
 #include "AIComponent.h"
-#include "../GlobalScripts/GameModel.h"
 #include <cassert>
 #include <algorithm>
 #include "../Utility/textfilefunctions.h"
 #include "../Mob/ArrowAnim.h"
 #include "../GlobalScripts/ResourceManager.h"
 #include "Logging/Logger.h"
+#include "../AbilitySystem/MobAbilities/MobAbilitiesMaker.h"
 
 AIComponent::AIComponent(std::weak_ptr<Mob> aMob)
     : MobPtr(aMob)
@@ -141,7 +134,6 @@ void AIComponent::Select()
         aiMobState = AIMobStates::aiMOVE;
     }
 }
-
 
 void AIComponent::Attack()
 {
@@ -438,14 +430,13 @@ bool AIComponent::UseAbility()
     return false;
 }
 
-void AIComponent::initMobAbilities()
+void AIComponent::initMobAbilities() // TODO Load settings from files.
 {
-
     list<string> mobAbilitiesNames =  MobPtr.lock()->getModel()->getAbilitiesNames();
 
     for(const auto& abilityName : mobAbilitiesNames)
     {
-        mobAbilities.emplace_back(GameModel::getInstance()->getMobAbilityByName(abilityName));
+        mobAbilities.emplace_back(MakeMobAbilityByName(abilityName));
         mobAbilities.back()->setWorkTime(4000);
         mobAbilities.back()->setCooldownTime(8000);
         mobAbilities.back()->init(MobPtr.lock()->getParentScene());

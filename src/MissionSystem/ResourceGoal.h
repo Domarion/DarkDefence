@@ -11,12 +11,13 @@ class ResourceGoal: public BasicGoal
     template <typename Archive>
     void serialize(Archive &ar)
     {
-        ar(cereal::base_class<BasicGoal>(this), CEREAL_NVP(resourceType));
+        ar(cereal::base_class<BasicGoal>(this), cereal::make_nvp("ResourceType", mResourceType));
     }
 
 public:
     ResourceGoal() = default;
-    ResourceGoal(const std::string& aDescription,
+    ResourceGoal(
+        const std::string& aDescription,
         int aControlNumber,
         Enums::ResourceTypes aResourceType);
 
@@ -30,8 +31,8 @@ public:
 private:
 
     int getResourceAmount() const;
-    Enums::ResourceTypes resourceType = Enums::ResourceTypes::WOOD; // TODO убрать хардкод
-    std::shared_ptr<ResourcesModel> resourceModel; //TODO: Передавать ResourcesModel сюда, иначе не будет работать
+    Enums::ResourceTypes mResourceType = Enums::ResourceTypes::UNKNOWN;
+    std::shared_ptr<ResourcesModel> mResourceModel; //TODO: Передавать ResourcesModel сюда, иначе не будет работать
 };
 
 CEREAL_REGISTER_TYPE(ResourceGoal)

@@ -1,16 +1,18 @@
 #pragma once
 
-#include "../GraphicsSystem/newSystem/Texture2D.h"
 #include <map>
 #include <vector>
+#include "../GraphicsSystem/newSystem/Texture2D.h"
 
 struct ResourceManager
 {
 public:
+
     using AnimationPack = std::map<string, std::vector<SDL_Rect>>;
     using AnimationCollection = std::map<std::string, AnimationPack>;
 
     static ResourceManager* getInstance();
+
     void loadConfigFromFile(
         const std::string& aFilename,
         std::shared_ptr<RenderingSystem> aRenderingSystem);
@@ -19,6 +21,7 @@ public:
     const AnimationPack& getAnimationPack(const std::string& aAnimationPackName) const;
     bool hasAnimationPack(const std::string& aAnimationPackName) const;
     bool hasTexture(const std::string& aObjectName) const;
+
 private:
 
     AnimationPack loadAnimationPack(const std::string& aAnimationPackPath);

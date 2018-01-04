@@ -1,10 +1,3 @@
-/*
- * MainScene.cpp
- *
- *  Created on: 13 марта 2016 г.
- *      Author: kostya_hm
- */
-
 #include "MainScene.h"
 #include "../Utility/textfilefunctions.h"
 #include <sstream>
@@ -15,11 +8,6 @@
 MainScene::MainScene(std::shared_ptr<RenderingSystem>& aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher)
     : Scene(aRenderer, aInputDispatcher)
 {
-}
-
-MainScene::~MainScene()
-{
-    clear();
 }
 
 void MainScene::init(std::shared_ptr<SceneManager> sceneManagerPtr)

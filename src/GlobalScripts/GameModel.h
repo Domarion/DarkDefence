@@ -1,10 +1,3 @@
-/*
- * GameModel.h
- *
- *  Created on: 14 апр. 2016 г.
- *      Author: kostya_hm
- */
-
 #pragma once
 
 #include "ResourcesModel.h"
@@ -32,7 +25,9 @@ class GameModel//TODO: разделение на мелкие классы
 public:
 
     static GameModel* getInstance();
+    std::shared_ptr<ResourcesModel> getResourcesModelNonConst();
     const std::shared_ptr<ResourcesModel>& getResourcesModel() const;
+
     std::unique_ptr<MobModel> getMonsterByName(const std::string& aName);
     std::unique_ptr<MobModel> getTowerByName(const std::string& aName);
 
@@ -97,12 +92,12 @@ private:
     ~GameModel() = default;
     static GameModel* instance_;
 
-    int waveNumber, waveCount;
-    int pointsPerWave, pointsPerMap;
-    double pointsRefundModifier;
-    int MonsterCountOnMap;
-    Enums::GameStatuses gameStatus;
-    int currentMissionIndex;
+    int waveNumber = 0, waveCount = 0;
+    int pointsPerWave = 0, pointsPerMap = 0;
+    double pointsRefundModifier = 1;
+    int MonsterCountOnMap = 0;
+    Enums::GameStatuses gameStatus = Enums::GameStatuses::gsINPROGRESS;
+    int currentMissionIndex = 0;
     std::shared_ptr<ShopInventory> shop;
     std::shared_ptr<HeroInventory> heroFigure;
     std::shared_ptr<Inventory> inventory;
@@ -116,7 +111,7 @@ private:
 
     vector<string> mineResMapping;
 
-    bool shopItemsLoaded;
-    bool gameDataLoaded;
+    bool shopItemsLoaded = false;
+    bool gameDataLoaded = false;
 };
 

@@ -1,29 +1,29 @@
-/*
- * HeroInventoryController.h
- *
- *  Created on: 28 апр. 2016 г.
- *      Author: kostya_hm
- */
-
 #pragma once
+
 #include "HeroInventory.h"
 #include "../GraphicsSystem/newSystem/ConcreteUIViews/UISlotContainer.h"
+
 class HeroInventoryController
 {
 public:
-    HeroInventoryController();
 	virtual ~HeroInventoryController();
-    void setView(std::shared_ptr<UISlotContainer> newView);
-    std::shared_ptr<UISlotContainer> getView() const;
-    void setModel(std::shared_ptr<HeroInventory> newModel);
-    std::shared_ptr<HeroInventory> getModel() const;
+
+    void initView(std::shared_ptr<RenderingSystem>& aRenderer);
     void initLocalPositions(Size aRectSize);
-    void initView(std::shared_ptr<RenderingSystem> &aRenderer);
-    void receiveItemFromModel(string caption, size_t itemType);
+
+    void setView(const std::shared_ptr<UISlotContainer>& aNewView);
+    const std::shared_ptr<UISlotContainer>& getView() const;
+
+    void setModel(const std::shared_ptr<HeroInventory>& aNewModel);
+    const std::shared_ptr<HeroInventory>& getModel() const;
+
+    void receiveItemFromModel(std::string aCaption, size_t aItemType);
+
 private:
-    std::shared_ptr<HeroInventory> model;
-    std::shared_ptr<UISlotContainer> view;
-    std::vector<Position> slotsPositions;
+
+    std::shared_ptr<HeroInventory> mModel;
+    std::shared_ptr<UISlotContainer> mView;
+    std::vector<Position> mSlotsPositions;
 };
 
 

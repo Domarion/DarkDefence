@@ -20,7 +20,7 @@ std::shared_ptr<Scene> SceneManager::getCurrentScene()
 
 void SceneManager::addScene(std::shared_ptr<Scene> scene, std::string name)
 {
-    scenes.emplace(std::make_pair(name, scene));//[name] = scene;
+    scenes.emplace(std::make_pair(name, scene));
 }
 
 void SceneManager::setCurrentScene(std::shared_ptr<Scene>& value)

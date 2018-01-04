@@ -1,10 +1,3 @@
-/*
- * SceneObject.h
- *
- *  Created on: 13 марта 2016 г.
- *      Author: kostya_hm
- */
-
 #pragma once
 
 #include "../GraphicsSystem/newSystem/ConcreteUIViews/AnimationSceneSprite.h"

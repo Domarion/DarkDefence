@@ -132,6 +132,7 @@ set(SRC_LIST
 
     AbilitySystem/AbilityObjectSpawn.h
 
+    AbilitySystem/MobAbilities/MobAbilitiesMaker.h
     AbilitySystem/MobAbilities/MobAbilityRegeneration.h
     AbilitySystem/MobAbilities/MobAbility.h
     AbilitySystem/MobAbilities/MobAbilityArson.h
@@ -164,7 +165,6 @@ set(SRC_LIST
     ItemSystem/ItemModel.h
     ItemSystem/ShopController.h
     ItemSystem/HeroInventory.h
-    ItemSystem/ItemCell.h
     ItemSystem/HeroInventoryController.h
     ItemSystem/ShopInventory.h
 
@@ -278,6 +278,7 @@ set(SRC_LIST
     AbilitySystem/AbilityAnims/AbilityAnimObject.cpp
     AbilitySystem/AbilityAnims/AbilityMultitargetObject.cpp
 
+    AbilitySystem/MobAbilities/MobAbilitiesMaker.cpp
     AbilitySystem/MobAbilities/MobAbilityRegeneration.cpp
     AbilitySystem/MobAbilities/MobAbilitySprint.cpp
     AbilitySystem/MobAbilities/MobAbilityArson.cpp
@@ -294,7 +295,6 @@ set(SRC_LIST
     AbilitySystem/MobAbilities/TitanChockMassSlow.cpp
     AbilitySystem/MobAbilities/MobAbilityInvulnerablity.cpp
     AbilitySystem/MobAbilities/MobAbilityHeal.cpp
-
     GlobalScripts/ManaGlobal.cpp
     GlobalScripts/ResourcesModel.cpp
     GlobalScripts/ResourceInfo.cpp

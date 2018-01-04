@@ -1,14 +1,11 @@
-/*
- * ManaGlobal.cpp
- *
- *  Created on: 8 марта 2016 г.
- *      Author: kostya_hm
- */
-
 #include "ManaGlobal.h"
+#include <limits>
 
 ManaGlobal::ManaGlobal(int maxMana, int regenValue, double regenPeriod)
-    :limit(maxMana), current(limit), regenerationValue(regenValue), regenerationPeriod(regenPeriod)
+    : limit(maxMana)
+    , current(limit)
+    , regenerationValue(regenValue)
+    , regenerationPeriod(regenPeriod)
 {
 }
 
@@ -47,9 +44,9 @@ int ManaGlobal::getRegenValue() const
 	return regenerationValue;
 }
 
-void ManaGlobal::setRegenPeriod(double value)//TODO: EPSILON
+void ManaGlobal::setRegenPeriod(double value)
 {
-	regenerationPeriod = value > 0.0 ? value : 0.0;
+    regenerationPeriod = value > std::numeric_limits<double>::epsilon() ? value : 0.0;
 }
 
 double ManaGlobal::getRegenPeriod() const
@@ -57,20 +54,20 @@ double ManaGlobal::getRegenPeriod() const
     return regenerationPeriod;
 }
 
-bool ManaGlobal::payMana(int amount)
+bool ManaGlobal::payMana(int aAmount)
 {
-    if (amount == 0)
+    if (aAmount == 0)
         return false;
 
-    if (current < amount)
+    if (current < aAmount)
         return false;
 
-    current -= amount;
+    current -= aAmount;
 
     return true;
 }
 
-void ManaGlobal::regenerate(double timestep)
+void ManaGlobal::regenerate(double aTimeStep)
 {
     if (counter >= regenerationPeriod)
     {
@@ -79,6 +76,6 @@ void ManaGlobal::regenerate(double timestep)
         counter = 0;
     }
 
-    counter += timestep;
+    counter += aTimeStep;
 
 }

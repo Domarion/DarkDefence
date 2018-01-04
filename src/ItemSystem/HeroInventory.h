@@ -1,17 +1,8 @@
-/*
- * HeroInventory.h
- *
- *  Created on: 17 апр. 2016 г.
- *      Author: kostya_hm
- */
-
 #pragma once
 
 #include "Inventory.h"
-#include <list>
-using std::list;
 
-class HeroInventory: public Inventory
+class HeroInventory : public Inventory
 {
 public:
 

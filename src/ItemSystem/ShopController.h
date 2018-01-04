@@ -1,14 +1,8 @@
-/*
- * ShopController.h
- *
- *  Created on: 20 апр. 2016 г.
- *      Author: kostya_hm
- */
-
 #pragma once
+
 #include "ShopInventory.h"
 #include "../GraphicsSystem/newSystem/ConcreteUIViews/UIScrollList.h"
-#include <memory>
+
 class ShopController
 {
 public:

@@ -1,10 +1,3 @@
-/*
- * ResourceInfo.cpp
- *
- *  Created on: 15 апр. 2016 г.
- *      Author: kostya_hm
- */
-
 #include "ResourceInfo.h"
 #include <cassert>
 

@@ -1,10 +1,3 @@
-/*
- * AIComponent.h
- *
- *  Created on: 8 марта 2016 г.
- *      Author: kostya_hm
- */
-
 #pragma once
 
 #include "../Mob/Mob.h"

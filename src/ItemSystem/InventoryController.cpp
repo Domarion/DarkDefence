@@ -1,10 +1,3 @@
-/*
- * InventoryController.cpp
- *
- *  Created on: 24 апр. 2016 г.
- *      Author: kostya_hm
- */
-
 #include "InventoryController.h"
 #include "../Grouping/FontManager.h"
 #include "../GraphicsSystem/newSystem/UIElement/UIImage.h"
@@ -12,9 +5,7 @@
 #include "../GraphicsSystem/newSystem/StubLayout.h"
 
 InventoryController::InventoryController(std::shared_ptr<RenderingSystem>& aRenderer)
-    : model(nullptr)
-    , view(nullptr)
-    , renderer(aRenderer)
+    : renderer(aRenderer)
     , arial()
 {
 }
@@ -38,8 +29,9 @@ void InventoryController::initView()
 {
     arial.loadFromFile("Fonts/arial.ttf", 20);
 
-    view->ConnectMethod(std::bind( &InventoryController::sendItemToModel, this, std::placeholders::_1) );
-    model->ConnectControllerReceiver(std::bind( &InventoryController::receiveItemFromModel, this, std::placeholders::_1, std::placeholders::_2) );
+    view->ConnectMethod(std::bind(&InventoryController::sendItemToModel, this, std::placeholders::_1));
+    model->ConnectControllerReceiver(
+        std::bind(&InventoryController::receiveItemFromModel, this, std::placeholders::_1, std::placeholders::_2));
 
 	int count = model->getItemCount();
 	if (count == 0)
@@ -49,13 +41,13 @@ void InventoryController::initView()
     const auto& aFont =  FontManager::getInstance()->getFontByKind2("ButtonFont");
     for(int i = 0; i != count; ++i)
 	{
-
         auto shopItemGroup = std::make_shared<ConcreteComposite>(renderer, layout);
         shopItemGroup->setSize(Size(150, 80));
 
         auto shopItemIcon = std::make_shared<UIImage>(renderer);
-        string iconPath = "GameData/textures/items/" +
-                model->getItemFromIndex(i)->getCaption() + ".png";
+        string iconPath =
+            "GameData/textures/items/" +
+            model->getItemFromIndex(i)->getCaption() + ".png";
         shopItemIcon->loadTexture(iconPath);
         shopItemIcon->setSize(Size(50,50));
         shopItemGroup->addChild(shopItemIcon);
@@ -64,14 +56,14 @@ void InventoryController::initView()
         shopItemCaption->setPosition(shopItemGroup->getNextHorizontalPosition());
         shopItemGroup->addChild(shopItemCaption);
 
-        auto shopItemDescription = std::make_shared<UILabel>(model->getItemFromIndex(i)->getDescription() , aFont, renderer);
+        auto shopItemDescription = std::make_shared<UILabel>(
+            model->getItemFromIndex(i)->getDescription() , aFont, renderer);
         Position descPos{shopItemCaption->getLocalPosition().x, shopItemGroup->getNextVerticalPosition().y};
         shopItemDescription->setPosition(descPos);
         shopItemGroup->addChild(shopItemDescription);
 
         view->addChild(shopItemGroup);
 	}
-
 }
 
 void InventoryController::receiveItemFromModel(string caption, size_t /*itemType*/)

@@ -1,10 +1,3 @@
-/*
- * Mob.cpp
- *
- *  Created on: 8 марта 2016 г.
- *      Author: kostya_hm
- */
-
 #include "Mob.h"
 #include "../GlobalScripts/GameModel.h"
 #include "Logging/Logger.h"
@@ -14,7 +7,6 @@ Mob::Mob(std::shared_ptr<MobModel> model, std::shared_ptr<TileMapManager> aTileM
     : mobModel(model)
     , mobEffectReceiver(std::make_shared<MobEffectReceiver>())
     , tileMapPtr(aTileMapPtr)
-    , mobAI(nullptr)
 {
 
    mobEffectReceiver->init(mobModel);
@@ -25,17 +17,17 @@ Mob::Mob(std::shared_ptr<MobModel> model, std::shared_ptr<TileMapManager> aTileM
    }
 }
 
-void Mob::init(int x, int y)
+void Mob::init(int aX, int aY)
 {
     mobAI = std::make_unique<AIComponent>(shared_from_this());
 
-    SceneObject::init(x, y);
+    SceneObject::init(aX, aY);
 
     if (mobModel->getTag() == "Monster")
 		GameModel::getInstance()->incMonsterCount();
 }
 
-bool Mob::update(double timestep)
+bool Mob::update(double aTimeStep)
 {
     if (!mobModel->IsAlive())
     {
@@ -49,7 +41,7 @@ bool Mob::update(double timestep)
 
     if (getEffectReceiver() != nullptr)
     {
-        getEffectReceiver()->processTemporaryEffects(timestep);
+        getEffectReceiver()->processTemporaryEffects(aTimeStep);
     }
 
     if (mobModel->getIsStunned())
@@ -57,11 +49,11 @@ bool Mob::update(double timestep)
         return true;
     }
 
-    SceneObject::update(timestep);
+    SceneObject::update(aTimeStep);
 
     if (mobAI != nullptr)
     {
-        mobAI->MakeDecision(timestep);
+        mobAI->MakeDecision(aTimeStep);
     }
 
     return true;
@@ -74,19 +66,14 @@ void Mob::finalize()
         GameModel::getInstance()->decMonsterCount(mobModel->getName());
 }
 
-Mob::~Mob()
-{
-    tileMapPtr = nullptr;
-}
-
 string Mob::getName() const
 {
     return mobModel->getName();
 }
 
-void Mob::setName(const string &value)
+void Mob::setName(const string& aName)
 {
-    mobModel->setName(value);
+    mobModel->setName(aName);
 }
 
 string Mob::getTag() const
@@ -94,9 +81,9 @@ string Mob::getTag() const
     return mobModel->getTag();
 }
 
-void Mob::setTag(const string &value)
+void Mob::setTag(const string& aTag)
 {
-    mobModel->setTag(value);
+    mobModel->setTag(aTag);
 }
 
 std::shared_ptr<DestructibleObject> Mob::getDestructibleObject() const

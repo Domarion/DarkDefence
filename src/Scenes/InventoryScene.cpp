@@ -1,10 +1,3 @@
-/*
- * InventoryScene.cpp
- *
- *  Created on: 18 апр. 2016 г.
- *      Author: kostya_hm
- */
-
 #include "InventoryScene.h"
 #include "../GlobalScripts/GameModel.h"
 #include "../GraphicsSystem/newSystem/VerticalLayout.h"
@@ -15,11 +8,6 @@ InventoryScene::InventoryScene(
     , inventoryController(nullptr)
     , heroController(nullptr)
 {
-}
-
-InventoryScene::~InventoryScene()
-{
-    clear();
 }
 
 void InventoryScene::init(std::shared_ptr<SceneManager> sceneManagerPtr)
@@ -71,8 +59,6 @@ void InventoryScene::initHeroView()
 
 void InventoryScene::initInventoryView()
 {
-//   if (GameModel::getInstance()->getInventory()->getItemCount() > 0)
-//   {
     const int showItems = 5;
     auto layout = std::make_shared<VerticalLayout>();
 
@@ -86,6 +72,5 @@ void InventoryScene::initInventoryView()
     inventoryController->initView();
 
     MainRect->addChild(scroll);
-//    }
 }
 

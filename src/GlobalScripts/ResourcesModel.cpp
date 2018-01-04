@@ -1,14 +1,8 @@
-/*
- * ResourcesModel.cpp
- *
- *  Created on: 15 апр. 2016 г.
- *      Author: kostya_hm
- */
-
 #include "ResourcesModel.h"
 #include <fstream>
 #include "../Utility/textfilefunctions.h"
 #include <sstream>
+#include <cassert>
 
 using std::stringstream;
 
@@ -52,6 +46,18 @@ int ResourcesModel::getResourceAmountFromIndex(size_t resourceType)
     return resourceTypes[resourceType].getCurrentAmount();
 }
 
+int ResourcesModel::getResourceAmountFromType(Enums::ResourceTypes aResourceType)
+{
+    int resouceIndex = Enums::toIntegralType(aResourceType);
+
+    assert(resouceIndex < GlobalConstants::resourceTypeCount);
+    if (resouceIndex < 0)
+    {
+        return -1;
+    }
+
+    return getResourceAmountFromIndex(resouceIndex);
+}
 bool ResourcesModel::haveEnoughResource(size_t resourceType, int amount)
 {
 	return resourceTypes[resourceType].getCurrentAmount() >= amount;

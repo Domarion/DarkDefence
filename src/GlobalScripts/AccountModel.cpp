@@ -1,16 +1,10 @@
-/*
- * AccountModel.cpp
- *
- *  Created on: 17 апр. 2016 г.
- *      Author: kostya_hm
- */
-
 #include "AccountModel.h"
+
 AccountModel* AccountModel::instance_ = nullptr;
 
-
-AccountModel::AccountModel(int goldValue, int goldMax)
-    :goldAmount(goldValue), goldLimit(goldMax)
+AccountModel::AccountModel(int aGoldValue, int aGoldMax)
+    : mGoldAmount(aGoldValue)
+    , mGoldAmountLimit(aGoldMax)
 {
 }
 
@@ -22,42 +16,41 @@ AccountModel* AccountModel::getInstance()
 	return instance_;
 }
 
-
-const string& AccountModel::getAccountName() const
+const std::string& AccountModel::getAccountName() const
 {
-	return accountName;
+	return mAccountName;
 }
 
-void AccountModel::setAccountName(const string& aAccountName)
+void AccountModel::setAccountName(const std::string& aAccountName)
 {
-    accountName = aAccountName;
+    mAccountName = aAccountName;
 }
 
 int AccountModel::getGoldAmount() const
 {
-	return goldAmount;
+	return mGoldAmount;
 }
 
-void AccountModel::setGoldAmount(int amount)
+void AccountModel::setGoldAmount(int aAmount)
 {
-    if (amount < 0 || amount > goldLimit)
+    if (aAmount < 0 || aAmount > mGoldAmountLimit)
         return;
 
-    goldAmount = amount;
+    mGoldAmount = aAmount;
 }
 
-bool AccountModel::PayGold(int amount)
+bool AccountModel::PayGold(int aAmount)
 {
-	if (goldAmount >= amount)
+    if (mGoldAmount >= aAmount)
 	{
-		goldAmount -= amount;
+        mGoldAmount -= aAmount;
 		return true;
 	}
 
     return false;
 }
 
-void AccountModel::addGold(int amount)
+void AccountModel::addGold(int aAmount)
 {
-   setGoldAmount(goldAmount + amount);
+   setGoldAmount(mGoldAmount + aAmount);
 }

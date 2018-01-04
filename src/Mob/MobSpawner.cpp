@@ -1,36 +1,17 @@
-/*
- * MobSpawner.cpp
- *
- *  Created on: 6 апр. 2016 г.
- *      Author: kostya_hm
- */
-
 #include "MobSpawner.h"
 #include "GlobalScripts/GameModel.h"
 #include "../Utility/textfilefunctions.h"
-#include <fstream>
-#include <sstream>
 #include <cassert>
-using std::stringstream;
+#include <sstream>
 
-MobSpawner::MobSpawner()
-    : period(5000)
-    , currentTime(period)
-    , waveNumber(0)
-    , waveCount(0)
-    , currentSpawnStatus(SpawnStatusT::NoSpawn)
-    , waveMobList()
-{
-}
-
-void MobSpawner::loadWavesInfo(string filename)
+void MobSpawner::loadWavesInfo(const std::string& aFilename)
 {
     string textString;
-    androidText::loadTextFileToString(filename, textString);
+    androidText::loadTextFileToString(aFilename, textString);
 
     if (!textString.empty())
     {
-        stringstream file0(textString);
+        std::stringstream file0(textString);
 
         file0 >> waveCount;
         waveMobList.resize(waveCount);
@@ -49,7 +30,7 @@ void MobSpawner::loadWavesInfo(string filename)
     }
 }
 
-bool MobSpawner::canSpawn(double timestep)
+bool MobSpawner::canSpawn(double aTimeStep)
 {
     if (GameModel::getInstance()->NoMonstersOnMap())
     {
@@ -58,7 +39,7 @@ bool MobSpawner::canSpawn(double timestep)
             return false;
 
 		if (currentTime > 0.0)
-			currentTime -= timestep;
+            currentTime -= aTimeStep;
 		else
 		{
             ++waveNumber;
@@ -148,10 +129,10 @@ void MobSpawner::connectInfoProcesser(std::function<void (std::string)> aInfoPro
     mInfoProcesser = aInfoProcesser;
 }
 
-void MobSpawner::update(double timestep)
+void MobSpawner::update(double aTimeStep)
 {
     const double Eps = 1e-3;
-    std::string info {"none"};
+    std::string info;
 
     switch (currentSpawnStatus)
     {
@@ -164,7 +145,7 @@ void MobSpawner::update(double timestep)
                 {
                     int i = static_cast<int>(currentTime)/1000;
                     info = "Wave in: " + std::to_string(i);
-                    currentTime -= timestep;
+                    currentTime -= aTimeStep;
                 }
                 else
                 {
@@ -199,7 +180,7 @@ void MobSpawner::update(double timestep)
         break;
     }
 
-    if (mInfoProcesser && info != "none")
+    if (mInfoProcesser && !info.empty())
     {
         mInfoProcesser(info);
     }

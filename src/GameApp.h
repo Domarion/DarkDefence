@@ -1,10 +1,3 @@
-/*
- * GameApp.h
- *
- *  Created on: 9 марта 2016 г.
- *      Author: kostya_hm
- */
-
 #pragma once
 
 #include "GraphicsSystem/newSystem/RenderingSystem.h"
@@ -35,10 +28,12 @@ private:
     bool processInput();
     void renderScene();
     bool isPaused();
+
     SDL_Event event;
     std::shared_ptr<RenderingSystem> mRenderer;
     std::shared_ptr<SceneManager> mSceneManager;
     std::shared_ptr<InputDispatcher> mInputDispatcher;
+
     bool mIsPaused = false;
     bool mNeedQuit = false;
 };
