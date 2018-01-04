@@ -1,10 +1,3 @@
-/*
- * ShopScene.h
- *
- *  Created on: 20 апр. 2016 г.
- *      Author: kostya_hm
- */
-
 #pragma once
 
 #include "../Grouping/Scene.h"
@@ -14,8 +7,9 @@
 class ShopScene: public Scene
 {
 public:
-    ShopScene(std::shared_ptr<RenderingSystem> &aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher);
-	virtual ~ShopScene();
+
+    ShopScene(std::shared_ptr<RenderingSystem>& aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher);
+
     virtual void init(std::shared_ptr<SceneManager> sceneManagerPtr) override;
     virtual void clear() override;
 
@@ -28,7 +22,5 @@ private:
     void initShopItemsUI();
 
     std::shared_ptr<UILabel> goldCoinsLabel;
-
     std::shared_ptr<ShopController> shopController;
-
 };

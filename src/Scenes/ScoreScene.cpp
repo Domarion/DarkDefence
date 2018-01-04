@@ -1,15 +1,14 @@
 #include "ScoreScene.h"
 #include "../GlobalScripts/GameModel.h"
 #include <list>
-using std::list;
-#include <string>
-using std::string;
 #include "../GlobalScripts/AccountModel.h"
 #include "../GraphicsSystem/newSystem/UIElement/UIImage.h"
 #include "../GraphicsSystem/newSystem/UIElement/UILabel.h"
 
+using std::list;
+using std::string;
 
-ScoreScene::ScoreScene(std::shared_ptr<RenderingSystem> &aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher)
+ScoreScene::ScoreScene(std::shared_ptr<RenderingSystem>& aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher)
     : Scene(aRenderer, aInputDispatcher)
 {
 }
@@ -33,8 +32,6 @@ void ScoreScene::clear()
 {
     Scene::clear();
 }
-
-
 
 void ScoreScene::showItemRewards()
 {
@@ -96,7 +93,6 @@ void ScoreScene::showGoldReward()
         rewardGoldGroup->addChild(rewardGoldLabel);
 
         MainRect->addChild(rewardGoldGroup);
-//        Scene::addToUIList(tempComposite);
     }
 }
 
@@ -119,12 +115,11 @@ void ScoreScene::showScoreView()
         GameModel::getInstance()->setCurrentMissionIndex(currentMissionIndex + 1);
     }
     else
+    {
         ScoreText = "Миссия провалена";
-
+    }
 
     GameModel::getInstance()->saveGameData("GameData/save.bin");
 
-
     scoreLabel->setText(ScoreText);
-
 }

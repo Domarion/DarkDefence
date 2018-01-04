@@ -1,10 +1,3 @@
-/*
- * ShopScene.cpp
- *
- *  Created on: 20 апр. 2016 г.
- *      Author: kostya_hm
- */
-
 #include "ShopScene.h"
 #include "../GlobalScripts/GameModel.h"
 #include "../GlobalScripts/AccountModel.h"
@@ -13,16 +6,9 @@
 #include "../GraphicsSystem/newSystem/VerticalLayout.h"
 #include "../GlobalScripts/ResourceManager.h"
 
-ShopScene::ShopScene(std::shared_ptr<RenderingSystem> &aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher)
+ShopScene::ShopScene(std::shared_ptr<RenderingSystem>& aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher)
     : Scene(aRenderer, aInputDispatcher)
-    , goldCoinsLabel(nullptr)
-    , shopController(nullptr)
 {
-}
-
-ShopScene::~ShopScene()
-{
-    clear();
 }
 
 void ShopScene::init(std::shared_ptr<SceneManager> sceneManagerPtr)

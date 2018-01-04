@@ -1,10 +1,3 @@
-/*
- * GameScene.h
- *
- *  Created on: 4 апр. 2016 г.
- *      Author: kostya_hm
- */
-
 #pragma once
 
 #include "../Grouping/Scene.h"
@@ -16,8 +9,6 @@
 #include "../Mob/Gates.h"
 
 #include "../MissionSystem/Mission.h"
-#include <vector>
-using std::vector;
 #include "../AbilitySystem/SpellStorage.h"
 
 #include "../Mob/ResourcePlace.h"
@@ -26,6 +17,7 @@ using std::vector;
 
 #include "../GlobalScripts/ManaGlobal.h"
 #include "Utility/StructData.hpp"
+using std::vector;
 
 class GameScene : public Scene
 {
@@ -85,19 +77,15 @@ private:
 
     SceneObjectFabric objectFabric;
 
-
     vector<std::shared_ptr<UILabel> > resourceLabels;
 
     std::shared_ptr<Spawner> monsterSpawner;
 
-
     Mission currentMission;
-
 
     SpellStorage spellStorage;
     ItemAbilitiesStorage itemAbilitiesStorage;
     std::shared_ptr<TowerUpgradeController> towerUpgradeController;
-
 
     std::function<void(string)> method;
 

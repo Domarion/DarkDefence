@@ -24,16 +24,9 @@
 
 GameScene::GameScene(std::shared_ptr<RenderingSystem>& aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher)
     : Scene(aRenderer, aInputDispatcher)
-    , gates(nullptr)
-    , gatesHealthBar(nullptr)
-    , manaBar(nullptr)
-    , pointsLabel(nullptr)
-    , waveLabel(nullptr)
     , monsterSpawner()
     , itemAbilitiesStorage()
     , towerUpgradeController(std::make_shared<TowerUpgradeController>())
-    , tileMap(nullptr)
-    , mManaModel(nullptr)
 {
 }
 
@@ -44,9 +37,7 @@ void GameScene::init(std::shared_ptr<SceneManager> sceneManagerPtr)
     initUILayer();
     placeSceneObjects();
     applyArtefactEffects();
-
 }
-
 
 void GameScene::startUpdate(double timestep)
 {
@@ -122,9 +113,7 @@ void GameScene::startUpdate(double timestep)
         if (resourceLabels[i] != nullptr)
             resourceLabels[i]->setText(s);
     }
-
 }
-
 
 const map<string, std::shared_ptr<AbilityModel>>& GameScene::getAbilityModelList() const
 {
@@ -190,7 +179,6 @@ void GameScene::loadData()
     if (!textString.empty())
     {
         std::stringstream str(textString);
-
 
         cereal::XMLInputArchive xmlinp(str);
         xmlinp(cereal::make_nvp("Positions", mPositionsVector));
@@ -461,52 +449,8 @@ void GameScene::initUILayer()
     initAbilitiesButtons();
 }
 
-//void GameScene::placeResourcesPlaces()
-//{
-//    auto resPlace = std::make_shared<ResourcePlace>(700, Enums::ResourceTypes::STONE);
-//    auto resSprite = std::make_shared<AnimationSceneSprite>(renderer);
-
-//    resSprite->setSize(Size(100, 100));
-
-//    string resourceName = GameModel::getInstance()->getResourcesModel()->getResourceNameFromIndex(static_cast<int> (resPlace->getResourceType()));
-//    string texturePath = "GameData/textures/Resources/" + resourceName + "Resource.png";
-//    resSprite->loadTexture(texturePath);
-//    resPlace->setSprite(resSprite);
-//    resPlace->setName("ResourcePlace");
-//    resPlace->setTag("ResourcePlace");
-//    spawnObject(400, 100, resPlace);
-//}
-
-//void GameScene::placeCastle()
-//{
-//    auto newView = std::make_shared<AnimationSceneSprite>(renderer);
-
-//     newView->setTexture(ResourceManager::getInstance()->getTexture("Castle"));
-//     gates = std::make_shared<Gates>();
-//     gates->setSprite(newView);
-//     gates->setTag("Gates");
-//     gates->getDestructibleObject()->connectMethod(std::bind(&UIProgressBar::calculateProgress, gatesHealthBar, std::placeholders::_1, std::placeholders::_2));
-//     gates->getDestructibleObject()->setMaximumHealth(5000);
-//     spawnObject(40, 100, gates);
-//}
-
-//void GameScene::placeTowers()
-//{
-//    towerUpgradeController->init(shared_from_this(), renderer);
-
-//    list<string> towerNames = {"WatcherTower","BallistaTower", "CatapultTower", "MageTower", "ProductivityTower",
-//                               "WindTower", "EarthTower","CloudTower"};
-//    int x = 10;
-//    for(const auto& towerName : towerNames)
-//    {
-//        std::shared_ptr<Tower> tower= towerFabric.produceTower(towerName, renderer, towerUpgradeController, tileMap);
-//        spawnObject(x, 300, tower);
-//        x+= 60;
-//    }
-
-//}
-
-void GameScene::placeSceneObjects()//TODO: Найти лучшее решение для считывания и хранения позиций объектов
+//TODO: Найти лучшее решение для считывания и хранения позиций объектов
+void GameScene::placeSceneObjects()
 {
     //TODO Продумать предзагрузку динамически меняющихся объектов
     int curMissionIndex =  GameModel::getInstance()->getCurrentMissionIndex();
@@ -624,7 +568,7 @@ void GameScene::applyArtefactEffects()
 
 void GameScene::processWaveInfo(std::string aInfo)
 {
-    if (waveLabel == nullptr || aInfo == "none")
+    if (waveLabel == nullptr || aInfo.empty() || aInfo == "none")
     {
         return;
     }
@@ -651,8 +595,6 @@ void GameScene::processWaveInfo(std::string aInfo)
     std::string s2 = "ScoreScene";
     getParentSceneManager()->askForChangeScene(s2);
 }
-
-
 
 void GameScene::clear()
 {
