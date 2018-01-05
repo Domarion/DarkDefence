@@ -45,5 +45,10 @@ bool Camera2D::hasIntersection(Position aPos, Size aSize) const
 
 Position Camera2D::worldToCameraPosition(Position aWorldPos) const
 {
-    return Position(aWorldPos.x - mWorldPosition.x, aWorldPos.y - mWorldPosition.y);
+    return aWorldPos - mWorldPosition;
+}
+
+Position Camera2D::screenToWorldPosition(Position aScreenPos) const
+{
+    return aScreenPos + mWorldPosition;
 }

@@ -64,7 +64,8 @@ bool AbilityObjectSpawn<SpawnedObject>::onWorking(double /*timestep*/)
 
         someSpawnObject->setSprite(sprite);
 
-        parentScenePtr->spawnObject(coordX, coordY, someSpawnObject);
+        Position worldPos = parentScenePtr->getCamera().screenToWorldPosition(Position(coordX, coordY));
+        parentScenePtr->spawnObject(worldPos, someSpawnObject);
 
         if (placingEndedCallBack)
         {

@@ -390,6 +390,11 @@ void Scene::onlyTestMoveCamera(Position aDeltaPosition)
     mCamera.setWorldPosition(pos);
 }
 
+const Camera2D Scene::getCamera() const
+{
+    return mCamera;
+}
+
 std::shared_ptr<RenderingSystem>& Scene::getRenderer()
 {
     return renderer;

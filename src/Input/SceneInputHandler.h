@@ -7,6 +7,7 @@ class SceneInputHandler : public InputHandler
 {
 public:
 
+
     SceneInputHandler() = default;
     virtual ~SceneInputHandler() = default;
 

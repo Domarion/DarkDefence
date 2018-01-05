@@ -7,26 +7,43 @@ void Tower::connectMethod(std::function<void(std::shared_ptr<Tower>, int, int)> 
 
 bool Tower::onClick(Position point)
 {
-
-    SDL_Rect rect = {this->getSprite()->getRealPosition().x
-                     , this->getSprite()->getRealPosition().y
-                     , this->getSprite()->getSize().width
-                     , this->getSprite()->getSize().height};
-    SDL_Point sPoint{point.x, point.y};
-
-    if (SDL_PointInRect(&sPoint, &rect))
+    if (parentScenePtr.expired())
     {
-        if (connectedMethod != nullptr)
-        {
-            connectedMethod(std::static_pointer_cast<Tower>(shared_from_this()), point.x, point.y);
-        }
-        return true;
+        return false;
     }
-    return false;
+
+    auto sprite = this->getSprite();
+    if (!sprite)
+    {
+        return false;
+    }
+
+    auto parentSceneShared = parentScenePtr.lock();
+
+    const auto& camera = parentSceneShared->getCamera();
+    if (!camera.hasIntersection(sprite->getRealPosition(), sprite->getSize()))
+    {
+        return false;
+    }
+
+    SDL_Point sPoint{point.x, point.y};
+    auto screenPosition = camera.worldToCameraPosition(sprite->getRealPosition());
+    SDL_Rect rect = {screenPosition.x, screenPosition.y, sprite->getSize().width, sprite->getSize().height};
+
+    if (!SDL_PointInRect(&sPoint, &rect))
+    {
+        return false;
+    }
+
+    if (connectedMethod != nullptr)
+    {
+        connectedMethod(std::static_pointer_cast<Tower>(shared_from_this()), point.x, point.y);
+    }
+    return true;
 }
 
 Tower::Tower(std::shared_ptr<MobModel> model, std::shared_ptr<TileMapManager> aTileMapPtr)
-    :Mob(model, aTileMapPtr)
+    : Mob(model, aTileMapPtr)
 {
 
 }

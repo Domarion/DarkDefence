@@ -15,6 +15,8 @@ public:
     SDL_Rect* getIntersection(Position aPos, Size aSize) const;
     bool hasIntersection(Position aPos, Size aSize) const;
     Position worldToCameraPosition(Position aWorldPos) const;
+    Position screenToWorldPosition(Position aScreenPos) const;
+
 private:
     Position mWorldPosition;
     Size mCameraSize;

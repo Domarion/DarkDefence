@@ -48,7 +48,6 @@ void InputDispatcher::clearHandlers()
 
 void InputDispatcher::sendEventTouch(const SDL_Event& inputEvent)
 {
-
     Position touchPosition
     {
         static_cast<int>(inputEvent.tfinger.x * mSize.width),
