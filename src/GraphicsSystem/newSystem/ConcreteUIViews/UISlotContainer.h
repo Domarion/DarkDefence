@@ -12,7 +12,6 @@ public:
         size_t aItemCount,
         Size aItemSize,
         std::shared_ptr<RenderingSystem>& aRenderer);
-    virtual ~UISlotContainer() = default;
 
     void LoadItemAtIndex(const std::string& aPath, size_t aIndex);
     void SetItemPos(Position aPos, size_t aIndex);
@@ -25,7 +24,6 @@ private:
 
     std::vector<std::shared_ptr<UISlot>> mItems;
     std::shared_ptr<RenderingSystem> mRenderer;
+
     std::function<bool(int)> mConnectedMethod;
-
-
 };
