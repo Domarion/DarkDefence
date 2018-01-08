@@ -271,6 +271,11 @@ GameScene::SceneModeT GameScene::getSceneMode() const
     return mSceneMode;
 }
 
+const std::shared_ptr<TileMapManager>& GameScene::getTileMap() const
+{
+    return tileMap;
+}
+
 void GameScene::setGameSceneStatus(Enums::GameSceneStatuses aStatus)
 {
     mGameSceneCurrentStatus = aStatus;

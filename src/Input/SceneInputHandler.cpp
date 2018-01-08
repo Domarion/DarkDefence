@@ -27,6 +27,20 @@ bool SceneInputHandler::onDrag(Position aDirection)
     auto gameScene = std::dynamic_pointer_cast<GameScene>(mParentScene);
     if (gameScene && gameScene->getSceneMode() == GameScene::SceneModeT::StandardMode)
     {
+        auto& renderer = mParentScene->getRenderer();
+        auto& tilemap = gameScene->getTileMap();
+        if (!renderer || !tilemap)
+        {
+            return false;
+        }
+        Size screenSize = renderer->getScreenSize();
+
+        Size mapSize = tilemap->getMapSize();
+
+        if (screenSize == mapSize)
+        {
+            return false;
+        }
         mParentScene->onlyTestMoveCamera(aDirection);
         return true;
     }

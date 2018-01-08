@@ -49,7 +49,10 @@ public:
     void clear() override;
     void startUpdate(double timestep) override;
     void copyToRender() const override;
+
     SceneModeT getSceneMode() const;
+
+    const std::shared_ptr<TileMapManager>& getTileMap() const;
 
 private:
 
