@@ -2,3 +2,4 @@
 1 Diversant 3
 1 Spider 5
 2 Necromant 2
+2 Skeleton 10

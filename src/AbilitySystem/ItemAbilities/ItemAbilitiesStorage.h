@@ -1,4 +1,5 @@
 #pragma once
+
 #include <map>
 using std::map;
 #include "ItemAbility.h"
@@ -6,8 +7,6 @@ using std::map;
 class ItemAbilitiesStorage
 {
 public:
-    ItemAbilitiesStorage() = default;
-    ~ItemAbilitiesStorage() = default;
     void loadItemAbilities();
     std::shared_ptr<ItemAbility> getItemAbilityByName(string name);
 private:

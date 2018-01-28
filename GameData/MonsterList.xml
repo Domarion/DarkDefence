@@ -245,6 +245,85 @@
 			</price>
             <ArrowName></ArrowName>
 		</value2>
-	</Monsters>
+        <value3>
+			<value0>
+				<name>Skeleton</name>
+				<tag>Monster</tag>
+				<maximumHealth>
+					<first>200</first>
+					<second>0</second>
+				</maximumHealth>
+				<protection>
+					<value0>
+						<first>10</first>
+						<second>0</second>
+					</value0>
+					<value1>
+						<first>5</first>
+						<second>0</second>
+					</value1>
+					<value2>
+						<first>0</first>
+						<second>0</second>
+					</value2>
+					<value3>
+						<first>0</first>
+						<second>0</second>
+					</value3>
+				</protection>
+			</value0>
+			<attackDamage>
+				<value0>
+					<first>30</first>
+					<second>0</second>
+				</value0>
+				<value1>
+					<first>0</first>
+					<second>0</second>
+				</value1>
+				<value2>
+					<first>0</first>
+					<second>0</second>
+				</value2>
+				<value3>
+					<first>5</first>
+					<second>0</second>
+				</value3>
+			</attackDamage>
+			<attackDistance>
+				<first>1</first>
+				<second>0</second>
+			</attackDistance>
+			<moveSpeed>
+				<first>2</first>
+				<second>0</second>
+			</moveSpeed>
+			<reloadTimeMaximum>
+				<first>3000</first>
+				<second>0</second>
+			</reloadTimeMaximum>
+			<damageArea>0</damageArea>
+			<enemyTags size="dynamic">
+				<value0>
+					<enemyTag>Mine</enemyTag>
+					<enemyReaction>true</enemyReaction>
+					<priority>1</priority>
+				</value0>
+				<value1>
+					<enemyTag>Gates</enemyTag>
+					<enemyReaction>false</enemyReaction>
+					<priority>4</priority>
+				</value1>
+			</enemyTags>
+			<Abilities size="dynamic">
+			</Abilities>
+			<price>
+				<value0>0</value0>
+				<value1>0</value1>
+				<value2>0</value2>
+			</price>
+            <ArrowName></ArrowName>
+		</value3>
+        </Monsters>
 </cereal>
 

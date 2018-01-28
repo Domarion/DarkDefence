@@ -1,12 +1,13 @@
 #include "AnimSaver.hpp"
 #include "SDL_Engine.h"
 #include <SDL.h>
+#include <iostream>
 
 int main(int argc, char** argv)
 {
-    if (argc == 1 && argv[1] == "help")
+    if (argc == 2 && strcmp(argv[1],"help") == 0)
     {
-        std::cout << "HELP: First argument is full path to config file second - full path to output png image" << std::endl;
+        std::cout << "HELP: First argument is full path to config file second - full path to output anim" << std::endl;
         return 0;
     }
 

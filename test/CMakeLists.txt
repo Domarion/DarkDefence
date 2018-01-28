@@ -11,3 +11,4 @@ add_definitions (-DBOOST_TEST_DYN_LINK)
 
 add_subdirectory(GraphicsSystem/newSystem)
 add_subdirectory(GlobalScripts)
+add_subdirectory(Scenes)

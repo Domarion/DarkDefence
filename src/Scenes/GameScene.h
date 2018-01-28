@@ -1,22 +1,25 @@
 #pragma once
 
+#include "../AbilitySystem/ItemAbilities/ItemAbilitiesStorage.h"
+#include "../AbilitySystem/SpellStorage.h"
+
+#include "../GlobalScripts/ManaGlobal.h"
+
 #include "../Grouping/Scene.h"
-#include "../Mob/Spawner.h"
 #include "../Grouping/SceneObjectFabric.h"
+
 #include "../GraphicsSystem/newSystem/UIElement/UILabel.h"
 #include "../GraphicsSystem/newSystem/UIElement/UIProgressBar.h"
 
-#include "../Mob/Gates.h"
-
 #include "../MissionSystem/Mission.h"
-#include "../AbilitySystem/SpellStorage.h"
 
+#include "../Mob/Gates.h"
 #include "../Mob/ResourcePlace.h"
+#include "../Mob/Spawner.h"
 #include "../Mob/TowerUpgradeController.h"
-#include "../AbilitySystem/ItemAbilities/ItemAbilitiesStorage.h"
 
-#include "../GlobalScripts/ManaGlobal.h"
 #include "Utility/StructData.hpp"
+
 using std::vector;
 
 class GameScene : public Scene

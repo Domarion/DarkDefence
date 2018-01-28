@@ -1,26 +1,26 @@
-/*
- * GameScene.cpp
- *
- *  Created on: 4 апр. 2016 г.
- *      Author: kostya_hm
- */
-
-#include "GameScene.h"
-#include <SDL.h>
-#include "../Mob/Tower.h"
 #include <cmath>
-#include "../GlobalScripts/GameModel.h"
 #include <iostream>
-#include "../Input/InputDispatcher.h"
-#include "../Input/SceneInputHandler.h"
+#include <sstream>
 
-#include "../Utility/textfilefunctions.h"
-#include "../GraphicsSystem/newSystem/UIElement/UIImageButton.h"
+#include <cereal/archives/xml.hpp>
+#include <SDL.h>
+
+#include "../GlobalScripts/GameModel.h"
 #include "../GlobalScripts/ResourceManager.h"
 
 #include "../GlobalConstants.h"
-#include <sstream>
-#include <cereal/archives/xml.hpp>
+
+#include "../GraphicsSystem/newSystem/UIElement/UIImageButton.h"
+
+#include "../Input/InputDispatcher.h"
+#include "../Input/SceneInputHandler.h"
+
+#include "../Mob/Tower.h"
+
+#include "../Utility/textfilefunctions.h"
+
+#include "GameScene.h"
+#include "Logging/Logger.h"
 
 GameScene::GameScene(std::shared_ptr<RenderingSystem>& aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher)
     : Scene(aRenderer, aInputDispatcher)
@@ -316,6 +316,12 @@ void GameScene::spawningCallBack(std::string aMobName, Position aSpawnPosition, 
         return;
     }
 
+    if (!ResourceManager::getInstance()->hasAnimationPack(aMobName))
+    {
+        LOG_ERROR(std::string("No animation in anim pack for: ")+ aMobName);
+
+        throw std::runtime_error("No animation in anim pack.");
+    }
     auto& animPack = ResourceManager::getInstance()->getAnimationPack(aMobName);
     auto someSprite = std::make_shared<AnimationSceneSprite>(getRenderer(), AnimationSceneSprite::Animation{animPack});
 

@@ -254,6 +254,13 @@
 			<ImagePath>GameData/textures/Arrows/BurningStone.png</ImagePath>
             <AnimationPackPath></AnimationPackPath>
 		</value35>
+        <value36>
+			<Caption>Skeleton</Caption>
+			<ImageWidth>90</ImageWidth>
+			<ImageHeight>80</ImageHeight>
+			<ImagePath>GameData/textures/Monsters/SkeletonSheet.png</ImagePath>
+            <AnimationPackPath>GameData/anims/Monsters/Skeleton.anim</AnimationPackPath>
+		</value36>
 	</TexturePaths>
 </cereal>
 
