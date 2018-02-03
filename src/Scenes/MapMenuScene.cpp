@@ -45,10 +45,13 @@ void MapMenuScene::clear()
 void MapMenuScene::initNavigationButtons()
 {
     Scene::addLoadSceneButton("Назад", "TextFontButton", "MainScene",
-                              0, MainRect->getSize().height - 50, 100, 50);
+        0, MainRect->getSize().height - 50, 100, 50);
 
-    Scene::addLoadSceneButton("Начать", "TextFontButton", "GameScene",
-                              MainRect->getSize().width - 150, MainRect->getSize().height - 50, 100, 50);
+    if (currentMissionIndex >= 0)
+    {
+        Scene::addLoadSceneButton("Начать", "TextFontButton", "GameScene",
+            MainRect->getSize().width - 150, MainRect->getSize().height - 50, 100, 50);
+    }
 }
 
 void MapMenuScene::loadMissionView()
@@ -57,6 +60,12 @@ void MapMenuScene::loadMissionView()
 
     string s ="GameData/Missions/" + std::to_string(currentMissionIndex) +"/Mission.xml";
     GameModel::getInstance()->deserialize(currentMission, s);
+
+    if (currentMission.isEmpty())
+    {
+        currentMissionIndex = -1;
+        return;
+    }
 
     auto layout = std::make_shared<StubLayout>();
 

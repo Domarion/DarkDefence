@@ -53,7 +53,9 @@ endif()
 
 set (CerealInclude ../external/cereal/include)
 
-include_directories(. ${CerealInclude})
+find_package (Boost COMPONENTS system filesystem REQUIRED)
+
+include_directories(. ${CerealInclude} ${Boost_INCLUDE_DIRS})
 
 
 set(SRC_LIST
@@ -66,6 +68,8 @@ set(SRC_LIST
     Scenes/MainScene.h
     Scenes/ShopScene.h
     Scenes/MapMenuScene.h
+    Scenes/include/MissionTumbler.hpp
+
     GameApp.h
     Mob/Mob.h
     Mob/TowerFabric.hpp
@@ -216,6 +220,8 @@ set(SRC_LIST
     Scenes/InventoryScene.cpp
     Scenes/MapMenuScene.cpp
     Scenes/ScoreScene.cpp
+    Scenes/src/MissionTumbler.cpp
+
     Mob/MineModel.cpp
     Mob/MobSpawner.cpp
     Mob/MobModel.cpp
@@ -346,6 +352,12 @@ set(SRC_LIST
 #find_package(Sanitizers)
 
 add_executable(DarkDefenceGame ${SRC_LIST})
-target_link_libraries( DarkDefenceGame ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES} ${SDL2TTF_LIBRARIES})
+target_link_libraries(DarkDefenceGame
+    ${SDL2_LIBRARIES}
+    ${SDL2IMAGE_LIBRARIES}
+    ${SDL2TTF_LIBRARIES}
+    ${Boost_FILESYSTEM_LIBRARY}
+    ${Boost_SYSTEM_LIBRARY})
 #add_sanitizers(DarkDefenceGame)
 
+add_subdirectory(Scenes)

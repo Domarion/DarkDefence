@@ -119,3 +119,8 @@ void Mission::reset()
     description.clear();
     caption.clear();
 }
+
+bool Mission::isEmpty() const
+{
+    return caption.empty() && description.empty() && goals.empty();
+}

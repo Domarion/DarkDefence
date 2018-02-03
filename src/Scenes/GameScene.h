@@ -21,6 +21,7 @@
 #include "Utility/StructData.hpp"
 
 using std::vector;
+// TODO: Use forward declarations
 
 class GameScene : public Scene
 {

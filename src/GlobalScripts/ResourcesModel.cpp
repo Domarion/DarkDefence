@@ -48,15 +48,10 @@ int ResourcesModel::getResourceAmountFromIndex(size_t resourceType)
 
 int ResourcesModel::getResourceAmountFromType(Enums::ResourceTypes aResourceType)
 {
-    int resouceIndex = Enums::toIntegralType(aResourceType);
+    int resourceIndex = Enums::toIntegralType(aResourceType);
+    assert(resourceIndex > 0 && static_cast<std::size_t>(resourceIndex) < GlobalConstants::resourceTypeCount);
 
-    assert(resouceIndex < GlobalConstants::resourceTypeCount);
-    if (resouceIndex < 0)
-    {
-        return -1;
-    }
-
-    return getResourceAmountFromIndex(resouceIndex);
+    return getResourceAmountFromIndex(resourceIndex);
 }
 bool ResourcesModel::haveEnoughResource(size_t resourceType, int amount)
 {

@@ -47,6 +47,7 @@ public:
     const Reward& getReward() const;
 
     void reset();
+    bool isEmpty() const;
 
 private:
 

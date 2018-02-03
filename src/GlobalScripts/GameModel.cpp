@@ -1,19 +1,17 @@
 #include "GameModel.h"
-#include <list>
 
 #include <functional>
-#include "../MissionSystem/ResourceGoal.h"
-
-#include "../Utility/textfilefunctions.h"
+#include <list>
 #include <sstream>
-#include "AccountModel.h"
 
+#include <boost/filesystem.hpp>
 #include <cereal/archives/xml.hpp>
 #include <cereal/types/memory.hpp>
-#include "../Logging/Logger.h"
 
-using std::list;
-using std::stringstream;
+#include "../MissionSystem/ResourceGoal.h"
+#include "../Utility/textfilefunctions.h"
+#include "AccountModel.h"
+#include "../Logging/Logger.h"
 
 GameModel* GameModel::instance_ = nullptr;
 
@@ -22,7 +20,6 @@ GameModel::GameModel()
     , heroFigure(std::make_shared<HeroInventory>(9))
     , inventory(std::make_shared<Inventory>())
     , resourcesModelPtr(std::make_shared<ResourcesModel>())
-    , missionReward()
 {
 }
 
@@ -43,18 +40,18 @@ std::unique_ptr<MobModel> GameModel::getTowerByName(const std::string& aName)
 
 void GameModel::loadMonsterList(const std::string& aFileName)
 {
-    list<MobModel> monsterCollection;
+    std::list<MobModel> monsterCollection;
 
     string textString;
     androidText::loadTextFileToString(aFileName, textString);
 
     if (!textString.empty())
     {
-        stringstream str(textString);
+        std::stringstream str(textString);
 
         cereal::XMLInputArchive xmlinp(str);
 
-        LOG_INFO("Loading Monster List.");
+        LOG_INFO("Loading Monster std::list.");
         xmlinp(cereal::make_nvp("Monsters", monsterCollection));
     }
 
@@ -73,7 +70,7 @@ void GameModel::loadMonsterPointsList(const std::string& aFileName)
 
     if (!textString.empty())
     {
-        stringstream pointStream(textString);
+        std::stringstream pointStream(textString);
 
         int n;
         pointStream >> n;
@@ -99,7 +96,7 @@ void GameModel::loadTowerUpgrades(const std::string& aFileName)
     {
         try
         {
-            stringstream str(textString);
+            std::stringstream str(textString);
 
             LOG_INFO("Loading Tower Upgrades.");
 
@@ -116,18 +113,18 @@ void GameModel::loadTowerUpgrades(const std::string& aFileName)
 
 void GameModel::loadMinesList(const std::string& aFileName)
 {
-    list<MineModel> mineCollection;
+    std::list<MineModel> mineCollection;
 
     string textString;
     androidText::loadTextFileToString(aFileName, textString);
 
     if (!textString.empty())
     {
-        stringstream str(textString);
+        std::stringstream str(textString);
 
         cereal::XMLInputArchive xmlinp(str);
 
-        LOG_INFO("Loading Mines List.");
+        LOG_INFO("Loading Mines std::list.");
 
         xmlinp(cereal::make_nvp("Mines", mineCollection));
 
@@ -141,14 +138,16 @@ void GameModel::loadMinesList(const std::string& aFileName)
     }
 }
 
+// deprecated
 void GameModel::deserialize(Mission& obj, const std::string& aFileName)
 {
+    obj.reset();
     string textString;
     androidText::loadTextFileToString(aFileName, textString);
 
     if (!textString.empty())
     {
-        stringstream missionStream(textString);
+        std::stringstream missionStream(textString);
 
         cereal::XMLInputArchive xmlinp(missionStream);
         LOG_INFO("Loading Mission Info.");
@@ -295,7 +294,7 @@ void GameModel::loadAbilitiesNames(const std::string& aFileName)
 
     if (!textString.empty())
     {
-        stringstream abilityStream(textString);
+        std::stringstream abilityStream(textString);
 
         LOG_INFO("Loading Abilities Names.");
 
@@ -331,6 +330,43 @@ void GameModel::calculatePointsPerWave()
 int GameModel::getPointsPerWave() const
 {
     return pointsPerMap;
+}
+
+void GameModel::loadMissions(const std::string& aPath)
+{
+    using namespace boost::filesystem;
+    path missionsRootPath(aPath);
+
+    const directory_iterator end;
+    assert(is_directory(missionsRootPath));
+
+    std::vector<Mission> missions;
+
+    for (directory_iterator iter(missionsRootPath); iter != end; ++iter)
+    {
+        if (is_directory(*iter))
+        {
+            path missionFilePath = missionsRootPath / iter->path() / "Mission.xml";
+
+            Mission mission;
+            string textString;
+            androidText::loadTextFileToString(missionFilePath.string(), textString);
+
+            if (!textString.empty())
+            {
+                std::stringstream missionStream(textString);
+
+                cereal::XMLInputArchive xmlinp(missionStream);
+                LOG_INFO("Loading Mission Info.");
+
+                xmlinp >> cereal::make_nvp("Mission", mission);
+
+                missions.emplace_back(mission);
+            }
+        }
+    }
+
+    mMissionsSwitcher.SetMissions(std::move(missions));
 }
 
 void GameModel::resetGameValues()
@@ -415,7 +451,7 @@ bool GameModel::loadShopItems(const std::string& aFileName)
 
         if (!textString.empty())
         {
-            stringstream str(textString);
+            std::stringstream str(textString);
 
             LOG_INFO("Loading Shop Items.");
 

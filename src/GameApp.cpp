@@ -31,6 +31,7 @@ GameApp::GameApp(std::unique_ptr<SceneManager>&& aSceneManager, std::unique_ptr<
 
 void GameApp::preloadData()
 {
+    // TODO: Dont use singleton in GameModel, move it here and pass to scenes.
     // TODO: Use configuration file instead.
     FontManager::getInstance()->loadFontList("GameData/fontconfig.txt", mRenderer);
 
@@ -41,6 +42,8 @@ void GameApp::preloadData()
     GameModel::getInstance()->loadShopItems("GameData/Items.xml");
 
     GameModel::getInstance()->loadGameData("GameData/save.bin");
+
+    GameModel::getInstance()->loadMissions("GameData/Missions/");
 }
 
 void GameApp::addScenes()

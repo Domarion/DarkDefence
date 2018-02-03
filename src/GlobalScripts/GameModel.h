@@ -1,18 +1,21 @@
 #pragma once
 
+#include <map>
+#include <vector>
+
 #include "ResourcesModel.h"
 #include "../Enums.h"
 #include "../Mob/MobModel.h"
 #include "../Mob/MineModel.h"
 #include "../ItemSystem/HeroInventory.h"
 #include "../ItemSystem/ShopInventory.h"
-#include <map>
 #include "../Utility/TreeNode.hpp"
 #include "../MissionSystem/Mission.h"
-#include <vector>
 
 #include "ManaGlobal.h"
 #include "../AbilitySystem/MobAbilities/MobAbility.h"
+
+#include "../Scenes/include/MissionTumbler.hpp"
 
 using std::map;
 using std::vector;
@@ -77,6 +80,8 @@ public:
     void calculatePointsPerWave();
     int getPointsPerWave() const;
 
+    void loadMissions(const std::string& aPath);
+
     void resetGameValues();
     double getPointsRefundModifier() const;
     void setPointsRefundModifier(double aPointsModifier);
@@ -113,5 +118,6 @@ private:
 
     bool shopItemsLoaded = false;
     bool gameDataLoaded = false;
+    MissionTumbler mMissionsSwitcher;
 };
 
