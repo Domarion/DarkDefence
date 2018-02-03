@@ -30,7 +30,7 @@ public:
 
     Mission() = default;
     Mission(const std::string& aCaption, const std::string& aDescription, const Reward& aReward);
-
+    Mission& operator=(const Mission& aRight);
     const std::string& getCaption() const;
     void setCaption(const std::string& aCaption);
     const std::string& getDescription() const;

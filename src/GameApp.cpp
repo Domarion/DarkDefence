@@ -40,10 +40,10 @@ void GameApp::preloadData()
     GameModel::getInstance()->getResourcesModel()->loadResourceNamesFromFile("GameData/resourceNames.txt");
 
     GameModel::getInstance()->loadShopItems("GameData/Items.xml");
+    GameModel::getInstance()->loadMissions("GameData/Missions/");
 
     GameModel::getInstance()->loadGameData("GameData/save.bin");
 
-    GameModel::getInstance()->loadMissions("GameData/Missions/");
 }
 
 void GameApp::addScenes()

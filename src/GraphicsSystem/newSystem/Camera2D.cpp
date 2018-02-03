@@ -16,6 +16,11 @@ void Camera2D::setWorldPosition(Position worldPosition)
     mWorldPosition = worldPosition;
 }
 
+void Camera2D::resetWorldPosition()
+{
+    mWorldPosition = Position::Zero();
+}
+
 Size Camera2D::getCameraSize() const
 {
     return mCameraSize;

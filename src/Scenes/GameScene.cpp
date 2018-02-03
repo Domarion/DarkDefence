@@ -2,6 +2,7 @@
 #include <iostream>
 #include <sstream>
 
+#include <boost/optional.hpp>
 #include <cereal/archives/xml.hpp>
 #include <SDL.h>
 
@@ -24,9 +25,6 @@
 
 GameScene::GameScene(std::shared_ptr<RenderingSystem>& aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher)
     : Scene(aRenderer, aInputDispatcher)
-    , monsterSpawner()
-    , itemAbilitiesStorage()
-    , towerUpgradeController(std::make_shared<TowerUpgradeController>())
 {
 }
 
@@ -143,12 +141,16 @@ std::shared_ptr<ManaGlobal> GameScene::getManaModel() const
 
 void GameScene::loadData()
 {
-    int curIndex =  GameModel::getInstance()->getCurrentMissionIndex();
+    auto& missionSwitcher = GameModel::getInstance()->getMissionSwitcher();
+    auto mission = missionSwitcher.getCurrentMission();
 
-    std::string currentMissionPath = "GameData/Missions/" + std::to_string(curIndex);
-    string missionConf = currentMissionPath + std::string{"/Mission.xml"};
+    assert(mission);
+    if (mission)
+    {
+        currentMission = *mission;
+    }
 
-    GameModel::getInstance()->deserialize(currentMission, missionConf);
+    std::string currentMissionPath = "GameData/Missions/" + currentMission.getCaption();
 
     std::string pointsConf = currentMissionPath + std::string{"/points.txt"};
     GameModel::getInstance()->loadMonsterPointsList(pointsConf);
@@ -166,11 +168,11 @@ void GameScene::loadData()
     GameModel::getInstance()->loadAbilitiesNames("GameData/abilities.txt");
 
     //TODO: Считывать размер ячейки матрицы из файла путей
-    string tileMapMatrixPath = "GameData/Missions/" + std::to_string(curIndex) + "/map.txt";
+    string tileMapMatrixPath = "GameData/Missions/" + currentMission.getCaption() + "/map.txt";
     vector<vector<int> > aMapTemplate = androidText::loadMatrixFromFile(tileMapMatrixPath);
     tileMap = std::make_shared<TileMapManager>(aMapTemplate);
 
-    string PositionsPath = "GameData/Missions/" + std::to_string(curIndex) + "/Positions.xml";
+    string PositionsPath = "GameData/Missions/" + currentMission.getCaption() + "/Positions.xml";
 
     string textString;
     androidText::loadTextFileToString(PositionsPath, textString);
@@ -464,9 +466,8 @@ void GameScene::initUILayer()
 void GameScene::placeSceneObjects()
 {
     //TODO Продумать предзагрузку динамически меняющихся объектов
-    int curMissionIndex =  GameModel::getInstance()->getCurrentMissionIndex();
 
-    std::string terrainPath = "GameData/textures/Missions/" + std::to_string(curMissionIndex) + ".png";
+    std::string terrainPath = "GameData/textures/Missions/" + currentMission.getCaption() + ".png";
     std::shared_ptr<SceneObject> Terrain = objectFabric.produce("Terrain", "none", terrainPath, 0, 0, renderer );
     auto inputHandler = std::make_shared<SceneInputHandler>();
     if (inputHandler)//TODO не перехватывать весь ввод, чтобы можно было нажимать на кнопки или башни
@@ -476,6 +477,8 @@ void GameScene::placeSceneObjects()
     }
     spawnObject(0,0, Terrain);
 
+    towerUpgradeController = std::make_shared<TowerUpgradeController>();
+    assert(towerUpgradeController);
     towerUpgradeController->init(shared_from_this(), renderer);
 
     for(const auto& item : mPositionsVector)

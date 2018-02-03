@@ -3,13 +3,12 @@
 #include "../Grouping/Scene.h"
 #include "../MissionSystem/Mission.h"
 
-class MapMenuScene: public Scene
+class MapMenuScene final: public Scene
 {
 public:
     MapMenuScene(std::shared_ptr<RenderingSystem>& aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher);
 
-    virtual void init(std::shared_ptr<SceneManager> sceneManagerPtr) override;
-    virtual void clear() override;
+    void init(std::shared_ptr<SceneManager> sceneManagerPtr) override;
 
 private:
     void initNavigationButtons();
@@ -17,7 +16,6 @@ private:
 //    void loadMapPicture();
 //    void initMapIndicators();
 
-    int currentMissionIndex;
     Mission currentMission;
 
 };

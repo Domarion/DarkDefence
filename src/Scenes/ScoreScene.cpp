@@ -1,6 +1,9 @@
+#include <list>
+
+#include <boost/optional.hpp>
+
 #include "ScoreScene.h"
 #include "../GlobalScripts/GameModel.h"
-#include <list>
 #include "../GlobalScripts/AccountModel.h"
 #include "../GraphicsSystem/newSystem/UIElement/UIImage.h"
 #include "../GraphicsSystem/newSystem/UIElement/UILabel.h"
@@ -111,8 +114,8 @@ void ScoreScene::showScoreView()
         showItemRewards();
         showGoldReward();
 
-        int currentMissionIndex = GameModel::getInstance()->getCurrentMissionIndex();
-        GameModel::getInstance()->setCurrentMissionIndex(currentMissionIndex + 1);
+        auto& missionSwitcher = GameModel::getInstance()->getMissionSwitcher();
+        missionSwitcher.nextMission();
     }
     else
     {

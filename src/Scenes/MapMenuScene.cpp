@@ -1,3 +1,5 @@
+#include <boost/optional.hpp>
+
 #include "MapMenuScene.h"
 #include "../GlobalScripts/GameModel.h"
 #include "../GraphicsSystem/newSystem/UIElement/UIImage.h"
@@ -10,8 +12,6 @@ MapMenuScene::MapMenuScene(
     std::shared_ptr<RenderingSystem>& aRenderer,
     std::shared_ptr<InputDispatcher> aInputDispatcher)
     : Scene(aRenderer, aInputDispatcher)
-    , currentMissionIndex(0)
-    , currentMission()
 {
 }
 
@@ -36,18 +36,12 @@ void MapMenuScene::init(std::shared_ptr<SceneManager> sceneManagerPtr)
     Scene::addToUIList(MainRect);
 }
 
-
-void MapMenuScene::clear()
-{
-    Scene::clear();
-}
-
 void MapMenuScene::initNavigationButtons()
 {
     Scene::addLoadSceneButton("Назад", "TextFontButton", "MainScene",
         0, MainRect->getSize().height - 50, 100, 50);
 
-    if (currentMissionIndex >= 0)
+    if (!currentMission.isEmpty())
     {
         Scene::addLoadSceneButton("Начать", "TextFontButton", "GameScene",
             MainRect->getSize().width - 150, MainRect->getSize().height - 50, 100, 50);
@@ -56,16 +50,16 @@ void MapMenuScene::initNavigationButtons()
 
 void MapMenuScene::loadMissionView()
 {
-    currentMissionIndex =  GameModel::getInstance()->getCurrentMissionIndex();
+    auto& missionSwitcher = GameModel::getInstance()->getMissionSwitcher();
+    auto mission = missionSwitcher.getCurrentMission();
 
-    string s ="GameData/Missions/" + std::to_string(currentMissionIndex) +"/Mission.xml";
-    GameModel::getInstance()->deserialize(currentMission, s);
-
-    if (currentMission.isEmpty())
+    if (!mission)
     {
-        currentMissionIndex = -1;
+        currentMission.reset();
         return;
     }
+
+    currentMission = *mission;
 
     auto layout = std::make_shared<StubLayout>();
 

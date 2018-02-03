@@ -11,7 +11,7 @@ UIMissionView::UIMissionView(
 {
 }
 
-void UIMissionView::init(Mission& aMission, const Font& aFont)
+void UIMissionView::init(const Mission& aMission, const Font& aFont)
 {
     auto missionNameLabel = std::make_shared<UILabel>(aMission.getCaption(), aFont, renderer);
     addChild(missionNameLabel);
@@ -25,7 +25,7 @@ void UIMissionView::init(Mission& aMission, const Font& aFont)
     initRewards(aMission, aFont);
 }
 
-void UIMissionView::initGoals(Mission &aMission, const Font& aFont)
+void UIMissionView::initGoals(const Mission& aMission, const Font& aFont)
 {
     auto missionGoalsGroup = std::make_shared<ConcreteComposite>(renderer, mLayout);
     missionGoalsGroup->setScalingFactor(getScalingFactor());
@@ -74,7 +74,7 @@ void UIMissionView::initGoals(Mission &aMission, const Font& aFont)
     addChild(missionGoalsGroup);
 }
 
-void UIMissionView::initRewards(Mission &aMission, const Font& aFont)
+void UIMissionView::initRewards(const Mission& aMission, const Font& aFont)
 {
     auto missionRewardsGroup = std::make_shared<ConcreteComposite>(renderer, mLayout);
     missionRewardsGroup->setScalingFactor(getScalingFactor());

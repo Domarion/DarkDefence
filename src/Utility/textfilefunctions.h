@@ -15,6 +15,7 @@ namespace androidText
 {
 void loadTextFileToString(const std::string& aFilename, string& outDestString);
 void saveStringsTofile(SDL_RWops* filetoWrite, const vector<string>& strings);
+void saveStringToFile(SDL_RWops* filetoWrite, const string& aString);
 void loadStringsFromfile(SDL_RWops* filetoRead, vector<string>& strings);
 std::string loadCharStringFromFile(SDL_RWops* filetoRead);
 vector<vector<int>> loadMatrixFromFile(const std::string& aFilename);

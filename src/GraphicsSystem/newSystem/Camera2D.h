@@ -9,6 +9,7 @@ public:
     Camera2D(Size aCameraSize);
     Position getWorldPosition() const;
     void setWorldPosition(Position worldPosition);
+    void resetWorldPosition();
 
     Size getCameraSize() const;
     void setCameraSize(Size cameraSize);

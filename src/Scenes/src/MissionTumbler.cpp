@@ -1,8 +1,7 @@
+#include "../include/MissionTumbler.hpp"
 #include <boost/optional.hpp>
 
-#include "../include/MissionTumbler.hpp"
 //TODO use normal path
-#include "../../MissionSystem/Mission.h"
 
 MissionTumbler::MissionTumbler(const MissionTumbler::TContainer& aMissions)
     : mMissions(aMissions)
@@ -10,13 +9,13 @@ MissionTumbler::MissionTumbler(const MissionTumbler::TContainer& aMissions)
 {
 }
 
-void MissionTumbler::SetMissions(MissionTumbler::TContainer&& aMissionContainer)
+void MissionTumbler::setMissions(MissionTumbler::TContainer&& aMissionContainer)
 {
     mMissions = aMissionContainer;
     mCurrentMissionIterator = mMissions.begin();
 }
 
-bool MissionTumbler::HasMissions() const
+bool MissionTumbler::hasMissions() const
 {
     return !mMissions.empty();
 }
@@ -49,4 +48,27 @@ boost::optional<Mission> MissionTumbler::nextMission()
     }
 
     return *mCurrentMissionIterator;
+}
+
+bool MissionTumbler::setCurrentMissionByName(const std::string& aMissionCaption)
+{
+    auto comparer = [&aMissionCaption](const auto& aMission) -> bool
+    {
+        return aMission.getCaption() == aMissionCaption;
+    };
+
+    auto missionIter = std::find_if(mMissions.begin(), mMissions.end(), comparer);
+
+    if (missionIter == mMissions.end())
+    {
+        return false;
+    }
+
+    mCurrentMissionIterator = missionIter;
+    return true;
+}
+
+void MissionTumbler::resetCurrentMission()
+{
+    mCurrentMissionIterator = mMissions.end();
 }

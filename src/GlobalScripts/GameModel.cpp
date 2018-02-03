@@ -5,6 +5,7 @@
 #include <sstream>
 
 #include <boost/filesystem.hpp>
+#include <boost/optional.hpp>
 #include <cereal/archives/xml.hpp>
 #include <cereal/types/memory.hpp>
 
@@ -51,7 +52,7 @@ void GameModel::loadMonsterList(const std::string& aFileName)
 
         cereal::XMLInputArchive xmlinp(str);
 
-        LOG_INFO("Loading Monster std::list.");
+        LOG_INFO("Loading Monster list.");
         xmlinp(cereal::make_nvp("Monsters", monsterCollection));
     }
 
@@ -124,7 +125,7 @@ void GameModel::loadMinesList(const std::string& aFileName)
 
         cereal::XMLInputArchive xmlinp(str);
 
-        LOG_INFO("Loading Mines std::list.");
+        LOG_INFO("Loading Mines list.");
 
         xmlinp(cereal::make_nvp("Mines", mineCollection));
 
@@ -135,24 +136,6 @@ void GameModel::loadMinesList(const std::string& aFileName)
     {
         mineResMapping[i->getProductionTypeIndex()] = i->getName();
         minesModelsMap.emplace(i->getName(), std::move(*i));
-    }
-}
-
-// deprecated
-void GameModel::deserialize(Mission& obj, const std::string& aFileName)
-{
-    obj.reset();
-    string textString;
-    androidText::loadTextFileToString(aFileName, textString);
-
-    if (!textString.empty())
-    {
-        std::stringstream missionStream(textString);
-
-        cereal::XMLInputArchive xmlinp(missionStream);
-        LOG_INFO("Loading Mission Info.");
-
-        xmlinp >> cereal::make_nvp("Mission", obj);
     }
 }
 
@@ -182,16 +165,6 @@ void GameModel::decMonsterCount(const std::string& aMonsterName)
     --MonsterCountOnMap;
 }
 
-void GameModel::setCurrentMissionIndex(int aMissionIndex)
-{
-    currentMissionIndex = aMissionIndex;
-}
-
-int GameModel::getCurrentMissionIndex() const
-{
-    return currentMissionIndex;
-}
-
 Enums::GameStatuses GameModel::getGameStatus() const
 {
     return gameStatus;
@@ -212,7 +185,7 @@ void GameModel::addPoints(int aAmount)
     pointsPerMap += aAmount;
 }
 
-
+// TODO: сохраняться после покупки предметов и надевания на куклу.
 void GameModel::saveGameData(const std::string& aFileName) // TODO : use textFileFunctions
 {
 #ifdef __ANDROID__
@@ -227,7 +200,15 @@ void GameModel::saveGameData(const std::string& aFileName) // TODO : use textFil
     {
         int goldAmount = AccountModel::getInstance()->getGoldAmount();
         SDL_RWwrite(binaryDataFile, &goldAmount, sizeof(int), 1);
-        SDL_RWwrite(binaryDataFile, &currentMissionIndex, sizeof(int), 1);
+        auto mission = mMissionsSwitcher.getCurrentMission();
+        if (mission)
+        {
+            androidText::saveStringToFile(binaryDataFile, mission->getCaption());
+        }
+        else
+        {
+            androidText::saveStringToFile(binaryDataFile, std::string{});
+        }
         vector<string> inventoryItemsNames = getInventory()->getItemNames();
         androidText::saveStringsTofile(binaryDataFile, inventoryItemsNames);
         vector<string> heroItemsNames = getHeroInventory()->getItemNames();
@@ -246,20 +227,34 @@ void GameModel::loadGameData(const std::string& aFileName) // TODO : use textFil
 #else
         string filename1(aFileName);
 #endif
-
+        // TODO Save/Load сломан из-за изменение вида сохранения index -> string.
         SDL_RWops* binaryDataFile = SDL_RWFromFile(filename1.c_str(),"r+b");
         if (binaryDataFile != nullptr)
         {
             int goldAmount{};
             SDL_RWread(binaryDataFile, &goldAmount, sizeof(int), 1);
             AccountModel::getInstance()->setGoldAmount(goldAmount);
-            SDL_RWread(binaryDataFile, &currentMissionIndex, sizeof(int), 1);
+
+            auto missionCaption = androidText::loadCharStringFromFile(binaryDataFile);
+
+            if (missionCaption.empty())
+            {
+                mMissionsSwitcher.resetCurrentMission();
+            }
+            else if (!mMissionsSwitcher.setCurrentMissionByName(missionCaption))
+            {
+                std::string msg = std::string{"Can't set mission with name: "} + missionCaption;
+                LOG_ERROR(msg);
+                throw std::runtime_error(msg);
+            }
 
             vector<string> inventoryItemsNames;
             androidText::loadStringsFromfile(binaryDataFile, inventoryItemsNames);
 
-            for(auto itemName : inventoryItemsNames)
+            for (const auto& itemName : inventoryItemsNames)
+            {
                 shop->sendItemWithoutPriceCheck(itemName);
+            }
 
             vector<string> heroItemsNames;
             androidText::loadStringsFromfile(binaryDataFile, heroItemsNames);
@@ -275,6 +270,11 @@ void GameModel::loadGameData(const std::string& aFileName) // TODO : use textFil
 
         gameDataLoaded = true;
     }
+}
+
+MissionTumbler& GameModel::getMissionSwitcher()
+{
+    return mMissionsSwitcher;
 }
 
 const Reward& GameModel::getMissionReward() const
@@ -346,7 +346,7 @@ void GameModel::loadMissions(const std::string& aPath)
     {
         if (is_directory(*iter))
         {
-            path missionFilePath = missionsRootPath / iter->path() / "Mission.xml";
+            path missionFilePath = iter->path() / "Mission.xml";
 
             Mission mission;
             string textString;
@@ -366,7 +366,7 @@ void GameModel::loadMissions(const std::string& aPath)
         }
     }
 
-    mMissionsSwitcher.SetMissions(std::move(missions));
+    mMissionsSwitcher.setMissions(std::move(missions));
 }
 
 void GameModel::resetGameValues()

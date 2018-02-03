@@ -46,6 +46,7 @@ public:
             if (hasState(aStateName))
             {
                 mCurrentState = aStateName;
+                mFrameNumber = 0;
             }
         }
 
@@ -76,6 +77,7 @@ public:
         {
             return &mAnimationStates.at(mCurrentState).at(mFrameNumber);
         }
+
         const std::string& getCurrentState() const
         {
             return mCurrentState;
@@ -90,6 +92,7 @@ public:
             }
 
             mCurrentState = mAnimationStates.cbegin()->first;
+            mFrameNumber = 0;
         }
         size_t mFrameNumber {};
         int64_t mOldFrameTime {};

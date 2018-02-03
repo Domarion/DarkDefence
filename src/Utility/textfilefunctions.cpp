@@ -35,11 +35,9 @@ void saveStringsTofile(SDL_RWops* filetoWrite, const vector<string>& strings)
         uint32_t stringCount = strings.size();
         SDL_RWwrite(filetoWrite, &stringCount, sizeof(uint32_t), 1);
 
-        for(uint32_t i = 0; i < stringCount; ++i)
+        for(const auto& str : strings)
         {
-            uint32_t stringByteLength = strings[i].size();
-            SDL_RWwrite(filetoWrite, &stringByteLength, sizeof(uint32_t), 1);
-            SDL_RWwrite(filetoWrite, strings[i].c_str(), stringByteLength, 1);
+            saveStringToFile(filetoWrite, str);
         }
     }
 }
@@ -134,6 +132,11 @@ std::string loadCharStringFromFile(SDL_RWops* filetoRead)
         uint32_t stringByteLength{};
         SDL_RWread(filetoRead, &stringByteLength, sizeof(uint32_t), 1);
 
+        if (stringByteLength == 0)
+        {
+            return std::string{};
+        }
+
         char* char_string = new char[stringByteLength + 1];
         try
         {
@@ -178,6 +181,21 @@ void saveAnimsToFile(SDL_RWops* filetoWrite, const map<string, vector<SDL_Rect> 
                 SDL_RWwrite(filetoWrite, &animFrameRect, sizeof(SDL_Rect), 1);
             }
         }
+    }
+}
+
+void saveStringToFile(SDL_RWops* filetoWrite, const std::string& aString)
+{
+    if (!filetoWrite)
+    {
+        return;
+    }
+
+    uint32_t stringByteLength = aString.size();
+    SDL_RWwrite(filetoWrite, &stringByteLength, sizeof(uint32_t), 1);
+    if (stringByteLength > 0)
+    {
+        SDL_RWwrite(filetoWrite, aString.c_str(), stringByteLength, 1);
     }
 }
 

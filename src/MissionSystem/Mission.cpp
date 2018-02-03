@@ -7,6 +7,19 @@ Mission::Mission(const std::string& aCaption, const std::string& aDescription, c
 {
 }
 
+Mission& Mission::operator=(const Mission& aRight)
+{
+    if (this != &aRight)
+    {
+        caption = aRight.caption;
+        description = aRight.description;
+        reward = aRight.reward;
+        missionStatus = aRight.missionStatus;
+        goals = aRight.goals;
+    }
+    return *this;
+}
+
 const std::string& Mission::getCaption() const
 {
     return caption;
@@ -118,6 +131,7 @@ void Mission::reset()
     missionStatus = MissionStatuses::mNOT_STARTED;
     description.clear();
     caption.clear();
+    goals.clear();
 }
 
 bool Mission::isEmpty() const

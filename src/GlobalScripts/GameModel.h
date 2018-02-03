@@ -39,7 +39,6 @@ public:
     void loadTowerUpgrades(const std::string& aFileName);
     void loadMinesList(const std::string& aFileName);
 
-    void deserialize(Mission& obj, const std::string& aFileName);
     bool loadShopItems(const std::string& aFileName);
 
     const std::shared_ptr<ShopInventory>& getShopInventory() const;
@@ -53,9 +52,6 @@ public:
     bool NoMonstersOnMap() const;
     void incMonsterCount();
     void decMonsterCount(const std::string& aMonsterName);
-
-    void setCurrentMissionIndex(int aMissionIndex);
-    int getCurrentMissionIndex() const;
 
     Enums::GameStatuses getGameStatus() const;
     void setGameStatus(Enums::GameStatuses aGameStatus);
@@ -92,6 +88,8 @@ public:
 
     void saveGameData(const std::string& aFileName);
     void loadGameData(const std::string& aFileName);
+
+    MissionTumbler& getMissionSwitcher();
 private:
     GameModel();
     ~GameModel() = default;
@@ -102,7 +100,6 @@ private:
     double pointsRefundModifier = 1;
     int MonsterCountOnMap = 0;
     Enums::GameStatuses gameStatus = Enums::GameStatuses::gsINPROGRESS;
-    int currentMissionIndex = 0;
     std::shared_ptr<ShopInventory> shop;
     std::shared_ptr<HeroInventory> heroFigure;
     std::shared_ptr<Inventory> inventory;

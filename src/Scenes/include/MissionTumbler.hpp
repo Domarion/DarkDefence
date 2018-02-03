@@ -2,8 +2,7 @@
 
 #include <vector>
 #include <boost/optional/optional_fwd.hpp>
-
-class Mission;
+#include "../../MissionSystem/Mission.h"
 
 class MissionTumbler
 {
@@ -13,12 +12,16 @@ public:
     explicit MissionTumbler(const TContainer& aMissions);
     MissionTumbler() = default;
 
-    void SetMissions(TContainer&& aMissionContainer);
+    void setMissions(TContainer&& aMissionContainer);
 
-    bool HasMissions() const;
+    bool hasMissions() const;
 
     boost::optional<Mission> getCurrentMission() const;
     boost::optional<Mission> nextMission();
+
+    bool setCurrentMissionByName(const std::string& aMissionCaption);
+
+    void resetCurrentMission();
 
 private:
     TContainer mMissions;

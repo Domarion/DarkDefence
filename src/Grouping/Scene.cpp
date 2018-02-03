@@ -473,6 +473,7 @@ void Scene::clear()
     sceneObjects.clear();
 
     parentSceneManager = nullptr;
+    mCamera.resetWorldPosition();
 }
 
 bool operator<(const Scene::DrawObject& aLeft, const Scene::DrawObject& aRight)
