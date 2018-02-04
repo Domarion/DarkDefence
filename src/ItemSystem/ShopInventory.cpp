@@ -3,11 +3,10 @@
 
 bool ShopInventory::sendItem(size_t aIndex)
 {
-    if (SendHandler == nullptr)
+    if (SendHandler == nullptr || aIndex >= items.size())
     {
 		return false;
     }
-    // TODO Boundaries check.
     int itemPrice = items[aIndex].getPrice();
 
     if (AccountModel::getInstance()->PayGold(itemPrice))

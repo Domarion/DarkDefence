@@ -460,14 +460,38 @@ bool GameModel::loadShopItems(const std::string& aFileName)
             xmlinp(shop);
         }
 
-        shop->ConnectModelReceiver(std::bind(&Inventory::receiveItem, inventory, std::placeholders::_1));
-        inventory->ConnectModelReceiver(std::bind(&HeroInventory::receiveItem, heroFigure, std::placeholders::_1));
-        heroFigure->ConnectModelReceiver(std::bind(&Inventory::receiveItem, inventory, std::placeholders::_1));
+        shop->ConnectModelReceiver(std::bind(&GameModel::receiveShopItem, this, std::placeholders::_1));
+        inventory->ConnectModelReceiver(std::bind(&GameModel::receiveInventoryItem, this, std::placeholders::_1));
+        heroFigure->ConnectModelReceiver(std::bind(&GameModel::receiveInventoryItem, this, std::placeholders::_1));
 
         shopItemsLoaded = true;
     }
 
     return (!shopItemsLoaded);
+}
+
+// TODO: Найти решение лучше, чем прокси-функции.
+void GameModel::receiveShopItem(ItemModel aItem)
+{
+    assert(inventory);
+    inventory->receiveItem(aItem);
+    saveGameData("GameData/save.bin");
+}
+
+void GameModel::receiveInventoryItem(ItemModel aItem)
+{
+    assert(heroFigure);
+
+    heroFigure->receiveItem(aItem);
+    saveGameData("GameData/save.bin");
+}
+
+void GameModel::receiveHeroFigureItem(ItemModel aItem)
+{
+    assert(inventory);
+
+    inventory->receiveItem(aItem);
+    saveGameData("GameData/save.bin");
 }
 
 const std::shared_ptr<ShopInventory>& GameModel::getShopInventory() const

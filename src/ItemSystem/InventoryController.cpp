@@ -6,7 +6,6 @@
 
 InventoryController::InventoryController(std::shared_ptr<RenderingSystem>& aRenderer)
     : renderer(aRenderer)
-    , arial()
 {
 }
 

@@ -90,6 +90,12 @@ public:
     void loadGameData(const std::string& aFileName);
 
     MissionTumbler& getMissionSwitcher();
+
+    void receiveShopItem(ItemModel aItem);
+    void receiveInventoryItem(ItemModel aItem);
+    void receiveHeroFigureItem(ItemModel aItem);
+
+
 private:
     GameModel();
     ~GameModel() = default;
