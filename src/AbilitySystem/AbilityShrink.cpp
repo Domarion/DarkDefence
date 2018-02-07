@@ -85,12 +85,7 @@ void AbilityShrink::spawnEffect(double timeToLive)
     someSprite->setTexture(ResourceManager::getInstance()->getTexture(abName));
 
     spellAnimationObject->setSprite(someSprite);
-    parentScenePtr->spawnObject(100, 100, spellAnimationObject);
+    // TODO: Remove Hardcode.
+    parentScenePtr->spawnObject(Position(100, 100), spellAnimationObject);
     someSprite->setCurrentState("cast");
 }
-
-
-/*	short formula = (short)(ef.getHealthMax()*DamageValuePerSecond);
-                        //DebugMap.Instance.AddMessage("\nDamageValuePerSecond" + DamageValuePerSecond.ToString());
-                        ef.ReceiveDamageOneType(formula,(byte)DamageTypes.Psionical,false);
-                        */

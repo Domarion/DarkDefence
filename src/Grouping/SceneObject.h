@@ -59,7 +59,7 @@ protected:
     static size_t sceneObjectCurrentId;
 
     std::shared_ptr<AnimationSceneSprite> spriteModel;
-    int mX{0}, mY{0};
+    Position WorldPosition;
     string name;
     string tag;
     std::weak_ptr<Scene> parentScenePtr;

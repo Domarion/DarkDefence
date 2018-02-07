@@ -108,12 +108,11 @@ void SceneObject::init(int x, int y)
 
 void SceneObject::setPos(int x, int y)
 {
-    mX = x;
-    mY = y;
+    WorldPosition = Position(x, y);
 
     if (spriteModel)
     {
-        spriteModel->setPosition(Position(mX, mY));
+        spriteModel->setPosition(WorldPosition);
     }
 }
 
@@ -172,12 +171,12 @@ void SceneObject::setSprite(std::shared_ptr<AnimationSceneSprite> & value)
 
 int SceneObject::getX() const
 {
-    return mX;
+    return WorldPosition.x;
 }
 
 int SceneObject::getY() const
 {
-    return mY;
+    return WorldPosition.y;
 }
 
 Position SceneObject::getPosition() const
@@ -199,9 +198,7 @@ void SceneObject::setPos(SDL_Point aPos)
 
 void SceneObject::setPosition(Position aPos)
 {
-    mX = aPos.x;
-    mY = aPos.y;
-
+    WorldPosition = aPos;
     if (spriteModel)
     {
         spriteModel->setPosition(aPos);

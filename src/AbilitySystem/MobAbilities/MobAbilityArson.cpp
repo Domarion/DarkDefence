@@ -26,8 +26,7 @@ bool MobAbilityArson::onReady(double /*timestep*/)
         if (toSpawn == nullptr)
             return false;
 
-        auto position = target->getRealPosition();
-        parentScenePtr->spawnObject(position.x, position.y, toSpawn);
+        parentScenePtr->spawnObject(target->getRealPosition(), toSpawn);
     }
 
     abilityState = Enums::AbilityStates::asWorking;

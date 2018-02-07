@@ -332,7 +332,7 @@ void GameScene::spawningCallBack(std::string aMobName, Position aSpawnPosition, 
     someMob->setSprite(someSprite);
     someMob->setDrawPriority(aDrawPriority);
 
-    spawnObject(aSpawnPosition.x, aSpawnPosition.y, someMob);
+    spawnObject(aSpawnPosition, someMob);
 }
 
 void GameScene::initTopPanel()
@@ -475,7 +475,7 @@ void GameScene::placeSceneObjects()
         inputHandler->setParentScene(shared_from_this());
         Terrain->setInputHandler(inputHandler);
     }
-    spawnObject(0,0, Terrain);
+    spawnObject(Position::Zero(), Terrain);
 
     towerUpgradeController = std::make_shared<TowerUpgradeController>();
     assert(towerUpgradeController);
@@ -488,7 +488,7 @@ void GameScene::placeSceneObjects()
             auto tower= towerUpgradeController->ProduceTower(item.Name, tileMap, item.DrawPriority);
             tower->getSprite()->setAnchorPointPlace(item.xCoordAnchorType, item.yCoordAnchorType);
 
-            spawnObject(item.ImagePosition.x, item.ImagePosition.y, tower);
+            spawnObject(item.ImagePosition, tower);
         }
         else if (item.Name == "Gates")
         {
@@ -512,7 +512,7 @@ void GameScene::placeSceneObjects()
                 ));
             gates->getDestructibleObject()->setMaximumHealth(5000);
             gates->setDrawPriority(item.DrawPriority);
-            spawnObject(item.ImagePosition.x, item.ImagePosition.y, gates);
+            spawnObject(item.ImagePosition, gates);
         }
         else if (item.Name == "ResourceWheat")
         {
@@ -532,7 +532,7 @@ void GameScene::placeSceneObjects()
             resPlace->setTag("ResourcePlace");
             resPlace->setDrawPriority(item.DrawPriority);
 
-            spawnObject(item.ImagePosition.x, item.ImagePosition.y, resPlace);
+            spawnObject(item.ImagePosition, resPlace);
         }
         else if (item.Name == "Spawner")
         {
@@ -550,7 +550,7 @@ void GameScene::placeSceneObjects()
 
             monsterSpawner->setDrawPriority(item.DrawPriority);
 
-            spawnObject(item.ImagePosition.x, item.ImagePosition.y, monsterSpawner);
+            spawnObject(item.ImagePosition, monsterSpawner);
 
             monsterSpawner->connectInfoProcesser(
                 std::bind(&GameScene::processWaveInfo, this, std::placeholders::_1));

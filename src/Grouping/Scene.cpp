@@ -62,11 +62,6 @@ void Scene::startUpdate(double timestep)
     }
 }
 
-void Scene::spawnObject(int x, int y, std::shared_ptr<SceneObject> obj) // TODO избавиться по возможности
-{
-   spawnObject(Position(x, y), obj);
-}
-
 void Scene::addDrawObject(std::shared_ptr<SceneObject>& aObj)
 {
     DrawObject drawObj{aObj->getDrawPriority(), aObj->getId()};

@@ -33,8 +33,7 @@ bool MobAbilityFog::onReady(double)
                             return false;
                         }
 
-                        auto position = affectedMob->getRealPosition();
-                        parentScenePtr->spawnObject(position.x, position.y, toSpawn);
+                        parentScenePtr->spawnObject(affectedMob->getRealPosition(), toSpawn);
 
                     }
                 }

@@ -408,8 +408,7 @@ void AIComponent::ShotArrow()
             auto miniObject = std::make_shared<ArrowAnim>(currentTarget->getRealPosition());
             miniObject->setSprite(sprite);
             miniObject->setDrawPriority(lockedMob->getDrawPriority() + 1);
-            lockedParentScene->spawnObject(
-                lockedMob->getRealPosition().x, lockedMob->getRealPosition().y, miniObject);
+            lockedParentScene->spawnObject(lockedMob->getRealPosition(), miniObject);
         }
     }
 }

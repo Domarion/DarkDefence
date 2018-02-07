@@ -68,7 +68,7 @@ bool MobCloudTowerAbility::onReady(double /*timestep*/)
             std::bind(&MobCloudTowerAbility::ChainLightingHandler, this, std::placeholders::_1));
         abilityState = Enums::AbilityStates::asWorking;
         auto fakePos = parentScenePtr->findObjectByTag("Tower")->getPosition();
-        parentScenePtr->spawnObject(fakePos.x, fakePos.y, aBouncingArrowObject);
+        parentScenePtr->spawnObject(fakePos, aBouncingArrowObject);
     }
 
     return true;

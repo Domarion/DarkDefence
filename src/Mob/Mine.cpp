@@ -41,7 +41,7 @@ bool Mine::update(double timestep)
             resPlace->setName("ResourcePlace");
             resPlace->setTag("ResourcePlace");
 
-            parentScenePtr.lock()->spawnObject(mX, mY, resPlace);
+            parentScenePtr.lock()->spawnObject(WorldPosition, resPlace);
 
             return false;
         }

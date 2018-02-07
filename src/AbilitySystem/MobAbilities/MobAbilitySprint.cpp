@@ -19,8 +19,7 @@ bool MobAbilitySprint::onReady(double /*timestep*/)
                 if (toSpawn == nullptr)
                     return false;
 
-                auto position = mob->getRealPosition();
-                parentScenePtr->spawnObject(position.x, position.y, toSpawn);
+                parentScenePtr->spawnObject(mob->getRealPosition(), toSpawn);
             }
          }
      }

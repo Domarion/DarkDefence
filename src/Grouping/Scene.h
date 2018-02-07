@@ -38,7 +38,6 @@ public:
     virtual void clear();
     virtual void copyToRender() const;
     virtual void startUpdate(double timestep);
-    virtual void spawnObject(int x, int y, std::shared_ptr<SceneObject> obj);
     virtual void spawnObject(Position aPos, std::shared_ptr<SceneObject> aObj);
 
     virtual void destroyObject(std::shared_ptr<SceneObject> obj);
