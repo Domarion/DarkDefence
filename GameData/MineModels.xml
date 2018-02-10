@@ -38,6 +38,7 @@
 				<first>5000</first>
 				<second>0</second>
 			</productionPeriod>
+            <DestructionLoss>300</DestructionLoss>
 		</value0>
 		<value1>
 			<value0>
@@ -75,6 +76,7 @@
 				<first>5000</first>
 				<second>0</second>
 			</productionPeriod>
+            <DestructionLoss>300</DestructionLoss>
 		</value1>
 		<value2>
 			<value0>
@@ -112,6 +114,7 @@
 				<first>5000</first>
 				<second>0</second>
 			</productionPeriod>
+            <DestructionLoss>300</DestructionLoss>
 		</value2>
 	</Mines>
 </cereal>

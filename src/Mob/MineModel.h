@@ -24,7 +24,8 @@ class MineModel: public DestructibleObject
            cereal::base_class<DestructibleObject>(this),
            CEREAL_NVP(productionType),
            CEREAL_NVP(production),
-           CEREAL_NVP(productionPeriod));
+           CEREAL_NVP(productionPeriod),
+           cereal::make_nvp("DestructionLoss", mDestructionLoss));
 
         currentTime = productionPeriod.first;
     }
@@ -39,10 +40,12 @@ public:
         std::array<int, GlobalConstants::damageTypeCount>& aProtection,
         Enums::ResourceTypes aResType,
         int aProduction,
-        double aPeriod);
+        double aPeriod,
+        int aDestructionLoss);
     MineModel(const MineModel& aRight);
 
     int getLimit() const;
+    int calculateLimitAfterDestruction() const;
     void setLimit(int aLimit);
     int getProduction() const;
     void setProduction(int aProduction);
@@ -61,6 +64,7 @@ private:
     pair<double, double> productionPeriod{};
     double currentTime = 0;
     Enums::ResourceTypes productionType = Enums::ResourceTypes::WHEAT;
+    int mDestructionLoss = 100;
     pair<int, int> limit{};
 
 

@@ -14,12 +14,14 @@ MineModel::MineModel(
     std::array<int, GlobalConstants::damageTypeCount>& aProtection,
     Enums::ResourceTypes aResType,
     int aProduction,
-    double aPeriod)
+    double aPeriod,
+    int aDestructionLoss)
     : DestructibleObject(aName, aTag, aMaxHealth, aProtection)
     , production{aProduction, 0}
     , productionPeriod{aPeriod, 0}
     , currentTime(aPeriod)
     , productionType(aResType)
+    , mDestructionLoss(aDestructionLoss)
 {
 }
 
@@ -31,12 +33,18 @@ MineModel::MineModel(const MineModel& aRight)
     limit = aRight.limit;
     productionPeriod = aRight.productionPeriod;
     currentTime = productionPeriod.first;
+    mDestructionLoss = aRight.mDestructionLoss;
 }
 
 
 int MineModel::getLimit() const
 {
     return limit.first + limit.second;
+}
+
+int MineModel::calculateLimitAfterDestruction() const
+{
+    return getLimit() - mDestructionLoss;
 }
 
 int MineModel::getProduction() const

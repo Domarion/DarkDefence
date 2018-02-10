@@ -5,7 +5,6 @@
 Mine::Mine(Size aResourcePlaceSize)
     : model(nullptr)
     , mineEffectReceiver(std::make_shared<DestructibleObjectEffectReceiver>())
-    , destructionLoss(300) //TODO: Перенести в конфиг для MineModel
     , mResourcePlaceSize(aResourcePlaceSize)
 {
 }
@@ -21,7 +20,7 @@ bool Mine::update(double timestep)
 
         if (model->getCurrentHealth() <= 0)
         {
-            int resPlaceLimit = model->getLimit() - destructionLoss;
+            int resPlaceLimit = model->calculateLimitAfterDestruction();
             if (resPlaceLimit <= 0)
                 return false;
 
