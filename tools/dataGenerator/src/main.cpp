@@ -6,7 +6,7 @@ int main()
 //    dataGenerator.saveAnim2();
 
 //    dataGenerator.saveAnim();
-    dataGenerator.saveTowerTree();
+//    dataGenerator.saveTowerTree();
 //    dataGenerator.saveItems();
 //    dataGenerator.saveMission();
 //    dataGenerator.saveMonsterCollection();
@@ -14,5 +14,6 @@ int main()
 //    dataGenerator.saveMineCollection();
 //    dataGenerator.savePositions();
 //    dataGenerator.saveTextureData();
+    dataGenerator.saveInventoryConfig();
     return 0;
 }

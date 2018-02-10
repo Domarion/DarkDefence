@@ -17,28 +17,28 @@ set(HEADERS
     ${DarkDefenceIncludeDir}/GraphicsSystem/newSystem/UtilityStructs.h
 
     ${DarkDefenceIncludeDir}/GlobalConstants.h
-    ${DarkDefenceIncludeDir}/MissionSystem/Reward.h
-    ${DarkDefenceIncludeDir}/MissionSystem/BasicGoal.h
-    ${DarkDefenceIncludeDir}/MissionSystem/Mission.h
-    ${DarkDefenceIncludeDir}/MissionSystem/ResourceGoal.h
-    ${DarkDefenceIncludeDir}/GlobalScripts/ResourcesModel.h
-    ${DarkDefenceIncludeDir}/GlobalScripts/ResourceInfo.h
+#    ${DarkDefenceIncludeDir}/MissionSystem/Reward.h
+#    ${DarkDefenceIncludeDir}/MissionSystem/BasicGoal.h
+#    ${DarkDefenceIncludeDir}/MissionSystem/Mission.h
+#    ${DarkDefenceIncludeDir}/MissionSystem/ResourceGoal.h
+#    ${DarkDefenceIncludeDir}/GlobalScripts/ResourcesModel.h
+#    ${DarkDefenceIncludeDir}/GlobalScripts/ResourceInfo.h
 
-    ${DarkDefenceIncludeDir}/Mob/DestructibleObject.h
+#    ${DarkDefenceIncludeDir}/Mob/DestructibleObject.h
 
-    ${DarkDefenceIncludeDir}/Mob/MineModel.h
-    ${DarkDefenceIncludeDir}/Mob/MobModel.h
-    ${DarkDefenceIncludeDir}/Mob/EnemyInfo.h
+#    ${DarkDefenceIncludeDir}/Mob/MineModel.h
+#    ${DarkDefenceIncludeDir}/Mob/MobModel.h
+#    ${DarkDefenceIncludeDir}/Mob/EnemyInfo.h
 
     ${DarkDefenceIncludeDir}/Logging/Logger.h
 
     ${DarkDefenceIncludeDir}/Utility/textfilefunctions.h
 
-    ${DarkDefenceIncludeDir}/Utility/TreeNode.hpp
+#    ${DarkDefenceIncludeDir}/Utility/TreeNode.hpp
 
-    ${DarkDefenceIncludeDir}/ItemSystem/ItemModel.h
+#    ${DarkDefenceIncludeDir}/ItemSystem/ItemModel.h
 
-    ${DarkDefenceIncludeDir}/ItemSystem/Inventory.h
+#    ${DarkDefenceIncludeDir}/ItemSystem/Inventory.h
 #    ${DarkDefenceIncludeDir}/ItemSystem/ShopInventory.h
 #    ${DarkDefenceIncludeDir}/ItemSystem/HeroInventory.h
 
@@ -66,27 +66,27 @@ set(SRC_LIST
     ${DarkDefenceIncludeDir}/GraphicsSystem/newSystem/Size.cpp
     ${DarkDefenceIncludeDir}/GraphicsSystem/newSystem/Position.cpp
 
-    ${DarkDefenceIncludeDir}/GlobalScripts/ResourcesModel.cpp
-    ${DarkDefenceIncludeDir}/GlobalScripts/ResourceInfo.cpp
+#    ${DarkDefenceIncludeDir}/GlobalScripts/ResourcesModel.cpp
+#    ${DarkDefenceIncludeDir}/GlobalScripts/ResourceInfo.cpp
 
-    ${DarkDefenceIncludeDir}/MissionSystem/Reward.cpp
-    ${DarkDefenceIncludeDir}/MissionSystem/BasicGoal.cpp
-    ${DarkDefenceIncludeDir}/MissionSystem/Mission.cpp
-    ${DarkDefenceIncludeDir}/MissionSystem/ResourceGoal.cpp
+#    ${DarkDefenceIncludeDir}/MissionSystem/Reward.cpp
+#    ${DarkDefenceIncludeDir}/MissionSystem/BasicGoal.cpp
+#    ${DarkDefenceIncludeDir}/MissionSystem/Mission.cpp
+#    ${DarkDefenceIncludeDir}/MissionSystem/ResourceGoal.cpp
 
-    ${DarkDefenceIncludeDir}/Mob/DestructibleObject.cpp
-    ${DarkDefenceIncludeDir}/Mob/EnemyInfo.cpp
+#    ${DarkDefenceIncludeDir}/Mob/DestructibleObject.cpp
+#    ${DarkDefenceIncludeDir}/Mob/EnemyInfo.cpp
 
-    ${DarkDefenceIncludeDir}/Mob/MineModel.cpp
-    ${DarkDefenceIncludeDir}/Mob/MobModel.cpp
+#    ${DarkDefenceIncludeDir}/Mob/MineModel.cpp
+#    ${DarkDefenceIncludeDir}/Mob/MobModel.cpp
 
     ${DarkDefenceIncludeDir}/Logging/Logger.cpp
 
     ${DarkDefenceIncludeDir}/Utility/textfilefunctions.cpp
 
-    ${DarkDefenceIncludeDir}/ItemSystem/ItemModel.cpp
+#    ${DarkDefenceIncludeDir}/ItemSystem/ItemModel.cpp
 
-    ${DarkDefenceIncludeDir}/ItemSystem/Inventory.cpp
+#    ${DarkDefenceIncludeDir}/ItemSystem/Inventory.cpp
 #    ${DarkDefenceIncludeDir}/ItemSystem/ShopInventory.cpp
 #    ${DarkDefenceIncludeDir}/ItemSystem/HeroInventory.cpp
 #    ${DarkDefenceIncludeDir}/AbilitySystem/AbilityModel.cpp

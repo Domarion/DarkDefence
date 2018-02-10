@@ -1,0 +1,49 @@
+{
+    "value0": {
+        "cereal_class_version": 0,
+        "ItemsCount": 9,
+        "ItemSize": {
+            "Width": 96,
+            "Height": 96
+        },
+        "ItemPositions": [
+            {
+                "X": 96,
+                "Y": 0
+            },
+            {
+                "X": 96,
+                "Y": 96
+            },
+            {
+                "X": 0,
+                "Y": 192
+            },
+            {
+                "X": 96,
+                "Y": 192
+            },
+            {
+                "X": 192,
+                "Y": 192
+            },
+            {
+                "X": 288,
+                "Y": 96
+            },
+            {
+                "X": 96,
+                "Y": 288
+            },
+            {
+                "X": 384,
+                "Y": 288
+            },
+            {
+                "X": 384,
+                "Y": 288
+            }
+        ],
+        "BackImagePath": "GameData/textures/EmptyBox.png"
+    }
+}

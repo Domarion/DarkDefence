@@ -12,5 +12,6 @@ public:
     void savePositions();
     void saveTextureData();
     void saveAnim2();
+    void saveInventoryConfig();
 };
 

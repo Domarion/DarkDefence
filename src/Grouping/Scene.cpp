@@ -186,9 +186,6 @@ void Scene::replaceObject(std::shared_ptr<SceneObject> aObject, std::shared_ptr<
 {
     auto comparator = [&aObject](std::shared_ptr<SceneObject>& aRight)
     {
-//        return aObject->getTag() == aRight->getTag()
-//               && aObject->getPosition() ==
-//               aRight->getPosition();//TODO: нужно нормальное сравнение объёектов сцены
           return aObject->getId() == aRight->getId();
     };
 

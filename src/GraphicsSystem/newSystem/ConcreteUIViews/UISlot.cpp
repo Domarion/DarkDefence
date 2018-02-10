@@ -1,17 +1,19 @@
 #include "UISlot.h"
 
-UISlot::UISlot(const std::string &aBackImagePath, std::shared_ptr<RenderingSystem> &aRenderer)
-    :Leaf(aRenderer), backGround(aRenderer), foreGround(aRenderer)
+UISlot::UISlot(const std::string& aBackImagePath, std::shared_ptr<RenderingSystem>& aRenderer)
+    : Leaf(aRenderer)
+    , backGround(aRenderer)
+    , foreGround(aRenderer)
 {
     backGround.loadTexture(aBackImagePath);
 }
 
-void UISlot::loadForeground(const std::string &aPath)
+void UISlot::loadForeground(const std::string& aPath)
 {
     foreGround.loadTexture(aPath);
 }
 
-void UISlot::setForeground(Texture2D &aTexture)
+void UISlot::setForeground(Texture2D& aTexture)
 {
     foreGround = aTexture;
     foreGround.setSize(backGround.getSize());
@@ -25,9 +27,13 @@ void UISlot::resetForeground()
 void UISlot::draw() const
 {
     if (foreGround.hasTexture())
+    {
         foreGround.drawAtPosition(getPosition());
+    }
     else
+    {
         backGround.drawAtPosition(getPosition());
+    }
 }
 
 Size UISlot::getSize() const
@@ -35,8 +41,8 @@ Size UISlot::getSize() const
     return backGround.getSize();
 }
 
-void UISlot::setSize(Size size)
+void UISlot::setSize(Size aSize)
 {
-    backGround.setSize(size);
-    foreGround.setSize(size);
+    backGround.setSize(aSize);
+    foreGround.setSize(aSize);
 }

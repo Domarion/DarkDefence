@@ -8,7 +8,7 @@
  * Всё это для применения масштабирования в зависимости от разрешения
  */
 Leaf::Leaf(std::shared_ptr<RenderingSystem>& aRenderingContext)
-    :IComposite()
+    : IComposite()
     , renderer(aRenderingContext)
 {
 

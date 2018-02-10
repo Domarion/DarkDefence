@@ -1,9 +1,10 @@
 #pragma once
 
-#include "../UIElement/ConcreteComposite.h"
-#include "UISlot.h"
 #include <functional>
 #include <vector>
+
+#include "../UIElement/ConcreteComposite.h"
+#include "UISlot.h"
 
 class UISlotContainer final: public InputHandler
 {
@@ -18,7 +19,7 @@ public:
     void FillItemAtIndex(const std::shared_ptr<UISlot>& aItem, size_t aIndex);
     void CleanItemAtIndex(int aIndex);
     void ConnectMethod(std::function<bool(int)> aMethod);
-    virtual bool onClick(Position aPoint) override;
+    bool onClick(Position aPoint) override;
     const std::vector<std::shared_ptr<UISlot>>& getItems();
 private:
 

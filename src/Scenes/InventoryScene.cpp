@@ -45,8 +45,8 @@ void InventoryScene::initHeroView()
     heroInventory->clearControllerReceivers();
 
     heroController->setModel(heroInventory);
-    heroController->initLocalPositions(MainRect->getSize());
-    heroController->initView(renderer);
+//    heroController->initLocalPositions(MainRect->getSize());
+    heroController->initView(renderer, "GameData/HeroInventoryConfig.json");
     auto items = heroController->getView()->getItems();
 
     for(auto& item : items)

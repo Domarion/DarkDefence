@@ -1,9 +1,9 @@
-#include "HeroInventoryController.h"
+#include <sstream>
 
-HeroInventoryController::~HeroInventoryController()
-{
-    mView = nullptr;
-}
+#include <cereal/archives/json.hpp>
+
+#include "HeroInventoryController.h"
+#include "../Utility/textfilefunctions.h"
 
 void HeroInventoryController::setView(const std::shared_ptr<UISlotContainer>& aNewView)
 {
@@ -25,6 +25,7 @@ const std::shared_ptr<HeroInventory>& HeroInventoryController::getModel() const
     return mModel;
 }
 
+// deprecated
 void HeroInventoryController::initLocalPositions(Size aRectSize)
 {
     if (mModel == nullptr)
@@ -45,7 +46,8 @@ void HeroInventoryController::initLocalPositions(Size aRectSize)
 }
 
 // TODO Remove hardcoded.
-void HeroInventoryController::initView(std::shared_ptr<RenderingSystem>& aRenderer)
+void HeroInventoryController::initView(
+    std::shared_ptr<RenderingSystem>& aRenderer, const std::string& aConfPath)
 {
     if (mModel == nullptr)
         return;
@@ -55,17 +57,28 @@ void HeroInventoryController::initView(std::shared_ptr<RenderingSystem>& aRender
     if (count == 0)
         return;
 
-    std::string emptySlotPath = "GameData/textures/EmptySlot.png";
-    Size itemSize(50, 50);
-    mView = std::make_shared<UISlotContainer>(emptySlotPath, count, itemSize, aRenderer);
+    string textString;
+    androidText::loadTextFileToString(aConfPath, textString);
+
+    std::istringstream stream(textString);
+    cereal::JSONInputArchive jsonArchive(stream);
+
+    SlotConfig config;
+    jsonArchive >> config;
+
+//    std::string emptySlotPath = "GameData/textures/EmptySlot.png";
+//    Size itemSize(50, 50);
+    mView = std::make_shared<UISlotContainer>(config.EmptyImagePath, config.ItemsCount, config.ItemSize, aRenderer);
 
     for(size_t i = 0; i < count; ++i)
     {
         std::string aItemPath = "GameData/textures/items/"
                 + mModel->getItemFromIndex(i)->getCaption() + ".png";
         mView->LoadItemAtIndex(aItemPath, i);
-        mView->SetItemPos(mSlotsPositions[i], i);
-
+        // TODO normal positions
+        auto pos = config.ItemsPositions[i];
+        pos.x += 300;
+        mView->SetItemPos(pos, i);
     }
     mView->ConnectMethod(std::bind( &HeroInventory::sendItem, mModel, std::placeholders::_1) );
     mModel->ConnectControllerReceiver(
