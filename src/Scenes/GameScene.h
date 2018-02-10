@@ -101,4 +101,5 @@ private:
     Enums::GameSceneStatuses mGameSceneCurrentStatus = Enums::GameSceneStatuses::Default;
     SceneModeT mSceneMode = SceneModeT::StandardMode;
     double counter = 5000;
+    std::string currentMissionPath;
 };

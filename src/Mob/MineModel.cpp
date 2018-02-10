@@ -1,10 +1,3 @@
-/*
- * MineModel.cpp
- *
- *  Created on: 14 апр. 2016 г.
- *      Author: kostya_hm
- */
-
 #include "MineModel.h"
 
 MineModel::MineModel(
@@ -35,7 +28,6 @@ MineModel::MineModel(const MineModel& aRight)
     currentTime = productionPeriod.first;
     mDestructionLoss = aRight.mDestructionLoss;
 }
-
 
 int MineModel::getLimit() const
 {
@@ -93,9 +85,10 @@ void MineModel::produce(double aTimeStep, const std::shared_ptr<ResourcesModel>&
         }
 
         currentTime = getProductionPeriod();
+        return;
     }
-    else
-        currentTime -= aTimeStep;
+
+    currentTime -= aTimeStep;
 }
 
 void MineModel::setProductionPeriod(double aProductionPeriod)
@@ -108,5 +101,3 @@ void MineModel::setLimit(int aLimit)
 {
     limit.first = aLimit;
 }
-
-

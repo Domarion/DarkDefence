@@ -67,9 +67,9 @@ void Spawner::disconnectSpawnCallback()
     mSpawnCallBack = nullptr;
 }
 
-void Spawner::loadWavesInfo()
+void Spawner::loadWavesInfo(const std::string& aFilePath)
 {
-    mSpawnerModel.loadWavesInfo("GameData/wavesInfo.txt");
+    mSpawnerModel.loadWavesInfo(aFilePath);
 }
 
 void Spawner::connectSpawnCallBack(std::function<void(std::string, Position, size_t)> aCallBack)

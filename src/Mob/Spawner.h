@@ -14,7 +14,7 @@ public:
     void disconnectInfoProcesser();
     void disconnectSpawnCallback();
 
-    void loadWavesInfo();
+    void loadWavesInfo(const std::string& aFilePath);
     void connectSpawnCallBack(std::function<void(std::string, Position, size_t)> aCallBack);
 
 private:

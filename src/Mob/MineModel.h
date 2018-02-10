@@ -1,16 +1,11 @@
-/*
- * MineModel.h
- *
- *  Created on: 14 апр. 2016 г.
- *      Author: kostya_hm
- */
-
 #pragma once
 
-#include "DestructibleObject.h"
 #include <cereal/types/base_class.hpp>
+
+#include "DestructibleObject.h"
 #include "../Enums.h"
 #include "GlobalScripts/ResourcesModel.h"
+
 using std::pair;
 
 class MineModel: public DestructibleObject
@@ -19,7 +14,6 @@ class MineModel: public DestructibleObject
     template <typename Archive>
     void serialize(Archive &ar)
     {
-
        ar(
            cereal::base_class<DestructibleObject>(this),
            CEREAL_NVP(productionType),
@@ -66,7 +60,5 @@ private:
     Enums::ResourceTypes productionType = Enums::ResourceTypes::WHEAT;
     int mDestructionLoss = 100;
     pair<int, int> limit{};
-
-
 };
 

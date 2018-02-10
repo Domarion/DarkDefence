@@ -150,7 +150,7 @@ void GameScene::loadData()
         currentMission = *mission;
     }
 
-    std::string currentMissionPath = "GameData/Missions/" + currentMission.getCaption();
+    currentMissionPath = "GameData/Missions/" + currentMission.getCaption();
 
     std::string pointsConf = currentMissionPath + std::string{"/points.txt"};
     GameModel::getInstance()->loadMonsterPointsList(pointsConf);
@@ -546,7 +546,8 @@ void GameScene::placeSceneObjects()
             monsterSpawner->setSprite(spawnerSprite);
             monsterSpawner->setName("Spawner");
             monsterSpawner->setTag("Spawner");
-            monsterSpawner->loadWavesInfo();
+            std::string waveInfoPath = currentMissionPath + "/wavesInfo.txt";
+            monsterSpawner->loadWavesInfo(waveInfoPath);
 
             monsterSpawner->setDrawPriority(item.DrawPriority);
 
@@ -619,6 +620,7 @@ void GameScene::clear()
     gates = nullptr;
     currentMission.reset();
     towerUpgradeController.reset();
+    currentMissionPath.clear();
     if (monsterSpawner)
     {
         monsterSpawner->disconnectInfoProcesser();
