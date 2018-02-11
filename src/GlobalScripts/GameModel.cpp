@@ -462,7 +462,7 @@ bool GameModel::loadShopItems(const std::string& aFileName)
 
         shop->ConnectModelReceiver(std::bind(&GameModel::receiveShopItem, this, std::placeholders::_1));
         inventory->ConnectModelReceiver(std::bind(&GameModel::receiveInventoryItem, this, std::placeholders::_1));
-        heroFigure->ConnectModelReceiver(std::bind(&GameModel::receiveInventoryItem, this, std::placeholders::_1));
+        heroFigure->ConnectModelReceiver(std::bind(&GameModel::receiveHeroFigureItem, this, std::placeholders::_1));
 
         shopItemsLoaded = true;
     }

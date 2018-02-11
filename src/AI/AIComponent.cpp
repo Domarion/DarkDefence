@@ -1,6 +1,7 @@
-#include "AIComponent.h"
-#include <cassert>
 #include <algorithm>
+#include <cassert>
+
+#include "AIComponent.h"
 #include "../Utility/textfilefunctions.h"
 #include "../Mob/ArrowAnim.h"
 #include "../GlobalScripts/ResourceManager.h"
@@ -10,7 +11,6 @@
 AIComponent::AIComponent(std::weak_ptr<Mob> aMob)
     : MobPtr(aMob)
     , aiMobState(AIMobStates::aiSEARCH)
-    , currentTarget(nullptr)
     , currentTargetPosition{-1, -1}
     , nextCell{-1, -1}
 

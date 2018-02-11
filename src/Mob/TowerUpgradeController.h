@@ -1,11 +1,14 @@
 #pragma once
+
+#include <string>
+#include <vector>
+
 #include "../GraphicsSystem/newSystem/ConcreteUIViews/UIScrollList.h"
 #include "TowerFabric.hpp"
 #include "../Utility/TreeNode.hpp"
-#include <vector>
-using std::vector;
-#include <string>
+
 using std::string;
+using std::vector;
 
 class TowerFabric;
 class Tower;
@@ -14,12 +17,13 @@ class TowerUpgradeController: public std::enable_shared_from_this<TowerUpgradeCo
 {
 public:
     TowerUpgradeController();
-    ~TowerUpgradeController();
+
     void init(std::shared_ptr<Scene> parent, std::shared_ptr<RenderingSystem> &aRenderer);
     void receiveTowerUpgrade(std::shared_ptr<Tower> tower);
     bool menuClickHandler(size_t itemIndex);
     void closeHandler(std::string);
-    std::shared_ptr<Tower> ProduceTower(const std::string& aTowerName, std::shared_ptr<TileMapManager> aTileMap, size_t aDrawPriority);
+    std::shared_ptr<Tower> ProduceTower(
+        const std::string& aTowerName, std::shared_ptr<TileMapManager> aTileMap, size_t aDrawPriority);
 
 private:
 

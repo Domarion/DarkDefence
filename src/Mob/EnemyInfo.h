@@ -1,12 +1,14 @@
 #pragma once
-#include <string>
-using std::string;
 
-#include "../Enums.h"
-using Enums::EReaction;
+#include <string>
 
 #include <cereal/access.hpp>
 #include <cereal/types/string.hpp>
+
+#include "../Enums.h"
+
+using std::string;
+using Enums::EReaction;
 
 class EnemyInfo
 {

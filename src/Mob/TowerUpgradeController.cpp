@@ -12,20 +12,8 @@
 #include "../Scenes/GameScene.h"
 
 TowerUpgradeController::TowerUpgradeController()
-    : parentGameScene(nullptr)
-    , cachedTower(nullptr)
-    , towerMenu(nullptr)
-    , fabric(std::make_unique<TowerFabric>())
-    , upgradeGroup(nullptr)
+    : fabric(std::make_unique<TowerFabric>())
 {
-
-
-}
-
-TowerUpgradeController::~TowerUpgradeController()
-{
-    upgradeGroup.reset();
-    fabric.reset();
 }
 
 void TowerUpgradeController::init(std::shared_ptr<Scene> parent, std::shared_ptr<RenderingSystem>& aRenderer)
@@ -202,7 +190,6 @@ bool TowerUpgradeController::menuClickHandler(size_t itemIndex)
     if (rootTower == nullptr)
     {
         return false;
-
     }
 
     auto searchresult = rootTower->recursiveSearch(towerName);

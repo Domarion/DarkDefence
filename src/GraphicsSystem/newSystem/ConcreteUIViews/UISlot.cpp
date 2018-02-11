@@ -26,13 +26,10 @@ void UISlot::resetForeground()
 
 void UISlot::draw() const
 {
+    backGround.drawAtPosition(getPosition());
     if (foreGround.hasTexture())
     {
         foreGround.drawAtPosition(getPosition());
-    }
-    else
-    {
-        backGround.drawAtPosition(getPosition());
     }
 }
 
