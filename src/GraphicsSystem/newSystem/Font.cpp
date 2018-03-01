@@ -53,7 +53,7 @@ void Font::setFontColor(Uint8 r, Uint8 g, Uint8 b)
     mFontColor = {r, g, b, alpha};
 }
 
-int Font::getFontSize() const
+size_t Font::getFontSize() const
 {
     return mFontSize;
 }

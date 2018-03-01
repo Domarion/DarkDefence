@@ -196,7 +196,7 @@ void GameScene::initResourceView()
     // TODO нужно как-то убрать использование размера из кода
     const Size iconSize{48, 48};
 
-    int resourcePanelWidth = iconSize.width * GlobalConstants::resourceTypeCount;
+    size_t resourcePanelWidth = iconSize.width * GlobalConstants::resourceTypeCount;
 
     const auto& labelFont = FontManager::getInstance()->getFontByKind2("TextFont");
     resourceLabels.resize(GlobalConstants::resourceTypeCount);

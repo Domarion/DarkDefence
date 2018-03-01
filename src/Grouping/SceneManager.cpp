@@ -1,10 +1,3 @@
-/*
- * SceneManager.cpp
- *
- *  Created on: 13 марта 2016 г.
- *      Author: kostya_hm
- */
-
 #include "SceneManager.h"
 #include "Logging/Logger.h"
 

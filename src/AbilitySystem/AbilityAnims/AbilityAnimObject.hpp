@@ -10,6 +10,7 @@ public:
 
     // SceneObject interface
     virtual bool update(double timestep) override;
+    bool isFinished() const;
 
 private:
     double mTimeToLive = 0.0;

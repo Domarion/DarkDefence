@@ -48,8 +48,8 @@ int ResourcesModel::getResourceAmountFromIndex(size_t resourceType)
 
 int ResourcesModel::getResourceAmountFromType(Enums::ResourceTypes aResourceType)
 {
-    int resourceIndex = Enums::toIntegralType(aResourceType);
-    assert(resourceIndex > 0 && static_cast<std::size_t>(resourceIndex) < GlobalConstants::resourceTypeCount);
+    size_t resourceIndex = Enums::toIntegralType(aResourceType);
+    assert(static_cast<size_t>(resourceIndex) < GlobalConstants::resourceTypeCount);
 
     return getResourceAmountFromIndex(resourceIndex);
 }
@@ -73,12 +73,12 @@ bool ResourcesModel::removeResource(size_t resourceType, int amount)
 	return resourceTypes[resourceType].removeResource(amount);
 }
 
-void ResourcesModel::increaseLimit(int resourceType, int amount)
+void ResourcesModel::increaseLimit(size_t resourceType, int amount)
 {
 	resourceTypes[resourceType].increaseLimit(amount);
 }
 
-void ResourcesModel::decreaseLimit(int resourceType, int amount)
+void ResourcesModel::decreaseLimit(size_t resourceType, int amount)
 {
     resourceTypes[resourceType].decreaseLimit(amount);
 }

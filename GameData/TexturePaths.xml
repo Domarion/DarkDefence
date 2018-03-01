@@ -143,7 +143,7 @@
             <AnimationPackPath>GameData/anims/MobAbilities/MobAbilitySprint.anim</AnimationPackPath>
 		</value19>
 		<value20>
-			<Caption>AbilityObjectSpawn</Caption>
+			<Caption>AbilityPrick</Caption>
 			<ImageWidth>200</ImageWidth>
 			<ImageHeight>200</ImageHeight>
 			<ImagePath>GameData/textures/EmptySlot.png</ImagePath>
@@ -261,6 +261,13 @@
 			<ImagePath>GameData/textures/Monsters/SkeletonSheet.png</ImagePath>
             <AnimationPackPath>GameData/anims/Monsters/Skeleton.anim</AnimationPackPath>
 		</value36>
+        <value37>
+			<Caption>AbilityMagicBlink</Caption>
+			<ImageWidth>150</ImageWidth>
+			<ImageHeight>150</ImageHeight>
+			<ImagePath>GameData/textures/SpellAnims/AbilityMagicBlink.png</ImagePath>
+            <AnimationPackPath>GameData/anims/Spells/AbilityMagicBlink.anim</AnimationPackPath>
+		</value37>
 	</TexturePaths>
 </cereal>
 

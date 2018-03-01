@@ -57,11 +57,19 @@ bool AbilityObjectSpawn<SpawnedObject>::onWorking(double /*timestep*/)
         const int timeToLive = 200;
         someSpawnObject = std::make_shared<SpawnedObject>(timeToLive, damage);
 
-        std::string name {"AbilityObjectSpawn"};
-        auto sprite = std::make_shared<AnimationSceneSprite>(parentScenePtr->getRenderer());
+        std::string name = getAbilityName();
+        if (name == "none")
+        {
+            throw std::logic_error("AbilityObjectSpawn: Can't find texture with no name");
+        }
+
+        assert(ResourceManager::getInstance()->hasAnimationPack(name));
+        auto& animPack = ResourceManager::getInstance()->getAnimationPack(name);
+        auto sprite = std::make_shared<AnimationSceneSprite>(
+            parentScenePtr->getRenderer(), AnimationSceneSprite::Animation{animPack});
         sprite->setTexture(ResourceManager::getInstance()->getTexture(name));
         sprite->setAnchorPointPlace(Enums::AnchorCoordTypes::Middle, Enums::AnchorCoordTypes::Middle);
-
+        sprite->setCurrentState("cast");
         someSpawnObject->setSprite(sprite);
 
         Position worldPos = parentScenePtr->getCamera().screenToWorldPosition(Position(coordX, coordY));

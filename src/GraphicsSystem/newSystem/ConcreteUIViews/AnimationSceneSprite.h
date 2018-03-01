@@ -66,7 +66,6 @@ public:
         }
 
         void setAnimRects(const std::string& aState, const std::vector<SDL_Rect>& aRects)
-
         {
             mAnimationStates[aState] = aRects;
             //TODO инициализировать правильным состоянием анимации

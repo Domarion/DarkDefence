@@ -33,7 +33,7 @@ public:
     void setCooldownTime(double value);
 
     const std::string& getAbilityName() const;
-    void setAbilityName(const string& value);
+    void setAbilityName(const string& aName);
     void setPlacingCallback(std::function<void()> aPlacingEndedCallBack);
     void connectCooldownListener(std::function<void(int, int)> aMethod);
 

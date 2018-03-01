@@ -13,7 +13,7 @@ public:
     std::shared_ptr<AbilityModel> getAbilityModelWithName(const std::string& aName);
     bool setAbilityReady(const std::string& aAbilityName);
     void updateAbilities(double aTimeStep);
-    const map<std::string, std::shared_ptr<AbilityModel> >& getAbilityModelList() const;
+    const map<std::string, std::shared_ptr<AbilityModel>>& getAbilityModelList() const;
     bool canPlaceObjectAbility(const std::string& aAbilityName) const;
 
 private:

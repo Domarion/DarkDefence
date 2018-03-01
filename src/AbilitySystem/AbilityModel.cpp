@@ -135,9 +135,9 @@ const string& AbilityModel::getAbilityName() const
     return abilityName;
 }
 
-void AbilityModel::setAbilityName(const string &value)
+void AbilityModel::setAbilityName(const string& aName)
 {
-    abilityName = value;
+    abilityName = aName;
 }
 
 bool AbilityModel::canPlaceObject() const

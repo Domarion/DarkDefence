@@ -26,8 +26,8 @@ public:
     bool addResource(Enums::ResourceTypes aResourceType, int aAmount);
 
     bool removeResource(size_t resourceType, int amount);
-	void increaseLimit(int resourceType, int amount);
-	void decreaseLimit(int resourceType, int amount);
+    void increaseLimit(size_t resourceType, int amount);
+    void decreaseLimit(size_t resourceType, int amount);
     void loadFromFile(const std::string& aFilename);
     void loadResourceNamesFromFile(const std::string& aFilename);
 private:

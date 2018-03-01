@@ -8,46 +8,50 @@ PrickObject::PrickObject(int aTimeToLive, int aDamage)
 {
 }
 
-void PrickObject::init(int x, int y)
+// TODO: ability doesnt damage at all(Blink, Prick).
+bool PrickObject::update(double aTimeStep)
 {
-    SceneObject::init(x, y);
-
-    if (!parentScenePtr.expired())
+    if (isFinished())
     {
-        auto mobListWithTag = parentScenePtr.lock()->findObjectsByTag("Monster");
-
-        if (mobListWithTag == nullptr)
-            return;
-
-        list<std::shared_ptr<SceneObject>> affectedMobs;
-        for(auto mobWithTag = mobListWithTag->begin(); mobWithTag != mobListWithTag->end(); ++mobWithTag)
+        if (!parentScenePtr.expired())
         {
-            SDL_Rect prickRect = {this->getSprite()->getRealPosition().x
-                                  , this->getSprite()->getRealPosition().y
-                                  , this->getSprite()->getSize().width
-                                  , this->getSprite()->getSize().height
-                                  };
+            auto mobListWithTag = parentScenePtr.lock()->findObjectsByTag("Monster");
 
-            SDL_Rect mobRect = {(*mobWithTag)->getSprite()->getRealPosition().x
-                                  , (*mobWithTag)->getSprite()->getRealPosition().y
-                                  , (*mobWithTag)->getSprite()->getSize().width
-                                  , (*mobWithTag)->getSprite()->getSize().height
-                                  };
+            if (mobListWithTag == nullptr)
+                return false;
 
-            if (SDL_HasIntersection(&prickRect,&mobRect))
-                affectedMobs.insert(affectedMobs.end(), (*mobWithTag));
-        }
+            list<std::shared_ptr<SceneObject>> affectedMobs;
+            for(auto mobWithTag = mobListWithTag->begin(); mobWithTag != mobListWithTag->end(); ++mobWithTag)
+            {
+                SDL_Rect prickRect = {this->getSprite()->getRealPosition().x
+                                      , this->getSprite()->getRealPosition().y
+                                      , this->getSprite()->getSize().width
+                                      , this->getSprite()->getSize().height
+                                      };
 
-        mobListWithTag->clear();
+                SDL_Rect mobRect = {(*mobWithTag)->getSprite()->getRealPosition().x
+                                      , (*mobWithTag)->getSprite()->getRealPosition().y
+                                      , (*mobWithTag)->getSprite()->getSize().width
+                                      , (*mobWithTag)->getSprite()->getSize().height
+                                      };
 
-        for(auto affectedMob = affectedMobs.begin(); affectedMob != affectedMobs.end(); ++affectedMob)
-        {
-           auto temp = (*affectedMob)->getDestructibleObject();
-           if (temp != nullptr)
-           {
-               temp->receiveDamageOneType(static_cast<int>(Enums::DamageTypes::dtPHYSICAL), damage);
-           }
+                if (SDL_HasIntersection(&prickRect,&mobRect))
+                    affectedMobs.insert(affectedMobs.end(), (*mobWithTag));
+            }
+
+            mobListWithTag->clear();
+
+            for(auto affectedMob = affectedMobs.begin(); affectedMob != affectedMobs.end(); ++affectedMob)
+            {
+               auto temp = (*affectedMob)->getDestructibleObject();
+               if (temp != nullptr)
+               {
+                   temp->receiveDamageOneType(static_cast<int>(Enums::DamageTypes::dtPHYSICAL), damage);
+               }
+            }
         }
     }
+
+    return AbilityAnimObject::update(aTimeStep);
 }
 

@@ -6,10 +6,9 @@ class PrickObject: public AbilityAnimObject
 {
 public:
     PrickObject(int aTimeToLive, int aDamage);
-    virtual ~PrickObject() = default;
 
     // SceneObject interface
-    virtual void init(int x, int y) override;
+    bool update(double aTimeStep) override;
 
 private:
     int damage = 0;

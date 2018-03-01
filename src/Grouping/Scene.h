@@ -10,8 +10,6 @@
 #include "../Input/InputDispatcher.h"
 #include "../GraphicsSystem/newSystem/StubLayout.h"
 
-using std::list;
-
 class SceneObject;
 class SceneManager;
 
@@ -21,8 +19,8 @@ class Scene: public std::enable_shared_from_this<Scene>
 
     struct DrawObject
     {
-        size_t DrawPriority;
-        size_t SceneObjectId;
+        size_t DrawPriority = 0;
+        size_t SceneObjectId = 0;
     };
 
     friend bool operator<(const Scene::DrawObject& aLeft, const Scene::DrawObject& aRight);
@@ -70,9 +68,23 @@ protected:
     std::shared_ptr<InputDispatcher> mInputDispatcher;
     std::shared_ptr<ConcreteComposite> MainRect;
 
-    void addLoadSceneButton(const std::string& aButtonName, const std::string& aFontName, const std::string& aSceneName, int posX, int posY, int, int);
-    void addSceneButton(const std::string& aButtonName, const std::string& aFontName, int posX, int posY, int width, int height,
-                        std::function<void (string)> handler, const std::string& aMsg);
+    void addLoadSceneButton(
+        const std::string& aButtonName,
+        const std::string& aFontName,
+        const std::string& aSceneName,
+        int posX,
+        int posY,
+        int,
+        int);
+    void addSceneButton(
+        const std::string& aButtonName,
+        const std::string& aFontName,
+        int posX,
+        int posY,
+        int width,
+        int height,
+        std::function<void (string)> handler,
+        const std::string& aMsg);
     void drawSceneObjects() const;
     void drawUI() const;
 
@@ -81,8 +93,8 @@ private:
     void removeDrawObject(size_t aObjId);
     void replaceDrawObject(size_t aOldObjId, std::shared_ptr<SceneObject>& aNewObject);
 
-    list<std::shared_ptr<IComposite> > listGUI;
-    list<std::shared_ptr<SceneObject>> sceneObjects;
+    std::list<std::shared_ptr<IComposite>> listGUI;
+    std::list<std::shared_ptr<SceneObject>> sceneObjects;
     std::shared_ptr<SceneManager> parentSceneManager;
     Camera2D mCamera;
     std::list<DrawObject> drawObjects;

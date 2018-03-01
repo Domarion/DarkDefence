@@ -1,33 +1,21 @@
-/*
- * Scene.cpp
- *
- *  Created on: 8 марта 2016 г.
- *      Author: kostya_hm
- */
+#include <algorithm>
+#include <cassert>
+#include <iostream>
 
 #include "Scene.h"
 #include "SceneObject.h"
 #include "SceneObjectFabric.h"
-#include <list>
-using std::list;
 #include "../Input/InputDispatcher.h"
 #include "../GraphicsSystem/newSystem/UIElement/UITextButton.h"
 #include "../GlobalScripts/GameModel.h"
-#include <iostream>
-#include <algorithm>
 #include "Logging/Logger.h"
-#include <cassert>
 
 Scene::Scene(std::shared_ptr<RenderingSystem>& aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher)
     : renderer(aRenderer)
     , mInputDispatcher(aInputDispatcher)
     , MainRect(std::make_shared<ConcreteComposite>())
-    , listGUI()
-    , sceneObjects()
-    , parentSceneManager(nullptr)
     , mCamera(Size(aRenderer->getScreenSize().width, aRenderer->getScreenSize().height))
 {
-
     auto emptyLayout = std::make_shared<StubLayout>();
     MainRect->setLayout(emptyLayout);
     MainRect->setScalingFactor(renderer->getScalingFactor());
@@ -98,9 +86,9 @@ void Scene::removeDrawObject(size_t aObjId)
 {
 // Чтобы понять: какой элемент удаляется в SceneObject добавлен уникальный в рамках сцены Id.
     auto comparator = [&aObjId](DrawObject aDrawObject)
-        {
-            return aDrawObject.SceneObjectId == aObjId;
-        };
+    {
+        return aDrawObject.SceneObjectId == aObjId;
+    };
 
     auto drawObjIter = std::find_if(drawObjects.cbegin(), drawObjects.cend(), comparator);
     if (drawObjIter != drawObjects.cend())
@@ -186,14 +174,13 @@ void Scene::replaceObject(std::shared_ptr<SceneObject> aObject, std::shared_ptr<
 {
     auto comparator = [&aObject](std::shared_ptr<SceneObject>& aRight)
     {
-          return aObject->getId() == aRight->getId();
+        return aObject->getId() == aRight->getId();
     };
 
     auto obj = std::find_if(sceneObjects.begin(), sceneObjects.end(), comparator);
     if (obj != sceneObjects.cend())
     {
         *obj = aReplacement;
-
 
         int x = aObject->getPosition().x;
         int y = aObject->getPosition().y;
@@ -274,7 +261,6 @@ Scene::SceneObjectList Scene::findObjectsByTag(const std::string& aTag)
 
 std::shared_ptr<SceneObject> Scene::findObjectWithPos(int x, int y)
 {
-
     SDL_Point point = {x, y};
     for(auto& sceneobject : sceneObjects)
     {
@@ -333,8 +319,8 @@ Scene::SceneObjectList Scene::findObjectsInRadius(Position aCenter, size_t aRadi
         {
             Position realPosition = sceneobject->getSprite()->getRealPosition();
 
-            size_t xSqr= (realPosition.x - aCenter.x) * (realPosition.x - aCenter.x);
-            size_t ySqr = (realPosition.y - aCenter.y) * (realPosition.y - aCenter.y);
+            size_t xSqr = static_cast<size_t>((realPosition.x - aCenter.x) * (realPosition.x - aCenter.x));
+            size_t ySqr = static_cast<size_t>((realPosition.y - aCenter.y) * (realPosition.y - aCenter.y));
 
             if (xSqr + ySqr <= rSqr)
             {
@@ -382,7 +368,7 @@ void Scene::onlyTestMoveCamera(Position aDeltaPosition)
     mCamera.setWorldPosition(pos);
 }
 
-const Camera2D Scene::getCamera() const
+Camera2D Scene::getCamera() const
 {
     return mCamera;
 }
@@ -419,28 +405,28 @@ void Scene::addSceneButton(const std::string& aButtonName, const std::string& aF
 void Scene::drawSceneObjects() const
 {
     auto drawSprite = [this](DrawObject aDrawObject)
+    {
+        auto comparator = [&aDrawObject](std::shared_ptr<SceneObject> aObject)
         {
-            auto comparator = [&aDrawObject](std::shared_ptr<SceneObject> aObject)
-            {
-                assert(aObject);
-                return aObject->getId() == aDrawObject.SceneObjectId;
-            };
-
-            auto it = std::find_if(sceneObjects.begin(), sceneObjects.end(), comparator);
-
-            if (it == sceneObjects.end())
-            {
-                return;
-            }
-
-            auto& sprite = (*it)->getSprite();
-            Size objSize = sprite->getSize();
-            Position objPosition = (*it)->getPosition();
-            if (mCamera.hasIntersection(objPosition, objSize))
-            {
-                sprite->drawAtPosition(mCamera.worldToCameraPosition(objPosition));
-            }
+            assert(aObject);
+            return aObject->getId() == aDrawObject.SceneObjectId;
         };
+
+        auto it = std::find_if(sceneObjects.begin(), sceneObjects.end(), comparator);
+
+        if (it == sceneObjects.end())
+        {
+            return;
+        }
+
+        auto& sprite = (*it)->getSprite();
+        Size objSize = sprite->getSize();
+        Position objPosition = (*it)->getPosition();
+        if (mCamera.hasIntersection(objPosition, objSize))
+        {
+            sprite->drawAtPosition(mCamera.worldToCameraPosition(objPosition));
+        }
+    };
 
     std::for_each(drawObjects.begin(), drawObjects.end(), drawSprite);
 }

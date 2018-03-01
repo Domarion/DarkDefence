@@ -1,3 +1,5 @@
+#include <limits>
+
 #include "AbilityAnimObject.hpp"
 #include "GlobalScripts/ResourceManager.h"
 
@@ -16,6 +18,11 @@ bool AbilityAnimObject::update(double timestep)
 
     mTimeToLive -= timestep;
     return SceneObject::update(timestep);
+}
+
+bool AbilityAnimObject::isFinished() const
+{
+    return static_cast<int>(mTimeToLive) <= 0 || abs(mTimeToLive) < std::numeric_limits<double>::epsilon();
 }
 
 std::shared_ptr<AbilityAnimObject> Make_AbilityAnimObject(

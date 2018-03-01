@@ -74,12 +74,6 @@ void MainScene::initUIMenuItems()
         y = MainRect->getNextVerticalPosition().y;
 
     }
-
-    Scene::addSceneButton("Закрыть",
-                          "MenuFont",
-                          x, y, 200, 50, method, "quit");
-
-
 }
 
 void MainScene::initBackground()

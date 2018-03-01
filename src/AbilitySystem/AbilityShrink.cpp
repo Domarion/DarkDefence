@@ -86,6 +86,6 @@ void AbilityShrink::spawnEffect(double timeToLive)
 
     spellAnimationObject->setSprite(someSprite);
     // TODO: Remove Hardcode.
-    parentScenePtr->spawnObject(Position(100, 100), spellAnimationObject);
     someSprite->setCurrentState("cast");
+    parentScenePtr->spawnObject(Position(100, 100), spellAnimationObject);
 }

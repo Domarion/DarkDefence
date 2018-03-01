@@ -399,7 +399,7 @@ std::unique_ptr<MineModel> GameModel::getMineModel(const std::string& aName)
 
 std::unique_ptr<MineModel> GameModel::getMineModelByRes(Enums::ResourceTypes aResType)
 {
-    return getMineModel(mineResMapping[static_cast<int>(aResType)]);
+    return getMineModel(mineResMapping[Enums::toIntegralType(aResType)]);
 }
 
 MineModel* GameModel::getMineModelFromList(const string& aName)

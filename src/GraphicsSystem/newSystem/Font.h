@@ -28,7 +28,7 @@ public:
     SDL_Color getFontColor() const;
     void setFontColor(const SDL_Color& value);
     void setFontColor(Uint8 r, Uint8 g, Uint8 b);
-    int getFontSize() const;
+    size_t getFontSize() const;
 
     const shared_ptr<TTF_Font>& getFont() const;
     void setFont(std::unique_ptr<TTF_Font, TFontDeleter>&& aTTFFont);

@@ -1,52 +1,73 @@
 #include "BlinkObject.h"
+#include "Logging/Logger.h"
 
 BlinkObject::BlinkObject(int aTimeToLive, int aDamage)
     : AbilityAnimObject(aTimeToLive)
     , damage(aDamage)
 {
-
 }
 
 void BlinkObject::init(int x, int y)
 {
     SceneObject::init(x, y);
 
-    if (!parentScenePtr.expired())
+    if (parentScenePtr.expired())
     {
-        auto mobListWithTag = parentScenePtr.lock()->findObjectsByTag("Monster");
+        return;
+    }
 
-        if (mobListWithTag == nullptr)
-            return;
+    auto mobListWithTag = parentScenePtr.lock()->findObjectsByTag("Monster");
 
-        list<std::shared_ptr<SceneObject>> affectedMobs;
-        for(auto mobWithTag =mobListWithTag->begin(); mobWithTag != mobListWithTag->end(); ++mobWithTag)
+    if (mobListWithTag == nullptr)
+        return;
+
+    for(const auto& mobWithTag : *mobListWithTag)
+    {
+        if (!mobListWithTag)
         {
-            SDL_Rect prickRect = {this->getSprite()->getPosition().x
-                                  , this->getSprite()->getPosition().y
-                                  , this->getSprite()->getSize().width
-                                  , this->getSprite()->getSize().height
-                                  };
-
-            SDL_Rect mobRect = {(*mobWithTag)->getSprite()->getPosition().x
-                                  , (*mobWithTag)->getSprite()->getPosition().y
-                                  , (*mobWithTag)->getSprite()->getSize().width
-                                  , (*mobWithTag)->getSprite()->getSize().height
-                                  };
-
-            if (SDL_HasIntersection(&prickRect,&mobRect))
-                affectedMobs.insert(affectedMobs.end(), (*mobWithTag));
+            continue;
         }
 
-        mobListWithTag->clear();
+        SDL_Rect prickRect = {this->getSprite()->getPosition().x
+                              , this->getSprite()->getPosition().y
+                              , this->getSprite()->getSize().width
+                              , this->getSprite()->getSize().height
+                              };
 
-        for(auto affectedMob = affectedMobs.begin(); affectedMob != affectedMobs.end(); ++affectedMob)
+        SDL_Rect mobRect = {mobWithTag->getSprite()->getPosition().x
+                              , mobWithTag->getSprite()->getPosition().y
+                              , mobWithTag->getSprite()->getSize().width
+                              , mobWithTag->getSprite()->getSize().height
+                              };
+
+        if (SDL_HasIntersection(&prickRect,&mobRect))
+            mAffectedMobs.insert(mAffectedMobs.end(), mobWithTag);
+    }
+
+    mobListWithTag->clear();
+}
+
+bool BlinkObject::update(double aTimeStep)
+{
+    if (isFinished())
+    {
+        LOG_INFO("isFinished");
+        for (auto& affectedMob : mAffectedMobs)
         {
-           auto temp = (*affectedMob)->getDestructibleObject();
+           if (!affectedMob)
+           {
+               continue;
+           }
+
+           auto temp = affectedMob->getDestructibleObject();
            if (temp != nullptr)
            {
-               (*affectedMob)->setVisible(true);
+               affectedMob->setVisible(true);
                temp->receiveDamageOneType(static_cast<int>(Enums::DamageTypes::dtFIRE), damage);
            }
         }
+        mAffectedMobs.clear();
     }
+
+    return AbilityAnimObject::update(aTimeStep);
 }
