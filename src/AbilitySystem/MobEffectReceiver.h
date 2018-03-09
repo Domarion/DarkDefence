@@ -1,12 +1,13 @@
 #pragma once
+
 #include "EffectReceiver.h"
 #include "../Mob/MobModel.h"
 
 class MobModel;
+
 class MobEffectReceiver: public EffectReceiver
 {
 public:
-    MobEffectReceiver();
     virtual ~MobEffectReceiver() = default;
     void init(std::shared_ptr<MobModel> modelPtr);
 

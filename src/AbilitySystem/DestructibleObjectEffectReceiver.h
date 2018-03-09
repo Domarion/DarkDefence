@@ -1,12 +1,13 @@
 #pragma once
+
+#include <memory>
+
 #include "../Mob/DestructibleObject.h"
 #include "EffectReceiver.h"
-#include <memory>
 
 class DestructibleObjectEffectReceiver: public EffectReceiver
 {
 public:
-    DestructibleObjectEffectReceiver();
     virtual ~DestructibleObjectEffectReceiver() =default;
 
     void init(std::shared_ptr<DestructibleObject> modelPtr);

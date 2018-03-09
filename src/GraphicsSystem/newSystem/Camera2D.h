@@ -1,7 +1,8 @@
 #pragma once
 
-#include "UtilityStructs.h"
 #include <SDL_rect.h>
+
+#include "UtilityStructs.h"
 
 class Camera2D
 {

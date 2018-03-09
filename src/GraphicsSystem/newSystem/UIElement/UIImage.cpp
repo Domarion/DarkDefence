@@ -4,7 +4,6 @@ UIImage::UIImage(std::shared_ptr<RenderingSystem> &aRenderingContext)
     :Leaf(aRenderingContext)
     , mTexture(aRenderingContext)
 {
-
 }
 
 void UIImage::loadTexture(const std::string &filename)

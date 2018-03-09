@@ -1,16 +1,9 @@
-/*
- * Gates.cpp
- *
- *  Created on: 25 апр. 2016 г.
- *      Author: kostya_hm
- */
-
 #include "Gates.h"
 
 Gates::Gates()
-: SceneObject()
-, model(std::make_shared<DestructibleObject>())
-, effectReceiver(std::make_shared<DestructibleObjectEffectReceiver>())
+    : SceneObject()
+    , model(std::make_shared<DestructibleObject>())
+    , effectReceiver(std::make_shared<DestructibleObjectEffectReceiver>())
 {
     effectReceiver->init(model);
 }
@@ -20,11 +13,10 @@ std::shared_ptr<DestructibleObject> Gates::getModel()
 	return model;
 }
 
-void Gates::setModel(std::shared_ptr<DestructibleObject> newModel)
+void Gates::setModel(const std::shared_ptr<DestructibleObject>& aNewModel)
 {
-    model = newModel;
+    model = aNewModel;
     effectReceiver->init(model);
-
 }
 
 std::shared_ptr<EffectReceiver> Gates::getEffectReceiver() const
@@ -39,10 +31,10 @@ std::shared_ptr<DestructibleObject> Gates::getDestructibleObject() const
 
 bool Gates::update(double timestep)
 {
-    SceneObject::update(timestep);
     if (!model->IsAlive())
     {
        return false;
     }
-    return true;
+
+    return SceneObject::update(timestep);
 }

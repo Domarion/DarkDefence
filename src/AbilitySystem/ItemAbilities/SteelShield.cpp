@@ -1,16 +1,6 @@
 #include "SteelShield.h"
 #include "../../Scenes/GameScene.h"
 
-SteelShield::SteelShield()
-{
-
-}
-
-SteelShield::~SteelShield()
-{
-
-}
-
 void SteelShield::init(std::shared_ptr<Scene> scenePtr, std::shared_ptr<ManaGlobal> aManaModel)
 {
 

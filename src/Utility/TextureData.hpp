@@ -2,6 +2,7 @@
 
 #include <cereal/access.hpp>
 #include <cereal/types/string.hpp>
+
 #include "GraphicsSystem/newSystem/UtilityStructs.h"
 
 namespace UtilityStruct

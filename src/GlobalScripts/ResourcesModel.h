@@ -1,8 +1,9 @@
 #pragma once
 
+#include <array>
+
 #include "ResourceInfo.h"
 #include "../GlobalConstants.h"
-#include <array>
 #include "Enums.h"
 
 class ResourcesModel
@@ -30,6 +31,7 @@ public:
     void decreaseLimit(size_t resourceType, int amount);
     void loadFromFile(const std::string& aFilename);
     void loadResourceNamesFromFile(const std::string& aFilename);
+
 private:
     std::array<ResourceInfo, GlobalConstants::resourceTypeCount> resourceTypes;
 };

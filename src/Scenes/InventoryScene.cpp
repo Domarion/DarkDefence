@@ -5,8 +5,6 @@
 InventoryScene::InventoryScene(
     std::shared_ptr<RenderingSystem>& aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher)
     : Scene(aRenderer, aInputDispatcher)
-    , inventoryController(nullptr)
-    , heroController(nullptr)
 {
 }
 

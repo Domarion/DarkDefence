@@ -1,11 +1,10 @@
 #pragma once
+
 #include "MobAbility.h"
 #include "../AbilityAnims/AbilityMultitargetObject.hpp"
 
 class MobCloudTowerAbility: public MobAbility
 {
-//    using SceneObjectList = std::unique_ptr<std::list<std::shared_ptr<SceneObject> > >;
-
 public:
 
     MobCloudTowerAbility(std::shared_ptr<ManaGlobal> aManaModel = nullptr);
@@ -22,7 +21,6 @@ private:
     void ChainLightingHandler(std::shared_ptr<SceneObject> aTarget);
     void releaseDamage(std::shared_ptr<SceneObject> aTarget);
 
-//    SceneObjectList affectedMobs;
     std::shared_ptr<EffectModel> stunEffect;
     std::shared_ptr<AbilityMultitargetObject> aBouncingArrowObject;
 };

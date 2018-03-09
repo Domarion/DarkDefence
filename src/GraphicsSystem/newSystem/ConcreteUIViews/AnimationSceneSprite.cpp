@@ -1,5 +1,6 @@
-#include "AnimationSceneSprite.h"
 #include <limits>
+
+#include "AnimationSceneSprite.h"
 
 AnimationSceneSprite::AnimationSceneSprite(std::shared_ptr<RenderingSystem>& aRenderingContext, Animation&& aAnimation)
     : Leaf(aRenderingContext)
@@ -48,7 +49,6 @@ void AnimationSceneSprite::drawAtPosition(Position pos) const
     }
 
     frame.drawAtPositionRotated(image_position, mAngle, mRotationCenter);
-
 }
 
 
@@ -137,15 +137,85 @@ bool AnimationSceneSprite::hasRotation() const
     return std::abs(mAngle) > std::numeric_limits<double>::epsilon();
 }
 
-Position
-AnimationSceneSprite::getRealPosFromLogicPos(Position aLogicPos) const
+Position AnimationSceneSprite::getRealPosFromLogicPos(Position aLogicPos) const
 {
-    int x =
-        aLogicPos.x - static_cast<int>(Enums::toIntegralType(xCoordAnchorType) /
-                                       2.0 * getSize().width);
-    int y =
-        aLogicPos.y - static_cast<int>(Enums::toIntegralType(yCoordAnchorType) /
-                                       2.0 * getSize().height);
+    int x = aLogicPos.x - static_cast<int>(Enums::toIntegralType(xCoordAnchorType) / 2.0 * getSize().width);
+    int y = aLogicPos.y - static_cast<int>(Enums::toIntegralType(yCoordAnchorType) /2.0 * getSize().height);
 
     return Position{x, y};
+}
+
+AnimationSceneSprite::Animation::Animation(const std::map<std::string, vector<SDL_Rect> >& aAnimationStates)
+    : mAnimationStates(aAnimationStates)
+{
+    setDefaultState();
+}
+
+void AnimationSceneSprite::Animation::calculateFrameNumber()
+{
+    if (mOldFrameTime + mMsCount >= SDL_GetTicks() || mAnimationStates.empty())
+    {
+        return;
+    }
+
+    mOldFrameTime = SDL_GetTicks();
+
+    ++mFrameNumber;
+
+    if (mFrameNumber >= mAnimationStates.at(mCurrentState).size())
+    {
+        mFrameNumber = 0;
+    }
+}
+
+void AnimationSceneSprite::Animation::setCurrentState(const std::string& aStateName)
+{
+    if (hasState(aStateName))
+    {
+        mCurrentState = aStateName;
+        mFrameNumber = 0;
+    }
+}
+
+bool AnimationSceneSprite::Animation::hasState(const std::string& aStateName)
+{
+    if (aStateName.empty())
+    {
+        return false;
+    }
+
+    return mAnimationStates.find(aStateName) != mAnimationStates.cend();
+}
+
+bool AnimationSceneSprite::Animation::hasAnimations() const
+{
+    return !mAnimationStates.empty();
+}
+
+void AnimationSceneSprite::Animation::setAnimRects(const std::string& aState, const std::vector<SDL_Rect>& aRects)
+{
+    mAnimationStates[aState] = aRects;
+    //TODO инициализировать правильным состоянием анимации
+    setCurrentState(aState);
+}
+
+const SDL_Rect*AnimationSceneSprite::Animation::getCurrentRect() const
+{
+    return &mAnimationStates.at(mCurrentState).at(mFrameNumber);
+}
+
+const std::string&AnimationSceneSprite::Animation::getCurrentState() const
+{
+    return mCurrentState;
+}
+
+void AnimationSceneSprite::Animation::setDefaultState()
+{
+    if (mAnimationStates.empty())
+    {
+        return;
+    }
+
+    mCurrentState = mAnimationStates.cbegin()->first;
+    mFrameNumber = 0;
 }

@@ -3,7 +3,6 @@
 
 MobAbilityArson::MobAbilityArson()
     : arsonEffect(std::make_shared<EffectModel>())
-
 {
     arsonEffect->setCaption("ArsonEffect");
 }

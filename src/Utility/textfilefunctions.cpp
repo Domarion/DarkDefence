@@ -1,5 +1,6 @@
-#include "textfilefunctions.h"
 #include <sstream>
+
+#include "textfilefunctions.h"
 #include "Logging/Logger.h"
 
 namespace androidText

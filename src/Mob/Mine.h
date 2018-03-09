@@ -18,7 +18,7 @@ public:
     std::shared_ptr<EffectReceiver> getEffectReceiver() const override;
 
     std::shared_ptr<MineModel> getMineModel();
-    void setMineModel(std::shared_ptr<MineModel> newModel);
+    void setMineModel(const std::shared_ptr<MineModel>& aNewModel);
 
 private:
     std::shared_ptr<MineModel> model;

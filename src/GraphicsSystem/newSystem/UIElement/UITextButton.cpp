@@ -1,5 +1,4 @@
 #include "UITextButton.h"
-#include <iostream>
 
 UITextButton::UITextButton(
     const std::string& ltext, const Font& lfont, std::shared_ptr<RenderingSystem>& aRenderingContext)

@@ -9,7 +9,6 @@ class UILabel : public Leaf
 public:
     UILabel() = default;
     explicit UILabel(const string& aText, const Font& aFont, std::shared_ptr<RenderingSystem>& aRenderingContext);
-
     virtual ~UILabel() = default;
 
     void setText(const string& aText);

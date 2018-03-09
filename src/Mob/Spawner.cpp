@@ -1,17 +1,17 @@
+#include <cstdlib>
+#include <ctime>
+
 #include "Spawner.h"
 #include "GlobalScripts/GameModel.h"
 #include "../Utility/textfilefunctions.h"
-#include <cstdlib>
-#include <ctime>
 #include "GlobalScripts/ResourceManager.h"
 
 Spawner::Spawner()
     : SceneObject()
-    , mSpawnerModel()
     , timePeriod(1000)
     , currentTime(timePeriod)
 {
-    srand (static_cast<unsigned int>(time(NULL)));
+    srand (static_cast<unsigned int>(time(nullptr)));
 }
 
 bool Spawner::update(double timestep)

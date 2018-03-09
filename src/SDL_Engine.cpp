@@ -1,8 +1,8 @@
-#include "SDL_Engine.h"
-
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
+
+#include "SDL_Engine.h"
 #include <Logging/Logger.h>
 
 namespace SDL2Engine

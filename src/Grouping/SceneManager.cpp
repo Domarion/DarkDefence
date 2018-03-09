@@ -1,19 +1,14 @@
 #include "SceneManager.h"
 #include "Logging/Logger.h"
 
-SceneManager::SceneManager()
-    : currentScene(nullptr)
-{
-}
-
 std::shared_ptr<Scene> SceneManager::getCurrentScene()
 {
     return currentScene;
 }
 
-void SceneManager::addScene(std::shared_ptr<Scene> scene, std::string name)
+void SceneManager::addScene(std::shared_ptr<Scene> scene, const std::string& aSceneName)
 {
-    scenes.emplace(std::make_pair(name, scene));
+    scenes.emplace(std::make_pair(aSceneName, scene));
 }
 
 void SceneManager::setCurrentScene(std::shared_ptr<Scene>& value)

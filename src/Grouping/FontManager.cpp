@@ -1,9 +1,7 @@
+#include <sstream>
+
 #include "FontManager.h"
 #include "../Utility/textfilefunctions.h"
-#include <fstream>
-using std::ifstream;
-#include <sstream>
-using std::stringstream;
 #include "Logging/Logger.h"
 
 FontManager* FontManager::instance_ = nullptr;
@@ -16,14 +14,14 @@ FontManager* FontManager::getInstance()
     return instance_;
 }
 
-void FontManager::loadFontList(string filename, std::shared_ptr<RenderingSystem>& aRenderer)
+void FontManager::loadFontList(const std::string& aFilename, std::shared_ptr<RenderingSystem>& aRenderer)
 {
     string textString;
-    androidText::loadTextFileToString(filename, textString);
+    androidText::loadTextFileToString(aFilename, textString);
 
     if (!textString.empty())
     {
-        stringstream fontConf(textString);
+        std::stringstream fontConf(textString);
 
         size_t n = 0;
         fontConf >> n;
@@ -39,11 +37,11 @@ void FontManager::loadFontList(string filename, std::shared_ptr<RenderingSystem>
     }
 }
 
-Font& FontManager::getFontByKind2(std::string kind)
+Font& FontManager::getFontByKind2(const std::string& aFontKind)
 {
-    if (fontList2.at( kind ).getFont() == nullptr)
+    if (fontList2.at(aFontKind).getFont() == nullptr)
     {
         LOG_ERROR("Can't Find font by name.");
     }
-    return fontList2.at( kind );
+    return fontList2.at( aFontKind );
 }

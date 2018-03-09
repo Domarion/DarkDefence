@@ -60,8 +60,6 @@ bool MobAbilitySprint::onWorking(double timestep)
     return true;
 }
 
-
-
 bool MobAbilitySprint::onCooldown(double timestep)
 {
     if (currentCooldownTime <= 0)

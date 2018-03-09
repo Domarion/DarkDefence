@@ -1,12 +1,12 @@
 #include "AbilitySnowStorm.h"
 #include "../GlobalScripts/GameModel.h"
+
 AbilitySnowStorm::AbilitySnowStorm(std::shared_ptr<ManaGlobal> aManaModel)
     : AbilityModel(aManaModel)
     , snowEffect(nullptr)
     , damagePerSecond(0)
     , affectedMobs(nullptr)
 {
-
 }
 
 void AbilitySnowStorm::init(std::shared_ptr<Scene> scenePtr)
@@ -63,7 +63,6 @@ bool AbilitySnowStorm::onWorking(double timestep)
                 if (*affectedMob != nullptr)
                     (*affectedMob)->getEffectReceiver()->cancelEffect(snowEffect);
             }
-
 
         currentWorkTime = workTime;
         affectedMobs.reset();

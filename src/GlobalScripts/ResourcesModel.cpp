@@ -1,8 +1,9 @@
-#include "ResourcesModel.h"
-#include <fstream>
-#include "../Utility/textfilefunctions.h"
-#include <sstream>
 #include <cassert>
+#include <fstream>
+#include <sstream>
+
+#include "ResourcesModel.h"
+#include "../Utility/textfilefunctions.h"
 
 using std::stringstream;
 

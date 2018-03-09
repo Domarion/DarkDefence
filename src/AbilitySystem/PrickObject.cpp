@@ -1,6 +1,5 @@
 #include "PrickObject.h"
 #include "../Enums.h"
-#include <iostream>
 
 PrickObject::PrickObject(int aTimeToLive, int aDamage)
     : AbilityAnimObject(aTimeToLive)

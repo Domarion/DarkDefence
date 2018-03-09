@@ -1,7 +1,8 @@
 #pragma once
 
-#include "IComposite.h"
 #include <list>
+
+#include "IComposite.h"
 #include "RenderingSystem.h"
 #include "../../Input/InputHandler.h"
 #include "ILayout.h"

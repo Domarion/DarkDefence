@@ -1,25 +1,20 @@
 #include "EnemyInfo.h"
 
-EnemyInfo::EnemyInfo()
-    :tag(), reaction(EReaction::Attack), priority(0)
-{
-
-}
-
 EnemyInfo::EnemyInfo(const string &aTag, EReaction aReaction, int aPriority)
-    :tag(aTag), reaction(aReaction), priority(aPriority)
+    : tag(aTag)
+    , reaction(aReaction)
+    , priority(aPriority)
 {
-
 }
 
-string EnemyInfo::getTag() const
+const std::string& EnemyInfo::getTag() const
 {
     return tag;
 }
 
-void EnemyInfo::setTag(const string &value)
+void EnemyInfo::setTag(const string& aTag)
 {
-    tag = value;
+    tag = aTag;
 }
 
 EReaction EnemyInfo::getReaction() const
@@ -27,9 +22,9 @@ EReaction EnemyInfo::getReaction() const
     return reaction;
 }
 
-void EnemyInfo::setReaction(const EReaction &value)
+void EnemyInfo::setReaction(EReaction aReaction)
 {
-    reaction = value;
+    reaction = aReaction;
 }
 
 int EnemyInfo::getPriority() const
@@ -37,7 +32,7 @@ int EnemyInfo::getPriority() const
     return priority;
 }
 
-void EnemyInfo::setPriority(int value)
+void EnemyInfo::setPriority(int aPriority)
 {
-    priority = value;
+    priority = aPriority;
 }

@@ -1,4 +1,5 @@
 #pragma once
+
 #include "ItemAbility.h"
 
 class MerchantsCaftan: public ItemAbility

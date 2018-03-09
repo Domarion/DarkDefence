@@ -4,7 +4,6 @@ AbilityMagicStones::AbilityMagicStones(std::shared_ptr<ManaGlobal> aManaModel)
     : AbilityModel(aManaModel)
     , gatesSceneObject(nullptr)
 {
-
 }
 
 AbilityMagicStones::~AbilityMagicStones()

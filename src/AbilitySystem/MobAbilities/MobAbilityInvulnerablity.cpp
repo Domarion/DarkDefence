@@ -17,7 +17,6 @@ bool MobAbilityInvulnerablity::onReady(double /*timestep*/)
          abilityState = Enums::AbilityStates::asNotAvaliable;
      }
 
-
     return true;
 }
 
@@ -43,8 +42,6 @@ bool MobAbilityInvulnerablity::onWorking(double timestep)
 
     return true;
 }
-
-
 
 bool MobAbilityInvulnerablity::onCooldown(double timestep)
 {

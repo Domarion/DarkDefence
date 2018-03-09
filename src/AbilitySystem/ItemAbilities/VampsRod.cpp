@@ -2,25 +2,14 @@
 #include "../AbilityShrink.h"
 #include "../../Scenes/GameScene.h"
 
-VampsRod::VampsRod()
-{
-
-}
-
-VampsRod::~VampsRod()
-{
-
-}
-
 void VampsRod::init(std::shared_ptr<Scene> scenePtr, std::shared_ptr<ManaGlobal> aManaModel)
 {
-
     int manaMax = aManaModel->getLimit() + 50;
     aManaModel->setLimit(manaMax);
 
-     auto gameScenePtr = std::dynamic_pointer_cast<GameScene>(scenePtr);
-     if (gameScenePtr == nullptr)
-         return;
+    auto gameScenePtr = std::dynamic_pointer_cast<GameScene>(scenePtr);
+    if (gameScenePtr == nullptr)
+        return;
     map<string, std::shared_ptr<AbilityModel>> models = gameScenePtr->getAbilityModelList();
 
     for(auto ptr = models.begin(); ptr!= models.end(); ++ptr)
@@ -42,9 +31,4 @@ void VampsRod::init(std::shared_ptr<Scene> scenePtr, std::shared_ptr<ManaGlobal>
             ptr->second->setManaCost(manaCost);
         }
     }
-
-
-
-
-
 }

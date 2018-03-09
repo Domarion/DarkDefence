@@ -3,8 +3,6 @@
 
 void MonolithShard::init(std::shared_ptr<Scene> scenePtr, std::shared_ptr<ManaGlobal> aManaModel)
 {
-
-
     int regen = aManaModel->getRegenValue() + 2;
     aManaModel->setRegenValue(regen);
 
@@ -22,7 +20,6 @@ void MonolithShard::init(std::shared_ptr<Scene> scenePtr, std::shared_ptr<ManaGl
 
         int cost = magicStone->getManaCost()/2;
         magicStone->setManaCost(cost);
-
     }
 }
 

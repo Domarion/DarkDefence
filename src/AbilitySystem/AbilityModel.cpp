@@ -130,12 +130,12 @@ void AbilityModel::setCooldownTime(double value)
     currentCooldownTime = cooldownTime;
 }
 
-const string& AbilityModel::getAbilityName() const
+const std::string& AbilityModel::getAbilityName() const
 {
     return abilityName;
 }
 
-void AbilityModel::setAbilityName(const string& aName)
+void AbilityModel::setAbilityName(const std::string& aName)
 {
     abilityName = aName;
 }

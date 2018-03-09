@@ -1,5 +1,6 @@
-#include "UIScrollList.h"
 #include <algorithm>
+
+#include "UIScrollList.h"
 
 UIScrollList::UIScrollList(
     int aItemsToShow, std::shared_ptr<RenderingSystem>& aRenderingContext, const std::shared_ptr<ILayout>& aLayout)
@@ -174,7 +175,6 @@ void UIScrollList::removeChild(const shared_ptr<IComposite>& child)//TODO::Wrong
                 }
                 else
                     toLast = children.end();
-
             }
         }
 

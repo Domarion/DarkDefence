@@ -10,7 +10,7 @@ class ResourcePlace :
     , public std::enable_shared_from_this<ResourcePlace>
 {
 public:
-    ResourcePlace();
+    ResourcePlace() = default;
     ResourcePlace(int aLimit, Enums::ResourceTypes aResourceType);
     void setLimit(int amount);
     Enums::ResourceTypes getResourceType() const;
@@ -25,7 +25,7 @@ public:
     virtual void finalize() override;
 
 private:
-    int limit;
-    Enums::ResourceTypes resourceType;
+    int limit = 1000;
+    Enums::ResourceTypes resourceType = Enums::ResourceTypes::WHEAT;
 };
 

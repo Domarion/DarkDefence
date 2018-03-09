@@ -3,12 +3,6 @@
 ChoppersHat::ChoppersHat(Enums::ResourceTypes rType)
     :resType(rType)
 {
-
-}
-
-ChoppersHat::~ChoppersHat()
-{
-
 }
 
 void ChoppersHat::init(std::shared_ptr<Scene> /*scenePtr*/, std::shared_ptr<ManaGlobal> /*aManaModel*/)
@@ -27,7 +21,8 @@ void ChoppersHat::update(double timestep)
     {
         currentTime = period;
         GameModel::getInstance()->getResourcesModel()->addResource(static_cast<int>(resType), amount);
+        return;
     }
-    else
-        currentTime -= timestep;
+
+    currentTime -= timestep;
 }

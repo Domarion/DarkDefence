@@ -1,7 +1,9 @@
 #pragma once
+
 #include "../UIElement/ConcreteComposite.h"
 #include "../../../MissionSystem/Mission.h"
 #include "../Font.h"
+
 class UIMissionView final: public ConcreteComposite
 {
 public:

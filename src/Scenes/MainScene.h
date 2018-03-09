@@ -1,7 +1,8 @@
 #pragma once
 
-#include "../Grouping/Scene.h"
 #include <functional>
+
+#include "../Grouping/Scene.h"
 
 class MainScene: public Scene
 {
@@ -14,11 +15,11 @@ public:
 
 private:
 
-    void loadMenuItems(string filename);
+    void loadMenuItems(const std::string& aFilename);
     void initUIMenuItems();
     void initBackground();
 
-    vector<pair<string, string> > itemNamesSceneNamesMapping;
+    vector<pair<string, string>> itemNamesSceneNamesMapping;
     std::function<void(string)> method;
 };
 

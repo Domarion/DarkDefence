@@ -1,11 +1,11 @@
 #pragma once
 
-#include<vector>
 #include <list>
+#include <memory>
+#include <vector>
 #include <utility>
 
 #include <SDL_rect.h>
-#include <memory>
 #include "../GraphicsSystem/newSystem/UtilityStructs.h"
 
 using std::pair;

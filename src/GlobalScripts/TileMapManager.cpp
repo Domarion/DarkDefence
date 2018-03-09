@@ -1,5 +1,6 @@
-#include "TileMapManager.h"
 #include <algorithm>
+
+#include "TileMapManager.h"
 
 TileMapManager::TileMapManager(vector<vector<int> >& aMapTemplate)
     : mapTemplate(aMapTemplate)
@@ -104,8 +105,6 @@ TileMapManager::Path TileMapManager::getPath(pair<int, int> endVertex)
 
     return path;
 }
-
-
 
 int TileMapManager::getRowCount() const
 {

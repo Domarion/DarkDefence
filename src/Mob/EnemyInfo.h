@@ -22,20 +22,20 @@ class EnemyInfo
     }
 
 public:
-    EnemyInfo();
+    EnemyInfo() = default;
     EnemyInfo(const string& aTag, EReaction aReaction, int aPriority);
 
-    string getTag() const;
-    void setTag(const string& value);
+    const std::string& getTag() const;
+    void setTag(const string& aTag);
 
     EReaction getReaction() const;
-    void setReaction(const EReaction& value);
+    void setReaction(Enums::EReaction aReaction);
 
     int getPriority() const;
-    void setPriority(int value);
+    void setPriority(int aPriority);
 
 private:
     string tag;
-    EReaction reaction;
-    int priority;
+    EReaction reaction = Enums::EReaction::Attack;
+    int priority = 0;
 };

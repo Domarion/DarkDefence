@@ -1,16 +1,13 @@
 #pragma once
 
-#include "../Grouping/Scene.h"
 #include "InputHandler.h"
+#include "../Grouping/Scene.h"
 
 class SceneInputHandler : public InputHandler
 {
 public:
 
-
-    SceneInputHandler() = default;
     virtual ~SceneInputHandler() = default;
-
     // InputHandler interface
     virtual bool onClick(Position aPoint) override;
     virtual bool canDrag() const override;
@@ -20,7 +17,6 @@ public:
     void setParentScene(std::shared_ptr<Scene> aParentScene);
 
 private:
-
     std::shared_ptr<Scene> mParentScene;
 };
 

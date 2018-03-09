@@ -1,13 +1,16 @@
 #pragma once
+
+#include <map>
+#include <string>
+#include <vector>
+
 #include "../Leaf.h"
 #include "../Texture2D.h"
-#include <map>
-using std::map;
-#include <string>
-using std::string;
-#include <vector>
-using std::vector;
 #include "Enums.h"
+
+using std::map;
+using std::string;
+using std::vector;
 
 class AnimationSceneSprite final: public Leaf
 {
@@ -16,83 +19,21 @@ public:
     {
     public:
 
-        Animation(const std::map<string, vector<SDL_Rect>>& aAnimationStates)
-            : mAnimationStates(aAnimationStates)
-        {
-            setDefaultState();
-        }
-
+        Animation(const std::map<string, vector<SDL_Rect>>& aAnimationStates);
         Animation() = default;
 
-        void calculateFrameNumber()
-        {
-            if (mOldFrameTime + mMsCount >= SDL_GetTicks() || mAnimationStates.empty())
-            {
-                return;
-            }
+        void calculateFrameNumber();
+        void setCurrentState(const std::string& aStateName);
+        bool hasState(const std::string& aStateName);
+        bool hasAnimations() const;
+        void setAnimRects(const std::string& aState, const std::vector<SDL_Rect>& aRects);
 
-            mOldFrameTime = SDL_GetTicks();
-
-            ++mFrameNumber;
-
-            if (mFrameNumber >= mAnimationStates.at(mCurrentState).size())
-            {
-                mFrameNumber = 0;
-            }
-        }
-
-        void setCurrentState(const std::string& aStateName)
-        {
-            if (hasState(aStateName))
-            {
-                mCurrentState = aStateName;
-                mFrameNumber = 0;
-            }
-        }
-
-        bool hasState(const std::string& aStateName)
-        {
-            if (aStateName.empty())
-            {
-                return false;
-            }
-
-            return mAnimationStates.find(aStateName) != mAnimationStates.cend();
-        }
-
-        bool hasAnimations() const
-        {
-            return !mAnimationStates.empty();
-        }
-
-        void setAnimRects(const std::string& aState, const std::vector<SDL_Rect>& aRects)
-        {
-            mAnimationStates[aState] = aRects;
-            //TODO инициализировать правильным состоянием анимации
-            setCurrentState(aState);
-        }
-
-        const SDL_Rect* getCurrentRect() const
-        {
-            return &mAnimationStates.at(mCurrentState).at(mFrameNumber);
-        }
-
-        const std::string& getCurrentState() const
-        {
-            return mCurrentState;
-        }
+        const SDL_Rect* getCurrentRect() const;
+        const std::string& getCurrentState() const;
 
     private:
-        void setDefaultState()
-        {
-            if (mAnimationStates.empty())
-            {
-                return;
-            }
+        void setDefaultState();
 
-            mCurrentState = mAnimationStates.cbegin()->first;
-            mFrameNumber = 0;
-        }
         size_t mFrameNumber {};
         int64_t mOldFrameTime {};
         int16_t mMsCount {64}; //Откуда 64?

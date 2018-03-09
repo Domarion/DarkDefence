@@ -1,5 +1,6 @@
-#include "ResourceGoal.h"
 #include <cassert>
+
+#include "ResourceGoal.h"
 #include "../GlobalScripts/GameModel.h"
 
 ResourceGoal::ResourceGoal(

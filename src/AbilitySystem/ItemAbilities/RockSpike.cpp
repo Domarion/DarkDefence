@@ -3,16 +3,6 @@
 #include "../PrickObject.h"
 #include "../../Scenes/GameScene.h"
 
-RockSpike::RockSpike()
-{
-
-}
-
-RockSpike::~RockSpike()
-{
-
-}
-
 void RockSpike::init(std::shared_ptr<Scene> scenePtr, std::shared_ptr<ManaGlobal> /*aManaModel*/)
 {
     amount = 3;

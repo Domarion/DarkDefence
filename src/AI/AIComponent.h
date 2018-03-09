@@ -1,19 +1,23 @@
 #pragma once
 
-#include "../Mob/Mob.h"
 #include <list>
-using std::list;
-#include <SDL_rect.h>
+#include <string>
 #include <utility>
-using std::pair;
+
+#include <SDL_rect.h>
+
+#include "../Mob/Mob.h"
 #include "../Enums.h"
-using Enums::AIMobStates;
 #include "../AbilitySystem/MobAbilities/MobAbility.h"
+
+using std::pair;
+using std::list;
+using Enums::AIMobStates;
+
 class Mob;
 class EnemyInfo;
 class SceneObject;
 
-#include <string>
 using std::string;
 
 class AIComponent

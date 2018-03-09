@@ -1,7 +1,9 @@
 #pragma once
+
+#include <functional>
+
 #include "../Leaf.h"
 #include "../Texture2D.h"
-#include <functional>
 #include "../../../Input/InputHandler.h"
 
 class UIProgressBar final: public Leaf,  public InputHandler
@@ -29,7 +31,6 @@ private:
 
     inline int getMeasurementPart(int aValue, double aCoeff) const;
 
-
     Texture2D backTexture;
     Texture2D frontTexture;
     bool isVertical = false;
@@ -42,5 +43,4 @@ private:
     SDL_Rect frontRect;
 
     std::function<void(std::string)> connectedMethod;
-
 };

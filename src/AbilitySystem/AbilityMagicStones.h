@@ -1,4 +1,5 @@
 #pragma once
+
 #include "AbilityModel.h"
 #include "EffectModel.h"
 

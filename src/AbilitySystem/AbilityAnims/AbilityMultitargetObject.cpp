@@ -1,5 +1,6 @@
-#include "AbilityMultitargetObject.hpp"
 #include <algorithm>
+
+#include "AbilityMultitargetObject.hpp"
 #include "GlobalScripts/ResourceManager.h"
 
 AbilityMultitargetObject::AbilityMultitargetObject(size_t aTargetCount)

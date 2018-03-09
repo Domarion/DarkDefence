@@ -1,15 +1,9 @@
 #include "ResourcePlace.h"
 #include "../GlobalScripts/GameModel.h"
 #include "../Mob/Mine.h"
-#include <iostream>
 #include "../Input/InputDispatcher.h"
 #include "../Scenes/GameScene.h"
 #include "../GlobalScripts/ResourceManager.h"
-
-ResourcePlace::ResourcePlace()
-    : ResourcePlace(1000, Enums::ResourceTypes::WHEAT)
-{
-}
 
 ResourcePlace::ResourcePlace(int aLimit, Enums::ResourceTypes aResourceType)
     : limit(aLimit)

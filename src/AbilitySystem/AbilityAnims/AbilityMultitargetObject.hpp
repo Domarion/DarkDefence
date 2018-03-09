@@ -1,7 +1,8 @@
 #pragma once
 
-#include "Grouping/SceneObject.h"
 #include <functional>
+
+#include "Grouping/SceneObject.h"
 
 class AbilityMultitargetObject : public SceneObject
 {

@@ -25,11 +25,11 @@ public:
     virtual string getName() const override;
     virtual void setName(const string& aName) override;
 
-    virtual string getTag() const override;
-    virtual void setTag(const string& aTag) override;
-    virtual std::shared_ptr<DestructibleObject> getDestructibleObject() const override;
-    virtual std::shared_ptr<EffectReceiver> getEffectReceiver() const override;
-    virtual std::shared_ptr<MobModel> getModel() const;
+    string getTag() const override;
+    void setTag(const string& aTag) override;
+    std::shared_ptr<DestructibleObject> getDestructibleObject() const override;
+    std::shared_ptr<EffectReceiver> getEffectReceiver() const override;
+     std::shared_ptr<MobModel> getModel() const;
 
     std::shared_ptr<TileMapManager> getTileMapManager() const;
     void setTileMapManager(std::shared_ptr<TileMapManager> aTileMapPtr);

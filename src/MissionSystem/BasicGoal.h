@@ -3,6 +3,7 @@
 #include <cereal/access.hpp>
 #include <cereal/types/string.hpp>
 #include <cereal/types/utility.hpp>
+
 #include "Enums.h"
 
 enum class GoalStatuses

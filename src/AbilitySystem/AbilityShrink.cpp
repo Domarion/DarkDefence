@@ -7,10 +7,7 @@
 AbilityShrink::AbilityShrink(std::shared_ptr<ManaGlobal> aManaModel)
     : AbilityModel(aManaModel)
     , damagePerSecond(0.0)
-    , affectedMobs( nullptr )
-    , spellAnimationObject(nullptr)
 {
-
 }
 
 bool AbilityShrink::onReady(double /*timestep*/)

@@ -1,11 +1,12 @@
 #pragma once
 
+#include <vector>
+
 #include <cereal/access.hpp>
 #include <cereal/types/string.hpp>
 #include <cereal/types/map.hpp>
 #include <cereal/types/memory.hpp>
 #include <cereal/types/tuple.hpp>
-#include <vector>
 
 using std::string;
 using std::map;

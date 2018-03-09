@@ -41,7 +41,9 @@ void Composite::removeChild(const shared_ptr<IComposite>& child)
 void Composite::draw() const
 {
     for(const auto& child : children)
+    {
         child->draw();
+    }
 }
 
 weak_ptr<IComposite> Composite::getParent() const
@@ -98,7 +100,6 @@ Position Composite::getNextVerticalPosition() const
 
 Position Composite::getLocalPosition() const
 {
-
     return localPosition;
 }
 
@@ -109,12 +110,12 @@ void Composite::setLocalPosition(Position aPosition)
 
 bool Composite::canDrag() const
 {
-    for (auto& child: children)
+    for (const auto& child: children)
     {
         if (child.get() != nullptr)
         {
-            InputHandler* handler= dynamic_cast<InputHandler*>(child.get());
-            if (handler != nullptr)
+            auto handler = std::dynamic_pointer_cast<InputHandler>(child);
+            if (handler)
             {
                 if (handler->canDrag())
                     return true;
@@ -147,7 +148,7 @@ bool Composite::containsPoint(Position aPosition) const
     {
         if (child)
         {
-            auto handler= std::dynamic_pointer_cast<InputHandler>(child);
+            auto handler = std::dynamic_pointer_cast<InputHandler>(child);
             if (handler && handler->containsPoint(aPosition))
             {
                 return true;
@@ -177,8 +178,8 @@ bool Composite::onClick(Position point)
 {
     for(const auto& child : children)
     {
-        InputHandler* handler = dynamic_cast<InputHandler*>(child.get());
-        if (handler != nullptr && handler->onClick(point))
+        auto handler = std::dynamic_pointer_cast<InputHandler>(child);
+        if (handler && handler->onClick(point))
             return true;
     }
     return false;
@@ -193,14 +194,16 @@ void Composite::setScalingFactor(double aScaleFactor)
 {
     const double EPSe3 = 1e-3;
     if (fabs(mScaleFactor - aScaleFactor) < EPSe3)
+    {
         return;
+    }
 
     mScaleFactor = aScaleFactor;
     mScaledSize = getSize();
     mScaledSize *= mScaleFactor;
     setSize(mScaledSize);
 
-    for(auto& child : children)
+    for (auto& child : children)
     {
         child->setScalingFactor(mScaleFactor);
     }

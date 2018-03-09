@@ -2,6 +2,7 @@
 
 #include <cereal/access.hpp>
 #include <cereal/types/string.hpp>
+
 #include "../Enums.h"
 
 class ItemModel
@@ -34,6 +35,6 @@ public:
 private:
     std::string caption;
     std::string description;
-    Enums::ItemTypes itemType;
+    Enums::ItemTypes itemType = Enums::ItemTypes::DEFAULT;
     int price = 0;
 };

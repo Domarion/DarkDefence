@@ -1,8 +1,9 @@
 #pragma once
 
-#include "BasicGoal.h"
 #include <cereal/types/polymorphic.hpp>
 #include <cereal/types/base_class.hpp>
+
+#include "BasicGoal.h"
 #include "GlobalScripts/ResourcesModel.h"
 
 class ResourceGoal: public BasicGoal

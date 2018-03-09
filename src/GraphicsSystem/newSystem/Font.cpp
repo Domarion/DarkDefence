@@ -9,13 +9,6 @@ Font::Font(const shared_ptr<TTF_Font>& aTtfFont, std::shared_ptr<RenderingSystem
 {
 }
 
-Font::Font()
-    : mFontPtr(nullptr, TTF_CloseFont)
-    , mFontColor({0, 0, 0, 255})
-    , mFontSize(0)
-{
-}
-
 Font::Font(
     const std::string& aFontPath,
     size_t aFontSize,
@@ -34,7 +27,7 @@ Font::Font(
 void Font::loadFromFile(const std::string& aFilename, size_t aFontSize)
 {
     mFontSize = aFontSize;
-    setFont(std::move(mRenderer->loadFontFromFile(aFilename, mFontSize)));
+    setFont(mRenderer->loadFontFromFile(aFilename, mFontSize));
 }
 
 SDL_Color Font::getFontColor() const

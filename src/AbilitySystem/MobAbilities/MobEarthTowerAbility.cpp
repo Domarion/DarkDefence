@@ -29,6 +29,7 @@ bool MobEarthTowerAbility::onReady(double /*timestep*/)
         effectReceiver->applyEffect(effect);
         abilityState = Enums::AbilityStates::asWorking;
     }
+
     return true;
 }
 

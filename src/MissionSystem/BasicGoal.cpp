@@ -1,10 +1,3 @@
-/*
- * BasicGoal.cpp
- *
- *  Created on: 8 марта 2016 г.
- *      Author: kostya_hm
- */
-
 #include "BasicGoal.h"
 
 BasicGoal::BasicGoal(const std::string& aDescription, int aControlNumber)

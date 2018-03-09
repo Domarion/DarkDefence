@@ -3,7 +3,6 @@
 UIImageButton::UIImageButton(std::shared_ptr<RenderingSystem> &aRenderingContext)
     :UIImage(aRenderingContext)
 {
-
 }
 
 void UIImageButton::ConnectMethod(std::function<void (std::string)> method)

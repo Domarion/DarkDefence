@@ -1,5 +1,6 @@
-#include "HeroInventory.h"
 #include <cassert>
+
+#include "HeroInventory.h"
 
 HeroInventory::HeroInventory(int aSlotCount)
     : Inventory()
@@ -56,7 +57,6 @@ void HeroInventory::addItem(const ItemModel& aItem)
         int itemIndex = static_cast<int>(aItem.getItemType()) - 1;
 		if (itemIndex >= 0)
 		{
-
 			if (!items[itemIndex].getCaption().empty())
 			{
                 if (aItem.getItemType() != Enums::ItemTypes::CONSUMABLE || !items[++itemIndex].getCaption().empty())

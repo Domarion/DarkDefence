@@ -1,10 +1,3 @@
-/*
- * InputHandler.cpp
- *
- *  Created on: 2 апр. 2016 г.
- *      Author: kostya_hm
- */
-
 #include "InputHandler.h"
 
 bool InputHandler::onDrag(Position /*aDirection*/)

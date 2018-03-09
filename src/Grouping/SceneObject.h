@@ -10,7 +10,6 @@ using std::string;
 
 class Scene;
 
-
 class SceneObject
 {
 public:
@@ -54,6 +53,7 @@ public:
     size_t getDrawPriority() const;
     size_t getId() const;
     static void resetSceneObjectIds();
+
 protected:
 
     static size_t sceneObjectCurrentId;

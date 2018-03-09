@@ -1,10 +1,3 @@
-/*
- * DestructibleObject.cpp
- *
- *  Created on: 15 апр. 2016 г.
- *      Author: kostya_hm
- */
-
 #include "DestructibleObject.h"
 
 DestructibleObject::DestructibleObject(
@@ -111,7 +104,6 @@ void DestructibleObject::setMaximumHealth(int hp)
 
 int DestructibleObject::getCurrentHealth() const
 {
-
     return currentHealth;
 }
 

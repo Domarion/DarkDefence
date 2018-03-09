@@ -1,10 +1,10 @@
 #pragma once
+
 #include "MobAbility.h"
 
 class MobAbilityArson: public MobAbility
 {
 public:
-
     MobAbilityArson();
 
     // AbilityModel interface

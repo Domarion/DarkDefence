@@ -11,7 +11,7 @@ AbilityAnimObject::AbilityAnimObject(double timeToLiveSec)
 
 bool AbilityAnimObject::update(double timestep)
 {
-    if (mTimeToLive < 0)
+    if (mTimeToLive <= 0)
     {
         return false;
     }
@@ -37,10 +37,15 @@ std::shared_ptr<AbilityAnimObject> Make_AbilityAnimObject(
         return nullptr;
     }
 
+    if (!ResourceManager::getInstance()->hasAnimationPack(aName))
+    {
+        return nullptr;
+    }
+
     auto& animPack = ResourceManager::getInstance()->getAnimationPack(aName);
     auto sprite = std::make_shared<AnimationSceneSprite>(aRenderer, AnimationSceneSprite::Animation{animPack});
 
-    if (sprite == nullptr)
+    if (!sprite || !ResourceManager::getInstance()->hasTexture(aName))
     {
         return nullptr;
     }

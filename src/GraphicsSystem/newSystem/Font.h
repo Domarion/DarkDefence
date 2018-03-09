@@ -1,11 +1,14 @@
 #pragma once
 
-#include <SDL_ttf.h>
-#include <string>
-using std::string;
 #include <memory>
-using std::shared_ptr;
+#include <string>
+
+#include <SDL_ttf.h>
+
 #include "RenderingSystem.h"
+
+using std::string;
+using std::shared_ptr;
 
 class Font final
 {
@@ -13,7 +16,7 @@ public:
     using TFontDeleter = void(*)(TTF_Font*);
 
     explicit Font(const shared_ptr<TTF_Font>& aTtfFont, std::shared_ptr<RenderingSystem>& aRenderer);
-    Font();
+    Font() = default;
 
     Font(
         const std::string& aFontPath,
@@ -38,6 +41,6 @@ private:
 
     std::shared_ptr<RenderingSystem> mRenderer;
     shared_ptr<TTF_Font> mFontPtr;
-    SDL_Color mFontColor;
-    size_t mFontSize;
+    SDL_Color mFontColor = {0, 0, 0, 255};
+    size_t mFontSize = 0;
 };

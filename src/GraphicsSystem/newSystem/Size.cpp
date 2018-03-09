@@ -1,6 +1,7 @@
-#include "Size.h"
 #include <iostream>
 #include <stdexcept>
+
+#include "Size.h"
 
 Size::Size(int aWidth, int aHeight)
     : width(aWidth)
@@ -69,7 +70,7 @@ Size Size::operator/(int aScalar) const
 {
     if (aScalar == 0)
     {
-        throw std::logic_error("Division bheight zero");
+        throw std::logic_error("Division Size by zero");
     }
 
     return Size(width / aScalar, height / aScalar);
@@ -79,7 +80,7 @@ void Size::operator/=(int aScalar)
 {
     if (aScalar == 0)
     {
-        throw std::logic_error("Division bheight zero");
+        throw std::logic_error("Division Size by zero");
     }
 
     width /= aScalar;

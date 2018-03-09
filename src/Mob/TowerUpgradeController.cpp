@@ -1,6 +1,5 @@
 #include "TowerUpgradeController.h"
 #include "../GlobalScripts/GameModel.h"
-#include <iostream>
 #include "../Input/InputDispatcher.h"
 #include "../GraphicsSystem/newSystem/UIElement/ConcreteComposite.h"
 #include "../GraphicsSystem/newSystem/UIElement/UILabel.h"

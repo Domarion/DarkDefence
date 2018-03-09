@@ -4,18 +4,16 @@
 
 int main(int /*argc*/, char** /*args*/)
 {
-    auto SDL2_Library = std::make_unique<SDL2Engine::SDL2>(SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_EVENTS);
+    SDL2Engine::SDL2 library(SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_EVENTS);
 
-    Size screenSize = SDL2_Library->getScreenResolution();
+    Size screenSize = library.getScreenResolution();
     screenSize.height -= 50;//TODO: убрать
 
-    auto app = std::make_unique<GameApp>(
-        std::make_unique<SceneManager>(), std::make_unique<RenderingSystem>(screenSize));
-    app->preloadData();
-    app->addScenes();
-    int result = app->gameLoop();
+    GameApp app(std::make_unique<SceneManager>(), std::make_unique<RenderingSystem>(screenSize));
+    app.preloadData();
+    app.addScenes();
 
-	return result;
+    return app.gameLoop();
 }
 
 

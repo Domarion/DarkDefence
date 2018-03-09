@@ -3,5 +3,4 @@
 
 void ItemAbility::update(double /*timestep*/)
 {
-
 }

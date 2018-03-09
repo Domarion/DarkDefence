@@ -1,11 +1,13 @@
 #pragma once
-#include <SDL.h>
 
 #include <string>
-using std::string;
+
+#include <SDL.h>
 
 #include "Font.h"
 #include "RenderingSystem.h"
+
+using std::string;
 using std::shared_ptr;
 
 class Texture2D final

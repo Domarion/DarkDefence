@@ -3,8 +3,7 @@
 #include "../GlobalScripts/GameModel.h"
 
 Mine::Mine(Size aResourcePlaceSize)
-    : model(nullptr)
-    , mineEffectReceiver(std::make_shared<DestructibleObjectEffectReceiver>())
+    : mineEffectReceiver(std::make_shared<DestructibleObjectEffectReceiver>())
     , mResourcePlaceSize(aResourcePlaceSize)
 {
 }
@@ -70,7 +69,7 @@ std::shared_ptr<MineModel> Mine::getMineModel()
     return model;
 }
 
-void Mine::setMineModel(std::shared_ptr<MineModel>  newModel)
+void Mine::setMineModel(const std::shared_ptr<MineModel>& aNewModel)
 {
-    model = newModel;
+    model = aNewModel;
 }

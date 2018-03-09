@@ -1,5 +1,6 @@
-#include "EffectReceiver.h"
 #include <algorithm>
+
+#include "EffectReceiver.h"
 
 bool EffectReceiver::applyEffect(std::shared_ptr<EffectModel> effect)
 {
@@ -36,7 +37,6 @@ bool EffectReceiver::parseEffect(std::shared_ptr<EffectModel> effect, bool remov
     list<pair<string, double> > attributes = effect->getAffectedAttributes();
 
     return parseMethod(attributes, flag);
-
 }
 
 bool EffectReceiver::hasEffect(std::shared_ptr<EffectModel> effect) const
@@ -47,5 +47,4 @@ bool EffectReceiver::hasEffect(std::shared_ptr<EffectModel> effect) const
 
 void EffectReceiver::processTemporaryEffects(double /*deltaTime*/)
 {
-
 }

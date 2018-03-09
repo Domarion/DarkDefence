@@ -120,14 +120,14 @@ std::unique_ptr<SDL_Texture, RenderingSystem::TTextureDeleter> RenderingSystem::
 }
 
 std::unique_ptr<TTF_Font, RenderingSystem::TFontDeleter> RenderingSystem::loadFontFromFile(
-    const std::string &filename, int size)
+    const std::string& filename, int size)
 {
     return std::unique_ptr<TTF_Font, RenderingSystem::TFontDeleter>(
         TTF_OpenFont(filename.c_str(), size), [](TTF_Font* aFont){TTF_CloseFont(aFont);});
 }
 
 std::unique_ptr<SDL_Texture, RenderingSystem::TTextureDeleter> RenderingSystem::getTextureFromSurface(
-    SDL_Surface *surface)
+    SDL_Surface* surface)
 {
     return std::unique_ptr<SDL_Texture, TTextureDeleter>(
         SDL_CreateTextureFromSurface(renderer.get(), surface),

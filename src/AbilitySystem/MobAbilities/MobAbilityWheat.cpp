@@ -18,12 +18,10 @@ bool MobAbilityWheat::onWorking(double timestep)
     else
     {
         currentWorkTime -= timestep;
-
     }
 
     return true;
 }
-
 
 bool MobAbilityWheat::canTrigger(std::shared_ptr<SceneObject>, Enums::AIMobStates /*aistate*/)
 {

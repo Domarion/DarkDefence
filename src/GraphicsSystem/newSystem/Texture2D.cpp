@@ -126,7 +126,7 @@ void Texture2D::unSetAsRenderTarget()
 
 void Texture2D::createBlankTexture(SDL_TextureAccess aAccess)
 {
-    texturePtr = std::move(renderer->createBlankTexture(getSize(), aAccess));
+    texturePtr = renderer->createBlankTexture(getSize(), aAccess);
 }
 
 Size Texture2D::getOriginalTextureSize() const

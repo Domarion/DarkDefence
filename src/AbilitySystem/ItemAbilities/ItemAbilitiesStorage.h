@@ -1,15 +1,16 @@
 #pragma once
 
 #include <map>
-using std::map;
+
 #include "ItemAbility.h"
 
 class ItemAbilitiesStorage
 {
 public:
     void loadItemAbilities();
-    std::shared_ptr<ItemAbility> getItemAbilityByName(string name);
+    std::shared_ptr<ItemAbility> getItemAbilityByName(std::string name);
+
 private:
-    map<string, std::shared_ptr<ItemAbility>> itemAbilitiesMap;
+    std::map<string, std::shared_ptr<ItemAbility>> itemAbilitiesMap;
 };
 

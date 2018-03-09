@@ -1,14 +1,7 @@
-/*
- * SceneObject.cpp
- *
- *  Created on: 13 марта 2016 г.
- *      Author: kostya_hm
- */
+#include <cassert>
 
 #include "SceneObject.h"
-#include <cassert>
 #include "../Logging/Logger.h"
-
 
 size_t SceneObject::sceneObjectCurrentId = 0;
 

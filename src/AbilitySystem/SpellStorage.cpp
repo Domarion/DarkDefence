@@ -84,7 +84,7 @@ void SpellStorage::updateAbilities(double aTimeStep)
     }
 }
 
-const map<std::string, std::shared_ptr<AbilityModel>>& SpellStorage::getAbilityModelList() const
+const std::map<std::string, std::shared_ptr<AbilityModel>>& SpellStorage::getAbilityModelList() const
 {
     return abilityModelsMap;
 }

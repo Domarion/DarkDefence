@@ -1,14 +1,9 @@
 #pragma once
-#include "ItemAbility.h"
 
+#include "ItemAbility.h"
 
 class GoldPick: public ItemAbility
 {
-public:
-    GoldPick();
-    virtual ~GoldPick();
-
-    // ItemAbility interface
 public:
     virtual void init(std::shared_ptr<Scene> scenePtr, std::shared_ptr<ManaGlobal> aManaModel) override;
     virtual void update(double timestep) override;

@@ -1,5 +1,6 @@
-#include "ArrowAnim.h"
 #include <limits>
+
+#include "ArrowAnim.h"
 
 ArrowAnim::ArrowAnim(Position aTargetPosition)
     : SceneObject()
@@ -18,14 +19,14 @@ bool ArrowAnim::update(double timestep)
 bool ArrowAnim::ReachedPos()
 {
     auto signum = [](int aValue) -> int
+    {
+        if (aValue == 0)
         {
-            if (aValue == 0)
-            {
-                return 0;
-            }
+            return 0;
+        }
 
-            return aValue > 0 ? 1 : -1;
-        };
+        return aValue > 0 ? 1 : -1;
+    };
 
     Position newMobPos{getRealPosition()};
 
@@ -54,7 +55,6 @@ bool ArrowAnim::ReachedPos()
 
         spriteRef->setFlipping(flipping);
     }
-
 
     setPosition(newMobPos);
     return false;

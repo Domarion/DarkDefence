@@ -1,11 +1,4 @@
 #include "DestructibleObjectEffectReceiver.h"
-#include <iostream>
-
-DestructibleObjectEffectReceiver::DestructibleObjectEffectReceiver()
-    : doModelPtr(nullptr)
-{
-
-}
 
 void DestructibleObjectEffectReceiver::init(std::shared_ptr<DestructibleObject> modelPtr)
 {
@@ -25,7 +18,6 @@ bool DestructibleObjectEffectReceiver::parseMethod(list<pair<string, double> > &
         {
             int newAmount = doModelPtr->getProtectionModifier() + static_cast<int>(amount);
             doModelPtr->setProtectionModifier( newAmount );
-
         }
         else if (attrib->first == "Health")
         {
@@ -43,7 +35,6 @@ bool DestructibleObjectEffectReceiver::parseMethod(list<pair<string, double> > &
         {
             int newAmount = static_cast<int>(doModelPtr->getMaximumHealth() * (1 + amount));
             doModelPtr->setMaximumHealth( newAmount );
-
         }
     }
 

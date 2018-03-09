@@ -1,8 +1,9 @@
 #pragma once
 
+#include <cereal/types/memory.hpp>
+
 #include "BasicGoal.h"
 #include "Reward.h"
-#include <cereal/types/memory.hpp>
 
 enum class MissionStatuses
 {

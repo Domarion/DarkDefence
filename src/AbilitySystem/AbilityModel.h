@@ -1,11 +1,12 @@
 #pragma once
-#include "../Enums.h"
-#include <string>
-using std::string;
-#include "../Grouping/Scene.h"
-#include <memory>
-#include "../GlobalScripts/ManaGlobal.h"
+
 #include <functional>
+#include <memory>
+#include <string>
+
+#include "../Enums.h"
+#include "../Grouping/Scene.h"
+#include "../GlobalScripts/ManaGlobal.h"
 
 class AbilityModel
 {
@@ -33,13 +34,13 @@ public:
     void setCooldownTime(double value);
 
     const std::string& getAbilityName() const;
-    void setAbilityName(const string& aName);
+    void setAbilityName(const std::string& aName);
     void setPlacingCallback(std::function<void()> aPlacingEndedCallBack);
     void connectCooldownListener(std::function<void(int, int)> aMethod);
 
 protected:
     Enums::AbilityStates abilityState;
-    string abilityName;
+    std::string abilityName;
     int manaCost;
     double workTime;
     double currentWorkTime;

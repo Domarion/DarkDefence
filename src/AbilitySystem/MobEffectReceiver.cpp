@@ -1,11 +1,6 @@
-#include "MobEffectReceiver.h"
 #include <map>
-MobEffectReceiver::MobEffectReceiver()
-    :EffectReceiver(), mobModelPtr(nullptr)
-{
 
-}
-
+#include "MobEffectReceiver.h"
 
 void MobEffectReceiver::init(std::shared_ptr<MobModel> modelPtr)
 {

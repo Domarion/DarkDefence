@@ -1,16 +1,16 @@
 #pragma once
-#include <list>
-using std::list;
 
+#include <list>
 #include <string>
-using std::string;
 #include <utility>
+
+using std::list;
+using std::string;
 using std::pair;
 
 class EffectModel
 {
 public:
-    EffectModel() = default;
     virtual ~EffectModel() = default;
     bool addMiniEffect(pair<string, double> & mini);
     bool removeMiniEffect(pair<string, double> & mini);
@@ -25,7 +25,7 @@ public:
     double getDuration() const;
 
 private:
-    list< pair<string, double> > affectedAttributes;
+    list< pair<string, double>> affectedAttributes;
     pair<double, double> duration {0, 0};
     double runningTime{0};
     string caption;

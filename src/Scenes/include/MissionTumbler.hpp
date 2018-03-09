@@ -1,7 +1,9 @@
 #pragma once
 
 #include <vector>
+
 #include <boost/optional/optional_fwd.hpp>
+
 #include "../../MissionSystem/Mission.h"
 
 class MissionTumbler

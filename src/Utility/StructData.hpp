@@ -2,6 +2,7 @@
 
 #include <cereal/access.hpp>
 #include <cereal/types/string.hpp>
+
 #include "Enums.h"
 #include "../GraphicsSystem/newSystem/UtilityStructs.h"
 
@@ -23,9 +24,9 @@ private:
 
     }
 public:
-    std::string Name{};
-    Size ImageSize{};
-    Position ImagePosition{};
+    std::string Name;
+    Size ImageSize;
+    Position ImagePosition;
     Enums::AnchorCoordTypes xCoordAnchorType = Enums::AnchorCoordTypes::Min;
     Enums::AnchorCoordTypes yCoordAnchorType = Enums::AnchorCoordTypes::Min;
     size_t DrawPriority = 0;

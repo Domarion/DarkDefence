@@ -1,16 +1,11 @@
-/*
- * GameApp.cpp
- *
- *  Created on: 9 марта 2016 г.
- *      Author: kostya_hm
- */
+#include <exception>
 
-#include "GameApp.h"
 #include <SDL_image.h>
 #include <SDL_ttf.h>
-#include <exception>
-#include "Grouping/FontManager.h"
+
 #include "GlobalConstants.h"
+#include "GameApp.h"
+#include "Grouping/FontManager.h"
 
 #include "Scenes/MainScene.h"
 #include "Scenes/MapMenuScene.h"
@@ -43,7 +38,6 @@ void GameApp::preloadData()
     GameModel::getInstance()->loadMissions("GameData/Missions/");
 
     GameModel::getInstance()->loadGameData("GameData/save.bin");
-
 }
 
 void GameApp::addScenes()

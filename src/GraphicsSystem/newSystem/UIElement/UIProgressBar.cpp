@@ -1,6 +1,5 @@
 #include "UIProgressBar.h"
 
-
 UIProgressBar::UIProgressBar(
     std::shared_ptr<RenderingSystem> &aRenderingContext,
     const Texture2D &background,

@@ -1,8 +1,9 @@
+#include <cassert>
+#include <sstream>
+
 #include "MobSpawner.h"
 #include "GlobalScripts/GameModel.h"
 #include "../Utility/textfilefunctions.h"
-#include <cassert>
-#include <sstream>
 
 void MobSpawner::loadWavesInfo(const std::string& aFilename)
 {
@@ -60,7 +61,6 @@ bool MobSpawner::IsReadyForSpawn() const
         && (currentSpawnStatus == SpawnStatusT::InProgress);
 }
 
-
 bool MobSpawner::noMoreWaves() const
 {
     return (waveNumber == waveCount)
@@ -77,7 +77,6 @@ bool MobSpawner::isSpawned() const
 {
     return currentSpawnStatus != SpawnStatusT::InProgress;
 }
-
 
 size_t MobSpawner::getWaveNumber() const
 {

@@ -1,6 +1,7 @@
-#include "Position.h"
 #include <iostream>
 #include <stdexcept>
+
+#include "Position.h"
 
 Position::Position(int aX, int aY)
     : x(aX)

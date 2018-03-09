@@ -2,12 +2,12 @@
 
 #include <map>
 #include <vector>
+
 #include "../GraphicsSystem/newSystem/Texture2D.h"
 
 struct ResourceManager
 {
 public:
-
     using AnimationPack = std::map<string, std::vector<SDL_Rect>>;
     using AnimationCollection = std::map<std::string, AnimationPack>;
 

@@ -1,33 +1,23 @@
-/*
- * SceneManager.h
- *
- *  Created on: 13 марта 2016 г.
- *      Author: kostya_hm
- */
-
 #pragma once
 
-#include "Scene.h"
-
 #include <string>
-using std::string;
-
 #include <map>
-using std::map;
+
+#include "Scene.h"
 
 class Scene;
 
 class SceneManager: public std::enable_shared_from_this<SceneManager>
 {
 public:
-    SceneManager();
+    SceneManager() = default;
     SceneManager(const SceneManager&) = delete;
     SceneManager& operator=(const SceneManager&) = delete;
     virtual ~SceneManager() = default;
 
     std::shared_ptr<Scene> getCurrentScene();
-    void addScene(std::shared_ptr<Scene> scene, std::string name);
-    void setCurrentSceneByName(string name);
+    void addScene(std::shared_ptr<Scene> scene, const std::string& aSceneName);
+    void setCurrentSceneByName(std::string name);
     void askForChangeScene(const std::string& aName);
     void clearOldScene();
     void updateCurrentScene(double aTimeStep);
@@ -37,7 +27,7 @@ private:
     void setCurrentScene(std::shared_ptr<Scene>& value);
 
     std::shared_ptr<Scene> currentScene;
-    map<string, std::shared_ptr<Scene>> scenes;
+    std::map<std::string, std::shared_ptr<Scene>> scenes;
     std::shared_ptr<Scene> oldScene;
 
 };

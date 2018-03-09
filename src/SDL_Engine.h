@@ -1,7 +1,8 @@
 #pragma once
 
-#include "GraphicsSystem/newSystem/Size.h"
 #include <cstdint>
+
+#include "GraphicsSystem/newSystem/Size.h"
 
 namespace SDL2Engine
 {

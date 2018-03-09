@@ -23,7 +23,6 @@ private:
     std::shared_ptr<RenderingSystem> renderer;
 
     Font arial;
-    SDL_Color color;
     vector<std::shared_ptr<IComposite>> buttons;
 };
 

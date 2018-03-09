@@ -1,4 +1,5 @@
 #pragma once
+
 #include "IComposite.h"
 #include "RenderingSystem.h"
 
@@ -18,26 +19,22 @@ public:
     virtual Position getPosition() const override;
     virtual void setPosition(Position pos) override;
 
+    virtual void setParent(weak_ptr<IComposite> aParent) override;
+    bool hasParent() const override;
+
+    virtual Position getLocalPosition() const override;
+    void setLocalPosition(Position aPosition) override;
+
+    void setScalingFactor(double aScaleFactor) override;
+    double getScalingFactor() const override;
+
 private:
     mutable std::shared_ptr<RenderingSystem> renderer;
 
     weak_ptr<IComposite> parent;
     Position localPosition{0,0};
     double mScaleFactor = 0.0;
+
 protected:
     Size mScaledSize{0,0};
-
-
-    // IComposite interface
-public:
-    virtual void setParent(weak_ptr<IComposite> aParent) override;
-    bool hasParent() const override;
-
-    // IComposite interface
-public:
-    virtual Position getLocalPosition() const override;
-    void setLocalPosition(Position aPosition) override;
-
-    void setScalingFactor(double aScaleFactor) override;
-    double getScalingFactor() const override;
 };

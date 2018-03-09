@@ -1,13 +1,7 @@
-/*
- * InputHandler.h
- *
- *  Created on: 2 апр. 2016 г.
- *      Author: kostya_hm
- */
-
 #pragma once
 
 #include <SDL_rect.h>
+
 #include "../GraphicsSystem/newSystem/UtilityStructs.h"
 
 class InputHandler

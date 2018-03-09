@@ -1,4 +1,5 @@
 #pragma once
+
 #include "MobAbility.h"
 
 class MobMageTowerAbility: public MobAbility

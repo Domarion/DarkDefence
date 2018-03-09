@@ -1,6 +1,5 @@
 #include "CorruptedPineApple.h"
 
-
 void CorruptedPineApple::init(std::shared_ptr<Scene> /*scenePtr*/, std::shared_ptr<ManaGlobal> /*aManaModel*/)
 {
     string towerName = "CatapultTower";

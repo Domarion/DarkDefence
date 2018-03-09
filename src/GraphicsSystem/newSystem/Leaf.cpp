@@ -1,5 +1,6 @@
-#include "Leaf.h"
 #include <exception>
+
+#include "Leaf.h"
 
 /*
  * TODO:: Задавать флаг положения (aligment) при добавлении дочернего элемента в Composite
@@ -11,7 +12,6 @@ Leaf::Leaf(std::shared_ptr<RenderingSystem>& aRenderingContext)
     : IComposite()
     , renderer(aRenderingContext)
 {
-
 }
 
 void Leaf::addChild(const shared_ptr<IComposite> &/*child*/)
@@ -23,7 +23,6 @@ void Leaf::addChild(const shared_ptr<IComposite> &/*child*/)
 void Leaf::removeChild(const shared_ptr<IComposite> &/*child*/)
 {
     throw std::logic_error("Error: remove child from leaf");
-
 }
 
 weak_ptr<IComposite> Leaf::getParent() const

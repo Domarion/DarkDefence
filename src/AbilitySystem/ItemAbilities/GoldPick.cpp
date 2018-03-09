@@ -1,14 +1,5 @@
 #include "GoldPick.h"
 #include "../../Scenes/GameScene.h"
-GoldPick::GoldPick()
-{
-
-}
-
-GoldPick::~GoldPick()
-{
-
-}
 
 void GoldPick::init(std::shared_ptr<Scene> scenePtr, std::shared_ptr<ManaGlobal> /*aManaModel*/)
 {

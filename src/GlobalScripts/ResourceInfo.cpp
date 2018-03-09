@@ -1,5 +1,6 @@
-#include "ResourceInfo.h"
 #include <cassert>
+
+#include "ResourceInfo.h"
 
 bool ResourceInfo::addResource(int aAmount)
 {

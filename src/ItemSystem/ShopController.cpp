@@ -1,10 +1,3 @@
-/*
- * ShopController.cpp
- *
- *  Created on: 20 апр. 2016 г.
- *      Author: kostya_hm
- */
-
 #include "ShopController.h"
 #include "../Grouping/FontManager.h"
 #include "../GraphicsSystem/newSystem/UIElement/ConcreteComposite.h"

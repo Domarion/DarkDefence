@@ -1,12 +1,11 @@
-#include "ResourceManager.h"
-#include <cereal/archives/xml.hpp>
-#include <vector>
-#include <cereal/access.hpp>
-#include <cereal/types/vector.hpp>
 #include <sstream>
+
+#include <cereal/archives/xml.hpp>
+#include <cereal/types/vector.hpp>
+
+#include "ResourceManager.h"
 #include "../Utility/TextureData.hpp"
 #include "../Utility/textfilefunctions.h"
-
 
 ResourceManager* ResourceManager::mInstance = nullptr;
 

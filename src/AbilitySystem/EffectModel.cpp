@@ -1,6 +1,5 @@
 #include "EffectModel.h"
 
-
 bool EffectModel::addMiniEffect(pair<string, double> &mini)
 {
     affectedAttributes.push_back(mini);

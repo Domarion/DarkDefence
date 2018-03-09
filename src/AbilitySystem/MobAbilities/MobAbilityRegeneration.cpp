@@ -19,7 +19,6 @@ bool MobAbilityRegeneration::onWorking(double timestep)
         return false;
     }
 
-
     if (counter >= 1000)
     {
         counter = 0;

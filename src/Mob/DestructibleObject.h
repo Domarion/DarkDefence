@@ -1,18 +1,13 @@
-/*
- * DestructibleObject.h
- *
- *  Created on: 15 апр. 2016 г.
- *      Author: kostya_hm
- */
-
 #pragma once
+
+#include <functional>
 
 #include <cereal/access.hpp>
 #include <cereal/types/utility.hpp>
 #include <cereal/types/string.hpp>
 #include <cereal/types/array.hpp>
+
 #include "GlobalConstants.h"
-#include <functional>
 
 using std::string;
 using std::pair;

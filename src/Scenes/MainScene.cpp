@@ -28,10 +28,10 @@ void MainScene::ConnectMethod(std::function<void (std::string)> handler)
     method = handler;
 }
 
-void MainScene::loadMenuItems(string filename)
+void MainScene::loadMenuItems(const std::string& aFilename)
 {
     string destString;
-    androidText::loadTextFileToString(filename, destString);
+    androidText::loadTextFileToString(aFilename, destString);
 
     if (!destString.empty())
     {

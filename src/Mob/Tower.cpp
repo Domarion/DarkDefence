@@ -1,5 +1,10 @@
 #include "Tower.h"
 
+Tower::Tower(std::shared_ptr<MobModel> model, std::shared_ptr<TileMapManager> aTileMapPtr)
+    : Mob(model, aTileMapPtr)
+{
+}
+
 void Tower::connectMethod(std::function<void(std::shared_ptr<Tower>, int, int)> method)
 {
     connectedMethod = method;
@@ -39,13 +44,9 @@ bool Tower::onClick(Position point)
     {
         connectedMethod(std::static_pointer_cast<Tower>(shared_from_this()), point.x, point.y);
     }
+
     return true;
 }
 
-Tower::Tower(std::shared_ptr<MobModel> model, std::shared_ptr<TileMapManager> aTileMapPtr)
-    : Mob(model, aTileMapPtr)
-{
-
-}
 
 

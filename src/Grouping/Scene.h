@@ -61,7 +61,7 @@ public:
 
     void onlyTestMoveCamera(Position aDeltaPosition);
 
-    const Camera2D getCamera() const;
+    Camera2D getCamera() const;
 protected:
 
     mutable std::shared_ptr<RenderingSystem> renderer;

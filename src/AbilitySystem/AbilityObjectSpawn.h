@@ -1,9 +1,10 @@
 #pragma once
 
+#include <cassert>
+
 #include "AbilityModel.h"
 #include "../AbilitySystem/AbilityAnims/AbilityAnimObject.hpp"
 #include "../Input/InputHandler.h"
-#include <cassert>
 #include "../GlobalScripts/ResourceManager.h"
 
 template<typename SpawnedObject>

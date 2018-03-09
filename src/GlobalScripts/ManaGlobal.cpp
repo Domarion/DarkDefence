@@ -1,5 +1,6 @@
-#include "ManaGlobal.h"
 #include <limits>
+
+#include "ManaGlobal.h"
 
 ManaGlobal::ManaGlobal(int maxMana, int regenValue, double regenPeriod)
     : limit(maxMana)
