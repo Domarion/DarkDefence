@@ -1,8 +1,11 @@
+#include <cassert>
+
 #include "InventoryController.h"
 #include "../Grouping/FontManager.h"
 #include "../GraphicsSystem/newSystem/UIElement/UIImage.h"
 #include "../GraphicsSystem/newSystem/UIElement/UITextButton.h"
-#include "../GraphicsSystem/newSystem/StubLayout.h"
+#include "../GlobalScripts/ResourceManager.h"
+#include "../Logging/Logger.h"
 
 InventoryController::InventoryController(std::shared_ptr<RenderingSystem>& aRenderer)
     : renderer(aRenderer)
@@ -37,65 +40,70 @@ void InventoryController::initView()
 		return;
 
     auto layout = std::make_shared<StubLayout>();
-    const auto& aFont =  FontManager::getInstance()->getFontByKind2("ButtonFont");
-    for(int i = 0; i != count; ++i)
+    const auto& fontRef =  FontManager::getInstance()->getFontByKind2("ButtonFont");
+
+    for (int i = 0; i != count; ++i)
 	{
-        auto shopItemGroup = std::make_shared<ConcreteComposite>(renderer, layout);
-        shopItemGroup->setSize(Size(150, 80));
-
-        auto shopItemIcon = std::make_shared<UIImage>(renderer);
-        string iconPath =
-            "GameData/textures/items/" +
-            model->getItemFromIndex(i)->getCaption() + ".png";
-        shopItemIcon->loadTexture(iconPath);
-        shopItemIcon->setSize(Size(50,50));
-        shopItemGroup->addChild(shopItemIcon);
-
-        auto shopItemCaption = std::make_shared<UILabel>(model->getItemFromIndex(i)->getCaption() , aFont, renderer);
-        shopItemCaption->setPosition(shopItemGroup->getNextHorizontalPosition());
-        shopItemGroup->addChild(shopItemCaption);
-
-        auto shopItemDescription = std::make_shared<UILabel>(
-            model->getItemFromIndex(i)->getDescription() , aFont, renderer);
-        Position descPos{shopItemCaption->getLocalPosition().x, shopItemGroup->getNextVerticalPosition().y};
-        shopItemDescription->setPosition(descPos);
-        shopItemGroup->addChild(shopItemDescription);
-
-        view->addChild(shopItemGroup);
+        auto itemPtr = model->getItemFromIndex(i);
+        addItemView(itemPtr->getCaption(), itemPtr->getDescription(), layout, fontRef);
 	}
 }
 
-void InventoryController::receiveItemFromModel(string caption, size_t /*itemType*/)
+void InventoryController::receiveItemFromModel(string aCaption, size_t /*itemType*/)
 {
-    if (caption.empty())
+    if (aCaption.empty())
         return;
 
-    const Font& aFont =  FontManager::getInstance()->getFontByKind2("ButtonFont");
+    const Font& fontRef = FontManager::getInstance()->getFontByKind2("ButtonFont");
     auto layout = std::make_shared<StubLayout>();
 
-    auto shopItemGroup = std::make_shared<ConcreteComposite>(renderer, layout);
-    shopItemGroup->setSize(Size(150, 80));
-
-    auto shopItemIcon = std::make_shared<UIImage>(renderer);
-    string iconPath = "GameData/textures/items/" +
-           caption + ".png";
-    shopItemIcon->loadTexture(iconPath);
-    shopItemIcon->setSize(Size(50,50));
-    shopItemGroup->addChild(shopItemIcon);
-
-    auto shopItemCaption = std::make_shared<UILabel>(caption , aFont, renderer);
-    shopItemCaption->setPosition(shopItemGroup->getNextHorizontalPosition());
-    shopItemGroup->addChild(shopItemCaption);
-
-    auto shopItemDescription = std::make_shared<UILabel>("descr stub", aFont, renderer);
-    Position descPos{shopItemCaption->getLocalPosition().x, shopItemGroup->getNextVerticalPosition().y};
-    shopItemDescription->setPosition(descPos);
-    shopItemGroup->addChild(shopItemDescription);
-
-    view->addChild(shopItemGroup);
+    addItemView(aCaption, "TODO: desc stub", layout, fontRef);
 }
 
 bool InventoryController::sendItemToModel(int index)
 {
     return model->sendItem(index);
+}
+
+void InventoryController::addItemView(
+    const std::string& aItemCaption,
+    const std::string& aItemDescription,
+    const std::shared_ptr<StubLayout>& aLayout,
+    const Font& aFont)
+{
+    auto shopItemGroup = std::make_shared<ConcreteComposite>(renderer, aLayout);
+
+    auto itemBackgroundImage = std::make_shared<UIImage>(renderer);
+
+    auto resourceManagerPtr = ResourceManager::getInstance();
+    assert(resourceManagerPtr);
+    if (!resourceManagerPtr->hasTexture("InventoryItemBackImage"))
+    {
+        LOG_ERROR("No texture for InventoryItemBackground");
+        throw std::runtime_error("No texture for InventoryItemBackground");
+    }
+
+    itemBackgroundImage->setTexture(resourceManagerPtr->getTexture("InventoryItemBackImage"));
+
+    Size itemSize{250, 96};
+    shopItemGroup->setSize(itemSize);
+    itemBackgroundImage->setSize(itemSize);
+    shopItemGroup->addChild(itemBackgroundImage);
+
+    auto shopItemIcon = std::make_shared<UIImage>(renderer);
+    string iconPath = "GameData/textures/items/" + aItemCaption + ".png";
+    shopItemIcon->loadTexture(iconPath);
+    shopItemIcon->setSize(Size(76, 76));
+    shopItemGroup->addChild(shopItemIcon);
+
+    auto shopItemCaption = std::make_shared<UILabel>(aItemCaption, aFont, renderer);
+    shopItemCaption->setPosition(shopItemGroup->getNextHorizontalPosition());
+    shopItemGroup->addChild(shopItemCaption);
+
+    auto shopItemDescription = std::make_shared<UILabel>(aItemDescription, aFont, renderer);
+    Position descPos{shopItemCaption->getLocalPosition().x, shopItemGroup->getNextVerticalPosition().y};
+    shopItemDescription->setPosition(descPos);
+    shopItemGroup->addChild(shopItemDescription);
+
+    view->addChild(shopItemGroup);
 }

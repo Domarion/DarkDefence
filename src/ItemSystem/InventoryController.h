@@ -1,10 +1,12 @@
 #pragma once
 
+#include <memory>
+
 #include "Inventory.h"
 #include "../GraphicsSystem/newSystem/ConcreteUIViews/UIScrollList.h"
-#include <memory>
 #include "../GraphicsSystem/newSystem/IComposite.h"
 #include "../GraphicsSystem/newSystem/Font.h"
+#include "../GraphicsSystem/newSystem/StubLayout.h"
 
 class InventoryController
 {
@@ -15,9 +17,15 @@ public:
     void setModel(std::shared_ptr<Inventory> newModel);
     std::shared_ptr<Inventory> getModel() const;
     void initView();
-    void receiveItemFromModel(string caption, size_t itemType);
+    void receiveItemFromModel(string aCaption, size_t itemType);
     bool sendItemToModel(int index);
+
 private:
+    void addItemView(
+        const std::string& aItemCaption,
+        const std::string& aItemDescription,
+        const std::shared_ptr<StubLayout>& aLayout,
+        const Font& aFont);
     std::shared_ptr<Inventory> model;
     std::shared_ptr<UIScrollList> view;
     std::shared_ptr<RenderingSystem> renderer;

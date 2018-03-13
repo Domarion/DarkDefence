@@ -268,6 +268,20 @@
 			<ImagePath>GameData/textures/SpellAnims/AbilityMagicBlink.png</ImagePath>
             <AnimationPackPath>GameData/anims/Spells/AbilityMagicBlink.anim</AnimationPackPath>
 		</value37>
+        <value38>
+			<Caption>InventoryItemBackImage</Caption>
+			<ImageWidth>204 </ImageWidth>
+			<ImageHeight>96</ImageHeight>
+			<ImagePath>GameData/textures/EmptyRect.png</ImagePath>
+            <AnimationPackPath></AnimationPackPath>
+		</value38>
+        <value39>
+			<Caption>InventorySceneBackground</Caption>
+			<ImageWidth>0 </ImageWidth>
+			<ImageHeight>0</ImageHeight>
+			<ImagePath>GameData/textures/InventoryBackground.png</ImagePath>
+            <AnimationPackPath></AnimationPackPath>
+		</value39>
 	</TexturePaths>
 </cereal>
 

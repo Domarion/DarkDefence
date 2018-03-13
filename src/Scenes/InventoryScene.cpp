@@ -1,6 +1,11 @@
+#include <cassert>
+
 #include "InventoryScene.h"
 #include "../GlobalScripts/GameModel.h"
 #include "../GraphicsSystem/newSystem/VerticalLayout.h"
+#include "../Logging/Logger.h"
+#include "../GraphicsSystem/newSystem/UIElement/UIImage.h"
+#include "../GlobalScripts/ResourceManager.h"
 
 InventoryScene::InventoryScene(
     std::shared_ptr<RenderingSystem>& aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher)
@@ -12,6 +17,19 @@ void InventoryScene::init(std::shared_ptr<SceneManager> sceneManagerPtr)
 {
     renderer->setRendererDrawColor(255, 255, 255, 255);
     Scene::init(sceneManagerPtr);
+
+    auto backGroundImage = std::make_shared<UIImage>(renderer);
+    auto resourceManager = ResourceManager::getInstance();
+    assert(resourceManager);
+    if (!resourceManager->hasTexture("InventorySceneBackground"))
+    {
+        LOG_ERROR("Texture for InventorySceneBackground was not found.");
+        throw std::runtime_error("Texture for InventorySceneBackground was not found.");
+    }
+
+    backGroundImage->setTexture(resourceManager->getTexture("InventorySceneBackground"));
+    MainRect->addChild(backGroundImage);
+    backGroundImage->setSize(MainRect->getSize());
 
     initControlButton();
     initHeroView();

@@ -1,14 +1,14 @@
 #include "UIImage.h"
 
-UIImage::UIImage(std::shared_ptr<RenderingSystem> &aRenderingContext)
-    :Leaf(aRenderingContext)
+UIImage::UIImage(std::shared_ptr<RenderingSystem>& aRenderingContext)
+    : Leaf(aRenderingContext)
     , mTexture(aRenderingContext)
 {
 }
 
-void UIImage::loadTexture(const std::string &filename)
+void UIImage::loadTexture(const std::string& aFilename)
 {
-    mTexture.loadTexture(filename);
+    mTexture.loadTexture(aFilename);
 }
 
 void UIImage::setTexture(const Texture2D& aTexture)
@@ -26,7 +26,7 @@ Size UIImage::getSize() const
     return mTexture.getSize();
 }
 
-void UIImage::setSize(Size size)
+void UIImage::setSize(Size aSize)
 {
-    mTexture.setSize(size);
+    mTexture.setSize(aSize);
 }
