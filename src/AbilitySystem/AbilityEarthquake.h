@@ -1,6 +1,10 @@
 #pragma once
 
 #include "AbilityModel.h"
+#include <list>
+
+class SceneObject;
+class EffectModel;
 
 class AbilityEarthquake: public AbilityModel
 {

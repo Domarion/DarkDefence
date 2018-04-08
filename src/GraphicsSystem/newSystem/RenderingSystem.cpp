@@ -255,20 +255,21 @@ Size RenderingSystem::getNativeSize() const
 
 double RenderingSystem::getScalingFactor() const //TODO:: Refactor this shit
 {
-    if (mDdpi >= 100 && mDdpi <= 120)
-        return 0.75;
-    if (mDdpi <= 180)
-        return 1;
-    if (mDdpi <= 240)
-        return 1.5;
-    if (mDdpi <= 280)
-        return 2;
-    if (mDdpi <= 320)
-        return 3;
+    return 1;
+//    if (mDdpi >= 100 && mDdpi <= 120)
+//        return 0.75;
+//    if (mDdpi <= 180)
+//        return 1;
+//    if (mDdpi <= 240)
+//        return 1.5;
+//    if (mDdpi <= 280)
+//        return 2;
+//    if (mDdpi <= 320)
+//        return 3;
 
-    if (mDdpi <=480)
-        return 4;
-    return 0.5;
+//    if (mDdpi <=480)
+//        return 4;
+//    return 0.5;
 }
 
 double RenderingSystem::getDPI() const

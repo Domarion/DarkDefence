@@ -1,5 +1,6 @@
 #include "AbilityEarthquake.h"
 #include "../GlobalScripts/GameModel.h"
+#include "../Grouping/Scene.h"
 
 AbilityEarthquake::AbilityEarthquake(std::shared_ptr<ManaGlobal> aManaModel)
     : AbilityModel(aManaModel)

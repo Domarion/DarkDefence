@@ -1,6 +1,6 @@
-set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/external/sanitizers-cmake/cmake" ${CMAKE_MODULE_PATH})
+#set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/external/sanitizers-cmake/cmake" ${CMAKE_MODULE_PATH})
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -g -O2 -Wall -Wextra -pedantic -ggdb \
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -g -O0 -Wall -Wextra -pedantic -ggdb \
     -pedantic-errors -Wextra -Wcast-align \
     -Wcast-qual  -Wchar-subscripts  -Wcomment \
     -Wdisabled-optimization \
@@ -20,9 +20,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -g -O2 -Wall -Wextra -pedanti
     -Wunknown-pragmas  -Wunreachable-code -Wunused \
     -Wunused-function  -Wunused-label  -Wunused-parameter \
     -Wunused-value  -Wunused-variable  -Wvariadic-macros \
-    -Wvolatile-register-var  -Wwrite-strings")
-#  	-fsanitize=address -fno-omit-frame-pointer")
-#    -fsanitize=leak")
+    -Wvolatile-register-var  -Wwrite-strings \
+    -fsanitize=address -fno-omit-frame-pointer -fsanitize=leak")
 #-Waggregate-return
 
 include(FindPkgConfig)

@@ -82,6 +82,26 @@
 			<YAnchorPlace>1</YAnchorPlace>
             <DrawPriority>1</DrawPriority>
 		</value7>
+        <value8>
+			<Name>Tree1</Name>
+			<Width>100</Width>
+			<Height>100</Height>
+			<PositionX>912</PositionX>
+			<PositionY>200</PositionY>
+			<XAnchorPlace>1</XAnchorPlace>
+			<YAnchorPlace>1</YAnchorPlace>
+            <DrawPriority>1</DrawPriority>
+		</value8>
+        <value9>
+			<Name>Tree2</Name>
+			<Width>100</Width>
+			<Height>100</Height>
+			<PositionX>180</PositionX>
+			<PositionY>190</PositionY>
+			<XAnchorPlace>1</XAnchorPlace>
+			<YAnchorPlace>1</YAnchorPlace>
+            <DrawPriority>1</DrawPriority>
+		</value9>
 	</Positions>
 </cereal>
 

@@ -1,4 +1,5 @@
 #include "AbilityModel.h"
+#include "../Grouping/Scene.h"
 
 AbilityModel::AbilityModel(std::shared_ptr<ManaGlobal> aManaModel)
     : abilityState(Enums::AbilityStates::asNotAvaliable)
@@ -8,7 +9,6 @@ AbilityModel::AbilityModel(std::shared_ptr<ManaGlobal> aManaModel)
     , currentWorkTime(0.0)
     , cooldownTime(0.0)
     , currentCooldownTime(0.0)
-    , parentScenePtr(nullptr)
     , mManaModel(aManaModel)
 {
 }

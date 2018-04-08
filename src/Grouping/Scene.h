@@ -1,5 +1,6 @@
 #pragma once
 
+#include <functional>
 #include <list>
 
 #include "SceneObject.h"
@@ -83,7 +84,7 @@ protected:
         int posY,
         int width,
         int height,
-        std::function<void (string)> handler,
+        std::function<void (std::string)> handler,
         const std::string& aMsg);
     void drawSceneObjects() const;
     void drawUI() const;

@@ -3,11 +3,14 @@
 #include "AbilityModel.h"
 #include "EffectModel.h"
 
+class SceneObject;
+class Scene;
+
 class AbilityMagicStones: public AbilityModel
 {
 public:
     AbilityMagicStones(std::shared_ptr<ManaGlobal> aManaModel);
-    virtual ~AbilityMagicStones();
+
     void init(std::shared_ptr<Scene> scenePtr) override;
     bool onReady(double timestep) override;
     bool onWorking(double timestep) override;

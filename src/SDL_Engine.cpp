@@ -10,6 +10,7 @@ namespace SDL2Engine
 
 SDL2::SDL2(uint32_t flags)
 {
+    SDL_SetMainReady();
     if (SDL_Init(flags) == 0)
     {
         int imgFlags = IMG_INIT_PNG;

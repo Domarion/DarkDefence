@@ -1,11 +1,10 @@
 #include "AbilitySnowStorm.h"
 #include "../GlobalScripts/GameModel.h"
+#include "../Grouping/Scene.h"
 
 AbilitySnowStorm::AbilitySnowStorm(std::shared_ptr<ManaGlobal> aManaModel)
     : AbilityModel(aManaModel)
-    , snowEffect(nullptr)
     , damagePerSecond(0)
-    , affectedMobs(nullptr)
 {
 }
 

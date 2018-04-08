@@ -5,8 +5,9 @@
 #include <string>
 
 #include "../Enums.h"
-#include "../Grouping/Scene.h"
 #include "../GlobalScripts/ManaGlobal.h"
+
+class Scene;
 
 class AbilityModel
 {

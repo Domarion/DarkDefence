@@ -4,6 +4,8 @@
 #include "EffectModel.h"
 #include "AbilityAnims/AbilityAnimObject.hpp"
 
+class SceneObject;
+
 class AbilityShrink: public AbilityModel
 {
     using SceneObjectList = std::unique_ptr<std::list<std::shared_ptr<SceneObject> > >;

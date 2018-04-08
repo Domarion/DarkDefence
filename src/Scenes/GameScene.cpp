@@ -483,7 +483,21 @@ void GameScene::placeSceneObjects()
 
     for(const auto& item : mPositionsVector)
     {
-        if (item.Name.find("Tower") != std::string::npos)
+        if (item.Name.find("Tree") != std::string::npos)
+        {
+            auto someObject = std::make_shared<SceneObject>();
+            auto someSprite = std::make_shared<AnimationSceneSprite>(renderer);
+
+            someSprite->setTexture(ResourceManager::getInstance()->getTexture("Tree"));
+            someSprite->setAnchorPointPlace(item.xCoordAnchorType, item.yCoordAnchorType);
+            someSprite->setSize(item.ImageSize);
+            someObject->setSprite(someSprite);
+            someObject->setTag("Enviroment");
+            someObject->setDrawPriority(item.DrawPriority);
+
+            spawnObject(item.ImagePosition, someObject);
+        }
+        else if (item.Name.find("Tower") != std::string::npos)
         {
             auto tower= towerUpgradeController->ProduceTower(item.Name, tileMap, item.DrawPriority);
             tower->getSprite()->setAnchorPointPlace(item.xCoordAnchorType, item.yCoordAnchorType);

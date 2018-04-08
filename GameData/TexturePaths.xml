@@ -282,6 +282,13 @@
 			<ImagePath>GameData/textures/InventoryBackground.png</ImagePath>
             <AnimationPackPath></AnimationPackPath>
 		</value39>
+        <value40>
+			<Caption>Tree</Caption>
+			<ImageWidth>230 </ImageWidth>
+			<ImageHeight>230</ImageHeight>
+			<ImagePath>GameData/textures/Environment/Tree1.png</ImagePath>
+            <AnimationPackPath></AnimationPackPath>
+		</value40>
 	</TexturePaths>
 </cereal>
 

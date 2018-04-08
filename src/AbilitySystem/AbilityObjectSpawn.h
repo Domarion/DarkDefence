@@ -6,6 +6,7 @@
 #include "../AbilitySystem/AbilityAnims/AbilityAnimObject.hpp"
 #include "../Input/InputHandler.h"
 #include "../GlobalScripts/ResourceManager.h"
+#include "../Grouping/Scene.h"
 
 template<typename SpawnedObject>
 class AbilityObjectSpawn: public AbilityModel, public InputHandler

@@ -4,7 +4,6 @@
 #include <list>
 #include <sstream>
 
-#include <boost/filesystem.hpp>
 #include <boost/optional.hpp>
 #include <cereal/archives/xml.hpp>
 #include <cereal/types/memory.hpp>
@@ -334,23 +333,26 @@ int GameModel::getPointsPerWave() const
 
 void GameModel::loadMissions(const std::string& aPath)
 {
-    using namespace boost::filesystem;
-    path missionsRootPath(aPath);
+    std::string msg = "loadMissions from path: " + aPath;
+    LOG_INFO(msg);
 
-    const directory_iterator end;
-    assert(is_directory(missionsRootPath));
-
-    std::vector<Mission> missions;
-
-    for (directory_iterator iter(missionsRootPath); iter != end; ++iter)
+    try
     {
-        if (is_directory(*iter))
+        std::vector<Mission> missions;
+
+        string textString;
+        androidText::loadTextFileToString(aPath + "Missions.txt", textString);
+
+        std::istringstream missionsStream(textString);
+        std::string missionCaption;
+
+        while(std::getline(missionsStream, missionCaption))
         {
-            path missionFilePath = iter->path() / "Mission.xml";
+            std::string missionFilePath = aPath + missionCaption + "/Mission.xml";
 
             Mission mission;
-            string textString;
-            androidText::loadTextFileToString(missionFilePath.string(), textString);
+            textString.clear();
+            androidText::loadTextFileToString(missionFilePath, textString);
 
             if (!textString.empty())
             {
@@ -364,9 +366,14 @@ void GameModel::loadMissions(const std::string& aPath)
                 missions.emplace_back(mission);
             }
         }
-    }
 
-    mMissionsSwitcher.setMissions(std::move(missions));
+        mMissionsSwitcher.setMissions(std::move(missions));
+    }
+    catch(const std::exception& ex)
+    {
+        LOG_ERROR(std::string{"loadMissions exception occured"} + std::string{ex.what()});
+        throw;
+    }
 }
 
 void GameModel::resetGameValues()

@@ -2,6 +2,7 @@
 #include "../GlobalScripts/GameModel.h"
 #include "Utility/textfilefunctions.h"
 #include "../GlobalScripts/ResourceManager.h"
+#include "../Grouping/Scene.h"
 #include "Logging/Logger.h"
 
 AbilityShrink::AbilityShrink(std::shared_ptr<ManaGlobal> aManaModel)

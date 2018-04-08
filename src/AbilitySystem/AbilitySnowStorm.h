@@ -2,7 +2,8 @@
 
 #include "AbilityModel.h"
 #include "EffectModel.h"
-#include <memory>
+
+class SceneObject;
 
 class AbilitySnowStorm: public AbilityModel
 {

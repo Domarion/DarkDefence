@@ -1,14 +1,9 @@
 #include "AbilityMagicStones.h"
+#include "../Grouping/Scene.h"
 
 AbilityMagicStones::AbilityMagicStones(std::shared_ptr<ManaGlobal> aManaModel)
     : AbilityModel(aManaModel)
-    , gatesSceneObject(nullptr)
 {
-}
-
-AbilityMagicStones::~AbilityMagicStones()
-{
-    gatesSceneObject = nullptr;
 }
 
 void AbilityMagicStones::init(std::shared_ptr<Scene> scenePtr)

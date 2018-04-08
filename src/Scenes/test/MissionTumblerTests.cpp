@@ -52,7 +52,7 @@ BOOST_FIXTURE_TEST_CASE(ShouldTurnToNextMission, MissionTumblerFixture)
 
 BOOST_AUTO_TEST_CASE(ShouldNotReturnMission)
 {
-    MissionTumbler tumbler({});
+    MissionTumbler tumbler(MissionTumbler::TContainer());
     BOOST_CHECK(!tumbler.nextMission());
     BOOST_CHECK(!tumbler.getCurrentMission());
 }

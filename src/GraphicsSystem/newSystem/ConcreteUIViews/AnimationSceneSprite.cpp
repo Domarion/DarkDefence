@@ -134,13 +134,13 @@ void AnimationSceneSprite::setRotation(double aAngle, Position aCenter)
 
 bool AnimationSceneSprite::hasRotation() const
 {
-    return std::abs(mAngle) > std::numeric_limits<double>::epsilon();
+    return fabs(mAngle) > std::numeric_limits<double>::epsilon();
 }
 
 Position AnimationSceneSprite::getRealPosFromLogicPos(Position aLogicPos) const
 {
     int x = aLogicPos.x - static_cast<int>(Enums::toIntegralType(xCoordAnchorType) / 2.0 * getSize().width);
-    int y = aLogicPos.y - static_cast<int>(Enums::toIntegralType(yCoordAnchorType) /2.0 * getSize().height);
+    int y = aLogicPos.y - static_cast<int>(Enums::toIntegralType(yCoordAnchorType) / 2.0 * getSize().height);
 
     return Position{x, y};
 }
