@@ -2,6 +2,7 @@
 #include <sstream>
 #include "Utility/textfilefunctions.h"
 #include <SDL_image.h>
+#include <iostream>
 
 void TileLegendCollection::parseString(const std::string& aLegend)
 {
@@ -92,8 +93,6 @@ TileLegendCollection::TileLegendCollection(std::shared_ptr<RenderingSystem>& aRe
     : mRenderer(aRenderer)
     , mIsAtlas(false)
     , atlasTexture(mRenderer)
-    , tiles()
-
 {
 }
 

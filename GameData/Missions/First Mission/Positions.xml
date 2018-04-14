@@ -102,6 +102,16 @@
 			<YAnchorPlace>1</YAnchorPlace>
             <DrawPriority>1</DrawPriority>
 		</value9>
+        <value10>
+			<Name>ResourceStone</Name>
+			<Width>100</Width>
+			<Height>100</Height>
+			<PositionX>1104</PositionX>
+			<PositionY>768</PositionY>
+			<XAnchorPlace>1</XAnchorPlace>
+			<YAnchorPlace>1</YAnchorPlace>
+            <DrawPriority>1</DrawPriority>
+		</value10>
 	</Positions>
 </cereal>
 

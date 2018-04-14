@@ -3,27 +3,32 @@
 #include "Utility/textfilefunctions.h"
 #include <SDL_image.h>
 #include <fstream>
+#include <iostream>
 
-void saveTerrain(std::string filename, std::string outputFilePath);
+void saveTerrain(const std::string& aFilename, const std::string& aOuutputFilePath);
 
 
-void saveTerrain(std::string filename, std::string outputFilePath)
+void saveTerrain(const std::string& aFilename, const std::string& aOuutputFilePath)
 {
     Size scrnSize = Size(800, 480);
     auto renderer = std::make_shared<RenderingSystem>(scrnSize);
     TileLegendCollection tileCollection(renderer);
 
     std::string str;
-    androidText::loadTextFileToString(filename, str);
+    androidText::loadTextFileToString(aFilename, str);
     tileCollection.parseString(str);
     using TSurfaceDeleter = void (*)(SDL_Surface *);
 
     std::unique_ptr<SDL_Surface, TSurfaceDeleter> surface(nullptr, [](SDL_Surface* aSurface){SDL_FreeSurface(aSurface);});
-//    Texture2D targetTexture = tileCollection.constructTextureByMap(surface);
+    /*Texture2D targetTexture =*/ tileCollection.constructTextureByMap(surface);
 
     if (surface == nullptr || surface.get() == nullptr)
+    {
         std::cerr << "surface is nullptr" << std::endl;
-    if (IMG_SavePNG(surface.get(), outputFilePath.c_str())!= 0)
+        exit(1);
+    }
+
+    if (IMG_SavePNG(surface.get(), aOuutputFilePath.c_str())!= 0)
     {
         std::cerr << "SDL has error " << IMG_GetError() << std::endl;
     }
@@ -32,7 +37,7 @@ void saveTerrain(std::string filename, std::string outputFilePath)
 
     auto pathMatrix = tileCollection.getPathMatrix();
 
-    std::ofstream pathFile(outputFilePath + ".txt");
+    std::ofstream pathFile(aOuutputFilePath + ".txt");
 
     pathFile << pathMatrix.size() << '\t' << pathMatrix[0].size() << std::endl;
     for(const auto& line : pathMatrix)

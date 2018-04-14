@@ -548,6 +548,26 @@ void GameScene::placeSceneObjects()
 
             spawnObject(item.ImagePosition, resPlace);
         }
+        else if (item.Name == "ResourceStone")
+        {
+            auto resPlace = std::make_shared<ResourcePlace>(300, Enums::ResourceTypes::STONE);
+            auto resSprite = std::make_shared<AnimationSceneSprite>(renderer);
+
+            resSprite->setAnchorPointPlace(item.xCoordAnchorType, item.yCoordAnchorType);
+
+            string resourcePlaceName =
+                GameModel::getInstance()->getResourcesModel()->getResourceNameFromType(resPlace->getResourceType());
+            resourcePlaceName.append("Resource");
+
+            resSprite->setTexture(ResourceManager::getInstance()->getTexture(resourcePlaceName));
+            resSprite->setSize(item.ImageSize);
+            resPlace->setSprite(resSprite);
+            resPlace->setName("ResourcePlace");
+            resPlace->setTag("ResourcePlace");
+            resPlace->setDrawPriority(item.DrawPriority);
+
+            spawnObject(item.ImagePosition, resPlace);
+        }
         else if (item.Name == "Spawner")
         {
             auto spawnerSprite = std::make_shared<AnimationSceneSprite>(renderer);
