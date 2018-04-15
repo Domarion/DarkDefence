@@ -90,6 +90,9 @@ void AIComponent::Select()
 
     size_t avaliableSize = avaliableTargets.size();
     size_t invalidTargetCount = 0;
+
+    auto tilemapPtr = MobPtr.lock()->getTileMapManager();
+
     for (const auto& target: avaliableTargets)
     {
         if (!target || !target->getDestructibleObject())
@@ -98,9 +101,11 @@ void AIComponent::Select()
             continue;
         }
 
+        bool IsReachable = tilemapPtr && !tilemapPtr->IsFilledCell(target->getPosition());
+
         bool isTargetAlive = target->getDestructibleObject()->IsAlive();
 
-        if (!isTargetAlive)
+        if (!IsReachable || !isTargetAlive)
         {
             ++invalidTargetCount;
             continue;

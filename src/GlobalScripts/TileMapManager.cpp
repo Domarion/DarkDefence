@@ -7,25 +7,25 @@ TileMapManager::TileMapManager(vector<vector<int> >& aMapTemplate)
 {
 }
 
-bool TileMapManager::waveAlgo(pair<int, int> startVertex, pair<int, int> endVertex)
+bool TileMapManager::waveAlgo(pair<int, int> aStartVertex, pair<int, int> aEndVertex)
 {
     waveZone = mapTemplate;
 
-    if (startVertex.first < 0 || startVertex.second < 0)
+    if (aStartVertex.first < 0 || aStartVertex.second < 0)
     {
         return false;
     }
 
-    if (static_cast<size_t>(startVertex.first) >= waveZone.size()
-        || static_cast<size_t>(startVertex.second) >= waveZone[0].size())
+    if (static_cast<size_t>(aStartVertex.first) >= waveZone.size()
+        || static_cast<size_t>(aStartVertex.second) >= waveZone[0].size())
     {
         return false;
     }
 
-    waveZone[startVertex.first][startVertex.second] = StartingCell;
+    waveZone[aStartVertex.first][aStartVertex.second] = StartingCell;
 
     size_t startVertexDistance = 0;
-    oldFront.push_back(startVertex);
+    oldFront.push_back(aStartVertex);
 
     while (!oldFront.empty())
     {
@@ -51,7 +51,7 @@ bool TileMapManager::waveAlgo(pair<int, int> startVertex, pair<int, int> endVert
             return false;
         }
 
-        if (std::find(newFront.cbegin(), newFront.cend(), endVertex) != newFront.cend())
+        if (std::find(newFront.cbegin(), newFront.cend(), aEndVertex) != newFront.cend())
         {
             oldFront.clear();
             newFront.clear();
@@ -72,14 +72,14 @@ bool TileMapManager::waveAlgo(pair<int, int> startVertex, pair<int, int> endVert
     return false;
 }
 
-TileMapManager::Path TileMapManager::getPath(pair<int, int> endVertex)
+TileMapManager::Path TileMapManager::getPath(pair<int, int> aEndVertex)
 {
     auto path = std::make_unique<list<pair<int, int>>>();
-    path->push_back(endVertex);
+    path->push_back(aEndVertex);
 
-    size_t startVertexDistance = waveZone[endVertex.first][endVertex.second];
+    size_t startVertexDistance = waveZone[aEndVertex.first][aEndVertex.second];
 
-    pair<int, int> currentVertex = endVertex;
+    pair<int, int> currentVertex = aEndVertex;
 
     for(; startVertexDistance > 0; --startVertexDistance)
     {
@@ -125,47 +125,49 @@ Size TileMapManager::getMapSize() const
 {
     return Size
     {
-        TileMapManager::columnSize* this->getColumnCount(),
-        TileMapManager::rowSize* this->getRowCount()
+        TileMapManager::columnSize * this->getColumnCount(),
+        TileMapManager::rowSize * this->getRowCount()
     };
 }
 
-pair<int,int> TileMapManager::getPosFromGlobalCoords(Position pos)
+pair<int,int> TileMapManager::getPosFromGlobalCoords(Position aGlobalPos) const
 {
-    pair<int, int> localPoint = std::make_pair(0, 0);
+    auto localPoint = std::make_pair(0, 0);
 
     if (columnSize > 0 && rowSize > 0)
     {
-        if (pos.y >= rowSize)
+        if (aGlobalPos.y >= rowSize)
         {
-            localPoint.first = pos.y/rowSize;
+            localPoint.first = aGlobalPos.y/rowSize;
         }
 
-        if (pos.x >= columnSize)
+        if (aGlobalPos.x >= columnSize)
         {
-            localPoint.second = pos.x/columnSize;
+            localPoint.second = aGlobalPos.x/columnSize;
         }
     }
 
     return localPoint;
 }
 
-Position TileMapManager::getGlobalPosFromLocalCoords(pair<int,int> localPos)
+Position TileMapManager::getGlobalPosFromLocalCoords(pair<int,int> aLocalPos) const
 {
-    Position globalPos{};
-
     if (columnSize > 0 && rowSize > 0)
     {
-        globalPos.x = localPos.second * columnSize;
-        globalPos.y = localPos.first * rowSize;
+        return Position(aLocalPos.second * columnSize, aLocalPos.first * rowSize);
     }
 
-    return globalPos;
+    return Position{};
 }
 
-bool TileMapManager::IsFilledCell(pair<int, int> localPos) const
+bool TileMapManager::IsFilledCell(pair<int, int> aLocalPos) const
 {
-    return mapTemplate[localPos.first][localPos.second] == FilledCell;
+    return mapTemplate[aLocalPos.first][aLocalPos.second] == FilledCell;
+}
+
+bool TileMapManager::IsFilledCell(Position aGlobalPosition) const
+{
+    return IsFilledCell(getPosFromGlobalCoords(aGlobalPosition));
 }
 
 TileMapManager::Path TileMapManager::getAvaliableNeightbours(int aRow, int aColumn)
