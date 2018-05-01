@@ -10,7 +10,7 @@ class SpellStorage final
 {
 public:
     void loadWithScene(std::shared_ptr<Scene> scenePtr, const std::shared_ptr<ManaGlobal>& aManaModel);
-    std::shared_ptr<AbilityModel> getAbilityModelWithName(const std::string& aName);
+    const std::shared_ptr<AbilityModel>& getAbilityModelWithName(const std::string& aName);
     bool setAbilityReady(const std::string& aAbilityName);
     void updateAbilities(double aTimeStep);
     const std::map<std::string, std::shared_ptr<AbilityModel>>& getAbilityModelList() const;

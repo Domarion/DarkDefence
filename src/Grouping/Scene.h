@@ -33,7 +33,7 @@ public:
 
     virtual ~Scene() = default;
 
-    virtual void init(std::shared_ptr<SceneManager> sceneManagerPtr);
+    virtual void init(const std::shared_ptr<SceneManager>& aSceneManagerPtr);
     virtual void clear();
     virtual void copyToRender() const;
     virtual void startUpdate(double timestep);

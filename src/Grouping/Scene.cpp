@@ -23,9 +23,9 @@ Scene::Scene(std::shared_ptr<RenderingSystem>& aRenderer, std::shared_ptr<InputD
     MainRect->setPosition(Position::Zero());
 }
 
-void Scene::init(std::shared_ptr<SceneManager> sceneManagerPtr)
+void Scene::init(const std::shared_ptr<SceneManager>& aSceneManagerPtr)
 {
-    parentSceneManager = sceneManagerPtr;
+    parentSceneManager = aSceneManagerPtr;
     SceneObject::resetSceneObjectIds();
 }
 

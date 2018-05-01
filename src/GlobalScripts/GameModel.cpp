@@ -33,7 +33,9 @@ std::unique_ptr<MobModel> GameModel::getTowerByName(const std::string& aName)
     auto temp = towerUpgradesRootNode->recursiveSearch(aName);
 
     if (!temp)
+    {
         return nullptr;
+    }
 
     return std::make_unique<MobModel>(*temp->getData());
 }
@@ -150,7 +152,7 @@ void GameModel::addItemToInventoryByName(const std::string& aItemName)
 
 bool GameModel::NoMonstersOnMap() const
 {
-    return (MonsterCountOnMap == 0);
+    return MonsterCountOnMap == 0;
 }
 
 void GameModel::incMonsterCount()

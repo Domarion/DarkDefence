@@ -63,7 +63,7 @@ void SpellStorage::loadWithScene(std::shared_ptr<Scene> scenePtr, const std::sha
     abilityModelsMap["MagicBlink"] = std::move(magicBlink);
 }
 
-std::shared_ptr<AbilityModel> SpellStorage::getAbilityModelWithName(const std::string& aName)
+const std::shared_ptr<AbilityModel>& SpellStorage::getAbilityModelWithName(const std::string& aName)
 {
     return abilityModelsMap.at(aName);
 }

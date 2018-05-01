@@ -11,7 +11,7 @@ ShopScene::ShopScene(std::shared_ptr<RenderingSystem>& aRenderer, std::shared_pt
 {
 }
 
-void ShopScene::init(std::shared_ptr<SceneManager> sceneManagerPtr)
+void ShopScene::init(const std::shared_ptr<SceneManager>& sceneManagerPtr)
 {
     renderer->setRendererDrawColor(255, 255, 255, 255);
 

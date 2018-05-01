@@ -15,7 +15,7 @@ public:
     SceneManager& operator=(const SceneManager&) = delete;
     virtual ~SceneManager() = default;
 
-    std::shared_ptr<Scene> getCurrentScene();
+    const std::shared_ptr<Scene>& getCurrentScene() const;
     void addScene(std::shared_ptr<Scene> scene, const std::string& aSceneName);
     void setCurrentSceneByName(std::string name);
     void askForChangeScene(const std::string& aName);

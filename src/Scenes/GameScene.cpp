@@ -28,7 +28,7 @@ GameScene::GameScene(std::shared_ptr<RenderingSystem>& aRenderer, std::shared_pt
 {
 }
 
-void GameScene::init(std::shared_ptr<SceneManager> sceneManagerPtr)
+void GameScene::init(const std::shared_ptr<SceneManager>& sceneManagerPtr)
 {
     Scene::init(sceneManagerPtr);
     loadData();
@@ -43,24 +43,31 @@ void GameScene::startUpdate(double timestep)
 
     if (counter <= 0)
     {
-        bool result = GameModel::getInstance()->getResourcesModel()->removeResource(static_cast<int>
-                      (Enums::ResourceTypes::WHEAT), 5);
+        bool result =
+            GameModel::getInstance()->getResourcesModel()->removeResource(
+                Enums::toIntegralType(Enums::ResourceTypes::WHEAT), 5);
 
         if (!result && mManaModel)
         {
             if (!mManaModel->payMana(5))
             {
                 if (gates)
-                    gates->getDestructibleObject()->receiveDamageOneType(static_cast<int>(Enums::DamageTypes::dtPHYSICAL), 5);
+                {
+                    gates->getDestructibleObject()->receiveDamageOneType(
+                        Enums::toIntegralType(Enums::DamageTypes::dtPHYSICAL), 5);
+                }
             }
         }
 
         counter = 5000;
     }
     else
+    {
         counter -= timestep;
+    }
 
     if (gates != nullptr && gates->getDestructibleObject() != nullptr)
+    {
         switch(currentMission.checkStatus(GameModel::getInstance()->getGameStatus()))
         {
         case MissionStatuses::mIN_PROGRESS:
@@ -85,6 +92,7 @@ void GameScene::startUpdate(double timestep)
             return;
         }
         }
+    }
 
 
     if (pointsLabel != nullptr)
@@ -123,18 +131,20 @@ void GameScene::ConnectMethod(std::function<void (string)> handler)
     method = handler;
 }
 
-std::shared_ptr<AbilityModel> GameScene::getAbilityModelWithName(string name)
+const std::shared_ptr<AbilityModel>& GameScene::getAbilityModelWithName(const std::string& aName)
 {
-    return spellStorage.getAbilityModelWithName(name);
+    return spellStorage.getAbilityModelWithName(aName);
 }
 
 void GameScene::sendMessage(string msgText)
 {
     if (method != nullptr)
+    {
         method(msgText);
+    }
 }
 
-std::shared_ptr<ManaGlobal> GameScene::getManaModel() const
+const std::shared_ptr<ManaGlobal>& GameScene::getManaModel() const
 {
     return mManaModel;
 }
@@ -434,7 +444,6 @@ void GameScene::initAbilitiesButtons()
     }
 
     MainRect->addChild(abilityButtonsGroup);
-
 }
 
 void GameScene::initUILayer()
@@ -612,7 +621,6 @@ void GameScene::applyArtefactEffects()
         if (temp != nullptr)
             temp->init(shared_from_this(), mManaModel);
     }
-
 }
 
 void GameScene::processWaveInfo(std::string aInfo)
@@ -662,10 +670,9 @@ void GameScene::clear()
 
         monsterSpawner.reset();
     }
+
     mManaModel = nullptr;
     mGameSceneCurrentStatus = Enums::GameSceneStatuses::Default;
     mSceneMode = SceneModeT::StandardMode;
     Scene::clear();
 }
-
-

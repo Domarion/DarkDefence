@@ -10,7 +10,7 @@ MainScene::MainScene(std::shared_ptr<RenderingSystem>& aRenderer, std::shared_pt
 {
 }
 
-void MainScene::init(std::shared_ptr<SceneManager> sceneManagerPtr)
+void MainScene::init(const std::shared_ptr<SceneManager>& sceneManagerPtr)
 {
     Scene::init(sceneManagerPtr);
 

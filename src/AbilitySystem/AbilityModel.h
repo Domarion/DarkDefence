@@ -42,11 +42,11 @@ public:
 protected:
     Enums::AbilityStates abilityState;
     std::string abilityName;
-    int manaCost;
-    double workTime;
-    double currentWorkTime;
-    double cooldownTime;
-    double currentCooldownTime;
+    int manaCost = 0;
+    double workTime = 0;
+    double currentWorkTime = 0;
+    double cooldownTime = 0;
+    double currentCooldownTime = 0;
     std::shared_ptr<Scene> parentScenePtr;
     std::shared_ptr<ManaGlobal> mManaModel;
 

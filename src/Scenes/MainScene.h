@@ -10,7 +10,7 @@ public:
 
     MainScene(std::shared_ptr<RenderingSystem>& aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher);
 
-    virtual void init(std::shared_ptr<SceneManager> sceneManagerPtr) override;
+    virtual void init(const std::shared_ptr<SceneManager>& sceneManagerPtr) override;
     void ConnectMethod(std::function<void(string)> handler);
 
 private:

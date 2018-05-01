@@ -1,7 +1,7 @@
 #include "SceneManager.h"
 #include "Logging/Logger.h"
 
-std::shared_ptr<Scene> SceneManager::getCurrentScene()
+const std::shared_ptr<Scene>& SceneManager::getCurrentScene() const
 {
     return currentScene;
 }

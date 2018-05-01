@@ -33,12 +33,12 @@ public:
 
     GameScene(std::shared_ptr<RenderingSystem>& aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher);
 
-    const map<std::string, std::shared_ptr<AbilityModel> >& getAbilityModelList() const;
+    const std::map<std::string, std::shared_ptr<AbilityModel>>& getAbilityModelList() const;
     void ConnectMethod(std::function<void(string)> handler);
-    std::shared_ptr<AbilityModel> getAbilityModelWithName(string name);
+    const std::shared_ptr<AbilityModel>& getAbilityModelWithName(const std::string& aName);
     void sendMessage(string msgText);
 
-    std::shared_ptr<ManaGlobal> getManaModel() const;
+    const std::shared_ptr<ManaGlobal>& getManaModel() const;
     void processWaveInfo(std::string aInfo);
     void setGameSceneStatus(Enums::GameSceneStatuses aStatus);
     Enums::GameSceneStatuses getGameSceneStatus() const;
@@ -48,7 +48,7 @@ public:
     void spawningCallBack(std::string aMobName, Position aSpawnPosition, size_t aDrawPriority);
 
     // Scene interface
-    void init(std::shared_ptr<SceneManager> sceneManagerPtr) override;
+    void init(const std::shared_ptr<SceneManager>& sceneManagerPtr) override;
     void clear() override;
     void startUpdate(double timestep) override;
     void copyToRender() const override;

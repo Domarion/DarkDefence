@@ -4,11 +4,6 @@
 AbilityModel::AbilityModel(std::shared_ptr<ManaGlobal> aManaModel)
     : abilityState(Enums::AbilityStates::asNotAvaliable)
     , abilityName("none")
-    , manaCost(0)
-    , workTime(0.0)
-    , currentWorkTime(0.0)
-    , cooldownTime(0.0)
-    , currentCooldownTime(0.0)
     , mManaModel(aManaModel)
 {
 }
