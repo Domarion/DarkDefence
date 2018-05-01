@@ -9,7 +9,7 @@ class InventoryScene: public Scene
 public:
     InventoryScene(std::shared_ptr<RenderingSystem>& aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher);
 
-    virtual void init(const std::shared_ptr<SceneManager>& sceneManagerPtr) override;
+    virtual void init() override;
     virtual void clear() override;
 
 private:

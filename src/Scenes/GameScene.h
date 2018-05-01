@@ -48,7 +48,7 @@ public:
     void spawningCallBack(std::string aMobName, Position aSpawnPosition, size_t aDrawPriority);
 
     // Scene interface
-    void init(const std::shared_ptr<SceneManager>& sceneManagerPtr) override;
+    void init() override;
     void clear() override;
     void startUpdate(double timestep) override;
     void copyToRender() const override;

@@ -23,9 +23,8 @@ Scene::Scene(std::shared_ptr<RenderingSystem>& aRenderer, std::shared_ptr<InputD
     MainRect->setPosition(Position::Zero());
 }
 
-void Scene::init(const std::shared_ptr<SceneManager>& aSceneManagerPtr)
+void Scene::init()
 {
-    parentSceneManager = aSceneManagerPtr;
     SceneObject::resetSceneObjectIds();
 }
 
@@ -208,6 +207,23 @@ void Scene::replaceObject(std::shared_ptr<SceneObject> aObject, std::shared_ptr<
     }
 }
 
+void Scene::bindChangeScene(const ChangeSceneFunction& aChangeSceneCallback)
+{
+    mChangeSceneCallback = aChangeSceneCallback;
+}
+
+void Scene::askForChangeScene(const std::string& aName)
+{
+    if (!mChangeSceneCallback)
+    {
+        LOG_ERROR("Scene:: No binded change scene callback");
+        assert(mChangeSceneCallback);
+        throw std::logic_error("Scene:: No binded change scene callback");
+    }
+
+    mChangeSceneCallback(aName);
+}
+
 void Scene::softClear()
 {
     clearUIList();
@@ -337,11 +353,6 @@ Scene::SceneObjectList Scene::findObjectsInRadius(Position aCenter, size_t aRadi
     return filteredList;
 }
 
-std::shared_ptr<SceneManager> Scene::getParentSceneManager()
-{
-    return parentSceneManager;
-}
-
 void Scene::onGameQuit()
 {
     GameModel::getInstance()->saveGameData("GameData/save.bin");
@@ -385,7 +396,8 @@ void Scene::addLoadSceneButton(
     auto textButton = std::make_shared<UITextButton>(aButtonName, FontManager::getInstance()->getFontByKind2(aFontName),
                       renderer);
     textButton->setPosition(Position(posX, posY));
-    textButton->ConnectMethod(std::bind(&SceneManager::setCurrentSceneByName, getParentSceneManager(), aSceneName));
+
+    textButton->ConnectMethod(std::bind(mChangeSceneCallback, aSceneName));
 
     MainRect->addChild(textButton);
 }
@@ -448,9 +460,9 @@ void Scene::clear()
     {
         softClear();
     }
+
     sceneObjects.clear();
 
-    parentSceneManager = nullptr;
     mCamera.resetWorldPosition();
 }
 

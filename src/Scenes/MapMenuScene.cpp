@@ -15,9 +15,9 @@ MapMenuScene::MapMenuScene(
 {
 }
 
-void MapMenuScene::init(const std::shared_ptr<SceneManager>& sceneManagerPtr)
+void MapMenuScene::init()
 {
-    Scene::init(sceneManagerPtr);
+    Scene::init();
     renderer->setRendererDrawColor(0, 0, 0, 0);
 
     auto mapPicture =  std::make_shared<UIImage>(renderer);

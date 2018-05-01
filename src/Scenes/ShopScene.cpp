@@ -11,11 +11,11 @@ ShopScene::ShopScene(std::shared_ptr<RenderingSystem>& aRenderer, std::shared_pt
 {
 }
 
-void ShopScene::init(const std::shared_ptr<SceneManager>& sceneManagerPtr)
+void ShopScene::init()
 {
     renderer->setRendererDrawColor(255, 255, 255, 255);
 
-    Scene::init(sceneManagerPtr);
+    Scene::init();
 
     initBackGroundUI();
     initShopItemsUI();

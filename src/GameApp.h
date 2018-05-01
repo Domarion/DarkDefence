@@ -1,14 +1,15 @@
 #pragma once
 
-#include "GraphicsSystem/newSystem/RenderingSystem.h"
 #include "Grouping/SceneManager.h"
 #include "Input/InputDispatcher.h"
+
+class RenderingSystem;
 
 class GameApp final
 {
 public:
 
-    explicit GameApp(std::unique_ptr<SceneManager>&& aSceneManager, std::unique_ptr<RenderingSystem>&& aRenderer);
+    explicit GameApp(Size aWindowSize);
 
     GameApp(const GameApp&) = delete;
     GameApp& operator=(const GameApp&) = delete;
@@ -18,7 +19,7 @@ public:
     void addScenes();
     int gameLoop();
 
-    void receiveMessage(string msg);
+    void receiveMessage(std::string msg);
 
 private:
 
@@ -30,7 +31,7 @@ private:
 
     SDL_Event event;
     std::shared_ptr<RenderingSystem> mRenderer;
-    std::shared_ptr<SceneManager> mSceneManager;
+    SceneManager mSceneManager;
     std::shared_ptr<InputDispatcher> mInputDispatcher;
 
     bool mIsPaused = false;

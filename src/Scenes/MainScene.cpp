@@ -10,9 +10,9 @@ MainScene::MainScene(std::shared_ptr<RenderingSystem>& aRenderer, std::shared_pt
 {
 }
 
-void MainScene::init(const std::shared_ptr<SceneManager>& sceneManagerPtr)
+void MainScene::init()
 {
-    Scene::init(sceneManagerPtr);
+    Scene::init();
 
     if (itemNamesSceneNamesMapping.empty())
         loadMenuItems("GameData/MainMenu.txt");

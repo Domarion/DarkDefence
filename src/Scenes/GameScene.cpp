@@ -28,9 +28,9 @@ GameScene::GameScene(std::shared_ptr<RenderingSystem>& aRenderer, std::shared_pt
 {
 }
 
-void GameScene::init(const std::shared_ptr<SceneManager>& sceneManagerPtr)
+void GameScene::init()
 {
-    Scene::init(sceneManagerPtr);
+    Scene::init();
     loadData();
     initUILayer();
     placeSceneObjects();
@@ -81,14 +81,14 @@ void GameScene::startUpdate(double timestep)
             std::string s1 = "ScoreScene";
 
             GameModel::getInstance()->setMissionReward(currentMission.getReward());
-            getParentSceneManager()->askForChangeScene(s1);
+            askForChangeScene(s1);
             return;
         }
         case MissionStatuses::mFAILED:
         {
             GameModel::getInstance()->setGameStatus(Enums::GameStatuses::gsLOST);
             std::string s2 = "ScoreScene";
-            getParentSceneManager()->askForChangeScene(s2);
+            askForChangeScene(s2);
             return;
         }
         }
@@ -650,7 +650,7 @@ void GameScene::processWaveInfo(std::string aInfo)
     GameModel::getInstance()->setGameStatus(Enums::GameStatuses::gsWON);
     GameModel::getInstance()->setMissionReward(currentMission.getReward());
     std::string s2 = "ScoreScene";
-    getParentSceneManager()->askForChangeScene(s2);
+    askForChangeScene(s2);
 }
 
 void GameScene::clear()

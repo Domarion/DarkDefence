@@ -1,3 +1,7 @@
+#include <cassert>
+#include <functional>
+
+#include "Scene.h"
 #include "SceneManager.h"
 #include "Logging/Logger.h"
 
@@ -8,6 +12,8 @@ const std::shared_ptr<Scene>& SceneManager::getCurrentScene() const
 
 void SceneManager::addScene(std::shared_ptr<Scene> scene, const std::string& aSceneName)
 {
+    assert(scene && "Scene should be not null in SceneManager");
+    scene->bindChangeScene(std::bind(&SceneManager::askForChangeScene, this, std::placeholders::_1));
     scenes.emplace(std::make_pair(aSceneName, scene));
 }
 
@@ -22,7 +28,7 @@ void SceneManager::setCurrentScene(std::shared_ptr<Scene>& value)
 
     if (currentScene)
     {
-        currentScene->init(shared_from_this());
+        currentScene->init();
         return;
     }
 
@@ -49,7 +55,7 @@ void SceneManager::askForChangeScene(const std::string& aName)
 
         if (currentScene)
         {
-            currentScene->init(shared_from_this());
+            currentScene->init();
         }
     }
 }

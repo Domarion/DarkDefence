@@ -1,6 +1,5 @@
 #include "SDL_Engine.h"
 #include "GameApp.h"
-#include "GraphicsSystem/newSystem/RenderingSystem.h"
 
 int main(int /*argc*/, char** /*args*/)
 {
@@ -9,7 +8,7 @@ int main(int /*argc*/, char** /*args*/)
     Size screenSize = library.getScreenResolution();
     screenSize.height -= 50;//TODO: убрать
 
-    GameApp app(std::make_unique<SceneManager>(), std::make_unique<RenderingSystem>(screenSize));
+    GameApp app(screenSize);
     app.preloadData();
     app.addScenes();
 

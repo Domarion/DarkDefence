@@ -1,13 +1,13 @@
 #pragma once
 
-#include <string>
 #include <map>
+#include <memory>
+#include <string>
 
-#include "Scene.h"
 
 class Scene;
 
-class SceneManager: public std::enable_shared_from_this<SceneManager>
+class SceneManager final
 {
 public:
     SceneManager() = default;
@@ -29,6 +29,5 @@ private:
     std::shared_ptr<Scene> currentScene;
     std::map<std::string, std::shared_ptr<Scene>> scenes;
     std::shared_ptr<Scene> oldScene;
-
 };
 

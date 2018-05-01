@@ -4,7 +4,6 @@
 #include <list>
 
 #include "SceneObject.h"
-#include "SceneManager.h"
 #include "FontManager.h"
 #include "../GraphicsSystem/newSystem/UIElement/ConcreteComposite.h"
 #include "../GraphicsSystem/newSystem/Camera2D.h"
@@ -12,12 +11,11 @@
 #include "../GraphicsSystem/newSystem/StubLayout.h"
 
 class SceneObject;
-class SceneManager;
 
 class Scene: public std::enable_shared_from_this<Scene>
 {
     using SceneObjectList = std::unique_ptr<std::list<std::shared_ptr<SceneObject>>>;
-
+    using ChangeSceneFunction = std::function<void(const std::string&)>;
     struct DrawObject
     {
         size_t DrawPriority = 0;
@@ -33,7 +31,7 @@ public:
 
     virtual ~Scene() = default;
 
-    virtual void init(const std::shared_ptr<SceneManager>& aSceneManagerPtr);
+    virtual void init();
     virtual void clear();
     virtual void copyToRender() const;
     virtual void startUpdate(double timestep);
@@ -45,6 +43,10 @@ public:
     virtual void removeFromUIList(const std::shared_ptr<IComposite>& item);
 
     virtual void replaceObject(std::shared_ptr<SceneObject> aObject, std::shared_ptr<SceneObject> aReplacement);
+
+    void bindChangeScene(const ChangeSceneFunction& aChangeSceneCallback);
+
+    void askForChangeScene(const std::string& aName);
     void softClear();
     void addAsInputHandler(std::shared_ptr<InputHandler> item);
     void clearUIList();
@@ -54,7 +56,6 @@ public:
     SceneObjectList findObjectsWithPos(int x, int y);
     SceneObjectList findObjectsInRadius(Position aCenter, size_t aRadius);
 
-    std::shared_ptr<SceneManager> getParentSceneManager();
     virtual void onGameQuit();
     std::shared_ptr<RenderingSystem>& getRenderer();
 
@@ -96,7 +97,7 @@ private:
 
     std::list<std::shared_ptr<IComposite>> listGUI;
     std::list<std::shared_ptr<SceneObject>> sceneObjects;
-    std::shared_ptr<SceneManager> parentSceneManager;
     Camera2D mCamera;
     std::list<DrawObject> drawObjects;
+    ChangeSceneFunction mChangeSceneCallback;
 };

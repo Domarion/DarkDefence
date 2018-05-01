@@ -13,10 +13,10 @@ InventoryScene::InventoryScene(
 {
 }
 
-void InventoryScene::init(const std::shared_ptr<SceneManager>& sceneManagerPtr)
+void InventoryScene::init()
 {
     renderer->setRendererDrawColor(255, 255, 255, 255);
-    Scene::init(sceneManagerPtr);
+    Scene::init();
 
     auto backGroundImage = std::make_shared<UIImage>(renderer);
     auto resourceManager = ResourceManager::getInstance();

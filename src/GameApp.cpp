@@ -6,6 +6,7 @@
 #include "GlobalConstants.h"
 #include "GameApp.h"
 #include "Grouping/FontManager.h"
+#include "GraphicsSystem/newSystem/RenderingSystem.h"
 
 #include "Scenes/MainScene.h"
 #include "Scenes/MapMenuScene.h"
@@ -17,9 +18,9 @@
 #include "GlobalScripts/ResourceManager.h"
 #include "Logging/Logger.h"
 
-GameApp::GameApp(std::unique_ptr<SceneManager>&& aSceneManager, std::unique_ptr<RenderingSystem>&& aRenderer)
-    : mRenderer(std::move(aRenderer))
-    , mSceneManager(std::move(aSceneManager))
+GameApp::GameApp(Size aWindowSize)
+    : mRenderer(std::make_shared<RenderingSystem>(aWindowSize))
+    , mSceneManager()
     , mInputDispatcher(std::make_shared<InputDispatcher>(mRenderer->getScreenSize()))
 {
 }
@@ -53,21 +54,21 @@ void GameApp::addScenes()
 
     gameScene->ConnectMethod(std::bind(&GameApp::receiveMessage, this, std::placeholders::_1));
 
-    mSceneManager->addScene(std::move(mainScene), "MainScene");
-    mSceneManager->addScene(std::move(mapMenuScene), "MapMenuScene");
-    mSceneManager->addScene(std::move(gameScene), "GameScene");
+    mSceneManager.addScene(std::move(mainScene), "MainScene");
+    mSceneManager.addScene(std::move(mapMenuScene), "MapMenuScene");
+    mSceneManager.addScene(std::move(gameScene), "GameScene");
 
-    mSceneManager->addScene(std::move(inventoryScene), "InventoryScene");
-    mSceneManager->addScene(std::move(shopScene), "ShopScene");
-    mSceneManager->addScene(std::move(scoreScene), "ScoreScene");
+    mSceneManager.addScene(std::move(inventoryScene), "InventoryScene");
+    mSceneManager.addScene(std::move(shopScene), "ShopScene");
+    mSceneManager.addScene(std::move(scoreScene), "ScoreScene");
 
-    mSceneManager->setCurrentSceneByName("MainScene");
+    mSceneManager.setCurrentSceneByName("MainScene");
 }
 
 int GameApp::gameLoop()
 {
     int lasttime = SDL_GetTicks();
-    const int MS_PER_UPDATE = 16;//1000ms/60FPS
+    const int MS_PER_UPDATE = 16;// 1000 ms / 60 FPS
     int lag = 0;
     bool quit = false;
 
@@ -86,12 +87,14 @@ int GameApp::gameLoop()
 
                 while (lag >= MS_PER_UPDATE)
                 {
-                    mSceneManager->updateCurrentScene(MS_PER_UPDATE);
+                    mSceneManager.updateCurrentScene(MS_PER_UPDATE);
                     lag -= MS_PER_UPDATE;
                 }
             }
             else
+            {
                 lasttime = currenttime;
+            }
 
             renderScene();
         }
@@ -113,7 +116,7 @@ void GameApp::renderScene()
     }
 
     mRenderer->renderClear();
-    mSceneManager->renderCurrentScene();
+    mSceneManager.renderCurrentScene();
     mRenderer->renderPresent();
 }
 
@@ -149,7 +152,7 @@ void GameApp::unpause()
     mIsPaused = false;
 }
 
-void GameApp::receiveMessage(string msg)//TODO: Изменить логику обработки сообщений.
+void GameApp::receiveMessage(std::string msg)//TODO: Изменить логику обработки сообщений.
 {
     if (msg == GlobalConstants::Paused)
     {
