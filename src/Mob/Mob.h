@@ -15,7 +15,7 @@ class MobModel;
 class Mob: public SceneObject, public std::enable_shared_from_this<Mob>
 {
 public:
-    Mob(std::shared_ptr<MobModel> model, std::shared_ptr<TileMapManager> aTileMapPtr = nullptr);
+    Mob(std::shared_ptr<MobModel> model, const TileMapManager& aTileMap);
     virtual ~Mob() = default;
 
     virtual void init(int aX, int aY) override;
@@ -31,13 +31,15 @@ public:
     std::shared_ptr<EffectReceiver> getEffectReceiver() const override;
      std::shared_ptr<MobModel> getModel() const;
 
-    std::shared_ptr<TileMapManager> getTileMapManager() const;
-    void setTileMapManager(std::shared_ptr<TileMapManager> aTileMapPtr);
+    TileMapManager& getTileMapManager();
+    bool hasValidTileManager() const;
+
+    void setTileMapManager(const TileMapManager& aTileMap);
 protected:
 
     std::shared_ptr<MobModel> mobModel;
     std::shared_ptr<MobEffectReceiver>  mobEffectReceiver;
-    std::shared_ptr<TileMapManager> tileMapPtr;
+    TileMapManager tileMap;
     std::unique_ptr<AIComponent> mobAI;
 
 };

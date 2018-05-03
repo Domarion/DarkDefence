@@ -8,12 +8,11 @@
 #include "../GraphicsSystem/newSystem/VerticalLayout.h"
 #include "../GraphicsSystem/newSystem/StubLayout.h"
 
-#include "../Scenes/GameScene.h"
+#include "../GraphicsSystem/newSystem/ConcreteUIViews/AnimationSceneSprite.h"
+#include "../GlobalScripts/ResourceManager.h"
 
-TowerUpgradeController::TowerUpgradeController()
-    : fabric(std::make_unique<TowerFabric>())
-{
-}
+#include "../Scenes/GameScene.h"
+#include "../Mob/Tower.h"
 
 void TowerUpgradeController::init(std::shared_ptr<Scene> parent, std::shared_ptr<RenderingSystem>& aRenderer)
 {
@@ -152,15 +151,34 @@ void TowerUpgradeController::closeHandler(std::string /*itemIndex*/)
 }
 
 std::shared_ptr<Tower> TowerUpgradeController::ProduceTower(
-    const std::string& aTowerName, std::shared_ptr<TileMapManager> aTileMap, size_t aDrawPriority)
+    const std::string& aTowerName, const TileMapManager& aTileMap, size_t aDrawPriority)
 {
-    if (!fabric || !parentGameScene)
+    if (!parentGameScene)
     {
         return nullptr;
     }
 
-    auto tower = fabric->produceTower(aTowerName, parentGameScene->getRenderer(), shared_from_this(), aTileMap);
+    auto model = GameModel::getInstance()->getTowerByName(aTowerName);
+
+    if (model == nullptr)
+    {
+        return nullptr;
+    }
+
+    auto tower = std::make_shared<Tower>(std::move(model), aTileMap);
+    auto someSprite = std::make_shared<AnimationSceneSprite>(parentGameScene->getRenderer());
+
+    someSprite->setTexture(ResourceManager::getInstance()->getTexture(aTowerName));
+
+    tower->setSprite(someSprite);
+
+    tower->connectMethod(
+        std::bind(&TowerUpgradeController::receiveTowerUpgrade, this, std::placeholders::_1));
+
+    tower->init(0, 0);
+
     tower->setDrawPriority(aDrawPriority);
+
     return tower;
 }
 
@@ -183,9 +201,9 @@ bool TowerUpgradeController::menuClickHandler(size_t itemIndex)
         return false;
     }
 
-    auto towerName = currentTowerChildrenNames[itemIndex];
+    const auto& towerName = currentTowerChildrenNames[itemIndex];
 
-    auto rootTower = GameModel::getInstance()->getRootTower();
+    auto& rootTower = GameModel::getInstance()->getRootTower();
     if (rootTower == nullptr)
     {
         return false;

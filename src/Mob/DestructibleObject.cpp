@@ -133,7 +133,10 @@ bool DestructibleObject::changeHealth(int amount)
         currentHealth += amount;
 
     if (connectedMethod != nullptr)
+    {
         connectedMethod(currentHealth,  getMaximumHealth());
+    }
+
     return (currentHealth <= 0);
 }
 
@@ -199,7 +202,9 @@ bool DestructibleObject::addHealth(int aAmount)
     }
 
     if (connectedMethod != nullptr)
+    {
         connectedMethod(currentHealth, getMaximumHealth());
+    }
 
     return isMaximumReached;
 }

@@ -237,8 +237,8 @@ void Scene::addAsInputHandler(std::shared_ptr<InputHandler> item)
 
 void Scene::clearUIList()
 {
-    MainRect->clearChildren();
     listGUI.clear();
+    MainRect->clearChildren();
     mInputDispatcher->clearHandlers();
 }
 

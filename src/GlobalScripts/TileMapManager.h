@@ -18,7 +18,12 @@ class TileMapManager
 
 public:
 
-    explicit TileMapManager(vector<vector<int> >& aMapTemplate);
+    explicit TileMapManager(const vector<vector<int>>& aMapTemplate);
+    TileMapManager() = default;
+
+    bool isInitialized() const;
+
+    void setMapTemplate(const vector<vector<int>>& aMapTemplate);
 
     bool waveAlgo(pair<int, int> aStartVertex, pair<int, int> aEndVertex);
     Path getPath(pair<int, int> aEndVertex);

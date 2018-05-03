@@ -49,14 +49,7 @@ void SceneManager::askForChangeScene(const std::string& aName)
 {
     if (currentScene != scenes.at(aName))
     {
-        oldScene = currentScene;
-        oldScene->softClear();
-        currentScene = scenes.at(aName);
-
-        if (currentScene)
-        {
-            currentScene->init();
-        }
+        mPendingChangeSceneRequest = aName;
     }
 }
 
@@ -77,7 +70,6 @@ void SceneManager::updateCurrentScene(double aTimeStep)
     }
 
     currentScene->startUpdate(aTimeStep);
-    clearOldScene();
 }
 
 void SceneManager::renderCurrentScene()
@@ -88,5 +80,21 @@ void SceneManager::renderCurrentScene()
     }
 
     currentScene->copyToRender();
+}
+
+void SceneManager::changeScene()
+{
+    if (mPendingChangeSceneRequest.empty())
+    {
+        return;
+    }
+
+    currentScene->softClear();
+    currentScene = scenes.at(mPendingChangeSceneRequest);
+
+    assert(currentScene);
+    currentScene->init();
+
+    mPendingChangeSceneRequest.clear();
 }
 

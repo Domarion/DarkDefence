@@ -22,6 +22,7 @@ public:
     void clearOldScene();
     void updateCurrentScene(double aTimeStep);
     void renderCurrentScene();
+    void changeScene();
 
 private:
     void setCurrentScene(std::shared_ptr<Scene>& value);
@@ -29,5 +30,6 @@ private:
     std::shared_ptr<Scene> currentScene;
     std::map<std::string, std::shared_ptr<Scene>> scenes;
     std::shared_ptr<Scene> oldScene;
+    std::string mPendingChangeSceneRequest;
 };
 

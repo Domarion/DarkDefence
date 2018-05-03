@@ -29,13 +29,13 @@ bool SceneInputHandler::onDrag(Position aDirection)
     {
         auto& renderer = mParentScene->getRenderer();
         auto& tilemap = gameScene->getTileMap();
-        if (!renderer || !tilemap)
+        if (!renderer || !tilemap.isInitialized())
         {
             return false;
         }
         Size screenSize = renderer->getScreenSize();
 
-        Size mapSize = tilemap->getMapSize();
+        Size mapSize = tilemap.getMapSize();
 
         if (screenSize == mapSize)
         {

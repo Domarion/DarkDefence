@@ -30,7 +30,6 @@ void UIProgressBar::calculateProgress(int current, int max)
     }
 
     double coeff = (current + 0.0) / max; // коэффициент для получения частей изображений.
-
     Size progressSize = backTexture.getSize(); // размеры текстур (back и front) должны быть одинаковыми.
     Position progressPosition = getPosition();
     Size originalTextureSize = backTexture.getOriginalTextureSize(); // физические размеры текстур тоже одинаковые.

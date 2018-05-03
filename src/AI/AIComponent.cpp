@@ -91,7 +91,11 @@ void AIComponent::Select()
     size_t avaliableSize = avaliableTargets.size();
     size_t invalidTargetCount = 0;
 
-    auto tilemapPtr = MobPtr.lock()->getTileMapManager();
+    const auto& tilemap = MobPtr.lock()->getTileMapManager();
+    if (!tilemap.isInitialized())
+    {
+        return;
+    }
 
     for (const auto& target: avaliableTargets)
     {
@@ -101,7 +105,7 @@ void AIComponent::Select()
             continue;
         }
 
-        bool IsReachable = tilemapPtr && !tilemapPtr->IsFilledCell(target->getPosition());
+        bool IsReachable = !tilemap.IsFilledCell(target->getPosition());
 
         bool isTargetAlive = target->getDestructibleObject()->IsAlive();
 
@@ -209,16 +213,16 @@ void AIComponent::MovetoTile(double timestep)
         return;
     }
 
-    auto tilemapPtr = MobPtr.lock()->getTileMapManager();
+    auto& tilemap = MobPtr.lock()->getTileMapManager();
 
-    if (!tilemapPtr)
+    if (!tilemap.isInitialized())
     {
         LOG_ERROR("AIComponent::MovetoTile. Tilemap is nullptr");
         return;
     }
 
-    pair<int, int> mobPos = tilemapPtr->getPosFromGlobalCoords(MobPtr.lock()->getPosition());
-    pair<int, int> targetPos = tilemapPtr->getPosFromGlobalCoords(currentTarget->getPosition());
+    pair<int, int> mobPos = tilemap.getPosFromGlobalCoords(MobPtr.lock()->getPosition());
+    pair<int, int> targetPos = tilemap.getPosFromGlobalCoords(currentTarget->getPosition());
 
     if (distanceSquareInRange(mobPos, targetPos))
     {
@@ -241,10 +245,10 @@ void AIComponent::MovetoTile(double timestep)
     {
         nextCell = emptyCell;
         currentTargetPosition = targetPos;
-        bool canBuildPath = tilemapPtr->waveAlgo(mobPos, targetPos);
+        bool canBuildPath = tilemap.waveAlgo(mobPos, targetPos);
         if (canBuildPath)
         {
-            currentPath = tilemapPtr->getPath(targetPos);
+            currentPath = tilemap.getPath(targetPos);
         }
         else
         {
@@ -280,7 +284,7 @@ void AIComponent::MovetoTile(double timestep)
 
     if (nextCell != mobPos && nextCell != emptyCell)
     {
-        auto globalCoords = tilemapPtr->getGlobalPosFromLocalCoords(nextCell);
+        auto globalCoords = tilemap.getGlobalPosFromLocalCoords(nextCell);
 
         MoveToPos(timestep, globalCoords);
     }

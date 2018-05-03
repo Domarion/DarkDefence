@@ -3,6 +3,7 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 
+#include "GlobalScripts/GameModel.h"
 #include "GlobalConstants.h"
 #include "GameApp.h"
 #include "Grouping/FontManager.h"
@@ -97,6 +98,7 @@ int GameApp::gameLoop()
             }
 
             renderScene();
+            mSceneManager.changeScene();
         }
     }
     catch (std::exception& ex)

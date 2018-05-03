@@ -17,6 +17,7 @@
 #include "../Mob/ResourcePlace.h"
 #include "../Mob/Spawner.h"
 #include "../Mob/TowerUpgradeController.h"
+#include "GlobalScripts/TileMapManager.h"
 
 #include "Utility/StructData.hpp"
 
@@ -55,7 +56,7 @@ public:
 
     SceneModeT getSceneMode() const;
 
-    const std::shared_ptr<TileMapManager>& getTileMap() const;
+    const TileMapManager& getTileMap() const;
 
 private:
 
@@ -95,7 +96,7 @@ private:
 
     std::function<void(string)> method;
 
-    std::shared_ptr<TileMapManager> tileMap;
+    TileMapManager mTileMap;
     std::shared_ptr<ManaGlobal> mManaModel;
     vector<StructureData> mPositionsVector;
     Enums::GameSceneStatuses mGameSceneCurrentStatus = Enums::GameSceneStatuses::Default;

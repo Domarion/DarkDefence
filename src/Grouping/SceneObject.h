@@ -13,7 +13,6 @@ class Scene;
 class SceneObject
 {
 public:
-    SceneObject() = default;
     virtual ~SceneObject();
 
     virtual void init(int x, int y);

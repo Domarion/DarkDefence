@@ -1,7 +1,7 @@
 #include "Tower.h"
 
-Tower::Tower(std::shared_ptr<MobModel> model, std::shared_ptr<TileMapManager> aTileMapPtr)
-    : Mob(model, aTileMapPtr)
+Tower::Tower(std::shared_ptr<MobModel> model, const TileMapManager& aTileMap)
+    : Mob(model, aTileMap)
 {
 }
 

@@ -75,7 +75,6 @@ set(SRC_LIST
 
     GameApp.h
     Mob/Mob.h
-    Mob/TowerFabric.hpp
     Mob/DestructibleObject.h
     Mob/Mine.h
     Mob/Gates.h
@@ -228,7 +227,6 @@ set(SRC_LIST
     Mob/MineModel.cpp
     Mob/MobSpawner.cpp
     Mob/MobModel.cpp
-    Mob/TowerFabric.cpp
     Mob/EnemyInfo.cpp
     Mob/Gates.cpp
     Mob/Mob.cpp

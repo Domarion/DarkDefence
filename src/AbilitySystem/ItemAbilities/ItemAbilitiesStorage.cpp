@@ -1,4 +1,5 @@
 #include "ItemAbilitiesStorage.h"
+#include "ItemAbility.h"
 #include "../../Enums.h"
 #include "MerchantsCaftan.h"
 #include "ChoppersHat.h"
@@ -34,7 +35,7 @@ void ItemAbilitiesStorage::loadItemAbilities()
     itemAbilitiesMap["BurningAxe"] = std::make_shared<BurningAxe>();
 }
 
-std::shared_ptr<ItemAbility> ItemAbilitiesStorage::getItemAbilityByName(string name)
+std::shared_ptr<ItemAbility>& ItemAbilitiesStorage::getItemAbilityByName(const std::string& aName)
 {
-    return itemAbilitiesMap[name];
+    return itemAbilitiesMap[aName];
 }

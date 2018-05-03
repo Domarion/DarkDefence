@@ -3,15 +3,15 @@
 #include "Logging/Logger.h"
 
 
-Mob::Mob(std::shared_ptr<MobModel> model, std::shared_ptr<TileMapManager> aTileMapPtr)
+Mob::Mob(std::shared_ptr<MobModel> model, const TileMapManager& aTileMap)
     : mobModel(model)
     , mobEffectReceiver(std::make_shared<MobEffectReceiver>())
-    , tileMapPtr(aTileMapPtr)
+    , tileMap(aTileMap)
 {
 
    mobEffectReceiver->init(mobModel);
 
-   if (!tileMapPtr)
+   if (!tileMap.isInitialized())
    {
        LOG_ERROR("Tilemap is nullptr.");
    }
@@ -101,21 +101,25 @@ std::shared_ptr<MobModel> Mob::getModel() const
     return mobModel;
 }
 
-
-std::shared_ptr<TileMapManager> Mob::getTileMapManager() const
+TileMapManager& Mob::getTileMapManager()
 {
-    if (!tileMapPtr)
+    if (!tileMap.isInitialized())
     {
         std::string msg = std::string("TileMapManager is nullptr for ") + this->getName();
         LOG_ERROR(msg);
     }
 
-    return tileMapPtr;
+    return tileMap;
 }
 
-void Mob::setTileMapManager(std::shared_ptr<TileMapManager> aTileMapPtr)
+bool Mob::hasValidTileManager() const
 {
-    tileMapPtr = aTileMapPtr;
+    return tileMap.isInitialized();
+}
+
+void Mob::setTileMapManager(const TileMapManager& aTileMap)
+{
+    tileMap = aTileMap;
 }
 
 

@@ -2,9 +2,19 @@
 
 #include "TileMapManager.h"
 
-TileMapManager::TileMapManager(vector<vector<int> >& aMapTemplate)
+TileMapManager::TileMapManager(const vector<vector<int>>& aMapTemplate)
     : mapTemplate(aMapTemplate)
 {
+}
+
+bool TileMapManager::isInitialized() const
+{
+    return !mapTemplate.empty();
+}
+
+void TileMapManager::setMapTemplate(const vector<vector<int> >& aMapTemplate)
+{
+    mapTemplate = aMapTemplate;
 }
 
 bool TileMapManager::waveAlgo(pair<int, int> aStartVertex, pair<int, int> aEndVertex)

@@ -83,9 +83,9 @@
             <DrawPriority>1</DrawPriority>
 		</value7>
         <value8>
-			<Name>Tree1</Name>
-			<Width>100</Width>
-			<Height>100</Height>
+			<Name>Forest1</Name>
+			<Width>400</Width>
+			<Height>237</Height>
 			<PositionX>912</PositionX>
 			<PositionY>200</PositionY>
 			<XAnchorPlace>1</XAnchorPlace>
@@ -93,9 +93,9 @@
             <DrawPriority>1</DrawPriority>
 		</value8>
         <value9>
-			<Name>Tree2</Name>
-			<Width>100</Width>
-			<Height>100</Height>
+			<Name>Forest2</Name>
+			<Width>400</Width>
+			<Height>237</Height>
 			<PositionX>180</PositionX>
 			<PositionY>190</PositionY>
 			<XAnchorPlace>1</XAnchorPlace>
@@ -112,6 +112,26 @@
 			<YAnchorPlace>1</YAnchorPlace>
             <DrawPriority>1</DrawPriority>
 		</value10>
+        <value11>
+			<Name>Forest3</Name>
+			<Width>400</Width>
+			<Height>237</Height>
+			<PositionX>500</PositionX>
+			<PositionY>220</PositionY>
+			<XAnchorPlace>1</XAnchorPlace>
+			<YAnchorPlace>1</YAnchorPlace>
+            <DrawPriority>1</DrawPriority>
+		</value11>
+        <value12>
+			<Name>Forest4</Name>
+			<Width>600</Width>
+			<Height>300</Height>
+			<PositionX>500</PositionX>
+			<PositionY>900</PositionY>
+			<XAnchorPlace>1</XAnchorPlace>
+			<YAnchorPlace>1</YAnchorPlace>
+            <DrawPriority>1</DrawPriority>
+		</value12>
 	</Positions>
 </cereal>
 

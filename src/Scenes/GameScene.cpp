@@ -16,6 +16,7 @@
 #include "../Input/InputDispatcher.h"
 #include "../Input/SceneInputHandler.h"
 
+#include "../AbilitySystem/ItemAbilities/ItemAbility.h"
 #include "../Mob/Tower.h"
 
 #include "../Utility/textfilefunctions.h"
@@ -40,6 +41,10 @@ void GameScene::init()
 void GameScene::startUpdate(double timestep)
 {
     Scene::startUpdate(timestep);
+    if (GameModel::getInstance()->getGameStatus() == Enums::GameStatuses::gsWON)
+    {
+        return;
+    }
 
     if (counter <= 0)
     {
@@ -180,7 +185,7 @@ void GameScene::loadData()
     //TODO: Считывать размер ячейки матрицы из файла путей
     string tileMapMatrixPath = "GameData/Missions/" + currentMission.getCaption() + "/map.txt";
     vector<vector<int> > aMapTemplate = androidText::loadMatrixFromFile(tileMapMatrixPath);
-    tileMap = std::make_shared<TileMapManager>(aMapTemplate);
+    mTileMap.setMapTemplate(aMapTemplate);
 
     string PositionsPath = "GameData/Missions/" + currentMission.getCaption() + "/Positions.xml";
 
@@ -273,7 +278,7 @@ void GameScene::copyToRender() const
     {
         renderer->setRendererDrawColor(0, 0, 255, 255);
 
-        renderer->drawGrid(tileMap->getMapSize(), tileMap->getCellSize());
+        renderer->drawGrid(mTileMap.getMapSize(), mTileMap.getCellSize());
     }
     drawUI();
 }
@@ -283,9 +288,9 @@ GameScene::SceneModeT GameScene::getSceneMode() const
     return mSceneMode;
 }
 
-const std::shared_ptr<TileMapManager>& GameScene::getTileMap() const
+const TileMapManager& GameScene::getTileMap() const
 {
-    return tileMap;
+    return mTileMap;
 }
 
 void GameScene::setGameSceneStatus(Enums::GameSceneStatuses aStatus)
@@ -320,11 +325,12 @@ void GameScene::spawningCallBack(std::string aMobName, Position aSpawnPosition, 
 
     ++counter11;
 
-    auto tileMapCopy = std::make_shared<TileMapManager>(*tileMap);
-    auto someMob = std::make_shared<Mob>(GameModel::getInstance()->getMonsterByName(aMobName), tileMapCopy);
+    auto someMob = std::make_shared<Mob>(GameModel::getInstance()->getMonsterByName(aMobName), mTileMap);
 
-    if (someMob->getTileMapManager() == nullptr)
+    if (!someMob->hasValidTileManager())
     {
+        LOG_ERROR(std::string("No tilemap manager for: ")+ aMobName);
+
         return;
     }
 
@@ -407,8 +413,8 @@ void GameScene::initAbilitiesButtons()
 
     for(size_t i = 0; i < abilityButtonCount; ++i)
     {
-        const auto& abilityName = GameModel::getInstance()->getAbilityNameFromIndex(i);
-        string imgPath = "GameData/textures/Abilities/Ability" + abilityName;
+        std::string abilityName = GameModel::getInstance()->getAbilityNameFromIndex(i);
+        string imgPath = std::string("GameData/textures/Abilities/Ability") + abilityName;
 
         string backPath = imgPath + "_back.png";
         string frontPath = imgPath + "_front.png";
@@ -430,7 +436,7 @@ void GameScene::initAbilitiesButtons()
 
         initAbilityCallBacks(abilityName);
 
-        auto ability = spellStorage.getAbilityModelWithName(GameModel::getInstance()->getAbilityNameFromIndex(i));
+        auto ability = spellStorage.getAbilityModelWithName(abilityName);
         ability->connectCooldownListener
         (
             std::bind
@@ -492,12 +498,12 @@ void GameScene::placeSceneObjects()
 
     for(const auto& item : mPositionsVector)
     {
-        if (item.Name.find("Tree") != std::string::npos)
+        if (item.Name.find("Forest") != std::string::npos)
         {
             auto someObject = std::make_shared<SceneObject>();
             auto someSprite = std::make_shared<AnimationSceneSprite>(renderer);
 
-            someSprite->setTexture(ResourceManager::getInstance()->getTexture("Tree"));
+            someSprite->setTexture(ResourceManager::getInstance()->getTexture("Forest"));
             someSprite->setAnchorPointPlace(item.xCoordAnchorType, item.yCoordAnchorType);
             someSprite->setSize(item.ImageSize);
             someObject->setSprite(someSprite);
@@ -508,7 +514,7 @@ void GameScene::placeSceneObjects()
         }
         else if (item.Name.find("Tower") != std::string::npos)
         {
-            auto tower= towerUpgradeController->ProduceTower(item.Name, tileMap, item.DrawPriority);
+            auto tower= towerUpgradeController->ProduceTower(item.Name, mTileMap, item.DrawPriority);
             tower->getSprite()->setAnchorPointPlace(item.xCoordAnchorType, item.yCoordAnchorType);
 
             spawnObject(item.ImagePosition, tower);
@@ -637,8 +643,10 @@ void GameScene::processWaveInfo(std::string aInfo)
 
     if (aInfo == "InProgress" || aInfo != "No more waves")
     {
-        if (tileMap == nullptr)
+        if (!mTileMap.isInitialized())
         {
+            LOG_ERROR("Tilemap Manager should be initialized");
+            assert(mTileMap.isInitialized() && "Tilemap Manager should be initialized");
         }
         monsterSpawner->doSpawn();
         return;
