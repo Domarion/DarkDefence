@@ -378,7 +378,7 @@ void Scene::onlyTestMoveCamera(Position aDeltaPosition)
     mCamera.setWorldPosition(pos);
 }
 
-Camera2D Scene::getCamera() const
+const Camera2D& Scene::getCamera() const
 {
     return mCamera;
 }
