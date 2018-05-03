@@ -35,13 +35,13 @@ void SceneManager::setCurrentScene(std::shared_ptr<Scene>& value)
     LOG_ERROR("Current scene is nullptr.");
 }
 
-void SceneManager::setCurrentSceneByName(std::string name)
+void SceneManager::setCurrentSceneByName(const std::string& aName)
 {
-    if (currentScene != scenes.at(name))
+    if (currentScene != scenes.at(aName))
     {
-        std::string msg = std::string{"SceneName = "} + name;
+        std::string msg = std::string{"SceneName = "} + aName;
         LOG_INFO(msg)
-        setCurrentScene(scenes.at(name));
+        setCurrentScene(scenes.at(aName));
     }
 }
 

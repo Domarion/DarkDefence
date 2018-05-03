@@ -4,7 +4,6 @@
 #include <memory>
 #include <string>
 
-
 class Scene;
 
 class SceneManager final
@@ -17,7 +16,7 @@ public:
 
     const std::shared_ptr<Scene>& getCurrentScene() const;
     void addScene(std::shared_ptr<Scene> scene, const std::string& aSceneName);
-    void setCurrentSceneByName(std::string name);
+    void setCurrentSceneByName(const std::string& aName);
     void askForChangeScene(const std::string& aName);
     void clearOldScene();
     void updateCurrentScene(double aTimeStep);
