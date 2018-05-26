@@ -46,12 +46,20 @@ else()
 	include_directories(${SDL2IMAGE_INCLUDE_DIRS})
 endif()
 
+PKG_SEARCH_MODULE(SDL2MIXER REQUIRED SDL2_mixer)
+
+if (NOT SDL2MIXER_FOUND)
+        message(SEND_ERROR "Failed to find SDL2_mixer")
+else()
+        include_directories(${SDL2MIXER_INCLUDE_DIRS})
+endif()
+
 PKG_SEARCH_MODULE(SDL2TTF REQUIRED SDL2_ttf)
 
 if (NOT SDL2TTF_FOUND)
 	message(SEND_ERROR "Failed to find SDL2_ttf")
 else()
-	include_directories(${SDL2TTG_INCLUDE_DIRS})
+        include_directories(${SDL2TTF_INCLUDE_DIRS})
 endif()
 
 set (CerealInclude ../external/cereal/include)
@@ -356,6 +364,7 @@ add_executable(DarkDefenceGame ${SRC_LIST})
 target_link_libraries(DarkDefenceGame
     ${SDL2_LIBRARIES}
     ${SDL2IMAGE_LIBRARIES}
+    ${SDL2MIXER_LIBRARIES}
     ${SDL2TTF_LIBRARIES}
     ${Boost_FILESYSTEM_LIBRARY}
     ${Boost_SYSTEM_LIBRARY})

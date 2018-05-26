@@ -3,7 +3,7 @@
 
 int main(int /*argc*/, char** /*args*/)
 {
-    SDL2Engine::SDL2 library(SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_EVENTS);
+    SDL2Engine::SDL2 library(SDL_INIT_TIMER | SDL_INIT_AUDIO | SDL_INIT_VIDEO | SDL_INIT_EVENTS);
 
     Size screenSize = library.getScreenResolution();
     screenSize.height -= 50;//TODO: убрать
