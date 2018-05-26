@@ -169,6 +169,7 @@ std::shared_ptr<Tower> TowerUpgradeController::ProduceTower(
     auto someSprite = std::make_shared<AnimationSceneSprite>(parentGameScene->getRenderer());
 
     someSprite->setTexture(ResourceManager::getInstance()->getTexture(aTowerName));
+    someSprite->setDrawPriority(aDrawPriority);
 
     tower->setSprite(someSprite);
 
@@ -177,7 +178,6 @@ std::shared_ptr<Tower> TowerUpgradeController::ProduceTower(
 
     tower->init(0, 0);
 
-    tower->setDrawPriority(aDrawPriority);
 
     return tower;
 }
@@ -225,7 +225,7 @@ bool TowerUpgradeController::menuClickHandler(size_t itemIndex)
         parentGameScene->getMainRect()->removeChild(upgradeGroup);
         upgradeGroup.reset();
 
-        cachedTower = ProduceTower(towerName, cachedTower->getTileMapManager(), cachedTower->getDrawPriority());
+        cachedTower = ProduceTower(towerName, cachedTower->getTileMapManager(), cachedTower->getSprite()->getDrawPriority());
 
         if (cachedTower == nullptr)
         {

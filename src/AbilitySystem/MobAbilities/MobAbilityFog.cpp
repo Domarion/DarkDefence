@@ -26,7 +26,7 @@ bool MobAbilityFog::onReady(double)
                         effectReceiver->applyEffect(fogEffect);
 
                         auto toSpawn = Make_AbilityAnimObject(
-                            "MobAbilityFog", workTime, parentScenePtr->getRenderer(), affectedMob->getDrawPriority() + 1);
+                            "MobAbilityFog", workTime, parentScenePtr->getRenderer(), affectedMob->getSprite()->getDrawPriority() + 1);
 
                         if (!toSpawn)
                         {

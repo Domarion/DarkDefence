@@ -273,12 +273,14 @@ void GameScene::initProgressBars()
 
 void GameScene::copyToRender() const
 {
-    drawSceneObjects();
+    drawAllObjects();
     if (SceneModeT::PlacingMode == mSceneMode)
     {
         renderer->setRendererDrawColor(0, 0, 255, 255);
 
         renderer->drawGrid(mTileMap.getMapSize(), mTileMap.getCellSize());
+
+        renderer->setRendererDrawColor(0, 0, 0, 255);
     }
     drawUI();
 }
@@ -344,9 +346,9 @@ void GameScene::spawningCallBack(std::string aMobName, Position aSpawnPosition, 
     auto someSprite = std::make_shared<AnimationSceneSprite>(getRenderer(), AnimationSceneSprite::Animation{animPack});
 
     someSprite->setTexture(ResourceManager::getInstance()->getTexture(aMobName));
+    someSprite->setDrawPriority(aDrawPriority);
 
     someMob->setSprite(someSprite);
-    someMob->setDrawPriority(aDrawPriority);
 
     spawnObject(aSpawnPosition, someMob);
 }
@@ -500,17 +502,21 @@ void GameScene::placeSceneObjects()
     {
         if (item.Name.find("Forest") != std::string::npos)
         {
-            auto someObject = std::make_shared<SceneObject>();
+//            auto someObject = std::make_shared<SceneObject>();
             auto someSprite = std::make_shared<AnimationSceneSprite>(renderer);
 
             someSprite->setTexture(ResourceManager::getInstance()->getTexture("Forest"));
             someSprite->setAnchorPointPlace(item.xCoordAnchorType, item.yCoordAnchorType);
             someSprite->setSize(item.ImageSize);
-            someObject->setSprite(someSprite);
-            someObject->setTag("Enviroment");
-            someObject->setDrawPriority(item.DrawPriority);
+            someSprite->setPosition(item.ImagePosition);
+            someSprite->setDrawPriority(item.DrawPriority);
 
-            spawnObject(item.ImagePosition, someObject);
+            Scene::addStaticSprite(someSprite);
+//            someObject->setSprite(someSprite);
+//            someObject->setTag("Enviroment");
+//            someObject->setDrawPriority(item.DrawPriority);
+
+//            spawnObject(item.ImagePosition, someObject);
         }
         else if (item.Name.find("Tower") != std::string::npos)
         {
@@ -527,6 +533,7 @@ void GameScene::placeSceneObjects()
             newView->setTexture(ResourceManager::getInstance()->getTexture("Castle"));
 
             newView->setAnchorPointPlace(item.xCoordAnchorType, item.yCoordAnchorType);
+            newView->setDrawPriority(item.DrawPriority);
 
             gates = std::make_shared<Gates>();
             gates->setSprite(newView);
@@ -540,7 +547,6 @@ void GameScene::placeSceneObjects()
                     std::placeholders::_2
                 ));
             gates->getDestructibleObject()->setMaximumHealth(5000);
-            gates->setDrawPriority(item.DrawPriority);
             spawnObject(item.ImagePosition, gates);
         }
         else if (item.Name == "ResourceWheat")
@@ -555,11 +561,11 @@ void GameScene::placeSceneObjects()
             resourcePlaceName.append("Resource");
 
             resSprite->setTexture(ResourceManager::getInstance()->getTexture(resourcePlaceName));
+            resSprite->setDrawPriority(item.DrawPriority);
             resSprite->setSize(item.ImageSize);
             resPlace->setSprite(resSprite);
             resPlace->setName("ResourcePlace");
             resPlace->setTag("ResourcePlace");
-            resPlace->setDrawPriority(item.DrawPriority);
 
             spawnObject(item.ImagePosition, resPlace);
         }
@@ -576,10 +582,10 @@ void GameScene::placeSceneObjects()
 
             resSprite->setTexture(ResourceManager::getInstance()->getTexture(resourcePlaceName));
             resSprite->setSize(item.ImageSize);
+            resSprite->setDrawPriority(item.DrawPriority);
             resPlace->setSprite(resSprite);
             resPlace->setName("ResourcePlace");
             resPlace->setTag("ResourcePlace");
-            resPlace->setDrawPriority(item.DrawPriority);
 
             spawnObject(item.ImagePosition, resPlace);
         }
@@ -590,6 +596,7 @@ void GameScene::placeSceneObjects()
             spawnerSprite->setTexture(ResourceManager::getInstance()->getTexture("Spawner"));
             spawnerSprite->setSize(item.ImageSize);
             spawnerSprite->setAnchorPointPlace(item.xCoordAnchorType, item.yCoordAnchorType);
+            spawnerSprite->setDrawPriority(item.DrawPriority);
 
             monsterSpawner = std::make_shared<Spawner>();
             monsterSpawner->setSprite(spawnerSprite);
@@ -598,7 +605,6 @@ void GameScene::placeSceneObjects()
             std::string waveInfoPath = currentMissionPath + "/wavesInfo.txt";
             monsterSpawner->loadWavesInfo(waveInfoPath);
 
-            monsterSpawner->setDrawPriority(item.DrawPriority);
 
             spawnObject(item.ImagePosition, monsterSpawner);
 

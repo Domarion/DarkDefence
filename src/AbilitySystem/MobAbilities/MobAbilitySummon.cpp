@@ -27,7 +27,7 @@ bool MobAbilitySummon::onWorking(double /*timestep*/)
                 gameScenePtr->spawningCallBack(
                     "Diversant",
                     target->getPosition(),
-                    target->getDrawPriority() + counter + 1);
+                    target->getSprite()->getDrawPriority() + counter + 1);
             }
         }
 

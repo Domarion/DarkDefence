@@ -413,10 +413,10 @@ void AIComponent::ShotArrow()
             assert(sprite);
 
             sprite->setTexture(ResourceManager::getInstance()->getTexture(arrowName));
+            sprite->setDrawPriority(lockedMob->getSprite()->getDrawPriority() + 1);
 
             auto miniObject = std::make_shared<ArrowAnim>(currentTarget->getRealPosition());
             miniObject->setSprite(sprite);
-            miniObject->setDrawPriority(lockedMob->getDrawPriority() + 1);
             lockedParentScene->spawnObject(lockedMob->getRealPosition(), miniObject);
         }
     }

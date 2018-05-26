@@ -39,8 +39,10 @@ public:
 
     virtual void destroyObject(std::shared_ptr<SceneObject> obj);
 
-    virtual void addToUIList(const std::shared_ptr<IComposite>& item);
-    virtual void removeFromUIList(const std::shared_ptr<IComposite>& item);
+    void addToUIList(const std::shared_ptr<IComposite>& item);
+    void removeFromUIList(const std::shared_ptr<IComposite>& item);
+
+    void addStaticSprite(const std::shared_ptr<AnimationSceneSprite>& aItem);
 
     virtual void replaceObject(std::shared_ptr<SceneObject> aObject, std::shared_ptr<SceneObject> aReplacement);
 
@@ -87,16 +89,18 @@ protected:
         int height,
         std::function<void (std::string)> handler,
         const std::string& aMsg);
-    void drawSceneObjects() const;
+
+    void drawAllObjects() const;
     void drawUI() const;
 
 private:
-    void addDrawObject(std::shared_ptr<SceneObject>& aObj);
+    void addDrawObject(const std::shared_ptr<AnimationSceneSprite>& aObj);
     void removeDrawObject(size_t aObjId);
-    void replaceDrawObject(size_t aOldObjId, std::shared_ptr<SceneObject>& aNewObject);
+    void replaceDrawObject(size_t aOldObjId, const std::shared_ptr<AnimationSceneSprite>& aNewObject);
 
     std::list<std::shared_ptr<IComposite>> listGUI;
     std::list<std::shared_ptr<SceneObject>> sceneObjects;
+    std::list<std::shared_ptr<AnimationSceneSprite>> staticObjects;
     Camera2D mCamera;
     std::list<DrawObject> drawObjects;
     ChangeSceneFunction mChangeSceneCallback;

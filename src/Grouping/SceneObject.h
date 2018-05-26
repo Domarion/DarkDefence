@@ -48,14 +48,8 @@ public:
 
     std::shared_ptr<AnimationSceneSprite> getModifiableSprite() const;
 
-    void setDrawPriority(size_t aPriority);
-    size_t getDrawPriority() const;
-    size_t getId() const;
-    static void resetSceneObjectIds();
 
 protected:
-
-    static size_t sceneObjectCurrentId;
 
     std::shared_ptr<AnimationSceneSprite> spriteModel;
     Position WorldPosition;
@@ -63,7 +57,5 @@ protected:
     string tag;
     std::weak_ptr<Scene> parentScenePtr;
     std::shared_ptr<InputHandler> mInputHandler;
-    size_t mDrawPriority = 0;
-    size_t mSceneObjectId = ++sceneObjectCurrentId;
 
 };
