@@ -13,6 +13,8 @@ MapMenuScene::MapMenuScene(
     std::shared_ptr<InputDispatcher> aInputDispatcher)
     : Scene(aRenderer, aInputDispatcher)
 {
+    // TODO: for test only
+    testSound.loadSound("GameData/Sounds/1.wav");
 }
 
 void MapMenuScene::init()
@@ -59,6 +61,8 @@ void MapMenuScene::loadMissionView()
         return;
     }
 
+    // TODO remove:
+    testSound.playSound();
     currentMission = *mission;
 
     auto layout = std::make_shared<StubLayout>();

@@ -29,4 +29,27 @@ private:
     }
 };
 
+struct ResAudio
+{
+    std::string Caption;
+    std::string Path;
+    enum class TAudioType : bool
+    {
+        Sound = 0,
+        Music = 1
+    };
+    TAudioType AudioType = TAudioType::Sound;
+
+private:
+    friend class cereal::access;
+    template <typename Archive>
+    void serialize(Archive& ar, const unsigned int /*version*/)
+    {
+        ar(
+            CEREAL_NVP(Caption),
+            CEREAL_NVP(Path),
+            CEREAL_NVP(AudioType));
+    }
+};
+
 }

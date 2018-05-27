@@ -3,6 +3,9 @@
 #include "../Grouping/Scene.h"
 #include "../MissionSystem/Mission.h"
 
+// TODO : Remove
+#include "../AudioSystem/Sound.hpp"
+
 class MapMenuScene final: public Scene
 {
 public:
@@ -17,5 +20,5 @@ private:
 //    void initMapIndicators();
 
     Mission currentMission;
-
+    Sound testSound;
 };

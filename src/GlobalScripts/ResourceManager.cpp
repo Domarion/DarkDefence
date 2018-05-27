@@ -1,6 +1,7 @@
 #include <sstream>
 
 #include <cereal/archives/xml.hpp>
+#include <cereal/archives/json.hpp>
 #include <cereal/types/vector.hpp>
 
 #include "ResourceManager.h"
@@ -55,6 +56,42 @@ void ResourceManager::loadConfigFromFile(
     }
 }
 
+void ResourceManager::loadAudioConfigFromFile(const std::string& aFilename)
+{
+    if (!mSounds.empty() || !mMusicCollection.empty())
+    {
+        return;
+    }
+
+    string textString;
+    androidText::loadTextFileToString(aFilename, textString);
+
+    if (!textString.empty() || (textString.size() == 1 && textString[0] == '\n'))
+    {
+        std::vector<UtilityStruct::ResAudio> configs;
+        std::stringstream str(textString);
+
+        cereal::JSONInputArchive jsonInput(str);
+
+        jsonInput(configs);
+        for (const auto& config : configs)
+        {
+            if (config.AudioType == UtilityStruct::ResAudio::TAudioType::Sound)
+            {
+                Sound s;
+                s.loadSound(config.Path);
+                mSounds.emplace(config.Caption, std::move(s));
+            }
+            else
+            {
+                Music mus;
+                mus.loadMusic(config.Path);
+                mMusicCollection.emplace(config.Caption, std::move(mus));
+            }
+        }
+    }
+}
+
 const Texture2D& ResourceManager::getTexture(const std::string& aObjectName) const
 {
     return mNameToTextureMap.at(aObjectName);
@@ -83,6 +120,26 @@ bool ResourceManager::hasTexture(const std::string& aObjectName) const
     }
 
     return mNameToTextureMap.find(aObjectName) != mNameToTextureMap.cend();
+}
+
+bool ResourceManager::hasSound(const std::string& aObjectName) const
+{
+    return mSounds.find(aObjectName) != mSounds.cend();
+}
+
+bool ResourceManager::hasMusic(const std::string& aObjectName) const
+{
+    return mMusicCollection.find(aObjectName) != mMusicCollection.cend();
+}
+
+const Sound& ResourceManager::getSound(const std::string& aObjectName) const
+{
+    return mSounds.at(aObjectName);
+}
+
+const Music& ResourceManager::getMusic(const std::string& aObjectName) const
+{
+    return mMusicCollection.at(aObjectName);
 }
 
 ResourceManager::AnimationPack ResourceManager::loadAnimationPack(const std::string& aAnimationPackPath)

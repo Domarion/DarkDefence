@@ -36,6 +36,7 @@ public:
     virtual void copyToRender() const;
     virtual void startUpdate(double timestep);
     virtual void spawnObject(Position aPos, std::shared_ptr<SceneObject> aObj);
+    virtual void softClear();
 
     virtual void destroyObject(std::shared_ptr<SceneObject> obj);
 
@@ -49,7 +50,6 @@ public:
     void bindChangeScene(const ChangeSceneFunction& aChangeSceneCallback);
 
     void askForChangeScene(const std::string& aName);
-    void softClear();
     void addAsInputHandler(std::shared_ptr<InputHandler> item);
     void clearUIList();
     std::shared_ptr<SceneObject> findObjectByTag(const std::string& aTag);

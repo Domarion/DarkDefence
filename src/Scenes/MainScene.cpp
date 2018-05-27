@@ -13,6 +13,7 @@ MainScene::MainScene(std::shared_ptr<RenderingSystem>& aRenderer, std::shared_pt
 void MainScene::init()
 {
     Scene::init();
+    testMusic.loadMusic("GameData/Music/Camila Cabello - Never Be the Same.mp3");
 
     if (itemNamesSceneNamesMapping.empty())
         loadMenuItems("GameData/MainMenu.txt");
@@ -20,7 +21,13 @@ void MainScene::init()
     initBackground();
     initUIMenuItems();
     Scene::addToUIList(MainRect);
+    testMusic.playMusic();
+}
 
+void MainScene::softClear()
+{
+    testMusic.stopMusic();
+    Scene::softClear();
 }
 
 void MainScene::ConnectMethod(std::function<void (std::string)> handler)
@@ -72,7 +79,6 @@ void MainScene::initUIMenuItems()
                                   itemNamesSceneNamesMapping[menuIndex].second,
                                   x, y, 200, 50);
         y = MainRect->getNextVerticalPosition().y;
-
     }
 }
 
