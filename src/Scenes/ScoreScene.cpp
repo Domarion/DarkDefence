@@ -24,8 +24,10 @@ void ScoreScene::init()
 
     showScoreView();
 
-    Scene::addLoadSceneButton("Главное меню", "ButtonFont", "MainScene",
-                MainRect->getSize().width/2 - 75, MainRect->getSize().height - 50 , 150, 50);
+    Scene::addLoadSceneButton(
+        "MainScene",
+        Position(MainRect->getSize().width/2 - 50, MainRect->getSize().height - 100),
+        SceneChange::Main);
 
     GameModel::getInstance()->resetGameValues();
     Scene::addToUIList(MainRect);

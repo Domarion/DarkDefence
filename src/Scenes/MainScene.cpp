@@ -74,10 +74,12 @@ void MainScene::initUIMenuItems()
 
     for(size_t menuIndex = 0; menuIndex < itemNamesSceneNamesMapping.size(); ++menuIndex)
     {
-        Scene::addLoadSceneButton(itemNamesSceneNamesMapping[menuIndex].first,
-                                  "MenuFont",
-                                  itemNamesSceneNamesMapping[menuIndex].second,
-                                  x, y, 200, 50);
+        Scene::addLoadSceneButton(
+            itemNamesSceneNamesMapping[menuIndex].first,
+            "MenuFont",
+            itemNamesSceneNamesMapping[menuIndex].second,
+            x,
+            y);
         y = MainRect->getNextVerticalPosition().y;
     }
 }

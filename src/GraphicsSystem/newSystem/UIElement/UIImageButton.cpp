@@ -1,7 +1,7 @@
 #include "UIImageButton.h"
 
-UIImageButton::UIImageButton(std::shared_ptr<RenderingSystem> &aRenderingContext)
-    :UIImage(aRenderingContext)
+UIImageButton::UIImageButton(std::shared_ptr<RenderingSystem>& aRenderingContext)
+    : UIImage(aRenderingContext)
 {
 }
 

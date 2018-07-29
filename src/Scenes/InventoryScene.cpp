@@ -48,10 +48,7 @@ void InventoryScene::clear()
 
 void InventoryScene::initControlButton()
 {
-    Position pos(MainRect->getSize().width - 100, MainRect->getSize().height - 50);
-
-    Scene::addLoadSceneButton("Назад", "ButtonFont", "MainScene",
-                              pos.x, pos.y, 100, 50);
+    Scene::addLoadSceneButton("MainScene", Position{0, MainRect->getSize().height - 100}, SceneChange::Prev);
 }
 
 void InventoryScene::initHeroView()

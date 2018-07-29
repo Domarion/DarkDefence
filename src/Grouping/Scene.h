@@ -72,14 +72,22 @@ protected:
     std::shared_ptr<InputDispatcher> mInputDispatcher;
     std::shared_ptr<ConcreteComposite> MainRect;
 
+    enum class SceneChange
+    {
+        UNDEFINED = 0,
+        Prev = 1,
+        Next = 2,
+        Main = 3
+    };
+
     void addLoadSceneButton(
         const std::string& aButtonName,
         const std::string& aFontName,
         const std::string& aSceneName,
         int posX,
-        int posY,
-        int,
-        int);
+        int posY);
+    void addLoadSceneButton(const std::string& aSceneName, Position aPos, SceneChange aChangeType);
+
     void addSceneButton(
         const std::string& aButtonName,
         const std::string& aFontName,
@@ -97,6 +105,7 @@ private:
     void addDrawObject(const std::shared_ptr<AnimationSceneSprite>& aObj);
     void removeDrawObject(size_t aObjId);
     void replaceDrawObject(size_t aOldObjId, const std::shared_ptr<AnimationSceneSprite>& aNewObject);
+    std::string SceneChangeTypeHelper(SceneChange aChangeType);
 
     std::list<std::shared_ptr<IComposite>> listGUI;
     std::list<std::shared_ptr<SceneObject>> sceneObjects;

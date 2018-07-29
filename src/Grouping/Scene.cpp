@@ -5,8 +5,10 @@
 #include "SceneObject.h"
 #include "SceneObjectFabric.h"
 #include "../Input/InputDispatcher.h"
+#include "../GraphicsSystem/newSystem/UIElement/UIImageButton.h"
 #include "../GraphicsSystem/newSystem/UIElement/UITextButton.h"
 #include "../GlobalScripts/GameModel.h"
+#include "../GlobalScripts/ResourceManager.h"
 #include "Logging/Logger.h"
 
 Scene::Scene(std::shared_ptr<RenderingSystem>& aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher)
@@ -78,6 +80,26 @@ void Scene::replaceDrawObject(size_t aOldObjId, const std::shared_ptr<AnimationS
                 aNewObject->getId()
             };
     }
+}
+
+std::string Scene::SceneChangeTypeHelper(Scene::SceneChange aChangeType)
+{
+    switch(aChangeType)
+    {
+    case SceneChange::Prev:
+        return "PrevScene";
+    case SceneChange::Next:
+        return "NextScene";
+    case SceneChange::Main:
+        return "MainScene";
+    case SceneChange::UNDEFINED:
+        assert(false && "Undefined changeType");
+        break;
+    default:
+        assert(false && "Unknown changeType");
+        break;
+    }
+    return std::string{};
 }
 
 void Scene::removeDrawObject(size_t aObjId)
@@ -399,12 +421,28 @@ std::shared_ptr<RenderingSystem>& Scene::getRenderer()
     return renderer;
 }
 
+void Scene::addLoadSceneButton(const std::string& aSceneName, Position aPos, SceneChange aChangeType)
+{
+    std::string changeSceneButtonView = SceneChangeTypeHelper(aChangeType);
+
+    auto uiButton = std::make_shared<UIImageButton>(renderer);
+    assert(ResourceManager::getInstance()->hasTexture(changeSceneButtonView) && "NextScene texture null");
+    auto& texture = ResourceManager::getInstance()->getTexture(changeSceneButtonView);
+    uiButton->setTexture(texture);
+    uiButton->setPosition(aPos);
+
+    uiButton->ConnectMethod(std::bind(mChangeSceneCallback, aSceneName));
+
+    MainRect->addChild(uiButton);
+}
+
+
 void Scene::addLoadSceneButton(
-    const std::string& aButtonName, const std::string& aFontName, const std::string& aSceneName, int posX, int posY,
-    int /*width*/, int /*height*/)
+    const std::string& aButtonName, const std::string& aFontName, const std::string& aSceneName, int posX, int posY)
 {
     auto textButton = std::make_shared<UITextButton>(aButtonName, FontManager::getInstance()->getFontByKind2(aFontName),
                       renderer);
+
     textButton->setPosition(Position(posX, posY));
 
     textButton->ConnectMethod(std::bind(mChangeSceneCallback, aSceneName));

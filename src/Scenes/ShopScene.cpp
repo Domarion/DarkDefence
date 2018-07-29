@@ -44,7 +44,9 @@ void ShopScene::startUpdate(double timestep)
 void ShopScene::initControlButton()
 {
     Scene::addLoadSceneButton(
-        "Назад", "ButtonFont", "MainScene", MainRect->getSize().width - 100, MainRect->getSize().height - 50, 100, 50);
+        "MainScene",
+        Position(0, MainRect->getSize().height - 100),
+        SceneChange::Prev);
 }
 
 void ShopScene::initBackGroundUI()

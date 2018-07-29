@@ -289,6 +289,27 @@
 			<ImagePath>GameData/textures/Environment/Forest.png</ImagePath>
             <AnimationPackPath></AnimationPackPath>
 		</value40>
+        <value41>
+			<Caption>PrevScene</Caption>
+			<ImageWidth>100</ImageWidth>
+			<ImageHeight>100</ImageHeight>
+			<ImagePath>GameData/textures/PrevScene.png</ImagePath>
+            <AnimationPackPath></AnimationPackPath>
+		</value41>
+        <value42>
+			<Caption>NextScene</Caption>
+			<ImageWidth>100</ImageWidth>
+			<ImageHeight>100</ImageHeight>
+			<ImagePath>GameData/textures/NextScene.png</ImagePath>
+            <AnimationPackPath></AnimationPackPath>
+		</value42>
+        <value43>
+			<Caption>MainScene</Caption>
+			<ImageWidth>100</ImageWidth>
+			<ImageHeight>100</ImageHeight>
+			<ImagePath>GameData/textures/MainScene.png</ImagePath>
+            <AnimationPackPath></AnimationPackPath>
+		</value43>
 	</TexturePaths>
 </cereal>
 
