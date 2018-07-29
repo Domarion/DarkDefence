@@ -1,6 +1,7 @@
-5
-MenuFont Fonts/arial.ttf 48 0 0 0
-TextFont Fonts/arial.ttf 22 255 255 255
-ButtonFont Fonts/arial.ttf 24 0 0 0
-TextFontBig Fonts/arial.ttf 48 255 255 255
-TextFontButton Fonts/arial.ttf 48 0 255 0
+6
+MenuFont        Fonts/arial.ttf 48 0 0 0
+TextFont        Fonts/arial.ttf 22 255 255 255
+ButtonFont      Fonts/arial.ttf 24 0 0 0
+TextFontBig     Fonts/arial.ttf 48 255 255 255
+TextFontButton  Fonts/arial.ttf 48 0 255 0
+ItemFont        Fonts/arial.ttf 36 3 13 78

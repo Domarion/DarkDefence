@@ -48,7 +48,7 @@ void InventoryScene::clear()
 
 void InventoryScene::initControlButton()
 {
-    Scene::addLoadSceneButton("MainScene", Position{0, MainRect->getSize().height - 100}, SceneChange::Prev);
+    Scene::addLoadSceneButton("MainScene", Position{0, MainRect->getSize().height - 120}, SceneChange::Prev);
 }
 
 void InventoryScene::initHeroView()

@@ -40,13 +40,13 @@ void MapMenuScene::init()
 
 void MapMenuScene::initNavigationButtons()
 {
-    Scene::addLoadSceneButton("MainScene", Position{0, MainRect->getSize().height - 100}, SceneChange::Prev);
+    Scene::addLoadSceneButton("MainScene", Position{0, MainRect->getSize().height - 120}, SceneChange::Prev);
 
     if (!currentMission.isEmpty())
     {
         Scene::addLoadSceneButton(
             "GameScene",
-            Position{MainRect->getSize().width - 100, MainRect->getSize().height - 100},
+            Position{MainRect->getSize().width - 120, MainRect->getSize().height - 120},
             SceneChange::Next);
     }
 }

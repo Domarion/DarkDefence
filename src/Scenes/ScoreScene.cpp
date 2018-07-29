@@ -26,7 +26,7 @@ void ScoreScene::init()
 
     Scene::addLoadSceneButton(
         "MainScene",
-        Position(MainRect->getSize().width/2 - 50, MainRect->getSize().height - 100),
+        Position(MainRect->getSize().width/2 - 60, MainRect->getSize().height - 120),
         SceneChange::Main);
 
     GameModel::getInstance()->resetGameValues();
