@@ -8,6 +8,7 @@ public:
     using SceneObjectList = std::unique_ptr<std::list<std::shared_ptr<SceneObject> > >;
 
     MobAbilityFog();
+    virtual ~MobAbilityFog() override;
 
     // AbilityModel interface
     bool onReady(double) override;
@@ -18,6 +19,7 @@ public:
     bool canTrigger(std::shared_ptr<SceneObject> targ, Enums::AIMobStates aistate) override;
 
 private:
+    void CancelEffects();
     std::shared_ptr<EffectModel> fogEffect;
     SceneObjectList affectedMobs;
 
