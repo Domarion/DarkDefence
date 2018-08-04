@@ -54,6 +54,7 @@ void Leaf::setParent(weak_ptr<IComposite> aParent)
 {
     parent = aParent;
 }
+
 bool Leaf::hasParent() const
 {
     return !(getParent().expired());

@@ -6,10 +6,11 @@
 #include "../UIElement/ConcreteComposite.h"
 #include "UISlot.h"
 
-class UISlotContainer final: public InputHandler
+class UISlotContainer final: public ConcreteComposite
 {
 public:
-    UISlotContainer(const std::string& aEmptyImagePath,
+    UISlotContainer(
+        const std::string& aEmptyImagePath,
         size_t aItemCount,
         Size aItemSize,
         std::shared_ptr<RenderingSystem>& aRenderer);
@@ -21,10 +22,9 @@ public:
     void ConnectMethod(std::function<bool(int)> aMethod);
     bool onClick(Position aPoint) override;
     const std::vector<std::shared_ptr<UISlot>>& getItems();
+    virtual void draw() const override;
 private:
 
     std::vector<std::shared_ptr<UISlot>> mItems;
-    std::shared_ptr<RenderingSystem> mRenderer;
-
     std::function<bool(int)> mConnectedMethod;
 };

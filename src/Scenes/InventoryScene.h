@@ -16,8 +16,9 @@ private:
     void initControlButton();
     void initHeroView();
     void initInventoryView();
-
+    void inventoryDescription(const std::shared_ptr<ConcreteComposite>& aDescComposite);
     std::unique_ptr<InventoryController> inventoryController;
     std::unique_ptr<HeroInventoryController> heroController;
+    std::shared_ptr<ConcreteComposite> descView;
 };
 

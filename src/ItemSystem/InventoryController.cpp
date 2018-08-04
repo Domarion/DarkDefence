@@ -2,7 +2,7 @@
 
 #include "InventoryController.h"
 #include "../Grouping/FontManager.h"
-#include "../GraphicsSystem/newSystem/UIElement/UIImage.h"
+#include "../GraphicsSystem/newSystem/UIElement/UIImageButton.h"
 #include "../GraphicsSystem/newSystem/UIElement/UITextButton.h"
 #include "../GlobalScripts/ResourceManager.h"
 #include "../Logging/Logger.h"
@@ -17,12 +17,12 @@ void InventoryController::setView(std::shared_ptr<UIScrollList>& newView)
 	view = newView;
 }
 
-void InventoryController::setModel(std::shared_ptr<Inventory> newModel)
+void InventoryController::setModel(const std::shared_ptr<Inventory>& newModel)
 {
 	model = newModel;
 }
 
-std::shared_ptr<Inventory> InventoryController::getModel() const
+const std::shared_ptr<Inventory>& InventoryController::getModel() const
 {
 	return model;
 }
@@ -40,12 +40,12 @@ void InventoryController::initView()
 		return;
 
     auto layout = std::make_shared<StubLayout>();
-    const auto& fontRef =  FontManager::getInstance()->getFontByKind2("ButtonFont");
+    const auto& fontRef =  FontManager::getInstance()->getFontByKind2("ItemFont");
 
     for (int i = 0; i != count; ++i)
 	{
         auto itemPtr = model->getItemFromIndex(i);
-        addItemView(itemPtr->getCaption(), itemPtr->getDescription(), layout, fontRef);
+        addItemView(itemPtr->getCaption(), layout, fontRef);
 	}
 }
 
@@ -54,20 +54,62 @@ void InventoryController::receiveItemFromModel(string aCaption, size_t /*itemTyp
     if (aCaption.empty())
         return;
 
-    const Font& fontRef = FontManager::getInstance()->getFontByKind2("ButtonFont");
-    auto layout = std::make_shared<StubLayout>();
+    const Font& fontRef = FontManager::getInstance()->getFontByKind2("ItemFont");
 
-    addItemView(aCaption, "TODO: desc stub", layout, fontRef);
+    addItemView(aCaption, std::make_shared<StubLayout>(), fontRef);
 }
 
 bool InventoryController::sendItemToModel(int index)
 {
+    auto* item = model->getItemFromIndex(index);
+    if (lastShowItemName == item->getCaption() && DescCallback)
+    {
+        // Remove desc item if exist;
+        static auto null = std::shared_ptr<ConcreteComposite>(nullptr);
+        DescCallback(null);
+    }
     return model->sendItem(index);
+}
+
+void InventoryController::SetDescriptionCallBack(const InventoryController::DescriptionCallBack& aCallback)
+{
+    DescCallback = aCallback;
+}
+
+void InventoryController::showDescription(const std::string& aItemName)
+{
+    auto* itemPtr = model->getItemByName(aItemName);
+    if (itemPtr == nullptr)
+    {
+        return;
+    }
+
+    lastShowItemName = aItemName;
+    // TODO: обработка с удалением
+    const std::string& description = itemPtr->getDescription();
+    Size itemSize{350, 112};
+    auto descriptionGroup = std::make_shared<ConcreteComposite>(renderer, std::make_shared<StubLayout>());
+    descriptionGroup->setSize(itemSize);
+    descriptionGroup->setPosition(Position(600, 400));
+    auto itemBackgroundImage = std::make_shared<UIImage>(renderer);
+    itemBackgroundImage->setTexture(ResourceManager::getInstance()->getTexture("InventoryItemBackImage"));
+    descriptionGroup->addChild(itemBackgroundImage);
+
+    auto shopItemCaption = std::make_shared<UILabel>(
+        description,
+        FontManager::getInstance()->getFontByKind2("TextFont"),
+        renderer);
+    shopItemCaption->setPosition(Position(15, 15));
+    descriptionGroup->addChild(shopItemCaption);
+
+    if (DescCallback)
+    {
+        DescCallback(std::move(descriptionGroup));
+    }
 }
 
 void InventoryController::addItemView(
     const std::string& aItemCaption,
-    const std::string& aItemDescription,
     const std::shared_ptr<StubLayout>& aLayout,
     const Font& aFont)
 {
@@ -85,7 +127,7 @@ void InventoryController::addItemView(
 
     itemBackgroundImage->setTexture(resourceManagerPtr->getTexture("InventoryItemBackImage"));
 
-    Size itemSize{250, 96};
+    Size itemSize{350, 112};
     shopItemGroup->setSize(itemSize);
     itemBackgroundImage->setSize(itemSize);
     shopItemGroup->addChild(itemBackgroundImage);
@@ -93,17 +135,21 @@ void InventoryController::addItemView(
     auto shopItemIcon = std::make_shared<UIImage>(renderer);
     string iconPath = "GameData/textures/items/" + aItemCaption + ".png";
     shopItemIcon->loadTexture(iconPath);
-    shopItemIcon->setSize(Size(76, 76));
+    shopItemIcon->setSize(Size(112, 112));
     shopItemGroup->addChild(shopItemIcon);
 
     auto shopItemCaption = std::make_shared<UILabel>(aItemCaption, aFont, renderer);
     shopItemCaption->setPosition(shopItemGroup->getNextHorizontalPosition());
     shopItemGroup->addChild(shopItemCaption);
 
-    auto shopItemDescription = std::make_shared<UILabel>(aItemDescription, aFont, renderer);
-    Position descPos{shopItemCaption->getLocalPosition().x, shopItemGroup->getNextVerticalPosition().y};
-    shopItemDescription->setPosition(descPos);
-    shopItemGroup->addChild(shopItemDescription);
+    auto helpButton = std::make_shared<UIImageButton>(renderer);
+    helpButton->setTexture(resourceManagerPtr->getTexture("HelpButton"));
+    helpButton->setSize(Size(50, 50));
+    helpButton->SetCanConsumeInput(true);
+    helpButton->setPosition(
+        Position(shopItemCaption->getPosition().x, shopItemGroup->getNextVerticalPosition().y));
+    helpButton->ConnectMethod(std::bind(&InventoryController::showDescription, this, aItemCaption));
+    shopItemGroup->addChild(helpButton);
 
     view->addChild(shopItemGroup);
 }

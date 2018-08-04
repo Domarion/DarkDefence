@@ -1,17 +1,18 @@
 #include "UISlotContainer.h"
+#include "../StubLayout.h"
 
 UISlotContainer::UISlotContainer(
     const std::string& aEmptyImagePath,
     size_t aItemCount,
     Size aItemSize,
     std::shared_ptr<RenderingSystem>& aRenderer)
-    : mItems(aItemCount)
-    , mRenderer(aRenderer)
+    : ConcreteComposite(aRenderer, std::make_shared<StubLayout>())
+    , mItems(aItemCount)
     , mConnectedMethod(nullptr)
 {
     for (auto& item : mItems)
     {
-        item = std::make_shared<UISlot>(aEmptyImagePath, mRenderer);
+        item = std::make_shared<UISlot>(aEmptyImagePath, aRenderer);
         item->setSize(aItemSize);
     }
 }
@@ -20,6 +21,7 @@ void UISlotContainer::LoadItemAtIndex(const std::string& aPath, size_t aIndex)
 {
     mItems[aIndex]->resetForeground();
     mItems[aIndex]->loadForeground(aPath);
+    mItems[aIndex]->setParent(shared_from_this());
 }
 
 void UISlotContainer::SetItemPos(Position aPos, size_t aIndex)
@@ -30,6 +32,7 @@ void UISlotContainer::SetItemPos(Position aPos, size_t aIndex)
 void UISlotContainer::FillItemAtIndex(const std::shared_ptr<UISlot>& aItem, size_t aIndex)
 {
     mItems[aIndex] = aItem;
+    mItems[aIndex]->setParent(shared_from_this());
 }
 
 void UISlotContainer::CleanItemAtIndex(int aIndex)
@@ -77,3 +80,12 @@ const std::vector<std::shared_ptr<UISlot>>& UISlotContainer::getItems()
 {
     return mItems;
 }
+
+void UISlotContainer::draw() const
+{
+    for(const auto& child : mItems)
+    {
+        child->draw();
+    }
+}
+

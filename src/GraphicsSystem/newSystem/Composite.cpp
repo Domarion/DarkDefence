@@ -35,7 +35,12 @@ void Composite::addChild(const shared_ptr<IComposite>& child)
 void Composite::removeChild(const shared_ptr<IComposite>& child)
 {
     if (child != nullptr)
-        children.remove(child);
+    {
+        children.remove_if([&child](const auto& aLeft)
+            {
+                return aLeft != nullptr && *aLeft == *child;
+            });
+    }
 }
 
 void Composite::draw() const
@@ -156,6 +161,22 @@ bool Composite::containsPoint(Position aPosition) const
         }
     }
 
+    return false;
+}
+
+bool Composite::canConsumeInput() const
+{
+    for (const auto& child: children)
+    {
+        if (child)
+        {
+            auto handler = std::dynamic_pointer_cast<InputHandler>(child);
+            if (handler && handler->canConsumeInput())
+            {
+                return true;
+            }
+        }
+    }
     return false;
 }
 

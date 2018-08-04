@@ -10,6 +10,11 @@ void UIImageButton::ConnectMethod(std::function<void (std::string)> method)
     connectedMethod = method;
 }
 
+void UIImageButton::SetCanConsumeInput(bool aShouldConsume)
+{
+    mShouldConsumeInput = aShouldConsume;
+}
+
 bool UIImageButton::onClick(Position point)
 {
     SDL_Rect rect = SDL_Rect();
@@ -28,4 +33,9 @@ bool UIImageButton::onClick(Position point)
     }
 
     return result;
+}
+
+bool UIImageButton::canConsumeInput() const
+{
+    return mShouldConsumeInput;
 }

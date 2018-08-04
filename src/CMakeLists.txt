@@ -185,12 +185,13 @@ set(SRC_LIST
     ItemSystem/HeroInventoryController.h
     ItemSystem/ShopInventory.h
 
+    GraphicsSystem/newSystem/IHasIdentifier.h
     GraphicsSystem/newSystem/Size.h
     GraphicsSystem/newSystem/Position.h
     GraphicsSystem/newSystem/UtilityStructs.h
     GraphicsSystem/newSystem/Font.h
-    GraphicsSystem/newSystem/Composite.h
     GraphicsSystem/newSystem/IComposite.h
+    GraphicsSystem/newSystem/Composite.h
     GraphicsSystem/newSystem/ILayout.h
     GraphicsSystem/newSystem/VerticalLayout.h
     GraphicsSystem/newSystem/HorizontalLayout.h
@@ -335,6 +336,7 @@ set(SRC_LIST
     ItemSystem/ShopInventory.cpp
     ItemSystem/ItemModel.cpp
 
+    GraphicsSystem/newSystem/IHasIdentifier.cpp
     GraphicsSystem/newSystem/Leaf.cpp
     GraphicsSystem/newSystem/Composite.cpp
     GraphicsSystem/newSystem/Font.cpp

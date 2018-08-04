@@ -317,6 +317,13 @@
 			<ImagePath>GameData/textures/BuyButton.png</ImagePath>
             <AnimationPackPath></AnimationPackPath>
 		</value44>
+        <value45>
+			<Caption>HelpButton</Caption>
+			<ImageWidth>50</ImageWidth>
+			<ImageHeight>50</ImageHeight>
+			<ImagePath>GameData/textures/HelpButton.png</ImagePath>
+            <AnimationPackPath></AnimationPackPath>
+		</value45>
 	</TexturePaths>
 </cereal>
 
