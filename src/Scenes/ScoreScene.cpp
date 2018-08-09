@@ -48,7 +48,7 @@ void ScoreScene::showItemRewards()
 
     list<string> missionRewardItems = GameModel::getInstance()->getMissionReward().getFullDescription();
 
-    const auto& font = FontManager::getInstance()->getFontByKind2("ButtonFont");
+    const auto& font = FontManager::getInstance()->getFontByKind("ButtonFont");
     for(auto& rewardItem : missionRewardItems)
     {
         auto rewardIcon = std::make_shared<UIImage>(renderer);
@@ -84,7 +84,7 @@ void ScoreScene::showGoldReward()
         rewardGoldGroup->setPosition(MainRect->getNextVerticalPosition());
 
 
-        const auto& font = FontManager::getInstance()->getFontByKind2("ButtonFont");
+        const auto& font = FontManager::getInstance()->getFontByKind("ButtonFont");
         auto rewardGoldIcon = std::make_shared<UIImage>(renderer);
         rewardGoldIcon->setSize(Size(30, 30));
         rewardGoldIcon->setPosition(rewardGoldGroup->getNextVerticalPosition());
@@ -103,7 +103,7 @@ void ScoreScene::showGoldReward()
 
 void ScoreScene::showScoreView()
 {
-    const auto& font = FontManager::getInstance()->getFontByKind2("ButtonFont");
+    const auto& font = FontManager::getInstance()->getFontByKind("ButtonFont");
     auto scoreLabel = std::make_shared<UILabel>("none", font, renderer);
     scoreLabel->setPosition(Position(MainRect->getSize().width/2 - 75, 0));
     MainRect->addChild(scoreLabel);

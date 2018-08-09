@@ -213,7 +213,7 @@ void GameScene::initResourceView()
 
     size_t resourcePanelWidth = iconSize.width * GlobalConstants::resourceTypeCount;
 
-    const auto& labelFont = FontManager::getInstance()->getFontByKind2("TextFont");
+    const auto& labelFont = FontManager::getInstance()->getFontByKind("TextFont");
     resourceLabels.resize(GlobalConstants::resourceTypeCount);
 
     for(size_t i = 0; i != GlobalConstants::resourceTypeCount; ++i)
@@ -362,7 +362,7 @@ void GameScene::initTopPanel()
     auto miniGroup = std::make_shared<ConcreteComposite>(renderer, layout);
     miniGroup->setPosition(MainRect->getNextHorizontalPosition());
 
-    const auto& aFont = FontManager::getInstance()->getFontByKind2("TextFont");
+    const auto& aFont = FontManager::getInstance()->getFontByKind("TextFont");
 
     pointsLabel = std::make_shared<UILabel>("none", aFont, renderer);
     pointsLabel->setPosition(miniGroup->getNextHorizontalPosition());

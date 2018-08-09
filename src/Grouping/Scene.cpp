@@ -440,7 +440,7 @@ void Scene::addLoadSceneButton(const std::string& aSceneName, Position aPos, Sce
 void Scene::addLoadSceneButton(
     const std::string& aButtonName, const std::string& aFontName, const std::string& aSceneName, Position aPos)
 {
-    auto textButton = std::make_shared<UITextButton>(aButtonName, FontManager::getInstance()->getFontByKind2(aFontName),
+    auto textButton = std::make_shared<UITextButton>(aButtonName, FontManager::getInstance()->getFontByKind(aFontName),
                       renderer);
 
     textButton->setPosition(aPos);
@@ -453,7 +453,7 @@ void Scene::addLoadSceneButton(
 void Scene::addSceneButton(const std::string& aButtonName, const std::string& aFontName, int posX, int posY, int /*width*/, int /*height*/,
     std::function<void(std::string)> handler, const std::string& aMsg)
 {
-    auto textButton = std::make_shared<UITextButton>(aButtonName, FontManager::getInstance()->getFontByKind2(aFontName),
+    auto textButton = std::make_shared<UITextButton>(aButtonName, FontManager::getInstance()->getFontByKind(aFontName),
                       renderer);
     textButton->setPosition(Position(posX, posY));
     textButton->setMessage(aMsg);

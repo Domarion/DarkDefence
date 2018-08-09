@@ -40,7 +40,7 @@ void InventoryController::initView()
 		return;
 
     auto layout = std::make_shared<StubLayout>();
-    const auto& fontRef =  FontManager::getInstance()->getFontByKind2("ItemFont");
+    const auto& fontRef =  FontManager::getInstance()->getFontByKind("ItemFont");
 
     for (int i = 0; i != count; ++i)
 	{
@@ -54,7 +54,7 @@ void InventoryController::receiveItemFromModel(string aCaption, size_t /*itemTyp
     if (aCaption.empty())
         return;
 
-    const Font& fontRef = FontManager::getInstance()->getFontByKind2("ItemFont");
+    const Font& fontRef = FontManager::getInstance()->getFontByKind("ItemFont");
 
     addItemView(aCaption, std::make_shared<StubLayout>(), fontRef);
 }
@@ -97,7 +97,7 @@ void InventoryController::showDescription(const std::string& aItemName)
 
     auto shopItemCaption = std::make_shared<UILabel>(
         description,
-        FontManager::getInstance()->getFontByKind2("TextFont"),
+        FontManager::getInstance()->getFontByKind("TextFont"),
         renderer);
     shopItemCaption->setPosition(Position(15, 15));
     descriptionGroup->addChild(shopItemCaption);

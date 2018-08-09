@@ -27,7 +27,7 @@ void ShopController::initView(std::shared_ptr<RenderingSystem>& aRenderer)
 {
 	int count = model->getItemCount();
 
-    const Font& font =  FontManager::getInstance()->getFontByKind2("ItemFont");
+    const Font& font =  FontManager::getInstance()->getFontByKind("ItemFont");
 
     Size itemSize{view->getSize()};
 

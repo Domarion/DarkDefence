@@ -72,7 +72,7 @@ void MapMenuScene::loadMissionView()
 
     currentMissionView->setSize(Size(MainRect->getSize().width/4*3, MainRect->getSize().height - 100));
     currentMissionView->setScalingFactor(MainRect->getScalingFactor());
-    currentMissionView->init(currentMission, FontManager::getInstance()->getFontByKind2("TextFontBig"));
+    currentMissionView->init(currentMission, FontManager::getInstance()->getFontByKind("TextFontBig"));
     MainRect->addChild(currentMissionView);
 }
 

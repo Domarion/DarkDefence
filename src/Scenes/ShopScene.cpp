@@ -56,7 +56,7 @@ void ShopScene::initBackGroundUI()
     MainRect->addChild(backGroundImage);
     backGroundImage->setSize(MainRect->getSize());
 
-    const auto& font = FontManager::getInstance()->getFontByKind2("ItemFont");
+    const auto& font = FontManager::getInstance()->getFontByKind("ItemFont");
 
     auto sceneNameLabel = std::make_shared<UILabel>("Мистическая лавка", font, renderer);
     sceneNameLabel->setPosition(Position(MainRect->getSize().width/3 - 120, 0));
