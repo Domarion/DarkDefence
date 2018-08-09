@@ -80,12 +80,10 @@ protected:
         Main = 3
     };
 
-    void addLoadSceneButton(
-        const std::string& aButtonName,
+    void addLoadSceneButton(const std::string& aButtonName,
         const std::string& aFontName,
         const std::string& aSceneName,
-        int posX,
-        int posY);
+        Position aPos);
     void addLoadSceneButton(const std::string& aSceneName, Position aPos, SceneChange aChangeType);
 
     void addSceneButton(

@@ -69,18 +69,17 @@ void MainScene::loadMenuItems(const std::string& aFilename)
 
 void MainScene::initUIMenuItems()
 {
-    int x = MainRect->getSize().width/4;
+    int x = MainRect->getSize().width/2 - 125;
     int y = MainRect->getSize().height/4;
 
     for(size_t menuIndex = 0; menuIndex < itemNamesSceneNamesMapping.size(); ++menuIndex)
     {
         Scene::addLoadSceneButton(
             itemNamesSceneNamesMapping[menuIndex].first,
-            "MenuFont",
+            "MenuBigFont",
             itemNamesSceneNamesMapping[menuIndex].second,
-            x,
-            y);
-        y = MainRect->getNextVerticalPosition().y;
+            Position(x, y));
+        y = MainRect->getNextVerticalPosition().y + 50;
     }
 }
 
