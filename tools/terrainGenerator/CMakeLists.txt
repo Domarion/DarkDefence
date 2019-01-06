@@ -32,7 +32,13 @@ set(SRC_LIST
     )
 
 
-include_directories(${RenderingSystem_INCLUDE_DIRS} ${SDL2_INCLUDE_DIRS} ${SDL2IMAGE_INCLUDE_DIRS} ${SDL2TTF_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
+include_directories(${RenderingSystem_INCLUDE_DIRS}
+    ${SDL2_INCLUDE_DIRS}
+    ${SDL2IMAGE_INCLUDE_DIRS}
+    ${SDL2TTF_INCLUDE_DIRS}
+    ${SDL2IMAGE_INCLUDE_DIRS}
+    ${SDL2MIXER_INCLUDE_DIRS}
+    ${Boost_INCLUDE_DIRS})
 
 add_executable(TerrainGenerator ${HEADERS} ${SRC_LIST})
-target_link_libraries( TerrainGenerator ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES} ${SDL2TTF_LIBRARIES})
+target_link_libraries( TerrainGenerator ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES} ${SDL2TTF_LIBRARIES} ${SDL2MIXER_LIBRARIES})
