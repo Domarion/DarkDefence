@@ -1,5 +1,7 @@
+#include <cstdint>
 #include <SDL.h>
 #include <SDL_image.h>
+#include <SDL_mixer.h>
 #include <SDL_ttf.h>
 #include "SDL_Engine.h"
 #include <Logging/Logger.h>
@@ -19,13 +21,15 @@ SDL2::SDL2(uint32_t flags)
             LOG_ERROR(std::string(IMG_GetError()));
         }
 
+        if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+        {
+            LOG_ERROR(std::string(Mix_GetError()));
+        }
+
         if (TTF_Init() != 0)
         {
             LOG_ERROR(std::string(TTF_GetError()));
         }
-
-        // Flag for separate mouse and touch handle
-//        SDL_SetHint(SDL_HINT_ANDROID_SEPARATE_MOUSE_AND_TOUCH, "1");
 
         return;
     }
@@ -51,6 +55,7 @@ Size SDL2::getScreenResolution() const
 SDL2::~SDL2()
 {
     TTF_Quit();
+    Mix_Quit();
     IMG_Quit();
     SDL_Quit();
 }

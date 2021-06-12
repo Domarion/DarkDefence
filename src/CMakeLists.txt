@@ -20,8 +20,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -g -O0 -Wall -Wextra -pedanti
     -Wunknown-pragmas  -Wunreachable-code -Wunused \
     -Wunused-function  -Wunused-label  -Wunused-parameter \
     -Wunused-value  -Wunused-variable  -Wvariadic-macros \
-    -Wvolatile-register-var  -Wwrite-strings \
-    -fsanitize=address -fno-omit-frame-pointer -fsanitize=leak")
+    -Wvolatile-register-var  -Wwrite-strings")
+#    -fsanitize=address -fno-omit-frame-pointer -fsanitize=leak")
 
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fuse-ld=lld")
 set(CMAKE_EXE_LINKER_FLAGS_DEBUG "${CMAKE_EXE_LINKER_FLAGS_DEBUG} -fuse-ld=lld")
@@ -46,12 +46,20 @@ else()
 	include_directories(${SDL2IMAGE_INCLUDE_DIRS})
 endif()
 
+PKG_SEARCH_MODULE(SDL2MIXER REQUIRED SDL2_mixer)
+
+if (NOT SDL2MIXER_FOUND)
+        message(SEND_ERROR "Failed to find SDL2_mixer")
+else()
+        include_directories(${SDL2MIXER_INCLUDE_DIRS})
+endif()
+
 PKG_SEARCH_MODULE(SDL2TTF REQUIRED SDL2_ttf)
 
 if (NOT SDL2TTF_FOUND)
 	message(SEND_ERROR "Failed to find SDL2_ttf")
 else()
-	include_directories(${SDL2TTG_INCLUDE_DIRS})
+        include_directories(${SDL2TTF_INCLUDE_DIRS})
 endif()
 
 set (CerealInclude ../external/cereal/include)
@@ -155,8 +163,11 @@ set(SRC_LIST
     AbilitySystem/MobAbilities/TitanChockMassSlow.h
     AbilitySystem/MobAbilities/MobAbilityInvulnerablity.h
     AbilitySystem/MobAbilities/MobAbilityHeal.h
-
     AbilitySystem/EffectModel.h
+
+    AudioSystem/Sound.hpp
+    AudioSystem/Music.hpp
+
     GlobalScripts/AccountModel.h
     GlobalScripts/ResourcesModel.h
     GlobalScripts/ResourceInfo.h
@@ -174,12 +185,13 @@ set(SRC_LIST
     ItemSystem/HeroInventoryController.h
     ItemSystem/ShopInventory.h
 
+    GraphicsSystem/newSystem/IHasIdentifier.h
     GraphicsSystem/newSystem/Size.h
     GraphicsSystem/newSystem/Position.h
     GraphicsSystem/newSystem/UtilityStructs.h
     GraphicsSystem/newSystem/Font.h
-    GraphicsSystem/newSystem/Composite.h
     GraphicsSystem/newSystem/IComposite.h
+    GraphicsSystem/newSystem/Composite.h
     GraphicsSystem/newSystem/ILayout.h
     GraphicsSystem/newSystem/VerticalLayout.h
     GraphicsSystem/newSystem/HorizontalLayout.h
@@ -302,6 +314,10 @@ set(SRC_LIST
     AbilitySystem/MobAbilities/TitanChockMassSlow.cpp
     AbilitySystem/MobAbilities/MobAbilityInvulnerablity.cpp
     AbilitySystem/MobAbilities/MobAbilityHeal.cpp
+
+    AudioSystem/Sound.cpp
+    AudioSystem/Music.cpp
+
     GlobalScripts/ManaGlobal.cpp
     GlobalScripts/ResourcesModel.cpp
     GlobalScripts/ResourceInfo.cpp
@@ -320,6 +336,7 @@ set(SRC_LIST
     ItemSystem/ShopInventory.cpp
     ItemSystem/ItemModel.cpp
 
+    GraphicsSystem/newSystem/IHasIdentifier.cpp
     GraphicsSystem/newSystem/Leaf.cpp
     GraphicsSystem/newSystem/Composite.cpp
     GraphicsSystem/newSystem/Font.cpp
@@ -356,6 +373,7 @@ add_executable(DarkDefenceGame ${SRC_LIST})
 target_link_libraries(DarkDefenceGame
     ${SDL2_LIBRARIES}
     ${SDL2IMAGE_LIBRARIES}
+    ${SDL2MIXER_LIBRARIES}
     ${SDL2TTF_LIBRARIES}
     ${Boost_FILESYSTEM_LIBRARY}
     ${Boost_SYSTEM_LIBRARY})

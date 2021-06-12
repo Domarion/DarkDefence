@@ -3,8 +3,6 @@
 #include "SceneObject.h"
 #include "../Logging/Logger.h"
 
-size_t SceneObject::sceneObjectCurrentId = 0;
-
 SceneObject::~SceneObject()
 {
     finalize();
@@ -135,26 +133,6 @@ const std::shared_ptr<AnimationSceneSprite> &SceneObject::getSprite() const
 std::shared_ptr<AnimationSceneSprite> SceneObject::getModifiableSprite() const
 {
     return spriteModel;
-}
-
-void SceneObject::setDrawPriority(size_t aPriority)
-{
-    mDrawPriority = aPriority;
-}
-
-size_t SceneObject::getDrawPriority() const
-{
-    return mDrawPriority;
-}
-
-size_t SceneObject::getId() const
-{
-    return mSceneObjectId;
-}
-
-void SceneObject::resetSceneObjectIds()
-{
-    sceneObjectCurrentId = 0;
 }
 
 void SceneObject::setSprite(std::shared_ptr<AnimationSceneSprite> & value)

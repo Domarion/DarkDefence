@@ -80,7 +80,7 @@ void AbilityMultitargetObject::ProcessTargets()
     bool isMonsterExistsAndAlive = firstMonster
         && firstMonster->getDestructibleObject()&& firstMonster->getDestructibleObject()->IsAlive();
 
-    setDrawPriority(firstMonster->getDrawPriority() + 1);
+    getSprite()->setDrawPriority(firstMonster->getSprite()->getDrawPriority() + 1);
 
     if (!isMonsterExistsAndAlive)
     {

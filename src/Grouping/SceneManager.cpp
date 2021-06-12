@@ -90,11 +90,13 @@ void SceneManager::changeScene()
     }
 
     currentScene->softClear();
+    oldScene = currentScene;
     currentScene = scenes.at(mPendingChangeSceneRequest);
 
     assert(currentScene);
     currentScene->init();
 
     mPendingChangeSceneRequest.clear();
+    clearOldScene();
 }
 

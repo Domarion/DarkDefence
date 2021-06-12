@@ -13,5 +13,6 @@ public:
     virtual bool canDrag() const;
     virtual bool onDrag(Position);
     virtual bool containsPoint(Position) const;
+    virtual bool canConsumeInput() const;
 };
 

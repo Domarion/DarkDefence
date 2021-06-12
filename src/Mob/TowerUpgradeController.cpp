@@ -34,7 +34,7 @@ void TowerUpgradeController::receiveTowerUpgrade(std::shared_ptr<Tower> tower)
         return;
     }
 
-    const auto& arial1Font = FontManager::getInstance()->getFontByKind2("TextFont");
+    const auto& arial1Font = FontManager::getInstance()->getFontByKind("ItemFont");
 
     cachedTower = tower;
 
@@ -47,7 +47,7 @@ void TowerUpgradeController::receiveTowerUpgrade(std::shared_ptr<Tower> tower)
     Size parentSize = parentGameScene->getMainRect()->getSize();
     auto layout = std::make_shared<StubLayout>();
     upgradeGroup = std::make_shared<ConcreteComposite>(renderer, layout);
-    upgradeGroup->setSize(Size(150, 400));
+    upgradeGroup->setSize(Size(150, 500));
     upgradeGroup->setPosition(Position(parentSize.width/2 - 150, 50));
 
     currentTowerChildrenNames = currentGrade->getChildrenNames();
@@ -55,17 +55,17 @@ void TowerUpgradeController::receiveTowerUpgrade(std::shared_ptr<Tower> tower)
     auto verticalLayout = std::make_shared<VerticalLayout>();
     auto currentTowerChildren = currentGrade->getChildren();
     towerMenu = std::make_shared<UIScrollList>(currentTowerChildrenNames.size() + 1, renderer, verticalLayout);
-    towerMenu->setSize(Size(100, 350));
+    towerMenu->setSize(Size(150, 450));
 
-    const int iconWidth = 48;
-    const int iconWidthSmall = 22;
+    const int iconWidth = 64;
+    const int iconWidthSmall = 48;
 
     for(auto& childrenName: currentTowerChildrenNames)
     {
         auto childModel = currentTowerChildren.at(childrenName)->getData();
 
         auto menuItemGroup = std::make_shared<ConcreteComposite>(renderer, layout);
-        menuItemGroup->setSize(Size(100, 100));
+        menuItemGroup->setSize(Size(150, 150));
         string iconPath = "GameData/textures/Towers/UpgradeIcons/" + childrenName +".jpg";
 
         auto upgradeIcon = std::make_shared<UIImage>(renderer);
@@ -100,8 +100,10 @@ void TowerUpgradeController::receiveTowerUpgrade(std::shared_ptr<Tower> tower)
             priceGroup->addChild(upgradePriceLabel);
         }
 
-        auto buyButton = std::make_shared<UITextButton>("Купить", arial1Font, renderer);
+        auto buyButton = std::make_shared<UIImageButton>(renderer);
         buyButton->setPosition(priceGroup->getNextHorizontalPosition());
+        buyButton->setTexture(ResourceManager::getInstance()->getTexture("BuyButton"));
+        buyButton->setSize(Size(iconWidth, iconWidth));
         buyButton->ConnectMethod(std::bind(&TowerUpgradeController::stub, this, std::placeholders::_1));
         priceGroup->addChild(buyButton);
 
@@ -114,8 +116,10 @@ void TowerUpgradeController::receiveTowerUpgrade(std::shared_ptr<Tower> tower)
     std::string closeIconPath = "GameData/textures/Towers/UpgradeIcons/CloseLabel.png";
     auto closeButton = std::make_shared<UIImageButton>(renderer);
     closeButton->loadTexture(closeIconPath);
-    closeButton->setSize(Size(50,50));
-    closeButton->setPosition(Position(upgradeGroup->getSize().width/2 - 25, upgradeGroup->getNextVerticalPosition().y));
+    closeButton->setSize(Size(iconWidth,iconWidth));
+    closeButton->setPosition(Position(
+        upgradeGroup->getSize().width/2 - 25,
+        upgradeGroup->getNextVerticalPosition().y + iconWidth));
     std::string none {"none"};
 
     closeButton->ConnectMethod(std::bind(&TowerUpgradeController::closeHandler, this, none));
@@ -169,6 +173,7 @@ std::shared_ptr<Tower> TowerUpgradeController::ProduceTower(
     auto someSprite = std::make_shared<AnimationSceneSprite>(parentGameScene->getRenderer());
 
     someSprite->setTexture(ResourceManager::getInstance()->getTexture(aTowerName));
+    someSprite->setDrawPriority(aDrawPriority);
 
     tower->setSprite(someSprite);
 
@@ -177,7 +182,6 @@ std::shared_ptr<Tower> TowerUpgradeController::ProduceTower(
 
     tower->init(0, 0);
 
-    tower->setDrawPriority(aDrawPriority);
 
     return tower;
 }
@@ -225,7 +229,7 @@ bool TowerUpgradeController::menuClickHandler(size_t itemIndex)
         parentGameScene->getMainRect()->removeChild(upgradeGroup);
         upgradeGroup.reset();
 
-        cachedTower = ProduceTower(towerName, cachedTower->getTileMapManager(), cachedTower->getDrawPriority());
+        cachedTower = ProduceTower(towerName, cachedTower->getTileMapManager(), cachedTower->getSprite()->getDrawPriority());
 
         if (cachedTower == nullptr)
         {

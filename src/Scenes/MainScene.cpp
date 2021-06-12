@@ -13,6 +13,7 @@ MainScene::MainScene(std::shared_ptr<RenderingSystem>& aRenderer, std::shared_pt
 void MainScene::init()
 {
     Scene::init();
+    testMusic.loadMusic("GameData/Music/Camila Cabello - Never Be the Same.mp3");
 
     if (itemNamesSceneNamesMapping.empty())
         loadMenuItems("GameData/MainMenu.txt");
@@ -20,7 +21,13 @@ void MainScene::init()
     initBackground();
     initUIMenuItems();
     Scene::addToUIList(MainRect);
+    testMusic.playMusic();
+}
 
+void MainScene::softClear()
+{
+    testMusic.stopMusic();
+    Scene::softClear();
 }
 
 void MainScene::ConnectMethod(std::function<void (std::string)> handler)
@@ -62,17 +69,17 @@ void MainScene::loadMenuItems(const std::string& aFilename)
 
 void MainScene::initUIMenuItems()
 {
-    int x = MainRect->getSize().width/4;
+    int x = MainRect->getSize().width/2 - 125;
     int y = MainRect->getSize().height/4;
 
     for(size_t menuIndex = 0; menuIndex < itemNamesSceneNamesMapping.size(); ++menuIndex)
     {
-        Scene::addLoadSceneButton(itemNamesSceneNamesMapping[menuIndex].first,
-                                  "MenuFont",
-                                  itemNamesSceneNamesMapping[menuIndex].second,
-                                  x, y, 200, 50);
-        y = MainRect->getNextVerticalPosition().y;
-
+        Scene::addLoadSceneButton(
+            itemNamesSceneNamesMapping[menuIndex].first,
+            "MenuBigFont",
+            itemNamesSceneNamesMapping[menuIndex].second,
+            Position(x, y));
+        y = MainRect->getNextVerticalPosition().y + 50;
     }
 }
 

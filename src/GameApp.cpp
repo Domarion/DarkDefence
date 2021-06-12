@@ -32,14 +32,17 @@ void GameApp::preloadData()
     // TODO: Use configuration file instead.
     FontManager::getInstance()->loadFontList("GameData/fontconfig.txt", mRenderer);
 
-    ResourceManager::getInstance()->loadConfigFromFile("GameData/TexturePaths.xml", mRenderer);
+    auto* resourceManager = ResourceManager::getInstance();
+    resourceManager->loadConfigFromFile("GameData/TexturePaths.xml", mRenderer);
+    resourceManager->loadAudioConfigFromFile("GameData/AudioPaths.json");
 
-    GameModel::getInstance()->getResourcesModel()->loadResourceNamesFromFile("GameData/resourceNames.txt");
+    auto* gameModel = GameModel::getInstance();
+    gameModel->getResourcesModel()->loadResourceNamesFromFile("GameData/resourceNames.txt");
 
-    GameModel::getInstance()->loadShopItems("GameData/Items.xml");
-    GameModel::getInstance()->loadMissions("GameData/Missions/");
+    gameModel->loadShopItems("GameData/Items.xml");
+    gameModel->loadMissions("GameData/Missions/");
 
-    GameModel::getInstance()->loadGameData("GameData/save.bin");
+    gameModel->loadGameData("GameData/save.bin");
 }
 
 void GameApp::addScenes()

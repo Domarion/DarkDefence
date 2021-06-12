@@ -12,7 +12,7 @@ FilledCell = -2;
 EmptyCell = -1;
 
 -- Tile width and tile height--
--- Atlas path. !none! is received for separate image loading. --
+-- Atlas path. !none! is reserved for separate image loading. --
 -- In case of separate loading grass means part of image name --
 -- Images search path in <current bin path>/tiles/ --
 -- Count of unique tiles --
@@ -21,7 +21,7 @@ EmptyCell = -1;
 --      Letter used in tilematrix, --
 --      Path -1 can path, -2 no path --
 --      Tilename sufficient only in separate loading case --
--- Atlas fields (present only if atlas not equas !none!): --
+-- Atlas fields (present only if atlas not equals !none!): --
 -- Position x y (from top left corner) --
 -- Tile matrix used for resulting image and pathmap generation --
 -- First is row in matrix, second is column --

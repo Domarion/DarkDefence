@@ -2,6 +2,8 @@
 
 #include "AnimationSceneSprite.h"
 
+size_t ObjectWithId::allObjectId = 0;
+
 AnimationSceneSprite::AnimationSceneSprite(std::shared_ptr<RenderingSystem>& aRenderingContext, Animation&& aAnimation)
     : Leaf(aRenderingContext)
     , frame(aRenderingContext)
@@ -218,4 +220,9 @@ void AnimationSceneSprite::Animation::setDefaultState()
 
     mCurrentState = mAnimationStates.cbegin()->first;
     mFrameNumber = 0;
+}
+
+void ObjectWithId::resetObjectIds()
+{
+    allObjectId = 0;
 }

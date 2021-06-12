@@ -6,6 +6,7 @@ class MobAbilityArson: public MobAbility
 {
 public:
     MobAbilityArson();
+    virtual ~MobAbilityArson();
 
     // AbilityModel interface
     virtual bool onReady(double timestep) override;

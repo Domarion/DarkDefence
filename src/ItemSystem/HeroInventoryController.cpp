@@ -47,7 +47,8 @@ void HeroInventoryController::initLocalPositions(Size aRectSize)
 
 // TODO Remove hardcoded.
 void HeroInventoryController::initView(
-    std::shared_ptr<RenderingSystem>& aRenderer, const std::string& aConfPath)
+    std::shared_ptr<RenderingSystem>& aRenderer,
+    const std::string& aConfPath)
 {
     if (mModel == nullptr)
         return;
@@ -66,10 +67,8 @@ void HeroInventoryController::initView(
     SlotConfig config;
     jsonArchive >> config;
 
-//    std::string emptySlotPath = "GameData/textures/EmptySlot.png";
-//    Size itemSize(50, 50);
     mView = std::make_shared<UISlotContainer>(config.EmptyImagePath, config.ItemsCount, config.ItemSize, aRenderer);
-
+    mView->setPosition(Position(400, 0));
     for(size_t i = 0; i < count; ++i)
     {
         std::string aItemPath = "GameData/textures/items/"
@@ -77,7 +76,7 @@ void HeroInventoryController::initView(
         mView->LoadItemAtIndex(aItemPath, i);
         // TODO normal positions
         auto pos = config.ItemsPositions[i];
-        pos.x += 300;
+//        pos.x += 300;
         mView->SetItemPos(pos, i);
     }
     mView->ConnectMethod(std::bind( &HeroInventory::sendItem, mModel, std::placeholders::_1) );

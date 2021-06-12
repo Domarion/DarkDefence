@@ -44,7 +44,9 @@ void ShopScene::startUpdate(double timestep)
 void ShopScene::initControlButton()
 {
     Scene::addLoadSceneButton(
-        "Назад", "ButtonFont", "MainScene", MainRect->getSize().width - 100, MainRect->getSize().height - 50, 100, 50);
+        "MainScene",
+        Position(0, MainRect->getSize().height - 120),
+        SceneChange::Prev);
 }
 
 void ShopScene::initBackGroundUI()
@@ -54,16 +56,26 @@ void ShopScene::initBackGroundUI()
     MainRect->addChild(backGroundImage);
     backGroundImage->setSize(MainRect->getSize());
 
-    const auto& font = FontManager::getInstance()->getFontByKind2("ButtonFont");
+    const auto& font = FontManager::getInstance()->getFontByKind("ItemFont");
 
     auto sceneNameLabel = std::make_shared<UILabel>("Мистическая лавка", font, renderer);
-    sceneNameLabel->setPosition(MainRect->getNextVerticalPosition());
+    sceneNameLabel->setPosition(Position(MainRect->getSize().width/3 - 120, 0));
     MainRect->addChild(sceneNameLabel);
+
+    auto goldImage = std::make_shared<UIImage>(renderer);
+    goldImage->setTexture(ResourceManager::getInstance()->getTexture("Gold"));
+    goldImage->setSize(Size(50, 50));
+    goldImage->setPosition(
+        Position(
+            sceneNameLabel->getPosition().x + (sceneNameLabel->getSize().width - 75) / 2,
+            MainRect->getNextVerticalPosition().y));
+
+    MainRect->addChild(goldImage);
 
     string goldAmount = std::to_string(AccountModel::getInstance()->getGoldAmount());
 
     goldCoinsLabel = std::make_shared<UILabel>(goldAmount, font, renderer);
-    goldCoinsLabel->setPosition(Position(MainRect->getNextHorizontalPosition().x, sceneNameLabel->getPosition().y));
+    goldCoinsLabel->setPosition(Position(MainRect->getNextHorizontalPosition().x, goldImage->getPosition().y));
     MainRect->addChild(goldCoinsLabel);
 
     initControlButton();

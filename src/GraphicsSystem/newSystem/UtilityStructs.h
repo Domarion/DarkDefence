@@ -1,4 +1,6 @@
 #pragma once
 
-#include "Size.h"
+#include "IHasIdentifier.h"
+
 #include "Position.h"
+#include "Size.h"

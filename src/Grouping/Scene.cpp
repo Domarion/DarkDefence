@@ -5,8 +5,10 @@
 #include "SceneObject.h"
 #include "SceneObjectFabric.h"
 #include "../Input/InputDispatcher.h"
+#include "../GraphicsSystem/newSystem/UIElement/UIImageButton.h"
 #include "../GraphicsSystem/newSystem/UIElement/UITextButton.h"
 #include "../GlobalScripts/GameModel.h"
+#include "../GlobalScripts/ResourceManager.h"
 #include "Logging/Logger.h"
 
 Scene::Scene(std::shared_ptr<RenderingSystem>& aRenderer, std::shared_ptr<InputDispatcher> aInputDispatcher)
@@ -24,12 +26,12 @@ Scene::Scene(std::shared_ptr<RenderingSystem>& aRenderer, std::shared_ptr<InputD
 
 void Scene::init()
 {
-    SceneObject::resetSceneObjectIds();
+    ObjectWithId::resetObjectIds();
 }
 
 void Scene::copyToRender() const
 {
-    drawSceneObjects();
+    drawAllObjects();
     drawUI();
 }
 
@@ -39,7 +41,7 @@ void Scene::startUpdate(double timestep)
     {
         if (!(*iter) || !(*iter)->update(timestep))
         {
-            removeDrawObject((*iter)->getId());
+            removeDrawObject((*iter)->getSprite()->getId());
             iter = sceneObjects.erase(iter);
             continue;
         }
@@ -48,7 +50,7 @@ void Scene::startUpdate(double timestep)
     }
 }
 
-void Scene::addDrawObject(std::shared_ptr<SceneObject>& aObj)
+void Scene::addDrawObject(const std::shared_ptr<AnimationSceneSprite>& aObj)
 {
     DrawObject drawObj{aObj->getDrawPriority(), aObj->getId()};
 
@@ -61,7 +63,7 @@ void Scene::addDrawObject(std::shared_ptr<SceneObject>& aObj)
     drawObjects.insert(insertBeforePositionIterator, drawObj);
 }
 
-void Scene::replaceDrawObject(size_t aOldObjId, std::shared_ptr<SceneObject>& aNewObject)
+void Scene::replaceDrawObject(size_t aOldObjId, const std::shared_ptr<AnimationSceneSprite>& aNewObject)
 {
     auto comparator = [aOldObjId](DrawObject aDrawObject)
     {
@@ -80,9 +82,29 @@ void Scene::replaceDrawObject(size_t aOldObjId, std::shared_ptr<SceneObject>& aN
     }
 }
 
+std::string Scene::SceneChangeTypeHelper(Scene::SceneChange aChangeType)
+{
+    switch(aChangeType)
+    {
+    case SceneChange::Prev:
+        return "PrevScene";
+    case SceneChange::Next:
+        return "NextScene";
+    case SceneChange::Main:
+        return "MainScene";
+    case SceneChange::UNDEFINED:
+        assert(false && "Undefined changeType");
+        break;
+    default:
+        assert(false && "Unknown changeType");
+        break;
+    }
+    return std::string{};
+}
+
 void Scene::removeDrawObject(size_t aObjId)
 {
-// Чтобы понять: какой элемент удаляется в SceneObject добавлен уникальный в рамках сцены Id.
+// Чтобы понять: какой элемент удаляется в AnimationSceneSprite добавлен уникальный в рамках сцены Id.
     auto comparator = [&aObjId](DrawObject aDrawObject)
     {
         return aDrawObject.SceneObjectId == aObjId;
@@ -122,7 +144,7 @@ void Scene::spawnObject(Position aPos, std::shared_ptr<SceneObject> aObj)
 
     sceneObjects.push_back(aObj);
 
-    addDrawObject(aObj);
+    addDrawObject(aObj->getSprite());
 }
 
 void Scene::destroyObject(std::shared_ptr<SceneObject> obj)
@@ -168,11 +190,22 @@ void Scene::removeFromUIList(const std::shared_ptr<IComposite>& item)
         mInputDispatcher->removeHandler(handler);
 }
 
+void Scene::addStaticSprite(const std::shared_ptr<AnimationSceneSprite>& aItem)
+{
+    if (aItem == nullptr)
+    {
+        return;
+    }
+    staticObjects.emplace_back(aItem);
+
+    addDrawObject(staticObjects.back());
+}
+
 void Scene::replaceObject(std::shared_ptr<SceneObject> aObject, std::shared_ptr<SceneObject> aReplacement)
 {
     auto comparator = [&aObject](std::shared_ptr<SceneObject>& aRight)
     {
-        return aObject->getId() == aRight->getId();
+        return aObject->getSprite()->getId() == aRight->getSprite()->getId();
     };
 
     auto obj = std::find_if(sceneObjects.begin(), sceneObjects.end(), comparator);
@@ -187,7 +220,7 @@ void Scene::replaceObject(std::shared_ptr<SceneObject> aObject, std::shared_ptr<
 
 
         (*obj)->init(x, y);
-        (*obj)->setDrawPriority(aObject->getDrawPriority());
+        (*obj)->getSprite()->setDrawPriority(aObject->getSprite()->getDrawPriority());
 
         auto handler = std::dynamic_pointer_cast<InputHandler>(*obj);
 
@@ -202,7 +235,7 @@ void Scene::replaceObject(std::shared_ptr<SceneObject> aObject, std::shared_ptr<
 
         aObject->finalize();
 
-        replaceDrawObject(aObject->getId(), *obj);
+        replaceDrawObject(aObject->getSprite()->getId(), (*obj)->getSprite());
     }
 }
 
@@ -388,13 +421,29 @@ std::shared_ptr<RenderingSystem>& Scene::getRenderer()
     return renderer;
 }
 
-void Scene::addLoadSceneButton(
-    const std::string& aButtonName, const std::string& aFontName, const std::string& aSceneName, int posX, int posY,
-    int /*width*/, int /*height*/)
+void Scene::addLoadSceneButton(const std::string& aSceneName, Position aPos, SceneChange aChangeType)
 {
-    auto textButton = std::make_shared<UITextButton>(aButtonName, FontManager::getInstance()->getFontByKind2(aFontName),
+    std::string changeSceneButtonView = SceneChangeTypeHelper(aChangeType);
+
+    auto uiButton = std::make_shared<UIImageButton>(renderer);
+    assert(ResourceManager::getInstance()->hasTexture(changeSceneButtonView) && "NextScene texture null");
+    auto& texture = ResourceManager::getInstance()->getTexture(changeSceneButtonView);
+    uiButton->setTexture(texture);
+    uiButton->setPosition(aPos);
+
+    uiButton->ConnectMethod(std::bind(mChangeSceneCallback, aSceneName));
+
+    MainRect->addChild(uiButton);
+}
+
+
+void Scene::addLoadSceneButton(
+    const std::string& aButtonName, const std::string& aFontName, const std::string& aSceneName, Position aPos)
+{
+    auto textButton = std::make_shared<UITextButton>(aButtonName, FontManager::getInstance()->getFontByKind(aFontName),
                       renderer);
-    textButton->setPosition(Position(posX, posY));
+
+    textButton->setPosition(aPos);
 
     textButton->ConnectMethod(std::bind(mChangeSceneCallback, aSceneName));
 
@@ -404,7 +453,7 @@ void Scene::addLoadSceneButton(
 void Scene::addSceneButton(const std::string& aButtonName, const std::string& aFontName, int posX, int posY, int /*width*/, int /*height*/,
     std::function<void(std::string)> handler, const std::string& aMsg)
 {
-    auto textButton = std::make_shared<UITextButton>(aButtonName, FontManager::getInstance()->getFontByKind2(aFontName),
+    auto textButton = std::make_shared<UITextButton>(aButtonName, FontManager::getInstance()->getFontByKind(aFontName),
                       renderer);
     textButton->setPosition(Position(posX, posY));
     textButton->setMessage(aMsg);
@@ -413,22 +462,39 @@ void Scene::addSceneButton(const std::string& aButtonName, const std::string& aF
     MainRect->addChild(textButton);
 }
 
-void Scene::drawSceneObjects() const
+void Scene::drawAllObjects() const
 {
     auto drawSprite = [this](DrawObject aDrawObject)
     {
-        auto comparator = [&aDrawObject](std::shared_ptr<SceneObject> aObject)
+        auto comparator = [&aDrawObject](const std::shared_ptr<SceneObject>& aObject)
         {
-            assert(aObject);
-            return aObject->getId() == aDrawObject.SceneObjectId;
+            assert(aObject && aObject->getSprite());
+            return aObject->getSprite()->getId() == aDrawObject.SceneObjectId;
         };
 
         auto it = std::find_if(sceneObjects.begin(), sceneObjects.end(), comparator);
 
         if (it == sceneObjects.end())
         {
+            auto comparator2 = [&aDrawObject](const std::shared_ptr<AnimationSceneSprite>& aObject)
+            {
+                assert(aObject);
+                return aObject->getId() == aDrawObject.SceneObjectId;
+            };
+            auto iterStatic = std::find_if(staticObjects.begin(), staticObjects.end(), comparator2);
+
+            if (iterStatic != staticObjects.end())
+            {
+                Size objSize = (*iterStatic)->getSize();
+                Position objPosition = (*iterStatic)->getRealPosition();
+                if (mCamera.hasIntersection(objPosition, objSize))
+                {
+                    (*iterStatic)->drawAtPosition(mCamera.worldToCameraPosition(objPosition));
+                }
+            }
             return;
         }
+
 
         auto& sprite = (*it)->getSprite();
         Size objSize = sprite->getSize();
@@ -461,6 +527,8 @@ void Scene::clear()
     }
 
     sceneObjects.clear();
+    staticObjects.clear();
+    drawObjects.clear();
 
     mCamera.resetWorldPosition();
 }

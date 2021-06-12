@@ -48,10 +48,7 @@ void InventoryScene::clear()
 
 void InventoryScene::initControlButton()
 {
-    Position pos(MainRect->getSize().width - 100, MainRect->getSize().height - 50);
-
-    Scene::addLoadSceneButton("Назад", "ButtonFont", "MainScene",
-                              pos.x, pos.y, 100, 50);
+    Scene::addLoadSceneButton("MainScene", Position{0, MainRect->getSize().height - 120}, SceneChange::Prev);
 }
 
 void InventoryScene::initHeroView()
@@ -61,16 +58,10 @@ void InventoryScene::initHeroView()
     heroInventory->clearControllerReceivers();
 
     heroController->setModel(heroInventory);
-//    heroController->initLocalPositions(MainRect->getSize());
     heroController->initView(renderer, "GameData/HeroInventoryConfig.json");
-    auto items = heroController->getView()->getItems();
-
-    for(auto& item : items)
-    {
-        MainRect->addChild(item);
-    }
 
     Scene::addAsInputHandler(heroController->getView());
+    MainRect->addChild(heroController->getView());
 }
 
 void InventoryScene::initInventoryView()
@@ -86,7 +77,21 @@ void InventoryScene::initInventoryView()
     inventoryController->setModel(inventory);
     inventoryController->setView(scroll);
     inventoryController->initView();
-
+    inventoryController->SetDescriptionCallBack(std::bind(&InventoryScene::inventoryDescription, this, std::placeholders::_1));
     MainRect->addChild(scroll);
+}
+
+void InventoryScene::inventoryDescription(const std::shared_ptr<ConcreteComposite>& aDescComposite)
+{
+    if (descView != nullptr)
+    {
+        MainRect->removeChild(descView);
+    }
+
+    descView = aDescComposite;
+    if (aDescComposite != nullptr)
+    {
+        MainRect->addChild(descView);
+    }
 }
 

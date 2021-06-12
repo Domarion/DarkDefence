@@ -13,6 +13,8 @@ MapMenuScene::MapMenuScene(
     std::shared_ptr<InputDispatcher> aInputDispatcher)
     : Scene(aRenderer, aInputDispatcher)
 {
+    // TODO: for test only
+    testSound.loadSound("GameData/Sounds/1.wav");
 }
 
 void MapMenuScene::init()
@@ -38,13 +40,14 @@ void MapMenuScene::init()
 
 void MapMenuScene::initNavigationButtons()
 {
-    Scene::addLoadSceneButton("Назад", "TextFontButton", "MainScene",
-        0, MainRect->getSize().height - 50, 100, 50);
+    Scene::addLoadSceneButton("MainScene", Position{0, MainRect->getSize().height - 120}, SceneChange::Prev);
 
     if (!currentMission.isEmpty())
     {
-        Scene::addLoadSceneButton("Начать", "TextFontButton", "GameScene",
-            MainRect->getSize().width - 150, MainRect->getSize().height - 50, 100, 50);
+        Scene::addLoadSceneButton(
+            "GameScene",
+            Position{MainRect->getSize().width - 120, MainRect->getSize().height - 120},
+            SceneChange::Next);
     }
 }
 
@@ -59,6 +62,8 @@ void MapMenuScene::loadMissionView()
         return;
     }
 
+    // TODO remove:
+    testSound.playSound();
     currentMission = *mission;
 
     auto layout = std::make_shared<StubLayout>();
@@ -67,7 +72,7 @@ void MapMenuScene::loadMissionView()
 
     currentMissionView->setSize(Size(MainRect->getSize().width/4*3, MainRect->getSize().height - 100));
     currentMissionView->setScalingFactor(MainRect->getScalingFactor());
-    currentMissionView->init(currentMission, FontManager::getInstance()->getFontByKind2("TextFontBig"));
+    currentMissionView->init(currentMission, FontManager::getInstance()->getFontByKind("TextFontBig"));
     MainRect->addChild(currentMissionView);
 }
 

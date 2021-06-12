@@ -14,3 +14,8 @@ bool InputHandler::containsPoint(Position /*aPosition*/) const
 {
     return false;
 }
+
+bool InputHandler::canConsumeInput() const
+{
+    return false;
+}

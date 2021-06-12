@@ -17,6 +17,7 @@ void AbilitySnowStorm::init(std::shared_ptr<Scene> scenePtr)
     snowEffect = std::make_shared<EffectModel>();
     snowEffect->addMiniEffect(mv);
     snowEffect->addMiniEffect(rt);
+    snowEffect->setCaption("Snow");
 }
 
 bool AbilitySnowStorm::onReady(double /*timestep*/)
@@ -29,7 +30,9 @@ bool AbilitySnowStorm::onReady(double /*timestep*/)
         for(auto affectedMob = affectedMobs->begin(); affectedMob != affectedMobs->end(); ++affectedMob)
         {
             if (*affectedMob != nullptr)
+            {
                 (*affectedMob)->getEffectReceiver()->applyEffect(snowEffect);
+            }
         }
 
         abilityState = Enums::AbilityStates::asWorking;
@@ -42,7 +45,6 @@ bool AbilitySnowStorm::onReady(double /*timestep*/)
 
 bool AbilitySnowStorm::onWorking(double timestep)
 {
-
     if (counter >= 1000)
     {
         if (affectedMobs!= nullptr && affectedMobs->size() > 0)

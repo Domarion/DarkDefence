@@ -1,0 +1,5 @@
+Tiled for a ground from mapeditor.org 
+SDL2 - graphics, input and sound library.
+cereal for JSON, XML, BINARY (de) serialization
+Нужны инструменты для
+записи звуков и музыки.

@@ -208,9 +208,14 @@ bool UIScrollList::onClick(Position point)
 
     for(auto childIter = toFirst; childIter != toLast; ++childIter)
     {
-        InputHandler* inputHandler = dynamic_cast<InputHandler*>(childIter->get());
+        auto inputHandler = std::dynamic_pointer_cast<InputHandler>(*childIter);
         if (inputHandler != nullptr && inputHandler->onClick(point))
         {
+            if (inputHandler->canConsumeInput())
+            {
+                return true;
+            }
+
             clickedItemIter = childIter;
             isSuccess = true;
             break;

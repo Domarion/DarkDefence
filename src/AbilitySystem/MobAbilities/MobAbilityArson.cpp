@@ -7,6 +7,14 @@ MobAbilityArson::MobAbilityArson()
     arsonEffect->setCaption("ArsonEffect");
 }
 
+MobAbilityArson::~MobAbilityArson()
+{
+    if (target != nullptr && target->getEffectReceiver()->hasEffect(arsonEffect))
+    {
+        target->getEffectReceiver()->cancelEffect(arsonEffect);
+    }
+}
+
 bool MobAbilityArson::onReady(double /*timestep*/)
 {
     if (target == nullptr)
@@ -20,7 +28,7 @@ bool MobAbilityArson::onReady(double /*timestep*/)
     if (parentScenePtr != nullptr)
     {
         auto toSpawn = Make_AbilityAnimObject(
-            "MobAbilityArson", workTime, parentScenePtr->getRenderer(), target->getDrawPriority() + 1);
+            "MobAbilityArson", workTime, parentScenePtr->getRenderer(), target->getSprite()->getDrawPriority() + 1);
 
         if (toSpawn == nullptr)
             return false;
@@ -52,8 +60,11 @@ bool MobAbilityArson::onWorking(double timestep)
     {
         currentWorkTime = workTime;
         abilityState = Enums::AbilityStates::asOnCooldown;
-
-        target->getEffectReceiver()->cancelEffect(arsonEffect);
+        // Bug: если поджёг и умер моб, то сюда не зайдём. Пока что решение - удалять эффекты  при уничтожении
+        if (target != nullptr && target->getEffectReceiver()->hasEffect(arsonEffect))
+        {
+            target->getEffectReceiver()->cancelEffect(arsonEffect);
+        }
         target = nullptr;
     }
     else

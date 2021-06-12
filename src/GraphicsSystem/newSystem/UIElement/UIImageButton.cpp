@@ -1,13 +1,18 @@
 #include "UIImageButton.h"
 
-UIImageButton::UIImageButton(std::shared_ptr<RenderingSystem> &aRenderingContext)
-    :UIImage(aRenderingContext)
+UIImageButton::UIImageButton(std::shared_ptr<RenderingSystem>& aRenderingContext)
+    : UIImage(aRenderingContext)
 {
 }
 
 void UIImageButton::ConnectMethod(std::function<void (std::string)> method)
 {
     connectedMethod = method;
+}
+
+void UIImageButton::SetCanConsumeInput(bool aShouldConsume)
+{
+    mShouldConsumeInput = aShouldConsume;
 }
 
 bool UIImageButton::onClick(Position point)
@@ -22,8 +27,15 @@ bool UIImageButton::onClick(Position point)
 
     bool result = SDL_PointInRect(&sPoint, &rect);
 
-    if (result)
+    if (result && connectedMethod)
+    {
         connectedMethod("zero");
+    }
 
     return result;
+}
+
+bool UIImageButton::canConsumeInput() const
+{
+    return mShouldConsumeInput;
 }

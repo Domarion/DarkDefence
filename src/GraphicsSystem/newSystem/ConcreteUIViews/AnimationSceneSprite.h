@@ -12,7 +12,33 @@ using std::map;
 using std::string;
 using std::vector;
 
-class AnimationSceneSprite final: public Leaf
+struct ObjectWithId
+{
+public:
+    size_t getId() const
+    {
+        return objectId;
+    }
+
+    size_t getDrawPriority() const
+    {
+        return mDrawPriority;
+    }
+
+    void setDrawPriority(size_t aDrawPriority)
+    {
+        mDrawPriority = aDrawPriority;
+    }
+    static void resetObjectIds();
+
+
+private:
+    static size_t allObjectId;
+    size_t mDrawPriority = 0;
+    size_t objectId = ++allObjectId;
+};
+
+class AnimationSceneSprite final: public Leaf, public ObjectWithId
 {
 public:
     class Animation final

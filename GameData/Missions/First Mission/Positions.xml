@@ -10,7 +10,7 @@
 			<PositionY>600</PositionY>
 			<XAnchorPlace>0</XAnchorPlace>
 			<YAnchorPlace>0</YAnchorPlace>
-            <DrawPriority>1</DrawPriority>
+            <DrawPriority>2</DrawPriority>
 		</value0>
 		<value1>
 			<Name>WatcherTower</Name>
@@ -20,7 +20,7 @@
 			<PositionY>600</PositionY>
 			<XAnchorPlace>0</XAnchorPlace>
 			<YAnchorPlace>0</YAnchorPlace>
-            <DrawPriority>1</DrawPriority>
+            <DrawPriority>2</DrawPriority>
 		</value1>
 		<value2>
 			<Name>WatcherTower</Name>
@@ -30,7 +30,7 @@
 			<PositionY>600</PositionY>
 			<XAnchorPlace>0</XAnchorPlace>
 			<YAnchorPlace>0</YAnchorPlace>
-            <DrawPriority>1</DrawPriority>
+            <DrawPriority>2</DrawPriority>
 		</value2>
 		<value3>
 			<Name>WatcherTower</Name>
@@ -40,7 +40,7 @@
 			<PositionY>600</PositionY>
 			<XAnchorPlace>0</XAnchorPlace>
 			<YAnchorPlace>0</YAnchorPlace>
-            <DrawPriority>1</DrawPriority>
+            <DrawPriority>2</DrawPriority>
 		</value3>
 		<value4>
 			<Name>WatcherTower</Name>
@@ -50,7 +50,7 @@
 			<PositionY>600</PositionY>
 			<XAnchorPlace>0</XAnchorPlace>
 			<YAnchorPlace>0</YAnchorPlace>
-            <DrawPriority>1</DrawPriority>
+            <DrawPriority>2</DrawPriority>
 		</value4>
 		<value5>
 			<Name>Spawner</Name>
@@ -60,7 +60,7 @@
 			<PositionY>288</PositionY>
 			<XAnchorPlace>0</XAnchorPlace>
 			<YAnchorPlace>0</YAnchorPlace>
-            <DrawPriority>1</DrawPriority>
+            <DrawPriority>2</DrawPriority>
 		</value5>
 		<value6>
 			<Name>Gates</Name>
@@ -70,7 +70,7 @@
 			<PositionY>528</PositionY>
 			<XAnchorPlace>0</XAnchorPlace>
 			<YAnchorPlace>1</YAnchorPlace>
-            <DrawPriority>1</DrawPriority>
+            <DrawPriority>2</DrawPriority>
 		</value6>
 		<value7>
 			<Name>ResourceWheat</Name>
@@ -80,7 +80,7 @@
 			<PositionY>384</PositionY>
 			<XAnchorPlace>1</XAnchorPlace>
 			<YAnchorPlace>1</YAnchorPlace>
-            <DrawPriority>1</DrawPriority>
+            <DrawPriority>2</DrawPriority>
 		</value7>
         <value8>
 			<Name>Forest1</Name>
@@ -88,8 +88,8 @@
 			<Height>237</Height>
 			<PositionX>912</PositionX>
 			<PositionY>200</PositionY>
-			<XAnchorPlace>1</XAnchorPlace>
-			<YAnchorPlace>1</YAnchorPlace>
+			<XAnchorPlace>0</XAnchorPlace>
+			<YAnchorPlace>0</YAnchorPlace>
             <DrawPriority>1</DrawPriority>
 		</value8>
         <value9>
@@ -98,8 +98,8 @@
 			<Height>237</Height>
 			<PositionX>180</PositionX>
 			<PositionY>190</PositionY>
-			<XAnchorPlace>1</XAnchorPlace>
-			<YAnchorPlace>1</YAnchorPlace>
+			<XAnchorPlace>0</XAnchorPlace>
+			<YAnchorPlace>0</YAnchorPlace>
             <DrawPriority>1</DrawPriority>
 		</value9>
         <value10>
@@ -108,9 +108,9 @@
 			<Height>100</Height>
 			<PositionX>1104</PositionX>
 			<PositionY>768</PositionY>
-			<XAnchorPlace>1</XAnchorPlace>
-			<YAnchorPlace>1</YAnchorPlace>
-            <DrawPriority>1</DrawPriority>
+			<XAnchorPlace>0</XAnchorPlace>
+			<YAnchorPlace>0</YAnchorPlace>
+            <DrawPriority>2</DrawPriority>
 		</value10>
         <value11>
 			<Name>Forest3</Name>
@@ -118,8 +118,8 @@
 			<Height>237</Height>
 			<PositionX>500</PositionX>
 			<PositionY>220</PositionY>
-			<XAnchorPlace>1</XAnchorPlace>
-			<YAnchorPlace>1</YAnchorPlace>
+			<XAnchorPlace>0</XAnchorPlace>
+			<YAnchorPlace>0</YAnchorPlace>
             <DrawPriority>1</DrawPriority>
 		</value11>
         <value12>
@@ -128,8 +128,8 @@
 			<Height>300</Height>
 			<PositionX>500</PositionX>
 			<PositionY>900</PositionY>
-			<XAnchorPlace>1</XAnchorPlace>
-			<YAnchorPlace>1</YAnchorPlace>
+			<XAnchorPlace>0</XAnchorPlace>
+			<YAnchorPlace>0</YAnchorPlace>
             <DrawPriority>1</DrawPriority>
 		</value12>
 	</Positions>

@@ -32,16 +32,16 @@ void FontManager::loadFontList(const std::string& aFilename, std::shared_ptr<Ren
             int fontSize;
             int r, g, b;
             fontConf >> key >> fontPath >> fontSize >> r >> g >> b;
-            fontList2[key] = Font(fontPath, fontSize, r, g, b, aRenderer);
+            fontList[key] = Font(fontPath, fontSize, r, g, b, aRenderer);
         }
     }
 }
 
-Font& FontManager::getFontByKind2(const std::string& aFontKind)
+Font& FontManager::getFontByKind(const std::string& aFontKind)
 {
-    if (fontList2.at(aFontKind).getFont() == nullptr)
+    if (fontList.at(aFontKind).getFont() == nullptr)
     {
         LOG_ERROR("Can't Find font by name.");
     }
-    return fontList2.at( aFontKind );
+    return fontList.at( aFontKind );
 }

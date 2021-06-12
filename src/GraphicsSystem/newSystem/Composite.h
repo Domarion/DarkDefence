@@ -42,7 +42,7 @@ public:
     bool canDrag() const override;
     bool onDrag(Position aDirection) override;
     bool containsPoint(Position aPosition) const override;
-
+    bool canConsumeInput() const override;
 protected:
     std::shared_ptr<RenderingSystem> renderer;
     std::shared_ptr<ILayout> mLayout;

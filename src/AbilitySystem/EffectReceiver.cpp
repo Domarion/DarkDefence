@@ -41,8 +41,12 @@ bool EffectReceiver::parseEffect(std::shared_ptr<EffectModel> effect, bool remov
 
 bool EffectReceiver::hasEffect(std::shared_ptr<EffectModel> effect) const
 {
-    auto findIter = std::find(effectsList.begin(), effectsList.end(), effect);
-    return findIter != effectsList.end();
+    auto comparer = [&effect](const auto& aEffect)
+    {
+        return aEffect->getCaption() == effect->getCaption();
+    };
+    auto findIter = std::find_if(effectsList.cbegin(), effectsList.cend(), comparer);
+    return findIter != effectsList.cend();
 }
 
 void EffectReceiver::processTemporaryEffects(double /*deltaTime*/)

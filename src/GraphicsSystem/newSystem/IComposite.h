@@ -6,7 +6,7 @@
 using std::shared_ptr;
 using std::weak_ptr;
 
-class IComposite
+class IComposite : public IHasIdentifier
 {
 public:
     virtual ~IComposite() = default;

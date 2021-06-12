@@ -51,9 +51,9 @@ std::shared_ptr<AbilityAnimObject> Make_AbilityAnimObject(
     }
 
     sprite->setTexture(ResourceManager::getInstance()->getTexture(aName));
+    sprite->setDrawPriority(aDrawPriority);
 
     object->setSprite(sprite);
-    object->setDrawPriority(aDrawPriority);
 
     return object;
 }

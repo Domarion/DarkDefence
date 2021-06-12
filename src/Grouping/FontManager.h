@@ -11,12 +11,12 @@ class FontManager
 public:
     static FontManager* getInstance();
     void loadFontList(const std::string& aFilename, std::shared_ptr<RenderingSystem>& aRenderer);
-    Font& getFontByKind2(const std::string& aFontKind);
+    Font& getFontByKind(const std::string& aFontKind);
 
 private:
     FontManager() = default;
     ~FontManager() = default;
-    std::map<std::string, Font > fontList2;
+    std::map<std::string, Font > fontList;
 
     static FontManager* instance_;
 };

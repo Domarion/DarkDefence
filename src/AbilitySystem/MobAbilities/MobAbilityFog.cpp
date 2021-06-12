@@ -7,6 +7,12 @@ MobAbilityFog::MobAbilityFog()
 {
     pair<string, double> rt = std::make_pair("ReloadTime", +5.0e+4);
     fogEffect->addMiniEffect(rt);
+    fogEffect->setCaption("Fog");
+}
+
+MobAbilityFog::~MobAbilityFog()
+{
+    CancelEffects();
 }
 
 bool MobAbilityFog::onReady(double)
@@ -26,7 +32,7 @@ bool MobAbilityFog::onReady(double)
                         effectReceiver->applyEffect(fogEffect);
 
                         auto toSpawn = Make_AbilityAnimObject(
-                            "MobAbilityFog", workTime, parentScenePtr->getRenderer(), affectedMob->getDrawPriority() + 1);
+                            "MobAbilityFog", workTime, parentScenePtr->getRenderer(), affectedMob->getSprite()->getDrawPriority() + 1);
 
                         if (!toSpawn)
                         {
@@ -52,22 +58,7 @@ bool MobAbilityFog::onWorking(double timestep)
     {
         abilityState = Enums::AbilityStates::asOnCooldown;
         currentCooldownTime = cooldownTime;
-
-        if (affectedMobs == nullptr)
-            return true;
-
-        for(auto& affectedMob : *affectedMobs)
-        {
-            if (affectedMob != nullptr)
-            {
-                auto effectReceiver = affectedMob->getEffectReceiver();
-                if (effectReceiver != nullptr)
-                {
-                    effectReceiver->cancelEffect(fogEffect);
-                }
-            }
-        }
-        affectedMobs.reset();
+        CancelEffects();
     }
     else
         currentWorkTime -= timestep;
@@ -91,4 +82,23 @@ bool MobAbilityFog::onCooldown(double timestep)
 bool MobAbilityFog::canTrigger(std::shared_ptr<SceneObject>, Enums::AIMobStates aistate)
 {
     return abilityState == Enums::AbilityStates::asNotAvaliable && aistate != Enums::AIMobStates::aiSELECT;
+}
+
+void MobAbilityFog::CancelEffects()
+{
+    if (affectedMobs != nullptr)
+    {
+        for(auto& affectedMob : *affectedMobs)
+        {
+            if (affectedMob != nullptr)
+            {
+                auto effectReceiver = affectedMob->getEffectReceiver();
+                if (effectReceiver != nullptr && effectReceiver->hasEffect(fogEffect))
+                {
+                    effectReceiver->cancelEffect(fogEffect);
+                }
+            }
+        }
+        affectedMobs.reset();
+    }
 }

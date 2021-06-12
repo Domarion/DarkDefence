@@ -11,19 +11,20 @@
 class InventoryController
 {
 public:
+    using DescriptionCallBack = std::function<void(const std::shared_ptr<ConcreteComposite>&)>;
     explicit InventoryController(std::shared_ptr<RenderingSystem>& aRenderer);
     virtual ~InventoryController() = default;
     void setView(std::shared_ptr<UIScrollList>& newView);
-    void setModel(std::shared_ptr<Inventory> newModel);
-    std::shared_ptr<Inventory> getModel() const;
+    void setModel(const std::shared_ptr<Inventory>& newModel);
+    const std::shared_ptr<Inventory>& getModel() const;
     void initView();
     void receiveItemFromModel(string aCaption, size_t itemType);
     bool sendItemToModel(int index);
-
+    void SetDescriptionCallBack(const DescriptionCallBack& aCallback);
 private:
-    void addItemView(
-        const std::string& aItemCaption,
-        const std::string& aItemDescription,
+    void showDescription(const std::string& aItemName);
+private:
+    void addItemView(const std::string& aItemCaption,
         const std::shared_ptr<StubLayout>& aLayout,
         const Font& aFont);
     std::shared_ptr<Inventory> model;
@@ -31,6 +32,7 @@ private:
     std::shared_ptr<RenderingSystem> renderer;
 
     Font arial;
-    vector<std::shared_ptr<IComposite>> buttons;
+    DescriptionCallBack DescCallback;
+    std::string lastShowItemName;
 };
 
