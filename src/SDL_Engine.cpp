@@ -32,9 +32,6 @@ SDL2::SDL2(uint32_t flags)
             LOG_ERROR(std::string(TTF_GetError()));
         }
 
-        // Flag for separate mouse and touch handle
-        SDL_SetHint(SDL_HINT_ANDROID_SEPARATE_MOUSE_AND_TOUCH, "1");
-
         return;
     }
 
