@@ -1,5 +1,6 @@
 #include "RenderingSystem.h"
 #include <SDL_image.h>
+#include <stdexcept>
 
 RenderingSystem::RenderingSystem(const Size& aScreenSize)
     : window

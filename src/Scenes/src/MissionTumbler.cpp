@@ -1,5 +1,6 @@
 #include "../include/MissionTumbler.hpp"
 #include <boost/optional.hpp>
+#include <algorithm>
 
 //TODO use normal path
 

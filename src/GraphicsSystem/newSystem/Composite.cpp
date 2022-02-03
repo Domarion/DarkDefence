@@ -1,4 +1,5 @@
 #include "Composite.h"
+#include <stdexcept>
 
 Composite::Composite(std::shared_ptr<RenderingSystem>& aRenderingContext, const std::shared_ptr<ILayout>& aLayout)
     : IComposite()
